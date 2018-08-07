@@ -1,0 +1,55 @@
+.wp-block-wpzoom-recipe-card-block-directions {
+    margin: 40px 0;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions .directions-title  {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Roboto Condensed", sans-serif;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions .directions-list {
+    counter-reset: count;
+    line-height: normal;
+    margin: 0;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions .directions-list,
+.wp-block-wpzoom-recipe-card-block-directions .directions-list > li {
+    list-style: none;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions .directions-list > li {
+    position: relative;
+    line-height: 1.8;
+    min-height: 44px;
+    padding-left: 40px;
+    margin: 0 0 30px;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions .directions-list > li:before {
+    counter-increment: count;
+    content: counter(count);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Roboto Condensed", sans-serif;
+    text-transform: uppercase;
+    line-height: 1.4;
+    width: 35px;
+    vertical-align: middle;
+    padding: 0;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions .directions-list > li:last-child {
+    margin: 0;
+}

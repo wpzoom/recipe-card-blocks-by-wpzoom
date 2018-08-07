@@ -1,0 +1,62 @@
+.wp-block-wpzoom-recipe-card-block-ingredients {
+    color: #736458;
+    background-color: #FBF9E7;
+    border-radius: 3px;
+    margin: 30px 0;
+    padding: 30px 30px 15px;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-title  {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Roboto Condensed", sans-serif;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list {
+    margin: 0;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list,
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li {
+    list-style: none;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li {
+    padding: 0 0 13px;
+    margin: 0 0 13px;
+    border-bottom: 1px solid #e9e5c9;
+    position: relative;
+    cursor: pointer;
+    line-height: 1.7;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li:hover  {
+    text-decoration: line-through;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li span.tick {
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    margin: 0 10px 0 0;
+    border-radius: 50%;
+    border: 2px solid #DEDAB6;
+    cursor: pointer;
+    position: relative;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li span.tick.ticked {
+    border: 2px solid #9AD093;
+    background: #9AD093;
+
+    -webkit-box-shadow: inset 0px 0px 0px 2px #FBF9E7;
+    -moz-box-shadow: inset 0px 0px 0px 2px #FBF9E7;
+    box-shadow: inset 0px 0px 0px 2px #FBF9E7;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients > ul > li.ticked {
+    text-decoration: line-through;
+}
