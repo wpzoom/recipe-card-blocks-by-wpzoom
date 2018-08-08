@@ -20,12 +20,12 @@ function wpzoom_recipe_card_boilerplate_block_directions() {
         plugins_url( 'block.js', __FILE__ ),
         array( 'wp-blocks', 'wp-element' )
     );
-    wp_register_style(
-        "wpzoom-recipe-card-block-directions-editor",
-        plugins_url( 'editor.css', __FILE__ ),
-        array( 'wp-edit-blocks' ),
-        filemtime( plugin_dir_path( __FILE__ ) . "editor.css" )
-    );
+    // wp_register_style(
+    //     "wpzoom-recipe-card-block-directions-editor",
+    //     plugins_url( 'editor.css', __FILE__ ),
+    //     array( 'wp-edit-blocks' ),
+    //     filemtime( plugin_dir_path( __FILE__ ) . "editor.css" )
+    // );
 
     wp_register_style(
         'wpzoom-recipe-card-block-directions-style',
