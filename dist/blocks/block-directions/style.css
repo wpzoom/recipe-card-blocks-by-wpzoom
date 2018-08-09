@@ -1,5 +1,26 @@
 .wp-block-wpzoom-recipe-card-block-directions {
+    position: relative;
     margin: 40px 0;
+    padding: 30px 0 15px;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions .wpzoom-recipe-card-print-link {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    text-align: right;
+    z-index: 1;
+}
+.wp-block-wpzoom-recipe-card-block-directions .wpzoom-recipe-card-print-link.hidden {
+    display: none;
+}
+.wp-block-wpzoom-recipe-card-block-directions .wpzoom-recipe-card-print-link.visible {
+    display: block;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions .wpzoom-recipe-card-print-link a {
+    display: inline-block;
+    text-decoration: none;
 }
 
 .wp-block-wpzoom-recipe-card-block-directions .directions-title  {

@@ -22,10 +22,10 @@ function wpzoom_recipe_card_blocks_assets() {
 	
 	// Enqueue block JS
     wp_enqueue_script(
-        'wpzoo-recipe-card-ingredients-script',
-        plugins_url( 'blocks/block-ingredients/script.js', __FILE__ ),
+        'wpzoom-recipe-card-script',
+        plugins_url( 'assets/js/script.js', __FILE__ ),
         array('jquery'),
-        filemtime( plugin_dir_path( __FILE__ ) . "blocks/block-ingredients/script.js" )
+        filemtime( plugin_dir_path( __FILE__ ) . "assets/js/script.js" )
     );
 }
 

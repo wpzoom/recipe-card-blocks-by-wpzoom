@@ -1,4 +1,4 @@
-( function( blocks, editor, i18n, element, _ ) {
+( function( blocks, editor, i18n, element, components, _ ) {
     var el = element.createElement;
 
     var atts = {
@@ -12,13 +12,27 @@
             selector: '.directions-list',
             source: 'children'
         },
+        id: {
+            type: 'string',
+        },
+        print_visibility: {
+            type: 'string',
+            default: 'visible'
+        }
     }
 
     blocks.registerBlockType( 'wpzoom-recipe-card/block-directions', {
         title: i18n.__( 'Directions' ),
         description: i18n.__( 'Add multiple steps directions.' ),
         keywords: ['directions', 'recipe', 'foodica'],
-        icon: 'editor-ol',
+        icon: {
+            // Specifying a background color to appear with the icon e.g.: in the inserter.
+            background: '#7e70af',
+            // Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)
+            foreground: '#fff',
+            // Specifying a dashicon for the block
+            src: 'editor-ol',
+        },
         category: 'wpzoom-recipe-card',
         attributes: atts,
         edit: function( props ) {
@@ -27,6 +41,11 @@
 
             function onChangeTitle( newTitle ) {
                 props.setAttributes( { title: newTitle } );
+
+                // set unique id for block
+                if ( ! attributes.id ) {
+                    props.setAttributes( { id: randomID() } );
+                }
             }
 
             function onFocusTitle( focus ) {
@@ -35,19 +54,80 @@
 
             function onChangeContent( newContent ) {
                 props.setAttributes( { content: newContent } );
+                
+                // set unique id for block
+                if ( ! attributes.id ) {
+                    props.setAttributes( { id: randomID() } );
+                }
             }
 
             function onFocusContent( focus ) {
                 props.setFocus( _.extend( {}, focus, { editable: 'content' } ) );
             }
 
+            function onChangePrintVisibility( newVisibility ) {
+                if ( ! newVisibility ) {
+                    props.setAttributes( { print_visibility: 'hidden' } );
+                } else {
+                    props.setAttributes( { print_visibility: 'visible' } );
+                }
+            }
+
+            function randomID( prefix ) {
+                prefix = prefix || false;
+
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                for (var i = 0; i < 10; i++)
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                return prefix ? prefix + '-' + text : text;
+            }
+
             
             return render = [
+                el(
+                    editor.InspectorControls,
+                    { key: 'inspector' },
+                    el(
+                        'br', {}
+                    ),
+                    el(
+                        'h3',
+                        {},
+                        i18n.__( 'Block Settings' )
+                    ),
+                    el(
+                        components.ToggleControl,
+                        {
+                            label: i18n.__( 'Print Button Visibility' ),
+                            checked: attributes.print_visibility === 'visible' ? true : false,
+                            onChange: onChangePrintVisibility,
+                        }
+                    ),
+                ),
                 el(
                     'div',
                     {
                         className: props.className,
+                        id: attributes.id,
                     },
+                    el(
+                        'div',
+                        {
+                            className: 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility
+                        },
+                        el(
+                            'a',
+                            {
+                                className: 'btn-print-link no-print',
+                                href: '#' + attributes.id,
+                                title: i18n.__( 'Print directions...' )
+                            },
+                            i18n.__( 'Print' )
+                        )
+                    ),
                     el(
                         editor.RichText,
                         {
@@ -81,7 +161,27 @@
         save: function( props ) {
             var attributes = props.attributes;
 
-            return render = el( 'div', { className: props.className },
+            return render = el(
+                'div',
+                {
+                    className: props.className,
+                    id: attributes.id
+                },
+                el(
+                    'div',
+                    {
+                        className: 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility
+                    },
+                    el(
+                        'a',
+                        {
+                            className: 'btn-print-link no-print',
+                            href: '#' + attributes.id,
+                            title: i18n.__( 'Print directions...' )
+                        },
+                        i18n.__( 'Print' )
+                    )
+                ),
                 el(
                     editor.RichText.Content,
                     {
@@ -107,6 +207,7 @@
     window.wp.editor,
     window.wp.i18n,
     window.wp.element,
+    window.wp.components,
     window._,
 );
 
