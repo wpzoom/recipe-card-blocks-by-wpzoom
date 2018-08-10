@@ -21,6 +21,13 @@
 .wp-block-wpzoom-recipe-card-block-directions .wpzoom-recipe-card-print-link a {
     display: inline-block;
     text-decoration: none;
+    color: #a0a0a0;
+}
+.wp-block-wpzoom-recipe-card-block-directions .wpzoom-recipe-card-print-link .icon-print-link {
+    display: inline-block;
+    vertical-align: text-top;
+    width: 18px;
+    margin-right: 5px;
 }
 
 .wp-block-wpzoom-recipe-card-block-directions .directions-title  {

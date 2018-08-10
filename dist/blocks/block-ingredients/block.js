@@ -27,7 +27,7 @@
         keywords: ['ingredients', 'recipe', 'foodica'],
         icon: {
             // Specifying a background color to appear with the icon e.g.: in the inserter.
-            background: '#7e70af',
+            background: '#2EA55F',
             // Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)
             foreground: '#fff',
             // Specifying a dashicon for the block
@@ -41,7 +41,7 @@
 
             function onChangeTitle( newTitle ) {
                 props.setAttributes( { title: newTitle } );
-                
+
                 // set unique id for block
                 if ( ! attributes.id ) {
                     props.setAttributes( { id: randomID() } );
@@ -184,6 +184,14 @@
                                 href: '#' + attributes.id,
                                 title: i18n.__( 'Print ingredients...' )
                             },
+                            el(
+                                'img',
+                                {
+                                    className: 'icon-print-link',
+                                    src: wpzoomRecipeCard.plugin_url + '/dist/assets/images/printer.svg',
+                                    alt: i18n.__( 'Print' )
+                                }
+                            ),
                             i18n.__( 'Print' )
                         )
                     ),
@@ -238,6 +246,14 @@
                             href: '#' + attributes.id,
                             title: i18n.__( 'Print ingredients...' )
                         },
+                        el(
+                            'img',
+                            {
+                                className: 'icon-print-link',
+                                src: wpzoomRecipeCard.plugin_url + '/dist/assets/images/printer.svg',
+                                alt: i18n.__( 'Print' )
+                            }
+                        ),
                         i18n.__( 'Print' )
                     )
                 ),

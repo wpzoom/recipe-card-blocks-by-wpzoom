@@ -39,6 +39,8 @@ function wpzoom_recipe_card_boilerplate_block_directions() {
         'editor_script' => "wpzoom-recipe-card-block-directions", // Editor script
         'style'         => "wpzoom-recipe-card-block-directions-style", // Styles
     ) );
+
+    wp_localize_script( "wpzoom-recipe-card-block-directions", "wpzoomRecipeCard", array( 'plugin_url' => plugins_url('wpzoom-recipe-card') ) );
 }
 
 add_action( 'init', 'wpzoom_recipe_card_boilerplate_block_directions' );

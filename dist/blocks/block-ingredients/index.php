@@ -39,6 +39,8 @@ function wpzoom_recipe_card_gutenberg_boilerplate_block_ingredients() {
         'editor_script' => "wpzoom-recipe-card-block-ingredients", // Editor script
         'style'         => "wpzoom-recipe-card-block-ingredients-style", // Styles
     ) );
+
+    wp_localize_script( "wpzoom-recipe-card-block-ingredients", "wpzoomRecipeCard", array( 'plugin_url' => plugins_url('wpzoom-recipe-card') ) );
 }
 
 add_action( 'init', 'wpzoom_recipe_card_gutenberg_boilerplate_block_ingredients' );
