@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: WPZOOM Recipe Card
- * Plugin URI: https://wpzoom.com
- * Description: A beautiful recipe blocks for Gutenberg to help you add recipe cards.
+ * Plugin Name: Recipe Card Blocks by WPZOOM
+ * Plugin URI: https://www.wpzoom.com
+ * Description: Beautiful recipe blocks for Gutenberg to help you to add recipe cards: Ingredients, Directions and more to come.
  * Author: WPZOOM
- * Author URI: http://wpzoom.com
+ * Author URI: https://wpzoom.com
  * Version: 1.0.0
  * Copyright: (c) 2018 WPZOOM
  * License: GPL2+
