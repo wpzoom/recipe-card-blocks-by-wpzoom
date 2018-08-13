@@ -39,6 +39,10 @@
             var focusedEditable = props.focus ? props.focus.editable || 'title' : null;
             var attributes = props.attributes;
 
+            /*
+             * Event handlers
+             */
+
             function onChangeTitle( newTitle ) {
                 props.setAttributes( { title: newTitle } );
 
@@ -59,6 +63,49 @@
                 if ( ! attributes.id ) {
                     props.setAttributes( { id: randomID() } );
                 }
+            }
+
+            // function insertMediaUpload( content ) {
+            //     content = content || {};
+
+            //     for ( var i = 0; i < content.length; i++ ) {
+            //         if ( typeof content[i].props !== 'undefined' ) {
+            //             var type = content[i].type;
+            //             var props = content[i].props;
+            //             var test = el(
+            //                 type,
+            //                 {
+            //                     className: props.className ? props.className : '',
+            //                 },
+            //                 props.children[0] ? props.children[0] : 'Test',
+            //                 el(
+            //                     components.Placeholder,
+            //                     {
+            //                         icon: 'dashicons-format-image',
+            //                         label: i18n.__( 'Upload image to direction' ),
+            //                         instructions: i18n.__( 'Upload a new one or select a file from your library.' ),
+            //                         className: 'editor-media-placeholder'
+            //                     },
+            //                     el(
+            //                         components.FormFileUpload,
+            //                         {
+            //                             multiple: false,
+            //                             icon: 'upload',
+            //                             onChange: onChangeImage
+            //                         }
+            //                     )
+            //                 )
+            //             );
+
+            //             content[i] = test;
+            //         }
+            //     }
+
+            //     return content;
+            // }
+
+            function onChangeImage( attr ) {
+                console.log(attr);
             }
 
             function onFocusContent( focus ) {
@@ -86,7 +133,7 @@
             }
 
             
-            return render = [
+            return [
                 el(
                     editor.InspectorControls,
                     { key: 'inspector' },
@@ -169,7 +216,7 @@
         save: function( props ) {
             var attributes = props.attributes;
 
-            return render = el(
+            return el(
                 'div',
                 {
                     className: props.className,

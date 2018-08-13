@@ -27,6 +27,13 @@ function wpzoom_recipe_card_blocks_assets() {
         array('jquery'),
         filemtime( plugin_dir_path( __FILE__ ) . "assets/js/script.js" )
     );
+
+    // Enqueue styles
+    wp_enqueue_style(
+    	'wpzoom-recipe-card-google-font',
+    	'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
+    	false
+    );
 }
 
 add_action( 'enqueue_block_assets', 'wpzoom_recipe_card_blocks_assets' );

@@ -63,7 +63,8 @@
     text-decoration: line-through;
 }
 
-.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li span.tick {
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li::before {
+    content: '';
     display: inline-block;
     vertical-align: middle;
     width: 18px;
@@ -75,7 +76,7 @@
     position: relative;
 }
 
-.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li span.tick.ticked {
+.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list > li.ticked::before {
     border: 2px solid #9AD093;
     background: #9AD093;
 

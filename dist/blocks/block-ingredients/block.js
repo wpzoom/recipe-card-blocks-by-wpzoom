@@ -39,6 +39,10 @@
             var focusedEditable = props.focus ? props.focus.editable || 'title' : null;
             var attributes = props.attributes;
 
+            /*
+             * Event handlers
+             */
+            
             function onChangeTitle( newTitle ) {
                 props.setAttributes( { title: newTitle } );
 
@@ -145,7 +149,7 @@
                 return prefix ? prefix + '-' + text : text;
             }
             
-            return render = [
+            return [
                 el(
                     editor.InspectorControls,
                     { key: 'inspector' },
@@ -228,7 +232,7 @@
         save: function( props ) {
             var attributes = props.attributes;
 
-            return render = el(
+            return el(
                 'div',
                 {
                     className: props.className,
