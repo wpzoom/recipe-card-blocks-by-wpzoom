@@ -157,13 +157,11 @@
                         'br', {}
                     ),
                     el(
-                        'h3',
-                        {},
+                        'h3', {},
                         i18n.__( 'Block Settings' )
                     ),
                     el(
-                        components.ToggleControl,
-                        {
+                        components.ToggleControl, {
                             label: i18n.__( 'Print Button Visibility' ),
                             checked: attributes.print_visibility === 'visible' ? true : false,
                             onChange: onChangePrintVisibility,
@@ -171,26 +169,22 @@
                     ),
                 ),
                 el(
-                    'div',
-                    {
+                    'div', {
                         className: props.className,
                         id: attributes.id,
                     },
                     el(
-                        'div',
-                        {
+                        'div', {
                             className: 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility
                         },
                         el(
-                            'a',
-                            {
+                            'a', {
                                 className: 'btn-print-link no-print',
                                 href: '#' + attributes.id,
                                 title: i18n.__( 'Print ingredients...' )
                             },
                             el(
-                                'img',
-                                {
+                                'img', {
                                     className: 'icon-print-link',
                                     src: wpzoomRecipeCard.plugin_url + '/dist/assets/images/printer.svg',
                                     alt: i18n.__( 'Print' )
@@ -200,8 +194,7 @@
                         )
                     ),
                     el(
-                        editor.RichText,
-                        {
+                        editor.RichText, {
                             tagName: 'h3',
                             placeholder: i18n.__( 'Write Ingredients title' ),
                             value: attributes.title,
@@ -213,8 +206,7 @@
                         }
                     ),
                     el(
-                        editor.RichText,
-                        {
+                        editor.RichText, {
                             tagName: 'ul',
                             multiline: 'li',
                             placeholder: i18n.__( 'Write ingredients...' ),
@@ -226,6 +218,9 @@
                             onFocus: onFocusContent,
                         },
                     ),
+                    el(
+                        'p', { className: 'help' }, i18n.__( 'Press Enter to add new ingredient...' )
+                    )
                 ),
             ];
         },
@@ -233,26 +228,22 @@
             var attributes = props.attributes;
 
             return el(
-                'div',
-                {
+                'div', {
                     className: props.className,
                     id: attributes.id
                 },
                 el(
-                    'div',
-                    {
+                    'div', {
                         className: 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility
                     },
                     el(
-                        'a',
-                        {
+                        'a', {
                             className: 'btn-print-link no-print',
                             href: '#' + attributes.id,
                             title: i18n.__( 'Print ingredients...' )
                         },
                         el(
-                            'img',
-                            {
+                            'img', {
                                 className: 'icon-print-link',
                                 src: wpzoomRecipeCard.plugin_url + '/dist/assets/images/printer.svg',
                                 alt: i18n.__( 'Print' )
@@ -262,16 +253,14 @@
                     )
                 ),
                 el(
-                    editor.RichText.Content,
-                    {
+                    editor.RichText.Content, {
                         tagName: 'h3',
                         className: 'ingredients-title',
                         value: attributes.title
                     },
                 ),
                 el(
-                    editor.RichText.Content,
-                    {
+                    editor.RichText.Content, {
                         tagName: 'ul',
                         className: 'ingredients-list',
                         value: attributes.content

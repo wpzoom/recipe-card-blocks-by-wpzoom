@@ -18,7 +18,7 @@
         print_visibility: {
             type: 'string',
             default: 'visible'
-        }
+        },
     }
 
     blocks.registerBlockType( 'wpzoom-recipe-card/block-directions', {
@@ -65,49 +65,6 @@
                 }
             }
 
-            // function insertMediaUpload( content ) {
-            //     content = content || {};
-
-            //     for ( var i = 0; i < content.length; i++ ) {
-            //         if ( typeof content[i].props !== 'undefined' ) {
-            //             var type = content[i].type;
-            //             var props = content[i].props;
-            //             var test = el(
-            //                 type,
-            //                 {
-            //                     className: props.className ? props.className : '',
-            //                 },
-            //                 props.children[0] ? props.children[0] : 'Test',
-            //                 el(
-            //                     components.Placeholder,
-            //                     {
-            //                         icon: 'dashicons-format-image',
-            //                         label: i18n.__( 'Upload image to direction' ),
-            //                         instructions: i18n.__( 'Upload a new one or select a file from your library.' ),
-            //                         className: 'editor-media-placeholder'
-            //                     },
-            //                     el(
-            //                         components.FormFileUpload,
-            //                         {
-            //                             multiple: false,
-            //                             icon: 'upload',
-            //                             onChange: onChangeImage
-            //                         }
-            //                     )
-            //                 )
-            //             );
-
-            //             content[i] = test;
-            //         }
-            //     }
-
-            //     return content;
-            // }
-
-            function onChangeImage( attr ) {
-                console.log(attr);
-            }
-
             function onFocusContent( focus ) {
                 props.setFocus( _.extend( {}, focus, { editable: 'content' } ) );
             }
@@ -141,13 +98,11 @@
                         'br', {}
                     ),
                     el(
-                        'h3',
-                        {},
+                        'h3', {},
                         i18n.__( 'Block Settings' )
                     ),
                     el(
-                        components.ToggleControl,
-                        {
+                        components.ToggleControl, {
                             label: i18n.__( 'Print Button Visibility' ),
                             checked: attributes.print_visibility === 'visible' ? true : false,
                             onChange: onChangePrintVisibility,
@@ -161,20 +116,17 @@
                         id: attributes.id,
                     },
                     el(
-                        'div',
-                        {
+                        'div', {
                             className: 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility
                         },
                         el(
-                            'a',
-                            {
+                            'a', {
                                 className: 'btn-print-link no-print',
                                 href: '#' + attributes.id,
                                 title: i18n.__( 'Print directions...' )
                             },
                             el(
-                                'img',
-                                {
+                                'img', {
                                     className: 'icon-print-link',
                                     src: wpzoomRecipeCard.plugin_url + '/dist/assets/images/printer.svg',
                                     alt: i18n.__( 'Print' )
@@ -184,8 +136,7 @@
                         )
                     ),
                     el(
-                        editor.RichText,
-                        {
+                        editor.RichText, {
                             tagName: 'h3',
                             placeholder: i18n.__( 'Write Directions title' ),
                             value: attributes.title,
@@ -197,8 +148,7 @@
                         }
                     ),
                     el(
-                        editor.RichText,
-                        {
+                        editor.RichText, {
                             tagName: 'ol',
                             multiline: 'li',
                             placeholder: i18n.__( 'Write directions...' ),
@@ -210,6 +160,9 @@
                             onFocus: onFocusContent,
                         },
                     ),
+                    el(
+                        'p', { className: 'help' }, i18n.__( 'Press Enter to add new direction...' )
+                    )
                 ),
             ];
         },
@@ -223,20 +176,17 @@
                     id: attributes.id
                 },
                 el(
-                    'div',
-                    {
+                    'div', {
                         className: 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility
                     },
                     el(
-                        'a',
-                        {
+                        'a', {
                             className: 'btn-print-link no-print',
                             href: '#' + attributes.id,
                             title: i18n.__( 'Print directions...' )
                         },
                         el(
-                            'img',
-                            {
+                            'img', {
                                 className: 'icon-print-link',
                                 src: wpzoomRecipeCard.plugin_url + '/dist/assets/images/printer.svg',
                                 alt: i18n.__( 'Print' )
@@ -246,16 +196,14 @@
                     )
                 ),
                 el(
-                    editor.RichText.Content,
-                    {
+                    editor.RichText.Content, {
                         tagName: 'h3',
                         className: 'directions-title',
                         value: attributes.title
                     },
                 ),
                 el(
-                    editor.RichText.Content,
-                    {
+                    editor.RichText.Content, {
                         tagName: 'ul',
                         className: 'directions-list',
                         value: attributes.content

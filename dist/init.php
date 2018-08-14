@@ -25,7 +25,7 @@ function wpzoom_recipe_card_blocks_assets() {
         'wpzoom-recipe-card-script',
         plugins_url( 'assets/js/script.js', __FILE__ ),
         array('jquery'),
-        filemtime( plugin_dir_path( __FILE__ ) . "assets/js/script.js" )
+        filemtime( plugin_dir_path( __FILE__ ) . 'assets/js/script.js' )
     );
 
     // Enqueue styles
@@ -35,8 +35,19 @@ function wpzoom_recipe_card_blocks_assets() {
     	false
     );
 }
-
 add_action( 'enqueue_block_assets', 'wpzoom_recipe_card_blocks_assets' );
+
+
+function wpzoom_recipe_card_enqueue_block_editor_assets() {
+	// Styles.
+	wp_enqueue_style(
+		'wpzoom-recipe-card-block-editor',
+		plugins_url( 'assets/css/editor.css', __FILE__ ),
+		array( 'wp-edit-blocks' ),
+		filemtime( plugin_dir_path( __FILE__ ) . 'assets/css/editor.css' )
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'wpzoom_recipe_card_enqueue_block_editor_assets' );
 
 
 /**
