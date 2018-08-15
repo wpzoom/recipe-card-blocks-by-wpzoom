@@ -36,7 +36,6 @@
         category: 'wpzoom-recipe-card',
         attributes: atts,
         edit: function( props ) {
-            var focusedEditable = props.focus ? props.focus.editable || 'title' : null;
             var attributes = props.attributes;
 
             /*
@@ -132,7 +131,6 @@
                             placeholder: i18n.__( 'Write Directions title' ),
                             value: attributes.title,
                             className: 'directions-title',
-                            focus: focusedEditable === 'title' ? focus : null,
                             formattingControls: ['bold', 'italic'],
                             onChange: onChangeTitle,
                         }
@@ -144,7 +142,6 @@
                             placeholder: i18n.__( 'Write directions...' ),
                             value: attributes.content,
                             className: 'directions-list',
-                            focus: focusedEditable === 'content' ? focus : null,
                             formattingControls: ['bold', 'italic'],
                             onChange: onChangeContent,
                         },

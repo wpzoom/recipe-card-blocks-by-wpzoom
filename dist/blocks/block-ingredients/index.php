@@ -21,12 +21,6 @@ function wpzoom_recipe_card_gutenberg_boilerplate_block_ingredients() {
         array( 'wp-blocks', 'wp-i18n', 'wp-element' ), // Dependencies.
         filemtime( plugin_dir_path( __FILE__ ) . 'block.js' ) // filemtime Gets file modification time.
     );
-    // wp_register_style(
-    //     "wpzoom-recipe-card-block-ingredients-editor",
-    //     plugins_url( 'editor.css', __FILE__ ),
-    //     array( 'wp-edit-blocks' ),
-    //     filemtime( plugin_dir_path( __FILE__ ) . "editor.css" )
-    // );
 
     wp_register_style(
         'wpzoom-recipe-card-block-ingredients-style',
