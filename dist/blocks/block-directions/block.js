@@ -52,10 +52,6 @@
                 }
             }
 
-            function onFocusTitle( focus ) {
-                props.setFocus( _.extend( {}, focus, { editable: 'title' } ) );
-            }
-
             function onChangeContent( newContent ) {
                 props.setAttributes( { content: newContent } );
 
@@ -63,10 +59,6 @@
                 if ( ! attributes.id ) {
                     props.setAttributes( { id: randomID() } );
                 }
-            }
-
-            function onFocusContent( focus ) {
-                props.setFocus( _.extend( {}, focus, { editable: 'content' } ) );
             }
 
             function onChangePrintVisibility( newVisibility ) {
@@ -92,22 +84,21 @@
             
             return [
                 el(
-                    editor.InspectorControls,
-                    { key: 'inspector' },
+                    editor.InspectorControls, {},
                     el(
-                        'br', {}
-                    ),
-                    el(
-                        'h3', {},
-                        i18n.__( 'Block Settings' )
-                    ),
-                    el(
-                        components.ToggleControl, {
-                            label: i18n.__( 'Print Button Visibility' ),
-                            checked: attributes.print_visibility === 'visible' ? true : false,
-                            onChange: onChangePrintVisibility,
-                        }
-                    ),
+                        components.PanelBody, {},
+                        el(
+                            'h3', {},
+                            i18n.__( 'Block Settings' )
+                        ),
+                        el(
+                            components.ToggleControl, {
+                                label: i18n.__( 'Print Button Visibility' ),
+                                checked: attributes.print_visibility === 'visible' ? true : false,
+                                onChange: onChangePrintVisibility,
+                            }
+                        ),
+                    )
                 ),
                 el(
                     'div',
@@ -144,7 +135,6 @@
                             focus: focusedEditable === 'title' ? focus : null,
                             formattingControls: ['bold', 'italic'],
                             onChange: onChangeTitle,
-                            onFocus: onFocusTitle,
                         }
                     ),
                     el(
@@ -157,7 +147,6 @@
                             focus: focusedEditable === 'content' ? focus : null,
                             formattingControls: ['bold', 'italic'],
                             onChange: onChangeContent,
-                            onFocus: onFocusContent,
                         },
                     ),
                     el(
