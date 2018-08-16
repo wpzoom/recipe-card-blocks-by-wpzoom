@@ -11,7 +11,13 @@
 #Ignore blocks files
 /src/directions/block.js
 /src/directions/editor.scss
+/src/directions/inspector.js
 /src/directions/style.scss
 /src/ingredients/block.js
 /src/ingredients/editor.scss
+/src/ingredients/inspector.js
 /src/ingredients/style.scss
+/src/details/block.js
+/src/details/editor.scss
+/src/details/inspector.js
+/src/details/style.scss

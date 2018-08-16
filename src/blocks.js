@@ -11,3 +11,4 @@
 
 import './ingredients/block.js';
 import './directions/block.js';
+import './details/block.js';
