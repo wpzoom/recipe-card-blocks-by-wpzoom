@@ -1,9 +1,14 @@
+#Ignore folder node_modules
 /node_modules
+
+#Ignore uneeded files
 /.editorconfig
 /.eslintignore
 /.eslintrc.json
 /package-lock.json
 /package.json
+
+#Ignore blocks files
 /src/directions/block.js
 /src/directions/editor.scss
 /src/directions/style.scss
