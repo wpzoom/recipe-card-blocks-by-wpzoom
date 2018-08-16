@@ -1,0 +1,12 @@
+/node_modules
+/.editorconfig
+/.eslintignore
+/.eslintrc.json
+/package-lock.json
+/package.json
+/src/directions/block.js
+/src/directions/editor.scss
+/src/directions/style.scss
+/src/ingredients/block.js
+/src/ingredients/editor.scss
+/src/ingredients/style.scss

@@ -11,71 +11,78 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wpzoom-recipe-card
  *
- * @package WPZOOM RECIPE CARD
+ * @package recipe-card-blocks-by-wpzoom
  */
 
-
-/**
- * Exit if accessed directly
- */
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
 /**
- * Initialize the blocks
+ * Add a redirection check on activation.
+ *
+ * @since 1.0.0
  */
-function wpzoom_recipe_card_blocks_loader() {
-	/**
-	 * Load the blocks functionality
-	 */
-	require_once plugin_dir_path( __FILE__ ) . 'dist/init.php';
-
-	/**
-	 * Load Social Block PHP
-	 */
-	require_once plugin_dir_path( __FILE__ ) . 'dist/blocks/block-ingredients/index.php';
-
-	/**
-	 * Load Post Grid PHP
-	 */
-	require_once plugin_dir_path( __FILE__ ) . 'dist/blocks/block-directions/index.php';
+function wpzoom_rcb_activate() {
+	add_option( 'wpzoom_rcb_do_activation_redirect', true );
 }
+register_activation_hook( __FILE__, 'wpzoom_rcb_activate' );
 
-add_action( 'plugins_loaded', 'wpzoom_recipe_card_blocks_loader' );
+
+/**
+ * Redirect to the WPZOOM Recipe Card Getting Started page on single plugin activation
+ * TODO: make redirect works
+ *
+ * @since 1.0.0
+ */
+function wpzoom_rcb_redirect() {
+	if ( get_option( 'wpzoom_rcb_do_activation_redirect', false ) ) {
+		delete_option( 'wpzoom_rcb_do_activation_redirect' );
+		if ( ! isset( $_GET['activate-multi'] ) ) {
+			wp_redirect( 'admin.php?page=wpzoom-recipe-card' );
+		}
+	}
+}
+// add_action( 'admin_init', 'wpzoom_rcb_redirect' );
 
 
 /**
  * Load the plugin textdomain
+ *
+ * @since 1.0.0
  */
-function wpzoom_recipe_card_blocks_init() {
+function wpzoom_rcb_blocks_init() {
 	load_plugin_textdomain(
 		'wpzoom-recipe-card',
 		false,
 		basename( dirname( __FILE__ ) ) . '/languages'
 	);
 }
-add_action( 'init', 'wpzoom_recipe_card_blocks_init' );
+add_action( 'init', 'wpzoom_rcb_blocks_init' );
 
 
 /**
- * Add a check for our plugin before redirecting
+ * Add custom block category
+ *
+ * @since 1.0.0
  */
-function wpzoom_recipe_card_blocks_activate() {
-    add_option( 'wpzoom_recipe_card_blocks_do_activation_redirect', true );
+function wpzoom_rcb_custom_category( $categories, $post ) {
+	return array_merge(
+		$categories,
+		array(
+			array(
+				'slug' => 'wpzoom-recipe-card',
+				'title' => __( 'WPZOOM - Recipe Card', 'wpzoom-recipe-card' ),
+			),
+		)
+	);
 }
-register_activation_hook( __FILE__, 'wpzoom_recipe_card_blocks_activate' );
+add_filter( 'block_categories', 'wpzoom_rcb_custom_category', 10, 2 );
 
 
 /**
- * Redirect to the Atomic Blocks Getting Started page on single plugin activation
+ * Block Initializer.
  */
-function wpzoom_recipe_card_blocks_redirect() {
-    if ( get_option( 'wpzoom_recipe_card_blocks_do_activation_redirect', false ) ) {
-        delete_option( 'wpzoom_recipe_card_blocks_do_activation_redirect' );
-        if( !isset( $_GET['activate-multi'] ) ) {
-            wp_redirect( "admin.php?page=wpzoom-license" );
-        }
-    }
-}
-// add_action( 'admin_init', 'wpzoom_recipe_card_blocks_redirect' );
+require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
