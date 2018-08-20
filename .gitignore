@@ -21,3 +21,18 @@
 /src/details/editor.scss
 /src/details/inspector.js
 /src/details/style.scss
+
+#Ignore Custom Components
+/src/components/food-icons/index.js
+/src/components/food-icons/svg/001-food.svg
+/src/components/food-icons/svg/002-food-1.svg
+/src/components/food-icons/svg/003-cook.svg
+/src/components/food-icons/svg/004-shop.svg
+/src/components/food-icons/svg/005-snack.svg
+/src/components/food-icons/svg/006-recipes.svg
+/src/components/food-icons/svg/007-shopping-basket.svg
+/src/components/food-icons/svg/008-chef-cooking-on-stove.svg
+/src/components/food-icons/svg/009-female-cook.svg
+/src/components/food-icons/svg/010-chef.svg
+/src/components/food-icons/svg/011-chef-cooking.svg
+/src/components/food-icons/svg/012-room-service-time.svg
