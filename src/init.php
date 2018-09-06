@@ -31,6 +31,12 @@ function recipe_card_blocks_by_wpzoom_rcb_block_assets() {
 	    WPZOOM_RCB_VERSION
 	);
 
+	wp_localize_script(
+		"recipe_card_blocks_by_wpzoom-rcb-script",
+		"wpzoomRecipeCard",
+		array( 'pluginURL' => plugins_url('recipe-card-blocks-by-wpzoom'))
+	);
+
 	// Styles.
 	wp_enqueue_style(
 		'recipe_card_blocks_by_wpzoom-rcb-style-css', // Handle.

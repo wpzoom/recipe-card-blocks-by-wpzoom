@@ -15,6 +15,7 @@
 				globalStyles: true,
 	        	mediaPrint: false,
 	        	noPrintSelector: ".no-print",
+	        	stylesheet: wpzoomRecipeCard.pluginURL + '/src/assets/css/recipe-print.css',
 	        	iframe: true,
 	        	doctype: '<!doctype html>'
 			});
