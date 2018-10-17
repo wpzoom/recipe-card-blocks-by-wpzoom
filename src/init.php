@@ -50,6 +50,55 @@ function recipe_card_blocks_by_wpzoom_rcb_block_assets() {
     	'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
     	false
     );
+
+    /**
+     * Enqueue oldicon.css
+     *
+     * To make backward compatibility we include icons from version 1.0
+     * That's why we named it 'oldicon'
+     */
+    wp_enqueue_style(
+    	'recipe_card_blocks_by_wpzoom-rcb-oldicon_css', // Handle.
+    	plugins_url( 'dist/assets/css/oldicon.css', dirname( __FILE__ ) ), // Block editor CSS.
+    	array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
+    	WPZOOM_RCB_VERSION
+    );
+
+    /**
+     * Enqueue foodicons.css
+     */
+    wp_enqueue_style(
+    	'recipe_card_blocks_by_wpzoom-rcb-foodicons_css', // Handle.
+    	plugins_url( 'dist/assets/css/foodicons.css', dirname( __FILE__ ) ), // Block editor CSS.
+    	array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
+    	WPZOOM_RCB_VERSION
+    );
+
+    /**
+     * Enqueue font-awesome.css
+     */
+    wp_enqueue_style(
+    	'recipe_card_blocks_by_wpzoom-rcb-font_awesome_css', // Handle.
+    	plugins_url( 'dist/assets/css/font-awesome.min.css', dirname( __FILE__ ) ), // Block editor CSS.
+    	array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
+    	WPZOOM_RCB_VERSION
+    );
+
+    /**
+     * Enqueue genericons.css
+     */
+    wp_enqueue_style(
+    	'recipe_card_blocks_by_wpzoom-rcb-genericons_css', // Handle.
+    	plugins_url( 'dist/assets/css/genericons.css', dirname( __FILE__ ) ), // Block editor CSS.
+    	array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
+    	WPZOOM_RCB_VERSION
+    );
+
+    wp_add_inline_script(
+		'wp-i18n',
+		'wp.i18n.setLocaleData( ' . wp_json_encode( gutenberg_get_jed_locale_data( 'wpzoom-recipe-card' ) ) . ', "wpzoom-recipe-card" );',
+		'after'
+	);
 } // End function recipe_card_blocks_by_wpzoom_rcb_block_assets().
 
 // Hook: Frontend assets.

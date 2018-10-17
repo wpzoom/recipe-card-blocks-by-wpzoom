@@ -1,0 +1,133 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.wp-block-wpzoom-recipe-card-block-details {
+    position: relative;
+    margin: 20px 0;
+    padding: 20px 0;
+    text-align: left;
+
+    &::after {
+        content: '';
+        clear: both;
+        display: table;
+    }
+
+    .details-title  {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: "Roboto Condensed", sans-serif;
+        text-transform: uppercase;
+        margin: 0 0 20px;
+        float: left;
+        width: 100%;
+    }
+
+    .detail-item-icon {
+        display: block;
+        &::before {
+            color: #222;
+        }
+        svg {
+            fill: #222;
+        }
+    }
+
+    .detail-item-label {
+        font-weight: bold;
+    }
+
+    .detail-item-value {
+        margin-bottom: 0;
+        font-size: 15px;
+    }
+
+    > .detail-item {
+        float: left;
+        margin-bottom: 15px;
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #ededed;
+        }
+    }
+
+    /*--------------------------------------------------------------
+    # 2 Columns
+    --------------------------------------------------------------*/
+    &.col-2 .detail-item {
+        width: 40%;
+        margin-right: 10%;
+        padding-right: 8%;
+    }
+
+    &.col-2 .detail-item-1, &.col-2 .detail-item-3, &.col-2 .detail-item-5, &.col-2 .detail-item-7,
+    &.col-2 .detail-item-9, &.col-2 .detail-item-11 {
+        margin-right: 0;
+        padding-right: 0;
+
+        &::after {
+            display: none;
+        }
+    }
+
+    /*--------------------------------------------------------------
+    # 3, 5, 6, 7, 9, 10, 11 Columns
+    --------------------------------------------------------------*/
+    &.col-3 .detail-item,
+    &.col-5 .detail-item,
+    &.col-6 .detail-item,
+    &.col-7 .detail-item,
+    &.col-9 .detail-item,
+    &.col-10 .detail-item,
+    &.col-11 .detail-item {
+        width: 30%;
+        margin-right: 5%;
+        padding-right: 5%;
+    }
+
+    &.col-3 .detail-item-2, &.col-3 .detail-item-5, &.col-3 .detail-item-8, &.col-3 .detail-item-11,
+    &.col-5 .detail-item-2,
+    &.col-6 .detail-item-2, &.col-6 .detail-item-5,
+    &.col-7 .detail-item-2, &.col-7 .detail-item-5,
+    &.col-9 .detail-item-2, &.col-9 .detail-item-5, &.col-9 .detail-item-8,
+    &.col-10 .detail-item-2, &.col-10 .detail-item-5, &.col-10 .detail-item-8,
+    &.col-11 .detail-item-2, &.col-11 .detail-item-5, &.col-11 .detail-item-8 {
+        margin-right: 0;
+        padding-right: 0;
+
+        &::after {
+            display: none;
+        }
+    }
+
+    /*--------------------------------------------------------------
+    # 4, 8, 12 Columns
+    --------------------------------------------------------------*/
+    &.col-4 .detail-item,
+    &.col-8 .detail-item,
+    &.col-12 .detail-item {
+        width: 22%;
+        margin-right: 4%;
+        padding-right: 3%;
+    }
+
+    &.col-4 .detail-item-3, &.col-4 .detail-item-7, &.col-4 .detail-item-11,
+    &.col-8 .detail-item-3, &.col-8 .detail-item-7,
+    &.col-12 .detail-item-3, &.col-12 .detail-item-7, &.col-12 .detail-item-11 {
+        margin-right: 0;
+        padding-right: 0;
+
+        &::after {
+            display: none;
+        }
+    }
+}

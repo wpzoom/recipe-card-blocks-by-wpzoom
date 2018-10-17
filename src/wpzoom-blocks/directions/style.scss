@@ -1,0 +1,93 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.wp-block-wpzoom-recipe-card-block-directions {
+    position: relative;
+    margin: 40px 0;
+    padding: 30px 0 15px;
+    text-align: left;
+
+    .wpzoom-recipe-card-print-link {
+        position: absolute;
+        right: 30px;
+        top: 30px;
+        text-align: right;
+        z-index: 1;
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: #a0a0a0;
+        }
+
+        .icon-print-link {
+            display: inline-block;
+            vertical-align: text-top;
+            width: 18px;
+            margin-right: 5px;
+        }
+
+        &.hidden {
+            display: none;
+        }
+        &.visible {
+            display: block;
+        }
+    }
+
+    .directions-title  {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: "Roboto Condensed", sans-serif;
+        text-transform: uppercase;
+        margin: 0 0 20px;
+    }
+
+    .directions-list {
+        counter-reset: count;
+        line-height: normal;
+        list-style: none;
+        margin: 0;
+
+        > li {
+            position: relative;
+            line-height: 1.8;
+            list-style: none;
+            min-height: 44px;
+            padding-left: 40px;
+            margin: 0 0 30px;
+
+            &::before {
+                counter-increment: count;
+                content: counter(count);
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                font-size: 24px;
+                font-weight: bold;
+                font-family: "Roboto Condensed", sans-serif;
+                text-transform: uppercase;
+                line-height: 1.4;
+                width: 35px;
+                vertical-align: middle;
+                padding: 0;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                border-radius: 50%;
+                margin-right: 20px;
+            }
+
+            &:last-child {
+                margin: 0;
+            }
+        }
+    }
+
+    .direction-step img {
+        margin: 10px 0;
+    }
+}
+
