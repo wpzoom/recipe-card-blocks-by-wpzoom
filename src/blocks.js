@@ -12,3 +12,4 @@
 import './wpzoom-blocks/ingredients/block.js';
 import './wpzoom-blocks/directions/block.js';
 import './wpzoom-blocks/details/block.js';
+import './pro-version/premium-recipe-card/block.js';

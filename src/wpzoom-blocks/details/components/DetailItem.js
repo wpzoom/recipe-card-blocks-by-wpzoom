@@ -7,7 +7,7 @@ import _isUndefined from "lodash/isUndefined";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
-const { RichText, MediaUpload } = wp.editor;
+const { RichText, InnerBlocks } = wp.editor;
 const { IconButton } = wp.components;
 
 /**
@@ -88,6 +88,27 @@ export default class DetailItem extends Component {
 	}
 
 	/**
+	 * The predefined text for items.
+	 *
+	 * @param {int} index The item index.
+	 * @param {string} key The key index name of object array.
+	 *
+	 * @returns {Component}
+	 */
+	getPlaceholder( index, key ) {
+		let newIndex = index % 4;
+
+		const placeholderText = {
+		    0: { label: __( "Yield", "wpzoom-recipe-card" ), value: __( "4 servings", "wpzoom-recipe-card" ) },
+		    1: { label: __( "Prep time", "wpzoom-recipe-card" ), value: __( "30 minutes", "wpzoom-recipe-card" ) },
+		    2: { label: __( "Cooking time", "wpzoom-recipe-card" ), value: __( "40 minutes", "wpzoom-recipe-card" ) },
+		    3: { label: __( "Calories", "wpzoom-recipe-card" ), value: __( "420 kcal", "wpzoom-recipe-card" ) },
+		}
+
+		return _get( placeholderText, [ newIndex, key ] );
+	}
+
+	/**
 	 * Open Modal
 	 *
 	 * @returns {void}
@@ -128,7 +149,7 @@ export default class DetailItem extends Component {
                         iconset={ iconSet }>
                     </span>
                 }
-                { label.length ? 
+                { label ? 
                 	<RichText.Content
                         value={ label }
                         tagName='span'
@@ -136,7 +157,7 @@ export default class DetailItem extends Component {
                     />
                     : ''
                 }
-                { value.length ?
+                { value ?
                 	<RichText.Content
                         value={ value }
                         tagName='p'
@@ -168,21 +189,6 @@ export default class DetailItem extends Component {
 
 		const { id, icon, label, value } = item;
 
-		const placeholderText = {
-		    0: { label: __( "Yield", "wpzoom-recipe-card" ), value: __( "4 servings", "wpzoom-recipe-card" ) },
-		    1: { label: __( "Prep time", "wpzoom-recipe-card" ), value: __( "30 minutes", "wpzoom-recipe-card" ) },
-		    2: { label: __( "Cooking time", "wpzoom-recipe-card" ), value: __( "40 minutes", "wpzoom-recipe-card" ) },
-		    3: { label: __( "Difficulty", "wpzoom-recipe-card" ), value: __( "Medium", "wpzoom-recipe-card" ) },
-		    4: { label: __( "Yield", "wpzoom-recipe-card" ), value: __( "4 servings", "wpzoom-recipe-card" ) },
-		    5: { label: __( "Prep time", "wpzoom-recipe-card" ), value: __( "30 minutes", "wpzoom-recipe-card" ) },
-		    6: { label: __( "Cooking time", "wpzoom-recipe-card" ), value: __( "40 minutes", "wpzoom-recipe-card" ) },
-		    7: { label: __( "Difficulty", "wpzoom-recipe-card" ), value: __( "Medium", "wpzoom-recipe-card" ) },
-		    8: { label: __( "Yield", "wpzoom-recipe-card" ), value: __( "4 servings", "wpzoom-recipe-card" ) },
-		    9: { label: __( "Prep time", "wpzoom-recipe-card" ), value: __( "30 minutes", "wpzoom-recipe-card" ) },
-		    10: { label: __( "Cooking time", "wpzoom-recipe-card" ), value: __( "40 minutes", "wpzoom-recipe-card" ) },
-		    11: { label: __( "Difficulty", "wpzoom-recipe-card" ), value: __( "Medium", "wpzoom-recipe-card" ) },
-		}
-
 		return (
 			<div className={ `detail-item detail-item-${ index }` } key={ id }>
 				{
@@ -198,7 +204,7 @@ export default class DetailItem extends Component {
 				    value={ label }
 				    onChange={ ( newLabel ) => onChange( icon, newLabel, value, icon, label, value ) }
 				    isSelected={ isSelected && subElement === "label" }
-				    placeholder={ _get( placeholderText, [ index, 'label' ] ) }
+				    placeholder={ this.getPlaceholder( index, 'label' ) }
 				    setFocusedElement={ () => onFocus( "label" ) }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
@@ -211,7 +217,7 @@ export default class DetailItem extends Component {
 				    value={ value }
 				    onChange={ ( newValue ) => onChange( icon, label, newValue, icon, label, value ) }
 				    isSelected={ isSelected && subElement === "value" }
-				    placeholder={ _get( placeholderText, [ index, 'value' ] ) }
+				    placeholder={ this.getPlaceholder( index, 'value' ) }
 				    setFocusedElement={ () => onFocus( "value" ) }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }

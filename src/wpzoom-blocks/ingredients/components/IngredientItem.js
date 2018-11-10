@@ -1,7 +1,7 @@
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
-const { RichText, MediaUpload } = wp.editor;
+const { RichText } = wp.editor;
 const { IconButton } = wp.components;
 
 /**

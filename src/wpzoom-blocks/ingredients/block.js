@@ -35,9 +35,6 @@ const attributes = {
     items: {
         type: "array",
     },
-    additionalListCssClasses: {
-        type: "string",
-    },
 }
 
 const deprecatedAttr = _merge( 
@@ -76,7 +73,7 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
         src: 'carrot',
     },
     category: 'wpzoom-recipe-card', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-    // Allow only one How-To block per post.
+    // Allow only one Ingredients block per post.
     supports: {
         multiple: false,
     },

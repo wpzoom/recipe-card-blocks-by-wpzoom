@@ -12,7 +12,7 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { RichText } = wp.editor;
-const { IconButton, Autocomplete } = wp.components;
+const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
 const { pluginURL } = window.wpzoomRecipeCard;
 
@@ -41,9 +41,8 @@ export default class Detail extends Component {
 		this.insertDetail      	 = this.insertDetail.bind( this );
 		this.removeDetail      	 = this.removeDetail.bind( this );
 		this.setFocus        	 = this.setFocus.bind( this );
-		this.addCSSClasses       = this.addCSSClasses.bind( this );
 
-		this.props.attributes.id = Detail.generateId();
+		this.props.attributes.id = Detail.generateId( 'wpzoom-block-details' );
 
 		this.editorRefs = {};
 	}
@@ -56,7 +55,7 @@ export default class Detail extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return _uniqueId( prefix + '-' );
+		return prefix !== '' ? _uniqueId( prefix + '-' ) : _uniqueId();
 	}
 
 	/**
@@ -291,17 +290,6 @@ export default class Detail extends Component {
 	}
 
 	/**
-	 * Adds CSS classes to this Details block"s list.
-	 *
-	 * @param {string} value The additional css classes.
-	 *
-	 * @returns {void}
-	 */
-	addCSSClasses( value ) {
-		this.props.setAttributes( { additionalListCssClasses: value } );
-	}
-
-	/**
 	 * Returns the component to be used to render
 	 * the Details block on Wordpress (e.g. not in the editor).
 	 *
@@ -316,7 +304,6 @@ export default class Detail extends Component {
 			title,
 			id,
 			columns,
-			additionalListCssClasses,
 			className,
 		} = props;
 
@@ -331,17 +318,17 @@ export default class Detail extends Component {
 			} )
 			: null;
 
-		const classNames       = [ "", className ].filter( ( item ) => item ).join( " " );
-		const detailClasses    = [ className, "col-" + columns, additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const classNames     = [ className, "col-" + columns ].filter( ( item ) => item ).join( " " );
+		const detailClasses  = [ "details-items" ].filter( ( item ) => item ).join( " " );
 
 		return (
-		    <div className={ detailClasses } id={ id }>
+		    <div className={ classNames } id={ id }>
 		        <RichText.Content
 		            value={ title }
 		            tagName='h3'
 		            className="details-title"
 		        />
-		        { details }
+		        <div className={ detailClasses }>{ details }</div>
 		    </div>
 		);
 	}
@@ -354,14 +341,13 @@ export default class Detail extends Component {
 			title,
 			details,
 			columns,
-			additionalListCssClasses
 		} = attributes;
 
-		const classNames    = [ "", className ].filter( ( item ) => item ).join( " " );
-		const detailClasses = [ className, "col-" + columns, additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const classNames 	= [ className, "col-" + columns ].filter( ( item ) => item ).join( " " );
+		const detailClasses = [ "details-items" ].filter( ( item ) => item ).join( " " );
 
 		return (
-			<div className={ detailClasses }>
+			<div className={ classNames }>
 				<RichText
 					tagName="h3"
 					className="details-title"
@@ -375,7 +361,7 @@ export default class Detail extends Component {
 					placeholder={ __( "Write Details title", "wpzoom-recipe-card" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ this.getDetailItems() }
+				<div className={ detailClasses }>{ this.getDetailItems() }</div>
 				<div className="detail-buttons">{ this.getAddItemButton() }</div>
 				<Inspector { ...{ attributes, setAttributes, className } } />
 			</div>

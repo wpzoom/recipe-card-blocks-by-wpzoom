@@ -44,9 +44,8 @@ export default class Direction extends Component {
 		this.removeStep      = this.removeStep.bind( this );
 		this.swapSteps       = this.swapSteps.bind( this );
 		this.setFocus        = this.setFocus.bind( this );
-		this.addCSSClasses   = this.addCSSClasses.bind( this );
 
-		this.props.attributes.id = Direction.generateId();
+		this.props.attributes.id = Direction.generateId( 'wpzoom-block-directions' );
 
 		this.editorRefs = {};
 	}
@@ -59,7 +58,7 @@ export default class Direction extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return _uniqueId( prefix + '-' );
+		return prefix !== '' ? _uniqueId( prefix + '-' ) : _uniqueId();
 	}
 
 	/**
@@ -308,7 +307,6 @@ export default class Direction extends Component {
 			title,
 			id,
 			print_visibility,
-			additionalListCssClasses,
 			className,
 		} = props;
 
@@ -324,7 +322,7 @@ export default class Direction extends Component {
 			: null;
 
 		const classNames       = [ "", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames   = [ "directions-list", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const listClassNames   = [ "directions-list" ].filter( ( item ) => item ).join( " " );
 
 		return (
 			<div className={ classNames } id={ id }>
@@ -361,17 +359,6 @@ export default class Direction extends Component {
 	}
 
 	/**
-	 * Adds CSS classes to this Direction block"s list.
-	 *
-	 * @param {string} value The additional css classes.
-	 *
-	 * @returns {void}
-	 */
-	addCSSClasses( value ) {
-		this.props.setAttributes( { additionalListCssClasses: value } );
-	}
-
-	/**
 	 * Renders this component.
 	 *
 	 * @returns {Component} The Direction block editor.
@@ -380,7 +367,7 @@ export default class Direction extends Component {
 		const { attributes, setAttributes, className } = this.props;
 
 		const classNames     = [ "", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames = [ "directions-list", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const listClassNames = [ "directions-list" ].filter( ( item ) => item ).join( " " );
 
 		return (
 			<div className={ classNames } id={ attributes.id }>
@@ -402,9 +389,7 @@ export default class Direction extends Component {
 					placeholder={ __( "Write Directions title", "wpzoom-recipe-card" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				<ul className={ listClassNames }>
-					{ this.getSteps() }
-				</ul>
+				<ul className={ listClassNames }>{ this.getSteps() }</ul>
 				<div className="direction-buttons">{ this.getAddStepButton() }</div>
 				<Inspector { ...{ attributes, setAttributes, className } } />
 			</div>

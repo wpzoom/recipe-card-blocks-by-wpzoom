@@ -7,6 +7,7 @@
 
 /* Internal dependencies */
 import Detail from './components/Detail';
+import legacy from "./legacy";
 import Icons from "./utils/IconsArray";
 import _merge from "lodash/merge";
 
@@ -26,28 +27,12 @@ const attributes = {
     },
     details: {
         type: 'array',
-        selector: '.detail-item',
-        source: 'query',
-        query: {
-            id: { type: 'string', selector: '' },
-            icon: { source: 'attribute', selector: '.detail-item-icon', attribute: 'icon-name' },
-            iconSet: { source: 'attribute', selector: '.detail-item-icon', attribute: 'iconset' },
-            label: { type: 'string', source: 'children', selector: '.detail-item-label' },
-            value: { type: 'string', source: 'children', selector: '.detail-item-value' },
-        },
+        selector: '.details-items',
         default: [
             { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Yield", "wpzoom-recipe-card" ) },
             { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'room-service', label: __( "Prep time", "wpzoom-recipe-card" ) },
             { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'cook', label: __( "Cooking time", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'chef', label: __( "Difficulty", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Yield", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'room-service', label: __( "Prep time", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'cook', label: __( "Cooking time", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'chef', label: __( "Difficulty", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Yield", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'room-service', label: __( "Prep time", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'cook', label: __( "Cooking time", "wpzoom-recipe-card" ) },
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'chef', label: __( "Difficulty", "wpzoom-recipe-card" ) },
+            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( "Calories", "wpzoom-recipe-card" ) },
         ]
     },
     columns: {
@@ -76,8 +61,14 @@ const attributes = {
     jsonTitle: {
         type: "string",
     },
-    additionalListCssClasses: {
-        type: "string",
+    course: {
+        type: 'array',
+    },
+    cuisine: {
+        type: 'array',
+    },
+    keywords: {
+        type: 'array',
     },
 }
 
@@ -107,7 +98,7 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
         src: 'tag',
     },
     category: 'wpzoom-recipe-card', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-    // Allow only one How-To block per post.
+    // Allow only one Details block per post.
     supports: {
         multiple: false,
     },
@@ -157,7 +148,12 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
     save: function( { attributes } ) {
         return <Detail.Content { ...attributes } />;
     },
+
+    deprecated: [
+        {
+            attributes: attributes,
+            save: legacy.v1_0,
+        },
+    ],
+
 } );
-
-
-

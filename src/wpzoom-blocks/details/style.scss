@@ -5,15 +5,10 @@
  */
 .wp-block-wpzoom-recipe-card-block-details {
     position: relative;
-    margin: 20px 0;
+    // margin: 20px 0;
+    margin: 0;
     padding: 20px 0;
     text-align: left;
-
-    &::after {
-        content: '';
-        clear: both;
-        display: table;
-    }
 
     .details-title  {
         font-size: 20px;
@@ -25,40 +20,49 @@
         width: 100%;
     }
 
-    .detail-item-icon {
-        display: block;
-        &::before {
-            color: #222;
-        }
-        svg {
-            fill: #222;
-        }
-    }
-
-    .detail-item-label {
-        font-weight: bold;
-    }
-
-    .detail-item-value {
-        margin-bottom: 0;
-        font-size: 15px;
-    }
-
-    > .detail-item {
-        float: left;
-        margin-bottom: 15px;
-        position: relative;
-
+    .details-items {
         &::after {
             content: '';
-            position: absolute;
-            width: 1px;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background-color: #ededed;
+            clear: both;
+            display: table;
+        }
+        
+        .detail-item-icon {
+            display: block;
+            &::before {
+                color: #222;
+            }
+            svg {
+                fill: #222;
+            }
+        }
+
+        .detail-item-label {
+            font-weight: bold;
+        }
+
+        .detail-item-value {
+            margin-bottom: 0;
+            font-size: 15px;
+        }
+
+        > .detail-item {
+            float: left;
+            margin-bottom: 15px;
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                width: 1px;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background-color: #ededed;
+            }
         }
     }
+
 
     /*--------------------------------------------------------------
     # 2 Columns

@@ -38,7 +38,7 @@ export default class DirectionStep extends Component {
 			{ ! DirectionStep.getImageSrc( step.text ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
-				type="image"
+				allowedTypes={ [ 'image' ] }
 				value={ step.id }
 				render={ ( { open } ) => (
 					<IconButton

@@ -44,9 +44,8 @@ export default class Ingredient extends Component {
 		this.removeItem      = this.removeItem.bind( this );
 		this.swapItem        = this.swapItem.bind( this );
 		this.setFocus        = this.setFocus.bind( this );
-		this.addCSSClasses   = this.addCSSClasses.bind( this );
 
-		this.props.attributes.id = Ingredient.generateId();
+		this.props.attributes.id = Ingredient.generateId( 'wpzoom-block-ingredients' );
 
 		this.editorRefs = {};
 	}
@@ -58,8 +57,8 @@ export default class Ingredient extends Component {
 	 *
 	 * @returns {string} Returns the unique ID.
 	 */
-	static generateId( prefix ) {
-		return _uniqueId( prefix + '-' );
+	static generateId( prefix = '' ) {
+		return prefix !== '' ? _uniqueId( prefix + '-' ) : _uniqueId();
 	}
 
 	/**
@@ -302,7 +301,6 @@ export default class Ingredient extends Component {
 			title,
 			id,
 			print_visibility,
-			additionalListCssClasses,
 			className,
 		} = props;
 
@@ -318,7 +316,7 @@ export default class Ingredient extends Component {
 			: null;
 
 		const classNames       = [ "", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames   = [ "ingredients-list", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const listClassNames   = [ "ingredients-list" ].filter( ( item ) => item ).join( " " );
 
 		return (
 			<div className={ classNames } id={ id }>
@@ -355,17 +353,6 @@ export default class Ingredient extends Component {
 	}
 
 	/**
-	 * Adds CSS classes to this Ingredient block"s list.
-	 *
-	 * @param {string} value The additional css classes.
-	 *
-	 * @returns {void}
-	 */
-	addCSSClasses( value ) {
-		this.props.setAttributes( { additionalListCssClasses: value } );
-	}
-
-	/**
 	 * Renders this component.
 	 *
 	 * @returns {Component} The Ingredient block editor.
@@ -374,7 +361,7 @@ export default class Ingredient extends Component {
 		const { attributes, setAttributes, className } = this.props;
 
 		const classNames     = [ "", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames = [ "ingredients-list", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const listClassNames = [ "ingredients-list" ].filter( ( item ) => item ).join( " " );
 
 		return (
 			<div className={ classNames } id={ attributes.id }>
@@ -396,9 +383,7 @@ export default class Ingredient extends Component {
 					placeholder={ __( "Write Ingredients title", "wpzoom-recipe-card" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				<ul className={ listClassNames }>
-					{ this.getItems() }
-				</ul>
+				<ul className={ listClassNames }>{ this.getItems() }</ul>
 				<div className="ingredient-buttons">{ this.getAddItemButton() }</div>
 				<Inspector { ...{ attributes, setAttributes, className } } />
 			</div>
