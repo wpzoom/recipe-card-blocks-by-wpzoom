@@ -8,12 +8,6 @@
 /package-lock.json
 /package.json
 
-#Ignore blocks files
-/src/directions
-/src/ingredients
-/src/details
-/src/directions-images
-
 #Ignore Custom Components
 /src/components/food-icons/index.js
 /src/components/food-icons/svg/*.svg
