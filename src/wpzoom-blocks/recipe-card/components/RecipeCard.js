@@ -65,11 +65,12 @@ export default class RecipeCard extends Component {
 
 		const wpzoomBlocksFilter = _filter( blocksList, function( item ) { return _indexOf( blocks, item.name ) !== -1 } );
 
-		if ( ! wpzoomBlocksFilter.length )
-			return;
-
 		const setDetailsAttributes = ( objects ) => {
 		    const filter = _filter( objects, [ 'name', blocks[0] ] );
+
+		    if ( _isUndefined( filter[0] ) )
+		    	return;
+
 		    let { attributes: { activeIconSet, course, cuisine, keywords, details } } = filter[0];
 
 		    details ? 
@@ -97,6 +98,10 @@ export default class RecipeCard extends Component {
 
 		const setIngredientsAttributes = ( objects ) => {
 		    const filter = _filter( objects, [ 'name', blocks[1] ] );
+
+		    if ( _isUndefined( filter[0] ) )
+		    	return;
+
 		    let { attributes: { title, items } } = filter[0];
 
 		    items ? 
@@ -114,6 +119,10 @@ export default class RecipeCard extends Component {
 
 		const setStepsAttributes = ( objects ) => {
 		    const filter = _filter( objects, [ 'name', blocks[2] ] );
+
+		    if ( _isUndefined( filter[0] ) )
+		    	return;
+
 		    let { attributes: { title, steps } } = filter[0];
 
 		    steps ? 
