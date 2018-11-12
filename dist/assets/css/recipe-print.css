@@ -1,8 +1,10 @@
+.wp-block-wpzoom-recipe-card-block-recipe-card .directions-list > li img,
 .wp-block-wpzoom-recipe-card-block-premium-recipe-card .directions-list > li img,
 .wp-block-wpzoom-recipe-card-block-directions-images .directions-list > li img {
 	max-width: 400px;
 }
 
+.wp-block-wpzoom-recipe-card-block-recipe-card .directions-list > li p,
 .wp-block-wpzoom-recipe-card-block-premium-recipe-card .directions-list > li p,
 .wp-block-wpzoom-recipe-card-block-directions-images .directions-list > li p {
     margin-bottom: 10px;

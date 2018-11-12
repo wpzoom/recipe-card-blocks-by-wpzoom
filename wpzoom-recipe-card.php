@@ -21,37 +21,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'WPZOOM_Recipe_Card_Block' ) ) :
+if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 	/**
-	 * Main WPZOOM_Recipe_Card_Block Class.
+	 * Main WPZOOM_Recipe_Card_Block_Gutenberg Class.
 	 *
 	 * @since 1.0.1
 	 */
-	final class WPZOOM_Recipe_Card_Block {
+	final class WPZOOM_Recipe_Card_Block_Gutenberg {
 		/**
 		 * This plugin's instance.
 		 *
-		 * @var WPZOOM_Recipe_Card_Block
+		 * @var WPZOOM_Recipe_Card_Block_Gutenberg
 		 * @since 1.0.1
 		 */
 		private static $instance;
 
 		/**
-		 * Main WPZOOM_Recipe_Card_Block Instance.
+		 * Main WPZOOM_Recipe_Card_Block_Gutenberg Instance.
 		 *
-		 * Insures that only one instance of WPZOOM_Recipe_Card_Block exists in memory at any one
+		 * Insures that only one instance of WPZOOM_Recipe_Card_Block_Gutenberg exists in memory at any one
 		 * time. Also prevents needing to define globals all over the place.
 		 *
 		 * @since 1.0.1
 		 * @static
-		 * @uses WPZOOM_Recipe_Card_Block::define_constants() Setup the constants needed.
-		 * @uses WPZOOM_Recipe_Card_Block::load_dependencies() Include the required files.
+		 * @uses WPZOOM_Recipe_Card_Block_Gutenberg::define_constants() Setup the constants needed.
+		 * @uses WPZOOM_Recipe_Card_Block_Gutenberg::load_dependencies() Include the required files.
 		 * @see WIDGETOPTS()
-		 * @return object|WPZOOM_Recipe_Card_Block The one true WPZOOM_Recipe_Card_Block
+		 * @return object|WPZOOM_Recipe_Card_Block_Gutenberg The one true WPZOOM_Recipe_Card_Block_Gutenberg
 		 */
 		public static function instance() {
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WPZOOM_Recipe_Card_Block ) ) {
-				self::$instance = new WPZOOM_Recipe_Card_Block();
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WPZOOM_Recipe_Card_Block_Gutenberg ) ) {
+				self::$instance = new WPZOOM_Recipe_Card_Block_Gutenberg();
 				self::$instance->define_constants();
 				self::$instance->init();
 				self::$instance->load_dependencies();
@@ -182,7 +182,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block' ) ) :
 		 * @access public
 		 */
 		public function is_pro() {
-			if ( class_exists( 'WPZOOM_Recipe_Card_Block_PRO' ) ) {
+			if ( class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg_PRO' ) ) {
 				return true;
 			} else {
 				return false;
@@ -205,15 +205,15 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block' ) ) :
 endif;
 
 /**
- * The main function for that returns WPZOOM_Recipe_Card_Block
+ * The main function for that returns WPZOOM_Recipe_Card_Block_Gutenberg
  *
- * Example: <?php $recipe_card_block = new WPZOOM_Recipe_Card_Block(); ?>
+ * Example: <?php $recipe_card_block = new WPZOOM_Recipe_Card_Block_Gutenberg(); ?>
  *
  * @since 1.0.1
- * @return object|WPZOOM_Recipe_Card_Block The one true WPZOOM_Recipe_Card_Block Instance.
+ * @return object|WPZOOM_Recipe_Card_Block_Gutenberg The one true WPZOOM_Recipe_Card_Block_Gutenberg Instance.
  */
 function recipe_card_block() {
-	return WPZOOM_Recipe_Card_Block::instance();
+	return WPZOOM_Recipe_Card_Block_Gutenberg::instance();
 }
 
 // Get the plugin running. Load on plugins_loaded action to avoid issue on multisite.

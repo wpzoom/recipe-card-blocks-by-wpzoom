@@ -1,0 +1,129 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+.wp-block-wpzoom-recipe-card-block-recipe-card {
+	.components-button.recipe-card-image-preview {
+		padding: 0;
+		margin: 0;
+		border: none;
+		outline: none;
+	}
+	.components-button.recipe-card-image-preview:focus:enabled {
+		background-color: transparent;
+		box-shadow: none;
+		outline: none;
+	}
+	.components-placeholder.recipe-card-image-placeholder {
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+	.details-items {
+		.detail-item {
+			> .detail-item-icon {
+				display: block;
+			}
+			> div:nth-child(2) {
+				display: block;
+			}
+			> div:nth-child(3), div:nth-child(4) {
+				display: inline-block;
+			}
+		}
+	}
+	.ingredient-item {
+		position: relative;
+		list-style-type: none;
+
+		.editor-rich-text {
+			display: inline-block;
+			width: 93%;
+		}
+	}
+	// this is used to prevent floating elements on editing
+	&.is-style-newdesign {
+		.ingredients-list.layout-2-columns {
+			columns: 1;
+		    -webkit-columns: 1;
+		    -moz-columns: 1;
+		}
+	}
+	.ingredients-list > li {
+		cursor: text;
+	}
+	.ingredient-item-button-container {
+		text-align: right;
+	}
+	.ingredient-item-mover {
+		position: absolute;
+		top: 0;
+		left: -29px;
+	}
+	.ingredient-buttons {
+		text-align: center;
+	}
+	.ingredient-item-button-container button.ingredient-item-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		color: #a00;
+	}
+	.directions-list > li {
+		&::before {
+			left: 10px;
+			top: 6px;
+		}
+	}
+	.direction-step-button-container {
+		text-align: right;
+	}
+	.direction-step-mover {
+		position: absolute;
+		top: 0;
+		left: -29px;
+	}
+	.direction-buttons {
+		text-align: center;
+	}
+	.direction-step-button-container button.direction-step-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		color: #a00;
+	}
+
+	p.help,
+	p.description {
+		font-size: 13px;
+		opacity: 0.7;
+	}
+}
+
+
+.wpzoom-recipe-card-settings .components-base-control__label,
+.wpzoom-recipe-card-seo-settings .components-base-control__label,
+.wpzoom-recipe-card-structured-data-testing .components-base-control__label {
+	font-weight: 500;
+}
+.wpzoom-recipe-card-settings .components-base-control__help,
+.wpzoom-recipe-card-seo-settings .components-base-control__help,
+.wpzoom-recipe-card-structured-data-testing .components-base-control__help {
+	margin-top: 0;
+}
+
+.wpzoom-recipe-card-seo-settings .components-panel__row .components-base-control {
+	margin-bottom: 0;
+}
+.wpzoom-recipe-card-seo-settings .components-panel__row .components-base-control + span {
+	margin-top: 1.25em;
+}
+
+.wpzoom-recipe-card-structured-data-testing .text-color-red {
+	color: #ff2725;
+}
+.wpzoom-recipe-card-structured-data-testing .text-color-orange {
+	color: #ef6c00;
+}
+.wpzoom-recipe-card-structured-data-testing .components-panel__row strong {
+	width: 60%;
+	word-break: break-word;
+}
+.wpzoom-recipe-card-structured-data-testing .component-color-indicator {
+	margin-left: 0;
+}

@@ -11,9 +11,13 @@ import legacy from "./legacy";
 import _isUndefined from "lodash/isUndefined";
 import _merge from "lodash/merge";
 
+/* Internal dependencies */
+import { stripHTML } from "../../helpers/stringHelpers";
+
 /* External dependencies */
 const { __ } = wp.i18n;
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+const { registerBlockType, createBlock } = wp.blocks; // Import registerBlockType() from wp.blocks
+const { renderToString } = wp.element;
 
 const attributes = {
     title: {

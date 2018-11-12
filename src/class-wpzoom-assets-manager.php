@@ -73,6 +73,13 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		private $_slug;
 
 		/**
+		 * The Post Object.
+		 *
+		 * @var string $post
+		 */
+		public $post;
+
+		/**
 		 * The Constructor.
 		 */
 		private function __construct() {
@@ -133,6 +140,14 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			    true
 			);
 
+			wp_enqueue_script(
+			    $this->_slug . '-pinit',
+			    'https://assets.pinterest.com/js/pinit.js',
+			    array(),
+			    false,
+			    true
+			);
+
 			// Styles.
 			wp_enqueue_style(
 				$this->_slug . '-style-css', // Handle.
@@ -147,6 +162,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		    	false
 		    );
 
+		    $this->post = get_post();
+
 		    /**
 		     * Localize script data.
 		     */
@@ -157,7 +174,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		    		'version' => $this->_version,
 		    		'textdomain' => $this->_textdomain,
 		    		'pluginURL' => plugins_url('recipe-card-blocks-by-wpzoom'),
-		    		'post_title' => get_the_title()
+		    		'post_permalink' => get_the_permalink( $this->post ),
+		    		'post_thumbnail_url' => get_the_post_thumbnail_url( $this->post ),
+		    		'post_title' => $this->post->post_title,
+		    		'post_author_name' => get_the_author_meta( 'display_name', $this->post->post_author ),
+		    		'block_style' => 'default',
 		    	)
 		    );
 		}

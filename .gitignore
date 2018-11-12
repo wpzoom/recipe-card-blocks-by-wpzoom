@@ -14,3 +14,4 @@
 
 #Ignore PRO Blocks
 /src/pro-version
+/src/pro-version/*
