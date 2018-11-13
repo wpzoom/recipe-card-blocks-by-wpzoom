@@ -426,6 +426,7 @@ export default class RecipeCard extends Component {
 						value={ jsonName ? recipeTitle : wpzoomRecipeCard.post_title }
 						onChange={ newTitle => setAttributes( { recipeTitle: newTitle, jsonName: stripHTML( renderToString( newTitle ) ) } ) }
 						placeholder={ __( "Enter the title of your Recipe Card.", "wpzoom-recipe-card" ) }
+						formattingControls={ [] }
 					/>
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ `${ __( "Recipe by", "wpzoom-recipe-card" ) } ${ settings[0]['custom_author_name'] }` }</span> }
 					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ course ? course : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
@@ -439,6 +440,7 @@ export default class RecipeCard extends Component {
 					value={ summary }
 					onChange={ newSummary => setAttributes( { summary: newSummary, jsonSummary: stripHTML( renderToString( newSummary ) ) } ) }
 					placeholder={ __( "Enter description / summary about your recipe.", "wpzoom-recipe-card" ) }
+					formattingControls={ ['bold', 'italic'] }
 				/>
 				<Ingredient { ...{ attributes, setAttributes, className } } />
 				<Direction { ...{ attributes, setAttributes, className } } />
