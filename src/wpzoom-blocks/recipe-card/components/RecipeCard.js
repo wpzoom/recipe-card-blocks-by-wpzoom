@@ -18,7 +18,7 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component, renderToString } = wp.element;
-const { DropZoneProvider, DropZone, Button, Placeholder, FormFileUpload, Dashicon } = wp.components;
+const { DropZoneProvider, DropZone, Button, Placeholder, FormFileUpload, Dashicon, Spinner } = wp.components;
 const { RichText, MediaUpload, InnerBlocks } = wp.editor;
 
 /**
@@ -36,6 +36,7 @@ export default class RecipeCard extends Component {
 	constructor( props ) {
 		super( props );
 
+		this.props.attributes.isLoading = true;
 		this.props.attributes.id = RecipeCard.generateId( "wpzoom-recipe-card" );
 
 		this.initBlocks();
@@ -59,6 +60,7 @@ export default class RecipeCard extends Component {
 	 */
 	updateAttributes( props ) {
 		const { attributes, setAttributes } = props;
+		const { isLoading } 	= attributes;
 		const blocks        = [ "wpzoom-recipe-card/block-details", "wpzoom-recipe-card/block-ingredients", "wpzoom-recipe-card/block-directions" ];
 		const { select }    = wp.data;
 		const blocksList    = select('core/editor').getBlocks();
@@ -141,6 +143,8 @@ export default class RecipeCard extends Component {
 		setDetailsAttributes( wpzoomBlocksFilter );
 		setIngredientsAttributes( wpzoomBlocksFilter );
 		setStepsAttributes( wpzoomBlocksFilter );
+
+		setAttributes( { isLoading: false } );
 	}
 
 	/**
@@ -328,7 +332,8 @@ export default class RecipeCard extends Component {
 			difficulty,
 			hasImage,
 			image,
-			settings
+			settings,
+			isLoading
 		} = attributes;
 
 		const printStyles = { 'background-color': `${ settings[0]['primary_color'] }` };
@@ -336,13 +341,25 @@ export default class RecipeCard extends Component {
 		this.setVideoAttributes();
 		this.setActiveBlockStyle( className );
 
-		const RecipeCardClassName = [ className, settings[0]['additionalClasses'] ].filter( ( item ) => item ).join( " " );
+		const loadingClass = isLoading ? 'is-loading-block' : '';
+		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], loadingClass ].filter( ( item ) => item ).join( " " );
 		const PrintClasses = [ "wpzoom-recipe-card-print-link", settings[0]['print_btn'] ].filter( ( item ) => item ).join( " " );
 		const PinterestClasses = [ "wpzoom-recipe-card-pinit", settings[0]['pin_btn'] ].filter( ( item ) => item ).join( " " );
 		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }/&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ jsonName ? jsonName : jsonSummary ? jsonSummary : '' }`;
 
 		return (
 			<div className={ RecipeCardClassName } id={ id }>
+
+				{
+					isLoading && 
+					<Placeholder
+						className="wpzoom-recipe-card-loading-spinner"
+						label={ __( "Loading Recipe Data", "wpzoom-recipe-card" ) }
+					>
+						<Spinner />
+					</Placeholder>
+				}
+
 				{
 					! hasImage ?
 						<Placeholder

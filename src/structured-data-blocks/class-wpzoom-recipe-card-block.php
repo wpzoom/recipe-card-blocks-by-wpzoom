@@ -147,18 +147,26 @@ class WPZOOM_Recipe_Card_Block {
 
 			foreach ( $details as $key => $detail ) {
 				if ( $key === 0 ) {
-					$json_ld['nutrition']['servingSize'] = $detail['jsonValue'] . ' ' . $detail['jsonUnit'];
+					if ( ! empty( $detail['jsonValue'] ) ) {
+						$json_ld['nutrition']['servingSize'] = $detail['jsonValue'];
+					}
 				}
 				elseif ( $key === 3 ) {
-					$json_ld['nutrition']['calories'] = $detail['jsonValue'] . ' ' . $detail['jsonUnit'];
+					if ( ! empty( $detail['jsonValue'] ) ) {
+						$json_ld['nutrition']['calories'] = $detail['jsonValue'];
+					}
 				}
 				elseif ( $key === 1 ) {
-					$prepTime = $detail['jsonValue'];
-				    $json_ld['prepTime'] = $this->get_period_time( $detail['jsonValue'] );
+					if ( ! empty( $detail['jsonValue'] ) ) {
+						$prepTime = $this->get_number_from_string( $detail['jsonValue'] );
+					    $json_ld['prepTime'] = $this->get_period_time( $detail['jsonValue'] );
+					}
 				}
 				elseif ( $key === 2 ) {
-					$cookTime = $detail['jsonValue'];
-				    $json_ld['cookTime'] = $this->get_period_time( $detail['jsonValue'] );
+					if ( ! empty( $detail['jsonValue'] ) ) {
+						$cookTime = $this->get_number_from_string( $detail['jsonValue'] );
+					    $json_ld['cookTime'] = $this->get_period_time( $detail['jsonValue'] );
+					}
 				}
 			}
 

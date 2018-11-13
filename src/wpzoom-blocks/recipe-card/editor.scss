@@ -5,6 +5,14 @@
  * which makes it higher in priority.
  */
 .wp-block-wpzoom-recipe-card-block-recipe-card {
+	position: relative;
+
+	&.is-loading-block {
+		> *:not(.wpzoom-recipe-card-loading-spinner) {
+			display: none;
+		}
+	}
+
 	.components-button.recipe-card-image-preview {
 		padding: 0;
 		margin: 0;
