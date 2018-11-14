@@ -93,6 +93,8 @@ class WPZOOM_Blocks {
 			$json_ld = $this->get_json_ld( $this->aux_attributes );
 
 			return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . '<div class="wpzoom-structured-data-render-blocks">' . $this->aux_content . '</div>';
+		} else {
+			return $content;
 		}
 	}
 
