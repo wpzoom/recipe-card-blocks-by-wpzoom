@@ -213,7 +213,7 @@ export default class Inspector extends Component {
             		</PanelRow>
             		<PanelRow>
             			<span>recipeYield</span>
-            			<strong>{ _get( details, [ 0, 'value' ] ) ? _get( details, [ 0, 'value' ] ) + ' ' + _get( details, [ 1, 'unit' ] ) : '0 ' + _get( details, [ 1, 'unit' ] ) }</strong>
+            			<strong>{ _get( details, [ 0, 'value' ] ) ? _get( details, [ 0, 'value' ] ) + ' ' + _get( details, [ 0, 'unit' ] ) : '0 ' + _get( details, [ 0, 'unit' ] ) }</strong>
             		</PanelRow>
             		<PanelRow className={ ! _get( details, [ 1, 'value' ] ) ? "text-color-orange": "" }>
             			<span>prepTime</span>

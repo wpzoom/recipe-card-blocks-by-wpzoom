@@ -141,6 +141,22 @@ const attributes = {
     },
 }
 
+let transforms = [];
+
+if ( wpzoomRecipeCard.is_pro ) {
+    transforms = {
+        to: [
+            {
+                type: 'block',
+                blocks: [ 'wpzoom-recipe-card/block-premium-recipe-card' ],
+                transform: function( attributes ) {
+                    return createBlock( 'wpzoom-recipe-card/block-premium-recipe-card', attributes );
+                },
+            },
+        ],
+    }
+}
+
 /**
  * Register: Ingredients Gutenberg Block.
  *
@@ -189,6 +205,8 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
             label: __( "New Design", "wpzoom-recipe-card" ),
         }
     ],
+    // Transform block to Premium Recipe Card if is PRO active
+    transforms,
 
     /**
      * The edit function describes the structure of your block in the context of the editor.

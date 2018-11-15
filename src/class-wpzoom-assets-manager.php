@@ -38,6 +38,14 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		}
 
 		/**
+		 * The WPZOOM_Recipe_Card_Block_Gutenberg instance.
+		 *
+		 * @var WPZOOM_Recipe_Card_Block_Gutenberg
+		 * @since 1.0.1
+		 */
+		private $_recipe_card_block;
+
+		/**
 		 * The base directory path.
 		 *
 		 * @var string $_dir
@@ -87,6 +95,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$this->_textdomain 	= WPZOOM_RCB_TEXT_DOMAIN;
 			$this->_slug    	= 'wpzoom-rcb-block';
 			$this->_url     	= untrailingslashit( plugins_url( '/', dirname( __FILE__ ) ) );
+
+			$this->_recipe_card_block = new WPZOOM_Recipe_Card_Block_Gutenberg();
 
 			add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
 			add_action( 'enqueue_block_assets', array( $this, 'load_icon_fonts' ) );
@@ -179,6 +189,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		    		'post_title' => $this->post->post_title,
 		    		'post_author_name' => get_the_author_meta( 'display_name', $this->post->post_author ),
 		    		'block_style' => 'default',
+		    		'is_pro' => $this->_recipe_card_block->is_pro()
 		    	)
 		    );
 		}
