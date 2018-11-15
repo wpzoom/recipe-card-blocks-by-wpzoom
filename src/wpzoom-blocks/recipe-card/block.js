@@ -13,7 +13,7 @@ import _merge from "lodash/merge";
 
 /* External dependencies */
 const { __ } = wp.i18n;
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+const { registerBlockType, createBlock } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 const attributes = {
     id: {
