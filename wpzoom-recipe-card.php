@@ -182,7 +182,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @access public
 		 */
 		public function is_pro() {
-			if ( class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg_PRO' ) ) {
+			if ( class_exists( 'WPZOOM_Recipe_Card_Block_PRO' ) ) {
 				return true;
 			} else {
 				return false;
