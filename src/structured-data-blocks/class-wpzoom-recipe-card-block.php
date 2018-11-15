@@ -23,6 +23,21 @@ class WPZOOM_Recipe_Card_Block {
 	private $post;
 
 	/**
+	 * Class instance Structured Data Helpers.
+	 *
+	 * @var WPZOOM_Structured_Data_Helpers
+	 * @since 1.0.1
+	 */
+	private $structured_data_helpers;
+
+	/**
+	 * The Constructor.
+	 */
+	public function __construct() {
+		$this->structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
+	}
+
+	/**
 	 * Registers the recipe-card block as a server-side rendered block.
 	 *
 	 * @return void
@@ -158,102 +173,37 @@ class WPZOOM_Recipe_Card_Block {
 				}
 				elseif ( $key === 1 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$prepTime = $this->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['prepTime'] = $this->get_period_time( $detail['jsonValue'] );
+						$prepTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+					    $json_ld['prepTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
 					}
 				}
 				elseif ( $key === 2 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$cookTime = $this->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['cookTime'] = $this->get_period_time( $detail['jsonValue'] );
+						$cookTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+					    $json_ld['cookTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
 					}
 				}
 			}
 
 			if ( isset( $prepTime, $cookTime ) && ( $prepTime + $cookTime ) > 0 ) {
-				$json_ld['totalTime'] = $this->get_period_time( $prepTime + $cookTime );
+				$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $prepTime + $cookTime );
 			}
 		}
 
 		if ( ! empty( $attributes['ingredients'] ) && is_array( $attributes['ingredients'] ) ) {
 			$ingredients = array_filter( $attributes['ingredients'], 'is_array' );
 			foreach ( $ingredients as $ingredient ) {
-				$json_ld['recipeIngredient'][] = $this->get_ingredient_json_ld( $ingredient );
+				$json_ld['recipeIngredient'][] = $this->structured_data_helpers->get_ingredient_json_ld( $ingredient );
 			}
 		}
 
 		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$steps = array_filter( $attributes['steps'], 'is_array' );
 			foreach ( $steps as $step ) {
-				$json_ld['recipeInstructions'][] = $this->get_step_json_ld( $step );
+				$json_ld['recipeInstructions'][] = $this->structured_data_helpers->get_step_json_ld( $step );
 			}
 		}
 
 		return $json_ld;
-	}
-
-	/**
-	 * Returns the JSON-LD for a ingredient's name in a recipe-card block.
-	 *
-	 * @param array $ingredient The attributes of a ingredient in the recipe-card block.
-	 *
-	 * @return array The JSON-LD representation of the ingredient name in a recipe-card block.
-	 */
-	protected function get_ingredient_json_ld( array $ingredient ) {
-		$ingredient_json_ld = '';
-
-		if ( ! empty( $ingredient['jsonName'] ) ) {
-			$ingredient_json_ld = $ingredient['jsonName'];
-		}
-
-		return $ingredient_json_ld;
-	}
-
-	/**
-	 * Returns the JSON-LD for a step's description in a recipe-card block.
-	 *
-	 * @param array $step The attributes of a step(-section) in the recipe-card block.
-	 *
-	 * @return array The JSON-LD representation of the step's description in a recipe-card block.
-	 */
-	protected function get_step_json_ld( array $step ) {
-		$step_json_ld = array(
-			'@type' => 'HowToStep',
-		);
-
-		if ( ! empty( $step['jsonText'] ) ) {
-			$step_json_ld['text'] = $step['jsonText'];
-		}
-
-		return $step_json_ld;
-	}
-
-	/**
-	 * Returns the date value in ISO 8601 date format.
-	 *
-	 * @param string $time The time value.
-	 *
-	 * @return string A textual string indicating a time period in ISO 8601 time interval format.
-	 */
-	protected function get_period_time( string $time ) {
-		$hours = floor( $time / 60 );
-		$days = round( $hours / 24 );
-		$minutes = ( $time % 60 );
-		$period = 'P';
-
-		if ( $days ) {
-			$hours = ( $hours % 24 );
-			$period .= $days . 'D';
-		}
-
-		if ( $hours ) {
-			$period .= 'T' . $hours . 'H';
-		}
-
-		if ( $minutes ) {
-			$period .= $minutes . 'M';
-		}
-
-		return $period;
 	}
 }

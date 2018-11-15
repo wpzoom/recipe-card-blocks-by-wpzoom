@@ -46,6 +46,21 @@ class WPZOOM_Blocks {
 	private $blocks_render = 0;
 
 	/**
+	 * Class instance Structured Data Helpers.
+	 *
+	 * @var WPZOOM_Structured_Data_Helpers
+	 * @since 1.0.1
+	 */
+	private $structured_data_helpers;
+
+	/**
+	 * The Constructor.
+	 */
+	public function __construct() {
+		$this->structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
+	}
+
+	/**
 	 * Registers the details block as a server-side rendered block.
 	 *
 	 * @return void
@@ -163,160 +178,37 @@ class WPZOOM_Blocks {
 				}
 				elseif ( $key === 1 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$prepTime = $this->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['prepTime'] = $this->get_period_time( $detail['jsonValue'] );
+						$prepTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+					    $json_ld['prepTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
 					}
 				}
 				elseif ( $key === 2 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$cookTime = $this->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['cookTime'] = $this->get_period_time( $detail['jsonValue'] );
+						$cookTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+					    $json_ld['cookTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
 					}
 				}
 			}
 
 			if ( isset( $prepTime, $cookTime ) && ( $prepTime + $cookTime ) > 0 ) {
-				$json_ld['totalTime'] = $this->get_period_time( $prepTime + $cookTime );
+				$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $prepTime + $cookTime );
 			}
 		}
 
 		if ( ! empty( $attributes['items'] ) && is_array( $attributes['items'] ) ) {
 			$ingredients = array_filter( $attributes['items'], 'is_array' );
 			foreach ( $ingredients as $ingredient ) {
-				$json_ld['recipeIngredient'][] = $this->get_ingredient_json_ld( $ingredient );
+				$json_ld['recipeIngredient'][] = $this->structured_data_helpers->get_ingredient_json_ld( $ingredient );
 			}
 		}
 
 		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$steps = array_filter( $attributes['steps'], 'is_array' );
 			foreach ( $steps as $step ) {
-				$json_ld['recipeInstructions'][] = $this->get_step_json_ld( $step );
+				$json_ld['recipeInstructions'][] = $this->structured_data_helpers->get_step_json_ld( $step );
 			}
 		}
 
 		return $json_ld;
-	}
-
-	/**
-	 * Returns the JSON-LD for a ingredient's name in a details block.
-	 *
-	 * @param array $ingredient The attributes of a ingredient in the details block.
-	 *
-	 * @return array The JSON-LD representation of the ingredient name in a details block.
-	 */
-	protected function get_ingredient_json_ld( array $ingredient ) {
-		$ingredient_json_ld = '';
-
-		if ( ! empty( $ingredient['jsonName'] ) ) {
-			$ingredient_json_ld = $ingredient['jsonName'];
-		} else {
-			$ingredient_json_ld = $this->ingredient_name_to_JSON( $ingredient['name'] );
-		}
-
-		return $ingredient_json_ld;
-	}
-
-	/**
-	 * Backward compatibility with ingredients that don't have jsonName attribute.
-	 *
-	 * @param array $ingredient_name The ingredient name array.
-	 *
-	 * @return string The json name generated from array.
-	 */
-	protected function ingredient_name_to_JSON( array $ingredient_name, string $jsonName = '' ) {
-		foreach ( $ingredient_name as $name ) {
-			if ( ! is_array( $name ) ) {
-				$jsonName .= $name;
-			} else {
-				$jsonName = $this->ingredient_name_to_JSON( $name['props']['children'], $jsonName );
-			}
-		}
-
-		return $jsonName;
-	}
-
-	/**
-	 * Returns the JSON-LD for a step's description in a details block.
-	 *
-	 * @param array $step The attributes of a step(-section) in the details block.
-	 *
-	 * @return array The JSON-LD representation of the step's description in a details block.
-	 */
-	protected function get_step_json_ld( array $step ) {
-		$step_json_ld = array(
-			'@type' => 'HowToStep',
-		);
-
-		if ( ! empty( $step['jsonText'] ) ) {
-			$step_json_ld['text'] = $step['jsonText'];
-		} else {
-			$step_json_ld['text'] = $this->step_text_to_JSON( $step['text'] );
-		}
-
-		return $step_json_ld;
-	}
-
-	/**
-	 * Backward compatibility with steps that don't have jsonText attribute.
-	 *
-	 * @param array $step_text The step text array.
-	 *
-	 * @return string The json text generated from array.
-	 */
-	protected function step_text_to_JSON( array $step_text, string $jsonText = '' ) {
-		foreach ( $step_text as $text ) {
-			if ( ! is_array( $text ) ) {
-				$jsonText .= $text;
-			} else {
-				$jsonText = $this->step_text_to_JSON( $text['props']['children'], $jsonText );
-			}
-		}
-
-		return $jsonText;
-	}
-
-	/**
-	 * Returns the date value in ISO 8601 date format.
-	 *
-	 * @param string $string The string value with number and unit.
-	 *
-	 * @return string A textual string indicating a time period in ISO 8601 time interval format.
-	 */
-	protected function get_period_time( string $string ) {
-		$time = $this->get_number_from_string( $string );
-
-		$hours = floor( $time / 60 );
-		$days = round( $hours / 24 );
-		$minutes = ( $time % 60 );
-		$period = 'P';
-
-		if ( $days ) {
-			$hours = ( $hours % 24 );
-			$period .= $days . 'D';
-		}
-
-		if ( $hours ) {
-			$period .= 'T' . $hours . 'H';
-		}
-
-		if ( $minutes ) {
-			$period .= $minutes . 'M';
-		}
-
-		return $period;
-	}
-
-	/**
-	 * Returns the number from string.
-	 *
-	 * @param string $string The string value with number and unit.
-	 *
-	 * @return number The first number matched from string.
-	 */
-	protected function get_number_from_string( $string ) {
-		$re = '/\d+/s';
-		preg_match($re, $string, $matches);
-
-		return isset($matches[0]) ? (int)$matches[0] : 0;
 	}
 }

@@ -14,7 +14,6 @@ const { __ } = wp.i18n;
 const { RichText } = wp.editor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
-const { pluginURL } = window.wpzoomRecipeCard;
 
 /* Import CSS. */
 import '../style.scss';

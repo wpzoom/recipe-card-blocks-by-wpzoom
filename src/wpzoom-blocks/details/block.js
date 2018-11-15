@@ -11,13 +11,9 @@ import legacy from "./legacy";
 import Icons from "./utils/IconsArray";
 import _merge from "lodash/merge";
 
-/* Internal dependencies */
-import { stripHTML } from "../../helpers/stringHelpers";
-
 /* External dependencies */
 const { __ } = wp.i18n;
-const { registerBlockType, createBlock } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { renderToString } = wp.element;
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 const attributes = {
     title: {
