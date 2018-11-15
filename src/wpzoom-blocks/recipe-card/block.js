@@ -20,7 +20,8 @@ const attributes = {
         type: 'string',
     },
     style: {
-        type: 'string'
+        type: 'string',
+        default: 'default'
     },
     image: {
         type: 'object',
@@ -158,7 +159,7 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
     title: __( "Recipe Card Block (Rich Snippets)", "wpzoom-recipe-card" ), // Block title.
     icon: {
         // Specifying a background color to appear with the icon e.g.: in the inserter.
-        background: '#FDA921',
+        background: '#2EA55F',
         // Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)
         foreground: '#fff',
         // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
