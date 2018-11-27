@@ -8,8 +8,7 @@
 /* Internal dependencies */
 import RecipeCard from './components/RecipeCard';
 import Icons from "./utils/IconsArray";
-import _isUndefined from "lodash/isUndefined";
-import _merge from "lodash/merge";
+import _omit from "lodash/omit";
 
 /* External dependencies */
 const { __ } = wp.i18n;
@@ -40,19 +39,14 @@ const attributes = {
         default: false
     },
     recipeTitle: {
-        type: 'array',
-        selector: '.recipe-card-title',
-        source: 'children',
-        default: wpzoomRecipeCard.post_title
-    },
-    jsonName: {
         type: 'string',
+        selector: '.recipe-card-title',
         default: wpzoomRecipeCard.post_title
     },
     summary: {
         type: 'array',
+        source: "children",
         selector: '.recipe-card-summary',
-        source: 'children',
     },
     jsonSummary: {
         type: 'string',
@@ -118,7 +112,6 @@ const attributes = {
     ingredientsTitle: {
         type: 'array',
         selector: '.ingredients-title',
-        source: 'children',
         default: __( "Ingredients", "wpzoom-recipe-card" )
     },
     jsonIngredientsTitle: {
@@ -130,7 +123,6 @@ const attributes = {
     directionsTitle: {
         type: 'array',
         selector: '.directions-title',
-        source: 'children',
         default: __( "Directions", "wpzoom-recipe-card" )
     },
     jsonDirectionsTitle: {
@@ -150,7 +142,10 @@ if ( wpzoomRecipeCard.is_pro ) {
                 type: 'block',
                 blocks: [ 'wpzoom-recipe-card/block-premium-recipe-card' ],
                 transform: function( attributes ) {
-                    return createBlock( 'wpzoom-recipe-card/block-premium-recipe-card', attributes );
+                    return createBlock(
+                        'wpzoom-recipe-card/block-premium-recipe-card',
+                        _omit( attributes, ['icons', 'searchIcon'] )
+                    );
                 },
             },
         ],

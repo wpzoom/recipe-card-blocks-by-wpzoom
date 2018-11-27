@@ -29,12 +29,17 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		private static $instance;
 
 		/**
-		 * Registers the plugin.
+		 * Provides singleton instance.
+		 *
+		 * @since 1.0.1
+		 * @return self instance
 		 */
-		public static function register() {
+		public static function instance() {
 			if ( null === self::$instance ) {
 				self::$instance = new WPZOOM_Assets_Manager();
 			}
+
+			return self::$instance;
 		}
 
 		/**
@@ -64,21 +69,21 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 *
 		 * @var string $_textdomain
 		 */
-		private $_textdomain;
+		public $_textdomain;
 
 		/**
 		 * The Plugin version.
 		 *
 		 * @var string $_version
 		 */
-		private $_version;
+		public $_version;
 
 		/**
 		 * The Plugin version.
 		 *
 		 * @var string $_slug
 		 */
-		private $_slug;
+		public $_slug;
 
 		/**
 		 * The Post Object.
@@ -94,7 +99,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$this->_version 	= WPZOOM_RCB_VERSION;
 			$this->_textdomain 	= WPZOOM_RCB_TEXT_DOMAIN;
 			$this->_slug    	= 'wpzoom-rcb-block';
-			$this->_url     	= untrailingslashit( plugins_url( '/', dirname( __FILE__ ) ) );
+			$this->_url     	= untrailingslashit( WPZOOM_RCB_PLUGIN_URL );
 
 			$this->_recipe_card_block = new WPZOOM_Recipe_Card_Block_Gutenberg();
 
@@ -111,11 +116,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 *
 		 * @since 1.0.1
 		 */
-		private function get_dependencies( $handle ) {
+		public function get_dependencies( $handle ) {
 			$dependencies = array();
 
 			if ( $this->_slug . '-js' === $handle ) {
-				$dependencies = array( 'wp-blocks', 'wp-i18n', 'wp-element' );
+				$dependencies = array( 'wp-editor', 'wp-components', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-compose' );
 			}
 			elseif ( $this->_slug . '-editor-css' === $handle ) {
 				$dependencies = array( 'wp-edit-blocks' );
@@ -128,6 +133,9 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			}
 			elseif ( $this->_slug . '-oldicon-css' === $handle || $this->_slug . '-foodicons-css' === $handle || $this->_slug . '-font-awesome-css' === $handle || $this->_slug . '-genericons-css' === $handle ) {
 				$dependencies = array( 'wp-edit-blocks' );
+			}
+			elseif ( 'wpzoom-rating-stars-script' === $handle ) {
+				$dependencies = array( 'jquery', 'wp-blocks', 'wp-i18n' );
 			}
 
 			return $dependencies;
@@ -283,4 +291,4 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 	}
 }
 
-WPZOOM_Assets_Manager::register();
+WPZOOM_Assets_Manager::instance();

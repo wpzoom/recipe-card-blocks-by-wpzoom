@@ -16,37 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WPZOOM_Structured_Data_Render {
 	/**
-	 * This plugin's instance.
-	 *
-	 * @var WPZOOM_Structured_Data_Render
-	 * @since 1.0.1
-	 */
-	private static $instance;
-
-	/**
-	 * The WPZOOM_Recipe_Card_Block_Gutenberg instance.
-	 *
-	 * @var WPZOOM_Recipe_Card_Block_Gutenberg
-	 * @since 1.0.1
-	 */
-	private $_recipe_card_block;
-
-	/**
-	 * Registers the plugin.
-	 */
-	public static function register() {
-		if ( null === self::$instance ) {
-			self::$instance = new WPZOOM_Structured_Data_Render();
-			self::$instance->load_dependencies();
-			self::$instance->register_hooks();
-		}
-	}
-
-	/**
 	 * The Constructor.
 	 */
-	private function __construct() {
-		$this->_recipe_card_block = new WPZOOM_Recipe_Card_Block_Gutenberg();
+	public function __construct() {
+		$this->load_dependencies();
 	}
 
 	/**
@@ -57,11 +30,11 @@ class WPZOOM_Structured_Data_Render {
 	 * @return void
 	 */
 	private function load_dependencies() {
-		require_once WPZOOM_RCB_PLUGIN_DIR . 'src/class-wpzoom-structured-data-helpers.php';
+		require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-structured-data-helpers.php';
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-blocks.php';
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-recipe-card-block.php';
 
-		if ( $this->_recipe_card_block->has_pro() ) {
+		if ( WPZOOM_RCB_HAS_PRO ) {
 			require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-premium-recipe-card-block.php';
 		}
 	}
@@ -75,7 +48,7 @@ class WPZOOM_Structured_Data_Render {
 			new WPZOOM_Recipe_Card_Block()
 		);
 
-		if ( $this->_recipe_card_block->is_pro() ) {
+		if ( WPZOOM_RCB_HAS_PRO ) {
 			$block_integrations[] = new WPZOOM_Premium_Recipe_Card_Block();
 		}
 
@@ -84,5 +57,3 @@ class WPZOOM_Structured_Data_Render {
 		}
 	}
 }
-
-WPZOOM_Structured_Data_Render::register();

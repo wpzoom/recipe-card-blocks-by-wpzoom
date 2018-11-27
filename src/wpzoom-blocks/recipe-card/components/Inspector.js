@@ -63,7 +63,6 @@ export default class Inspector extends Component {
 			hasVideo,
 			video,
 			recipeTitle,
-			jsonName,
 			summary,
 			jsonSummary,
 			course,
@@ -197,19 +196,15 @@ export default class Inspector extends Component {
 					</PanelRow>
             		<PanelRow>
             			<span>recipeTitle</span>
-            			<strong>{ jsonName ? recipeTitle : wpzoomRecipeCard.post_title }</strong>
+            			<strong>{ recipeTitle ? recipeTitle : wpzoomRecipeCard.post_title }</strong>
             		</PanelRow>
             		<PanelRow className={ ! jsonSummary ? "text-color-orange": "" }>
             			<span>description</span>
-            			<strong>{ summary }</strong>
+            			<strong>{ jsonSummary }</strong>
             		</PanelRow>
             		<PanelRow className={ ! hasImage ? "text-color-red": "" }>
             			<span>image</span>
             			<strong>{ hasImage ? image.url : '' }</strong>
-            		</PanelRow>
-            		<PanelRow className={ ! hasVideo ? "text-color-orange": "" }>
-            			<span>video</span>
-            			<strong>{ hasVideo && video.src ? video.src : hasVideo && video.url ? video.url : '' }</strong>
             		</PanelRow>
             		<PanelRow>
             			<span>recipeYield</span>
@@ -260,7 +255,7 @@ export default class Inspector extends Component {
 	                					<img
 	                                        className={ `${ id }-image` }
 	                                        src={ image.url }
-	                                        alt={ jsonName ? recipeTitle : wpzoomRecipeCard.post_title }
+	                                        alt={ recipeTitle ? recipeTitle : wpzoomRecipeCard.post_title }
 	                                    />
 	                					: __( "Add recipe image", "wpzoom-recipe-card" )
 	                                }
@@ -269,22 +264,6 @@ export default class Inspector extends Component {
 	                	/>
 	                	{ hasImage ? <Button isLink="true" isDestructive="true" onClick={ removeRecipeImage }>{ __( "Remove Image", "wpzoom-recipe-card" ) }</Button> : '' }
 	        		</BaseControl>
-	            	<TextControl
-	            		id={ `${ id }-recipe-title` }
-	            		instanceId={ `${ id }-recipe-title` }
-	            		label={ __( "Recipe Card Name (recommended)", "wpzoom-recipe-card" ) }
-	            		value={ recipeTitle }
-	            		onChange={ newTitle => setAttributes( { recipeTitle: [ newTitle ], jsonName: stripHTML( renderToString( newTitle ) ) } ) }
-	            		help={ __( "If you leave this field empty then the post title will be automatically assigned.", "wpzoom-recipe-card" ) }
-	            	/>
-	            	<TextareaControl
-	            		id={ `${ id }-summary-text` }
-	            		instanceId={ `${ id }-summary-text` }
-	        			label={ __( "Summary Text (recommended)", "wpzoom-recipe-card" ) }
-	        			value={ summary }
-	        			onChange={ newSummary => setAttributes( { summary: [ newSummary ], jsonSummary: stripHTML( renderToString( newSummary ) ) } ) }
-	        			help={ __( "Write a small description about your recipe.", "wpzoom-recipe-card" ) }
-	        		/>
 			    	<BaseControl
 						id={ `${ id }-course` }
 						label={ __( "Course (required)", "wpzoom-recipe-card" ) }

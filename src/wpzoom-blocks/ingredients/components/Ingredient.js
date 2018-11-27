@@ -374,10 +374,10 @@ export default class Ingredient extends Component {
 					tagName="h3"
 					className="ingredients-title"
 					value={ attributes.title }
+					unstableOnFocus={ () => this.setFocus( "title" ) }
 					isSelected={ this.state.focus === "title" }
-					setFocusedElement={ () => this.setFocus( "title" ) }
 					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
-					unstableOnSetup={ ( ref ) => {
+					onSetup={ ( ref ) => {
 						this.editorRefs.title = ref;
 					} }
 					placeholder={ __( "Write Ingredients title", "wpzoom-recipe-card" ) }

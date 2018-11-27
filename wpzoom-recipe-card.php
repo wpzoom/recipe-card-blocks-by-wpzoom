@@ -53,8 +53,8 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WPZOOM_Recipe_Card_Block_Gutenberg ) ) {
 				self::$instance = new WPZOOM_Recipe_Card_Block_Gutenberg();
 				self::$instance->define_constants();
-				self::$instance->init();
 				self::$instance->load_dependencies();
+				self::$instance->init();
 
 			}
 			return self::$instance;
@@ -85,9 +85,12 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function init() {
+			add_action( 'init', array( $this, 'register_block_types' ) );
 			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 			add_filter( 'block_categories', array( $this, 'add_custom_category' ), 10, 2 );
+
 			register_activation_hook( WPZOOM_RCB_PLUGIN_DIR, array( $this, 'plugin_activation' ) );
+
 			// add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 		}
 
@@ -111,13 +114,27 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function load_dependencies() {
-			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/class-wpzoom-assets-manager.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-assets-manager.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-helpers.php';
 
 			if ( $this->has_pro() ) {
-				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/class-wpzoom-recipe-card-pro.php';
+				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-card-pro.php';
 			}
 
-			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/class-wpzoom-structured-data-render.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-structured-data-render.php';
+		}
+
+		public function register_block_types() {
+			$integrations   = array();
+			$integrations[] = new WPZOOM_Structured_Data_Render();
+
+			if ( $this->is_pro() ) {
+				$integrations[] = new WPZOOM_Recipe_Card_Block_PRO();
+			}
+
+			foreach ( $integrations as $integration ) {
+				$integration->register_hooks();
+			}
 		}
 
 		/**

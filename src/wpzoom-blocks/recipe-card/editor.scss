@@ -39,6 +39,10 @@
 			> div:nth-child(3), div:nth-child(4) {
 				display: inline-block;
 			}
+			.detail-item-value,
+			.detail-item-unit {
+				padding: 0;
+			}
 		}
 	}
 	.ingredient-item {
@@ -58,8 +62,17 @@
 		    -moz-columns: 1;
 		}
 	}
-	.ingredients-list > li {
-		cursor: text;
+	&.is-style-default,
+	&.is-style-newdesign {
+		.ingredients-list > li {
+			cursor: text;
+		}
+		.recipe-card-summary {
+			margin: 0;
+		}
+	}
+	.recipe-card-details + .editor-rich-text {
+		margin: 10px 0 20px;
 	}
 	.ingredient-item-button-container {
 		text-align: right;

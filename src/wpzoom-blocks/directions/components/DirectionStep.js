@@ -172,21 +172,23 @@ export default class DirectionStep extends Component {
 
 		const { id, text } = step;
 
+		const isSelectedText = isSelected && subElement === "text";
+
 		return (
 			<li className="direction-step" key={ id }>
 				<RichText
 					className="direction-step-text"
 					tagName="p"
-					unstableOnSetup={ ( ref ) => editorRef( "text", ref ) }
+					onSetup={ ( ref ) => editorRef( "text", ref ) }
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ ( value ) => onChange( value, text ) }
-					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wpzoom-recipe-card" ) }
-					setFocusedElement={ () => onFocus( "text" ) }
+					unstableOnFocus={ () => onFocus( "text" ) }
+					isSelected={ isSelectedText }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ isSelected &&
+				{ isSelectedText &&
 					<div className="direction-step-controls-container">
 						{ this.getMover() }
 						{ this.getButtons() }

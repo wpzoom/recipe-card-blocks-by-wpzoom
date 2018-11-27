@@ -90,11 +90,6 @@ class WPZOOM_Recipe_Card_Block {
 				'@type'		=> 'Person',
 				'name'		=> get_the_author()
 			),
-			// 'aggregateRating' => array(
-			//     '@type'		  => 'AggregateRating',
-			//     'ratingValue' => '',
-			//     'reviewCount' => ''
-			// ),
 			'name'			=> $this->post->post_title,
 			'description' 	=> $this->post->post_excerpt,
 			'image'			=> '',
@@ -118,8 +113,8 @@ class WPZOOM_Recipe_Card_Block {
 			'recipeInstructions' => array(),
 		);
 
-		if ( ! empty( $attributes['jsonName'] ) ) {
-			$json_ld['name'] = $attributes['jsonName'];
+		if ( ! empty( $attributes['recipeTitle'] ) ) {
+			$json_ld['name'] = $attributes['recipeTitle'];
 		}
 
 		if ( ! empty( $attributes['jsonSummary'] ) ) {

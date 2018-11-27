@@ -189,6 +189,9 @@ export default class DetailItem extends Component {
 
 		const { id, icon, label, value } = item;
 
+		const isSelectedLabel = isSelected && subElement === "label";
+		const isSelectedValue = isSelected && subElement === "value";
+
 		return (
 			<div className={ `detail-item detail-item-${ index }` } key={ id }>
 				{
@@ -199,30 +202,30 @@ export default class DetailItem extends Component {
 				<RichText
 				    className="detail-item-label"
 				    tagName="p"
-				    unstableOnSetup={ ( ref ) => editorRef( "label", ref ) }
+				    onSetup={ ( ref ) => editorRef( "label", ref ) }
 				    key={ `${ id }-label` }
 				    value={ label }
 				    onChange={ ( newLabel ) => onChange( icon, newLabel, value, icon, label, value ) }
-				    isSelected={ isSelected && subElement === "label" }
 				    placeholder={ this.getPlaceholder( index, 'label' ) }
-				    setFocusedElement={ () => onFocus( "label" ) }
+				    unstableOnFocus={ () => onFocus( "label" ) }
+				    isSelected={ isSelectedLabel }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
 				    className="detail-item-value"
 				    tagName="p"
-				    unstableOnSetup={ ( ref ) => editorRef( "value", ref ) }
+				    onSetup={ ( ref ) => editorRef( "value", ref ) }
 				    key={ `${ id }-value` }
 				    value={ value }
 				    onChange={ ( newValue ) => onChange( icon, label, newValue, icon, label, value ) }
-				    isSelected={ isSelected && subElement === "value" }
 				    placeholder={ this.getPlaceholder( index, 'value' ) }
-				    setFocusedElement={ () => onFocus( "value" ) }
+				    unstableOnFocus={ () => onFocus( "value" ) }
+				    isSelected={ isSelectedValue }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>
-				{ isSelected &&
+				{ ( isSelectedLabel || isSelectedValue ) &&
 					<div className="detail-item-controls-container">
 						{ this.getButtons() }
 					</div>

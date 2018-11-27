@@ -205,6 +205,10 @@ export default class DetailItem extends Component {
 
 		const { id, icon, label, value, unit } = item;
 
+		const isSelectedLabel = isSelected && subElement === "label";
+		const isSelectedValue = isSelected && subElement === "value";
+		const isSelectedUnit = isSelected && subElement === "unit";
+
 		return (
 			<div className={ `detail-item detail-item-${ index }` } key={ id }>
 				{
@@ -215,39 +219,36 @@ export default class DetailItem extends Component {
 				<RichText
 				    className="detail-item-label"
 				    tagName="p"
-				    unstableOnSetup={ ( ref ) => editorRef( "label", ref ) }
+				    onSetup={ ( ref ) => editorRef( "label", ref ) }
 				    key={ `${ id }-label` }
 				    value={ label }
 				    onChange={ ( newLabel ) => onChange( icon, newLabel, value, unit, icon, label, value, unit ) }
-				    isSelected={ isSelected && subElement === "label" }
 				    placeholder={ this.getPlaceholder( index, 'label' ) }
-				    setFocusedElement={ () => onFocus( "label" ) }
+				    unstableOnFocus={ () => onFocus( "label" ) }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
 				    className="detail-item-value"
 				    tagName="p"
-				    unstableOnSetup={ ( ref ) => editorRef( "value", ref ) }
+				    onSetup={ ( ref ) => editorRef( "value", ref ) }
 				    key={ `${ id }-value` }
 				    value={ value }
 				    onChange={ ( newValue ) => onChange( icon, label, newValue, unit, icon, label, value, unit ) }
-				    isSelected={ isSelected && subElement === "value" }
 				    placeholder={ this.getPlaceholder( index, 'value' ) }
-				    setFocusedElement={ () => onFocus( "value" ) }
+				    unstableOnFocus={ () => onFocus( "value" ) }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
 				    className="detail-item-unit"
 				    tagName="span"
-				    unstableOnSetup={ ( ref ) => editorRef( "unit", ref ) }
+				    onSetup={ ( ref ) => editorRef( "unit", ref ) }
 				    key={ `${ id }-unit` }
 				    value={ unit }
 				    onChange={ ( newUnit ) => onChange( icon, label, value, newUnit, icon, label, value, unit ) }
-				    isSelected={ isSelected && subElement === "unit" }
 				    placeholder={ this.getPlaceholder( index, 'unit' ) }
-				    setFocusedElement={ () => onFocus( "unit" ) }
+				    unstableOnFocus={ () => onFocus( "unit" ) }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>

@@ -54,6 +54,13 @@ class WPZOOM_Blocks {
 	private $structured_data_helpers;
 
 	/**
+	 * Output content.
+	 *
+	 * @since 1.0.1
+	 */
+	private $output = '';
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
@@ -95,8 +102,9 @@ class WPZOOM_Blocks {
 		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
-
+		
 		$this->post = get_post();
+		$blocks_count = isset( $attributes['blocks_count'] ) ? $attributes['blocks_count'] : 1;
 
 		if ( $this->blocks_render < 3 ) {
 			$this->aux_content .= $content;
@@ -104,12 +112,21 @@ class WPZOOM_Blocks {
 		}
 
 		$this->blocks_render += 1;
+
 		if ( $this->blocks_render === 3 ) {
 			$json_ld = $this->get_json_ld( $this->aux_attributes );
 
-			return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . '<div class="wpzoom-structured-data-render-blocks">' . $this->aux_content . '</div>';
-		} else {
-			return $content;
+			$this->output = '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . '<div class="wpzoom-structured-data-render-blocks">' . $this->aux_content . '</div>';
+
+			return force_balance_tags( $this->output );
+		}
+		elseif ( $this->blocks_render === $blocks_count ) {
+			$this->output .= $content;
+
+			return force_balance_tags( $this->output );
+		}
+		else {
+			$this->output .= $content;
 		}
 	}
 
@@ -131,11 +148,6 @@ class WPZOOM_Blocks {
 				'@type'		=> 'Person',
 				'name'		=> get_the_author()
 			),
-			// 'aggregateRating' => array(
-			//     '@type'		  => 'AggregateRating',
-			//     'ratingValue' => '',
-			//     'reviewCount' => ''
-			// ),
 			'name'			=> $this->post->post_title,
 			'description' 	=> $this->post->post_excerpt,
 			'image'			=> get_the_post_thumbnail_url(),

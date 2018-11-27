@@ -111,21 +111,23 @@ export default class IngredientItem extends Component {
 
 		const { id, name } = item;
 
+		const isSelectedName = isSelected && subElement === "name";
+
 		return (
 			<li className="ingredient-item" key={ id }>
 				<RichText
 					className="ingredient-item-name"
 					tagName="p"
-					unstableOnSetup={ ( ref ) => editorRef( "name", ref ) }
+					onSetup={ ( ref ) => editorRef( "name", ref ) }
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ ( value ) => onChange( value, name ) }
-					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a ingredient item name", "wpzoom-recipe-card" ) }
-					setFocusedElement={ () => onFocus( "name" ) }
+					unstableOnFocus={ () => onFocus( "name" ) }
+					isSelected={ isSelectedName }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ isSelected &&
+				{ isSelectedName &&
 					<div className="ingredient-item-controls-container">
 						{ this.getMover() }
 						{ this.getButtons() }

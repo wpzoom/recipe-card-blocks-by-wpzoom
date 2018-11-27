@@ -381,9 +381,9 @@ export default class Direction extends Component {
 					className="directions-title"
 					value={ attributes.title }
 					isSelected={ this.state.focus === "title" }
-					setFocusedElement={ () => this.setFocus( "title" ) }
+					unstableOnFocus={ () => this.setFocus( "title" ) }
 					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
-					unstableOnSetup={ ( ref ) => {
+					onSetup={ ( ref ) => {
 						this.editorRefs.title = ref;
 					} }
 					placeholder={ __( "Write Directions title", "wpzoom-recipe-card" ) }

@@ -361,13 +361,13 @@ export default class Ingredient extends Component {
 					tagName="h3"
 					className="ingredients-title"
 					value={ ingredientsTitle }
-					isSelected={ this.state.focus === "ingredientsTitle" }
-					setFocusedElement={ () => this.setFocus( "ingredientsTitle" ) }
+					unstableOnFocus={ () => this.setFocus( "ingredientsTitle" ) }
 					onChange={ ( ingredientsTitle ) => setAttributes( { ingredientsTitle, jsonIngredientsTitle: stripHTML( renderToString( ingredientsTitle ) ) } ) }
-					unstableOnSetup={ ( ref ) => {
+					onSetup={ ( ref ) => {
 						this.editorRefs.ingredientsTitle = ref;
 					} }
 					placeholder={ __( "Write Ingredients title", "wpzoom-recipe-card" ) }
+					formattingControls={ [] }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<ul className={ listClassNames }>{ this.getItems() }</ul>

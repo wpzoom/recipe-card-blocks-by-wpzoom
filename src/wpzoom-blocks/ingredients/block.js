@@ -11,6 +11,8 @@ import legacy from "./legacy";
 import _isUndefined from "lodash/isUndefined";
 import _merge from "lodash/merge";
 
+import { getBlocksCount } from "../../helpers/getBlocksCount";
+
 /* External dependencies */
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -19,7 +21,6 @@ const attributes = {
     title: {
         type: 'array',
         selector: '.ingredients-title',
-        source: 'children',
         default: __( "Ingredients", "wpzoom-recipe-card" )
     },
     id: {
@@ -35,6 +36,9 @@ const attributes = {
     items: {
         type: "array",
     },
+    blocks_count: {
+        type: 'string'
+    }
 }
 
 const deprecatedAttr = _merge( 
@@ -126,6 +130,7 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
         }
 
         attributes.items = Ingredient.removeDuplicates( attributes.items );
+        attributes.blocks_count = getBlocksCount( [ "block-details", "block-ingredients", "block-directions" ] );
 
         return <Ingredient { ...{ attributes, setAttributes, className } } />;
     },
