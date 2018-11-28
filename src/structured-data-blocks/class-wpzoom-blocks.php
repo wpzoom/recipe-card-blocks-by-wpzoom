@@ -103,8 +103,13 @@ class WPZOOM_Blocks {
 			return $content;
 		}
 		
+		$blocks_count = isset( $attributes['blocks_count'] ) ? $attributes['blocks_count'] : 0;
+
+		if ( $blocks_count === 0 ) {
+			return $content;
+		}
+
 		$this->post = get_post();
-		$blocks_count = isset( $attributes['blocks_count'] ) ? $attributes['blocks_count'] : 1;
 
 		if ( $this->blocks_render < 3 ) {
 			$this->aux_content .= $content;
