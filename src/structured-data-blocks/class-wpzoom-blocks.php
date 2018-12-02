@@ -104,6 +104,7 @@ class WPZOOM_Blocks {
 		}
 		
 		$blocks_count = isset( $attributes['blocks_count'] ) ? $attributes['blocks_count'] : 0;
+		$this->blocks_render += 1;
 
 		if ( $blocks_count === 0 ) {
 			return $content;
@@ -111,12 +112,10 @@ class WPZOOM_Blocks {
 
 		$this->post = get_post();
 
-		if ( $this->blocks_render < 3 ) {
+		if ( $this->blocks_render <= 3 ) {
 			$this->aux_content .= $content;
 			$this->aux_attributes = array_merge( $this->aux_attributes, $attributes );
 		}
-
-		$this->blocks_render += 1;
 
 		if ( $this->blocks_render === 3 ) {
 			$json_ld = $this->get_json_ld( $this->aux_attributes );

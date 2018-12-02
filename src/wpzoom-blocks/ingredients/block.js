@@ -130,12 +130,12 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
         }
 
         attributes.items = Ingredient.removeDuplicates( attributes.items );
-        attributes.blocks_count = getBlocksCount( [ "block-details", "block-ingredients", "block-directions" ] );
 
         return <Ingredient { ...{ attributes, setAttributes, className } } />;
     },
 
     save: function( { attributes } ) {
+        attributes.blocks_count = getBlocksCount( [ "block-details", "block-ingredients", "block-directions" ] );
         return <Ingredient.Content { ...attributes } />;
     },
 

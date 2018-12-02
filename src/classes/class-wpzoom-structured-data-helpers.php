@@ -43,10 +43,12 @@ class WPZOOM_Structured_Data_Helpers {
 	 */
 	public function ingredient_name_to_JSON( array $ingredient_name, string $jsonName = '' ) {
 		foreach ( $ingredient_name as $name ) {
-			if ( ! is_array( $name ) ) {
-				$jsonName .= $name;
-			} else {
-				$jsonName = $this->ingredient_name_to_JSON( $name['props']['children'], $jsonName );
+			if ( ! is_null( $name ) ) {
+				if ( is_array( $name ) ) {
+					$jsonName = $this->ingredient_name_to_JSON( $name['props']['children'], $jsonName );
+				} else {
+					$jsonName .= $name;
+				}
 			}
 		}
 
@@ -83,10 +85,12 @@ class WPZOOM_Structured_Data_Helpers {
 	 */
 	public function step_text_to_JSON( array $step_text, string $jsonText = '' ) {
 		foreach ( $step_text as $text ) {
-			if ( ! is_array( $text ) ) {
-				$jsonText .= $text;
-			} else {
-				$jsonText = $this->step_text_to_JSON( $text['props']['children'], $jsonText );
+			if ( ! is_null( $text ) ) {
+				if ( is_array( $text ) ) {
+					$jsonText = $this->step_text_to_JSON( $text['props']['children'], $jsonText );
+				} else {
+					$jsonText .= $text;
+				}
 			}
 		}
 

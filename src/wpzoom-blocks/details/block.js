@@ -137,7 +137,6 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
         }
 
         attributes.details = Detail.removeDuplicates( attributes.details );
-        attributes.blocks_count = getBlocksCount( [ "block-details", "block-ingredients", "block-directions" ] );
 
         return <Detail { ...{ attributes, setAttributes, className } } />;
     },
@@ -151,6 +150,7 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
     save: function( { attributes } ) {
+        attributes.blocks_count = getBlocksCount( [ "block-details", "block-ingredients", "block-directions" ] );
         return <Detail.Content { ...attributes } />;
     },
 
