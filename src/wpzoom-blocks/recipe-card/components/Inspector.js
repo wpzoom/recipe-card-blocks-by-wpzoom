@@ -267,7 +267,7 @@ export default class Inspector extends Component {
 			    	<BaseControl
 						id={ `${ id }-course` }
 						label={ __( "Course (required)", "wpzoom-recipe-card" ) }
-						help={ __( "Hint: Write your course and press Enter or select from suggestions list.", "wpzoom-recipe-card" ) }
+						help={ __( "Hint: Write course and press Enter or select from suggestions list.", "wpzoom-recipe-card" ) }
 					>
 	            		<FormTokenField 
 	            			label={ __( "Add course", "wpzoom-recipe-card" ) }
@@ -280,7 +280,7 @@ export default class Inspector extends Component {
 			    	<BaseControl
 						id={ `${ id }-cuisine` }
 						label={ __( "Cuisine (required)", "wpzoom-recipe-card" ) }
-						help={ __( "Hint: Write your cuisine and press Enter or select from suggestions list.", "wpzoom-recipe-card" ) }
+						help={ __( "Hint: Write cuisine and press Enter or select from suggestions list.", "wpzoom-recipe-card" ) }
 					>
 	            		<FormTokenField 
 	            			label={ __( "Add cuisine", "wpzoom-recipe-card" ) }
