@@ -46,7 +46,7 @@ class WPZOOM_Structured_Data_Helpers {
 			if ( ! is_null( $name ) ) {
 				if ( is_array( $name ) && isset( $name['props']['children'] ) && is_array( $text['props']['children'] ) ) {
 					$jsonName = $this->ingredient_name_to_JSON( $name['props']['children'], $jsonName );
-				} else {
+				} elseif ( is_string( $name ) ) {
 					$jsonName .= $name;
 				}
 			}
@@ -88,7 +88,7 @@ class WPZOOM_Structured_Data_Helpers {
 			if ( ! is_null( $text ) ) {
 				if ( is_array( $text ) && isset( $text['props']['children'] ) && is_array( $text['props']['children'] ) ) {
 					$jsonText = $this->step_text_to_JSON( $text['props']['children'], $jsonText );
-				} else {
+				} elseif ( is_string( $text ) ) {
 					$jsonText .= $text;
 				}
 			}
