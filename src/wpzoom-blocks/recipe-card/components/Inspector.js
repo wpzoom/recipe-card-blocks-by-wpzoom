@@ -267,7 +267,7 @@ export default class Inspector extends Component {
 			    	<BaseControl
 						id={ `${ id }-course` }
 						label={ __( "Course (required)", "wpzoom-recipe-card" ) }
-						help={ __( "Hint: Write course and press Enter or select from suggestions list.", "wpzoom-recipe-card" ) }
+						help={ __( "Type course and press Enter.", "wpzoom-recipe-card" ) }
 					>
 	            		<FormTokenField 
 	            			label={ __( "Add course", "wpzoom-recipe-card" ) }
@@ -280,7 +280,7 @@ export default class Inspector extends Component {
 			    	<BaseControl
 						id={ `${ id }-cuisine` }
 						label={ __( "Cuisine (required)", "wpzoom-recipe-card" ) }
-						help={ __( "Hint: Write cuisine and press Enter or select from suggestions list.", "wpzoom-recipe-card" ) }
+						help={ __( "Type cuisine and press Enter.", "wpzoom-recipe-card" ) }
 					>
 	            		<FormTokenField 
 	            			label={ __( "Add cuisine", "wpzoom-recipe-card" ) }
@@ -293,7 +293,7 @@ export default class Inspector extends Component {
 			    	<BaseControl
 						id={ `${ id }-difficulty` }
 						label={ __( "Difficulty", "wpzoom-recipe-card" ) }
-						help={ __( "Hint: Write difficulty level and press Enter or select from suggestions (Easy, Medium, Difficult).", "wpzoom-recipe-card" ) }
+						help={ __( "Type difficulty level and press Enter.", "wpzoom-recipe-card" ) }
 					>
 	            		<FormTokenField 
 	            			label={ __( "Add difficulty level", "wpzoom-recipe-card" ) }
@@ -306,7 +306,7 @@ export default class Inspector extends Component {
 			    	<BaseControl
 						id={ `${ id }-keywords` }
 						label={ __( "Keywords (recommended)", "wpzoom-recipe-card" ) }
-						help={ __( "Hint: For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword).", "wpzoom-recipe-card" ) }
+						help={ __( "For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword).", "wpzoom-recipe-card" ) }
 					>
 	            		<FormTokenField
 	            			label={ __( "Add keywords", "wpzoom-recipe-card" ) } 
