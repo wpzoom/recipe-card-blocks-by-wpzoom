@@ -12,7 +12,7 @@
 /src/components/food-icons/index.js
 /src/components/food-icons/svg/*.svg
 
-/src/wpzoom-blocks/
+/src/wpzoom-blocks
 
 #Ignore PRO Blocks
-/src/pro-version/
+/src/pro-version
