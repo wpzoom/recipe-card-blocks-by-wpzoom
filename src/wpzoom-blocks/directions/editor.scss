@@ -1,0 +1,51 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-wpzoom-recipe-card-block-directions p.help, 
+.wp-block-wpzoom-recipe-card-block-directions p.description {
+	font-size: 13px !important;
+	opacity: 0.7;
+}
+
+.wp-block-wpzoom-recipe-card-block-directions {
+	.wpzoom-recipe-card-print-link {
+		right: 0;
+	}
+	.direction-step {
+		position: relative;
+	    margin: 4px 0;
+		padding: 10px 4px 10px;
+		border: 1px solid #d3d3d3;
+		list-style-type: none;
+	}
+	.directions-list > li {
+		&::before {
+			left: 10px;
+			top: 6px;
+		}
+	}
+	.direction-step-button-container {
+		text-align: right;
+	}
+	.direction-step-mover {
+		position: absolute;
+		top: 0;
+		left: -29px;
+	}
+	.direction-buttons {
+		text-align: center;
+	}
+	.direction-buttons button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover,
+	.direction-step-button-container button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+	    color: #007cba;
+	    box-shadow: none
+	}
+	.direction-step-button-container button.direction-step-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		color: #a00;
+	}
+}
+

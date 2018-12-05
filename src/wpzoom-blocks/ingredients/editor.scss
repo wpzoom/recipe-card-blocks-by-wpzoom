@@ -1,0 +1,51 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.wp-block-wpzoom-recipe-card-block-ingredients p.help, 
+.wp-block-wpzoom-recipe-card-block-ingredients p.description {
+	font-size: 13px !important;
+	opacity: 0.7;
+}
+
+.wp-block-wpzoom-recipe-card-block-ingredients {
+	.ingredient-item {
+		position: relative;
+		list-style-type: none;
+
+		.editor-rich-text {
+			display: inline-block;
+			width: 93%;
+		}
+	}
+	.ingredients-list > li {
+		cursor: text;
+	}
+	.ingredient-item-button-container {
+		text-align: right;
+	}
+	.ingredient-item-mover {
+		position: absolute;
+		top: 0;
+		left: -29px;
+	}
+	.ingredient-buttons {
+		text-align: center;
+	}
+	.ingredient-buttons button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover,
+	.ingredient-item-button-container button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+	    color: #191e23;
+	    box-shadow: none
+	}
+	.ingredient-item-button-container button.ingredient-item-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		color: #a00;
+	}
+	.ingredient-item-button-container button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover,
+	.ingredient-buttons .components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		background-color: #ece8c8;
+	}
+}
+

@@ -3,7 +3,7 @@
 
 	$(document).ready(function () {
 
-		$(".wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list li").click(function(){
+		$(".wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list li, .wp-block-wpzoom-recipe-card-block-premium-recipe-card .ingredients-list li, .wp-block-wpzoom-recipe-card-block-recipe-card .ingredients-list li").click(function(){
 		    $(this).toggleClass("ticked");
 		});
 
@@ -15,6 +15,7 @@
 				globalStyles: true,
 	        	mediaPrint: false,
 	        	noPrintSelector: ".no-print",
+	        	stylesheet: wpzoomRecipeCard.pluginURL + '/dist/assets/css/recipe-print.css',
 	        	iframe: true,
 	        	doctype: '<!doctype html>'
 			});

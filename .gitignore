@@ -8,23 +8,11 @@
 /package-lock.json
 /package.json
 
-#Ignore blocks files
-/src/directions/block.js
-/src/directions/editor.scss
-/src/directions/inspector.js
-/src/directions/style.scss
-/src/ingredients/block.js
-/src/ingredients/editor.scss
-/src/ingredients/inspector.js
-/src/ingredients/style.scss
-/src/details/block.js
-/src/details/editor.scss
-/src/details/inspector.js
-/src/details/style.scss
-
 #Ignore Custom Components
 /src/components/food-icons/index.js
 /src/components/food-icons/svg/*.svg
 
+/src/wpzoom-blocks/
+
 #Ignore PRO Blocks
-/src/pro-version
+/src/pro-version/

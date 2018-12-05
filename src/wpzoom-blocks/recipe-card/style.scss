@@ -1,0 +1,18 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+
+.wp-block-wpzoom-recipe-card-block-recipe-card {
+    .hidden {
+        display: none !important;
+    }
+}
+
+.editor-block-list__block .ingredients-list > li:hover {
+    text-decoration: none;
+}
+
+@import "./skins/default";
+@import "./skins/newdesign";
