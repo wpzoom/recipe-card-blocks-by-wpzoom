@@ -112,6 +112,7 @@ const attributes = {
     ingredientsTitle: {
         type: 'array',
         selector: '.ingredients-title',
+        source: 'children',
         default: __( "Ingredients", "wpzoom-recipe-card" )
     },
     jsonIngredientsTitle: {
@@ -123,6 +124,7 @@ const attributes = {
     directionsTitle: {
         type: 'array',
         selector: '.directions-title',
+        source: 'children',
         default: __( "Directions", "wpzoom-recipe-card" )
     },
     jsonDirectionsTitle: {

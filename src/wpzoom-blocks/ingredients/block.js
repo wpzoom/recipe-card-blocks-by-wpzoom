@@ -21,6 +21,7 @@ const attributes = {
     title: {
         type: 'array',
         selector: '.ingredients-title',
+        source: 'children',
         default: __( "Ingredients", "wpzoom-recipe-card" )
     },
     id: {

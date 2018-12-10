@@ -80,7 +80,6 @@ export default class DetailItem extends Component {
 			iconSet = 'oldicon';
 
 		const settings = this.props.attributes.settings;
-		const iconStyles = { 'color': `${ settings[0]['primary_color'] }` };
 
 	    return (
 	        <IconButton
@@ -89,7 +88,7 @@ export default class DetailItem extends Component {
 	            className="editor-inserter__toggle"
 	            label={ __( "Add icon", "wpzoom-recipe-card" ) }
 	        >
-	        	{ icon && <span class={ `${ iconSet } ${ iconSet }-${ icon }`} style={ iconStyles }></span> }
+	        	{ icon && <span class={ `${ iconSet } ${ iconSet }-${ icon }`}></span> }
 	        </IconButton>
 	    );
 	}
@@ -142,8 +141,6 @@ export default class DetailItem extends Component {
 			iconSet = 'oldicon';
 
 		const settings = attributes.settings;
-		const iconStyles = { 'color': `${ settings[0]['primary_color'] }` };
-
 		const itemIconClasses = [ "detail-item-icon", iconSet, iconSet + "-" + icon ].filter( ( item ) => item ).join( " " );
 
 		return (
@@ -153,7 +150,6 @@ export default class DetailItem extends Component {
                         className={ itemIconClasses }
                         icon-name={ icon }
                         iconset={ iconSet }
-                        style={ iconStyles }
                     >
                     </span>
                     : ''

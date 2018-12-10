@@ -21,6 +21,7 @@ const attributes = {
     title: {
         type: 'array',
         selector: '.details-title',
+        source: 'children',
         default: __( "Details", "wpzoom-recipe-card" )
     },
     id: {
