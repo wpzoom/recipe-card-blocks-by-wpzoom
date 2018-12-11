@@ -128,9 +128,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			elseif ( $this->_slug . '-script' === $handle ) {
 				$dependencies = array( 'jquery' );
 			}
-			elseif ( $this->_slug . '-style-css' === $handle ) {
-				$dependencies = array( 'wp-blocks' );
-			}
 			elseif ( $this->_slug . '-oldicon-css' === $handle || $this->_slug . '-foodicons-css' === $handle || $this->_slug . '-font-awesome-css' === $handle || $this->_slug . '-genericons-css' === $handle ) {
 				$dependencies = array( 'wp-edit-blocks' );
 			}
@@ -208,11 +205,19 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function load_jed_text_domain() {
-			wp_add_inline_script(
-				'wp-i18n',
-				'wp.i18n.setLocaleData( ' . wp_json_encode( gutenberg_get_jed_locale_data( $this->_textdomain ) ) . ', "' . $this->_textdomain . '" );',
-				'after'
-			);
+			if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
+				wp_add_inline_script(
+					'wp-i18n',
+					'wp.i18n.setLocaleData( ' . wp_json_encode( gutenberg_get_jed_locale_data( $this->_textdomain ) ) . ', "' . $this->_textdomain . '" );',
+					'after'
+				);
+			} elseif ( function_exists( 'wp_get_jed_locale_data' ) )  {
+				wp_add_inline_script(
+					'wp-i18n',
+					'wp.i18n.setLocaleData( ' . wp_json_encode( wp_get_jed_locale_data( $this->_textdomain ) ) . ', "' . $this->_textdomain . '" );',
+					'after'
+				);
+			}
 		}
 
 		/**

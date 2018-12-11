@@ -24,8 +24,7 @@
 	}
 	.directions-list > li {
 		&::before {
-			left: 10px;
-			top: 6px;
+			text-align: center;
 		}
 	}
 	.direction-step-button-container {
