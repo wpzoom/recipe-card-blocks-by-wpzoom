@@ -89,7 +89,6 @@ $heading_color: #444;
         }
         .recipe-card-heading {
             margin-bottom: 15px;
-            padding-bottom: 15px;
             .recipe-card-title {
                 font-size: 26px;
                 margin: 0;
@@ -116,10 +115,14 @@ $heading_color: #444;
             }
         }
         .details-items {
+            display: flex;
+            flex-wrap: wrap;
             .detail-item {
-                float: left;
                 width: 25%;
                 margin-bottom: 5px;
+                .detail-item-label {
+                    margin-bottom: 0;
+                }
                 .detail-item-label, .detail-item-value, .detail-item-unit {
                     font-size: 14px;
                 }
@@ -182,7 +185,7 @@ $heading_color: #444;
 
                 .ingredient-item-name {
                     font-size: 13px;
-                    display: inline-block;
+                    display: inline;
                     margin: 0;
                     vertical-align: middle;
                 }
@@ -285,13 +288,12 @@ $heading_color: #444;
 
 }
 
-@media (max-width: 468px) {
+@media screen and (max-width: 768px) {
     .wp-block-wpzoom-recipe-card-block-recipe-card {
-
         &.is-style-newdesign {
             .details-items .detail-item {
-                float: left;
                 width: 50%;
+                margin-bottom: 10px;
             }
         }
     }

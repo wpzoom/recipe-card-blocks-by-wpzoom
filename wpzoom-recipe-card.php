@@ -85,9 +85,10 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function init() {
-			add_action( 'init', array( $this, 'register_block_types' ) );
-			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 			add_filter( 'block_categories', array( $this, 'add_custom_category' ), 10, 2 );
+			
+			add_action( 'init', array( $this, 'register_block_types' ) );
+			add_action( 'init', array( $this, 'load_textdomain' ) );
 
 			register_activation_hook( WPZOOM_RCB_PLUGIN_DIR, array( $this, 'plugin_activation' ) );
 

@@ -50,7 +50,8 @@
     }
 
     .ingredients-list {
-        margin: 0;
+        margin: 0 !important;
+        padding: 0 !important;
         list-style: none;
 
         > li {
@@ -63,7 +64,7 @@
             line-height: 1.7;
 
             .ingredient-item-name {
-                display: inline-block;
+                display: inline;
                 margin: 0;
                 vertical-align: middle;
             }

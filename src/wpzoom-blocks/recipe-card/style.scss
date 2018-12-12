@@ -5,6 +5,24 @@
  */
 
 .wp-block-wpzoom-recipe-card-block-recipe-card {
+	.recipe-card-heading .recipe-card-author {
+		margin-bottom: 10px;
+	}
+	.recipe-card-image figure img {
+		width: 100%;
+	}
+	.recipe-card-ingredients {
+		.ingredients-list {
+			margin: 0;
+			padding: 0;
+		}
+	}
+	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i,
+	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i::before ,
+	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i,
+	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i::before {
+		font-family: 'FontAwesome';
+	}
     .hidden {
         display: none !important;
     }
