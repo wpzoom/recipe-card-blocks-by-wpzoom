@@ -155,7 +155,7 @@ export default class Inspector extends Component {
             		<TextControl
             			id={ `${ id }-yield` }
             			type="text"
-            			label={ __( "Yield", "wpzoom-recipe-card" ) }
+            			label={ __( "Servings", "wpzoom-recipe-card" ) }
             			value={ _get( details, [ 0, 'value' ] ) }
             			onChange={ newYield => onChangeDetail(newYield, 0) }
             		/>

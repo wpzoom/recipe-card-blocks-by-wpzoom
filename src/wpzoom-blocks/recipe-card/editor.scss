@@ -54,6 +54,20 @@
 			width: 93%;
 		}
 	}
+
+	.ingredients-list {
+		> li {
+			.ingredient-item-name {
+				&:hover {
+				    text-decoration: none !important;
+				}
+			}
+			.tick-circle {
+				cursor: default !important;
+			}
+		}
+	}
+
 	// this is used to prevent floating elements on editing
 	&.is-style-newdesign {
 		.ingredients-list.layout-2-columns {

@@ -23,6 +23,12 @@
 	}
 	.ingredients-list > li {
 		cursor: text;
+
+		.ingredient-item-name {
+			&:hover {
+			    text-decoration: none !important;
+			}
+		}
 	}
 	.ingredient-item-button-container {
 		text-align: right;

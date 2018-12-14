@@ -51,6 +51,14 @@ const attributes = {
     jsonSummary: {
         type: 'string',
     },
+    notes: {
+        type: 'array',
+        source: "children",
+        selector: '.recipe-card-notes-list',
+    },
+    jsonNotes: {
+        type: 'string',
+    },
     course: {
         type: 'array',
     },
@@ -76,6 +84,7 @@ const attributes = {
                 displayCuisine: true,
                 displayDifficulty: true,
                 displayAuthor: true,
+                headerAlign: 'left',
                 ingredientsLayout: '1-column'
             }
         ]
@@ -84,7 +93,7 @@ const attributes = {
         type: 'array',
         selector: '.details-items',
         default: [
-            { id: RecipeCard.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Yield", "wpzoom-recipe-card" ), unit: __( "servings", "wpzoom-recipe-card" ) },
+            { id: RecipeCard.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Servings", "wpzoom-recipe-card" ), unit: __( "servings", "wpzoom-recipe-card" ) },
             { id: RecipeCard.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'clock', label: __( "Prep time", "wpzoom-recipe-card" ), unit: __( "minutes", "wpzoom-recipe-card" ) },
             { id: RecipeCard.generateId( "detail-item" ), iconSet: 'foodicons', icon: 'cooking-food-in-a-hot-casserole', label: __( "Cooking time", "wpzoom-recipe-card" ), unit: __( "minutes", "wpzoom-recipe-card" ) },
             { id: RecipeCard.generateId( "detail-item" ), iconSet: 'foodicons', icon: 'fire-flames', label: __( "Calories", "wpzoom-recipe-card" ), unit: __( "kcal", "wpzoom-recipe-card" ) },
@@ -129,6 +138,12 @@ const attributes = {
     },
     jsonDirectionsTitle: {
         type: "string",
+    },
+    notesTitle: {
+        type: 'array',
+        selector: '.notes-title',
+        source: 'children',
+        default: __( "Notes", "wpzoom-recipe-card" )
     },
     steps: {
         type: 'array',

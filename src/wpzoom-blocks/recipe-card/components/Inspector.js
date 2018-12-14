@@ -321,7 +321,7 @@ export default class Inspector extends Component {
 	            			id={ `${ id }-yield` }
 	            			instanceId={ `${ id }-yield` }
 	            			type="number"
-	            			label={ __( "Yield", "wpzoom-recipe-card" ) }
+	            			label={ __( "Servings", "wpzoom-recipe-card" ) }
 	            			value={ _get( details, [ 0, 'value' ] ) }
 	            			onChange={ newYield => onChangeDetail(newYield, 0) }
 	            		/>
@@ -421,6 +421,21 @@ export default class Inspector extends Component {
 			                	onChange={ authorName => onChangeSettings( authorName, 0, 'custom_author_name' ) }
 			                />
 			            }
+	        		</BaseControl>
+			    	<BaseControl
+						id={ `${ id }-heading-align` }
+						label={ __( "Header Content Align", "wpzoom-recipe-card" ) }
+					>
+		                <SelectControl
+	                		label={ __( "Select Alignment", "wpzoom-recipe-card" ) }
+	                		value={ settings[0]['headerAlign'] }
+	                		options={ [
+	                			{ label: __( "Left" ), value: "left" },
+	                			{ label: __( "Center" ), value: "center" },
+	                			{ label: __( "Right" ), value: "right" },
+	                		] }
+	                		onChange={ alignment => onChangeSettings( alignment, 0, 'headerAlign' ) }
+	                	/>
 	        		</BaseControl>
 	        		{
 	        			style === 'newdesign' &&

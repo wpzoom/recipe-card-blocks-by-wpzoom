@@ -10,6 +10,8 @@ const { RichText } = wp.editor;
 const { IconButton, Button, Popover, MenuItemsChoice, MenuGroup } = wp.components;
 const { withState } = wp.compose;
 
+import { convertMinutesToHours } from "../../../helpers/convertMinutesToHours";
+
 const states = {
 	isVisible: false
 }
@@ -106,7 +108,7 @@ export default class DetailItem extends Component {
 		let newIndex = index % 4;
 
 		const placeholderText = {
-		    0: { label: __( "Yield", "wpzoom-recipe-card" ), value: 4, unit: __( "servings", "wpzoom-recipe-card" ) },
+		    0: { label: __( "Servings", "wpzoom-recipe-card" ), value: 4, unit: __( "servings", "wpzoom-recipe-card" ) },
 		    1: { label: __( "Prep time", "wpzoom-recipe-card" ), value: 30, unit: __( "minutes", "wpzoom-recipe-card" ) },
 		    2: { label: __( "Cooking time", "wpzoom-recipe-card" ), value: 40, unit: __( "minutes", "wpzoom-recipe-card" ) },
 		    3: { label: __( "Calories", "wpzoom-recipe-card" ), value: 300, unit: __( "kcal", "wpzoom-recipe-card" ) },
@@ -142,6 +144,11 @@ export default class DetailItem extends Component {
 
 		const settings = attributes.settings;
 		const itemIconClasses = [ "detail-item-icon", iconSet, iconSet + "-" + icon ].filter( ( item ) => item ).join( " " );
+
+		// Convert to hours for Preparation time and Cooking time
+		if ( index === 1 || index === 2 ) {
+			value = convertMinutesToHours( value );
+		}
 
 		return (
 			<div className={ `detail-item detail-item-${ index }` } key={ id }>

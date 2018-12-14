@@ -31,7 +31,7 @@ const attributes = {
         type: 'array',
         selector: '.details-items',
         default: [
-            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Yield", "wpzoom-recipe-card" ) },
+            { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Servings", "wpzoom-recipe-card" ) },
             { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'room-service', label: __( "Prep time", "wpzoom-recipe-card" ) },
             { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'cook', label: __( "Cooking time", "wpzoom-recipe-card" ) },
             { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( "Calories", "wpzoom-recipe-card" ) },
@@ -139,6 +139,7 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
 
         attributes.details = Detail.removeDuplicates( attributes.details );
 
+        console.log(attributes);
         return <Detail { ...{ attributes, setAttributes, className } } />;
     },
 

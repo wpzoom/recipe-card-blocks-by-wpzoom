@@ -274,7 +274,6 @@ $heading_color: #222;
                     margin: 0;
                     vertical-align: middle;
 
-
                     &:hover  {
                         text-decoration: line-through;
                     }
@@ -366,6 +365,45 @@ $heading_color: #222;
         .direction-step img {
             margin: 10px 0;
             max-width: 100%;
+        }
+
+        .recipe-card-notes {
+            margin-top: 30px;
+            margin-bottom: 30px;
+
+            .recipe-card-notes-list {
+                padding: 0;
+                margin: 0;
+                list-style-type: none;
+
+                > li {
+                    background-color: #FBF9E7;
+                    color: #736458;
+                    margin-left: 0;
+                    margin-right: 0;
+                    padding-left: 25px;
+                    padding-right: 25px;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                    position: relative;
+
+                    &::before {
+                        content: 'i';
+                        position: absolute;
+                        display: block;
+                        background-color: $primary_color;
+                        border-radius: 8px;
+                        height: 16px;
+                        width: 16px;
+                        font-size: 12px;
+                        line-height: 16px;
+                        text-align: center;
+                        color: #fff;
+                        left: -6px;
+                        top: 25px;
+                    }
+                }
+            }
         }
     }
 }

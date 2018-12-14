@@ -10,6 +10,8 @@ const { Component } = wp.element;
 const { RichText, InnerBlocks } = wp.editor;
 const { IconButton } = wp.components;
 
+import { convertMinutesToHours } from "../../../helpers/convertMinutesToHours";
+
 /**
  * A Detail items within a Details block.
  */
@@ -99,7 +101,7 @@ export default class DetailItem extends Component {
 		let newIndex = index % 4;
 
 		const placeholderText = {
-		    0: { label: __( "Yield", "wpzoom-recipe-card" ), value: __( "4 servings", "wpzoom-recipe-card" ) },
+		    0: { label: __( "Servings", "wpzoom-recipe-card" ), value: __( "4 servings", "wpzoom-recipe-card" ) },
 		    1: { label: __( "Prep time", "wpzoom-recipe-card" ), value: __( "30 minutes", "wpzoom-recipe-card" ) },
 		    2: { label: __( "Cooking time", "wpzoom-recipe-card" ), value: __( "40 minutes", "wpzoom-recipe-card" ) },
 		    3: { label: __( "Calories", "wpzoom-recipe-card" ), value: __( "420 kcal", "wpzoom-recipe-card" ) },
@@ -128,12 +130,21 @@ export default class DetailItem extends Component {
 	static Content( attributes ) {
 		const index = attributes.index;
 		const id = attributes.key;
-		let { icon, iconSet, label, value } = attributes.item;
+		let { icon, iconSet, label, value, jsonValue, unit, jsonUnit } = attributes.item;
 
 		if ( _isUndefined( iconSet ) )
 			iconSet = 'oldicon';
 
 		const itemIconClasses = [ "detail-item-icon", iconSet, iconSet + "-" + icon ].filter( ( item ) => item ).join( " " );
+
+		if ( ! _isUndefined( jsonValue ) && ! _isUndefined( jsonUnit ) ) {
+			value = jsonValue + ' ' + jsonUnit;
+		}
+
+		// Convert to hours for Preparation time and Cooking time
+		if ( index === 1 || index === 2 ) {
+			value = convertMinutesToHours( value, true );
+		}
 
 		return (
 			<div className={ `detail-item detail-item-${ index }` } key={ id }>

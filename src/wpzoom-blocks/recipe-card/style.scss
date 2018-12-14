@@ -5,6 +5,21 @@
  */
 
 .wp-block-wpzoom-recipe-card-block-recipe-card {
+	&.header-content-align-left {
+		.recipe-card-heading {
+			text-align: left;
+		}
+	}
+	&.header-content-align-center {
+		.recipe-card-heading {
+			text-align: center;
+		}
+	}
+	&.header-content-align-right {
+		.recipe-card-heading {
+			text-align: right;
+		}
+	}
 	.recipe-card-heading .recipe-card-author {
 		margin-bottom: 10px;
 	}
@@ -26,10 +41,13 @@
     .hidden {
         display: none !important;
     }
-}
 
-.editor-block-list__block .ingredients-list > li:hover {
-    text-decoration: none;
+	.footer-copyright p {
+		margin-bottom: 0;
+		text-align: center;
+		font-size: 14px;
+		color: #ababab;
+	}
 }
 
 @import "./skins/default";

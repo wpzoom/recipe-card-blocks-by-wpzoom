@@ -67,10 +67,10 @@
                 display: inline;
                 margin: 0;
                 vertical-align: middle;
-            }
-            
-            &:hover  {
-                text-decoration: line-through;
+
+                &:hover  {
+                    text-decoration: line-through;
+                }
             }
 
             &::before {
@@ -101,8 +101,4 @@
         }
 
     }
-}
-
-.editor-block-list__block .ingredients-list > li:hover {
-    text-decoration: none;
 }
