@@ -22,7 +22,7 @@
 		}
 	}
 	.ingredients-list > li {
-		cursor: initial;
+		cursor: initial !important;
 
 		.ingredient-item-name {
 			&:hover {

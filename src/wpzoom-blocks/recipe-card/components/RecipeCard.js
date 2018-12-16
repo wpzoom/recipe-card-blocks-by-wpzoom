@@ -166,12 +166,32 @@ export default class RecipeCard extends Component {
 		        { 
 		            id: Ingredient.generateId( "ingredient-item" ),
 		            name: []
+		        },
+		        { 
+		            id: Ingredient.generateId( "ingredient-item" ),
+		            name: []
+		        },
+		        { 
+		            id: Ingredient.generateId( "ingredient-item" ),
+		            name: []
+		        },
+		        { 
+		            id: Ingredient.generateId( "ingredient-item" ),
+		            name: []
 		        }
 		    ];
 		}
 
 		if ( ! steps || steps.length === 0 ) {
 		    attributes.steps = [
+		        {
+		            id: Direction.generateId( "direction-step" ),
+		            text: []
+		        },
+		        {
+		            id: Direction.generateId( "direction-step" ),
+		            text: []
+		        },
 		        {
 		            id: Direction.generateId( "direction-step" ),
 		            text: []
@@ -322,7 +342,7 @@ export default class RecipeCard extends Component {
 						( ! RichText.isEmpty( recipeTitle ) || wpzoomRecipeCard.post_title ) && <RichText.Content
 							className="recipe-card-title"
 							tagName="h2"
-							value={ recipeTitle ? recipeTitle : wpzoomRecipeCard.post_title }
+							value={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }
 						/>
 					}
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ `${ __( "Recipe by", "wpzoom-recipe-card" ) } ${ settings[0]['custom_author_name'] }` }</span> }

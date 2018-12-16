@@ -81,8 +81,6 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
     // Allow only one Directions block per post.
     supports: {
         multiple: false,
-        // Don't allow the block to be converted into a reusable block.
-        reusable: false,
     },
     // Block attributes
     attributes,
@@ -122,9 +120,17 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
             }
         }
 
-        // Because setAttributes is quite slow right after a block has been added we fake having a single step.
+        // Because setAttributes is quite slow right after a block has been added we fake having a three steps.
         if ( ! steps || steps.length === 0 ) {
             attributes.steps = [
+                {
+                    id: Direction.generateId( "direction-step" ),
+                    text: []
+                },
+                {
+                    id: Direction.generateId( "direction-step" ),
+                    text: []
+                },
                 {
                     id: Direction.generateId( "direction-step" ),
                     text: []

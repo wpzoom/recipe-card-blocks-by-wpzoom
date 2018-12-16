@@ -80,7 +80,7 @@
 	&.is-style-default,
 	&.is-style-newdesign {
 		.ingredients-list > li {
-			cursor: initial;
+			cursor: initial !important;
 		}
 	}
 	.recipe-card-details + .editor-rich-text {

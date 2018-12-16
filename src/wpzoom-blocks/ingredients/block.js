@@ -81,8 +81,6 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
     // Allow only one Ingredients block per post.
     supports: {
         multiple: false,
-        // Don't allow the block to be converted into a reusable block.
-        reusable: false,
     },
     // Block attributes
     attributes,
@@ -122,9 +120,21 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
             }
         }
 
-        // Because setAttributes is quite slow right after a block has been added we fake having a single item.
+        // Because setAttributes is quite slow right after a block has been added we fake having a four ingredients.
         if ( ! items || items.length === 0 ) {
             attributes.items = [
+                { 
+                    id: Ingredient.generateId( "ingredient-item" ),
+                    name: []
+                },
+                { 
+                    id: Ingredient.generateId( "ingredient-item" ),
+                    name: []
+                },
+                { 
+                    id: Ingredient.generateId( "ingredient-item" ),
+                    name: []
+                },
                 { 
                     id: Ingredient.generateId( "ingredient-item" ),
                     name: []
