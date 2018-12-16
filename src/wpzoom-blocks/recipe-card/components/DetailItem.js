@@ -1,6 +1,7 @@
 /* External dependencies */
 import IconsModal from "./IconsModal";
 import _get from "lodash/get";
+import _isObject from "lodash/isObject";
 import _isUndefined from "lodash/isUndefined";
 
 /* WordPress dependencies */
@@ -149,9 +150,11 @@ export default class DetailItem extends Component {
 		if ( index === 1 || index === 2 ) {
 			let convertObj = convertMinutesToHours( value, true );
 
-			if ( ! _isUndefined( convertObj ) ) {
-				value = convertObj.hours.value + ' ' + convertObj.hours.unit;
-				unit = convertObj.minutes.value + ' ' + convertObj.minutes.unit;
+			if ( _isObject( convertObj ) ) {
+				if ( convertObj.hours.value !== '' ) {
+					value = convertObj.hours.value + ' ' + convertObj.hours.unit;
+					unit = convertObj.minutes.value + ' ' + convertObj.minutes.unit;
+				}
 			}
 		}
 
