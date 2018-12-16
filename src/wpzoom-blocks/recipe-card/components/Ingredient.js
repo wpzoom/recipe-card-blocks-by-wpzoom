@@ -6,6 +6,8 @@ import _get from "lodash/get";
 import _uniq from "lodash/uniq";
 import _uniqueId from "lodash/uniqueId";
 
+// const key = require('keyboard-shortcut');
+
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 
@@ -42,6 +44,17 @@ export default class Ingredient extends Component {
 		this.removeItem      = this.removeItem.bind( this );
 		this.swapItem        = this.swapItem.bind( this );
 		this.setFocus        = this.setFocus.bind( this );
+
+		// this.props.insertItem = this.insertItem.bind( this );
+		// const el = document.getElementById( this.props.attributes.id );
+
+		// key('meta enter', { el: el }, function (e) {
+		// 	props.insertItem()
+		// });
+
+		// key('ctrl enter', { el: el }, function (e) {
+		// 	props.insertItem()
+		// });
 
 		this.editorRefs = {};
 	}

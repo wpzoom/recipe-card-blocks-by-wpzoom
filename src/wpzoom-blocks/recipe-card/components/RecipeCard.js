@@ -476,9 +476,9 @@ export default class RecipeCard extends Component {
 						keepPlaceholderOnFocus={ true }
 					/>
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ `${ __( "Recipe by", "wpzoom-recipe-card" ) } ${ settings[0]['custom_author_name'] }` }</span> }
-					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ course ? course : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ cuisine ? cuisine : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ difficulty ? difficulty : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(course) ? course : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(cuisine) ? cuisine : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(difficulty) ? difficulty : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
 				</div>
 				<Detail { ...{ attributes, setAttributes, className } } />
 				<RichText
@@ -493,8 +493,8 @@ export default class RecipeCard extends Component {
 					placeholder={ __( "Enter description / summary about your recipe.", "wpzoom-recipe-card" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				<Ingredient { ...{ attributes, setAttributes, className } } />
-				<Direction { ...{ attributes, setAttributes, className } } />
+				<Ingredient { ...{ attributes, setAttributes, className, clientId } } />
+				<Direction { ...{ attributes, setAttributes, className, clientId } } />
 				<div className="recipe-card-notes">
 					<RichText
 						tagName="h3"
