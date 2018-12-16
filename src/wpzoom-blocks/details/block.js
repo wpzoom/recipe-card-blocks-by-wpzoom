@@ -106,6 +106,8 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
     // Allow only one Details block per post.
     supports: {
         multiple: false,
+        // Don't allow the block to be converted into a reusable block.
+        reusable: false,
     },
     // Block attributes.
     attributes,
