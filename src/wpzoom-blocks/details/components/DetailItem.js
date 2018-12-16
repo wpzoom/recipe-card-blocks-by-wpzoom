@@ -143,7 +143,7 @@ export default class DetailItem extends Component {
 
 		// Convert to hours for Preparation time and Cooking time
 		if ( index === 1 || index === 2 ) {
-			value = convertMinutesToHours( value, true );
+			value = convertMinutesToHours( value );
 		}
 
 		return (

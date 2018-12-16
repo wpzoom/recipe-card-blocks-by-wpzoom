@@ -12,16 +12,18 @@ export function getNumberFromString( string ) {
 	return ! _isNull( match ) ? _toNumber( match[0] ) : 0;
 }
 
-/**
- * Get total number of blocks from post.
- *
- * @param {array} blocksNames  	The array of blocks name.
- * @param {string} namespace  	The namespace of registered block type.
- *
- * @returns {number} The length of blocks.
- */
-export function convertMinutesToHours( minutes, showUnit = false ) {
+export function convertMinutesToHours( minutes, returnObject = false ) {
 	let output = '';
+	let object = {
+		hours: {
+			value: '',
+			unit: ''
+		},
+		minutes: {
+			value: '',
+			unit: ''
+		}
+	};
 
 	const time = getNumberFromString( minutes );
 	const hours = _floor( time / 60 );
@@ -31,15 +33,27 @@ export function convertMinutesToHours( minutes, showUnit = false ) {
 		return minutes;
 	}
 
+	if ( returnObject ) {
+		if ( hours ) {
+			object['hours']['value'] = hours;
+			object['hours']['unit'] = _n( "hour", "hours", _toNumber( hours ), "wpzoom-recipe-card" );
+		}
+
+		if ( mins ) {
+			object['minutes']['value'] = mins;
+			object['minutes']['unit'] = _n( "minute", "minutes", _toNumber( mins ), "wpzoom-recipe-card" );
+		}
+
+		return object;
+	}
+
 	if ( hours ) {
 		output += hours + ' ' + _n( "hour", "hours", _toNumber( hours ), "wpzoom-recipe-card" );
 	}
+
 	if ( mins ) {
 		output += ' ' + mins;
-
-		if ( showUnit ) {
-			output += ' ' + _n( "minute", "minutes", _toNumber( mins ), "wpzoom-recipe-card" );
-		}
+		output += ' ' + _n( "minute", "minutes", _toNumber( mins ), "wpzoom-recipe-card" );
 	}
 
 	return output;

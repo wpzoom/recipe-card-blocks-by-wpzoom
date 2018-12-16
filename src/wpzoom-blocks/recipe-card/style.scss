@@ -28,6 +28,17 @@
 	}
 	.recipe-card-details {
 		margin-bottom: 30px;
+		.detail-item {
+			> p:not(.detail-item-label):not(.detail-item-value):not(.detail-item-unit) {
+				display: none;
+			}
+			.detail-item-label {
+				margin-bottom: 5px;
+			}
+			.detail-item-unit {
+				margin-bottom: 0;
+			}
+		}
 	}
 	.recipe-card-ingredients {
 		.ingredients-list {

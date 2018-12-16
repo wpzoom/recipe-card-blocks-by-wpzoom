@@ -145,9 +145,14 @@ export default class DetailItem extends Component {
 		const settings = attributes.settings;
 		const itemIconClasses = [ "detail-item-icon", iconSet, iconSet + "-" + icon ].filter( ( item ) => item ).join( " " );
 
-		// Convert to hours for Preparation time and Cooking time
+		// Convert minutes to hours for Preparation time and Cooking time
 		if ( index === 1 || index === 2 ) {
-			value = convertMinutesToHours( value );
+			let convertObj = convertMinutesToHours( value, true );
+
+			if ( ! _isUndefined( convertObj ) ) {
+				value = convertObj.hours.value + ' ' + convertObj.hours.unit;
+				unit = convertObj.minutes.value + ' ' + convertObj.minutes.unit;
+			}
 		}
 
 		return (
@@ -163,7 +168,7 @@ export default class DetailItem extends Component {
                 }
                 { ! RichText.isEmpty( label ) && <RichText.Content
                         value={ label }
-                        tagName='span'
+                        tagName='p'
                         className="detail-item-label"
                     />
                 }
@@ -175,7 +180,7 @@ export default class DetailItem extends Component {
                 }
                 { ! RichText.isEmpty( unit ) && <RichText.Content
                         value={ unit }
-                        tagName='span'
+                        tagName='p'
                         className="detail-item-unit"
                     />
                 }
