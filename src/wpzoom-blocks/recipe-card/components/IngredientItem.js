@@ -41,7 +41,7 @@ export default class IngredientItem extends Component {
 			/>
 			<IconButton
 				className="ingredient-item-button ingredient-item-button-add editor-inserter__toggle"
-				icon="insert"
+				icon="editor-break"
 				label={ __( "Insert ingredient", "wpzoom-recipe-card" ) }
 				onClick={ insertItem }
 			/>
@@ -128,7 +128,7 @@ export default class IngredientItem extends Component {
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ ( value ) => onChange( value, name ) }
-					placeholder={ __( "Enter a ingredient item name", "wpzoom-recipe-card" ) }
+					placeholder={ __( "Enter an ingredient name", "wpzoom-recipe-card" ) }
 					unstableOnFocus={ () => onFocus( "name" ) }
 					keepPlaceholderOnFocus={ true }
 				/>

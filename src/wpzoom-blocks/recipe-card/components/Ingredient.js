@@ -338,7 +338,7 @@ export default class Ingredient extends Component {
 				onClick={ () => this.insertItem() }
 				className="editor-inserter__toggle"
 			>
-				{ __( "Add ingredient", "wpzoom-recipe-card" ) }
+				<span className="components-icon-button-text">{ __( "Add ingredient", "wpzoom-recipe-card" ) }</span>
 			</IconButton>
 		);
 	}

@@ -47,6 +47,11 @@
 	}
 	.detail-item .detail-item-value {
 		padding: 0;
+		text-align: left;
+	}
+
+	.components-icon-button .dashicon + .components-icon-button-text {
+		margin-left: 5px;
 	}
 }
 

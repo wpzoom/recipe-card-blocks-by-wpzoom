@@ -42,6 +42,7 @@
 			.detail-item-value,
 			.detail-item-unit {
 				padding: 0;
+				text-align: left;
 			}
 		}
 	}
@@ -79,10 +80,7 @@
 	&.is-style-default,
 	&.is-style-newdesign {
 		.ingredients-list > li {
-			cursor: text;
-		}
-		.recipe-card-summary {
-			margin: 0;
+			cursor: initial;
 		}
 	}
 	.recipe-card-details + .editor-rich-text {
@@ -127,6 +125,9 @@
 	p.description {
 		font-size: 13px;
 		opacity: 0.7;
+	}
+	.components-icon-button .dashicon + .components-icon-button-text {
+		margin-left: 5px;
 	}
 }
 

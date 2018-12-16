@@ -297,7 +297,7 @@ export default class Detail extends Component {
 				onClick={ () => this.insertDetail() }
 				className="editor-inserter__toggle"
 			>
-				{ __( "Add item", "wpzoom-recipe-card" ) }
+				<span className="components-icon-button-text">{ __( "Add item", "wpzoom-recipe-card" ) }</span>
 			</IconButton>
 		);
 	}

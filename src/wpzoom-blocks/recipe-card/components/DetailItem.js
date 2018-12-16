@@ -161,29 +161,23 @@ export default class DetailItem extends Component {
                     </span>
                     : ''
                 }
-                { label ? 
-                	<RichText.Content
+                { ! RichText.isEmpty( label ) && <RichText.Content
                         value={ label }
                         tagName='span'
                         className="detail-item-label"
                     />
-                    : ''
                 }
-                { value ?
-                	<RichText.Content
+                { ! RichText.isEmpty( value ) && <RichText.Content
                         value={ value }
                         tagName='p'
                         className="detail-item-value"
                     />
-                    : ''
                 }
-                { unit ?
-                	<RichText.Content
+                { ! RichText.isEmpty( unit ) && <RichText.Content
                         value={ unit }
                         tagName='span'
                         className="detail-item-unit"
                     />
-                    : ''
                 }
 			</div>
 		);
@@ -245,7 +239,7 @@ export default class DetailItem extends Component {
 				/>
 				<RichText
 				    className="detail-item-unit"
-				    tagName="span"
+				    tagName="p"
 				    onSetup={ ( ref ) => editorRef( "unit", ref ) }
 				    key={ `${ id }-unit` }
 				    value={ unit }

@@ -83,7 +83,7 @@ const attributes = {
                 displayCourse: true,
                 displayCuisine: true,
                 displayDifficulty: true,
-                displayAuthor: true,
+                displayAuthor: false,
                 headerAlign: 'left',
                 ingredientsLayout: '1-column'
             }

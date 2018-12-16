@@ -127,7 +127,6 @@ $heading_color: #222;
                 border-bottom: 1px dashed rgba(0,0,0,0.1);
             }
 
-
             .recipe-card-course, .recipe-card-cuisine, .recipe-card-difficulty {
                 font-size: 14px;
                 color: $meta_color;
@@ -229,7 +228,7 @@ $heading_color: #222;
         }
         .recipe-card-summary {
             margin-bottom: 20px;
-            margin-top: 10px;
+            margin-top: -15px;
         }
 
         .ingredients-title,
@@ -279,7 +278,6 @@ $heading_color: #222;
                     }
 
                 }
-
 
                 .tick-circle {
                     content: '';
@@ -333,6 +331,7 @@ $heading_color: #222;
                     left: 0;
                     font-size: 24px;
                     font-weight: bold;
+                    color: #222;
                     font-family: "Roboto Condensed", sans-serif;
                     text-transform: uppercase;
                     line-height: 1.4;
@@ -352,6 +351,7 @@ $heading_color: #222;
                     margin-bottom: 20px;
                     img {
                         max-width: 100%;
+                        height: auto;
                         display: block;
                     }
                 }
@@ -365,6 +365,7 @@ $heading_color: #222;
         .direction-step img {
             margin: 10px 0;
             max-width: 100%;
+            height: auto;
         }
 
         .recipe-card-notes {

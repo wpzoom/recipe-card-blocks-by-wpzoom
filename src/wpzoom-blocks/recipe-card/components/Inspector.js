@@ -9,7 +9,7 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 const { __ } = wp.i18n;
 const { _n } = wp.i18n;
 const { Component, renderToString } = wp.element;
-const { InspectorControls, MediaUpload } = wp.editor;
+const { RichText, InspectorControls, MediaUpload } = wp.editor;
 const { 
 	BaseControl,
 	PanelBody,
@@ -166,7 +166,7 @@ export default class Inspector extends Component {
 				}
 			}
 
-			! jsonSummary ? check.warnings.push("summary") : '';
+			RichText.isEmpty( summary ) ? check.warnings.push("summary") : '';
 			! hasImage ? check.errors.push("image") : '';
 			! hasVideo ? check.warnings.push("video") : '';
 			! dataTable.ingredients.length ? check.errors.push("ingredients") : '';
@@ -196,9 +196,9 @@ export default class Inspector extends Component {
 					</PanelRow>
             		<PanelRow>
             			<span>recipeTitle</span>
-            			<strong>{ recipeTitle ? recipeTitle : wpzoomRecipeCard.post_title }</strong>
+            			<strong>{ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }</strong>
             		</PanelRow>
-            		<PanelRow className={ ! jsonSummary ? "text-color-orange": "" }>
+            		<PanelRow className={ RichText.isEmpty( summary ) ? "text-color-orange": "" }>
             			<span>description</span>
             			<strong>{ jsonSummary }</strong>
             		</PanelRow>
@@ -255,7 +255,7 @@ export default class Inspector extends Component {
 	                					<img
 	                                        className={ `${ id }-image` }
 	                                        src={ image.url }
-	                                        alt={ recipeTitle ? recipeTitle : wpzoomRecipeCard.post_title }
+	                                        alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }
 	                                    />
 	                					: __( "Add recipe image", "wpzoom-recipe-card" )
 	                                }
@@ -386,8 +386,8 @@ export default class Inspector extends Component {
 		                />
 	        		</BaseControl>
 			    	<BaseControl
-						id={ `${ id }-metadates` }
-						label={ __( "Display Metadates", "wpzoom-recipe-card" ) }
+						id={ `${ id }-metadatas` }
+						label={ __( "Display Metadatas", "wpzoom-recipe-card" ) }
 					>
 		                <ToggleControl
 		                    label={ __( "Display Course", "wpzoom-recipe-card" ) }

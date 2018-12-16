@@ -49,17 +49,17 @@ export default function LegacyDetails( props ) {
                                         <FoodIcons icon={ icon }/>
                                 </span> : ''
                             }
-                            { label ? <RichText.Content
+                            { ! RichText.isEmpty( label ) && <RichText.Content
                                     value={ label }
                                     tagName='span'
                                     className="detail-item-label"
-                                /> : ''
+                                />
                             }
-                            { value ? <RichText.Content
+                            { ! RichText.isEmpty( value ) && <RichText.Content
                                     value={ value }
                                     tagName='p'
                                     className="detail-item-value"
-                                /> : ''
+                                />
                             }
                         </div>
                     );

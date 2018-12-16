@@ -46,6 +46,10 @@
 	.direction-step-button-container button.direction-step-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
 		color: #a00;
 	}
+
+	.components-icon-button .dashicon + .components-icon-button-text {
+		margin-left: 5px;
+	}
 }
 
 #wpwrap .edit-post-visual-editor .wp-block-wpzoom-recipe-card-block-directions .wpzoom-recipe-card-print-link a {

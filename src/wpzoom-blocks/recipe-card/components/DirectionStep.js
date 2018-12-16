@@ -43,11 +43,9 @@ export default class DirectionStep extends Component {
 				render={ ( { open } ) => (
 					<IconButton
 						className="direction-step-button direction-step-button-add-image editor-inserter__toggle direction-step-add-media"
-						icon="insert"
+						icon="format-image"
 						onClick={ open }
-					>
-						{ __( "Add image", "wpzoom-recipe-card" ) }
-					</IconButton>
+					/>
 				) }
 			/>
 			}
@@ -59,7 +57,7 @@ export default class DirectionStep extends Component {
 			/>
 			<IconButton
 				className="direction-step-button direction-step-button-add editor-inserter__toggle"
-				icon="insert"
+				icon="editor-break"
 				label={ __( "Insert step", "wpzoom-recipe-card" ) }
 				onClick={ insertStep }
 			/>
@@ -183,7 +181,7 @@ export default class DirectionStep extends Component {
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ ( value ) => onChange( value, text ) }
-					placeholder={ __( "Enter a step description", "wpzoom-recipe-card" ) }
+					placeholder={ __( "Enter step description", "wpzoom-recipe-card" ) }
 					unstableOnFocus={ () => onFocus( "text" ) }
 					keepPlaceholderOnFocus={ true }
 				/>

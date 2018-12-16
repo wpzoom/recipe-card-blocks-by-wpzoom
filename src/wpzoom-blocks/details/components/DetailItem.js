@@ -49,7 +49,7 @@ export default class DetailItem extends Component {
 			/>
 			<IconButton
 				className="detail-item-button detail-item-button-add editor-inserter__toggle"
-				icon="insert"
+				icon="editor-break"
 				label={ __( "Insert item", "wpzoom-recipe-card" ) }
 				onClick={ insertDetail }
 			/>
@@ -160,21 +160,17 @@ export default class DetailItem extends Component {
                         iconset={ iconSet }>
                     </span>
                 }
-                { label ? 
-                	<RichText.Content
+                { ! RichText.isEmpty( label ) && <RichText.Content
                         value={ label }
                         tagName='span'
                         className="detail-item-label"
                     />
-                    : ''
                 }
-                { value ?
-                	<RichText.Content
+                { ! RichText.isEmpty( value ) && <RichText.Content
                         value={ value }
                         tagName='p'
                         className="detail-item-value"
                     />
-                    : ''
                 }
 			</div>
 		);

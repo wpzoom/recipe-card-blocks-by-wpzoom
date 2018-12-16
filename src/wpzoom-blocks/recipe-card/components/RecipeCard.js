@@ -318,36 +318,42 @@ export default class RecipeCard extends Component {
 						</div>
 				}
 				<div className="recipe-card-heading">
-					<RichText.Content
-						className="recipe-card-title"
-						tagName="h2"
-						value={ recipeTitle ? recipeTitle : wpzoomRecipeCard.post_title }
-					/>
+					{
+						( ! RichText.isEmpty( recipeTitle ) || wpzoomRecipeCard.post_title ) && <RichText.Content
+							className="recipe-card-title"
+							tagName="h2"
+							value={ recipeTitle ? recipeTitle : wpzoomRecipeCard.post_title }
+						/>
+					}
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ `${ __( "Recipe by", "wpzoom-recipe-card" ) } ${ settings[0]['custom_author_name'] }` }</span> }
 					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ course }</mark></span> }
 					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ cuisine }</mark></span> }
 					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ difficulty }</mark></span> }
 				</div>
 				<Detail.Content { ...props } />
-				<RichText.Content
-					className="recipe-card-summary"
-					tagName="p"
-					value={ summary }
-				/>
+				{
+					! RichText.isEmpty( summary ) && <RichText.Content
+						className="recipe-card-summary"
+						tagName="p"
+						value={ summary }
+					/>
+				}
 				<Ingredient.Content { ...props } />
 				<Direction.Content { ...props } />
-				<div className="recipe-card-notes">
-					<RichText.Content
-						tagName="h3"
-						className="notes-title"
-						value={ notesTitle }
-					/>
-					<RichText.Content
-						className="recipe-card-notes-list"
-						tagName="ul"
-						value={ notes }
-					/>
-				</div>
+				{
+					( ! RichText.isEmpty( notesTitle ) || ! RichText.isEmpty( notes ) ) && <div className="recipe-card-notes">
+						<RichText.Content
+							tagName="h3"
+							className="notes-title"
+							value={ notesTitle }
+						/>
+						<RichText.Content
+							className="recipe-card-notes-list"
+							tagName="ul"
+							value={ notes }
+						/>
+					</div>
+				}
 				<div className="footer-copyright">
 					<p>{ __( "Recipe Card plugin by ", "wpzoom-recipe-card" ) }<a href="https://www.wpzoom.com" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a></p>
 				</div>
@@ -493,7 +499,7 @@ export default class RecipeCard extends Component {
 					<RichText
 						tagName="h3"
 						className="notes-title"
-						value={ attributes.notesTitle }
+						value={ notesTitle }
 						unstableOnFocus={ () => this.setFocus( "notesTitle" ) }
 						onChange={ ( notesTitle ) => setAttributes( { notesTitle } ) }
 						onSetup={ ( ref ) => {
@@ -516,6 +522,7 @@ export default class RecipeCard extends Component {
 						placeholder={ __( "Enter Note text for your recipe.", "wpzoom-recipe-card" ) }
 						keepPlaceholderOnFocus={ true }
 					/>
+					<p className="description">{ __( "Press Enter to add new notice.", "wpzoom-recipe-card" ) }</p>
 				</div>
 				<Inspector { ...{ attributes, setAttributes, className , clientId } } />
 			</div>

@@ -339,7 +339,7 @@ export default class Direction extends Component {
 				onClick={ () => this.insertStep() }
 				className="editor-inserter__toggle"
 			>
-				{ __( "Add direction", "wpzoom-recipe-card" ) }
+				<span className="components-icon-button-text">{ __( "Add step", "wpzoom-recipe-card" ) }</span>
 			</IconButton>
 		);
 	}
