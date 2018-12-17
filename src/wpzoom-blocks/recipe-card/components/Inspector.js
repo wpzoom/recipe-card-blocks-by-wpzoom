@@ -168,7 +168,7 @@ export default class Inspector extends Component {
 
 			RichText.isEmpty( summary ) ? check.warnings.push("summary") : '';
 			! hasImage ? check.errors.push("image") : '';
-			! hasVideo ? check.warnings.push("video") : '';
+			// ! hasVideo ? check.warnings.push("video") : '';
 			! dataTable.ingredients.length ? check.errors.push("ingredients") : '';
 			! dataTable.steps.length ? check.errors.push("steps") : '';
 			! _get( details, [ 1 ,'value' ] ) ? check.warnings.push("prepTime") : '';

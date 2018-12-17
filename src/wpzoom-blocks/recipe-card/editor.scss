@@ -28,21 +28,24 @@
 		margin-top: 20px;
 		margin-bottom: 10px;
 	}
-	.details-items {
-		.detail-item {
-			> .detail-item-icon {
-				display: block;
-			}
-			> div:nth-child(2) {
-				display: block;
-			}
-			> div:nth-child(3), div:nth-child(4) {
-				display: inline-block;
-			}
-			.detail-item-value,
-			.detail-item-unit {
-				padding: 0;
-				text-align: left;
+	.recipe-card-details {
+		margin-bottom: 0;
+		.details-items {
+			.detail-item {
+				> .detail-item-icon {
+					display: block;
+				}
+				> div:nth-child(2) {
+					display: block;
+				}
+				> div:nth-child(3), div:nth-child(4) {
+					display: inline-block;
+				}
+				.detail-item-value,
+				.detail-item-unit {
+					padding: 0;
+					text-align: left;
+				}
 			}
 		}
 	}
@@ -82,9 +85,12 @@
 		.ingredients-list > li {
 			cursor: initial !important;
 		}
+		.recipe-card-summary {
+			margin-top: 0;
+		}
 	}
 	.recipe-card-details + .editor-rich-text {
-		margin: 10px 0 20px;
+		margin: 20px 0;
 	}
 	.ingredient-item-button-container {
 		text-align: right;

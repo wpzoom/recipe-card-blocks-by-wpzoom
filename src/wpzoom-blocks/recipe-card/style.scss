@@ -20,8 +20,13 @@
 			text-align: right;
 		}
 	}
-	.recipe-card-heading .recipe-card-author {
-		margin-bottom: 10px;
+	.recipe-card-heading {
+		.recipe-card-author {
+			margin-bottom: 10px;
+		}
+		.recipe-card-title + p {
+			margin-bottom: 0;
+		}
 	}
 	.recipe-card-image figure img {
 		width: 100%;

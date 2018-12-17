@@ -14,7 +14,7 @@ $heading_color: #222;
         box-shadow: 0 0px 15px rgba(0,0,0,0.1);
         border-radius: 5px 5px 0 0;
         .recipe-card-image {
-            margin-top: -31px;
+            margin-top: -21px;
             margin-left: -31px;
             margin-right: -31px;
             margin-bottom: 30px;
@@ -110,7 +110,7 @@ $heading_color: #222;
         }
         .recipe-card-heading {
             margin-bottom: 15px;
-            padding-bottom: 15px;
+            // padding-bottom: 15px;
             .recipe-card-title {
                 font-size: 30px;
                 margin: 0 0 10px;
@@ -387,6 +387,9 @@ $heading_color: #222;
                     padding-top: 20px;
                     padding-bottom: 20px;
                     position: relative;
+                    list-style-type: none;
+                    margin-bottom: 15px;
+                    font-size: 14px;
 
                     &::before {
                         content: 'i';
