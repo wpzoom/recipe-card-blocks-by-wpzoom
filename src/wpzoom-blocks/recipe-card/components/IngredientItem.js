@@ -128,7 +128,7 @@ export default class IngredientItem extends Component {
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ ( value ) => onChange( value, name ) }
-					placeholder={ __( "Enter an ingredient name", "wpzoom-recipe-card" ) }
+					placeholder={ __( "Enter ingredient name", "wpzoom-recipe-card" ) }
 					unstableOnFocus={ () => onFocus( "name" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
