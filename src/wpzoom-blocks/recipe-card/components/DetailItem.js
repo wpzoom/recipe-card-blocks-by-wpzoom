@@ -181,12 +181,7 @@ export default class DetailItem extends Component {
                         className="detail-item-value"
                     />
                 }
-                { ! RichText.isEmpty( unit ) && <RichText.Content
-                        value={ unit }
-                        tagName='p'
-                        className="detail-item-unit"
-                    />
-                }
+                <p className="detail-item-unit">{ unit }</p>
 			</div>
 		);
 	}
@@ -245,18 +240,7 @@ export default class DetailItem extends Component {
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>
-				<RichText
-				    className="detail-item-unit"
-				    tagName="p"
-				    onSetup={ ( ref ) => editorRef( "unit", ref ) }
-				    key={ `${ id }-unit` }
-				    value={ unit }
-				    onChange={ ( newUnit ) => onChange( icon, label, value, newUnit, icon, label, value, unit ) }
-				    placeholder={ this.getPlaceholder( index, 'unit' ) }
-				    unstableOnFocus={ () => onFocus( "unit" ) }
-				    formattingControls={ [] }
-				    keepPlaceholderOnFocus={ true }
-				/>
+				<p className="detail-item-unit">{ unit }</p>
 				<IconsModal { ... { attributes, setAttributes, className } } />
 			</div>
 		);

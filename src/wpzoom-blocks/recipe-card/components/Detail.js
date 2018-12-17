@@ -345,7 +345,6 @@ export default class Detail extends Component {
 		return (
 			<div className={ classNames }>
 				<div className={ detailClasses }>{ this.getDetailItems() }</div>
-				<p className="description"><strong>{ __( "Notice:", "wpzoom-recipe-card" ) }</strong> { __( "The values of Preparation and Cooking time is required to be in minutes!", "wpzoom-recipe-card" ) }</p>
 			</div>
 		);
 	}
