@@ -164,8 +164,12 @@ $heading_color: #222;
                 }
                 .detail-item-value, .detail-item-unit {
                     display: inline-block;
+                    line-height: 1.4;
                 }
                 .detail-item-icon {
+                    height: 35px;
+                    line-height: 35px;
+                    margin: auto;
                     color: $primary_color;
                 }
 

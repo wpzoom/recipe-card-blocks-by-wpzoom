@@ -179,10 +179,14 @@ $heading_color: #222;
                 }
                 .detail-item-value, .detail-item-unit {
                     display: inline-block;
+                    line-height: 1.4;
                 }
 
                 .detail-item-icon {
                     opacity: .7;
+                    margin: auto;
+                    height: 35px;
+                    line-height: 35px;
                 }
 
                 .detail-item-icon span {

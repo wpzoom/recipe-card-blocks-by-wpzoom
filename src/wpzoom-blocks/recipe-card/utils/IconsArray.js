@@ -747,8 +747,7 @@ export default {
         { "icon": "plug" },
         { "icon": "plus" },
         { "icon": "plus-circle" },
-        { "icon": ["plus-square", "medical" ]
-        },
+        { "icon": "plus-square" },
         { "icon": "plus-square-o" },
         { "icon": "podcast" },
         { "icon": "power-off" },
@@ -868,10 +867,8 @@ export default {
         { "icon": "volume-down" },
         { "icon": "volume-off" },
         { "icon": "volume-up" },
-        { "icon": ["wheelchair", "transportation", "medical" ]
-        },
-        { "icon": ["wheelchair-alt", "transportation", "medical" ]
-        },
+        { "icon": "wheelchair" },
+        { "icon": "wheelchair-alt" },
         { "icon": "wifi" },
         { "icon": "window-close" },
         { "icon": "window-close-o" },
