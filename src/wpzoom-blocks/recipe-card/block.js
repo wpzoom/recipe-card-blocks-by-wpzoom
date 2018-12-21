@@ -56,9 +56,6 @@ const attributes = {
         source: "children",
         selector: '.recipe-card-notes-list',
     },
-    jsonNotes: {
-        type: 'string',
-    },
     course: {
         type: 'array',
     },
@@ -91,13 +88,6 @@ const attributes = {
     },
     details: {
         type: 'array',
-        selector: '.details-items',
-        default: [
-            { id: RecipeCard.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Servings", "wpzoom-recipe-card" ), unit: __( "servings", "wpzoom-recipe-card" ) },
-            { id: RecipeCard.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'clock', label: __( "Prep time", "wpzoom-recipe-card" ), unit: __( "minutes", "wpzoom-recipe-card" ) },
-            { id: RecipeCard.generateId( "detail-item" ), iconSet: 'foodicons', icon: 'cooking-food-in-a-hot-casserole', label: __( "Cooking time", "wpzoom-recipe-card" ), unit: __( "minutes", "wpzoom-recipe-card" ) },
-            { id: RecipeCard.generateId( "detail-item" ), iconSet: 'foodicons', icon: 'fire-flames', label: __( "Calories", "wpzoom-recipe-card" ), unit: __( "kcal", "wpzoom-recipe-card" ) },
-        ]
     },
     toInsert: {
         type: 'string',

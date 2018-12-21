@@ -328,7 +328,7 @@ export default class Direction extends Component {
 			<div className={ classNames } id={ id }>
 				<div className={ "wpzoom-recipe-card-print-link" + " " + print_visibility }>
                     <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-                        <img className="icon-print-link" src={ pluginURL + '/src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
+                        <img className="icon-print-link" src={ pluginURL + 'src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
                     </a>
                 </div>
 				<RichText.Content
@@ -373,7 +373,7 @@ export default class Direction extends Component {
 			<div className={ classNames } id={ attributes.id }>
 				<div className={ 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility }>
 				    <a className="btn-print-link no-print" href={ '#'+ attributes.id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-				        <img className="icon-print-link" src={ pluginURL + '/src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
+				        <img className="icon-print-link" src={ pluginURL + 'src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
 				    </a>
 				</div>
 				<RichText

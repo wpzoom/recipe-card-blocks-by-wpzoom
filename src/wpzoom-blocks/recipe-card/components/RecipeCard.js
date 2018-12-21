@@ -201,12 +201,10 @@ export default class RecipeCard extends Component {
 
 		if ( ! details || details.length === 0 ) {
 		    attributes.details = [
-		        {
-		            id: Detail.generateId( "detail-item" ),
-		            icon: null,
-		            label: [],
-		            value: []
-		        }
+		        { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Servings", "wpzoom-recipe-card" ), unit: __( "servings", "wpzoom-recipe-card" ) },
+		        { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'clock', label: __( "Prep time", "wpzoom-recipe-card" ), unit: __( "minutes", "wpzoom-recipe-card" ) },
+		        { id: Detail.generateId( "detail-item" ), iconSet: 'foodicons', icon: 'cooking-food-in-a-hot-casserole', label: __( "Cooking time", "wpzoom-recipe-card" ), unit: __( "minutes", "wpzoom-recipe-card" ) },
+		        { id: Detail.generateId( "detail-item" ), iconSet: 'foodicons', icon: 'fire-flames', label: __( "Calories", "wpzoom-recipe-card" ), unit: __( "kcal", "wpzoom-recipe-card" ) },
 		    ];
 		}
 
@@ -298,7 +296,6 @@ export default class RecipeCard extends Component {
 			jsonSummary,
 			notesTitle,
 			notes,
-			jsonNotes,
 			course,
 			cuisine,
 			difficulty,
@@ -367,7 +364,7 @@ export default class RecipeCard extends Component {
 				<Ingredient.Content { ...props } />
 				<Direction.Content { ...props } />
 				{
-					( ! RichText.isEmpty( notesTitle ) || ! RichText.isEmpty( notes ) ) && <div className="recipe-card-notes">
+					! RichText.isEmpty( notes ) && <div className="recipe-card-notes">
 						<RichText.Content
 							tagName="h3"
 							className="notes-title"
@@ -397,7 +394,6 @@ export default class RecipeCard extends Component {
 			jsonSummary,
 			notesTitle,
 			notes,
-			jsonNotes,
 			course,
 			cuisine,
 			difficulty,
@@ -547,7 +543,7 @@ export default class RecipeCard extends Component {
 						multiline="li"
 						value={ notes }
 						unstableOnFocus={ () => this.setFocus( "notes" ) }
-						onChange={ ( newNote ) => setAttributes( { notes: newNote, jsonNotes: stripHTML( renderToString( newNote ) ) } ) }
+						onChange={ ( newNote ) => setAttributes( { notes: newNote } ) }
 						onSetup={ ( ref ) => {
 							this.editorRefs.notes = ref;
 						} }

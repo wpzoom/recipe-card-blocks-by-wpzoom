@@ -188,7 +188,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		    	array(
 		    		'version' => $this->_version,
 		    		'textdomain' => $this->_textdomain,
-		    		'pluginURL' => plugins_url('recipe-card-blocks-by-wpzoom'),
+		    		'pluginURL' => WPZOOM_RCB_PLUGIN_URL,
 		    		'post_permalink' => str_replace( '?p=', '', get_the_permalink( $this->post ) ),
 		    		'post_thumbnail_url' => get_the_post_thumbnail_url( $this->post ),
 		    		'post_title' => $this->post->post_title,
@@ -247,6 +247,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                 $this->_version
             );
             $this->post = get_post();
+
+            
             /**
              * Localize script data.
              */
@@ -256,8 +258,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                 array(
                     'version' => $this->_version,
                     'textdomain' => $this->_textdomain,
-                    'pluginURL' => plugins_url('recipe-card-blocks-by-wpzoom'),
-                    'post_permalink' => get_the_permalink( $this->post ),
+                    'pluginURL' => WPZOOM_RCB_PLUGIN_URL,
+                    'post_permalink' => str_replace( '?p=', '', get_the_permalink( $this->post ) ),
                     'post_thumbnail_url' => get_the_post_thumbnail_url( $this->post ),
                     'post_title' => $this->post->post_title,
                     'post_author_name' => get_the_author_meta( 'display_name', $this->post->post_author ),

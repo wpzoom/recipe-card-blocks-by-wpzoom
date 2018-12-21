@@ -35,7 +35,7 @@ export default function LegacyDirection( props ) {
         <div className={ className } id={ id }>
             <div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
                 <a className="btn-print-link no-print" href={ '#'+id } title={ __( 'Print directions...' ) }>
-                    <img className="icon-print-link" src={ pluginURL + '/src/assets/images/printer.svg' } alt={ __( 'Print' ) }/>{ __( 'Print' ) }
+                    <img className="icon-print-link" src={ pluginURL + 'src/assets/images/printer.svg' } alt={ __( 'Print' ) }/>{ __( 'Print' ) }
                 </a>
             </div>
             <RichText.Content
