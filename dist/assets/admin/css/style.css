@@ -1,0 +1,88 @@
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar {
+	float: left;
+	width: 120px;
+	text-align: right;
+	/* Negative margin for the sake of those without JS: all tabs display */
+	margin: 0 -120px 0 5px;
+	padding: 0;
+}
+ 
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li {
+	padding: 8px;
+}
+
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active {
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-top-right-radius: 0px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-top-right-radius: 0px;
+}
+
+div.wp-tab-panel-active {
+	display:block;
+}
+
+div.wp-tab-panel-inactive {
+ 	display:none;
+}
+
+.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel {
+	margin: 0 5px 0 125px;
+	max-height: none;
+	min-height: 200px;
+}
+
+.settings_page_wpzoom-recipe-card-settings .wp-tab-bar li.wp-tab-active {
+	border-style: solid none solid solid;
+	border-width: 1px 0 1px 1px;
+	margin-right: -1px;
+}
+
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar {
+	float: left;
+	width: 120px;
+	text-align: right;
+	/* Negative margin for the sake of those without JS: all tabs display */
+	margin: 0 -120px 0 5px;
+	padding: 0;
+}
+
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li {
+	padding: 8px;
+	display: block;
+}
+
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a {
+	text-decoration: underline;
+}
+
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active {
+ 	-webkit-border-top-left-radius: 3px;
+ 	-webkit-border-bottom-left-radius: 3px;
+ 	border-top-left-radius: 3px;
+ 	border-bottom-left-radius: 3px;
+}
+
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active a {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+
+
+/*
+ *
+ * Fields
+ *
+*/
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] {
+	display: inline-block;
+}
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] + .description {
+	margin-top: 0;
+	margin-left: 5px;
+	vertical-align: top;
+	display: inline-block;
+}

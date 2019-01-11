@@ -115,6 +115,11 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function load_dependencies() {
+			if ( is_admin() ) {
+				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-settings-fields.php';
+				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-settings.php';
+			}
+
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-assets-manager.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-helpers.php';
 
@@ -173,7 +178,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 				array(
 					array(
 						'slug' => 'wpzoom-recipe-card',
-						'title' => __( 'WPZOOM - Recipe Card', WPZOOM_RCB_TEXT_DOMAIN ),
+						'title' => __( 'WPZOOM - Recipe Card', 'wpzoom-recipe-card' ),
 					),
 				)
 			);
@@ -214,7 +219,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 */
 		public function load_textdomain() {
 			load_plugin_textdomain(
-				WPZOOM_RCB_TEXT_DOMAIN,
+				'wpzoom-recipe-card',
 				false,
 				dirname( plugin_basename( WPZOOM_RCB_PLUGIN_DIR ) ) . '/languages/'
 			);
