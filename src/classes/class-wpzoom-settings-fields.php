@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class for settings page.
  */
 class WPZOOM_Settings_Fields {
-	private $fiels_type = array( 'radiobox', 'checkbox', 'select', 'multiselect', 'input', 'textarea', 'button' );
+	private $fiels_type = array( 'checkbox', 'select', 'multiselect', 'input', 'textarea', 'button' );
 
 	/**
 	 * The Constructor.
@@ -27,6 +27,31 @@ class WPZOOM_Settings_Fields {
 	public function get_fields_type() {
 		return $this->fiels_type;
 	}
+
+	public function input( $args ) {
+		// get the value of the setting we've registered with register_setting()
+		$options = get_option( 'wpzoom-recipe-card-settings' );
+
+		$value = isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : $args['default'];
+		$type = isset( $args['type'] ) ? $args['type'] : 'text';
+	?>
+		<div class="wpzoom-rcb-field-input">
+			<?php $is_premium = isset( $args['is_premium'] ) && $args['is_premium']; ?>
+				
+			<?php if ( $is_premium ): ?>
+				<span class="wpzoom-rcb-field-is_premium"><?php esc_html_e( 'Premium', 'wpzoom-recipe-card' ); ?></span>
+			<?php endif ?>
+
+			<input type="<?php echo esc_attr( $type ) ?>" name="<?php echo esc_attr( @$args['label_for'] ); ?>" value="<?php echo $value ?>"/>
+
+			<?php if ( isset( $args['description'] ) ): ?>
+				<p class="description">
+					<?php echo $args['description']; ?>
+				</p>
+			<?php endif ?>
+		</div>
+	<?php
+	}
 	 
 	public function checkbox( $args ) {
 		// get the value of the setting we've registered with register_setting()
@@ -34,13 +59,21 @@ class WPZOOM_Settings_Fields {
 
 		$checked = isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : $args['default'];
 	?>
-		<input type="checkbox" class="<?php echo esc_attr( $args['class'] ) ?>" name="<?php echo esc_attr( $args['label_for'] ); ?>" <?php checked( $checked, $args['default'], true ); ?>/>
+		<div class="wpzoom-rcb-field-checkbox">
+			<?php $is_premium = isset( $args['is_premium'] ) && $args['is_premium']; ?>
+				
+			<?php if ( $is_premium ): ?>
+				<span class="wpzoom-rcb-field-is_premium"><?php esc_html_e( 'Premium', 'wpzoom-recipe-card' ); ?></span>
+			<?php endif ?>
 
-		<?php if ( isset( $args['description'] ) ): ?>
-			<p class="description">
-				<?php echo $args['description']; ?>
-			</p>
-		<?php endif ?>
+			<input type="checkbox" name="<?php echo esc_attr( @$args['label_for'] ); ?>" <?php checked( $checked, true, true ); ?> <?php echo ( $is_premium ? 'disabled' : '' ); ?>/>
+
+			<?php if ( isset( $args['description'] ) ): ?>
+				<p class="description">
+					<?php echo $args['description']; ?>
+				</p>
+			<?php endif ?>
+		</div>
 	<?php
 	}
 	 
@@ -48,21 +81,28 @@ class WPZOOM_Settings_Fields {
 		// get the value of the setting we've registered with register_setting()
 		$options = get_option( 'wpzoom-recipe-card-settings' );
 	?>
-	 <!-- <select id="<?php echo esc_attr( $args['label_for'] ); ?>"
-	 data-custom="<?php echo esc_attr( $args['wpzoom_custom_data'] ); ?>"
-	 name="wpzoom_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-	 >
-	 <option value="red" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
-	 <?php esc_html_e( 'red pill', 'wpzoom-recipe-card' ); ?>
-	 </option>
-	 <option value="blue" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
-	 <?php esc_html_e( 'blue pill', 'wpzoom-recipe-card' ); ?>
-	 </option>
-	 </select>
-	 <p class="description">
-	 <?php esc_html_e( 'You take the blue pill and the story ends. You wake in your bed and you believe whatever you want to believe.', 'wpzoom-recipe-card' ); ?>
-	 </p> -->
-	 <?php
+		<div class="wpzoom-rcb-field-select">
+			<select id="<?php echo esc_attr( $args['label_for'] ); ?>"
+				name="wpzoom_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		 	>
+		 		<?php foreach ( $args['options'] as $value => $text ): ?>
+		 			<option value="<?php echo esc_attr( $value ) ?>" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], $value, false ) ) : ( '' ); ?>>
+		 				<?php echo $text; ?>
+		 			</option>
+		 		<?php endforeach ?>
+		 	</select>
+
+		 	<?php if ( isset( $args['description'] ) ): ?>
+		 		<p class="description">
+		 			<?php echo $args['description']; ?>
+		 		</p>
+		 	<?php endif ?>
+		</div>
+	<?php
+	}
+	 
+	public function subsection( $args ) {
+		echo '';
 	}
 
 	public function scripts( $hook ) {
