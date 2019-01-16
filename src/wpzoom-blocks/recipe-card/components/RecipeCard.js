@@ -224,7 +224,7 @@ export default class RecipeCard extends Component {
 
 		const regex = /is-style-(\S*)/g;
 		let m = regex.exec( className );
-		const activeStyle = m !== null ? m[1] : wpzoomRecipeCard.block_style;
+		const activeStyle = m !== null ? m[1] : wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_template;
 
 		if ( activeStyle === 'default' ) {
 			settings[0].primary_color = '#222';
@@ -305,10 +305,16 @@ export default class RecipeCard extends Component {
 			className
 		} = props;
 
+		let pin_description = recipeTitle;
+
+		if ( wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
+			pin_description = jsonSummary;
+		}
+
 		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], `header-content-align-${ settings[0]['headerAlign'] }` ].filter( ( item ) => item ).join( " " );
-		const PrintClasses = [ "wpzoom-recipe-card-print-link", settings[0]['print_btn'] ].filter( ( item ) => item ).join( " " );
-		const PinterestClasses = [ "wpzoom-recipe-card-pinit", settings[0]['pin_btn'] ].filter( ( item ) => item ).join( " " );
-		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : jsonSummary ? jsonSummary : '' }`;
+		const PrintClasses = [ "wpzoom-recipe-card-print-link" ].filter( ( item ) => item ).join( " " );
+		const PinterestClasses = [ "wpzoom-recipe-card-pinit" ].filter( ( item ) => item ).join( " " );
+		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ pin_description }`;
 
 		return (
 			<div className={ RecipeCardClassName } id={ id }>
@@ -319,7 +325,7 @@ export default class RecipeCard extends Component {
 								<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }/>
 								<figcaption>
 									{
-										settings[0]['pin_btn'] === 'visible' && 
+										settings[0]['pin_btn'] && 
 										<div className={ PinterestClasses }>
 						                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
 						                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
@@ -328,7 +334,7 @@ export default class RecipeCard extends Component {
 						                </div>
 						            }
 						            {
-					                	settings[0]['print_btn'] === 'visible' && 
+					                	settings[0]['print_btn'] && 
 					                	<div className={ PrintClasses }>
 						                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
 						                    	<i className="fa fa-print icon-print-link"></i>
@@ -405,11 +411,17 @@ export default class RecipeCard extends Component {
 		this.setVideoAttributes();
 		this.setActiveBlockStyle( className );
 
+		let pin_description = recipeTitle;
+
+		if ( wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
+			pin_description = jsonSummary;
+		}
+
 		const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
 		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ].filter( ( item ) => item ).join( " " );
 		const PrintClasses = [ "wpzoom-recipe-card-print-link", settings[0]['print_btn'] ].filter( ( item ) => item ).join( " " );
 		const PinterestClasses = [ "wpzoom-recipe-card-pinit", settings[0]['pin_btn'] ].filter( ( item ) => item ).join( " " );
-		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : jsonSummary ? jsonSummary : '' }`;
+		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ pin_description }`;
 
 		return (
 			<div className={ RecipeCardClassName } id={ id }>
@@ -464,7 +476,7 @@ export default class RecipeCard extends Component {
         									<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }/>
         									<figcaption>
 												{
-													settings[0]['pin_btn'] === 'visible' && 
+													settings[0]['pin_btn'] && 
 													<div className={ PinterestClasses }>
 									                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
 									                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
@@ -473,7 +485,7 @@ export default class RecipeCard extends Component {
 									                </div>
 									            }
 									            {
-								                	settings[0]['print_btn'] === 'visible' && 
+								                	settings[0]['print_btn'] && 
 								                	<div className={ PrintClasses }>
 									                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
 									                    	<i className="fa fa-print icon-print-link"></i>

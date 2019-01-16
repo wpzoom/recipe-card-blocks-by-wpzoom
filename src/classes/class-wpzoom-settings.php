@@ -16,6 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WPZOOM_Settings {
 	/**
+	 * Store all default settings options.
+	 *
+	 * @static
+	 */
+	public static $defaults = array();
+
+	/**
 	 * Store all settings options.
 	 */
 	public $settings = array();
@@ -31,6 +38,7 @@ class WPZOOM_Settings {
 	public function __construct() {
 	    add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 	    add_action( 'admin_init', array( $this, 'settings_init' ) );
+	    add_action( 'admin_init', array( $this, 'set_defaults' ) );
 	    add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 
 	    $this->_fields = new WPZOOM_Settings_Fields();
@@ -47,6 +55,47 @@ class WPZOOM_Settings {
 			'wpzoom-recipe-card-settings',
 			array( $this, 'settings_page' )
 		);
+	}
+
+	/**
+	 * Set default values for setting options.
+	 */
+	public function set_defaults() {
+		foreach ( $this->settings as $key => $setting ) {
+			if ( isset( $setting['sections'] ) && is_array( $setting['sections'] ) ) {
+				foreach ( $setting['sections'] as $section ) {
+					if ( isset( $section['fields'] ) && is_array( $section['fields'] ) ) {
+						foreach ( $section['fields'] as $field ) {
+							if ( isset( $field['args']['default'] ) ) {
+								self::$defaults[ $field['id'] ] = $field['args']['default'];
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return self::$defaults;
+	}
+
+	/**
+	 * Get default values of setting options.
+	 *
+	 * @static
+	 */
+	public static function get_defaults() {
+		return self::$defaults;
+	}
+
+	/**
+	 * Get default value by option name
+	 * 
+	 * @param string $option_name 
+	 * @static
+	 * @return boolean
+	 */
+	public static function get_default_option_value( $option_name ) {
+		return isset( self::$defaults[ $option_name ] ) ? self::$defaults[ $option_name ] : false;
 	}
 
 	/**
@@ -74,7 +123,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_display_course',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Here can be description', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Show course by default', 'wpzoom-recipe-card' ),
 									'default'		=> true
 								)
 							),
@@ -85,7 +134,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_display_cuisine',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Here can be description', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Show cuisine by default', 'wpzoom-recipe-card' ),
 									'default'		=> true
 								)
 							),
@@ -96,7 +145,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_display_difficulty',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Here can be description', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Show difficulty by default', 'wpzoom-recipe-card' ),
 									'default'		=> true
 								)
 							),
@@ -107,19 +156,55 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_display_author',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Here can be description', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Show author by default', 'wpzoom-recipe-card' ),
 									'default'		=> true
 								)
 							),
 							array(
 								'id' 		=> 'wpzoom_rcb_settings_author_custom_name',
-								'title' 	=> __( 'Custom Author Name', 'wpzoom-recipe-card' ),
+								'title' 	=> __( 'Default Author Name', 'wpzoom-recipe-card' ),
 								'type'		=> 'input',
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_author_custom_name',
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'You can add custom author name for all new Recipe Cards. By default is post author name.', 'wpzoom-recipe-card' ),
 									'default'		=> '',
+									'type'			=> 'text'
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_ingredients_title',
+								'title' 	=> __( 'Default Ingredients Title', 'wpzoom-recipe-card' ),
+								'type'		=> 'input',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_ingredients_title',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Add your custom Ingredients title for all new Recipe Cards.', 'wpzoom-recipe-card' ),
+									'default'		=> __( 'Ingredients', 'wpzoom-recipe-card' ),
+									'type'			=> 'text'
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_steps_title',
+								'title' 	=> __( 'Default Steps Title', 'wpzoom-recipe-card' ),
+								'type'		=> 'input',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_steps_title',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Add your custom Steps title for all new Recipe Cards.', 'wpzoom-recipe-card' ),
+									'default'		=> __( 'Directions', 'wpzoom-recipe-card' ),
+									'type'			=> 'text'
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_notes_title',
+								'title' 	=> __( 'Default Notes Title', 'wpzoom-recipe-card' ),
+								'type'		=> 'input',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_notes_title',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Add your custom Notes title for all new Recipe Cards.', 'wpzoom-recipe-card' ),
+									'default'		=> __( 'Notes', 'wpzoom-recipe-card' ),
 									'type'			=> 'text'
 								)
 							),
@@ -172,64 +257,6 @@ class WPZOOM_Settings {
 							),
 						)
 					),
-					array(
-						'id' 		=> 'wpzoom_section_social_sharing',
-						'title' 	=> __( 'Social Sharing', 'wpzoom-recipe-card' ),
-						'page' 		=> 'wpzoom-recipe-card-settings-general',
-						'callback' 	=> '__return_false',
-						'fields' 	=> array(
-							array(
-								'id' 		=> 'wpzoom_rcb_settings_pinterest',
-								'title' 	=> __( 'Pinterest', 'wpzoom-recipe-card' ),
-								'type'		=> 'subsection',
-								'args'		=> array(
-									'class' => 'wpzoom-rcb-field-subsection'
-								)
-							),
-							array(
-								'id' 		=> 'wpzoom_rcb_settings_display_pin',
-								'title' 	=> __( 'Display Pin Button', 'wpzoom-recipe-card' ),
-								'type'		=> 'checkbox',
-								'args' 		=> array(
-									'label_for' 	=> 'wpzoom_rcb_settings_display_pin',
-									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Here can be description', 'wpzoom-recipe-card' ),
-									'default'		=> true
-								)
-							),
-							array(
-								'id' 		=> 'wpzoom_rcb_settings_pin_image',
-								'title' 	=> __( 'Pin Image', 'wpzoom-recipe-card' ),
-								'type'		=> 'select',
-								'args' 		=> array(
-									'label_for' 	=> 'wpzoom_rcb_settings_pin_image',
-									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Image to use for Pin Recipe.', 'wpzoom-recipe-card' ),
-									'default'		=> 'recipe_image',
-									'options' 		=> array(
-										'recipe_image' => __( 'Recipe Image', 'wpzoom-recipe-card' ),
-										'custom_image' => __( 'Custom Image per Recipe (Premium Only)', 'wpzoom-recipe-card' ),
-									)
-								)
-							),
-							array(
-								'id' 		=> 'wpzoom_rcb_settings_pin_description',
-								'title' 	=> __( 'Pin Description', 'wpzoom-recipe-card' ),
-								'type'		=> 'select',
-								'args' 		=> array(
-									'label_for' 	=> 'wpzoom_rcb_settings_pin_description',
-									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Text description to use for Pin Recipe.', 'wpzoom-recipe-card' ),
-									'default'		=> 'recipe_name',
-									'options' 		=> array(
-										'recipe_name' => __( 'Recipe Name', 'wpzoom-recipe-card' ),
-										'recipe_summary' => __( 'Recipe Summary', 'wpzoom-recipe-card' ),
-										'custom_text' => __( 'Custom Text (Premium Only)', 'wpzoom-recipe-card' ),
-									)
-								)
-							),
-						)
-					),
 				)
 			),
 			'appearance' => array(
@@ -272,9 +299,9 @@ class WPZOOM_Settings {
 								'title' 	=> __( 'Display Print Button', 'wpzoom-recipe-card' ),
 								'type'		=> 'checkbox',
 								'args' 		=> array(
-									'label_for' 	=> 'wpzoom_rcb_settings_display_course',
+									'label_for' 	=> 'wpzoom_rcb_settings_display_print',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Here can be description', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Show Print button in recipe card', 'wpzoom-recipe-card' ),
 									'default'		=> true
 								)
 							),
@@ -298,6 +325,56 @@ class WPZOOM_Settings {
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'Show Steps Image on print sheet.', 'wpzoom-recipe-card' ),
 									'default'		=> true
+								)
+							),
+						)
+					),
+					array(
+						'id' 		=> 'wpzoom_rcb_settings_pinterest',
+						'title' 	=> __( 'Pinterest', 'wpzoom-recipe-card' ),
+						'page' 		=> 'wpzoom-recipe-card-settings-appearance',
+						'callback' 	=> '__return_false',
+						'fields' 	=> array(
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_display_pin',
+								'title' 	=> __( 'Display Pin Button', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_display_pin',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Show Pinterest button in recipe card', 'wpzoom-recipe-card' ),
+									'default'		=> false
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_pin_image',
+								'title' 	=> __( 'Pin Image', 'wpzoom-recipe-card' ),
+								'type'		=> 'select',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_pin_image',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Image to use for Pin Recipe.', 'wpzoom-recipe-card' ),
+									'default'		=> 'recipe_image',
+									'options' 		=> array(
+										'recipe_image' => __( 'Recipe Image', 'wpzoom-recipe-card' ),
+										'custom_image' => __( 'Custom Image per Recipe (Premium Only)', 'wpzoom-recipe-card' ),
+									)
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_pin_description',
+								'title' 	=> __( 'Pin Description', 'wpzoom-recipe-card' ),
+								'type'		=> 'select',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_pin_description',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Text description to use for Pin Recipe.', 'wpzoom-recipe-card' ),
+									'default'		=> 'recipe_name',
+									'options' 		=> array(
+										'recipe_name' => __( 'Recipe Name', 'wpzoom-recipe-card' ),
+										'recipe_summary' => __( 'Recipe Summary', 'wpzoom-recipe-card' ),
+										'custom_text' => __( 'Custom Text (Premium Only)', 'wpzoom-recipe-card' ),
+									)
 								)
 							),
 						)
@@ -361,6 +438,11 @@ class WPZOOM_Settings {
 		$this->register_settings();
 	}
 
+	/**
+	 * Register all Setting options
+	 * 
+	 * @return boolean
+	 */
 	public function register_settings() {
 		// filter hook
 		$this->settings = apply_filters( 'wpzoom_rcb_before_register_settings', $this->settings );
@@ -397,8 +479,13 @@ class WPZOOM_Settings {
 				}
 			}
 		}
+
+		return true;
 	}
 
+	/**
+	 * HTML output for Setting page
+	 */
 	public function settings_page() {
 		// check user capabilities
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -416,10 +503,11 @@ class WPZOOM_Settings {
 	?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-			<?php 
-				// show error/update messages
-				settings_errors( 'wpzoom_rcb_messages' );
-			?>
+
+			<div class="notice notice-info">
+				<p><?php echo sprintf( __( 'At the moment the %1$sPremium%2$s version of %1$sWPZOOM Recipe Card Plugin%2$s is not available. We are trying to develop it as soon as possible!' ), '<strong>', '</strong>' ); ?></p>
+			</div>
+
 			<form action="options.php" method="post">
 				<ul class="wp-tab-bar">
 					<?php foreach ( $this->settings as $setting ): ?>
@@ -429,7 +517,7 @@ class WPZOOM_Settings {
 							<li><a href="#<?php echo $setting['tab_id'] ?>"><?php echo $setting['tab_title'] ?></a></li>
 						<?php endif ?>
 					<?php endforeach ?>
-					<li id="wpzoom_rcb_settings_submit"><?php submit_button( 'Save Settings' ); ?></li>
+					<li id="wpzoom_rcb_settings_save"><?php submit_button( 'Save Settings', 'primary', 'wpzoom_rcb_settings_save', false ); ?></li>
 				</ul>
 				<?php foreach ( $this->settings as $setting ): ?>
 					<?php if ( isset( $setting['is_active'] ) ): ?>
@@ -453,6 +541,11 @@ class WPZOOM_Settings {
 	<?php
 	}
 
+	/**
+	 * Enqueue scripts and styles
+	 * 
+	 * @param string $hook
+	 */
 	public function scripts( $hook ) {
 	    if ( $hook != 'settings_page_wpzoom-recipe-card-settings' ) {
 	        return;
@@ -490,7 +583,7 @@ class WPZOOM_Settings {
 
 	public function section_recipe_template_cb( $args ) {
 	?>
-	 	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Get access to more Recipe Templates with Premium version.', 'wpzoom-recipe-card' ) ?></p>
+	 	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'You will get access to more Recipe Templates with Premium version.', 'wpzoom-recipe-card' ) ?></p>
 	<?php
 	}
 }

@@ -146,6 +146,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function block_assets() {
+			$options = get_option( 'wpzoom-recipe-card-settings' );
+
 			// Scripts.
 			wp_enqueue_script(
 			    $this->_slug . '-script',
@@ -193,8 +195,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		    		'post_thumbnail_url' => get_the_post_thumbnail_url( $this->post ),
 		    		'post_title' => $this->post->post_title,
 		    		'post_author_name' => get_the_author_meta( 'display_name', $this->post->post_author ),
-		    		'block_style' => 'default',
-		    		'is_pro' => $this->_recipe_card_block->is_pro()
+		    		'is_pro' => $this->_recipe_card_block->is_pro(),
+		    		'setting_options' => ( ! empty( $options ) ? $options : WPZOOM_Settings::get_defaults() )
 		    	)
 		    );
 		}
@@ -231,6 +233,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 */
 
         public function editor_assets() {
+        	$options = get_option( 'wpzoom-recipe-card-settings' );
+
             // Scripts.
             wp_enqueue_script(
                 $this->_slug . '-js', // Handle.
@@ -248,7 +252,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
             );
             $this->post = get_post();
 
-            
             /**
              * Localize script data.
              */
@@ -264,7 +267,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                     'post_title' => $this->post->post_title,
                     'post_author_name' => get_the_author_meta( 'display_name', $this->post->post_author ),
                     'block_style' => 'default',
-                    'is_pro' => $this->_recipe_card_block->is_pro()
+                    'is_pro' => $this->_recipe_card_block->is_pro(),
+                    'setting_options' => ( !empty( $options ) ? $options : WPZOOM_Settings::get_defaults() )
                 )
             );
         }

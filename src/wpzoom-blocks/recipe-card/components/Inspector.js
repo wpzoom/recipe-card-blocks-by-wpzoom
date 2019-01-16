@@ -110,21 +110,7 @@ export default class Inspector extends Component {
 		const onChangeSettings = ( newValue, index, param ) => {
 			const settings = this.props.attributes.settings ? this.props.attributes.settings.slice() : [];
 
-			if ( 'print_btn' === param ) {
-				if ( !newValue ) {
-					settings[ index ][ 'print_btn' ] = 'hidden';
-				} else {
-					settings[ index ][ 'print_btn' ] = 'visible';
-				}
-			} else if ( 'pin_btn' === param ) {
-				if ( !newValue ) {
-					settings[ index ][ 'pin_btn' ] = 'hidden';
-				} else {
-					settings[ index ][ 'pin_btn' ] = 'visible';
-				}
-			} else {
-				settings[ index ][ param ] = newValue;
-			}
+			settings[ index ][ param ] = newValue;
 
 			setAttributes( { settings } );
 		}
@@ -370,9 +356,9 @@ export default class Inspector extends Component {
 						label={ __( "Print Button", "wpzoom-recipe-card" ) }
 					>
 		                <ToggleControl
-		                    label={ __( "Print Button Visibility", "wpzoom-recipe-card" ) }
-		                    checked={ settings[0]['print_btn'] === 'visible' ? true : false }
-		                    onChange={ visible => onChangeSettings( visible, 0, 'print_btn' ) }
+		                    label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
+		                    checked={ settings[0]['print_btn'] }
+		                    onChange={ display => onChangeSettings( display, 0, 'print_btn' ) }
 		                />
 	        		</BaseControl>
 			    	<BaseControl
@@ -380,9 +366,9 @@ export default class Inspector extends Component {
 						label={ __( "Pinterest Button", "wpzoom-recipe-card" ) }
 					>
 		                <ToggleControl
-		                    label={ __( "Pinterest Button Visibility", "wpzoom-recipe-card" ) }
-		                    checked={ settings[0]['pin_btn'] === 'visible' ? true : false }
-		                    onChange={ visible => onChangeSettings( visible, 0, 'pin_btn' ) }
+		                    label={ __( "Display Pinterest Button", "wpzoom-recipe-card" ) }
+		                    checked={ settings[0]['pin_btn'] }
+		                    onChange={ display => onChangeSettings( display, 0, 'pin_btn' ) }
 		                />
 	        		</BaseControl>
 			    	<BaseControl

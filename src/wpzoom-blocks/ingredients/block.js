@@ -22,7 +22,7 @@ const attributes = {
         type: 'array',
         selector: '.ingredients-title',
         source: 'children',
-        default: __( "Ingredients", "wpzoom-recipe-card" )
+        default: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_ingredients_title
     },
     id: {
         type: 'string',

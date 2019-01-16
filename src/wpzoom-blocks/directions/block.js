@@ -22,7 +22,7 @@ const attributes = {
         type: 'array',
         selector: '.directions-title',
         source: 'children',
-        default: __( "Directions", "wpzoom-recipe-card" )
+        default: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_steps_title
     },
     id: {
         type: 'string',
