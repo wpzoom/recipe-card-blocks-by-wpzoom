@@ -4,6 +4,7 @@ import Ingredient from "./Ingredient";
 import Direction from "./Direction";
 import Inspector from "./Inspector";
 import _get from "lodash/get";
+import _forEach from "lodash/forEach";
 import _isUndefined from "lodash/isUndefined";
 import _merge from "lodash/merge";
 import _filter from "lodash/filter";
@@ -254,7 +255,7 @@ export default class RecipeCard extends Component {
 		const childBlocks = ! _isNull( parentBlock ) ? parentBlock.innerBlocks : [];
 
 		if ( ! _isUndefined( childBlocks[0] ) && childBlocks[0].attributes ) {
-			setAttributes( { hasVideo: true, video: childBlocks[0].attributes } );
+			setAttributes( { hasVideo: 'true', video: childBlocks[0].attributes } );
 		} else {
 			setAttributes( { hasVideo: false, video: null } );
 		}
@@ -309,6 +310,9 @@ export default class RecipeCard extends Component {
 
 		if ( wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
 			pin_description = jsonSummary;
+		}
+		if ( _isUndefined( settings[0]['headerAlign'] ) ) {
+			settings[0]['headerAlign'] = wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align;
 		}
 
 		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], `header-content-align-${ settings[0]['headerAlign'] }` ].filter( ( item ) => item ).join( " " );
@@ -416,6 +420,9 @@ export default class RecipeCard extends Component {
 		if ( wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
 			pin_description = jsonSummary;
 		}
+		if ( _isUndefined( settings[0]['headerAlign'] ) ) {
+			settings[0]['headerAlign'] = wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align;
+		}
 
 		const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
 		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ].filter( ( item ) => item ).join( " " );
@@ -445,7 +452,7 @@ export default class RecipeCard extends Component {
 							instructions={ __( "Select an image file from your library.", "wpzoom-recipe-card" ) }
 							children={
 					        	<MediaUpload
-					        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url } } ) }
+					        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url, sizes: media.sizes } } ) }
 					        		allowedTypes={ [ 'image' ] }
 					        		value={ hasImage ? image.id : '' }
 					        		render={ ( { open } ) => (
@@ -463,7 +470,7 @@ export default class RecipeCard extends Component {
 						/>
 					:
 			        	<MediaUpload
-			        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url } } ) }
+			        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url, sizes: media.sizes } } ) }
 			        		allowedTypes={ [ 'image' ] }
 			        		value={ hasImage ? image.id : '' }
 			        		render={ ( { open } ) => (

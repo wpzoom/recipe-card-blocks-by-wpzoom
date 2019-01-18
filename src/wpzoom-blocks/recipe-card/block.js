@@ -79,14 +79,14 @@ const attributes = {
         default: [
             {
                 primary_color: '#222',
-                print_btn: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_print,
-                pin_btn: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_pin,
+                print_btn: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_print === '1',
+                pin_btn: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_pin === '1',
                 custom_author_name: custom_author_name,
                 additionalClasses: '',
-                displayCourse: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_course,
-                displayCuisine: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_cuisine,
-                displayDifficulty: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_difficulty,
-                displayAuthor: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_author,
+                displayCourse: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_course === '1',
+                displayCuisine: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_cuisine === '1',
+                displayDifficulty: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_difficulty === '1',
+                displayAuthor: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_author === '1',
                 headerAlign: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align,
                 ingredientsLayout: '1-column'
             }

@@ -1,9 +1,11 @@
 /* External dependencies */
 import _get from "lodash/get";
+import _forEach from "lodash/forEach";
 import _isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
+import { humanize } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
@@ -75,6 +77,8 @@ export default class Inspector extends Component {
 			settings,
 		} = attributes;
 
+		let image_sizes = [];
+
 		const coursesToken = [
 			__( "Appetizer & Snaks", "wpzoom-recipe-card" ),
 			__( "Breakfast & Brunch", "wpzoom-recipe-card" ),
@@ -127,6 +131,12 @@ export default class Inspector extends Component {
 
 		const removeRecipeImage = () => {
 			setAttributes( { hasImage: false, image: null } )
+		}
+
+		if ( hasImage ) {
+			_forEach( image.sizes, function( value, key ) {
+				image_sizes.push({ label: humanize( key ), value: value.url });
+			});
 		}
 
 		function structuredDataTestingTool() {
@@ -229,7 +239,7 @@ export default class Inspector extends Component {
 	        			help={ __( "Upload image for Recipe Card.", "wpzoom-recipe-card" ) }
 	        		>
 	                	<MediaUpload
-	                		onSelect={ media => setAttributes( { hasImage: true, image: { id: media.id, url: media.url } } ) }
+	                		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url, sizes: media.sizes } } ) }
 	                		allowedTypes={ [ 'image' ] }
 	                		value={ hasImage ? image.id : '' }
 	                		render={ ( { open } ) => (
@@ -240,7 +250,7 @@ export default class Inspector extends Component {
 	                				{ hasImage ?
 	                					<img
 	                                        className={ `${ id }-image` }
-	                                        src={ image.url }
+	                                        src={ image.sizes ? image.sizes.full.url : image.url }
 	                                        alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }
 	                                    />
 	                					: __( "Add recipe image", "wpzoom-recipe-card" )
@@ -250,6 +260,15 @@ export default class Inspector extends Component {
 	                	/>
 	                	{ hasImage ? <Button isLink="true" isDestructive="true" onClick={ removeRecipeImage }>{ __( "Remove Image", "wpzoom-recipe-card" ) }</Button> : '' }
 	        		</BaseControl>
+	        		{
+	        			hasImage &&
+		                <SelectControl
+	                		label={ __( "Image Size", "wpzoom-recipe-card" ) }
+	                		value={ image.url }
+	                		options={ image_sizes }
+	                		onChange={ url => setAttributes( { hasImage: 'true', image: { id: image.id, url: url, sizes: image.sizes } } ) }
+	                	/>
+	        		}
 			    	<BaseControl
 						id={ `${ id }-course` }
 						label={ __( "Course (required)", "wpzoom-recipe-card" ) }
