@@ -67,7 +67,7 @@ class WPZOOM_Settings {
 					if ( isset( $section['fields'] ) && is_array( $section['fields'] ) ) {
 						foreach ( $section['fields'] as $field ) {
 							if ( isset( $field['args']['default'] ) ) {
-								self::$defaults[ $field['id'] ] = $field['args']['default'];
+								self::$defaults[ $field['id'] ] = (string)$field['args']['default'];
 							}
 						}
 					}

@@ -359,9 +359,9 @@ export default class RecipeCard extends Component {
 						/>
 					}
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ `${ __( "Recipe by", "wpzoom-recipe-card" ) } ${ settings[0]['custom_author_name'] }` }</span> }
-					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ course }</mark></span> }
-					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ cuisine }</mark></span> }
-					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ difficulty }</mark></span> }
+					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : '' }</mark></span> }
+					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : '' }</mark></span> }
+					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : '' }</mark></span> }
 				</div>
 				<Detail.Content { ...props } />
 				{
@@ -523,9 +523,9 @@ export default class RecipeCard extends Component {
 						keepPlaceholderOnFocus={ true }
 					/>
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ `${ __( "Recipe by", "wpzoom-recipe-card" ) } ${ settings[0]['custom_author_name'] }` }</span> }
-					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(course) ? course : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(cuisine) ? cuisine : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(difficulty) ? difficulty : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
 				</div>
 				<Detail { ...{ attributes, setAttributes, className } } />
 				<RichText
