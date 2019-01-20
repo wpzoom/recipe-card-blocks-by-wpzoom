@@ -1,0 +1,105 @@
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar {
+	/*position: fixed;*/
+	float: left;
+	width: 150px;
+	text-align: right;
+	/* Negative margin for the sake of those without JS: all tabs display */
+	margin: 0 -150px 0 5px;
+	padding: 0;
+}
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li {
+	padding: 8px;
+	display: block;
+}
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a {
+	text-decoration: underline;
+}
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a:active,
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a:focus {
+	box-shadow: none;
+}
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active {
+ 	-webkit-border-top-left-radius: 3px;
+ 	-webkit-border-bottom-left-radius: 3px;
+ 	border-top-left-radius: 3px;
+ 	border-bottom-left-radius: 3px;
+}
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active a {
+	font-weight: bold;
+	text-decoration: none;
+}
+div.wp-tab-panel-active {
+	display:block;
+}
+div.wp-tab-panel-inactive {
+ 	display:none;
+}
+.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel {
+	margin: 0 5px 0 155px;
+	padding: 0 1.5em;
+	max-height: none;
+	min-height: 200px;
+}
+.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel h2 {
+	text-transform: uppercase;
+	font-size: 15px;
+	font-weight: 700;
+	position: relative;
+	padding-bottom: 10px;
+	margin: 15px 0;
+}
+.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel h2 + p {
+	color: #a0a0a0;
+}
+.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel h2::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0px;
+	width: 60px;
+	height: 4px;
+	background-color: #282828;
+}
+.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel .form-table + h2 {
+	padding-top: 25px;
+	border-top: 1px solid #ededed;
+}
+.settings_page_wpzoom-recipe-card-settings .wp-tab-bar li.wp-tab-active {
+	border-style: solid none solid solid;
+	border-width: 1px 0 1px 1px;
+	margin-right: -1px;
+}
+.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar #wpzoom_rcb_settings_save {
+	padding-bottom: 0;
+}
+
+
+
+/*
+ *
+ * Fields
+ *
+*/
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox .wpzoom-rcb-field-is_premium {
+	display: inline-block;
+	margin-right: 5px;
+    background: #FDA921;
+    color: #fff;
+    padding: 2px 5px;
+    font-size: 12px;
+    border-radius: 2px;
+}
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] {
+	display: inline-block;
+}
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] + .description {
+	margin-top: 0;
+	margin-left: 5px;
+	vertical-align: top;
+	display: inline-block;
+}
+
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-subsection th {
+	font-size: 16px;
+	padding-top: 0;
+}

@@ -14,13 +14,19 @@ import _omit from "lodash/omit";
 const { __ } = wp.i18n;
 const { registerBlockType, createBlock } = wp.blocks; // Import registerBlockType() from wp.blocks
 
+let custom_author_name = wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_author_custom_name;
+
+if ( custom_author_name === '' ) {
+    custom_author_name = wpzoomRecipeCard.post_author_name;
+}
+
 const attributes = {
     id: {
         type: 'string',
     },
     style: {
         type: 'string',
-        default: 'default'
+        default: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_template,
     },
     image: {
         type: 'object',
@@ -73,15 +79,15 @@ const attributes = {
         default: [
             {
                 primary_color: '#222',
-                print_btn: 'visible',
-                pin_btn: 'hidden',
-                custom_author_name: wpzoomRecipeCard.post_author_name,
+                print_btn: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_print === '1',
+                pin_btn: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_pin === '1',
+                custom_author_name: custom_author_name,
                 additionalClasses: '',
-                displayCourse: true,
-                displayCuisine: true,
-                displayDifficulty: true,
-                displayAuthor: true,
-                headerAlign: 'left',
+                displayCourse: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_course === '1',
+                displayCuisine: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_cuisine === '1',
+                displayDifficulty: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_difficulty === '1',
+                displayAuthor: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_author === '1',
+                headerAlign: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align,
                 ingredientsLayout: '1-column'
             }
         ]
@@ -112,7 +118,7 @@ const attributes = {
         type: 'array',
         selector: '.ingredients-title',
         source: 'children',
-        default: __( "Ingredients", "wpzoom-recipe-card" )
+        default: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_ingredients_title
     },
     jsonIngredientsTitle: {
         type: "string",
@@ -124,7 +130,7 @@ const attributes = {
         type: 'array',
         selector: '.directions-title',
         source: 'children',
-        default: __( "Directions", "wpzoom-recipe-card" )
+        default: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_steps_title
     },
     jsonDirectionsTitle: {
         type: "string",
@@ -133,7 +139,7 @@ const attributes = {
         type: 'array',
         selector: '.notes-title',
         source: 'children',
-        default: __( "Notes", "wpzoom-recipe-card" )
+        default: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_notes_title
     },
     steps: {
         type: 'array',
@@ -202,11 +208,12 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         { 
             name: 'default', 
             label: __( "Default", "wpzoom-recipe-card" ), 
-            isDefault: true 
+            isDefault: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_template === 'default'
         },
         { 
             name: 'newdesign', 
             label: __( "New Design", "wpzoom-recipe-card" ),
+            isDefault: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_template === 'newdesign'
         }
     ],
     // Transform block to Premium Recipe Card if is PRO active

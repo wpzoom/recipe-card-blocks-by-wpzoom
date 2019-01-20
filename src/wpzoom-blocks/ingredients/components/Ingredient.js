@@ -100,10 +100,10 @@ export default class Ingredient extends Component {
 	 * @returns {void}
 	 */
 	changeItem( newName, previousName, index ) {
-		const items = this.props.attributes.items ? this.props.attributes.items.slice() : [];
+		const ingredientsItems = this.props.attributes.items ? this.props.attributes.items.slice() : [];
 
 		// If the index exceeds the number of items, don't change anything.
-		if ( index >= items.length ) {
+		if ( index >= ingredientsItems.length ) {
 			return;
 		}
 
@@ -115,18 +115,18 @@ export default class Ingredient extends Component {
 		 * In essence, when the name at the current index does not match the name that was in the input field previously,
 		 * the changeItem was triggered by input fields moving in the DOM.
 		 */
-		if ( items[ index ].name !== previousName ) {
+		if ( ingredientsItems[ index ].name !== previousName ) {
 			return;
 		}
 
 		// Rebuild the item with the newly made changes.
-		items[ index ] = {
-			id: items[ index ].id,
+		ingredientsItems[ index ] = {
+			id: ingredientsItems[ index ].id,
 			name: newName,
 			jsonName: stripHTML( renderToString( newName ) ),
 		};
 
-		this.props.setAttributes( { items } );
+		this.props.setAttributes( { items: [ ...ingredientsItems ] } );
 	}
 
 	/**
@@ -139,25 +139,25 @@ export default class Ingredient extends Component {
 	 * @returns {void}
 	 */
 	insertItem( index, name = [], focus = true ) {
-		const items = this.props.attributes.items ? this.props.attributes.items.slice() : [];
+		const ingredientsItems = this.props.attributes.items ? this.props.attributes.items.slice() : [];
 
 		if ( _isUndefined( index ) ) {
-			index = items.length - 1;
+			index = ingredientsItems.length - 1;
 		}
 
-		let lastIndex = items.length - 1;
+		let lastIndex = ingredientsItems.length - 1;
 		while ( lastIndex > index ) {
 			this.editorRefs[ `${ lastIndex + 1 }:name` ] = this.editorRefs[ `${ lastIndex }:name` ];
 			lastIndex--;
 		}
 
-		items.splice( index + 1, 0, {
+		ingredientsItems.splice( index + 1, 0, {
 			id: Ingredient.generateId( "ingredient-item" ),
 			name,
 			jsonName: "",
 		} );
 
-		this.props.setAttributes( { items } );
+		this.props.setAttributes( { items: [ ...ingredientsItems ] } );
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:name` ) );
@@ -173,17 +173,17 @@ export default class Ingredient extends Component {
 	 * @returns {void}
 	 */
 	swapItem( index1, index2 ) {
-		const items = this.props.attributes.items ? this.props.attributes.items.slice() : [];
-		const item  = items[ index1 ];
+		const ingredientsItems = this.props.attributes.items ? this.props.attributes.items.slice() : [];
+		const item  = ingredientsItems[ index1 ];
 
-		items[ index1 ] = items[ index2 ];
-		items[ index2 ] = item;
+		ingredientsItems[ index1 ] = ingredientsItems[ index2 ];
+		ingredientsItems[ index2 ] = item;
 
 		const TextEditorRef = this.editorRefs[ `${ index1 }:name` ];
 		this.editorRefs[ `${ index1 }:name` ] = this.editorRefs[ `${ index2 }:name` ];
 		this.editorRefs[ `${ index2 }:name` ] = TextEditorRef;
 
-		this.props.setAttributes( { items } );
+		this.props.setAttributes( { items: [ ...ingredientsItems ] } );
 
 		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
@@ -203,10 +203,10 @@ export default class Ingredient extends Component {
 	 * @returns {void}
 	 */
 	removeItem( index ) {
-		const items = this.props.attributes.items ? this.props.attributes.items.slice() : [];
+		const ingredientsItems = this.props.attributes.items ? this.props.attributes.items.slice() : [];
 
-		items.splice( index, 1 );
-		this.props.setAttributes( { items } );
+		ingredientsItems.splice( index, 1 );
+		this.props.setAttributes( { items: [ ...ingredientsItems ] } );
 
 		delete this.editorRefs[ `${ index }:name` ];
 
@@ -359,24 +359,25 @@ export default class Ingredient extends Component {
 	 */
 	render() {
 		const { attributes, setAttributes, className } = this.props;
+		const { title, id, print_visibility } = attributes;
 
 		const classNames     = [ "", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "ingredients-list" ].filter( ( item ) => item ).join( " " );
 
 		return (
-			<div className={ classNames } id={ attributes.id }>
-				<div className={ 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility }>
-				    <a className="btn-print-link no-print" href={ '#'+ attributes.id } title={ __( "Print ingredients...", "wpzoom-recipe-card" ) }>
+			<div className={ classNames } id={ id }>
+				<div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
+				    <a className="btn-print-link no-print" href={ '#'+ id } title={ __( "Print ingredients...", "wpzoom-recipe-card" ) }>
 				        <img className="icon-print-link" src={ pluginURL + 'src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
 				    </a>
 				</div>
 				<RichText
 					tagName="h3"
 					className="ingredients-title"
-					value={ attributes.title }
+					value={ title }
 					unstableOnFocus={ () => this.setFocus( "title" ) }
 					isSelected={ this.state.focus === "title" }
-					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
+					onChange={ ( newTitle ) => setAttributes( { title: newTitle, jsonTitle: stripHTML( renderToString( newTitle ) ) } ) }
 					onSetup={ ( ref ) => {
 						this.editorRefs.title = ref;
 					} }

@@ -116,7 +116,7 @@ export default class DetailItem extends Component {
 	 * @returns {void}
 	 */
 	openModal( index ) {
-	    this.props.setAttributes( { showModal: true, toInsert: index } );
+	    this.props.setAttributes( { showModal: 'true', toInsert: index } );
 	}
 
 	/**

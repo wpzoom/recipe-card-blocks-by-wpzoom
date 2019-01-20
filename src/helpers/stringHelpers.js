@@ -21,3 +21,18 @@ export function stripHTML( string ) {
 	tmp.innerHTML = string;
 	return tmp.textContent || tmp.innerText || "";
 }
+
+/**
+ * Replace underscores with spaces and capitalize words.
+ *
+ * @param   {string} string The string to capitalize.
+ *
+ * @returns {string}        The string with the first letter capitalized and underscore removed.
+ */
+export function humanize( string ) {
+  	const frags = string.split('_');
+  	for (var i = 0; i < frags.length; i++) {
+    	frags[i] = firstToUpperCase( frags[i] );
+  	}
+  	return frags.join(' ');
+}

@@ -4,6 +4,7 @@ import Ingredient from "./Ingredient";
 import Direction from "./Direction";
 import Inspector from "./Inspector";
 import _get from "lodash/get";
+import _forEach from "lodash/forEach";
 import _isUndefined from "lodash/isUndefined";
 import _merge from "lodash/merge";
 import _filter from "lodash/filter";
@@ -224,7 +225,7 @@ export default class RecipeCard extends Component {
 
 		const regex = /is-style-(\S*)/g;
 		let m = regex.exec( className );
-		const activeStyle = m !== null ? m[1] : wpzoomRecipeCard.block_style;
+		const activeStyle = m !== null ? m[1] : wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_template;
 
 		if ( activeStyle === 'default' ) {
 			settings[0].primary_color = '#222';
@@ -254,7 +255,7 @@ export default class RecipeCard extends Component {
 		const childBlocks = ! _isNull( parentBlock ) ? parentBlock.innerBlocks : [];
 
 		if ( ! _isUndefined( childBlocks[0] ) && childBlocks[0].attributes ) {
-			setAttributes( { hasVideo: true, video: childBlocks[0].attributes } );
+			setAttributes( { hasVideo: 'true', video: childBlocks[0].attributes } );
 		} else {
 			setAttributes( { hasVideo: false, video: null } );
 		}
@@ -305,10 +306,19 @@ export default class RecipeCard extends Component {
 			className
 		} = props;
 
+		let pin_description = recipeTitle;
+
+		if ( wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
+			pin_description = jsonSummary;
+		}
+		if ( _isUndefined( settings[0]['headerAlign'] ) ) {
+			settings[0]['headerAlign'] = wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align;
+		}
+
 		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], `header-content-align-${ settings[0]['headerAlign'] }` ].filter( ( item ) => item ).join( " " );
-		const PrintClasses = [ "wpzoom-recipe-card-print-link", settings[0]['print_btn'] ].filter( ( item ) => item ).join( " " );
-		const PinterestClasses = [ "wpzoom-recipe-card-pinit", settings[0]['pin_btn'] ].filter( ( item ) => item ).join( " " );
-		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : jsonSummary ? jsonSummary : '' }`;
+		const PrintClasses = [ "wpzoom-recipe-card-print-link" ].filter( ( item ) => item ).join( " " );
+		const PinterestClasses = [ "wpzoom-recipe-card-pinit" ].filter( ( item ) => item ).join( " " );
+		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ pin_description }`;
 
 		return (
 			<div className={ RecipeCardClassName } id={ id }>
@@ -319,7 +329,7 @@ export default class RecipeCard extends Component {
 								<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }/>
 								<figcaption>
 									{
-										settings[0]['pin_btn'] === 'visible' && 
+										settings[0]['pin_btn'] && 
 										<div className={ PinterestClasses }>
 						                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
 						                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
@@ -328,7 +338,7 @@ export default class RecipeCard extends Component {
 						                </div>
 						            }
 						            {
-					                	settings[0]['print_btn'] === 'visible' && 
+					                	settings[0]['print_btn'] && 
 					                	<div className={ PrintClasses }>
 						                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
 						                    	<i className="fa fa-print icon-print-link"></i>
@@ -349,9 +359,9 @@ export default class RecipeCard extends Component {
 						/>
 					}
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ `${ __( "Recipe by", "wpzoom-recipe-card" ) } ${ settings[0]['custom_author_name'] }` }</span> }
-					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ course }</mark></span> }
-					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ cuisine }</mark></span> }
-					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ difficulty }</mark></span> }
+					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : '' }</mark></span> }
+					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : '' }</mark></span> }
+					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : '' }</mark></span> }
 				</div>
 				<Detail.Content { ...props } />
 				{
@@ -405,11 +415,20 @@ export default class RecipeCard extends Component {
 		this.setVideoAttributes();
 		this.setActiveBlockStyle( className );
 
+		let pin_description = recipeTitle;
+
+		if ( wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
+			pin_description = jsonSummary;
+		}
+		if ( _isUndefined( settings[0]['headerAlign'] ) ) {
+			settings[0]['headerAlign'] = wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align;
+		}
+
 		const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
 		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ].filter( ( item ) => item ).join( " " );
 		const PrintClasses = [ "wpzoom-recipe-card-print-link", settings[0]['print_btn'] ].filter( ( item ) => item ).join( " " );
 		const PinterestClasses = [ "wpzoom-recipe-card-pinit", settings[0]['pin_btn'] ].filter( ( item ) => item ).join( " " );
-		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : jsonSummary ? jsonSummary : '' }`;
+		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ pin_description }`;
 
 		return (
 			<div className={ RecipeCardClassName } id={ id }>
@@ -433,7 +452,7 @@ export default class RecipeCard extends Component {
 							instructions={ __( "Select an image file from your library.", "wpzoom-recipe-card" ) }
 							children={
 					        	<MediaUpload
-					        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url } } ) }
+					        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url, sizes: media.sizes } } ) }
 					        		allowedTypes={ [ 'image' ] }
 					        		value={ hasImage ? image.id : '' }
 					        		render={ ( { open } ) => (
@@ -451,7 +470,7 @@ export default class RecipeCard extends Component {
 						/>
 					:
 			        	<MediaUpload
-			        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url } } ) }
+			        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url, sizes: media.sizes } } ) }
 			        		allowedTypes={ [ 'image' ] }
 			        		value={ hasImage ? image.id : '' }
 			        		render={ ( { open } ) => (
@@ -464,7 +483,7 @@ export default class RecipeCard extends Component {
         									<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }/>
         									<figcaption>
 												{
-													settings[0]['pin_btn'] === 'visible' && 
+													settings[0]['pin_btn'] && 
 													<div className={ PinterestClasses }>
 									                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
 									                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
@@ -473,7 +492,7 @@ export default class RecipeCard extends Component {
 									                </div>
 									            }
 									            {
-								                	settings[0]['print_btn'] === 'visible' && 
+								                	settings[0]['print_btn'] && 
 								                	<div className={ PrintClasses }>
 									                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
 									                    	<i className="fa fa-print icon-print-link"></i>
@@ -504,11 +523,12 @@ export default class RecipeCard extends Component {
 						keepPlaceholderOnFocus={ true }
 					/>
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ `${ __( "Recipe by", "wpzoom-recipe-card" ) } ${ settings[0]['custom_author_name'] }` }</span> }
-					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(course) ? course : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(cuisine) ? cuisine : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(difficulty) ? difficulty : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
 				</div>
 				<Detail { ...{ attributes, setAttributes, className } } />
+				<p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
 				<RichText
 					className="recipe-card-summary"
 					tagName="p"
@@ -518,7 +538,7 @@ export default class RecipeCard extends Component {
 					onSetup={ ( ref ) => {
 						this.editorRefs.summary = ref;
 					} }
-					placeholder={ __( "Enter description / summary about your recipe.", "wpzoom-recipe-card" ) }
+					placeholder={ __( "Enter a short recipe description.", "wpzoom-recipe-card" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<Ingredient { ...{ attributes, setAttributes, className, clientId } } />
@@ -550,7 +570,7 @@ export default class RecipeCard extends Component {
 						placeholder={ __( "Enter Note text for your recipe.", "wpzoom-recipe-card" ) }
 						keepPlaceholderOnFocus={ true }
 					/>
-					<p className="description">{ __( "Press Enter to add new notice.", "wpzoom-recipe-card" ) }</p>
+					<p className="description">{ __( "Press Enter to add new note.", "wpzoom-recipe-card" ) }</p>
 				</div>
 				<Inspector { ...{ attributes, setAttributes, className , clientId } } />
 			</div>
