@@ -528,6 +528,7 @@ export default class RecipeCard extends Component {
 					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty:", "wpzoom-recipe-card" ) } <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
 				</div>
 				<Detail { ...{ attributes, setAttributes, className } } />
+				<p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
 				<RichText
 					className="recipe-card-summary"
 					tagName="p"
@@ -537,7 +538,7 @@ export default class RecipeCard extends Component {
 					onSetup={ ( ref ) => {
 						this.editorRefs.summary = ref;
 					} }
-					placeholder={ __( "Enter description / summary about your recipe.", "wpzoom-recipe-card" ) }
+					placeholder={ __( "Enter a short recipe description.", "wpzoom-recipe-card" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<Ingredient { ...{ attributes, setAttributes, className, clientId } } />
@@ -569,7 +570,7 @@ export default class RecipeCard extends Component {
 						placeholder={ __( "Enter Note text for your recipe.", "wpzoom-recipe-card" ) }
 						keepPlaceholderOnFocus={ true }
 					/>
-					<p className="description">{ __( "Press Enter to add new notice.", "wpzoom-recipe-card" ) }</p>
+					<p className="description">{ __( "Press Enter to add new note.", "wpzoom-recipe-card" ) }</p>
 				</div>
 				<Inspector { ...{ attributes, setAttributes, className , clientId } } />
 			</div>

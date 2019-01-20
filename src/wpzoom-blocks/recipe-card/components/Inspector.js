@@ -232,7 +232,7 @@ export default class Inspector extends Component {
 
 		return (
 			<InspectorControls>
-                <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ true } title={ __( "Recipe Card SEO Settings", "wpzoom-recipe-card" ) }>
+                <PanelBody className="wpzoom-recipe-card-settings" initialOpen={ true } title={ __( "Recipe Card Settings", "wpzoom-recipe-card" ) }>
 	            	<BaseControl
 	        			id={ `${ id }-image` }
 	        			label={ __( "Recipe Card Image (required)", "wpzoom-recipe-card" ) }
@@ -270,107 +270,6 @@ export default class Inspector extends Component {
 	                	/>
 	        		}
 			    	<BaseControl
-						id={ `${ id }-course` }
-						label={ __( "Course (required)", "wpzoom-recipe-card" ) }
-						help={ __( "Type course and press Enter.", "wpzoom-recipe-card" ) }
-					>
-	            		<FormTokenField 
-	            			label={ __( "Add course", "wpzoom-recipe-card" ) }
-	        				value={ course } 
-	        				suggestions={ coursesToken } 
-	        				onChange={ newCourse => setAttributes( { course: newCourse } ) }
-	        				placeholder={ __( "Type recipe course", "wpzoom-recipe-card" ) }
-	        			/>
-	        		</BaseControl>
-			    	<BaseControl
-						id={ `${ id }-cuisine` }
-						label={ __( "Cuisine (required)", "wpzoom-recipe-card" ) }
-						help={ __( "Type cuisine and press Enter.", "wpzoom-recipe-card" ) }
-					>
-	            		<FormTokenField 
-	            			label={ __( "Add cuisine", "wpzoom-recipe-card" ) }
-	        				value={ cuisine } 
-	        				suggestions={ cuisinesToken } 
-	        				onChange={ newCuisine => setAttributes( { cuisine: newCuisine } ) }
-	        				placeholder={ __( "Type recipe cuisine", "wpzoom-recipe-card" ) }
-	        			/>
-	        		</BaseControl>
-			    	<BaseControl
-						id={ `${ id }-difficulty` }
-						label={ __( "Difficulty", "wpzoom-recipe-card" ) }
-						help={ __( "Type difficulty level and press Enter.", "wpzoom-recipe-card" ) }
-					>
-	            		<FormTokenField 
-	            			label={ __( "Add difficulty level", "wpzoom-recipe-card" ) }
-	        				value={ difficulty } 
-	        				suggestions={ difficultyToken } 
-	        				onChange={ newDifficulty => setAttributes( { difficulty: newDifficulty } ) }
-	        				placeholder={ __( "Type difficulty level", "wpzoom-recipe-card" ) }
-	        			/>
-	        		</BaseControl>
-			    	<BaseControl
-						id={ `${ id }-keywords` }
-						label={ __( "Keywords (recommended)", "wpzoom-recipe-card" ) }
-						help={ __( "For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword).", "wpzoom-recipe-card" ) }
-					>
-	            		<FormTokenField
-	            			label={ __( "Add keywords", "wpzoom-recipe-card" ) } 
-	        				value={ keywords } 
-	        				suggestions={ keywordsToken } 
-	        				onChange={ newKeyword => setAttributes( { keywords: newKeyword } ) }
-	        				placeholder={ __( "Type recipe keywords", "wpzoom-recipe-card" ) }
-	        			/>
-	        		</BaseControl>
-	        		<PanelRow>
-	            		<TextControl
-	            			id={ `${ id }-yield` }
-	            			instanceId={ `${ id }-yield` }
-	            			type="number"
-	            			label={ __( "Servings", "wpzoom-recipe-card" ) }
-	            			value={ _get( details, [ 0, 'value' ] ) }
-	            			onChange={ newYield => onChangeDetail(newYield, 0) }
-	            		/>
-	        			<span>{ _get( details, [ 0, 'unit' ] ) }</span>
-	        		</PanelRow>
-	        		<PanelRow>
-	            		<TextControl
-	            			id={ `${ id }-preptime` }
-	            			instanceId={ `${ id }-preptime` }
-	            			type="number"
-	            			label={ __( "Preparation time", "wpzoom-recipe-card" ) }
-	            			value={ _get( details, [ 1, 'value' ] ) }
-	            			onChange={ newPrepTime => onChangeDetail(newPrepTime, 1) }
-	            		/>
-	        			<span>{ _get( details, [ 1, 'unit' ] ) }</span>
-	        		</PanelRow>
-	        		<PanelRow>
-	            		<TextControl
-	            			id={ `${ id }-cookingtime` }
-	            			instanceId={ `${ id }-cookingtime` }
-	            			type="number"
-	            			label={ __( "Cooking time", "wpzoom-recipe-card" ) }
-	            			value={ _get( details, [ 2, 'value' ] ) }
-	            			onChange={ newCookingTime => onChangeDetail(newCookingTime, 2) }
-	            		/>
-	        			<span>{ _get( details, [ 2, 'unit' ] ) }</span>
-	        		</PanelRow>
-	        		<PanelRow>
-	            		<TextControl
-	            			id={ `${ id }-calories` }
-	            			instanceId={ `${ id }-calories` }
-	            			type="number"
-	            			label={ __( "Calories", "wpzoom-recipe-card" ) }
-	            			value={ _get( details, [ 3, 'value' ] ) }
-	            			onChange={ newCalories => onChangeDetail(newCalories, 3) }
-	            		/>
-	        			<span>{ _get( details, [ 3, 'unit' ] ) }</span>
-	        		</PanelRow>
-	            </PanelBody>
-	            <PanelBody className="wpzoom-recipe-card-structured-data-testing" title={ __( "Structured Data Testing", "wpzoom-recipe-card" ) }>
-	            	{ structuredDataTestingTool() }
-	            </PanelBody>
-                <PanelBody className="wpzoom-recipe-card-settings" initialOpen={ false } title={ __( "Recipe Card Settings", "wpzoom-recipe-card" ) }>
-			    	<BaseControl
 						id={ `${ id }-print-btn` }
 						label={ __( "Print Button", "wpzoom-recipe-card" ) }
 					>
@@ -391,24 +290,24 @@ export default class Inspector extends Component {
 		                />
 	        		</BaseControl>
 			    	<BaseControl
-						id={ `${ id }-metadatas` }
-						label={ __( "Display Metadatas", "wpzoom-recipe-card" ) }
+						id={ `${ id }-heading-align` }
+						label={ __( "Header Content Align", "wpzoom-recipe-card" ) }
 					>
-		                <ToggleControl
-		                    label={ __( "Display Course", "wpzoom-recipe-card" ) }
-		                    checked={ settings[0]['displayCourse'] }
-		                    onChange={ display => onChangeSettings( display, 0, 'displayCourse' ) }
-		                />
-		                <ToggleControl
-		                    label={ __( "Display Cuisine", "wpzoom-recipe-card" ) }
-		                    checked={ settings[0]['displayCuisine'] }
-		                    onChange={ display => onChangeSettings( display, 0, 'displayCuisine' ) }
-		                />
-		                <ToggleControl
-		                    label={ __( "Display Difficulty", "wpzoom-recipe-card" ) }
-		                    checked={ settings[0]['displayDifficulty'] }
-		                    onChange={ display => onChangeSettings( display, 0, 'displayDifficulty' ) }
-		                />
+		                <SelectControl
+	                		label={ __( "Select Alignment", "wpzoom-recipe-card" ) }
+	                		value={ settings[0]['headerAlign'] }
+	                		options={ [
+	                			{ label: __( "Left" ), value: "left" },
+	                			{ label: __( "Center" ), value: "center" },
+	                			{ label: __( "Right" ), value: "right" },
+	                		] }
+	                		onChange={ alignment => onChangeSettings( alignment, 0, 'headerAlign' ) }
+	                	/>
+	        		</BaseControl>
+    		    	<BaseControl
+    					id={ `${ id }-author` }
+    					label={ __( "Author", "wpzoom-recipe-card" ) }
+    				>
 		                <ToggleControl
 		                    label={ __( "Display Author", "wpzoom-recipe-card" ) }
 		                    checked={ settings[0]['displayAuthor'] }
@@ -426,48 +325,149 @@ export default class Inspector extends Component {
 			                	onChange={ authorName => onChangeSettings( authorName, 0, 'custom_author_name' ) }
 			                />
 			            }
+		           	</BaseControl>
+   	        		{
+   	        			style === 'newdesign' &&
+   					    	<BaseControl
+   								id={ `${ id }-ingredients-layout` }
+   								label={ __( "Ingredients Layout", "wpzoom-recipe-card" ) }
+   							>
+   				                <SelectControl
+   			                		label={ __( "Select Layout", "wpzoom-recipe-card" ) }
+   			                		help={ __( "This setting is visible only on Front-End. In Editor still appears in one column to prevent floating elements on editing.", "wpzoom-recipe-card" ) }
+   			                		value={ settings[0]['ingredientsLayout'] }
+   			                		options={ [
+   			                			{ label: __( "1 column" ), value: "1-column" },
+   			                			{ label: __( "2 columns" ), value: "2-columns" },
+   			                		] }
+   			                		onChange={ size => onChangeSettings( size, 0, 'ingredientsLayout' ) }
+   			                	/>
+   			        		</BaseControl>
+   	        		}
+	            </PanelBody>
+                <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ false } title={ __( "Recipe Card SEO Settings", "wpzoom-recipe-card" ) }>
+			    	<BaseControl
+						id={ `${ id }-course` }
+						label={ __( "Course (required)", "wpzoom-recipe-card" ) }
+					>
+						<ToggleControl
+						    label={ __( "Display Course", "wpzoom-recipe-card" ) }
+						    checked={ settings[0]['displayCourse'] }
+						    onChange={ display => onChangeSettings( display, 0, 'displayCourse' ) }
+						/>
+						{
+							settings[0]['displayCourse'] &&
+		            		<FormTokenField 
+		            			label={ __( "Add course", "wpzoom-recipe-card" ) }
+		        				value={ course } 
+		        				suggestions={ coursesToken } 
+		        				onChange={ newCourse => setAttributes( { course: newCourse } ) }
+		        				placeholder={ __( "Type course and press Enter", "wpzoom-recipe-card" ) }
+		        			/>
+						}
 	        		</BaseControl>
 			    	<BaseControl
-						id={ `${ id }-heading-align` }
-						label={ __( "Header Content Align", "wpzoom-recipe-card" ) }
+						id={ `${ id }-cuisine` }
+						label={ __( "Cuisine (required)", "wpzoom-recipe-card" ) }
 					>
-		                <SelectControl
-	                		label={ __( "Select Alignment", "wpzoom-recipe-card" ) }
-	                		value={ settings[0]['headerAlign'] }
-	                		options={ [
-	                			{ label: __( "Left" ), value: "left" },
-	                			{ label: __( "Center" ), value: "center" },
-	                			{ label: __( "Right" ), value: "right" },
-	                		] }
-	                		onChange={ alignment => onChangeSettings( alignment, 0, 'headerAlign' ) }
-	                	/>
+						<ToggleControl
+						    label={ __( "Display Cuisine", "wpzoom-recipe-card" ) }
+						    checked={ settings[0]['displayCuisine'] }
+						    onChange={ display => onChangeSettings( display, 0, 'displayCuisine' ) }
+						/>
+						{
+							settings[0]['displayCuisine'] &&
+		            		<FormTokenField 
+		            			label={ __( "Add cuisine", "wpzoom-recipe-card" ) }
+		        				value={ cuisine } 
+		        				suggestions={ cuisinesToken } 
+		        				onChange={ newCuisine => setAttributes( { cuisine: newCuisine } ) }
+		        				placeholder={ __( "Type cuisine and press Enter", "wpzoom-recipe-card" ) }
+		        			/>
+						}
 	        		</BaseControl>
-	        		{
-	        			style === 'newdesign' &&
-					    	<BaseControl
-								id={ `${ id }-ingredients-layout` }
-								label={ __( "Ingredients Layout", "wpzoom-recipe-card" ) }
-							>
-				                <SelectControl
-			                		label={ __( "Select Layout", "wpzoom-recipe-card" ) }
-			                		help={ __( "This setting is visible only on Front-End. In Editor still appears in one column to prevent floating elements on editing.", "wpzoom-recipe-card" ) }
-			                		value={ settings[0]['ingredientsLayout'] }
-			                		options={ [
-			                			{ label: __( "1 column" ), value: "1-column" },
-			                			{ label: __( "2 columns" ), value: "2-columns" },
-			                		] }
-			                		onChange={ size => onChangeSettings( size, 0, 'ingredientsLayout' ) }
-			                	/>
-			        		</BaseControl>
-	        		}
-	                <TextControl
-	                	id={ `${ id }-additional-classes` }
-	                	instanceId={ `${ id }-additional-classes` }
-	                	label={ __( "CSS class(es) to apply to the Recipe Card Block", "wpzoom-recipe-card" ) }
-	                	value={ settings[0]['additionalClasses'] }
-	                	onChange={ value => onChangeSettings( value, 0, 'additionalClasses' ) }
-	                	help={ __( "Optional. This can give you better control over the styling of the detail items.", "wpzoom-recipe-card" ) }
-	                />
+			    	<BaseControl
+						id={ `${ id }-difficulty` }
+						label={ __( "Difficulty", "wpzoom-recipe-card" ) }
+					>
+						<ToggleControl
+						    label={ __( "Display Difficulty", "wpzoom-recipe-card" ) }
+						    checked={ settings[0]['displayDifficulty'] }
+						    onChange={ display => onChangeSettings( display, 0, 'displayDifficulty' ) }
+						/>
+						{
+							settings[0]['displayDifficulty'] &&
+		            		<FormTokenField 
+		            			label={ __( "Add difficulty level", "wpzoom-recipe-card" ) }
+		        				value={ difficulty } 
+		        				suggestions={ difficultyToken } 
+		        				onChange={ newDifficulty => setAttributes( { difficulty: newDifficulty } ) }
+		        				placeholder={ __( "Type difficulty level and press Enter", "wpzoom-recipe-card" ) }
+		        			/>
+						}
+	        		</BaseControl>
+			    	<BaseControl
+						id={ `${ id }-keywords` }
+						label={ __( "Keywords (recommended)", "wpzoom-recipe-card" ) }
+						help={ __( "For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword).", "wpzoom-recipe-card" ) }
+					>
+	            		<FormTokenField
+	            			label={ __( "Add keywords", "wpzoom-recipe-card" ) } 
+	        				value={ keywords } 
+	        				suggestions={ keywordsToken } 
+	        				onChange={ newKeyword => setAttributes( { keywords: newKeyword } ) }
+	        				placeholder={ __( "Type recipe keywords", "wpzoom-recipe-card" ) }
+	        			/>
+	        		</BaseControl>
+	            </PanelBody>
+	            <PanelBody className="wpzoom-recipe-card-details" initialOpen={ false } title={ __( "Recipe Card Details", "wpzoom-recipe-card" ) }>
+        			<PanelRow>
+        	    		<TextControl
+        	    			id={ `${ id }-yield` }
+        	    			instanceId={ `${ id }-yield` }
+        	    			type="number"
+        	    			label={ __( "Servings", "wpzoom-recipe-card" ) }
+        	    			value={ _get( details, [ 0, 'value' ] ) }
+        	    			onChange={ newYield => onChangeDetail(newYield, 0) }
+        	    		/>
+        				<span>{ _get( details, [ 0, 'unit' ] ) }</span>
+        			</PanelRow>
+        			<PanelRow>
+        	    		<TextControl
+        	    			id={ `${ id }-preptime` }
+        	    			instanceId={ `${ id }-preptime` }
+        	    			type="number"
+        	    			label={ __( "Preparation time", "wpzoom-recipe-card" ) }
+        	    			value={ _get( details, [ 1, 'value' ] ) }
+        	    			onChange={ newPrepTime => onChangeDetail(newPrepTime, 1) }
+        	    		/>
+        				<span>{ _get( details, [ 1, 'unit' ] ) }</span>
+        			</PanelRow>
+        			<PanelRow>
+        	    		<TextControl
+        	    			id={ `${ id }-cookingtime` }
+        	    			instanceId={ `${ id }-cookingtime` }
+        	    			type="number"
+        	    			label={ __( "Cooking time", "wpzoom-recipe-card" ) }
+        	    			value={ _get( details, [ 2, 'value' ] ) }
+        	    			onChange={ newCookingTime => onChangeDetail(newCookingTime, 2) }
+        	    		/>
+        				<span>{ _get( details, [ 2, 'unit' ] ) }</span>
+        			</PanelRow>
+        			<PanelRow>
+        	    		<TextControl
+        	    			id={ `${ id }-calories` }
+        	    			instanceId={ `${ id }-calories` }
+        	    			type="number"
+        	    			label={ __( "Calories", "wpzoom-recipe-card" ) }
+        	    			value={ _get( details, [ 3, 'value' ] ) }
+        	    			onChange={ newCalories => onChangeDetail(newCalories, 3) }
+        	    		/>
+        				<span>{ _get( details, [ 3, 'unit' ] ) }</span>
+        			</PanelRow>
+	            </PanelBody>
+	            <PanelBody className="wpzoom-recipe-card-structured-data-testing" initialOpen={ false } title={ __( "Structured Data Testing", "wpzoom-recipe-card" ) }>
+	            	{ structuredDataTestingTool() }
 	            </PanelBody>
             </InspectorControls>
 		);

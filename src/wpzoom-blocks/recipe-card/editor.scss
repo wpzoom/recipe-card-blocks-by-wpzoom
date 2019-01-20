@@ -49,6 +49,9 @@
 				}
 			}
 		}
+		+ p.description {
+			margin-bottom: 10px !important;
+		}
 	}
 	.ingredient-item {
 		position: relative;
@@ -132,6 +135,7 @@
 	p.description {
 		font-size: 13px;
 		opacity: 0.7;
+		margin-bottom: 10px;
 	}
 	.components-icon-button .dashicon + .components-icon-button-text {
 		margin-left: 5px;
@@ -141,19 +145,27 @@
 
 .wpzoom-recipe-card-settings .components-base-control__label,
 .wpzoom-recipe-card-seo-settings .components-base-control__label,
+.wpzoom-recipe-card-details .components-base-control__label,
 .wpzoom-recipe-card-structured-data-testing .components-base-control__label {
 	font-weight: 500;
+	+ .components-toggle-control {
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
 }
 .wpzoom-recipe-card-settings .components-base-control__help,
 .wpzoom-recipe-card-seo-settings .components-base-control__help,
+.wpzoom-recipe-card-details .components-base-control__help,
 .wpzoom-recipe-card-structured-data-testing .components-base-control__help {
 	margin-top: 0;
 }
 
-.wpzoom-recipe-card-seo-settings .components-panel__row .components-base-control {
+.wpzoom-recipe-card-seo-settings .components-panel__row .components-base-control,
+.wpzoom-recipe-card-details .components-panel__row .components-base-control {
 	margin-bottom: 0;
 }
-.wpzoom-recipe-card-seo-settings .components-panel__row .components-base-control + span {
+.wpzoom-recipe-card-seo-settings .components-panel__row .components-base-control + span,
+.wpzoom-recipe-card-details .components-panel__row .components-base-control + span {
 	margin-top: 1.25em;
 }
 
