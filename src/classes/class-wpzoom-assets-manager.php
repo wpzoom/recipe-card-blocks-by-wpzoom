@@ -243,6 +243,13 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                 $this->_version,
                 true // Enqueue the script in the footer.
             );
+
+            // Tell to WordPress that our script contains translations
+            // this function was added in 5.0 version
+            if ( function_exists( 'wp_set_script_translations' ) ) {
+	            wp_set_script_translations( $this->_slug . '-js', $this->_textdomain );
+            }
+
             // Styles.
             wp_enqueue_style(
                 $this->_slug . '-editor-css', // Handle.

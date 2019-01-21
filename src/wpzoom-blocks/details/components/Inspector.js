@@ -107,7 +107,7 @@ export default class Inspector extends Component {
 				<PanelBody initialOpen={ true } title={ __( "Details Settings", "wpzoom-recipe-card" ) }>
 					<RangeControl
 						label={ __( "Number of Columns", "wpzoom-recipe-card" ) }
-						help={ __( "Default: 4", "wpzoom-recipe-card" ) }
+						help={ __( "Default", "wpzoom-recipe-card" ) + ': 4' }
 						value={ columns }
 						onChange={ ( columns ) => setAttributes( { columns } ) }
 						min={ 2 }
