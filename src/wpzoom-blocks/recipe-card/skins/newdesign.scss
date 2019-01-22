@@ -240,6 +240,11 @@ $heading_color: #222;
                 cursor: pointer;
                 line-height: 1.7;
 
+                &::after {
+                    content: '';
+                    clear: both;
+                    display: table;
+                }
                 .ingredient-item-name {
                     margin: 0;
                     vertical-align: middle;
@@ -249,11 +254,9 @@ $heading_color: #222;
                     }
 
                 }
-
                 .tick-circle {
                     content: '';
-                    display: inline-block;
-                    vertical-align: top;
+                    float: left;
                     width: 18px;
                     height: 18px;
                     margin: 6px 10px 0 0;

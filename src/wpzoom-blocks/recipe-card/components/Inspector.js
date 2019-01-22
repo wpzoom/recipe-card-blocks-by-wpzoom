@@ -80,13 +80,18 @@ export default class Inspector extends Component {
 		let image_sizes = [];
 
 		const coursesToken = [
-			__( "Appetizer & Snaks", "wpzoom-recipe-card" ),
-			__( "Breakfast & Brunch", "wpzoom-recipe-card" ),
-			__( "Dessert", "wpzoom-recipe-card" ),
-			__( "Drinks", "wpzoom-recipe-card" ),
-			__( "Main Course", "wpzoom-recipe-card" ),
-			__( "Salad", "wpzoom-recipe-card" ),
-			__( "Soup", "wpzoom-recipe-card" ),
+			__( "Appetizers", "wpzoom-recipe-card" ),
+            __( "Snacks", "wpzoom-recipe-card" ),
+            __( "Breakfast", "wpzoom-recipe-card" ),
+            __( "Brunch", "wpzoom-recipe-card" ),
+            __( "Dessert", "wpzoom-recipe-card" ),
+            __( "Drinks", "wpzoom-recipe-card" ),
+            __( "Dinner", "wpzoom-recipe-card" ),
+            __( "Main", "wpzoom-recipe-card" ),
+            __( "Lunch", "wpzoom-recipe-card" ),
+            __( "Salads", "wpzoom-recipe-card" ),
+            __( "Sides", "wpzoom-recipe-card" ),
+            __( "Soups", "wpzoom-recipe-card" ),
 		];
 
 		const cuisinesToken = [
