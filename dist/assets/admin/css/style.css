@@ -80,14 +80,24 @@ div.wp-tab-panel-inactive {
  * Fields
  *
 */
-.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox .wpzoom-rcb-field-is_premium {
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-badge {
 	display: inline-block;
+	vertical-align: middle;
 	margin-right: 5px;
-    background: #FDA921;
+    background: #0085ba;
     color: #fff;
     padding: 2px 5px;
     font-size: 12px;
     border-radius: 2px;
+}
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_premium {
+    background: #FDA921;
+}
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_active {
+    background: #46b450;
+}
+.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_inactive {
+    background: #dc3232;
 }
 .settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] {
 	display: inline-block;

@@ -10,6 +10,7 @@
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wpzoom-recipe-card
+ * Domain Path: /languages
  *
  * @package   WPZOOM Recipe Card Block
  * @author    Vicolas Petru
@@ -77,6 +78,15 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 			$this->define( 'WPZOOM_RCB_PLUGIN_FILE', __FILE__ );
 			$this->define( 'WPZOOM_RCB_PLUGIN_BASE', plugin_basename( __FILE__ ) );
 			$this->define( 'WPZOOM_RCB_REVIEW_URL', 'https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/' );
+
+			// settings ?page url attribute
+			$this->define( 'WPZOOM_RCB_SETTINGS_PAGE', 'wpzoom-recipe-card-settings' );
+			// this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
+			$this->define( 'WPZOOM_RCB_STORE_URL', 'https://www.wpzoom.com/' );
+			$this->define( 'WPZOOM_RCB_RENEW_URL', 'https://www.wpzoom.com/account/licenses/' );
+			// the download ID. This is the ID of your product in EDD and should match the download ID visible in your Downloads list
+			$this->define( 'WPZOOM_RCB_ITEM_ID', 197189 );
+			$this->define( 'WPZOOM_RCB_ITEM_NAME', 'Recipe Card Block PRO' );
 		}
 
 		/**
@@ -115,6 +125,11 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function load_dependencies() {
+			if( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+				// load our custom updater if it doesn't already exist 
+				include( WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-edd-sl-plugin-updater.php' );
+			}
+			
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-settings-fields.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-settings.php';
 
