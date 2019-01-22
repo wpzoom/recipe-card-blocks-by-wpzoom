@@ -345,7 +345,7 @@ export default class Inspector extends Component {
    			        		</BaseControl>
    	        		}
 	            </PanelBody>
-                <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ false } title={ __( "Recipe Card SEO Settings", "wpzoom-recipe-card" ) }>
+                <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ true } title={ __( "Recipe Card SEO Settings", "wpzoom-recipe-card" ) }>
 			    	<BaseControl
 						id={ `${ id }-course` }
 						label={ __( "Course (required)", "wpzoom-recipe-card" ) }
@@ -420,7 +420,7 @@ export default class Inspector extends Component {
 	        			/>
 	        		</BaseControl>
 	            </PanelBody>
-	            <PanelBody className="wpzoom-recipe-card-details" initialOpen={ false } title={ __( "Recipe Card Details", "wpzoom-recipe-card" ) }>
+	            <PanelBody className="wpzoom-recipe-card-details" initialOpen={ true } title={ __( "Recipe Card Details", "wpzoom-recipe-card" ) }>
         			<PanelRow>
         	    		<TextControl
         	    			id={ `${ id }-yield` }

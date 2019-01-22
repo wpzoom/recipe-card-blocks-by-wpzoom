@@ -462,7 +462,7 @@ export default class RecipeCard extends Component {
 					        				isDefault="true"
 					        				isLarge="true"
 					        			>
-				        					{ __( "Upload Image", "wpzoom-recipe-card" ) }
+				        					{ __( "Media Library", "wpzoom-recipe-card" ) }
 					        			</Button>
 					        		) }
 					        	/>
@@ -526,9 +526,9 @@ export default class RecipeCard extends Component {
 					{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
 					{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
 					{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+					<p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
 				</div>
 				<Detail { ...{ attributes, setAttributes, className } } />
-				<p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
 				<RichText
 					className="recipe-card-summary"
 					tagName="p"
