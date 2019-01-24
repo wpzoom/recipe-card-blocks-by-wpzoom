@@ -121,11 +121,11 @@ class WPZOOM_Recipe_Card_Block {
 			$json_ld['description'] = $attributes['jsonSummary'];
 		}
 
-		if ( ! empty( $attributes['image'] ) && $attributes['hasImage'] ) {
+		if ( ! empty( $attributes['image'] ) && isset( $attributes['hasImage'] ) && $attributes['hasImage'] ) {
 			$json_ld['image'] = $attributes['image']['url'];
 		}
 
-		if ( ! empty( $attributes['video'] ) && $attributes['hasVideo'] ) {
+		if ( ! empty( $attributes['video'] ) && isset( $attributes['hasVideo'] ) && $attributes['hasVideo'] ) {
 			if ( isset( $attributes['video']['id'] ) ) {
 				$videoObject = get_post( $attributes['video']['id'] );
 

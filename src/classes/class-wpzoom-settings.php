@@ -53,12 +53,12 @@ class WPZOOM_Settings {
 	/**
 	 * License key
 	 */
-	public $license_key = null;
+	public $license_key = false;
 
 	/**
 	 * License status
 	 */
-	public $license_status = null;
+	public $license_status = false;
 
 	/**
 	 * The Constructor.
@@ -173,6 +173,8 @@ class WPZOOM_Settings {
 	 * Initilize all settings
 	 */
 	public function settings_init() {
+		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">'. __( 'Premium', 'wpzoom-recipe-card' ) .'</span>';
+
 		$this->settings = array(
 			'general' => array(
 				'tab_id' 		=> 'tab-general',
@@ -302,8 +304,8 @@ class WPZOOM_Settings {
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'Hide footer copyright text.', 'wpzoom-recipe-card' ),
 									'default'		=> false,
-									'disabled'		=> true,
-									'badge' 		=> '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">'. __( 'Premium', 'wpzoom-recipe-card' ) .'</span>',
+									'disabled'		=> ( ! $this->license_status ? true : false ),
+									'badge' 		=> ( ! $this->license_status ? $premium_badge : '' ),
 								)
 							),
 						)
@@ -323,8 +325,8 @@ class WPZOOM_Settings {
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'Allow visitors to vote your recipes.', 'wpzoom-recipe-card' ),
 									'default'		=> false,
-									'disabled'		=> true,
-									'badge' 		=> '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">'. __( 'Premium', 'wpzoom-recipe-card' ) .'</span>',
+									'disabled'		=> ( ! $this->license_status ? true : false ),
+									'badge' 		=> ( ! $this->license_status ? $premium_badge : '' ),
 								)
 							),
 						)
@@ -474,8 +476,8 @@ class WPZOOM_Settings {
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'Make Course as taxonomy.', 'wpzoom-recipe-card' ),
 									'default'		=> false,
-									'disabled'		=> true,
-									'badge' 		=> '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">'. __( 'Premium', 'wpzoom-recipe-card' ) .'</span>',
+									'disabled'		=> ( ! $this->license_status ? true : false ),
+									'badge' 		=> ( ! $this->license_status ? $premium_badge : '' ),
 								)
 							),
 							array(
@@ -487,8 +489,8 @@ class WPZOOM_Settings {
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'Make Cuisine as taxonomy.', 'wpzoom-recipe-card' ),
 									'default'		=> false,
-									'disabled'		=> true,
-									'badge' 		=> '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">'. __( 'Premium', 'wpzoom-recipe-card' ) .'</span>',
+									'disabled'		=> ( ! $this->license_status ? true : false ),
+									'badge' 		=> ( ! $this->license_status ? $premium_badge : '' ),
 								)
 							),
 							array(
@@ -500,8 +502,8 @@ class WPZOOM_Settings {
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'Make Difficulty as taxonomy.', 'wpzoom-recipe-card' ),
 									'default'		=> false,
-									'disabled'		=> true,
-									'badge' 		=> '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">'. __( 'Premium', 'wpzoom-recipe-card' ) .'</span>',
+									'disabled'		=> ( ! $this->license_status ? true : false ),
+									'badge' 		=> ( ! $this->license_status ? $premium_badge : '' ),
 								)
 							),
 						)

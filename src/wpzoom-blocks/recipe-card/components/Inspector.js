@@ -1,11 +1,15 @@
 /* External dependencies */
 import _get from "lodash/get";
+import _map from "lodash/map";
+import _compact from "lodash/compact";
 import _forEach from "lodash/forEach";
+import _isEmpty from "lodash/isEmpty";
 import _isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 import { humanize } from "../../../helpers/stringHelpers";
+import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
@@ -27,11 +31,16 @@ const {
 	ColorPalette,
 	SelectControl
 } = wp.components;
+const { withSelect } = wp.data;
+const { compose } = wp.compose;
+
+/* Module constants */
+const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
 /**
  * Inspector controls
  */
-export default class Inspector extends Component {
+class Inspector extends Component {
 
 	/**
 	 * Constructs a Inspector editor component.
@@ -42,6 +51,50 @@ export default class Inspector extends Component {
 	 */
 	constructor( props ) {
 		super( ...arguments );
+		this.onSelectImage = this.onSelectImage.bind( this );
+		this.updateURL = this.updateURL.bind( this );
+	}
+
+	onSelectImage( media ) {
+		const relevantMedia = pickRelevantMediaFiles( media );
+
+		this.props.setAttributes( {
+			hasImage: 'true',
+			image: {
+				id: relevantMedia.id,
+				url: relevantMedia.url,
+				alt: relevantMedia.alt,
+				sizes: media.sizes
+			}
+		} );
+	}
+
+	updateURL( url ) {
+		const { id, alt, sizes } = this.props.attributes.image;
+		
+		this.props.setAttributes( {
+			hasImage: 'true',
+			image: {
+				id: id,
+				url: url,
+				alt: alt,
+				sizes: sizes
+			}
+		} );
+	}
+
+	getImageSizeOptions() {
+		const { imageSizes, image } = this.props;
+		return _compact( _map( imageSizes, ( { name, slug } ) => {
+			const sizeUrl = _get( image, [ 'media_details', 'sizes', slug, 'source_url' ] );
+			if ( ! sizeUrl ) {
+				return null;
+			}
+			return {
+				value: sizeUrl,
+				label: name,
+			};
+		} ) );
 	}
 
 	/**
@@ -77,7 +130,7 @@ export default class Inspector extends Component {
 			settings,
 		} = attributes;
 
-		let image_sizes = [];
+		const imageSizeOptions = this.getImageSizeOptions();
 
 		const coursesToken = [
 			__( "Appetizers", "wpzoom-recipe-card" ),
@@ -136,12 +189,6 @@ export default class Inspector extends Component {
 
 		const removeRecipeImage = () => {
 			setAttributes( { hasImage: false, image: null } )
-		}
-
-		if ( hasImage ) {
-			_forEach( image.sizes, function( value, key ) {
-				image_sizes.push({ label: humanize( key ), value: value.url });
-			});
 		}
 
 		function structuredDataTestingTool() {
@@ -244,8 +291,8 @@ export default class Inspector extends Component {
 	        			help={ __( "Upload image for Recipe Card.", "wpzoom-recipe-card" ) }
 	        		>
 	                	<MediaUpload
-	                		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url, sizes: media.sizes } } ) }
-	                		allowedTypes={ [ 'image' ] }
+	                		onSelect={ this.onSelectImage }
+	                		allowedTypes={ ALLOWED_MEDIA_TYPES }
 	                		value={ hasImage ? image.id : '' }
 	                		render={ ( { open } ) => (
 	                			<Button
@@ -256,7 +303,7 @@ export default class Inspector extends Component {
 	                					<img
 	                                        className={ `${ id }-image` }
 	                                        src={ image.sizes ? image.sizes.full.url : image.url }
-	                                        alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }
+	                                        alt={ image.alt ? image.alt : recipeTitle }
 	                                    />
 	                					: __( "Add recipe image", "wpzoom-recipe-card" )
 	                                }
@@ -266,12 +313,12 @@ export default class Inspector extends Component {
 	                	{ hasImage ? <Button isLink="true" isDestructive="true" onClick={ removeRecipeImage }>{ __( "Remove Image", "wpzoom-recipe-card" ) }</Button> : '' }
 	        		</BaseControl>
 	        		{
-	        			hasImage &&
+	        			! _isEmpty( imageSizeOptions ) &&
 		                <SelectControl
 	                		label={ __( "Image Size", "wpzoom-recipe-card" ) }
 	                		value={ image.url }
-	                		options={ image_sizes }
-	                		onChange={ url => setAttributes( { hasImage: 'true', image: { id: image.id, url: url, sizes: image.sizes } } ) }
+	                		options={ imageSizeOptions }
+	                		onChange={ this.updateURL }
 	                	/>
 	        		}
 			    	<BaseControl
@@ -478,3 +525,19 @@ export default class Inspector extends Component {
 		);
 	}
 }
+
+export default compose( [
+	withSelect( ( select, props ) => {
+		const { getMedia } = select( 'core' );
+		const { getEditorSettings } = select( 'core/editor' );
+		const { id } = props.attributes.image;
+		const { maxWidth, isRTL, imageSizes } = getEditorSettings();
+
+		return {
+			image: id ? getMedia( id ) : null,
+			maxWidth,
+			isRTL,
+			imageSizes,
+		};
+	} )
+] )( Inspector );

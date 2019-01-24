@@ -51,7 +51,7 @@ class WPZOOM_Settings_Fields {
 	?>
 		<fieldset class="wpzoom-rcb-field-input">
 			<?php
-				$disabled = isset( $args['disabled'] );
+				$disabled = isset( $args['disabled'] ) && true === $args['disabled'];
 
 				if ( isset( $args['badge'] ) ) { echo $args['badge']; }
 
@@ -87,7 +87,7 @@ class WPZOOM_Settings_Fields {
 	?>
 		<fieldset class="wpzoom-rcb-field-checkbox">
 			<?php
-				$disabled = isset( $args['disabled'] );
+				$disabled = isset( $args['disabled'] ) && true === $args['disabled'];
 				
 				if ( isset( $args['badge'] ) ) { echo $args['badge']; }
 
@@ -114,7 +114,7 @@ class WPZOOM_Settings_Fields {
 	public function select( $args ) {
 		// get the value of the setting we've registered with register_setting()
 		$options = get_option( 'wpzoom-recipe-card-settings' );
-		$disabled = isset( $args['disabled'] );
+		$disabled = isset( $args['disabled'] ) && true === $args['disabled'];
 
 		if ( empty( $options ) ) {
 			$selected = $args['default'];

@@ -15,12 +15,16 @@ import _uniqueId from "lodash/uniqueId";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
+import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component, renderToString } = wp.element;
 const { DropZoneProvider, DropZone, Button, Placeholder, FormFileUpload, Dashicon, Spinner } = wp.components;
 const { RichText, MediaUpload, InnerBlocks } = wp.editor;
+
+/* Module constants */
+const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
 /**
  * A Recipe Card block.
@@ -39,6 +43,7 @@ export default class RecipeCard extends Component {
 
 		this.state = { focus: "", isLoading: true };
 		this.setFocus = this.setFocus.bind( this );
+		this.onSelectImage = this.onSelectImage.bind( this );
 
 		this.props.attributes.id = RecipeCard.generateId( "wpzoom-recipe-card" );
 
@@ -280,6 +285,20 @@ export default class RecipeCard extends Component {
 		}
 	}
 
+	onSelectImage( media ) {
+		const relevantMedia = pickRelevantMediaFiles( media );
+
+		this.props.setAttributes( {
+			hasImage: 'true',
+			image: {
+				id: relevantMedia.id,
+				url: relevantMedia.url,
+				alt: relevantMedia.alt,
+				sizes: media.sizes
+			}
+		} );
+	}
+
 	/**
 	 * Returns the component to be used to render
 	 * the Recipe Card block on Wordpress (e.g. not in the editor).
@@ -452,8 +471,8 @@ export default class RecipeCard extends Component {
 							instructions={ __( "Select an image file from your library.", "wpzoom-recipe-card" ) }
 							children={
 					        	<MediaUpload
-					        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url, sizes: media.sizes } } ) }
-					        		allowedTypes={ [ 'image' ] }
+					        		onSelect={ this.onSelectImage }
+					        		allowedTypes={ ALLOWED_MEDIA_TYPES }
 					        		value={ hasImage ? image.id : '' }
 					        		render={ ( { open } ) => (
 					        			<Button
@@ -470,8 +489,8 @@ export default class RecipeCard extends Component {
 						/>
 					:
 			        	<MediaUpload
-			        		onSelect={ media => setAttributes( { hasImage: 'true', image: { id: media.id, url: media.url, sizes: media.sizes } } ) }
-			        		allowedTypes={ [ 'image' ] }
+			        		onSelect={ this.onSelectImage }
+			        		allowedTypes={ ALLOWED_MEDIA_TYPES }
 			        		value={ hasImage ? image.id : '' }
 			        		render={ ( { open } ) => (
 			        			<Button

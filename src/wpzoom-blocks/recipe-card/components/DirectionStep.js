@@ -4,6 +4,11 @@ const { Component } = wp.element;
 const { RichText, MediaUpload } = wp.editor;
 const { IconButton } = wp.components;
 
+import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
+
+/* Module constants */
+const ALLOWED_MEDIA_TYPES = [ 'image' ];
+
 /**
  * A Direction step within a Direction block.
  */
@@ -38,7 +43,7 @@ export default class DirectionStep extends Component {
 			{ ! DirectionStep.getImageSrc( step.text ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
-				allowedTypes={ [ 'image' ] }
+				allowedTypes={ ALLOWED_MEDIA_TYPES }
 				value={ step.id }
 				render={ ( { open } ) => (
 					<IconButton
@@ -99,7 +104,15 @@ export default class DirectionStep extends Component {
 		const { text } = this.props.step;
 
 		let newText = text.slice();
-		const image = <img key={ media.id } alt={ media.alt } src={ media.url } />;
+
+		const relevantMedia = pickRelevantMediaFiles( media );
+		const image = (
+			<img
+				key={ relevantMedia.id }
+				alt={ relevantMedia.alt }
+				src={ relevantMedia.url }
+			/>
+		);
 
 		if ( newText.push ) {
 			newText.push( image );
