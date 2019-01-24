@@ -125,11 +125,6 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function load_dependencies() {
-			if( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
-				// load our custom updater if it doesn't already exist 
-				include( WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-edd-sl-plugin-updater.php' );
-			}
-			
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-settings-fields.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-settings.php';
 
