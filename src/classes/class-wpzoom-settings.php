@@ -16,6 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WPZOOM_Settings {
 	/**
+	 * Option name
+	 */
+	public $option = 'wpzoom-recipe-card-settings';
+
+	/**
 	 * Store all default settings options.
 	 *
 	 * @static
@@ -67,7 +72,7 @@ class WPZOOM_Settings {
 		if( is_admin() ) {
             global $pagenow;
 
-            $this->options = get_option( 'wpzoom-recipe-card-settings' );
+            $this->options = get_option( $this->option );
 
 		    add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		    add_action( 'admin_init', array( $this, 'settings_init' ) );
@@ -121,7 +126,44 @@ class WPZOOM_Settings {
 			}
 		}
 
+		if ( empty( self::$defaults ) ) {
+			return false;
+		}
+
+		// If 'wpzoom-recipe-card-settings' is empty update option with defaults values
+		if ( empty( $this->options ) ) {
+			$this->update_option( self::$defaults );
+		}
+
+		// If new setting is added, update 'wpzoom-recipe-card-settings' option
+		if ( ! empty( $this->options ) ) {
+			$new_settings = array_diff_key( self::$defaults, $this->options );
+			if ( ! empty( $new_settings ) ) {
+				$this->update_option( array_merge( $this->options, $new_settings ) );
+			}
+		}
+
 		return self::$defaults;
+	}
+
+	/**
+	 * Update option value
+	 * 
+	 * @param string|array $value 
+	 * @param string $option 
+	 */
+	public function update_option( $value, $option = '', $autoload = null ) {
+		if ( empty( $option ) ) $option = $this->option;
+		
+		if ( $this->options !== false ) {
+		    // The option already exists, so we just update it.
+		    update_option( $option, $value, $autoload );
+		} else {
+		    // The option hasn't been added yet. We'll add it with $autoload set to 'no'.
+		    $deprecated = null;
+		    $autoload = 'no';
+		    add_option( $option, $value, $deprecated, $autoload );
+		}
 	}
 
 	/**
@@ -155,7 +197,7 @@ class WPZOOM_Settings {
 				'tab_id' 		=> 'tab-general',
 				'tab_title' 	=> __( 'General', 'wpzoom-recipe-card' ),
 				'option_group' 	=> 'wpzoom-recipe-card-settings-general',
-				'option_name' 	=> 'wpzoom-recipe-card-settings',
+				'option_name' 	=> $this->option,
 				'sections' 		=> array(
 					array(
 						'id' 		=> 'wpzoom_section_general',
@@ -286,6 +328,58 @@ class WPZOOM_Settings {
 						)
 					),
 					array(
+						'id' 		=> 'wpzoom_section_recipe_details',
+						'title' 	=> __( 'Recipe Details', 'wpzoom-recipe-card' ),
+						'page' 		=> 'wpzoom-recipe-card-settings-general',
+						'callback' 	=> '__return_false',
+						'fields' 	=> array(
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_display_servings',
+								'title' 	=> __( 'Display Servings', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_display_servings',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Show servings by default', 'wpzoom-recipe-card' ),
+									'default'		=> true
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_display_preptime',
+								'title' 	=> __( 'Display Preparation Time', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_display_preptime',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Show preparation time by default', 'wpzoom-recipe-card' ),
+									'default'		=> true
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_display_cookingtime',
+								'title' 	=> __( 'Display Cooking Time', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_display_cookingtime',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Show cooking time by default', 'wpzoom-recipe-card' ),
+									'default'		=> true
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_display_calories',
+								'title' 	=> __( 'Display Calories', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_display_calories',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Show calories by default', 'wpzoom-recipe-card' ),
+									'default'		=> true
+								)
+							),
+						)
+					),
+					array(
 						'id' 		=> 'wpzoom_section_rating_features',
 						'title' 	=> __( 'Rating Feature', 'wpzoom-recipe-card' ),
 						'page' 		=> 'wpzoom-recipe-card-settings-general',
@@ -312,7 +406,7 @@ class WPZOOM_Settings {
 				'tab_id' 		=> 'tab-appearance',
 				'tab_title' 	=> __( 'Appearance', 'wpzoom-recipe-card' ),
 				'option_group' 	=> 'wpzoom-recipe-card-settings-appearance',
-				'option_name' 	=> 'wpzoom-recipe-card-settings',
+				'option_name' 	=> $this->option,
 				'sections' 		=> array(
 					array(
 						'id' 		=> 'wpzoom_section_recipe_template',
@@ -434,7 +528,7 @@ class WPZOOM_Settings {
 				'tab_id' 		=> 'tab-metadata',
 				'tab_title' 	=> __( 'Metadata', 'wpzoom-recipe-card' ),
 				'option_group' 	=> 'wpzoom-recipe-card-settings-metadata',
-				'option_name' 	=> 'wpzoom-recipe-card-settings',
+				'option_name' 	=> $this->option,
 				'sections' 		=> array(
 					array(
 						'id' 		=> 'wpzoom_section_taxonomies',
@@ -548,16 +642,7 @@ class WPZOOM_Settings {
 	?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-
-			<?php if ( ! $this->license_key || ! $this->license_status ): ?>
-				<div class="notice notice-info">
-					<p>
-					    <?php echo sprintf( __( 'Your license key provides access to <strong>Automatic Updates and Premium addons</strong>. You can find your license in <a href="https://www.wpzoom.com/account/licenses/" target="_blank">WPZOOM Members Area &rarr; Licenses</a>.', 'wpzoom' ) );
-					     ?>
-					</p>
-				</div>
-			<?php endif ?>
-
+			
 			<form action="options.php" method="post">
 				<ul class="wp-tab-bar">
 					<?php foreach ( $this->settings as $setting ): ?>

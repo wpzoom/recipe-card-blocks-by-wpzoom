@@ -152,11 +152,10 @@ $heading_color: #222;
             font-size: 0;
             border: 1px dashed rgba(0,0,0,.1);
             text-align: center;
+            display: flex;
 
             .detail-item {
-                display: inline-block;
-                vertical-align: top;
-                width: 25%;
+                flex: 1;
                 padding: 10px 1.5%;
                 position: relative;
                 box-sizing: border-box;

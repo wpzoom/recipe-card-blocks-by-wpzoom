@@ -82,7 +82,7 @@ class WPZOOM_Settings_Fields {
 		if ( empty( $options ) ) {
 			$checked = $args['default'];
 		} else {
-			$checked = isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : 'false';
+			$checked = isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '0';
 		}
 	?>
 		<fieldset class="wpzoom-rcb-field-checkbox">
@@ -95,7 +95,8 @@ class WPZOOM_Settings_Fields {
 			?>
 
 			<label for="<?php echo esc_attr( $args['label_for'] ) ?>">
-				<input name="wpzoom-recipe-card-settings[<?php echo esc_attr( $args['label_for'] ); ?>]" type="checkbox" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="<?php echo esc_attr( $args['default'] ) ?>" <?php checked( '1', $checked ); ?> <?php echo ( $disabled ? 'disabled' : '' ); ?>/>
+				<input type="hidden" name="wpzoom-recipe-card-settings[<?php echo esc_attr( $args['label_for'] ); ?>]" value="0" />
+				<input name="wpzoom-recipe-card-settings[<?php echo esc_attr( $args['label_for'] ); ?>]" type="checkbox" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="1" <?php checked( '1', $checked ); ?> <?php echo ( $disabled ? 'disabled' : '' ); ?>/>
 
 				<?php if ( isset( $args['description'] ) ): ?>
 					<?php echo $args['description']; ?>

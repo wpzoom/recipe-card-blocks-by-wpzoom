@@ -257,31 +257,38 @@ export default class Detail extends Component {
 			return null;
 		}
 
+		const { settings } = this.props.attributes;
 		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
 		return this.props.attributes.details.map( ( item, index ) => {
-			return (
-				<DetailItem
-					key={ item.id }
-					item={ item }
-					index={ index }
-					editorRef={ ( part, ref ) => {
-						this.editorRefs[ `${ index }:${ part }` ] = ref;
-					} }
-					onChange={
-						( newIcon, newLabel, newValue, newUnit, previousIcon, previousLabel, previousValue, previousUnit ) =>
-							this.changeDetail( newIcon, newLabel, newValue, newUnit, previousIcon, previousLabel, previousValue, previousUnit, index )
-					}
-					insertDetail={ () => this.insertDetail( index ) }
-					removeDetail={ () => this.removeDetail( index ) }
-					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
-					subElement={ subElement }
-					isFirst={ index === 0 }
-					isLast={ index === this.props.attributes.details.length - 1 }
-					isSelected={ focusIndex === `${ index }` }
-					{ ...this.props }
-				/>
-			);
+			if ( 0 === index && settings[0]['displayServings'] || 
+				1 === index && settings[0]['displayPrepTime'] || 
+				2 === index && settings[0]['displayCookingTime'] || 
+				3 === index && settings[0]['displayCalories'] 
+			) {
+				return (
+					<DetailItem
+						key={ item.id }
+						item={ item }
+						index={ index }
+						editorRef={ ( part, ref ) => {
+							this.editorRefs[ `${ index }:${ part }` ] = ref;
+						} }
+						onChange={
+							( newIcon, newLabel, newValue, newUnit, previousIcon, previousLabel, previousValue, previousUnit ) =>
+								this.changeDetail( newIcon, newLabel, newValue, newUnit, previousIcon, previousLabel, previousValue, previousUnit, index )
+						}
+						insertDetail={ () => this.insertDetail( index ) }
+						removeDetail={ () => this.removeDetail( index ) }
+						onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+						subElement={ subElement }
+						isFirst={ index === 0 }
+						isLast={ index === this.props.attributes.details.length - 1 }
+						isSelected={ focusIndex === `${ index }` }
+						{ ...this.props }
+					/>
+				);
+			}
 		} );
 	}
 
@@ -311,17 +318,24 @@ export default class Detail extends Component {
 	 * @returns {Component} The component representing a Details block.
 	 */
 	static Content( props ) {
+		const { settings } = props;
 		let { details } = props;
 
 		details = details
 			? details.map( ( item, index ) => {
-				return (
-					<DetailItem.Content
-						{ ...{ item, index } }
-						key={ item.id }
-						{ ...props }
-					/>
-				);
+				if ( 0 === index && settings[0]['displayServings'] || 
+					1 === index && settings[0]['displayPrepTime'] || 
+					2 === index && settings[0]['displayCookingTime'] || 
+					3 === index && settings[0]['displayCalories'] 
+				) {
+					return (
+						<DetailItem.Content
+							{ ...{ item, index } }
+							key={ item.id }
+							{ ...props }
+						/>
+					);
+				}
 			} )
 			: null;
 

@@ -149,7 +149,7 @@ export default class RecipeCard extends Component {
 		    setAttributes( { directionsTitle: title, jsonDirectionsTitle: stripHTML( renderToString( title ) ), steps } );
 		}
 
-		setDetailsAttributes( wpzoomBlocksFilter );
+		// setDetailsAttributes( wpzoomBlocksFilter );
 		setIngredientsAttributes( wpzoomBlocksFilter );
 		setStepsAttributes( wpzoomBlocksFilter );
 

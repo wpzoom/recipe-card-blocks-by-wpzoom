@@ -87,6 +87,10 @@ const attributes = {
                 displayCuisine: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_cuisine === '1',
                 displayDifficulty: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_difficulty === '1',
                 displayAuthor: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_author === '1',
+                displayServings: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_servings === '1',
+                displayPrepTime: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_preptime === '1',
+                displayCookingTime: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_cookingtime === '1',
+                displayCalories: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_display_calories === '1',
                 headerAlign: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align,
                 ingredientsLayout: '1-column'
             }

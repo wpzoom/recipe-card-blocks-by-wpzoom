@@ -4,6 +4,7 @@ import _map from "lodash/map";
 import _compact from "lodash/compact";
 import _forEach from "lodash/forEach";
 import _isEmpty from "lodash/isEmpty";
+import _isNull from "lodash/isNull";
 import _isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
@@ -14,7 +15,7 @@ import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles"
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { _n } = wp.i18n;
-const { Component, renderToString } = wp.element;
+const { Component, renderToString, Fragment } = wp.element;
 const { RichText, InspectorControls, MediaUpload } = wp.editor;
 const { 
 	BaseControl,
@@ -473,49 +474,89 @@ class Inspector extends Component {
 	        		</BaseControl>
 	            </PanelBody>
 	            <PanelBody className="wpzoom-recipe-card-details" initialOpen={ true } title={ __( "Recipe Card Details", "wpzoom-recipe-card" ) }>
+    				<ToggleControl
+    				    label={ __( "Display Servings", "wpzoom-recipe-card" ) }
+    				    checked={ settings[0]['displayServings'] }
+    				    onChange={ display => onChangeSettings( display, 0, 'displayServings' ) }
+    				/>
         			<PanelRow>
-        	    		<TextControl
-        	    			id={ `${ id }-yield` }
-        	    			instanceId={ `${ id }-yield` }
-        	    			type="number"
-        	    			label={ __( "Servings", "wpzoom-recipe-card" ) }
-        	    			value={ _get( details, [ 0, 'value' ] ) }
-        	    			onChange={ newYield => onChangeDetail(newYield, 0) }
-        	    		/>
-        				<span>{ _get( details, [ 0, 'unit' ] ) }</span>
+        				{
+        					settings[0]['displayServings'] &&
+        					<Fragment>
+		        	    		<TextControl
+		        	    			id={ `${ id }-yield` }
+		        	    			instanceId={ `${ id }-yield` }
+		        	    			type="number"
+		        	    			label={ __( "Servings", "wpzoom-recipe-card" ) }
+		        	    			value={ _get( details, [ 0, 'value' ] ) }
+		        	    			onChange={ newYield => onChangeDetail(newYield, 0) }
+		        	    		/>
+		        				<span>{ _get( details, [ 0, 'unit' ] ) }</span>
+		        			</Fragment>
+        				}
         			</PanelRow>
+    				<ToggleControl
+    				    label={ __( "Display Preparation Time", "wpzoom-recipe-card" ) }
+    				    checked={ settings[0]['displayPrepTime'] }
+    				    onChange={ display => onChangeSettings( display, 0, 'displayPrepTime' ) }
+    				/>
         			<PanelRow>
-        	    		<TextControl
-        	    			id={ `${ id }-preptime` }
-        	    			instanceId={ `${ id }-preptime` }
-        	    			type="number"
-        	    			label={ __( "Preparation time", "wpzoom-recipe-card" ) }
-        	    			value={ _get( details, [ 1, 'value' ] ) }
-        	    			onChange={ newPrepTime => onChangeDetail(newPrepTime, 1) }
-        	    		/>
-        				<span>{ _get( details, [ 1, 'unit' ] ) }</span>
+        				{
+        					settings[0]['displayPrepTime'] &&
+        					<Fragment>
+		        	    		<TextControl
+		        	    			id={ `${ id }-preptime` }
+		        	    			instanceId={ `${ id }-preptime` }
+		        	    			type="number"
+		        	    			label={ __( "Preparation time", "wpzoom-recipe-card" ) }
+		        	    			value={ _get( details, [ 1, 'value' ] ) }
+		        	    			onChange={ newPrepTime => onChangeDetail(newPrepTime, 1) }
+		        	    		/>
+		        				<span>{ _get( details, [ 1, 'unit' ] ) }</span>
+		        			</Fragment>
+        				}
         			</PanelRow>
+    				<ToggleControl
+    				    label={ __( "Display Cooking Time", "wpzoom-recipe-card" ) }
+    				    checked={ settings[0]['displayCookingTime'] }
+    				    onChange={ display => onChangeSettings( display, 0, 'displayCookingTime' ) }
+    				/>
         			<PanelRow>
-        	    		<TextControl
-        	    			id={ `${ id }-cookingtime` }
-        	    			instanceId={ `${ id }-cookingtime` }
-        	    			type="number"
-        	    			label={ __( "Cooking time", "wpzoom-recipe-card" ) }
-        	    			value={ _get( details, [ 2, 'value' ] ) }
-        	    			onChange={ newCookingTime => onChangeDetail(newCookingTime, 2) }
-        	    		/>
-        				<span>{ _get( details, [ 2, 'unit' ] ) }</span>
+        				{
+        					settings[0]['displayCookingTime'] &&
+        					<Fragment>
+		        	    		<TextControl
+		        	    			id={ `${ id }-cookingtime` }
+		        	    			instanceId={ `${ id }-cookingtime` }
+		        	    			type="number"
+		        	    			label={ __( "Cooking time", "wpzoom-recipe-card" ) }
+		        	    			value={ _get( details, [ 2, 'value' ] ) }
+		        	    			onChange={ newCookingTime => onChangeDetail(newCookingTime, 2) }
+		        	    		/>
+		        				<span>{ _get( details, [ 2, 'unit' ] ) }</span>
+		        			</Fragment>
+        				}
         			</PanelRow>
+    				<ToggleControl
+    				    label={ __( "Display Calories", "wpzoom-recipe-card" ) }
+    				    checked={ settings[0]['displayCalories'] }
+    				    onChange={ display => onChangeSettings( display, 0, 'displayCalories' ) }
+    				/>
         			<PanelRow>
-        	    		<TextControl
-        	    			id={ `${ id }-calories` }
-        	    			instanceId={ `${ id }-calories` }
-        	    			type="number"
-        	    			label={ __( "Calories", "wpzoom-recipe-card" ) }
-        	    			value={ _get( details, [ 3, 'value' ] ) }
-        	    			onChange={ newCalories => onChangeDetail(newCalories, 3) }
-        	    		/>
-        				<span>{ _get( details, [ 3, 'unit' ] ) }</span>
+        				{
+        					settings[0]['displayCalories'] &&
+        					<Fragment>
+		        	    		<TextControl
+		        	    			id={ `${ id }-calories` }
+		        	    			instanceId={ `${ id }-calories` }
+		        	    			type="number"
+		        	    			label={ __( "Calories", "wpzoom-recipe-card" ) }
+		        	    			value={ _get( details, [ 3, 'value' ] ) }
+		        	    			onChange={ newCalories => onChangeDetail(newCalories, 3) }
+		        	    		/>
+		        				<span>{ _get( details, [ 3, 'unit' ] ) }</span>
+		        			</Fragment>
+        				}
         			</PanelRow>
 	            </PanelBody>
 	            <PanelBody className="wpzoom-recipe-card-structured-data-testing" initialOpen={ false } title={ __( "Structured Data Testing", "wpzoom-recipe-card" ) }>
@@ -530,8 +571,13 @@ export default compose( [
 	withSelect( ( select, props ) => {
 		const { getMedia } = select( 'core' );
 		const { getEditorSettings } = select( 'core/editor' );
-		const { id } = props.attributes.image;
 		const { maxWidth, isRTL, imageSizes } = getEditorSettings();
+
+		let id = null;
+
+		if ( ! _isNull( props.attributes.image ) ) {
+			id = props.attributes.image.id;
+		}
 
 		return {
 			image: id ? getMedia( id ) : null,
