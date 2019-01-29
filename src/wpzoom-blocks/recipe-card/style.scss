@@ -5,68 +5,83 @@
  */
 
 .wp-block-wpzoom-recipe-card-block-recipe-card {
-	&.header-content-align-left {
-		.recipe-card-heading {
-			text-align: left;
-		}
-	}
-	&.header-content-align-center {
-		.recipe-card-heading {
-			text-align: center;
-		}
-	}
-	&.header-content-align-right {
-		.recipe-card-heading {
-			text-align: right;
-		}
-	}
-	.recipe-card-heading {
-		.recipe-card-author {
-			margin-bottom: 10px;
-		}
-		.recipe-card-title + p {
-			margin-bottom: 0;
-		}
-	}
-	.recipe-card-image figure img {
-		width: 100%;
-	}
-	.recipe-card-details {
-		margin-bottom: 30px;
-		.detail-item {
-			> p:not(.detail-item-label):not(.detail-item-value):not(.detail-item-unit) {
-				display: none;
-			}
-			.detail-item-label {
-				margin-bottom: 5px;
-			}
-			.detail-item-unit {
-				margin-bottom: 0;
-			}
-		}
-	}
-	.recipe-card-ingredients {
-		.ingredients-list {
-			margin: 0;
-			padding: 0;
-		}
-	}
-	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i,
-	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i::before ,
-	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i,
-	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i::before {
-		font-family: 'FontAwesome';
-	}
+    &.header-content-align-left {
+        .recipe-card-heading {
+            text-align: left;
+        }
+    }
+    &.header-content-align-center {
+        .recipe-card-heading {
+            text-align: center;
+        }
+    }
+    &.header-content-align-right {
+        .recipe-card-heading {
+            text-align: right;
+        }
+    }
+    .recipe-card-heading {
+        .recipe-card-author {
+            margin-bottom: 10px;
+        }
+        .recipe-card-title + p {
+            margin-bottom: 0;
+        }
+    }
+    .recipe-card-image figure img {
+        width: 100%;
+    }
+    .recipe-card-details {
+        margin-bottom: 30px;
+        .detail-item {
+            > p:not(.detail-item-label):not(.detail-item-value):not(.detail-item-unit) {
+                display: none;
+            }
+            .detail-item-label {
+                margin-bottom: 5px;
+            }
+            .detail-item-unit {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .recipe-card-ingredients {
+        .ingredients-list {
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i,
+    .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i::before ,
+    .recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i,
+    .recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i::before {
+        font-family: 'FontAwesome';
+    }
     .hidden {
         display: none !important;
     }
 
-	.footer-copyright p {
-		margin-bottom: 0;
-		text-align: center;
-		font-size: 14px;
-		color: #ababab;
-	}
+    .footer-copyright p {
+        margin-bottom: 0;
+        text-align: center;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #ababab;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+        a {
+            color: #222;
+            text-decoration: none;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #eee;
+
+            &:hover {
+                ext-decoration: none;
+                border-bottom-color: #ccc;
+            }
+        }
+    }
 }
 
 @import "./skins/default";
