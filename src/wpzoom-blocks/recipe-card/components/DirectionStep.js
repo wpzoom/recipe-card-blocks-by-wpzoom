@@ -3,6 +3,7 @@ const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { RichText, MediaUpload } = wp.editor;
 const { IconButton } = wp.components;
+const { setting_options } = wpzoomRecipeCard;
 
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 
@@ -111,6 +112,7 @@ export default class DirectionStep extends Component {
 				key={ relevantMedia.id }
 				alt={ relevantMedia.alt }
 				src={ relevantMedia.url }
+				className={ setting_options.wpzoom_rcb_settings_print_show_steps_image === '0' ? 'no-print' : '' }
 			/>
 		);
 

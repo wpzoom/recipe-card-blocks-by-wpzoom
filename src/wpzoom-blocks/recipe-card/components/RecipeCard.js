@@ -22,6 +22,12 @@ const { __ } = wp.i18n;
 const { Component, renderToString } = wp.element;
 const { DropZoneProvider, DropZone, Button, Placeholder, FormFileUpload, Dashicon, Spinner } = wp.components;
 const { RichText, MediaUpload, InnerBlocks } = wp.editor;
+const {
+	post_permalink,
+	post_title,
+	post_thumbnail_url,
+	setting_options
+} = wpzoomRecipeCard;
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
@@ -230,7 +236,7 @@ export default class RecipeCard extends Component {
 
 		const regex = /is-style-(\S*)/g;
 		let m = regex.exec( className );
-		const activeStyle = m !== null ? m[1] : wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_template;
+		const activeStyle = m !== null ? m[1] : setting_options.wpzoom_rcb_settings_template;
 
 		if ( activeStyle === 'default' ) {
 			settings[0].primary_color = '#222';
@@ -327,17 +333,17 @@ export default class RecipeCard extends Component {
 
 		let pin_description = recipeTitle;
 
-		if ( wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
+		if ( setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
 			pin_description = jsonSummary;
 		}
 		if ( _isUndefined( settings[0]['headerAlign'] ) ) {
-			settings[0]['headerAlign'] = wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align;
+			settings[0]['headerAlign'] = setting_options.wpzoom_rcb_settings_heading_content_align;
 		}
 
 		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], `header-content-align-${ settings[0]['headerAlign'] }` ].filter( ( item ) => item ).join( " " );
 		const PrintClasses = [ "wpzoom-recipe-card-print-link" ].filter( ( item ) => item ).join( " " );
 		const PinterestClasses = [ "wpzoom-recipe-card-pinit" ].filter( ( item ) => item ).join( " " );
-		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ pin_description }`;
+		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ post_permalink }&media=${ hasImage ? image.url : post_thumbnail_url }&description=${ pin_description }`;
 
 		return (
 			<div className={ RecipeCardClassName } id={ id }>
@@ -345,7 +351,12 @@ export default class RecipeCard extends Component {
 					hasImage &&
 						<div className="recipe-card-image">
 							<figure>
-								<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }/>
+								<img 
+									src={ image.url } 
+									id={ image.id } 
+									alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }
+									className={ setting_options.wpzoom_rcb_settings_print_show_image === '0' ? 'no-print' : '' }
+								/>
 								<figcaption>
 									{
 										settings[0]['pin_btn'] && 
@@ -371,10 +382,10 @@ export default class RecipeCard extends Component {
 				}
 				<div className="recipe-card-heading">
 					{
-						( ! RichText.isEmpty( recipeTitle ) || wpzoomRecipeCard.post_title ) && <RichText.Content
+						( ! RichText.isEmpty( recipeTitle ) || post_title ) && <RichText.Content
 							className="recipe-card-title"
 							tagName="h2"
-							value={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }
+							value={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }
 						/>
 					}
 					{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ __( "Recipe by", "wpzoom-recipe-card" ) } { settings[0]['custom_author_name'] }</span> }
@@ -436,18 +447,18 @@ export default class RecipeCard extends Component {
 
 		let pin_description = recipeTitle;
 
-		if ( wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
+		if ( setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
 			pin_description = jsonSummary;
 		}
 		if ( _isUndefined( settings[0]['headerAlign'] ) ) {
-			settings[0]['headerAlign'] = wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_heading_content_align;
+			settings[0]['headerAlign'] = setting_options.wpzoom_rcb_settings_heading_content_align;
 		}
 
 		const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
 		const RecipeCardClassName = [ className, settings[0]['additionalClasses'], `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ].filter( ( item ) => item ).join( " " );
 		const PrintClasses = [ "wpzoom-recipe-card-print-link", settings[0]['print_btn'] ].filter( ( item ) => item ).join( " " );
 		const PinterestClasses = [ "wpzoom-recipe-card-pinit", settings[0]['pin_btn'] ].filter( ( item ) => item ).join( " " );
-		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ wpzoomRecipeCard.post_permalink }&media=${ hasImage ? image.url : wpzoomRecipeCard.post_thumbnail_url }&description=${ pin_description }`;
+		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ post_permalink }&media=${ hasImage ? image.url : post_thumbnail_url }&description=${ pin_description }`;
 
 		return (
 			<div className={ RecipeCardClassName } id={ id }>
@@ -499,7 +510,7 @@ export default class RecipeCard extends Component {
 			        			>
         							<div className="recipe-card-image">
         								<figure>
-        									<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }/>
+        									<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
         									<figcaption>
 												{
 													settings[0]['pin_btn'] && 
@@ -531,7 +542,7 @@ export default class RecipeCard extends Component {
 					<RichText
 						className="recipe-card-title"
 						tagName="h2"
-						value={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }
+						value={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }
 						unstableOnFocus={ () => this.setFocus( "recipeTitle" ) }
 						onChange={ newTitle => setAttributes( { recipeTitle: newTitle } ) }
 						onSetup={ ( ref ) => {
