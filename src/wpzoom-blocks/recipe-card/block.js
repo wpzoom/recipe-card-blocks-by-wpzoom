@@ -7,154 +7,12 @@
 
 /* Internal dependencies */
 import RecipeCard from './components/RecipeCard';
-import Icons from "./utils/IconsArray";
 import _omit from "lodash/omit";
 
 /* External dependencies */
 const { __ } = wp.i18n;
 const { registerBlockType, createBlock } = wp.blocks; // Import registerBlockType() from wp.blocks
-const {
-    post_author_name,
-    post_title,
-    is_pro,
-    setting_options
-} = wpzoomRecipeCard;
-
-let custom_author_name = setting_options.wpzoom_rcb_settings_author_custom_name;
-
-if ( custom_author_name === '' ) {
-    custom_author_name = post_author_name;
-}
-
-const attributes = {
-    id: {
-        type: 'string',
-    },
-    style: {
-        type: 'string',
-        default: setting_options.wpzoom_rcb_settings_template,
-    },
-    image: {
-        type: 'object',
-        default: null
-    },
-    hasImage: {
-        type: 'string',
-        default: false
-    },
-    video: {
-        type: 'object',
-        default: null
-    },
-    hasVideo: {
-        type: 'string',
-        default: false
-    },
-    recipeTitle: {
-        type: 'string',
-        selector: '.recipe-card-title',
-        default: post_title
-    },
-    summary: {
-        type: 'array',
-        source: "children",
-        selector: '.recipe-card-summary',
-    },
-    jsonSummary: {
-        type: 'string',
-    },
-    notes: {
-        type: 'array',
-        source: "children",
-        selector: '.recipe-card-notes-list',
-    },
-    course: {
-        type: 'array',
-    },
-    cuisine: {
-        type: 'array',
-    },
-    difficulty: {
-        type: 'array',
-    },
-    keywords: {
-        type: 'array',
-    },
-    settings: {
-        type: 'array',
-        default: [
-            {
-                primary_color: '#222',
-                print_btn: setting_options.wpzoom_rcb_settings_display_print === '1',
-                pin_btn: setting_options.wpzoom_rcb_settings_display_pin === '1',
-                custom_author_name: custom_author_name,
-                additionalClasses: '',
-                displayCourse: setting_options.wpzoom_rcb_settings_display_course === '1',
-                displayCuisine: setting_options.wpzoom_rcb_settings_display_cuisine === '1',
-                displayDifficulty: setting_options.wpzoom_rcb_settings_display_difficulty === '1',
-                displayAuthor: setting_options.wpzoom_rcb_settings_display_author === '1',
-                displayServings: setting_options.wpzoom_rcb_settings_display_servings === '1',
-                displayPrepTime: setting_options.wpzoom_rcb_settings_display_preptime === '1',
-                displayCookingTime: setting_options.wpzoom_rcb_settings_display_cookingtime === '1',
-                displayCalories: setting_options.wpzoom_rcb_settings_display_calories === '1',
-                headerAlign: setting_options.wpzoom_rcb_settings_heading_content_align,
-                ingredientsLayout: '1-column'
-            }
-        ]
-    },
-    details: {
-        type: 'array',
-    },
-    toInsert: {
-        type: 'string',
-    },
-    showModal: {
-        type: 'string',
-        default: false
-    },
-    activeIconSet: {
-        type: 'string',
-        default: 'foodicons'
-    },
-    searchIcon: {
-        type: 'string',
-        default: ''
-    },
-    icons: {
-        type: 'object',
-        default: Icons
-    },
-    ingredientsTitle: {
-        type: 'array',
-        selector: '.ingredients-title',
-        source: 'children',
-        default: setting_options.wpzoom_rcb_settings_ingredients_title
-    },
-    jsonIngredientsTitle: {
-        type: "string",
-    },
-    ingredients: {
-        type: 'array',
-    },
-    directionsTitle: {
-        type: 'array',
-        selector: '.directions-title',
-        source: 'children',
-        default: setting_options.wpzoom_rcb_settings_steps_title
-    },
-    jsonDirectionsTitle: {
-        type: "string",
-    },
-    notesTitle: {
-        type: 'array',
-        selector: '.notes-title',
-        source: 'children',
-        default: setting_options.wpzoom_rcb_settings_notes_title
-    },
-    steps: {
-        type: 'array',
-    },
-}
+const { is_pro, setting_options } = wpzoomRecipeCard;
 
 let transforms = [];
 
@@ -206,8 +64,6 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         // Don't allow the block to be converted into a reusable block.
         reusable: false,
     },
-    // Block attributes
-    attributes,
     keywords: [
         __( "Recipe Card", "wpzoom-recipe-card" ),
         __( "Block Recipe Card", "wpzoom-recipe-card" ),
@@ -241,9 +97,10 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         return <RecipeCard { ...{ attributes, setAttributes, className, clientId } } />;
     },
 
-    save: function( { attributes } ) {
-        return <RecipeCard.Content { ...attributes } />;
-    },
+    save() {
+        // Rendering in PHP
+        return null;
+    }
 
 } );
 

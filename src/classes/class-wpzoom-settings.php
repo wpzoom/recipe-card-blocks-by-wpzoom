@@ -18,7 +18,7 @@ class WPZOOM_Settings {
 	/**
 	 * Option name
 	 */
-	public $option = 'wpzoom-recipe-card-settings';
+	public static $option = 'wpzoom-recipe-card-settings';
 
 	/**
 	 * Store all default settings options.
@@ -53,27 +53,26 @@ class WPZOOM_Settings {
 	/**
 	 * Store Settings options.
 	 */
-	public $options = array();
+	public static $options = array();
 
 	/**
 	 * License key
 	 */
-	public $license_key = false;
+	public static $license_key = false;
 
 	/**
 	 * License status
 	 */
-	public $license_status = false;
+	public static $license_status = false;
 
 	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
+		self::$options = get_option( self::$option );
+
 		if( is_admin() ) {
             global $pagenow;
-
-            $this->options = get_option( $this->option );
-
 		    add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		    add_action( 'admin_init', array( $this, 'settings_init' ) );
 		    add_action( 'admin_init', array( $this, 'set_defaults' ) );
@@ -87,7 +86,7 @@ class WPZOOM_Settings {
                 add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
             }
 
-		    $this->_recipe_card_block = new WPZOOM_Recipe_Card_Block_Gutenberg();
+		    $this->_recipe_card_block = WPZOOM_Recipe_Card_Block_Gutenberg::instance();
 		    $this->_fields = new WPZOOM_Settings_Fields();
 		}
 	}
@@ -131,15 +130,15 @@ class WPZOOM_Settings {
 		}
 
 		// If 'wpzoom-recipe-card-settings' is empty update option with defaults values
-		if ( empty( $this->options ) ) {
+		if ( empty( self::$options ) ) {
 			$this->update_option( self::$defaults );
 		}
 
 		// If new setting is added, update 'wpzoom-recipe-card-settings' option
-		if ( ! empty( $this->options ) ) {
-			$new_settings = array_diff_key( self::$defaults, $this->options );
+		if ( ! empty( self::$options ) ) {
+			$new_settings = array_diff_key( self::$defaults, self::$options );
 			if ( ! empty( $new_settings ) ) {
-				$this->update_option( array_merge( $this->options, $new_settings ) );
+				$this->update_option( array_merge( self::$options, $new_settings ) );
 			}
 		}
 
@@ -153,9 +152,9 @@ class WPZOOM_Settings {
 	 * @param string $option 
 	 */
 	public function update_option( $value, $option = '', $autoload = null ) {
-		if ( empty( $option ) ) $option = $this->option;
+		if ( empty( $option ) ) $option = self::$option;
 		
-		if ( $this->options !== false ) {
+		if ( self::$options !== false ) {
 		    // The option already exists, so we just update it.
 		    update_option( $option, $value, $autoload );
 		} else {
@@ -187,6 +186,36 @@ class WPZOOM_Settings {
 	}
 
 	/**
+	 * Get license key
+	 * 
+	 * @since 1.2.0
+	 * @return string The License key
+	 */
+	public static function get_license_key() {
+		return self::$license_key;
+	}
+
+	/**
+	 * Get license status
+	 * 
+	 * @since 1.2.0
+	 * @return string The License status
+	 */
+	public static function get_license_status() {
+		return self::$license_status;
+	}
+
+	/**
+	 * Get setting options
+	 * 
+	 * @since 1.2.0
+	 * @return array
+	 */
+	public static function get_settings() {
+		return self::$options;
+	}
+
+	/**
 	 * Initilize all settings
 	 */
 	public function settings_init() {
@@ -197,7 +226,7 @@ class WPZOOM_Settings {
 				'tab_id' 		=> 'tab-general',
 				'tab_title' 	=> __( 'General', 'wpzoom-recipe-card' ),
 				'option_group' 	=> 'wpzoom-recipe-card-settings-general',
-				'option_name' 	=> $this->option,
+				'option_name' 	=> self::$option,
 				'sections' 		=> array(
 					array(
 						'id' 		=> 'wpzoom_section_general',
@@ -406,7 +435,7 @@ class WPZOOM_Settings {
 				'tab_id' 		=> 'tab-appearance',
 				'tab_title' 	=> __( 'Appearance', 'wpzoom-recipe-card' ),
 				'option_group' 	=> 'wpzoom-recipe-card-settings-appearance',
-				'option_name' 	=> $this->option,
+				'option_name' 	=> self::$option,
 				'sections' 		=> array(
 					array(
 						'id' 		=> 'wpzoom_section_recipe_template',
@@ -528,7 +557,7 @@ class WPZOOM_Settings {
 				'tab_id' 		=> 'tab-metadata',
 				'tab_title' 	=> __( 'Metadata', 'wpzoom-recipe-card' ),
 				'option_group' 	=> 'wpzoom-recipe-card-settings-metadata',
-				'option_name' 	=> $this->option,
+				'option_name' 	=> self::$option,
 				'sections' 		=> array(
 					array(
 						'id' 		=> 'wpzoom_section_taxonomies',

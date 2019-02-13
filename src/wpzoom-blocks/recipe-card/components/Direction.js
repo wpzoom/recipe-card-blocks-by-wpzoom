@@ -287,46 +287,6 @@ export default class Direction extends Component {
 		} );
 	}
 
-
-	/**
-	 * Returns the component to be used to render
-	 * the Direction block on Wordpress (e.g. not in the editor).
-	 *
-	 * @param {object} props the attributes of the Direction block.
-	 *
-	 * @returns {Component} The component representing a Direction block.
-	 */
-	static Content( props ) {
-		let { steps } = props;
-
-		const { directionsTitle } = props;
-
-		steps = steps
-			? steps.map( ( step ) => {
-				return (
-					<DirectionStep.Content
-						{ ...step }
-						key={ step.id }
-					/>
-				);
-			} )
-			: null;
-
-		const classNames       = [ "recipe-card-directions" ].filter( ( item ) => item ).join( " " );
-		const listClassNames   = [ "directions-list" ].filter( ( item ) => item ).join( " " );
-
-		return (
-			<div className={ classNames }>
-				<RichText.Content
-					tagName="h3"
-					className="directions-title"
-					value={ directionsTitle }
-				/>
-				<ul className={ listClassNames }>{ steps }</ul>
-			</div>
-		);
-	}
-
 	/**
 	 * A button to add a step to the front of the list.
 	 *
@@ -360,6 +320,7 @@ export default class Direction extends Component {
 				<RichText
 					tagName="h3"
 					className="directions-title"
+					format="string"
 					value={ attributes.directionsTitle }
 					unstableOnFocus={ () => this.setFocus( "directionsTitle" ) }
 					onChange={ ( directionsTitle ) => setAttributes( { directionsTitle, jsonDirectionsTitle: stripHTML( renderToString( directionsTitle ) ) } ) }

@@ -295,50 +295,6 @@ export default class Ingredient extends Component {
 		} );
 	}
 
-
-	/**
-	 * Returns the component to be used to render
-	 * the Ingredient block on Wordpress (e.g. not in the editor).
-	 *
-	 * @param {object} props the attributes of the Ingredient block.
-	 *
-	 * @returns {Component} The component representing a Ingredient block.
-	 */
-	static Content( props ) {
-		let { ingredients } = props;
-
-		const {
-			ingredientsTitle,
-			settings
-		} = props;
-
-		ingredients = ingredients
-			? ingredients.map( ( item ) => {
-				return (
-					<IngredientItem.Content
-						{ ...item }
-						key={ item.id }
-						{ ...props }
-					/>
-				);
-			} )
-			: null;
-
-		const classNames       = [ "recipe-card-ingredients" ].filter( ( item ) => item ).join( " " );
-		const listClassNames   = [ "ingredients-list", `layout-${ settings[0]['ingredientsLayout'] }` ].filter( ( item ) => item ).join( " " );
-
-		return (
-			<div className={ classNames }>
-				<RichText.Content
-					tagName="h3"
-					className="ingredients-title"
-					value={ ingredientsTitle }
-				/>
-				<ul className={ listClassNames }>{ ingredients }</ul>
-			</div>
-		);
-	}
-
 	/**
 	 * A button to add a item to the front of the list.
 	 *
@@ -373,6 +329,7 @@ export default class Ingredient extends Component {
 				<RichText
 					tagName="h3"
 					className="ingredients-title"
+					format="string"
 					value={ ingredientsTitle }
 					unstableOnFocus={ () => this.setFocus( "ingredientsTitle" ) }
 					onChange={ ( ingredientsTitle ) => setAttributes( { ingredientsTitle, jsonIngredientsTitle: stripHTML( renderToString( ingredientsTitle ) ) } ) }

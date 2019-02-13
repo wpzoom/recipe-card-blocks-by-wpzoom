@@ -124,66 +124,7 @@ export default class DetailItem extends Component {
 	 * @returns {void}
 	 */
 	openModal( index ) {
-	    this.props.setAttributes( { showModal: 'true', toInsert: index } );
-	}
-
-	/**
-	 * Returns the component of the given Detail item to be rendered in a WordPress post
-	 * (e.g. not in the editor).
-	 *
-	 * @param {object} item The detail item.
-	 *
-	 * @returns {Component} The component to be rendered.
-	 */
-	static Content( attributes ) {
-		const index = attributes.index;
-		const id = attributes.key;
-		let { icon, iconSet, label, value, unit } = attributes.item;
-
-		if ( _isUndefined( iconSet ) )
-			iconSet = 'oldicon';
-
-		const settings = attributes.settings;
-		const itemIconClasses = [ "detail-item-icon", iconSet, iconSet + "-" + icon ].filter( ( item ) => item ).join( " " );
-
-		// Convert minutes to hours for Preparation time and Cooking time
-		if ( index === 1 || index === 2 ) {
-			let convertObj = convertMinutesToHours( value, true );
-
-			if ( _isObject( convertObj ) ) {
-				if ( convertObj.hours.value !== '' ) {
-					value = convertObj.hours.value + ' ' + convertObj.hours.unit;
-					unit = convertObj.minutes.value + ' ' + convertObj.minutes.unit;
-				}
-			}
-		}
-
-		return (
-			<div className={ `detail-item detail-item-${ index }` } key={ id }>
-				{ icon ? 
-					<span 
-                        className={ itemIconClasses }
-                        icon-name={ icon }
-                        iconset={ iconSet }
-                    >
-                    </span>
-                    : ''
-                }
-                { ! RichText.isEmpty( label ) && <RichText.Content
-                        value={ label }
-                        tagName='p'
-                        className="detail-item-label"
-                    />
-                }
-                { ! RichText.isEmpty( value ) && <RichText.Content
-                        value={ value }
-                        tagName='p'
-                        className="detail-item-value"
-                    />
-                }
-                <p className="detail-item-unit">{ unit }</p>
-			</div>
-		);
+	    this.props.setAttributes( { showModal: true, toInsert: index } );
 	}
 
 	/**

@@ -60,7 +60,7 @@ class Inspector extends Component {
 		const relevantMedia = pickRelevantMediaFiles( media );
 
 		this.props.setAttributes( {
-			hasImage: 'true',
+			hasImage: true,
 			image: {
 				id: relevantMedia.id,
 				url: relevantMedia.url,
@@ -74,7 +74,7 @@ class Inspector extends Component {
 		const { id, alt, sizes } = this.props.attributes.image;
 		
 		this.props.setAttributes( {
-			hasImage: 'true',
+			hasImage: true,
 			image: {
 				id: id,
 				url: url,
@@ -249,7 +249,7 @@ class Inspector extends Component {
             		</PanelRow>
             		<PanelRow className={ RichText.isEmpty( summary ) ? "text-color-orange": "" }>
             			<span>description</span>
-            			<strong>{ jsonSummary }</strong>
+            			<strong>{ stripHTML( jsonSummary ) }</strong>
             		</PanelRow>
             		<PanelRow className={ ! hasImage ? "text-color-red": "" }>
             			<span>image</span>
@@ -575,7 +575,7 @@ export default compose( [
 
 		let id = null;
 
-		if ( ! _isNull( props.attributes.image ) ) {
+		if ( ! _isUndefined( props.attributes.image ) ) {
 			id = props.attributes.image.id;
 		}
 

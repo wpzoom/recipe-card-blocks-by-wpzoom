@@ -291,64 +291,7 @@ export default class Detail extends Component {
 			}
 		} );
 	}
-
-	/**
-	 * A button to add a item to the front of the list.
-	 *
-	 * @returns {Component} a button to add a item
-	 */
-	getAddItemButton() {
-		return (
-			<IconButton
-				icon="insert"
-				onClick={ () => this.insertDetail() }
-				className="editor-inserter__toggle"
-			>
-				<span className="components-icon-button-text">{ __( "Add item", "wpzoom-recipe-card" ) }</span>
-			</IconButton>
-		);
-	}
-
-	/**
-	 * Returns the component to be used to render
-	 * the Details block on Wordpress (e.g. not in the editor).
-	 *
-	 * @param {object} props the attributes of the Details block.
-	 *
-	 * @returns {Component} The component representing a Details block.
-	 */
-	static Content( props ) {
-		const { settings } = props;
-		let { details } = props;
-
-		details = details
-			? details.map( ( item, index ) => {
-				if ( 0 === index && settings[0]['displayServings'] || 
-					1 === index && settings[0]['displayPrepTime'] || 
-					2 === index && settings[0]['displayCookingTime'] || 
-					3 === index && settings[0]['displayCalories'] 
-				) {
-					return (
-						<DetailItem.Content
-							{ ...{ item, index } }
-							key={ item.id }
-							{ ...props }
-						/>
-					);
-				}
-			} )
-			: null;
-
-		const classNames       = [ "recipe-card-details" ].filter( ( item ) => item ).join( " " );
-		const detailClasses    = [ "details-items" ].filter( ( item ) => item ).join( " " );
-
-		return (
-		    <div className={ classNames }>
-		    	<div className={ detailClasses }>{ details }</div>
-		    </div>
-		);
-	}
-
+	
 	render() {
 		const { attributes, setAttributes, className } = this.props;
 		const { details } = attributes;
