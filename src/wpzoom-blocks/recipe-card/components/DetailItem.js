@@ -11,8 +11,6 @@ const { RichText } = wp.editor;
 const { IconButton, Button, Popover, MenuItemsChoice, MenuGroup } = wp.components;
 const { withState } = wp.compose;
 
-import { convertMinutesToHours } from "../../../helpers/convertMinutesToHours";
-
 const states = {
 	isVisible: false
 }
