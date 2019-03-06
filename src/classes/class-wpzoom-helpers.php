@@ -76,3 +76,17 @@ class WPZOOM_Helpers {
 		return $output;
 	}
 }
+
+
+/* Exclude specific images from being used in Jetpack's Lazy Load
+=========================================== */
+add_filter( 'jetpack_lazy_images_blacklisted_classes', 'wpzoom_rcb_exclude_custom_classes_from_lazy_load', 999, 1 );
+
+if ( ! function_exists( 'wpzoom_rcb_exclude_custom_classes_from_lazy_load' ) ) {
+    function wpzoom_rcb_exclude_custom_classes_from_lazy_load( $classes ) {
+        $classes[] = 'wpzoom-recipe-card-image';
+        $classes[] = 'direction-step-image';
+        return $classes;
+    }
+}
+

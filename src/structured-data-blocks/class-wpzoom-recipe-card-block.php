@@ -331,10 +331,11 @@ class WPZOOM_Recipe_Card_Block {
 			$src 	= $image['url'];
 			$alt 	= ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) );
 			$class  = '0' == $options['wpzoom_rcb_settings_print_show_image'] ? 'no-print' : '';
+			$class .= ' wpzoom-recipe-card-image';
 
 			$recipe_card_image = '<div class="recipe-card-image">
 				<figure>
-					'. sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $id, $src, $alt, $class ) .'
+					'. sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $id, $src, $alt, trim($class) ) .'
 					<figcaption>
 						'.
 							( @$settings['pin_btn'] ?
@@ -398,7 +399,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		$block_content = sprintf(
 			'<div class="%1$s" id="%2$s">%3$s</div>',
-			esc_attr( $RecipeCardClassName ),
+			esc_attr( trim($RecipeCardClassName) ),
 			esc_attr( $id ),
 			$recipe_card_image .
 			$recipe_card_heading .
@@ -859,8 +860,9 @@ class WPZOOM_Recipe_Card_Block {
 					$src = $id ? wp_get_attachment_image_src( $id, 'wpzoom_rcb_step_image' )[0] : @$node['props']['src'];
 					$alt = @$node['props']['alt'];
 					$class = '0' == $options['wpzoom_rcb_settings_print_show_steps_image'] ? 'no-print' : '';
+					$class .= ' direction-step-image';
 
-					$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s"/>', $type, $src, $alt, $class );
+					$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s"/>', $type, $src, $alt, trim($class) );
 					$end_tag = "";
 				}
 				elseif ( 'a' === $type ) {

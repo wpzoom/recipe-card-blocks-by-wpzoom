@@ -77,6 +77,9 @@ class WPZOOM_Settings {
 		    add_action( 'admin_init', array( $this, 'settings_init' ) );
 		    add_action( 'admin_init', array( $this, 'set_defaults' ) );
 
+		    // Do ajax request
+			add_action( 'wp_ajax_wpzoom_reset_settings', array( $this, 'reset_settings') );
+
 		    if( isset( $_GET['page'] ) && $_GET['page'] === WPZOOM_RCB_SETTINGS_PAGE ) {
 		        if( $pagenow !== "options-general.php" ) {
 		        	// Display admin notices
@@ -671,6 +674,12 @@ class WPZOOM_Settings {
 	?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+
+			<?php if ( isset( $_GET['wpzoom_reset_settings'] ) && ! isset( $_GET['settings-updated'] ) ): ?>
+				<div class="updated settings-error notice is-dismissible">
+					<p><strong>Settings have been successfully reset.</strong></p>
+				</div>
+			<?php endif; ?>
 			
 			<form action="options.php" method="post">
 				<ul class="wp-tab-bar">
@@ -682,6 +691,7 @@ class WPZOOM_Settings {
 						<?php endif ?>
 					<?php endforeach ?>
 					<li id="wpzoom_rcb_settings_save"><?php submit_button( 'Save Settings', 'primary', 'wpzoom_rcb_settings_save', false ); ?></li>
+					<li id="wpzoom_rcb_reset_settings"><input type="button" class="button button-secondary" name="wpzoom_rcb_reset_settings" id="wpzoom_rcb_reset_settings" value="Reset Settings"></li>
 				</ul>
 				<?php foreach ( $this->settings as $setting ): ?>
 					<?php if ( self::$active_tab === $setting['tab_id'] ): ?>
@@ -728,6 +738,11 @@ class WPZOOM_Settings {
 	    	array( 'jquery' ),
 	    	WPZOOM_RCB_VERSION
 	    );
+
+	    wp_localize_script( 'wpzoom-rcb-admin-script', 'WPZOOM_Settings', array(
+	    	'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+	    	'ajax_nonce' => wp_create_nonce( "wpzoom-reset-settings-nonce" ),
+	    ) );
 	}
 
 	/**
@@ -756,6 +771,38 @@ class WPZOOM_Settings {
 
 			}
 		}
+	}
+
+	/**
+	 * Reset settings to default values
+	 * @since 1.1.0
+	 * @return void
+	 */
+	public function reset_settings() {
+		check_ajax_referer( 'wpzoom-reset-settings-nonce', 'security' );
+
+		$defaults = self::get_defaults();
+
+		if ( empty( $defaults ) ) {
+			$response = array(
+			 	'status' => '304',
+			 	'message' => 'NOT',
+			);
+			header( 'Content-Type: application/json; charset=utf-8' );
+			echo json_encode( $response );
+			exit;
+		}
+
+		$response = array(
+		 	'status' => '200',
+		 	'message' => 'OK',
+		);
+
+		$this->update_option( $defaults );
+
+		header( 'Content-Type: application/json; charset=utf-8' );
+		echo json_encode( $response );
+		exit;
 	}
 
 	// section callbacks can accept an $args parameter, which is an array.
