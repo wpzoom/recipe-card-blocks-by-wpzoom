@@ -167,47 +167,6 @@ export default class RecipeCard extends Component {
 	}
 
 	/**
-	 * Set Active Block Style.
-	 *
-	 * @returns {void}
-	 */
-	setActiveBlockStyle( className ) {
-		const { attributes, setAttributes } = this.props;
-		const { settings } = attributes;
-
-		const regex = /is-style-(\S*)/g;
-		let m = regex.exec( className );
-		const activeStyle = m !== null ? m[1] : setting_options.wpzoom_rcb_settings_template;
-
-		if ( activeStyle === 'default' ) {
-			settings[0].primary_color = '#222';
-		} else if ( activeStyle === 'newdesign' ) {
-			settings[0].primary_color = '#FFA921';
-		}
-
-		setAttributes( { style: activeStyle } );
-		setAttributes( { settings } );
-	}
-
-	/**
-	 * Set Video Block attributes.
-	 *
-	 * @returns {void}
-	 */
-	setVideoAttributes() {
-		const { attributes, setAttributes, clientId } = this.props;
-		const { select } = wp.data;
-		const parentBlock = select( 'core/editor' ).getBlocksByClientId( clientId )[ 0 ];
-		const childBlocks = ! _isNull( parentBlock ) ? parentBlock.innerBlocks : [];
-
-		if ( ! _isUndefined( childBlocks[0] ) && childBlocks[0].attributes ) {
-			setAttributes( { hasVideo: 'true', video: childBlocks[0].attributes } );
-		} else {
-			setAttributes( { hasVideo: false, video: null } );
-		}
-	}
-
-	/**
 	 * Sets the focus to a specific element in block.
 	 *
 	 * @param {number|string} elementToFocus The element to focus, either the index of the item that should be in focus or name of the input.
@@ -258,9 +217,7 @@ export default class RecipeCard extends Component {
 			settings,
 		} = attributes;
 
-		this.setVideoAttributes();
-		this.setActiveBlockStyle( className );
-
+		const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
 		let pin_description = recipeTitle;
 
 		if ( setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
@@ -275,8 +232,11 @@ export default class RecipeCard extends Component {
 		    custom_author_name = post_author_name;
 		}
 
-		const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
-		const RecipeCardClassName = [ className, `is-style-${ style }`, `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ].filter( ( item ) => item ).join( " " );
+		const regex = /is-style-(\S*)/g;
+		let m = regex.exec( className );
+		let classNames = m !== null ? [ className, `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ] : [ className, `is-style-${ style }`, `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ]
+
+		const RecipeCardClassName = classNames.filter( ( item ) => item ).join( " " );
 		const PrintClasses = [ "wpzoom-recipe-card-print-link" ].filter( ( item ) => item ).join( " " );
 		const PinterestClasses = [ "wpzoom-recipe-card-pinit" ].filter( ( item ) => item ).join( " " );
 		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ post_permalink }&media=${ hasImage ? image.url : post_thumbnail_url }&description=${ pin_description }`;
