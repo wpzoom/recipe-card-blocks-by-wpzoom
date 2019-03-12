@@ -51,17 +51,18 @@ jQuery(document).ready(function(){
 		// close Welcome banner
 		$('.wpzoom-rcb-welcome-close').click(function(e){
 			e.preventDefault();
-			
+
+			var banner = $(this).attr('href');
 			var data = {
 			    security: Settings.ajax_nonce,
 			    action: 'wpzoom_welcome_banner_close',
 			};
 
+			$(banner).fadeOut();
+
 			$.post( Settings.ajaxUrl, data, function(response){
-				if ( response.status == '200' ) {
-					location.reload();
-				} else {
-					alert('Something went wrong when tried to close Welcome banner!')
+				if ( response.status != '200' ) {
+					alert('Something went wrong!')
 				}
 			});
 		});

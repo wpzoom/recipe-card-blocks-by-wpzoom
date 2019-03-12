@@ -257,7 +257,7 @@ class WPZOOM_Settings {
 					<a href="#" target="_blank" class="wpzoom-pro-link">Upgrade PRO</a>
 				</div>
 			</div>
-			<a href="#" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i>Close banner</a>
+			<a href="#wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i>Close banner</a>
 		</div>
 		<?php
 
