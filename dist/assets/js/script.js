@@ -7,7 +7,7 @@
 		    $(this).toggleClass("ticked");
 		});
 
-		$(".wpzoom-recipe-card-print-link .btn-print-link").click(function(e){
+		$(".wpzoom-recipe-card-print-link .btn-print-link, .wp-block-wpzoom-recipe-card-block-print-recipe").click(function(e){
 			var block = $(this).attr('href'),
 				id = $(block).attr('id');
 

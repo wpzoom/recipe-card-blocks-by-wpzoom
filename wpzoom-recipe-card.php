@@ -5,7 +5,7 @@
  * Description: Beautiful recipe blocks for Gutenberg to help you to add recipe cards: Ingredients, Directions and more to come.
  * Author: WPZOOM
  * Author URI: https://wpzoom.com
- * Version: 1.1.0
+ * Version: 1.2.0
  * Copyright: (c) 2018 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function define_constants() {
-			$this->define( 'WPZOOM_RCB_VERSION', '1.1.0' );
+			$this->define( 'WPZOOM_RCB_VERSION', '1.2.0' );
 			$this->define( 'WPZOOM_RCB_TEXT_DOMAIN', 'wpzoom-recipe-card' );
 			$this->define( 'WPZOOM_RCB_HAS_PRO', false );
 			$this->define( 'WPZOOM_RCB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -99,10 +99,6 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 			
 			add_action( 'init', array( $this, 'register_block_types' ) );
 			add_action( 'init', array( $this, 'load_textdomain' ) );
-
-			register_activation_hook( WPZOOM_RCB_PLUGIN_DIR, array( $this, 'plugin_activation' ) );
-
-			// add_action( 'admin_init', array( $this, 'plugin_activation_redirect' ) );
 		}
 
 		/**
@@ -148,30 +144,6 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 
 			foreach ( $integrations as $integration ) {
 				$integration->register_hooks();
-			}
-		}
-
-		/**
-		 * Add a redirection check on activation.
-		 *
-		 * @since 1.1.0
-		 */
-		public function plugin_activation() {
-			add_option( 'wpzoom_rcb_do_activation_redirect', true );
-		}
-
-		/**
-		 * Redirect to the WPZOOM Recipe Card Getting Started page on single plugin activation
-		 * TODO: make redirect works
-		 *
-		 * @since 1.1.0
-		 */
-		public function plugin_activation_redirect() {
-			if ( get_option( 'wpzoom_rcb_do_activation_redirect', false ) ) {
-				delete_option( 'wpzoom_rcb_do_activation_redirect' );
-				if ( ! isset( $_GET['activate-multi'] ) ) {
-					wp_redirect( 'admin.php?page=wpzoom-recipe-card' );
-				}
 			}
 		}
 
@@ -253,3 +225,31 @@ if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 } else {
 	recipe_card_block();
 }
+
+register_activation_hook( __FILE__, 'recipe_card_block_plugin_activation' );
+add_action( 'admin_init', 'recipe_card_block_plugin_activation_redirect' );
+
+/**
+ * Add a redirection check on activation.
+ *
+ * @since 1.2.0
+ */
+function recipe_card_block_plugin_activation() {
+	add_option( 'wpzoom_rcb_do_activation_redirect', true );
+	set_transient( 'wpzoom_rcb_welcome_banner', true, 12 * HOUR_IN_SECONDS );
+}
+
+/**
+ * Redirect to the WPZOOM Recipe Card Getting Started page on single plugin activation
+ *
+ * @since 1.2.0
+ */
+function recipe_card_block_plugin_activation_redirect() {
+	if ( get_option( 'wpzoom_rcb_do_activation_redirect', false ) ) {
+		delete_option( 'wpzoom_rcb_do_activation_redirect' );
+		if ( ! isset( $_GET['activate-multi'] ) ) {
+			wp_redirect( 'options-general.php?page=wpzoom-recipe-card-settings' );
+		}
+	}
+}
+

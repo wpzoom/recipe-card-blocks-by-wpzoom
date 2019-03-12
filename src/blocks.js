@@ -13,3 +13,5 @@ import './wpzoom-blocks/ingredients/block.js';
 import './wpzoom-blocks/directions/block.js';
 import './wpzoom-blocks/details/block.js';
 import './wpzoom-blocks/recipe-card/block.js';
+import './wpzoom-blocks/jump-to-recipe/block.js';
+import './wpzoom-blocks/print-recipe/block.js';

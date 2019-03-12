@@ -35,17 +35,35 @@ jQuery(document).ready(function(){
 				$.post( Settings.ajaxUrl, data, function(response){
 					if ( response.status == '200' ) {
 						var query_args = getUrlVars( window.location.href );
-						
+
 						if ( query_args.length > 0 ) {
 							window.location.href = window.location.href + "&wpzoom_reset_settings=1";
 						} else {
 							window.location.href = window.location.href + "?wpzoom_reset_settings=1";
 						}
 					} else {
-						alert('Something wrong happened when trying to reset settings!')
+						alert('Something went wrong when tried to reset the settings!')
 					}
 				});
 			}
+		});
+
+		// close Welcome banner
+		$('.wpzoom-rcb-welcome-close').click(function(e){
+			e.preventDefault();
+			
+			var data = {
+			    security: Settings.ajax_nonce,
+			    action: 'wpzoom_welcome_banner_close',
+			};
+
+			$.post( Settings.ajaxUrl, data, function(response){
+				if ( response.status == '200' ) {
+					location.reload();
+				} else {
+					alert('Something went wrong when tried to close Welcome banner!')
+				}
+			});
 		});
 
 		function getUrlVars( $url ) {

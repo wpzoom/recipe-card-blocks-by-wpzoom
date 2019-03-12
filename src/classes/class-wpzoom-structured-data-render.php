@@ -32,6 +32,8 @@ class WPZOOM_Structured_Data_Render {
 	private function load_dependencies() {
 		require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-structured-data-helpers.php';
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-blocks.php';
+		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-jump-to-recipe.php';
+		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-print-recipe.php';
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-recipe-card-block.php';
 
 		if ( WPZOOM_RCB_HAS_PRO ) {
@@ -45,6 +47,8 @@ class WPZOOM_Structured_Data_Render {
 	public function register_hooks() {
 		$block_integrations = array(
 			new WPZOOM_Blocks(),
+			new WPZOOM_Jump_To_Recipe_Block(),
+			new WPZOOM_Print_Recipe_Block(),
 			new WPZOOM_Recipe_Card_Block()
 		);
 

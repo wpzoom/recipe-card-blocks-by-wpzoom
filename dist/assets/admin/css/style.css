@@ -113,3 +113,81 @@ div.wp-tab-panel-inactive {
 	font-size: 16px;
 	padding-top: 0;
 }
+
+
+/*
+ *
+ * Welcome banner
+ *
+*/
+.wpzoom-rcb-welcome {
+	width: 760px;
+	margin: 40px auto;
+	position: relative;
+}
+.wpzoom-rcb-welcome .inner-wrap {
+	padding: 3em 6em;
+	background-color: #fff;
+	border-radius: 5px;
+	border: 1px solid #d5d5d5;
+	text-align: center;
+}
+.wpzoom-rcb-welcome .wpzoom-rcb-welcome-icon {
+	display: inline-block;
+	color: #46b450;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	border: 1px solid;
+	text-align: center;
+}
+.wpzoom-rcb-welcome .wpzoom-rcb-welcome-icon::before {
+	line-height: 60px;
+	font-size: 56px;
+	margin-left: -4px;
+}
+.wpzoom-rcb-welcome .wpzoom-rcb-welcome-title {
+	font-size: 2.4em;
+	line-height: 1.2em;
+	margin-bottom: 0;
+}
+.wpzoom-rcb-welcome .wpzoom-rcb-welcome-description {
+	color: #acacac;
+	font-size: 15px;
+	line-height: 1.8em;
+}
+.wpzoom-rcb-welcome .wpzoom-rcb-welcome-close {
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	color: #c0c0c0;
+	font-size: 12px;
+	text-decoration: none;
+}
+.wpzoom-rcb-welcome .wpzoom-rcb-welcome-close i {
+	font-style: normal;
+	display: inline-block;
+	vertical-align: middle;
+}
+.wpzoom-rcb-welcome-buttons {
+	padding: 13px 10px;
+	background-color: #f5f5f5;
+}
+.wpzoom-rcb-welcome-buttons a {
+	display: inline-block;
+	margin-right: 10px;
+	padding-right: 10px;
+}
+.wpzoom-rcb-welcome-buttons a::after {
+	content: '•';
+	display: inline-block;
+	position: relative;
+	right: -12px;
+	color: #c0c0c0;
+}
+.wpzoom-rcb-welcome-buttons a:last-child {
+	margin-right: 0;
+}
+.wpzoom-rcb-welcome-buttons a:last-child::after {
+	display: none;
+}

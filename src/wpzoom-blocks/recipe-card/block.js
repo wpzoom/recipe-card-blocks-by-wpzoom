@@ -49,6 +49,7 @@ if ( is_pro ) {
 registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
     title: __( "Recipe Card Block (Rich Snippets)", "wpzoom-recipe-card" ), // Block title.
+    description: __( "Display a Recipe Card box with recipe metadata.", "wpzoom-recipe-card" ),
     icon: {
         // Specifying a background color to appear with the icon e.g.: in the inserter.
         background: '#2EA55F',

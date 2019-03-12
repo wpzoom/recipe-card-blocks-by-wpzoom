@@ -79,6 +79,7 @@ class WPZOOM_Settings {
 
 		    // Do ajax request
 			add_action( 'wp_ajax_wpzoom_reset_settings', array( $this, 'reset_settings') );
+			add_action( 'wp_ajax_wpzoom_welcome_banner_close', array( $this, 'welcome_banner_close') );
 
 		    if( isset( $_GET['page'] ) && $_GET['page'] === WPZOOM_RCB_SETTINGS_PAGE ) {
 		        if( $pagenow !== "options-general.php" ) {
@@ -216,6 +217,54 @@ class WPZOOM_Settings {
 	 */
 	public static function get_settings() {
 		return self::$options;
+	}
+
+	/**
+	 * Get setting option value
+	 * 
+	 * @since 1.2.0
+	 * @param string $option  Option name
+	 * @return string|boolean
+	 */
+	public static function get( $option ) {
+		return isset(self::$options[ $option ]) ? self::$options[ $option ] : false;
+	}
+
+	/**
+	 * Welcome banner
+	 * Show banner after user activate plugin
+	 * 
+	 * @since 1.2.0
+	 * @return void
+	 */
+	public function welcome() {
+		$welcome_transient = get_transient('wpzoom_rcb_welcome_banner');
+
+		if ( false === $welcome_transient ) {
+			return;
+		}
+
+		ob_start();
+		?>
+		<div id="wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome">
+			<div class="inner-wrap">
+				<i class="wpzoom-rcb-welcome-icon dashicons dashicons-yes"></i>
+				<h3 class="wpzoom-rcb-welcome-title"><?php _e( "Thank You!", "wpzoom-recipe-card" ) ?></h3>
+				<p class="wpzoom-rcb-welcome-description"><?php _e( "We are glad to see that you're decided to use our Recipe Card Block Plugin for your project. We do the best for you...", "wpzoom-recipe-card" ) ?></p>
+				<div class="wpzoom-rcb-welcome-buttons">
+					<a href="https://www.wpzoom.com/documentation/" target="_blank" class="wpzoom-doc-link">Documentation</a>
+					<a href="https://www.wpzoom.com/support/tickets/" target="_blank" class="wpzoom-support-link">Support</a>
+					<a href="#" target="_blank" class="wpzoom-pro-link">Upgrade PRO</a>
+				</div>
+			</div>
+			<a href="#" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i>Close banner</a>
+		</div>
+		<?php
+
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		echo $output;
 	}
 
 	/**
@@ -464,6 +513,49 @@ class WPZOOM_Settings {
 						)
 					),
 					array(
+						'id' 		=> 'wpzoom_section_snippets',
+						'title' 	=> __( 'Snippets', 'wpzoom-recipe-card' ),
+						'page' 		=> 'wpzoom-recipe-card-settings-appearance',
+						'callback' 	=> array( $this, 'section_recipe_snippets' ),
+						'fields' 	=> array(
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_display_snippets',
+								'title' 	=> __( 'Automatically add Snippets', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_display_snippets',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description'   => __( 'Automatically display snippets above the post content.', 'wpzoom-recipe-card' ),
+									'default'		=> true
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_jump_to_recipe_text',
+								'title' 	=> __( 'Jump to Recipe Text', 'wpzoom-recipe-card' ),
+								'type'		=> 'input',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_jump_to_recipe_text',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Add custom text for Jump to Recipe button.', 'wpzoom-recipe-card' ),
+									'default'		=> __( 'Jump to Recipe', 'wpzoom-recipe-card' ),
+									'type'			=> 'text'
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_print_recipe_text',
+								'title' 	=> __( 'Print Recipe Text', 'wpzoom-recipe-card' ),
+								'type'		=> 'input',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_print_recipe_text',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Add custom text for Print Recipe button.', 'wpzoom-recipe-card' ),
+									'default'		=> __( 'Print Recipe', 'wpzoom-recipe-card' ),
+									'type'			=> 'text'
+								)
+							),
+						)
+					),
+					array(
 						'id' 		=> 'wpzoom_section_print',
 						'title' 	=> __( 'Print', 'wpzoom-recipe-card' ),
 						'page' 		=> 'wpzoom-recipe-card-settings-appearance',
@@ -673,7 +765,9 @@ class WPZOOM_Settings {
 		}
 	?>
 		<div class="wrap">
-			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+			<?php $this->welcome(); ?>
+
+			<h1 style="margin-bottom: 15px"><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
 			<?php if ( isset( $_GET['wpzoom_reset_settings'] ) && ! isset( $_GET['settings-updated'] ) ): ?>
 				<div class="updated settings-error notice is-dismissible">
@@ -805,6 +899,34 @@ class WPZOOM_Settings {
 		exit;
 	}
 
+	/**
+	 * Close Welcome banner
+	 * 
+	 * @since 1.2.0
+	 * @return void
+	 */
+	public function welcome_banner_close() {
+		check_ajax_referer( 'wpzoom-reset-settings-nonce', 'security' );
+
+		if ( delete_transient( 'wpzoom_rcb_welcome_banner' ) ) {
+			$response = array(
+			 	'status' => '200',
+			 	'message' => 'OK',
+			);
+			header( 'Content-Type: application/json; charset=utf-8' );
+			echo json_encode( $response );
+			exit;
+		} else {
+			$response = array(
+			 	'status' => '304',
+			 	'message' => 'NOT',
+			);
+			header( 'Content-Type: application/json; charset=utf-8' );
+			echo json_encode( $response );
+			exit;
+		}
+	}
+
 	// section callbacks can accept an $args parameter, which is an array.
 	// $args have the following keys defined: title, id, callback.
 	// the values are defined at the add_settings_section() function.
@@ -823,6 +945,12 @@ class WPZOOM_Settings {
 	public function section_recipe_template_cb( $args ) {
 	?>
 	 	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'You will get access to more Recipe Templates with Premium version.', 'wpzoom-recipe-card' ) ?></p>
+	<?php
+	}
+
+	public function section_recipe_snippets( $args ) {
+	?>
+	 	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Display Jump to Recipe and Print Recipe buttons.', 'wpzoom-recipe-card' ) ?></p>
 	<?php
 	}
 }
