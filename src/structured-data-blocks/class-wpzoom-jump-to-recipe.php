@@ -43,6 +43,7 @@ class WPZOOM_Jump_To_Recipe_Block {
 		$attributes = array(
 			'id' => array(
 			    'type' => 'string',
+			    'default' => 'wpzoom-recipe-card'
 			),
 			'text' => array(
 				'type' => 'string',
@@ -74,10 +75,6 @@ class WPZOOM_Jump_To_Recipe_Block {
 		$attributes = self::$helpers->omit( $attributes, array() );
 		// Import variables into the current symbol table from an array
 		extract( $attributes );
-
-		if ( empty( $id ) ) {
-			return __( 'Please enter Recipe ID', 'wpzoom-recipe-card' ) . $content;
-		}
 
 		$class = 'wpzoom-recipe-snippet-button wp-block-wpzoom-recipe-card-block-jump-to-recipe';
 

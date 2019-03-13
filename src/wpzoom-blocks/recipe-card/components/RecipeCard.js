@@ -52,8 +52,6 @@ export default class RecipeCard extends Component {
 		this.setFocus = this.setFocus.bind( this );
 		this.onSelectImage = this.onSelectImage.bind( this );
 
-		this.props.attributes.id = RecipeCard.generateId( "wpzoom-recipe-card" );
-
 		if ( ! props.attributes.isDataSet ) {
 			this.state.isLoading = true;
 			this.updateAttributes( props );

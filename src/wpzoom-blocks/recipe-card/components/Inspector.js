@@ -170,10 +170,6 @@ class Inspector extends Component {
 
 		const keywordsToken = [];
 
-		const onChangeID = ( id ) => {
-			setAttributes( { id } );
-		}
-
 		const onChangeSettings = ( newValue, index, param ) => {
 			const settings = this.props.attributes.settings ? this.props.attributes.settings.slice() : [];
 
@@ -290,15 +286,6 @@ class Inspector extends Component {
 		return (
 			<InspectorControls>
                 <PanelBody className="wpzoom-recipe-card-settings" initialOpen={ true } title={ __( "Recipe Card Settings", "wpzoom-recipe-card" ) }>
-                	<TextControl
-                		id={ id }
-                		instanceId={ id }
-                		type="text"
-                		label={ __( "Recipe Card ID", "wpzoom-recipe-card" ) }
-                		help={ __( "You can copy this recipe id and use them to Jump to Recipe & Print Recipe blocks.", "wpzoom-recipe-card" ) }
-                		value={ id }
-                		onChange={ onChangeID }
-                	/>
 	            	<BaseControl
 	        			id={ `${ id }-image` }
 	        			label={ __( "Recipe Card Image (required)", "wpzoom-recipe-card" ) }

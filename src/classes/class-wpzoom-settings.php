@@ -514,19 +514,19 @@ class WPZOOM_Settings {
 					),
 					array(
 						'id' 		=> 'wpzoom_section_snippets',
-						'title' 	=> __( 'Snippets', 'wpzoom-recipe-card' ),
+						'title' 	=> __( 'Recipe Buttons', 'wpzoom-recipe-card' ),
 						'page' 		=> 'wpzoom-recipe-card-settings-appearance',
 						'callback' 	=> array( $this, 'section_recipe_snippets' ),
 						'fields' 	=> array(
 							array(
 								'id' 		=> 'wpzoom_rcb_settings_display_snippets',
-								'title' 	=> __( 'Automatically add Snippets', 'wpzoom-recipe-card' ),
+								'title' 	=> __( 'Automatically add Buttons', 'wpzoom-recipe-card' ),
 								'type'		=> 'checkbox',
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_display_snippets',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description'   => __( 'Automatically display snippets above the post content.', 'wpzoom-recipe-card' ),
-									'default'		=> true
+									'description'   => __( 'Automatically display buttons above the post content.', 'wpzoom-recipe-card' ),
+									'default'		=> false
 								)
 							),
 							array(

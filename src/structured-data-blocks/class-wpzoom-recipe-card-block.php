@@ -89,6 +89,7 @@ class WPZOOM_Recipe_Card_Block {
 		$attributes = array(
 			'id' => array(
 			    'type' => 'string',
+			    'default' => 'wpzoom-recipe-card'
 			),
 			'style' => array(
 			    'type' => 'string',
@@ -908,6 +909,7 @@ class WPZOOM_Recipe_Card_Block {
 				'wpzoom-recipe-card/block-jump-to-recipe',
 				'wpzoom-recipe-card/block-print-recipe'
 			);
+			$output .= '<div class="wpzoom-recipe-card-buttons">';
 			foreach ( $custom_blocks as $block_name ) {
 				if ( $block_name == 'wpzoom-recipe-card/block-jump-to-recipe' ) {
 		    		$attrs = array(
@@ -938,6 +940,7 @@ class WPZOOM_Recipe_Card_Block {
 		    		$output .= render_block( $block );
 				}
 			}
+			$output .= '</div>';
 		}
 
 		return $output . $content;
