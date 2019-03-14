@@ -646,16 +646,30 @@ class WPZOOM_Recipe_Card_Block {
 			}
 
 			if ( ! empty( $detail[ 'label' ] ) ) {
-				$label = sprintf(
-					'<span class="detail-item-label">%s</span>',
-					$detail['label']
-				);
+				if ( !is_array( $detail['label'] ) ) {
+					$label = sprintf(
+						'<span class="detail-item-label">%s</span>',
+						$detail['label']
+					);
+				} elseif( isset( $detail['jsonLabel'] ) ) {
+					$label = sprintf(
+						'<span class="detail-item-label">%s</span>',
+						$detail['jsonLabel']
+					);
+				}
 			}
 			if ( ! empty( $detail[ 'value' ] ) ) {
-				$value = sprintf(
-					'<p class="detail-item-value">%s</p>',
-					$detail['value']
-				);
+				if ( !is_array( $detail['value'] ) ) {
+					$value = sprintf(
+						'<p class="detail-item-value">%s</p>',
+						$detail['value']
+					);
+				} elseif ( isset( $detail['jsonValue'] ) ) {
+					$value = sprintf(
+						'<p class="detail-item-value">%s</p>',
+						$detail['jsonValue']
+					);
+				}
 			}
 			if ( ! empty( $detail[ 'unit' ] ) ) {
 				$unit = sprintf(

@@ -11,13 +11,11 @@ import legacy from "./legacy";
 import _isUndefined from "lodash/isUndefined";
 import _merge from "lodash/merge";
 
-import { getBlocksCount } from "../../helpers/getBlocksCount";
-
 /* External dependencies */
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-const attributes = {
+const deprecatedAttr = {
     title: {
         type: 'array',
         selector: '.directions-title',
@@ -37,21 +35,12 @@ const attributes = {
     steps: {
         type: "array",
     },
-    blocks_count: {
-        type: 'string'
+    content: {
+        type: 'array',
+        selector: '.directions-list',
+        source: 'children'
     }
 }
-
-const deprecatedAttr = _merge( 
-    attributes,
-    { 
-        content: {
-            type: 'array',
-            selector: '.directions-list',
-            source: 'children'
-        }
-    }
-);
 
 /**
  * Register: Directions Gutenberg Block.
@@ -82,8 +71,6 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
     supports: {
         multiple: false,
     },
-    // Block attributes
-    attributes,
     keywords: [
         __( "directions", "wpzoom-recipe-card" ),
         __( "wpzoom", "wpzoom-recipe-card" ),
@@ -143,9 +130,9 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
         return <Direction { ...{ attributes, setAttributes, className } } />;
     },
 
-    save: function( { attributes } ) {
-        attributes.blocks_count = getBlocksCount( [ "block-details", "block-ingredients", "block-directions" ] );
-        return <Direction.Content { ...attributes } />;
+    save() {
+        // Rendering in PHP
+        return null;
     },
 
     deprecated: [

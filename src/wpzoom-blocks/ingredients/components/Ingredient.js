@@ -285,56 +285,6 @@ export default class Ingredient extends Component {
 		} );
 	}
 
-
-	/**
-	 * Returns the component to be used to render
-	 * the Ingredient block on Wordpress (e.g. not in the editor).
-	 *
-	 * @param {object} props the attributes of the Ingredient block.
-	 *
-	 * @returns {Component} The component representing a Ingredient block.
-	 */
-	static Content( props ) {
-		let { items } = props;
-
-		const {
-			title,
-			id,
-			print_visibility,
-			className,
-		} = props;
-
-		items = items
-			? items.map( ( item ) => {
-				return (
-					<IngredientItem.Content
-						{ ...item }
-						key={ item.id }
-					/>
-				);
-			} )
-			: null;
-
-		const classNames       = [ "", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames   = [ "ingredients-list" ].filter( ( item ) => item ).join( " " );
-
-		return (
-			<div className={ classNames } id={ id }>
-				<div className={ "wpzoom-recipe-card-print-link" + " " + print_visibility }>
-                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print ingredients...", "wpzoom-recipe-card" ) }>
-                        <img className="icon-print-link" src={ pluginURL + 'src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
-                    </a>
-                </div>
-				<RichText.Content
-					tagName="h3"
-					className="ingredients-title"
-					value={ title }
-				/>
-				<ul className={ listClassNames }>{ items }</ul>
-			</div>
-		);
-	}
-
 	/**
 	 * A button to add a item to the front of the list.
 	 *

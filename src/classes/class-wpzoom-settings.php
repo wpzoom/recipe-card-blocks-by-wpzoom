@@ -343,6 +343,18 @@ class WPZOOM_Settings {
 								)
 							),
 							array(
+								'id' 		=> 'wpzoom_rcb_settings_details_title',
+								'title' 	=> __( 'Default Details Title', 'wpzoom-recipe-card' ),
+								'type'		=> 'input',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_details_title',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Add your custom Details title.', 'wpzoom-recipe-card' ),
+									'default'		=> __( 'Details', 'wpzoom-recipe-card' ),
+									'type'			=> 'text'
+								)
+							),
+							array(
 								'id' 		=> 'wpzoom_rcb_settings_ingredients_title',
 								'title' 	=> __( 'Default Ingredients Title', 'wpzoom-recipe-card' ),
 								'type'		=> 'input',

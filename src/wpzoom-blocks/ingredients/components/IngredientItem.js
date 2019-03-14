@@ -73,27 +73,6 @@ export default class IngredientItem extends Component {
 	}
 
 	/**
-	 * Returns the component of the given Ingredient item to be rendered in a WordPress post
-	 * (e.g. not in the editor).
-	 *
-	 * @param {object} item The ingredient item.
-	 *
-	 * @returns {Component} The component to be rendered.
-	 */
-	static Content( item ) {
-		return (
-			<li className={ "ingredient-item" } key={ item.id }>
-				<RichText.Content
-					tagName="p"
-					className="ingredient-item-name"
-					key={ item.id + "-name" }
-					value={ item.name }
-				/>
-			</li>
-		);
-	}
-
-	/**
 	 * Renders this component.
 	 *
 	 * @returns {Component} The ingredient item editor.

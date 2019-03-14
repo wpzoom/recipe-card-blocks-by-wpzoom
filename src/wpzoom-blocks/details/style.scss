@@ -48,17 +48,23 @@
     .detail-item-label {
         font-weight: bold;
         margin-bottom: 0;
+        display: block;
     }
 
     .detail-item-value {
+        font-weight: 500;
         margin-bottom: 0;
+        margin-right: 5px;
         font-size: 15px;
+        display: inline-block;
+        line-height: 1.4em;
     }
 
     .detail-item {
         float: left;
         margin-bottom: 15px;
         position: relative;
+        line-height: 1.4em;
 
         &::after {
             content: '';

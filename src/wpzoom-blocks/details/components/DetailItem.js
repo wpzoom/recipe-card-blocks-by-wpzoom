@@ -120,63 +120,6 @@ export default class DetailItem extends Component {
 	}
 
 	/**
-	 * Returns the component of the given Detail item to be rendered in a WordPress post
-	 * (e.g. not in the editor).
-	 *
-	 * @param {object} item The detail item.
-	 *
-	 * @returns {Component} The component to be rendered.
-	 */
-	static Content( attributes ) {
-		const index = attributes.index;
-		const id = attributes.key;
-		let { icon, iconSet, label, value, jsonValue, unit, jsonUnit } = attributes.item;
-
-		if ( _isUndefined( iconSet ) )
-			iconSet = 'oldicon';
-
-		const itemIconClasses = [ "detail-item-icon", iconSet, iconSet + "-" + icon ].filter( ( item ) => item ).join( " " );
-
-		if ( ! _isUndefined( jsonValue ) && ! _isUndefined( jsonUnit ) ) {
-			value = jsonValue + ' ' + jsonUnit;
-		}
-
-		// Convert to hours for Preparation time and Cooking time
-		if ( index === 1 || index === 2 ) {
-			value = convertMinutesToHours( value );
-		}
-
-		return (
-			<div className={ `detail-item detail-item-${ index }` } key={ id }>
-				{ icon && iconSet === 'oldicon' ? 
-					<span 
-                        className="detail-item-icon" 
-                        icon-name={ icon }>
-                            <FoodIcons icon={ icon }/>
-                    </span>
-                    : <span 
-                        className={ itemIconClasses }
-                        icon-name={ icon }
-                        iconset={ iconSet }>
-                    </span>
-                }
-                { ! RichText.isEmpty( label ) && <RichText.Content
-                        value={ label }
-                        tagName='span'
-                        className="detail-item-label"
-                    />
-                }
-                { ! RichText.isEmpty( value ) && <RichText.Content
-                        value={ value }
-                        tagName='p'
-                        className="detail-item-value"
-                    />
-                }
-			</div>
-		);
-	}
-
-	/**
 	 * Renders this component.
 	 *
 	 * @returns {Component} The detail item editor.

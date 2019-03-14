@@ -288,50 +288,6 @@ export default class Detail extends Component {
 		);
 	}
 
-	/**
-	 * Returns the component to be used to render
-	 * the Details block on Wordpress (e.g. not in the editor).
-	 *
-	 * @param {object} props the attributes of the Details block.
-	 *
-	 * @returns {Component} The component representing a Details block.
-	 */
-	static Content( props ) {
-		let { details } = props;
-
-		const {
-			title,
-			id,
-			columns,
-			className,
-		} = props;
-
-		details = details
-			? details.map( ( item, index ) => {
-				return (
-					<DetailItem.Content
-						{ ...{ item, index } }
-						key={ item.id }
-					/>
-				);
-			} )
-			: null;
-
-		const classNames     = [ className, "col-" + columns ].filter( ( item ) => item ).join( " " );
-		const detailClasses  = [ "details-items" ].filter( ( item ) => item ).join( " " );
-
-		return (
-		    <div className={ classNames } id={ id }>
-		        <RichText.Content
-		            value={ title }
-		            tagName='h3'
-		            className="details-title"
-		        />
-		        <div className={ detailClasses }>{ details }</div>
-		    </div>
-		);
-	}
-
 	render() {
 		const { attributes, setAttributes, className } = this.props;
 

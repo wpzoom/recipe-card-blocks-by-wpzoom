@@ -132,27 +132,6 @@ export default class DirectionStep extends Component {
 	}
 
 	/**
-	 * Returns the component of the given Direction step to be rendered in a WordPress post
-	 * (e.g. not in the editor).
-	 *
-	 * @param {object} step The direction step.
-	 *
-	 * @returns {Component} The component to be rendered.
-	 */
-	static Content( step ) {
-		return (
-			<li className={ "direction-step" } key={ step.id }>
-				<RichText.Content
-					tagName="p"
-					className="direction-step-text"
-					key={ step.id + "-text" }
-					value={ step.text }
-				/>
-			</li>
-		);
-	}
-
-	/**
 	 * Renders this component.
 	 *
 	 * @returns {Component} The direction step editor.

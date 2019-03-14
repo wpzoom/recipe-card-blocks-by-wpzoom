@@ -11,13 +11,11 @@ import legacy from "./legacy";
 import Icons from "./utils/IconsArray";
 import _merge from "lodash/merge";
 
-import { getBlocksCount } from "../../helpers/getBlocksCount";
-
 /* External dependencies */
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-const attributes = {
+const deprecatedAttr = {
     title: {
         type: 'array',
         selector: '.details-title',
@@ -107,8 +105,6 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
     supports: {
         multiple: false,
     },
-    // Block attributes.
-    attributes,
     keywords: [
         __( "details", "wpzoom-recipe-card" ),
         __( "wpzoom", "wpzoom-recipe-card" ),
@@ -142,22 +138,14 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
         return <Detail { ...{ attributes, setAttributes, className } } />;
     },
 
-    /**
-     * The save function defines the way in which the different attributes should be combined
-     * into the final markup, which is then serialized by Gutenberg into post_content.
-     *
-     * The "save" property must be specified and must be a valid function.
-     *
-     * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
-     */
-    save: function( { attributes } ) {
-        attributes.blocks_count = getBlocksCount( [ "block-details", "block-ingredients", "block-directions" ] );
-        return <Detail.Content { ...attributes } />;
+    save() {
+        // Rendering in PHP
+        return null;
     },
 
     deprecated: [
         {
-            attributes: attributes,
+            attributes: deprecatedAttr,
             save: legacy.v1_0,
         },
     ],
