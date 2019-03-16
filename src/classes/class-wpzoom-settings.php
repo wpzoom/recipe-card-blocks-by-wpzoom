@@ -151,13 +151,13 @@ class WPZOOM_Settings {
 
 	/**
 	 * Update option value
-	 * 
-	 * @param string|array $value 
-	 * @param string $option 
+	 *
+	 * @param string|array $value
+	 * @param string $option
 	 */
 	public function update_option( $value, $option = '', $autoload = null ) {
 		if ( empty( $option ) ) $option = self::$option;
-		
+
 		if ( self::$options !== false ) {
 		    // The option already exists, so we just update it.
 		    update_option( $option, $value, $autoload );
@@ -180,8 +180,8 @@ class WPZOOM_Settings {
 
 	/**
 	 * Get default value by option name
-	 * 
-	 * @param string $option_name 
+	 *
+	 * @param string $option_name
 	 * @static
 	 * @return boolean
 	 */
@@ -191,7 +191,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * Get license key
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @return string The License key
 	 */
@@ -201,7 +201,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * Get license status
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @return string The License status
 	 */
@@ -211,7 +211,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * Get setting options
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @return array
 	 */
@@ -221,7 +221,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * Get setting option value
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @param string $option  Option name
 	 * @return string|boolean
@@ -233,7 +233,7 @@ class WPZOOM_Settings {
 	/**
 	 * Welcome banner
 	 * Show banner after user activate plugin
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @return void
 	 */
@@ -249,15 +249,16 @@ class WPZOOM_Settings {
 		<div id="wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome">
 			<div class="inner-wrap">
 				<i class="wpzoom-rcb-welcome-icon dashicons dashicons-yes"></i>
-				<h3 class="wpzoom-rcb-welcome-title"><?php _e( "Thank You!", "wpzoom-recipe-card" ) ?></h3>
-				<p class="wpzoom-rcb-welcome-description"><?php _e( "We are glad to see that you're decided to use our Recipe Card Block Plugin for your project. We do the best for you...", "wpzoom-recipe-card" ) ?></p>
+				<h3 class="wpzoom-rcb-welcome-title"><?php _e( "Thank you for installing Recipe Card Blocks!", "wpzoom-recipe-card" ) ?></h3>
+				<p class="wpzoom-rcb-welcome-description"><?php _e( "If you need help getting started with Recipe Card Blocks, please click on the links below.", "wpzoom-recipe-card" ) ?></p>
 				<div class="wpzoom-rcb-welcome-buttons">
-					<a href="https://www.wpzoom.com/documentation/" target="_blank" class="wpzoom-doc-link">Documentation</a>
-					<a href="https://www.wpzoom.com/support/tickets/" target="_blank" class="wpzoom-support-link">Support</a>
-					<a href="#" target="_blank" class="wpzoom-pro-link">Upgrade PRO</a>
+					<a href="https://www.wpzoom.com/documentation/recipe-card-blocks/" target="_blank" class="wpzoom-doc-link"><?php _e( "Documentation", "wpzoom-recipe-card" ) ?></a>
+					<a href="https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/" target="_blank" class="wpzoom-support-link"><?php _e( "Support Forum", "wpzoom-recipe-card" ) ?></a>
+                    <a href="https://www.wpzoom.com/support/tickets/" target="_blank" class="wpzoom-support-link"><strong><?php _e( "Premium Support", "wpzoom-recipe-card" ) ?></strong></a>
+					<?php /* <a href="#" target="_blank" class="wpzoom-pro-link"><?php _e( "Upgrade PRO", "wpzoom-recipe-card" ) ?></a> */ ?>
 				</div>
 			</div>
-			<a href="#wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i>Close banner</a>
+			<a href="#wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i><?php _e( "Close", "wpzoom-recipe-card" ) ?></a>
 		</div>
 		<?php
 
@@ -337,7 +338,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_author_custom_name',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'You can add custom author name for all new Recipe Cards. By default is post author name.', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'You can add a custom author name for all new Recipe Cards. By default, the post author name is shown.', 'wpzoom-recipe-card' ),
 									'default'		=> '',
 									'type'			=> 'text'
 								)
@@ -368,12 +369,12 @@ class WPZOOM_Settings {
 							),
 							array(
 								'id' 		=> 'wpzoom_rcb_settings_steps_title',
-								'title' 	=> __( 'Default Steps Title', 'wpzoom-recipe-card' ),
+								'title' 	=> __( 'Default Directions Title', 'wpzoom-recipe-card' ),
 								'type'		=> 'input',
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_steps_title',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Add your custom Steps title for all new Recipe Cards.', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Add your custom title for Directions section in new Recipe Cards.', 'wpzoom-recipe-card' ),
 									'default'		=> __( 'Directions', 'wpzoom-recipe-card' ),
 									'type'			=> 'text'
 								)
@@ -722,7 +723,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * Register all Setting options
-	 * 
+	 *
 	 * @since 1.1.0
 	 * @return boolean
 	 */
@@ -786,7 +787,7 @@ class WPZOOM_Settings {
 					<p><strong>Settings have been successfully reset.</strong></p>
 				</div>
 			<?php endif; ?>
-			
+
 			<form action="options.php" method="post">
 				<ul class="wp-tab-bar">
 					<?php foreach ( $this->settings as $setting ): ?>
@@ -802,14 +803,14 @@ class WPZOOM_Settings {
 				<?php foreach ( $this->settings as $setting ): ?>
 					<?php if ( self::$active_tab === $setting['tab_id'] ): ?>
 						<div class="wp-tab-panel" id="<?php echo $setting['tab_id'] ?>">
-							<?php 
+							<?php
 								settings_fields( $setting['option_group'] );
 								do_settings_sections( $setting['option_group'] );
 							?>
 						</div>
 					<?php else: ?>
 						<div class="wp-tab-panel" id="<?php echo $setting['tab_id'] ?>" style="display: none;">
-							<?php 
+							<?php
 								settings_fields( $setting['option_group'] );
 								do_settings_sections( $setting['option_group'] );
 							?>
@@ -823,7 +824,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * Enqueue scripts and styles
-	 * 
+	 *
 	 * @param string $hook
 	 */
 	public function scripts( $hook ) {
@@ -853,7 +854,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * This is a means of catching errors from the activation method above and displaying it to the customer
-	 * 
+	 *
 	 * @since 1.1.0
 	 */
 	public function admin_notices() {
@@ -913,7 +914,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * Close Welcome banner
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @return void
 	 */
@@ -944,7 +945,7 @@ class WPZOOM_Settings {
 	// the values are defined at the add_settings_section() function.
 	public function section_defaults_cb( $args ) {
 	?>
-	 	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Default configuration for new Recipe Cards.', 'wpzoom-recipe-card' ) ?></p>
+	 	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Default configurations for new Recipe Card blocks.', 'wpzoom-recipe-card' ) ?></p>
 	<?php
 	}
 
@@ -956,7 +957,7 @@ class WPZOOM_Settings {
 
 	public function section_recipe_template_cb( $args ) {
 	?>
-	 	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'You will get access to more Recipe Templates with Premium version.', 'wpzoom-recipe-card' ) ?></p>
+	 	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'You will get access to more Recipe Templates with the Premium version.', 'wpzoom-recipe-card' ) ?></p>
 	<?php
 	}
 
