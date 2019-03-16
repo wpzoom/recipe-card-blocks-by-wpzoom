@@ -388,7 +388,7 @@ class WPZOOM_Recipe_Card_Block {
 		$ingredients_content = $this->get_ingredients_content( $ingredients );
 		$steps_content = $this->get_steps_content( $steps );
 
-		$notes_content = isset( $notesTitle ) || isset( $notes ) ?
+		$notes_content = isset( $notes ) && ! empty($notes) ?
 			sprintf( 
 				'<div class="recipe-card-notes">
 					<h3 class="notes-title">%s</h3>
