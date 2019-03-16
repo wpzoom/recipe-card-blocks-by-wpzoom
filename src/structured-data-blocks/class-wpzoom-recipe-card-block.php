@@ -152,6 +152,7 @@ class WPZOOM_Recipe_Card_Block {
 			    'default' => array(
 			        array(
 			            'primary_color' => '#222',
+			            'icon_details_color' => '#6d767f',
 			            'print_btn' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_print') === '1',
 			            'pin_btn' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_pin') === '1',
 			            'custom_author_name' => WPZOOM_Settings::get('wpzoom_rcb_settings_author_custom_name'),
@@ -279,7 +280,6 @@ class WPZOOM_Recipe_Card_Block {
 		// add default value if not exists
 		$recipeTitle 	= isset( $recipeTitle ) ? $recipeTitle : '';
 		$summary 		= isset( $summary ) ? $summary : '';
-		$style 			= isset( $style ) ? $style : 'default';
 		$className 		= isset( $className ) ? $className : '';
 		$hasImage 		= isset( $hasImage ) ? $hasImage : false;
 		$course 		= isset( $course ) ? $course : array();
@@ -294,8 +294,8 @@ class WPZOOM_Recipe_Card_Block {
 		// Store variables
 		self::$recipeBlockID = esc_attr( $id );
 		$this->attributes 	= $attributes;
-		$this->style 		= $style;
-		$this->settings 	= $settings;
+		$this->style 		= self::$helpers->get_block_style( $className );
+		$this->settings 	= self::$helpers->parse_block_settings( $attributes );
 
 		$this->attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? $ingredientsTitle : __( "Ingredients", "wpzoom-recipe-card" );
 		$this->attributes['directionsTitle'] = isset( $directionsTitle ) ? $directionsTitle : __( "Directions", "wpzoom-recipe-card" );
@@ -631,9 +631,15 @@ class WPZOOM_Recipe_Card_Block {
 				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
 				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $detail['iconSet'], $detail['iconSet'] . '-' . $detail['icon'] ) );
 
-				$styles = array(
-					'color' => @$this->settings['primary_color']
-				);
+				if ( 'default' === $this->style ) {
+					$styles = array(
+						'color' => @$this->settings['icon_details_color']
+					);
+				} elseif ( 'newdesign' === $this->style ) {
+					$styles = array(
+						'color' => @$this->settings['primary_color']
+					);
+				}
 				$iconStyles = self::$helpers->render_styles_attributes( $styles );
 
 				$icon = sprintf(

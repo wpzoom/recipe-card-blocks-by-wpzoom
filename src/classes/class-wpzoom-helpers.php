@@ -27,6 +27,29 @@ class WPZOOM_Helpers {
 		return trim( $render );
 	}
 
+	public function get_block_style( $className ) {
+		$style = 'default';
+		if ( strpos( $className, 'is-style' ) !== false ) {
+			preg_match('/is-style-(\S*)/', $className, $matches);
+			$style = $matches ? $matches[1] : $style;
+		}
+
+		return $style;
+	}
+
+	public function parse_block_settings( array $attrs ) {
+		$settings = $attrs['settings'][0];
+		$blockStyle = $this->get_block_style( $attrs['className'] );
+		
+		if ( $blockStyle === 'default' ) {
+			$settings['primary_color'] = '#222';
+		} elseif ( $blockStyle === 'newdesign' ) {
+			$settings['primary_color'] = '#FFA921';
+		}
+
+		return $settings;
+	}
+
 	public function omit( array $array, array $paths ) {
 		foreach ( $array as $key => $value ) {
 			if ( in_array( $key, $paths ) ) {
