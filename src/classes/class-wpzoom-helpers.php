@@ -38,9 +38,9 @@ class WPZOOM_Helpers {
 	}
 
 	public function parse_block_settings( array $attrs ) {
-		$settings = $attrs['settings'][0];
-		$blockStyle = $this->get_block_style( $attrs['className'] );
-		
+		$settings = isset( $attrs['settings'][0] ) ? $attrs['settings'][0] : array();
+		$blockStyle = isset($attrs['className']) ? $this->get_block_style( $attrs['className'] ) : 'default';
+
 		if ( $blockStyle === 'default' ) {
 			$settings['primary_color'] = '#222';
 		} elseif ( $blockStyle === 'newdesign' ) {

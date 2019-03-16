@@ -50,21 +50,21 @@ class WPZOOM_Recipe_Card_Block {
 	 *
 	 * @since 1.1.0
 	 */
-	public $attributes;
+	public static $attributes;
 
 	/**
 	 * Block settings.
 	 *
 	 * @since 1.1.0
 	 */
-	public $settings;
+	public static $settings;
 
 	/**
 	 * Block active style.
 	 *
 	 * @since 1.1.0
 	 */
-	public $style;
+	public static $style;
 
 	/**
 	 * The Constructor.
@@ -289,19 +289,18 @@ class WPZOOM_Recipe_Card_Block {
 		$details 		= isset( $details ) ? $details : array();
 		$ingredients 	= isset( $ingredients ) ? $ingredients : array();
 		$steps 			= isset( $steps ) ? $steps : array();
-		$settings 		= isset( $settings ) ? $settings[0] : array();
 
 		// Store variables
 		self::$recipeBlockID = esc_attr( $id );
-		$this->attributes 	= $attributes;
-		$this->style 		= self::$helpers->get_block_style( $className );
-		$this->settings 	= self::$helpers->parse_block_settings( $attributes );
+		self::$attributes 	= $attributes;
+		self::$style 		= self::$helpers->get_block_style( $className );
+		self::$settings 	= self::$helpers->parse_block_settings( $attributes );
 
-		$this->attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? $ingredientsTitle : __( "Ingredients", "wpzoom-recipe-card" );
-		$this->attributes['directionsTitle'] = isset( $directionsTitle ) ? $directionsTitle : __( "Directions", "wpzoom-recipe-card" );
+		self::$attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? $ingredientsTitle : __( "Ingredients", "wpzoom-recipe-card" );
+		self::$attributes['directionsTitle'] = isset( $directionsTitle ) ? $directionsTitle : __( "Directions", "wpzoom-recipe-card" );
 
 		$class .= strpos( $className, 'is-style' ) === false ? ' is-style-' . $style : '';
-		$class .= isset( $settings['headerAlign'] ) ? ' header-content-align-' . $settings['headerAlign'] : ' header-content-align-left';
+		$class .= isset( self::$settings['headerAlign'] ) ? ' header-content-align-' . self::$settings['headerAlign'] : ' header-content-align-left';
 
 		$pin_description = strip_tags($recipeTitle);
 		if ( 'recipe_summary' === WPZOOM_Settings::get('wpzoom_rcb_settings_pin_description') ) {
@@ -309,8 +308,8 @@ class WPZOOM_Recipe_Card_Block {
 		}
 
 		$custom_author_name = $recipe_author_name;
-		if ( ! empty( $settings['custom_author_name'] ) ) {
-			$custom_author_name = $settings['custom_author_name'];
+		if ( ! empty( self::$settings['custom_author_name'] ) ) {
+			$custom_author_name = self::$settings['custom_author_name'];
 		}
 
 		$RecipeCardClassName 	= implode( ' ', array( $class, $className ) );
@@ -321,13 +320,13 @@ class WPZOOM_Recipe_Card_Block {
 		$printStyles = '';
 		if ( 'default' === $style ) {
 			$styles = array(
-				'background-color' => @$settings['primary_color'],
+				'background-color' => @self::$settings['primary_color'],
 			);
 			$printStyles = self::$helpers->render_styles_attributes( $styles );
 		} else if ( 'newdesign' === $style ) {
 			$styles = array(
-				'background-color' => @$settings['primary_color'],
-				'box-shadow' => '0 5px 40px '. @$settings['primary_color'] . ''
+				'background-color' => @self::$settings['primary_color'],
+				'box-shadow' => '0 5px 40px '. @self::$settings['primary_color'] . ''
 			);
 			$printStyles = self::$helpers->render_styles_attributes( $styles );
 		}
@@ -345,7 +344,7 @@ class WPZOOM_Recipe_Card_Block {
 					'. sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $img_id, $src, $alt, trim($class) ) .'
 					<figcaption>
 						'.
-							( @$settings['pin_btn'] ?
+							( @self::$settings['pin_btn'] ?
 								'<div class="'. esc_attr( $PinterestClasses ) .'">
 				                    <a class="btn-pinit-link no-print" data-pin-do="buttonPin" href="'. esc_url( $pinitURL ) .'" data-pin-custom="true">
 				                    	<i class="fa fa-pinterest-p icon-pinit-link"></i>
@@ -354,7 +353,7 @@ class WPZOOM_Recipe_Card_Block {
 				                </div>' 
 				                : '' 
 				            ).
-							( @$settings['print_btn'] ?
+							( @self::$settings['print_btn'] ?
 								'<div class="'. esc_attr( $PrintClasses ) .'">
 				                    <a class="btn-print-link no-print" href="#'. $id .'" title="'. __( "Print directions...", "wpzoom-recipe-card" ) .'" style="'. $printStyles .'">
 				                    	<i class="fa fa-print icon-print-link"></i>
@@ -372,10 +371,10 @@ class WPZOOM_Recipe_Card_Block {
 		$recipe_card_heading = '
 			<div class="recipe-card-heading">
 				'. sprintf( '<h1 class="%s">%s</h1>', "recipe-card-title", ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) ) ) .
-				( @$settings['displayAuthor'] ? '<span class="recipe-card-author">'. __( "Recipe by", "wpzoom-recipe-card" ) . " " . $custom_author_name .'</span>' : '' ) .
-				( @$settings['displayCourse'] ? $this->get_recipe_terms( 'wpzoom_rcb_courses', $attributes ) : '' ) .
-				( @$settings['displayCuisine'] ? $this->get_recipe_terms( 'wpzoom_rcb_cuisines', $attributes ) : '' ) .
-				( @$settings['displayDifficulty'] ? $this->get_recipe_terms( 'wpzoom_rcb_difficulties', $attributes ) : '' ) .
+				( @self::$settings['displayAuthor'] ? '<span class="recipe-card-author">'. __( "Recipe by", "wpzoom-recipe-card" ) . " " . $custom_author_name .'</span>' : '' ) .
+				( @self::$settings['displayCourse'] ? $this->get_recipe_terms( 'wpzoom_rcb_courses', $attributes ) : '' ) .
+				( @self::$settings['displayCuisine'] ? $this->get_recipe_terms( 'wpzoom_rcb_cuisines', $attributes ) : '' ) .
+				( @self::$settings['displayDifficulty'] ? $this->get_recipe_terms( 'wpzoom_rcb_difficulties', $attributes ) : '' ) .
 			'</div>';
 
 		$summary_text = ! empty( $summary ) ? 
@@ -631,13 +630,13 @@ class WPZOOM_Recipe_Card_Block {
 				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
 				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $detail['iconSet'], $detail['iconSet'] . '-' . $detail['icon'] ) );
 
-				if ( 'default' === $this->style ) {
+				if ( 'default' === self::$style ) {
 					$styles = array(
-						'color' => @$this->settings['icon_details_color']
+						'color' => @self::$settings['icon_details_color']
 					);
-				} elseif ( 'newdesign' === $this->style ) {
+				} elseif ( 'newdesign' === self::$style ) {
 					$styles = array(
-						'color' => @$this->settings['primary_color']
+						'color' => @self::$settings['primary_color']
 					);
 				}
 				$iconStyles = self::$helpers->render_styles_attributes( $styles );
@@ -728,11 +727,11 @@ class WPZOOM_Recipe_Card_Block {
 	protected function get_ingredients_content( array $ingredients ) {
 		$ingredient_items = $this->get_ingredient_items( $ingredients );
 
-		$listClassNames = implode( ' ', array( 'ingredients-list', 'layout-' . @$this->settings['ingredientsLayout'] ) );
+		$listClassNames = implode( ' ', array( 'ingredients-list', 'layout-' . @self::$settings['ingredientsLayout'] ) );
 
 		return sprintf(
 			'<div class="recipe-card-ingredients"><h3 class="ingredients-title">%s</h3><ul class="%s">%s</ul></div>',
-			$this->attributes['ingredientsTitle'],
+			self::$attributes['ingredientsTitle'],
 			$listClassNames,
 			$ingredient_items
 		);
@@ -743,9 +742,9 @@ class WPZOOM_Recipe_Card_Block {
 
 		foreach ( $ingredients as $index => $ingredient ) {
 			$tick = $name = '';
-			if ( 'newdesign' === $this->style ) {
+			if ( 'newdesign' === self::$style ) {
 				$styles = array(
-					'border' => '2px solid ' . @$this->settings['primary_color']
+					'border' => '2px solid ' . @self::$settings['primary_color']
 				);
 				$tickStyles = self::$helpers->render_styles_attributes( $styles );
 
@@ -780,7 +779,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		return sprintf(
 			'<div class="recipe-card-directions"><h3 class="directions-title">%s</h3><ul class="%s">%s</ul></div>',
-			$this->attributes['directionsTitle'],
+			self::$attributes['directionsTitle'],
 			$listClassNames,
 			$direction_items
 		);
