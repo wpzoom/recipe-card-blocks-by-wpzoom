@@ -72,8 +72,6 @@ class WPZOOM_Recipe_Card_Block {
 	public function __construct() {
 		$this->structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
 		self::$helpers = new WPZOOM_Helpers();
-
-		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
 	}
 
 	/**
@@ -260,6 +258,8 @@ class WPZOOM_Recipe_Card_Block {
 		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
+
+		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
 
 		$attributes = self::$helpers->omit( $attributes, array( 'toInsert', 'activeIconSet', 'showModal', 'searchIcon', 'icons' ) );
 		// Import variables into the current symbol table from an array
