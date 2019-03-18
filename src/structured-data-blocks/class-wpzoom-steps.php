@@ -95,6 +95,10 @@ class WPZOOM_Steps_Block {
 			return $content;
 		}
 
+		if ( ! isset($attributes['steps']) ) {
+			return $content;
+		}
+
 		$attributes = self::$helpers->omit( $attributes, array() );
 		// Import variables into the current symbol table from an array
 		extract( $attributes );

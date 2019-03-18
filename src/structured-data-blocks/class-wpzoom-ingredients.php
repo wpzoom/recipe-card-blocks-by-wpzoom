@@ -95,6 +95,10 @@ class WPZOOM_Ingredients_Block {
 			return $content;
 		}
 
+		if ( ! isset($attributes['items']) ) {
+			return $content;
+		}
+
 		$attributes = self::$helpers->omit( $attributes, array() );
 		// Import variables into the current symbol table from an array
 		extract( $attributes );

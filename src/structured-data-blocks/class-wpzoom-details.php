@@ -137,6 +137,10 @@ class WPZOOM_Details_Block {
 			return $content;
 		}
 
+		if ( ! isset($attributes['details']) ) {
+			return $content;
+		}
+
 		$attributes = self::$helpers->omit( $attributes, array( 'toInsert', 'activeIconSet', 'showModal', 'searchIcon', 'icons' ) );
 		// Import variables into the current symbol table from an array
 		extract( $attributes );
