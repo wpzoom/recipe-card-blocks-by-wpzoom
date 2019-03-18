@@ -67,7 +67,7 @@ class WPZOOM_Steps_Block {
 			),
 			'steps' => array(
 			    'type' => 'array',
-			    'default' => self::get_steps_default(),
+			    // 'default' => self::get_steps_default(),
 			    'items' => array(
 			    	'type' => 'object'
 			    )

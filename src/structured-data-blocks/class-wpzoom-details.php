@@ -87,7 +87,7 @@ class WPZOOM_Details_Block {
 			),
 			'details' => array(
 			    'type' => 'array',
-			    'default' => self::get_details_default(),
+			    // 'default' => self::get_details_default(),
 			    'items' => array(
 			    	'type' => 'object'
 			    )

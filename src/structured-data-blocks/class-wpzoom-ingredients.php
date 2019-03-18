@@ -67,7 +67,7 @@ class WPZOOM_Ingredients_Block {
 			),
 			'items' => array(
 			    'type' => 'array',
-			    'default' => self::get_ingredients_default(),
+			    // 'default' => self::get_ingredients_default(),
 			    'items' => array(
 			    	'type' => 'object'
 			    )
