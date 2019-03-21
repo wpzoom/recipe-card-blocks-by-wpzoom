@@ -96,10 +96,6 @@ class WPZOOM_Recipe_Card_Block {
 			'image' => array(
 			    'type' => 'object',
 			),
-			'isDataSet' => array(
-			    'type' => 'boolean',
-			    'default' => false
-			),
 			'hasImage' => array(
 			    'type' => 'boolean',
 			    'default' => false
@@ -805,9 +801,6 @@ class WPZOOM_Recipe_Card_Block {
 	}
 
 	protected function get_recipe_terms( $taxonomy, $attributes ) {
-		$license_key = WPZOOM_Settings::get_license_key();
-		$license_status = WPZOOM_Settings::get_license_status();
-		$option_value = '0';
 		$className = $label = $terms_output = '';
 
 		extract( $attributes );
@@ -818,46 +811,21 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( 'wpzoom_rcb_courses' === $taxonomy ) {
 			$terms 			= $course;
-			$option_value 	= WPZOOM_Settings::get('wpzoom_rcb_settings_course_taxonomy');
 			$className 		= 'recipe-card-course';
 			$label 			= __( "Course:", "wpzoom-recipe-card" );
 		}
 		elseif ( 'wpzoom_rcb_cuisines' === $taxonomy ) {
 			$terms 			= $cuisine;
-			$option_value 	= WPZOOM_Settings::get('wpzoom_rcb_settings_cuisine_taxonomy');
 			$className 		= 'recipe-card-cuisine';
 			$label 			= __( "Cuisine:", "wpzoom-recipe-card" );
 		}
 		elseif ( 'wpzoom_rcb_difficulties' === $taxonomy ) {
 			$terms 			= $difficulty;
-			$option_value 	= WPZOOM_Settings::get('wpzoom_rcb_settings_difficulty_taxonomy');
 			$className 		= 'recipe-card-difficulty';
 			$label 			= __( "Difficulty:", "wpzoom-recipe-card" );
 		}
 
 		$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', $className, $label, implode( ', ', $terms ) );
-
-		if ( 'valid' === $license_status && '1' === $option_value ) {
-			$term_items = array();
-			foreach ( $terms as $term_name ) {
-				// Insert term if not exists
-				$term = get_term_by( 'name', $term_name, $taxonomy );
-				if ( ! $term ) {
-					wp_insert_term( $term_name, $taxonomy );
-				}
-
-				$term = get_term_by( 'name', $term_name, $taxonomy );
-				$term_link = get_term_link( $term, $taxonomy );
-				
-				if ( ! is_wp_error( $term_link ) ) {
-					$term_items[] = sprintf( '<a href="%s" rel="nofollow noreferrer">%s</a>', esc_url( $term_link ), $term_name );
-				} else {
-					$term_items[] = $term_name;
-				}
-			}
-
-			$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', $className, $label, implode( ', ', $term_items ) );
-		}
 
 		return $terms_output;
 	}

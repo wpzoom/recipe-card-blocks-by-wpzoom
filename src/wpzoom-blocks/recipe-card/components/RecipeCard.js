@@ -47,17 +47,18 @@ export default class RecipeCard extends Component {
 	 */
 	constructor( props ) {
 		super( props );
-
-		this.state = { focus: "" };
 		this.setFocus = this.setFocus.bind( this );
 		this.onSelectImage = this.onSelectImage.bind( this );
+		this.editorRefs = {};
+		this.state = {
+			focus: '',
+			isLoading: true,
+			isDataSet: false,
+		};
 
-		if ( ! props.attributes.isDataSet ) {
-			this.state.isLoading = true;
+		if ( ! this.state.isDataSet ) {
 			this.updateAttributes( props );
 		}
-
-		this.editorRefs = {};
 	}
 
 	/**
@@ -160,8 +161,8 @@ export default class RecipeCard extends Component {
 		setIngredientsAttributes( wpzoomBlocksFilter );
 		setStepsAttributes( wpzoomBlocksFilter );
 
-		this.state.isLoading = false;
-		setAttributes( { isDataSet: true } );
+		this.state.isLoading = false; 
+		this.state.isDataSet = true;
 	}
 
 	/**
