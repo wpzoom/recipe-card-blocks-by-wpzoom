@@ -171,10 +171,10 @@ class WPZOOM_Ingredients_Block {
 			$tick = '<span class="tick-circle"></span>';
 			$name = '';
 
-			if ( ! empty( $ingredient[ 'jsonName' ] ) ) {
+			if ( ! empty( $ingredient[ 'name' ] ) ) {
 				$name = sprintf(
 					'<p class="ingredient-item-name">%s</p>',
-					$ingredient['jsonName']
+					$this->wrap_ingredient_name( $ingredient['name'] )
 				);
 			}
 
@@ -186,5 +186,40 @@ class WPZOOM_Ingredients_Block {
 		}
 
 		return force_balance_tags( $output );
+	}
+
+	protected function wrap_ingredient_name( $nodes, $type = '' ) {
+		if ( ! is_array( $nodes ) ) {
+			return;
+		}
+
+		$output = '';
+		foreach ( $nodes as $node ) {
+			if ( ! is_array( $node ) ) {
+				$output .= $node;
+			} else {
+				$type = isset( $node['type'] ) ? $node['type'] : null;
+				$children = isset( $node['props']['children'] ) ? $node['props']['children'] : null;
+
+				$start_tag = $type ? "<$type>" : "";
+				$end_tag = $type ? "</$type>" : "";
+
+				if ( 'a' === $type ) {
+					$rel 		= @$node['props']['rel'];
+					$aria_label = @$node['props']['aria-label'];
+					$href 		= @$node['props']['href'];
+					$target 	= @$node['props']['target'];
+
+					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
+				}
+				elseif ( 'br' === $type ) {
+					$end_tag = "";
+				}
+
+				$output .= $start_tag . $this->wrap_ingredient_name( $children, $type ) . $end_tag;
+			}
+		}
+
+		return $output;
 	}
 }
