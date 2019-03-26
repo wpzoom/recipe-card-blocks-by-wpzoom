@@ -29,6 +29,9 @@
 	}
 	.direction-step-button-container {
 		text-align: right;
+		button {
+			display: inline-flex;
+		}
 	}
 	.direction-step-mover {
 		position: absolute;
@@ -37,6 +40,9 @@
 	}
 	.direction-buttons {
 		text-align: center;
+		button {
+			margin: auto;
+		}
 	}
 	.direction-buttons button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover,
 	.direction-step-button-container button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {

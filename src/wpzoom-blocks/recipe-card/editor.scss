@@ -106,6 +106,9 @@
 	}
 	.ingredient-buttons {
 		text-align: center;
+		button {
+			margin: auto;
+		}
 	}
 	.ingredient-item-button-container button.ingredient-item-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
 		color: #a00;
@@ -118,6 +121,9 @@
 	}
 	.direction-step-button-container {
 		text-align: right;
+		button {
+			display: inline-flex;
+		}
 	}
 	.direction-step-mover {
 		position: absolute;
@@ -126,6 +132,9 @@
 	}
 	.direction-buttons {
 		text-align: center;
+		button {
+			margin: auto;
+		}
 	}
 	.direction-step-button-container button.direction-step-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
 		color: #a00;

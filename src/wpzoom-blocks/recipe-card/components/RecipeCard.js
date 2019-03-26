@@ -158,8 +158,8 @@ export default class RecipeCard extends Component {
 		}
 
 		// setDetailsAttributes( wpzoomBlocksFilter );
-		setIngredientsAttributes( wpzoomBlocksFilter );
-		setStepsAttributes( wpzoomBlocksFilter );
+		// setIngredientsAttributes( wpzoomBlocksFilter );
+		// setStepsAttributes( wpzoomBlocksFilter );
 
 		this.state.isLoading = false; 
 		this.state.isDataSet = true;

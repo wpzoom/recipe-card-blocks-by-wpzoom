@@ -124,12 +124,10 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
         // Because setAttributes is quite slow right after a block has been added we fake having a single detail.
         if ( ! attributes.details || attributes.details.length === 0 ) {
             attributes.details = [
-                {
-                    id: Detail.generateId( "detail-item" ),
-                    icon: null,
-                    label: [],
-                    value: []
-                }
+                { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Servings", "wpzoom-recipe-card" ) },
+                { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'room-service', label: __( "Prep time", "wpzoom-recipe-card" ) },
+                { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'cook', label: __( "Cooking time", "wpzoom-recipe-card" ) },
+                { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( "Calories", "wpzoom-recipe-card" ) }
             ];
         }
 

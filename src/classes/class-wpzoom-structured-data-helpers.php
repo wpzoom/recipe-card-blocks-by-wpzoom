@@ -109,7 +109,7 @@ class WPZOOM_Structured_Data_Helpers {
 		$hours = floor( $time / 60 );
 		$days = round( $hours / 24 );
 		$minutes = ( $time % 60 );
-		$period = 'P';
+		$period = 'PT';
 
 		if ( $days ) {
 			$hours = ( $hours % 24 );
@@ -117,7 +117,7 @@ class WPZOOM_Structured_Data_Helpers {
 		}
 
 		if ( $hours ) {
-			$period .= 'T' . $hours . 'H';
+			$period .= $hours . 'H';
 		}
 
 		if ( $minutes ) {

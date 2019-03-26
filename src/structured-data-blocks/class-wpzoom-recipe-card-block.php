@@ -852,8 +852,9 @@ class WPZOOM_Recipe_Card_Block {
 					$alt = @$node['props']['alt'];
 					$class = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_steps_image') ? 'no-print' : '';
 					$class .= ' direction-step-image';
+					$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
 
-					$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s"/>', $type, $src, $alt, trim($class) );
+					$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $alt, trim($class), trim($img_style) );
 					$end_tag = "";
 				}
 				elseif ( 'a' === $type ) {

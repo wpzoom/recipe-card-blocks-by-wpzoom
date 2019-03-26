@@ -1,5 +1,6 @@
 $primary_color: #FFA921;
 $tick_color: $primary_color;
+$detail_icon_color: #6d767f;
 $ticked_color: #9AD093;
 $meta_color: #5b5d61;
 $heading_color: #222;
@@ -170,18 +171,18 @@ $heading_color: #222;
                     line-height: 35px;
                     font-size: 16px;
                     margin: auto;
-                    color: $primary_color;
+                    color: $detail_icon_color;
                 }
 
                 .detail-item-icon span {
-                    color: $primary_color;
+                    color: $detail_icon_color;
 
                     &::before {
                         font-size: 16px;
                     }
                 }
                 .detail-item-icon svg {
-                    fill: $primary_color;
+                    fill: $detail_icon_color;
                 }
 
                 &:last-child::after {
@@ -342,6 +343,7 @@ $heading_color: #222;
             margin: 10px 0;
             max-width: 100%;
             height: auto;
+            display: block;
         }
 
         .recipe-card-notes {
