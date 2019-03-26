@@ -346,8 +346,8 @@ class WPZOOM_Recipe_Card_Block {
 				                    	<i class="fa fa-pinterest-p icon-pinit-link"></i>
 				                    	<span>'. __( "Pin", "wpzoom-recipe-card" ) .'</span>
 				                    </a>
-				                </div>' 
-				                : '' 
+				                </div>'
+				                : ''
 				            ).
 							( @self::$settings['print_btn'] ?
 								'<div class="'. esc_attr( $PrintClasses ) .'">
@@ -355,7 +355,7 @@ class WPZOOM_Recipe_Card_Block {
 				                    	<i class="fa fa-print icon-print-link"></i>
 				                        <span>'. __( "Print", "wpzoom-recipe-card" ) .'</span>
 				                    </a>
-				                </div>' 
+				                </div>'
 				                : ''
 							)
 						.'
@@ -366,14 +366,14 @@ class WPZOOM_Recipe_Card_Block {
 
 		$recipe_card_heading = '
 			<div class="recipe-card-heading">
-				'. sprintf( '<h1 class="%s">%s</h1>', "recipe-card-title", ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) ) ) .
+				'. sprintf( '<h2 class="%s">%s</h2>', "recipe-card-title", ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) ) ) .
 				( @self::$settings['displayAuthor'] ? '<span class="recipe-card-author">'. __( "Recipe by", "wpzoom-recipe-card" ) . " " . $custom_author_name .'</span>' : '' ) .
 				( @self::$settings['displayCourse'] ? $this->get_recipe_terms( 'wpzoom_rcb_courses', $attributes ) : '' ) .
 				( @self::$settings['displayCuisine'] ? $this->get_recipe_terms( 'wpzoom_rcb_cuisines', $attributes ) : '' ) .
 				( @self::$settings['displayDifficulty'] ? $this->get_recipe_terms( 'wpzoom_rcb_difficulties', $attributes ) : '' ) .
 			'</div>';
 
-		$summary_text = ! empty( $summary ) ? 
+		$summary_text = ! empty( $summary ) ?
 			sprintf(
 				'<p class="recipe-card-summary">%s</p>',
 				$summary
@@ -384,11 +384,11 @@ class WPZOOM_Recipe_Card_Block {
 		$steps_content = $this->get_steps_content( $steps );
 
 		$notes_content = isset( $notes ) && ! empty($notes) ?
-			sprintf( 
+			sprintf(
 				'<div class="recipe-card-notes">
 					<h3 class="notes-title">%s</h3>
 					<ul class="recipe-card-notes-list">%s</ul>
-				</div>', 
+				</div>',
 				@$notesTitle,
 				@$notes
 			) : '';
@@ -536,31 +536,31 @@ class WPZOOM_Recipe_Card_Block {
 	public static function get_details_default() {
 		return array(
 			array(
-				'id' 		=> self::$helpers->generateId( "detail-item" ), 
-				'iconSet' 	=> 'oldicon', 
-				'icon' 		=> 'food', 
-				'label' 	=> __( "Servings", "wpzoom-recipe-card" ), 
-				'unit' 		=> __( "servings", "wpzoom-recipe-card" ) 
+				'id' 		=> self::$helpers->generateId( "detail-item" ),
+				'iconSet' 	=> 'oldicon',
+				'icon' 		=> 'food',
+				'label' 	=> __( "Servings", "wpzoom-recipe-card" ),
+				'unit' 		=> __( "servings", "wpzoom-recipe-card" )
 			),
 		    array(
-		    	'id' 		=> self::$helpers->generateId( "detail-item" ), 
-		    	'iconSet' 	=> 'oldicon', 
-		    	'icon' 		=> 'clock', 
-		    	'label' 	=> __( "Prep time", "wpzoom-recipe-card" ), 
-		    	'unit' 		=> __( "minutes", "wpzoom-recipe-card" ) 
+		    	'id' 		=> self::$helpers->generateId( "detail-item" ),
+		    	'iconSet' 	=> 'oldicon',
+		    	'icon' 		=> 'clock',
+		    	'label' 	=> __( "Prep time", "wpzoom-recipe-card" ),
+		    	'unit' 		=> __( "minutes", "wpzoom-recipe-card" )
 		    ),
 		    array(
-		        'id' 		=> self::$helpers->generateId( "detail-item" ), 
-		        'iconSet' 	=> 'foodicons', 
-		        'icon' 		=> 'cooking-food-in-a-hot-casserole', 
-		        'label' 	=> __( "Cooking time", "wpzoom-recipe-card" ), 
-		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" ) 
+		        'id' 		=> self::$helpers->generateId( "detail-item" ),
+		        'iconSet' 	=> 'foodicons',
+		        'icon' 		=> 'cooking-food-in-a-hot-casserole',
+		        'label' 	=> __( "Cooking time", "wpzoom-recipe-card" ),
+		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" )
 		    ),
 		    array(
-		        'id' 		=> self::$helpers->generateId( "detail-item" ), 
-		        'iconSet' 	=> 'foodicons', 
-		        'icon' 		=> 'fire-flames', 
-		        'label' 	=> __( "Calories", "wpzoom-recipe-card" ), 
+		        'id' 		=> self::$helpers->generateId( "detail-item" ),
+		        'iconSet' 	=> 'foodicons',
+		        'icon' 		=> 'fire-flames',
+		        'label' 	=> __( "Calories", "wpzoom-recipe-card" ),
 		        'unit' 		=> __( "kcal", "wpzoom-recipe-card" )
 		    )
 		);
@@ -569,20 +569,20 @@ class WPZOOM_Recipe_Card_Block {
 	public static function get_ingredients_default() {
 		return array(
 			array(
-				'id' 		=> self::$helpers->generateId( "ingredient-item" ), 
-				'name' 		=> array(), 
+				'id' 		=> self::$helpers->generateId( "ingredient-item" ),
+				'name' 		=> array(),
 			),
 		    array(
-		    	'id' 		=> self::$helpers->generateId( "ingredient-item" ), 
-		    	'name' 		=> array(), 
+		    	'id' 		=> self::$helpers->generateId( "ingredient-item" ),
+		    	'name' 		=> array(),
 		    ),
 		    array(
-		        'id' 		=> self::$helpers->generateId( "ingredient-item" ), 
-		        'name' 		=> array(), 
+		        'id' 		=> self::$helpers->generateId( "ingredient-item" ),
+		        'name' 		=> array(),
 		    ),
 		    array(
-		        'id' 		=> self::$helpers->generateId( "ingredient-item" ), 
-		        'name' 		=> array(), 
+		        'id' 		=> self::$helpers->generateId( "ingredient-item" ),
+		        'name' 		=> array(),
 		    )
 		);
 	}
@@ -590,20 +590,20 @@ class WPZOOM_Recipe_Card_Block {
 	public static function get_steps_default() {
 		return array(
 			array(
-				'id' 		=> self::$helpers->generateId( "direction-step" ), 
-				'text' 		=> array(), 
+				'id' 		=> self::$helpers->generateId( "direction-step" ),
+				'text' 		=> array(),
 			),
 		    array(
-		    	'id' 		=> self::$helpers->generateId( "direction-step" ), 
-		    	'text' 		=> array(), 
+		    	'id' 		=> self::$helpers->generateId( "direction-step" ),
+		    	'text' 		=> array(),
 		    ),
 		    array(
-		        'id' 		=> self::$helpers->generateId( "direction-step" ), 
-		        'text' 		=> array(), 
+		        'id' 		=> self::$helpers->generateId( "direction-step" ),
+		        'text' 		=> array(),
 		    ),
 		    array(
-		        'id' 		=> self::$helpers->generateId( "direction-step" ), 
-		        'text' 		=> array(), 
+		        'id' 		=> self::$helpers->generateId( "direction-step" ),
+		        'text' 		=> array(),
 		    )
 		);
 	}
@@ -878,7 +878,7 @@ class WPZOOM_Recipe_Card_Block {
 	/**
 	 * Filter content when rendering recipe card block
 	 * Add snippets at the top of post content
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @param string $content Main post content
 	 * @return string HTML of post content
