@@ -395,7 +395,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		$footer_copyright = '<div class="footer-copyright">
 	        	<p>'. __( "Recipe Card plugin by ", "wpzoom-recipe-card" ) .'
-	        		<a href="https://www.wpzoom.com" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
+	        		<a href="https://www.wpzoom.com/plugins/recipe-card-blocks/" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
 	        	</p>
 	        </div>';
 
