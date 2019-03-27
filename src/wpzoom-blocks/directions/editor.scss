@@ -41,7 +41,7 @@
 	.direction-buttons {
 		text-align: center;
 		button {
-			margin: auto;
+			display: inline-flex;
 		}
 	}
 	.direction-buttons button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover,

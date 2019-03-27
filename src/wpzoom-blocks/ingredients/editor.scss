@@ -32,6 +32,9 @@
 	}
 	.ingredient-item-button-container {
 		text-align: right;
+		button {
+			display: inline-flex;
+		}
 	}
 	.ingredient-item-mover {
 		position: absolute;
@@ -41,7 +44,7 @@
 	.ingredient-buttons {
 		text-align: center;
 		button {
-			margin: auto;
+			display: inline-flex;
 		}
 	}
 	.ingredient-buttons button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover,

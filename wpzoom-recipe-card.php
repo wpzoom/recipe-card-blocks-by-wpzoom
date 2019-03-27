@@ -215,8 +215,10 @@ endif;
  * @since 1.1.0
  * @return object|WPZOOM_Recipe_Card_Block_Gutenberg The one true WPZOOM_Recipe_Card_Block_Gutenberg Instance.
  */
-function recipe_card_block() {
-	return WPZOOM_Recipe_Card_Block_Gutenberg::instance();
+if ( ! function_exists('recipe_card_block') ) {
+	function recipe_card_block() {
+		return WPZOOM_Recipe_Card_Block_Gutenberg::instance();
+	}
 }
 
 // Get the plugin running. Load on plugins_loaded action to avoid issue on multisite.

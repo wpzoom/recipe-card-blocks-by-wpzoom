@@ -13,6 +13,16 @@
 	width: 50%;
 	clear: right;
 }
+.wp-block-wpzoom-recipe-card-block-recipe-card.recipe-card-noimage-print.is-style-default .recipe-card-image,
+.wp-block-wpzoom-recipe-card-block-recipe-card.recipe-card-noimage-print.is-style-newdesign .recipe-card-image {
+	display: none;
+}
+.wp-block-wpzoom-recipe-card-block-recipe-card.recipe-card-noimage-print.is-style-default .recipe-card-heading,
+.wp-block-wpzoom-recipe-card-block-recipe-card.recipe-card-noimage-print.is-style-newdesign .recipe-card-heading {
+	float: none;
+	width: 100%;
+	clear: right;
+}
 .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-default .recipe-card-heading .recipe-card-title,
 .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-newdesign .recipe-card-heading .recipe-card-title {
 	font-size: 22px;
@@ -51,6 +61,8 @@
 	border-radius: 0;
 	margin: 0;
 	padding: 0;
+	clear: both;
+	display: block;
 }
 .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-default .ingredients-list > li,
 .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-newdesign .ingredients-list > li {

@@ -587,7 +587,7 @@ class WPZOOM_Settings {
 							),
 							array(
 								'id' 		=> 'wpzoom_rcb_settings_print_show_image',
-								'title' 	=> __( 'Show Recipe Image', 'wpzoom-recipe-card' ),
+								'title' 	=> __( 'Recipe Image', 'wpzoom-recipe-card' ),
 								'type'		=> 'checkbox',
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_print_show_image',
@@ -597,8 +597,30 @@ class WPZOOM_Settings {
 								)
 							),
 							array(
+								'id' 		=> 'wpzoom_rcb_settings_print_show_details',
+								'title' 	=> __( 'Recipe Details', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_print_show_details',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Show Recipe Details (servings, preparation time, cooking time, calories) on print sheet.', 'wpzoom-recipe-card' ),
+									'default'		=> true
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_print_show_summary_text',
+								'title' 	=> __( 'Summary Text', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_print_show_summary_text',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Show Recipe Summary text on print sheet.', 'wpzoom-recipe-card' ),
+									'default'		=> false
+								)
+							),
+							array(
 								'id' 		=> 'wpzoom_rcb_settings_print_show_steps_image',
-								'title' 	=> __( 'Show Steps Image', 'wpzoom-recipe-card' ),
+								'title' 	=> __( 'Steps Image', 'wpzoom-recipe-card' ),
 								'type'		=> 'checkbox',
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_print_show_steps_image',
