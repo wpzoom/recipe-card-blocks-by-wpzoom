@@ -4,6 +4,7 @@ import map from "lodash/map";
 import compact from "lodash/compact";
 import isEmpty from "lodash/isEmpty";
 import isNull from "lodash/isNull";
+import isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -572,8 +573,10 @@ export default compose( [
 
 		let id = null;
 
-		if ( ! isNull( props.attributes.image ) ) {
-			id = props.attributes.image.id;
+		if ( !isNull( props.attributes.image ) ) {
+			if ( !isUndefined( props.attributes.image.id ) ) {
+				id = props.attributes.image.id;
+			}
 		}
 
 		return {
