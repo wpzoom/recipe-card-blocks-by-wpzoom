@@ -414,7 +414,7 @@ class WPZOOM_Settings {
 									'label_for' 	=> 'wpzoom_rcb_settings_footer_copyright',
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'Hide footer copyright text.', 'wpzoom-recipe-card' ),
-									'default'		=> false,
+									'default'		=> true,
 									'disabled'		=> true,
 									'badge' 		=> $premium_badge,
 								)
@@ -487,7 +487,7 @@ class WPZOOM_Settings {
 									'label_for' 	=> 'wpzoom_rcb_settings_user_ratings',
 									'class' 		=> 'wpzoom-rcb-field',
 									'description' 	=> esc_html__( 'Allow visitors to vote your recipes.', 'wpzoom-recipe-card' ),
-									'default'		=> false,
+									'default'		=> true,
 									'disabled'		=> true,
 									'badge' 		=> $premium_badge,
 								)

@@ -127,7 +127,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-assets-manager.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-helpers.php';
 
-			if ( $this->has_pro() ) {
+			if ( self::has_pro() ) {
 				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-card-pro.php';
 			}
 
@@ -138,7 +138,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 			$integrations   = array();
 			$integrations[] = new WPZOOM_Structured_Data_Render();
 
-			if ( $this->is_pro() ) {
+			if ( self::is_pro() ) {
 				$integrations[] = new WPZOOM_Recipe_Card_Block_PRO();
 			}
 
@@ -170,7 +170,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @since 1.1.0
 		 * @access public
 		 */
-		public function has_pro() {
+		public static function has_pro() {
 			if ( true === WPZOOM_RCB_HAS_PRO ) {
 				return true;
 			} else {
@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @since 1.1.0
 		 * @access public
 		 */
-		public function is_pro() {
+		public static function is_pro() {
 			if ( class_exists( 'WPZOOM_Recipe_Card_Block_PRO' ) ) {
 				return true;
 			} else {

@@ -101,7 +101,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$this->_slug    	= 'wpzoom-rcb-block';
 			$this->_url     	= untrailingslashit( WPZOOM_RCB_PLUGIN_URL );
 
-			$this->_recipe_card_block = new WPZOOM_Recipe_Card_Block_Gutenberg();
+			$this->_recipe_card_block = WPZOOM_Recipe_Card_Block_Gutenberg::instance();
 
 			add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
 			add_action( 'enqueue_block_assets', array( $this, 'load_icon_fonts' ) );
@@ -181,6 +181,10 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 		    $this->post = get_post();
 
+		    if ( ! is_object($this->post) ) {
+            	return false;
+            }
+
 		    /**
 		     * Localize script data.
 		     */
@@ -195,7 +199,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		    		'post_thumbnail_url' => get_the_post_thumbnail_url( $this->post ),
 		    		'post_title' => $this->post->post_title,
 		    		'post_author_name' => get_the_author_meta( 'display_name', $this->post->post_author ),
-		    		'is_pro' => $this->_recipe_card_block->is_pro(),
+		    		'is_pro' => WPZOOM_Recipe_Card_Block_Gutenberg::is_pro(),
 		    		'setting_options' => ( ! empty( $options ) ? $options : WPZOOM_Settings::get_defaults() )
 		    	)
 		    );
@@ -257,7 +261,12 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                 $this->get_dependencies( $this->_slug . '-editor-css' ), // Dependency to include the CSS after it.
                 $this->_version
             );
+
             $this->post = get_post();
+
+            if ( ! is_object($this->post) ) {
+            	return false;
+            }
 
             /**
              * Localize script data.
@@ -274,7 +283,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                     'post_title' => $this->post->post_title,
                     'post_author_name' => get_the_author_meta( 'display_name', $this->post->post_author ),
                     'block_style' => 'default',
-                    'is_pro' => $this->_recipe_card_block->is_pro(),
+                    'is_pro' => WPZOOM_Recipe_Card_Block_Gutenberg::is_pro(),
                     'setting_options' => ( !empty( $options ) ? $options : WPZOOM_Settings::get_defaults() )
                 )
             );
