@@ -573,7 +573,7 @@ export default compose( [
 
 		let id = null;
 
-		if ( !isNull( props.attributes.image ) ) {
+		if ( !isUndefined(props.attributes.image) && !isNull( props.attributes.image ) ) {
 			if ( !isUndefined( props.attributes.image.id ) ) {
 				id = props.attributes.image.id;
 			}
