@@ -1,6 +1,6 @@
 /* External dependencies */
-import _get from "lodash/get";
-import _isUndefined from "lodash/isUndefined";
+import get from "lodash/get";
+import isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -39,7 +39,7 @@ export default class Inspector extends Component {
 			return this.props.setAttributes( { columns: 4 } ); // max value
 		} else if ( columns < 2 ) {
 			return this.props.setAttributes( { columns: 2 } ); // min value
-		} else if ( _isUndefined( columns ) ) {
+		} else if ( isUndefined( columns ) ) {
 			return this.props.setAttributes( { columns: 4 } ); // default
 		}
 	}
@@ -156,28 +156,28 @@ export default class Inspector extends Component {
             			id={ `${ id }-yield` }
             			type="text"
             			label={ __( "Servings", "wpzoom-recipe-card" ) }
-            			value={ _get( details, [ 0, 'value' ] ) }
+            			value={ get( details, [ 0, 'value' ] ) }
             			onChange={ newYield => onChangeDetail(newYield, 0) }
             		/>
             		<TextControl
             			id={ `${ id }-preptime` }
             			type="text"
             			label={ __( "Preparation time", "wpzoom-recipe-card" ) }
-            			value={ _get( details, [ 1, 'value' ] ) }
+            			value={ get( details, [ 1, 'value' ] ) }
             			onChange={ newPrepTime => onChangeDetail(newPrepTime, 1) }
             		/>
             		<TextControl
             			id={ `${ id }-cookingtime` }
             			type="text"
             			label={ __( "Cooking time", "wpzoom-recipe-card" ) }
-            			value={ _get( details, [ 2, 'value' ] ) }
+            			value={ get( details, [ 2, 'value' ] ) }
             			onChange={ newCookingTime => onChangeDetail(newCookingTime, 2) }
             		/>
             		<TextControl
             			id={ `${ id }-calories` }
             			type="text"
             			label={ __( "Calories", "wpzoom-recipe-card" ) }
-            			value={ _get( details, [ 3, 'value' ] ) }
+            			value={ get( details, [ 3, 'value' ] ) }
             			onChange={ newCalories => onChangeDetail(newCalories, 3) }
             		/>
 				</PanelBody>

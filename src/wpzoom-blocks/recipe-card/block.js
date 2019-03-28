@@ -7,7 +7,7 @@
 
 /* Internal dependencies */
 import RecipeCard from './components/RecipeCard';
-import _omit from "lodash/omit";
+import omit from "lodash/omit";
 
 /* External dependencies */
 const { __ } = wp.i18n;
@@ -25,7 +25,7 @@ if ( is_pro ) {
                 transform: function( attributes ) {
                     return createBlock(
                         'wpzoom-recipe-card/block-premium-recipe-card',
-                        _omit( attributes, ['icons', 'searchIcon'] )
+                        omit( attributes, ['icons', 'searchIcon'] )
                     );
                 },
             },

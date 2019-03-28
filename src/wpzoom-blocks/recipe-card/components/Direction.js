@@ -1,10 +1,8 @@
 /* External dependencies */
 import DirectionStep from "./DirectionStep";
-import _isUndefined from "lodash/isUndefined";
-import _toString from "lodash/toString";
-import _get from "lodash/get";
-import _uniq from "lodash/uniq";
-import _uniqueId from "lodash/uniqueId";
+import isUndefined from "lodash/isUndefined";
+import uniq from "lodash/uniq";
+import uniqueId from "lodash/uniqueId";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -54,7 +52,7 @@ export default class Direction extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return prefix !== '' ? _uniqueId( prefix + '-' ) : _uniqueId();
+		return prefix !== '' ? uniqueId( prefix + '-' ) : uniqueId();
 	}
 
 	/**
@@ -69,7 +67,7 @@ export default class Direction extends Component {
 		let ids = [];
 		let hasDuplicates = false;
 
-		if ( _isUndefined( steps ) )
+		if ( isUndefined( steps ) )
 			return [];
 
 		steps.map( ( step, index ) => {
@@ -80,7 +78,7 @@ export default class Direction extends Component {
 			} );
 		} );
 
-		if ( _uniq( ids ).length < newArray.length )
+		if ( uniq( ids ).length < newArray.length )
 			hasDuplicates = true;
 
 		return hasDuplicates ? newArray : steps;
@@ -143,7 +141,7 @@ export default class Direction extends Component {
 	insertStep( index, text = [], focus = true ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		if ( _isUndefined( index ) ) {
+		if ( isUndefined( index ) ) {
 			index = steps.length - 1;
 		}
 

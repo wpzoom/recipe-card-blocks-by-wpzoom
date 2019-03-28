@@ -1,10 +1,8 @@
 /* External dependencies */
 import IngredientItem from "./IngredientItem";
-import _isUndefined from "lodash/isUndefined";
-import _toString from "lodash/toString";
-import _get from "lodash/get";
-import _uniq from "lodash/uniq";
-import _uniqueId from "lodash/uniqueId";
+import isUndefined from "lodash/isUndefined";
+import uniq from "lodash/uniq";
+import uniqueId from "lodash/uniqueId";
 
 // const key = require('keyboard-shortcut');
 
@@ -12,7 +10,6 @@ import _uniqueId from "lodash/uniqueId";
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
-const { _ } = window._; // Import underscore from window._
 const { __ } = wp.i18n;
 const { RichText } = wp.editor;
 const { IconButton } = wp.components;
@@ -67,7 +64,7 @@ export default class Ingredient extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix ) {
-		return prefix !== '' ? _uniqueId( prefix + '-' ) : _uniqueId();
+		return prefix !== '' ? uniqueId( prefix + '-' ) : uniqueId();
 	}
 
 	/**
@@ -82,7 +79,7 @@ export default class Ingredient extends Component {
 		let ids = [];
 		let hasDuplicates = false;
 
-		if ( _isUndefined( ingredients ) )
+		if ( isUndefined( ingredients ) )
 			return [];
 
 		ingredients.map( ( item, index ) => {
@@ -93,7 +90,7 @@ export default class Ingredient extends Component {
 			} );
 		} );
 
-		if ( _uniq( ids ).length < newArray.length )
+		if ( uniq( ids ).length < newArray.length )
 			hasDuplicates = true;
 
 		return hasDuplicates ? newArray : ingredients;
@@ -150,7 +147,7 @@ export default class Ingredient extends Component {
 	insertItem( index, name = [], focus = true ) {
 		const ingredients = this.props.attributes.ingredients ? this.props.attributes.ingredients.slice() : [];
 
-		if ( _isUndefined( index ) ) {
+		if ( isUndefined( index ) ) {
 			index = ingredients.length - 1;
 		}
 

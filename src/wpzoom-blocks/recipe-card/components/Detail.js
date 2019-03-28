@@ -1,9 +1,8 @@
 /* External dependencies */
 import DetailItem from "./DetailItem";
-import _get from "lodash/get";
-import _isUndefined from "lodash/isUndefined";
-import _uniq from "lodash/uniq";
-import _uniqueId from "lodash/uniqueId";
+import isUndefined from "lodash/isUndefined";
+import uniq from "lodash/uniq";
+import uniqueId from "lodash/uniqueId";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -50,7 +49,7 @@ export default class Detail extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return prefix !== '' ? _uniqueId( prefix + '-' ) : _uniqueId();
+		return prefix !== '' ? uniqueId( prefix + '-' ) : uniqueId();
 	}
 
 	/**
@@ -65,7 +64,7 @@ export default class Detail extends Component {
 		let ids = [];
 		let hasDuplicates = false;
 
-		if ( _isUndefined( details ) )
+		if ( isUndefined( details ) )
 			return [];
 
 		details.map( ( item, index ) => {
@@ -80,7 +79,7 @@ export default class Detail extends Component {
 			} );
 		} );
 
-		if ( _uniq( ids ).length < newArray.length )
+		if ( uniq( ids ).length < newArray.length )
 			hasDuplicates = true;
 
 		return hasDuplicates ? newArray : details;
@@ -152,7 +151,7 @@ export default class Detail extends Component {
 	insertDetail( index, icon = null, label = [], value = [], unit = [], focus = true ) {
 		const details = this.props.attributes.details ? this.props.attributes.details.slice() : [];
 
-		if ( _isUndefined( index ) ) {
+		if ( isUndefined( index ) ) {
 			index = details.length - 1;
 		}
 

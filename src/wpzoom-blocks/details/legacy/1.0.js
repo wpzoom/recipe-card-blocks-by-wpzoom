@@ -7,8 +7,8 @@
 
 /* Internal dependencies */
 import FoodIcons from "../components/FoodIcons";
-import _get from 'lodash/get';
-import _times from 'lodash/times';
+import get from 'lodash/get';
+import times from 'lodash/times';
 
 /* External dependencies */
 const { __ } = wp.i18n;
@@ -35,10 +35,10 @@ export default function LegacyDetails( props ) {
                 tagName='h3'
                 className="details-title"
             />
-            { _times( columns, ( index ) => {
-                const icon = _get( details, [ index, 'icon' ] );
-                const label = _get( details, [ index, 'label' ] );
-                const value = _get( details, [ index, 'value' ] );
+            { times( columns, ( index ) => {
+                const icon = get( details, [ index, 'icon' ] );
+                const label = get( details, [ index, 'label' ] );
+                const value = get( details, [ index, 'value' ] );
                 const detailItemClass = 'detail-item detail-item-' + index;
 
                     return (

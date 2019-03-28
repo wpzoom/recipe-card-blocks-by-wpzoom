@@ -9,7 +9,6 @@
 import Detail from './components/Detail';
 import legacy from "./legacy";
 import Icons from "./utils/IconsArray";
-import _merge from "lodash/merge";
 
 /* External dependencies */
 const { __ } = wp.i18n;

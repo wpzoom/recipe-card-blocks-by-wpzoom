@@ -1,6 +1,6 @@
-import _map from "lodash/map";
-import _filter from "lodash/filter";
-import _indexOf from "lodash/indexOf";
+import map from "lodash/map";
+import filter from "lodash/filter";
+import indexOf from "lodash/indexOf";
 
 /**
  * Get total number of blocks from post.
@@ -13,9 +13,9 @@ import _indexOf from "lodash/indexOf";
 export function getBlocksCount( blocksNames, namespace = 'wpzoom-recipe-card' ) {
 	const { select }    = wp.data;
 	const blocksList    = select('core/editor').getBlocks();
-	let blocks 			= _map( blocksNames, function( value, key ) { return namespace + '/' + value; } );
+	let blocks 			= map( blocksNames, function( value, key ) { return namespace + '/' + value; } );
 
-	const wpzoomBlocksFilter = _filter( blocksList, function( item ) { return _indexOf( blocks, item.name ) !== -1 } );
+	const wpzoomBlocksFilter = filter( blocksList, function( item ) { return indexOf( blocks, item.name ) !== -1 } );
 
 	return wpzoomBlocksFilter.length;
 }

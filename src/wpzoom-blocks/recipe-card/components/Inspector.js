@@ -1,11 +1,9 @@
 /* External dependencies */
-import _get from "lodash/get";
-import _map from "lodash/map";
-import _compact from "lodash/compact";
-import _forEach from "lodash/forEach";
-import _isEmpty from "lodash/isEmpty";
-import _isNull from "lodash/isNull";
-import _isUndefined from "lodash/isUndefined";
+import get from "lodash/get";
+import map from "lodash/map";
+import compact from "lodash/compact";
+import isEmpty from "lodash/isEmpty";
+import isNull from "lodash/isNull";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -13,8 +11,7 @@ import { humanize } from "../../../helpers/stringHelpers";
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
-const { _n } = wp.i18n;
+const { __, _n } = wp.i18n;
 const { Component, renderToString, Fragment } = wp.element;
 const { RichText, InspectorControls, MediaUpload } = wp.editor;
 const { 
@@ -86,8 +83,8 @@ class Inspector extends Component {
 
 	getImageSizeOptions() {
 		const { imageSizes, image } = this.props;
-		return _compact( _map( imageSizes, ( { name, slug } ) => {
-			const sizeUrl = _get( image, [ 'media_details', 'sizes', slug, 'source_url' ] );
+		return compact( map( imageSizes, ( { name, slug } ) => {
+			const sizeUrl = get( image, [ 'media_details', 'sizes', slug, 'source_url' ] );
 			if ( ! sizeUrl ) {
 				return null;
 			}
@@ -220,9 +217,9 @@ class Inspector extends Component {
 			// ! hasVideo ? check.warnings.push("video") : '';
 			! dataTable.ingredients.length ? check.errors.push("ingredients") : '';
 			! dataTable.steps.length ? check.errors.push("steps") : '';
-			! _get( details, [ 1 ,'value' ] ) ? check.warnings.push("prepTime") : '';
-			! _get( details, [ 2 ,'value' ] ) ? check.warnings.push("cookTime") : '';
-			! _get( details, [ 3 ,'value' ] ) ? check.warnings.push("calories") : '';
+			! get( details, [ 1 ,'value' ] ) ? check.warnings.push("prepTime") : '';
+			! get( details, [ 2 ,'value' ] ) ? check.warnings.push("cookTime") : '';
+			! get( details, [ 3 ,'value' ] ) ? check.warnings.push("calories") : '';
 
 			return (
 		    	<BaseControl
@@ -257,19 +254,19 @@ class Inspector extends Component {
             		</PanelRow>
             		<PanelRow>
             			<span>recipeYield</span>
-            			<strong>{ _get( details, [ 0, 'value' ] ) ? _get( details, [ 0, 'value' ] ) + ' ' + _get( details, [ 0, 'unit' ] ) : '0 ' + _get( details, [ 0, 'unit' ] ) }</strong>
+            			<strong>{ get( details, [ 0, 'value' ] ) ? get( details, [ 0, 'value' ] ) + ' ' + get( details, [ 0, 'unit' ] ) : '0 ' + get( details, [ 0, 'unit' ] ) }</strong>
             		</PanelRow>
-            		<PanelRow className={ ! _get( details, [ 1, 'value' ] ) ? "text-color-orange": "" }>
+            		<PanelRow className={ ! get( details, [ 1, 'value' ] ) ? "text-color-orange": "" }>
             			<span>prepTime</span>
-            			<strong><strong>{ _get( details, [ 1, 'value' ] ) ? _get( details, [ 1, 'value' ] ) + ' ' + _get( details, [ 1, 'unit' ] ) : '0 ' + _get( details, [ 1, 'unit' ] ) }</strong></strong>
+            			<strong><strong>{ get( details, [ 1, 'value' ] ) ? get( details, [ 1, 'value' ] ) + ' ' + get( details, [ 1, 'unit' ] ) : '0 ' + get( details, [ 1, 'unit' ] ) }</strong></strong>
             		</PanelRow>
-            		<PanelRow className={ ! _get( details, [ 2, 'value' ] ) ? "text-color-orange": "" }>
+            		<PanelRow className={ ! get( details, [ 2, 'value' ] ) ? "text-color-orange": "" }>
             			<span>cookTime</span>
-            			<strong>{ _get( details, [ 2, 'value' ] ) ? _get( details, [ 2, 'value' ] ) + ' ' + _get( details, [ 2, 'unit' ] ) : '0 ' + _get( details, [ 2, 'unit' ] ) }</strong>
+            			<strong>{ get( details, [ 2, 'value' ] ) ? get( details, [ 2, 'value' ] ) + ' ' + get( details, [ 2, 'unit' ] ) : '0 ' + get( details, [ 2, 'unit' ] ) }</strong>
             		</PanelRow>
-            		<PanelRow className={ ! _get( details, [ 3, 'value' ] ) ? "text-color-orange": "" }>
+            		<PanelRow className={ ! get( details, [ 3, 'value' ] ) ? "text-color-orange": "" }>
             			<span>calories</span>
-            			<strong>{ _get( details, [ 3, 'value' ] ) ? _get( details, [ 3, 'value' ] ) + ' ' + _get( details, [ 3, 'unit' ] ) : '0 ' + _get( details, [ 3, 'unit' ] ) }</strong>
+            			<strong>{ get( details, [ 3, 'value' ] ) ? get( details, [ 3, 'value' ] ) + ' ' + get( details, [ 3, 'unit' ] ) : '0 ' + get( details, [ 3, 'unit' ] ) }</strong>
             		</PanelRow>
             		<PanelRow className={ ! dataTable.ingredients.length ? "text-color-red": "" }>
             			<span>{ __( "Ingredients", "wpzoom-recipe-card" ) }</span>
@@ -314,7 +311,7 @@ class Inspector extends Component {
 	                	{ hasImage ? <Button isLink="true" isDestructive="true" onClick={ removeRecipeImage }>{ __( "Remove Image", "wpzoom-recipe-card" ) }</Button> : '' }
 	        		</BaseControl>
 	        		{
-	        			! _isEmpty( imageSizeOptions ) &&
+	        			! isEmpty( imageSizeOptions ) &&
 		                <SelectControl
 	                		label={ __( "Image Size", "wpzoom-recipe-card" ) }
 	                		value={ image.url }
@@ -488,10 +485,10 @@ class Inspector extends Component {
 		        	    			instanceId={ `${ id }-yield` }
 		        	    			type="number"
 		        	    			label={ __( "Servings", "wpzoom-recipe-card" ) }
-		        	    			value={ _get( details, [ 0, 'value' ] ) }
+		        	    			value={ get( details, [ 0, 'value' ] ) }
 		        	    			onChange={ newYield => onChangeDetail(newYield, 0) }
 		        	    		/>
-		        				<span>{ _get( details, [ 0, 'unit' ] ) }</span>
+		        				<span>{ get( details, [ 0, 'unit' ] ) }</span>
 		        			</Fragment>
         				}
         			</PanelRow>
@@ -509,10 +506,10 @@ class Inspector extends Component {
 		        	    			instanceId={ `${ id }-preptime` }
 		        	    			type="number"
 		        	    			label={ __( "Preparation time", "wpzoom-recipe-card" ) }
-		        	    			value={ _get( details, [ 1, 'value' ] ) }
+		        	    			value={ get( details, [ 1, 'value' ] ) }
 		        	    			onChange={ newPrepTime => onChangeDetail(newPrepTime, 1) }
 		        	    		/>
-		        				<span>{ _get( details, [ 1, 'unit' ] ) }</span>
+		        				<span>{ get( details, [ 1, 'unit' ] ) }</span>
 		        			</Fragment>
         				}
         			</PanelRow>
@@ -530,10 +527,10 @@ class Inspector extends Component {
 		        	    			instanceId={ `${ id }-cookingtime` }
 		        	    			type="number"
 		        	    			label={ __( "Cooking time", "wpzoom-recipe-card" ) }
-		        	    			value={ _get( details, [ 2, 'value' ] ) }
+		        	    			value={ get( details, [ 2, 'value' ] ) }
 		        	    			onChange={ newCookingTime => onChangeDetail(newCookingTime, 2) }
 		        	    		/>
-		        				<span>{ _get( details, [ 2, 'unit' ] ) }</span>
+		        				<span>{ get( details, [ 2, 'unit' ] ) }</span>
 		        			</Fragment>
         				}
         			</PanelRow>
@@ -551,10 +548,10 @@ class Inspector extends Component {
 		        	    			instanceId={ `${ id }-calories` }
 		        	    			type="number"
 		        	    			label={ __( "Calories", "wpzoom-recipe-card" ) }
-		        	    			value={ _get( details, [ 3, 'value' ] ) }
+		        	    			value={ get( details, [ 3, 'value' ] ) }
 		        	    			onChange={ newCalories => onChangeDetail(newCalories, 3) }
 		        	    		/>
-		        				<span>{ _get( details, [ 3, 'unit' ] ) }</span>
+		        				<span>{ get( details, [ 3, 'unit' ] ) }</span>
 		        			</Fragment>
         				}
         			</PanelRow>
@@ -575,7 +572,7 @@ export default compose( [
 
 		let id = null;
 
-		if ( ! _isNull( props.attributes.image ) ) {
+		if ( ! isNull( props.attributes.image ) ) {
 			id = props.attributes.image.id;
 		}
 

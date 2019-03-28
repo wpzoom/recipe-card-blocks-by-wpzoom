@@ -8,8 +8,7 @@
 /* Internal dependencies */
 import Direction from './components/Direction';
 import legacy from "./legacy";
-import _isUndefined from "lodash/isUndefined";
-import _merge from "lodash/merge";
+import isUndefined from "lodash/isUndefined";
 
 /* External dependencies */
 const { __ } = wp.i18n;
@@ -95,7 +94,7 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
 
             if ( steps.length === 0 ) {
                 for ( var i = 0; i < content.length; i++ ) {
-                    if ( ! _isUndefined( content[i].props ) ) {
+                    if ( ! isUndefined( content[i].props ) ) {
                         steps.push({
                             id: Direction.generateId( "direction-step" ),
                             text: content[i].props.children

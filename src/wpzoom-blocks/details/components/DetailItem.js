@@ -1,8 +1,8 @@
 /* External dependencies */
 import IconsModal from "./IconsModal";
 import FoodIcons from "./FoodIcons";
-import _get from "lodash/get";
-import _isUndefined from "lodash/isUndefined";
+import get from "lodash/get";
+import isUndefined from "lodash/isUndefined";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
@@ -74,7 +74,7 @@ export default class DetailItem extends Component {
 			iconSet
 		} = item;
 
-		if ( _isUndefined( iconSet ) )
+		if ( isUndefined( iconSet ) )
 			iconSet = 'oldicon';
 
 	    return (
@@ -107,7 +107,7 @@ export default class DetailItem extends Component {
 		    3: { label: __( "Calories", "wpzoom-recipe-card" ), value: __( "420 kcal", "wpzoom-recipe-card" ) },
 		}
 
-		return _get( placeholderText, [ newIndex, key ] );
+		return get( placeholderText, [ newIndex, key ] );
 	}
 
 	/**

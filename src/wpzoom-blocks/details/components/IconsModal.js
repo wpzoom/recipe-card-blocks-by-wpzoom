@@ -1,7 +1,6 @@
 /* External dependencies */
 import Icons from "../utils/IconsArray";
-import _toString from "lodash/toString";
-import _get from "lodash/get";
+import get from "lodash/get";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -119,7 +118,7 @@ export default class IconsModal extends Component {
             toInsert
         } = attributes;
 
-        const activeIcon = _get( details, [ toInsert, 'icon' ] );
+        const activeIcon = get( details, [ toInsert, 'icon' ] );
 
         return (
             <div>
