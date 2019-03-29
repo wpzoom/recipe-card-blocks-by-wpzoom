@@ -47,6 +47,13 @@ class WPZOOM_Helpers {
 			$settings['primary_color'] = '#FFA921';
 		}
 
+		if ( !isset( $settings['pin_has_custom_image'] ) ) {
+			$settings['pin_has_custom_image'] = false;
+		}
+		elseif ( !isset( $settings['pin_custom_image'] ) ) {
+			$settings['pin_custom_image'] = array();
+		}
+
 		return $settings;
 	}
 

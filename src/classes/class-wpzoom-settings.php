@@ -135,14 +135,14 @@ class WPZOOM_Settings {
 
 		// If 'wpzoom-recipe-card-settings' is empty update option with defaults values
 		if ( empty( self::$options ) ) {
-			$this->update_option( self::$defaults );
+			self::update_option( self::$defaults );
 		}
 
 		// If new setting is added, update 'wpzoom-recipe-card-settings' option
 		if ( ! empty( self::$options ) ) {
 			$new_settings = array_diff_key( self::$defaults, self::$options );
 			if ( ! empty( $new_settings ) ) {
-				$this->update_option( array_merge( self::$options, $new_settings ) );
+				self::update_option( array_merge( self::$options, $new_settings ) );
 			}
 		}
 
@@ -155,9 +155,9 @@ class WPZOOM_Settings {
 	 * @param string|array $value
 	 * @param string $option
 	 */
-	public function update_option( $value, $option = '', $autoload = null ) {
+	public static function update_option( $value, $option = '', $autoload = null ) {
 		if ( empty( $option ) ) $option = self::$option;
-
+		
 		if ( self::$options !== false ) {
 		    // The option already exists, so we just update it.
 		    update_option( $option, $value, $autoload );
@@ -927,7 +927,7 @@ class WPZOOM_Settings {
 		 	'message' => 'OK',
 		);
 
-		$this->update_option( $defaults );
+		self::update_option( $defaults );
 
 		header( 'Content-Type: application/json; charset=utf-8' );
 		echo json_encode( $response );
