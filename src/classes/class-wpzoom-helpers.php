@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class for helper functions for structured data render.
  */
 class WPZOOM_Helpers {
-	public function generateId( string $prefix = '' ) {
+    public function generateId( $prefix = '') {
 		return $prefix !== '' ? uniqid( $prefix . '-' ) : uniqid();
 	}
 

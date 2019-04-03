@@ -5,7 +5,7 @@
  * Description: Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
  * Author: WPZOOM
  * Author URI: https://www.wpzoom.com/
- * Version: 2.0.0
+ * Version: 2.0.1
  * Copyright: (c) 2019 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function define_constants() {
-			$this->define( 'WPZOOM_RCB_VERSION', '2.0.0' );
+			$this->define( 'WPZOOM_RCB_VERSION', '2.0.1' );
 			$this->define( 'WPZOOM_RCB_TEXT_DOMAIN', 'wpzoom-recipe-card' );
 			$this->define( 'WPZOOM_RCB_HAS_PRO', false );
 			$this->define( 'WPZOOM_RCB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

@@ -17,6 +17,8 @@ Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new Wo
 
 📩 [Subscribe to our newsletter](https://www.wpzoom.com/plugins/recipe-card-blocks) for updates
 
+[youtube https://www.youtube.com/watch?v=TehuLXQXNi8]
+
 🥑 **[View Demo](http://demo.wpzoom.com/recipe-card-blocks/)** 🥑
 
 

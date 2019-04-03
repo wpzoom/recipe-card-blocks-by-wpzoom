@@ -41,7 +41,7 @@ class WPZOOM_Structured_Data_Helpers {
 	 *
 	 * @return string The json name generated from array.
 	 */
-	public function ingredient_name_to_JSON( array $ingredient_name, string $jsonName = '' ) {
+	public function ingredient_name_to_JSON( array $ingredient_name, $jsonName = '' ) {
 		foreach ( $ingredient_name as $name ) {
 			if ( ! is_null( $name ) ) {
 				if ( is_array( $name ) && isset( $name['props']['children'] ) && is_array( $text['props']['children'] ) ) {
@@ -83,7 +83,7 @@ class WPZOOM_Structured_Data_Helpers {
 	 *
 	 * @return string The json text generated from array.
 	 */
-	public function step_text_to_JSON( array $step_text, string $jsonText = '' ) {
+	public function step_text_to_JSON( array $step_text, $jsonText = '' ) {
 		foreach ( $step_text as $text ) {
 			if ( ! is_null( $text ) ) {
 				if ( is_array( $text ) && isset( $text['props']['children'] ) && is_array( $text['props']['children'] ) ) {
