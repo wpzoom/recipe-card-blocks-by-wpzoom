@@ -93,12 +93,17 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 1. Adding a block to editor
 2. WPZOOM Blocks Section
-3. Preview of blocks
-3. Ingredients block
-4. Directions block
+3. Preview of Recipe Card Block
+4. Additional Design for Block
+5. Block Editor
+6. Settings Page
+7. Mobile Design
 
 
 == Changelog ==
+
+= 2.0.1 =
+* Fixing error 500 after update to version 2.0 on servers running on PHP 5.6 or lower.
 
 = 2.0.0 =
 * MAJOR UPDATE
@@ -109,7 +114,6 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 * New Settings Page (Settings > WPZOOM Recipe Card)
 * You can now add Images in the Directions
 
-
 = 1.0.1 =
 * Minor bug fix in WordPress 5.0
 
@@ -118,6 +122,9 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 
 == Upgrade Notice ==
+
+= 2.0.1 =
+⚠️ Version 2.0 is a major update and it's possible that it may break old Recipe blocks added in previous posts (Ingredients, Directions). Starting with 2.0 version we recommend using the new "Recipe Card Block (schema.org)".
 
 = 2.0.0 =
 ⚠️ Version 2.0 is a major update and it's possible that it may break old Recipe blocks added in previous posts (Ingredients, Directions). Starting with 2.0 version we recommend using the new "Recipe Card Block (schema.org)".
