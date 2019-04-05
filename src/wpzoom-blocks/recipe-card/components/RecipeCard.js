@@ -20,7 +20,15 @@ import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles"
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component, renderToString } = wp.element;
-const { DropZoneProvider, DropZone, Button, Placeholder, FormFileUpload, Dashicon, Spinner } = wp.components;
+const { 
+	DropZoneProvider, 
+	DropZone, 
+	Button, 
+	Placeholder, 
+	FormFileUpload, 
+	Dashicon, 
+	Spinner
+} = wp.components;
 const { RichText, MediaUpload, InnerBlocks } = wp.editor;
 const {
 	post_permalink,
@@ -69,7 +77,7 @@ export default class RecipeCard extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return prefix !== '' ? _uniqueId( prefix + '-' ) : _uniqueId();
+		return prefix !== '' ? `${ prefix }-${ new Date().getTime() }` : new Date().getTime();
 	}
 
 	/**
@@ -385,6 +393,9 @@ export default class RecipeCard extends Component {
 					<p className="description">{ __( "Press Enter to add new note.", "wpzoom-recipe-card" ) }</p>
 				</div>
 				<Inspector { ...{ attributes, setAttributes, className , clientId } } />
+				<BlockControls>
+					<ExtraOptionsModal />
+				</BlockControls>
 			</div>
 		);
 	}

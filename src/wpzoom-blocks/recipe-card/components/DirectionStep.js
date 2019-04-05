@@ -1,3 +1,6 @@
+/* External dependencies */
+import PropTypes from "prop-types";
+
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
@@ -25,7 +28,95 @@ export default class DirectionStep extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onSelectImage = this.onSelectImage.bind( this );
+		this.onSelectImage 			= this.onSelectImage.bind( this );
+		this.onInsertStep   		= this.onInsertStep.bind( this );
+		this.onRemoveStep   		= this.onRemoveStep.bind( this );
+		this.onMoveStepUp   		= this.onMoveStepUp.bind( this );
+		this.onMoveStepDown 		= this.onMoveStepDown.bind( this );
+		this.setTextRef    			= this.setTextRef.bind( this );
+		this.onFocusText   			= this.onFocusText.bind( this );
+		this.onChangeText  			= this.onChangeText.bind( this );
+	}
+
+	/**
+	 * Handles the insert step button action.
+	 *
+	 * @returns {void}
+	 */
+	onInsertStep() {
+		this.props.insertStep( this.props.index );
+	}
+
+	/**
+	 * Handles the remove step button action.
+	 *
+	 * @returns {void}
+	 */
+	onRemoveStep() {
+		this.props.removeStep( this.props.index );
+	}
+
+	/**
+	 * Handles the move step up button action.
+	 *
+	 * @returns {void}
+	 */
+	onMoveStepUp() {
+		if ( this.props.isFirst ) {
+			return;
+		}
+		this.props.onMoveUp( this.props.index );
+	}
+
+	/**
+	 * Handles the move step down button action.
+	 *
+	 * @returns {void}
+	 */
+	onMoveStepDown() {
+		if ( this.props.isLast ) {
+			return;
+		}
+		this.props.onMoveDown( this.props.index );
+	}
+
+	/**
+	 * Pass the step text editor reference down to the parent component.
+	 *
+	 * @param {object} ref Reference to the step text editor.
+	 *
+	 * @returns {void}
+	 */
+	setTextRef( ref ) {
+		this.props.editorRef( this.props.index, "text", ref );
+	}
+
+	/**
+	 * Handles the focus event on the step text editor.
+	 *
+	 * @returns {void}
+	 */
+	onFocusText() {
+		this.props.onFocus( this.props.index, "text" );
+	}
+
+	/**
+	 * Handles the on change event on the step text editor.
+	 *
+	 * @param {string} value The new step text.
+	 *
+	 * @returns {void}
+	 */
+	onChangeText( value ) {
+		const {
+			onChange,
+			index,
+			step: {
+				text
+			},
+		} = this.props;
+
+		onChange( value, text, index );
 	}
 
 	/**
@@ -35,9 +126,7 @@ export default class DirectionStep extends Component {
 	 */
 	getButtons() {
 		const {
-			step,
-			removeStep,
-			insertStep,
+			step
 		} = this.props;
 
 		return <div className="direction-step-button-container">
@@ -59,13 +148,13 @@ export default class DirectionStep extends Component {
 				className="direction-step-button direction-step-button-delete editor-inserter__toggle"
 				icon="trash"
 				label={ __( "Delete step", "wpzoom-recipe-card" ) }
-				onClick={ removeStep }
+				onClick={ this.onRemoveStep }
 			/>
 			<IconButton
 				className="direction-step-button direction-step-button-add editor-inserter__toggle"
 				icon="editor-break"
 				label={ __( "Insert step", "wpzoom-recipe-card" ) }
-				onClick={ insertStep }
+				onClick={ this.onInsertStep }
 			/>
 		</div>;
 	}
@@ -79,14 +168,14 @@ export default class DirectionStep extends Component {
 		return <div className="direction-step-mover">
 			<IconButton
 				className="editor-block-mover__control"
-				onClick={ this.props.isFirst ? null : this.props.onMoveUp }
+				onClick={ this.onMoveStepUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move step up", "wpzoom-recipe-card" ) }
 				aria-disabled={ this.props.isFirst }
 			/>
 			<IconButton
 				className="editor-block-mover__control"
-				onClick={ this.props.isLast ? null : this.props.onMoveDown }
+				onClick={ this.onMoveStepDown }
 				icon="arrow-down-alt2"
 				label={ __( "Move step down", "wpzoom-recipe-card" ) }
 				aria-disabled={ this.props.isLast }
@@ -153,17 +242,11 @@ export default class DirectionStep extends Component {
 	 */
 	render() {
 		const {
-			index,
-			step,
-			onChange,
-			onFocus,
 			isSelected,
 			subElement,
-			editorRef,
+			step
 		} = this.props;
-
 		const { id, text } = step;
-
 		const isSelectedText = isSelected && subElement === "text";
 
 		return (
@@ -171,15 +254,17 @@ export default class DirectionStep extends Component {
 				<RichText
 					className="direction-step-text"
 					tagName="p"
-					onSetup={ ( ref ) => editorRef( "text", ref ) }
+					unstableOnSetup={ this.setTextRef }
 					key={ `${ id }-text` }
 					value={ text }
-					onChange={ ( value ) => onChange( value, text ) }
+					onChange={ this.onChangeText }
+					// isSelected={ isSelectedText }
 					placeholder={ __( "Enter step description", "wpzoom-recipe-card" ) }
-					unstableOnFocus={ () => onFocus( "text" ) }
+					setFocusedElement={ this.onFocusText }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ isSelectedText &&
+				{ 
+					isSelectedText &&
 					<div className="direction-step-controls-container">
 						{ this.getMover() }
 						{ this.getButtons() }
@@ -189,3 +274,19 @@ export default class DirectionStep extends Component {
 		);
 	}
 }
+
+DirectionStep.propTypes = {
+	index: PropTypes.number.isRequired,
+	step: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+	insertStep: PropTypes.func.isRequired,
+	removeStep: PropTypes.func.isRequired,
+	onFocus: PropTypes.func.isRequired,
+	editorRef: PropTypes.func.isRequired,
+	onMoveUp: PropTypes.func.isRequired,
+	onMoveDown: PropTypes.func.isRequired,
+	subElement: PropTypes.string.isRequired,
+	isSelected: PropTypes.bool.isRequired,
+	isFirst: PropTypes.bool.isRequired,
+	isLast: PropTypes.bool.isRequired,
+};

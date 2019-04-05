@@ -146,8 +146,6 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
             ];
         }
 
-        attributes.details = Detail.removeDuplicates( attributes.details );
-
         return <Detail { ...{ attributes, setAttributes, className } } />;
     },
 

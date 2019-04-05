@@ -2,14 +2,17 @@
 import DirectionStep from "./DirectionStep";
 import Inspector from "./Inspector";
 import isUndefined from "lodash/isUndefined";
+import PropTypes from "prop-types";
 import uniq from "lodash/uniq";
 import uniqueId from "lodash/uniqueId";
+import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
+const { speak } = wp.a11y;
 const { RichText } = wp.editor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
@@ -36,11 +39,19 @@ export default class Direction extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeStep      = this.changeStep.bind( this );
-		this.insertStep      = this.insertStep.bind( this );
-		this.removeStep      = this.removeStep.bind( this );
-		this.swapSteps       = this.swapSteps.bind( this );
-		this.setFocus        = this.setFocus.bind( this );
+		this.changeStep      			= this.changeStep.bind( this );
+		this.insertStep      			= this.insertStep.bind( this );
+		this.removeStep      			= this.removeStep.bind( this );
+		this.swapSteps       			= this.swapSteps.bind( this );
+		this.setFocus        			= this.setFocus.bind( this );
+		this.setFocusToTitle 			= this.setFocusToTitle.bind( this );
+		this.setFocusToStep 			= this.setFocusToStep.bind( this );
+		this.setTitleRef 				= this.setTitleRef.bind( this );
+		this.setStepRef 				= this.setStepRef.bind( this );
+		this.moveStepUp 				= this.moveStepUp.bind( this );
+		this.moveStepDown 				= this.moveStepDown.bind( this );
+		this.onChangeTitle 				= this.onChangeTitle.bind( this );
+		this.onAddStepButtonClick 		= this.onAddStepButtonClick.bind( this );
 
 		this.props.attributes.id = Direction.generateId( 'wpzoom-block-directions' );
 
@@ -55,36 +66,7 @@ export default class Direction extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return prefix !== '' ? uniqueId( prefix + '-' ) : uniqueId();
-	}
-
-	/**
-	 * Remove duplicate from generated pseudo-unique id. In case the ids are duplicated, change it
-	 *
-	 * @param {string} [steps] The array of steps.
-	 *
-	 * @returns {object} Steps array without duplicates ids.
-	 */
-	static removeDuplicates( steps ) {
-		let newArray = [];
-		let ids = [];
-		let hasDuplicates = false;
-
-		if ( isUndefined( steps ) )
-			return [];
-
-		steps.map( ( step, index ) => {
-			ids.push( step.id );
-			newArray.push( {
-				id: this.generateId( "direction-step" ),
-				text: step.text
-			} );
-		} );
-
-		if ( uniq( ids ).length < newArray.length )
-			hasDuplicates = true;
-
-		return hasDuplicates ? newArray : steps;
+		return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
 	}
 
 	/**
@@ -141,10 +123,10 @@ export default class Direction extends Component {
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index, text = [], focus = true ) {
+	insertStep( index = null, text = [], focus = true ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		if ( isUndefined( index ) ) {
+		if ( index === null ) {
 			index = steps.length - 1;
 		}
 
@@ -164,7 +146,11 @@ export default class Direction extends Component {
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:text` ) );
+			// When moving focus to a newly created step, return and don't use the speak() messaage.
+			return;
 		}
+
+		speak( __( "New step added", "wpzoom-recipe-card" ) );
 	}
 
 	/**
@@ -228,6 +214,8 @@ export default class Direction extends Component {
 		}
 
 		this.setFocus( fieldToFocus );
+
+		speak( __( "Step removed", "wpzoom-recipe-card" ) );
 	}
 
 	/**
@@ -250,6 +238,101 @@ export default class Direction extends Component {
 	}
 
 	/**
+	 * Handles the Add Step Button click event.
+	 *
+	 * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
+	 *
+	 * @returns {void}
+	 */
+	onAddStepButtonClick() {
+		this.insertStep( null, [], true );
+	}
+
+	/**
+	 * Sets the focus to an element within the specified step.
+	 *
+	 * @param {number} stepIndex      Index of the step to focus.
+	 * @param {string} elementToFocus 		Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToStep( stepIndex, elementToFocus ) {
+		this.setFocus( `${ stepIndex }:${ elementToFocus }` );
+	}
+
+	/**
+	 * Sets the focus to step title.
+	 *
+	 * @param {number} stepIndex      Index of the step to focus.
+	 * @param {string} elementToFocus 		Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToTitle() {
+		this.setFocus( "title" );
+	}
+
+	/**
+	 * Set focus to the description field.
+	 *
+	 * @param {object} ref The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setTitleRef( ref ) {
+		this.editorRefs.title = ref;
+	}
+
+	/**
+	 * Move the step at the specified index one step up.
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveStepUp( stepIndex ) {
+		this.swapSteps( stepIndex, stepIndex - 1 );
+	}
+
+	/**
+	 * Move the step at the specified index one step down.
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveStepDown( stepIndex ) {
+		this.swapSteps( stepIndex, stepIndex + 1 );
+	}
+
+	/**
+	 * Set a reference to the specified step
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 * @param {string} part      The part to set a reference too.
+	 * @param {object} ref       The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setStepRef( stepIndex, part, ref ) {
+		this.editorRefs[ `${ stepIndex }:${ part }` ] = ref;
+	}
+
+	/**
+	 * Handles the on change event for the step title field.
+	 *
+	 * @param {string} value The new title.
+	 *
+	 * @returns {void}
+	 */
+	onChangeTitle( value ) {
+		this.props.setAttributes( { 
+			title: value,
+			jsonTitle: stripHTML( renderToString( value ) ) 
+		} );
+	}
+
+	/**
 	 * Returns an array of Direction step components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The step components.
@@ -267,75 +350,20 @@ export default class Direction extends Component {
 					key={ step.id }
 					step={ step }
 					index={ index }
-					editorRef={ ( part, ref ) => {
-						this.editorRefs[ `${ index }:${ part }` ] = ref;
-					} }
-					onChange={
-						( newText, previousText ) =>
-							this.changeStep( newText, previousText, index )
-					}
-					insertStep={ () => this.insertStep( index ) }
-					removeStep={ () => this.removeStep( index ) }
-					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					editorRef={ this.setStepRef }
+					onChange={ this.changeStep }
+					insertStep={ this.insertStep }
+					removeStep={ this.removeStep }
+					onFocus={ this.setFocusToStep }
 					subElement={ subElement }
-					onMoveUp={ () => this.swapSteps( index, index - 1 ) }
-					onMoveDown={ () => this.swapSteps( index, index + 1 ) }
+					onMoveUp={ this.moveStepUp }
+					onMoveDown={ this.moveStepDown }
 					isFirst={ index === 0 }
 					isLast={ index === this.props.attributes.steps.length - 1 }
 					isSelected={ focusIndex === `${ index }` }
 				/>
 			);
 		} );
-	}
-
-
-	/**
-	 * Returns the component to be used to render
-	 * the Direction block on Wordpress (e.g. not in the editor).
-	 *
-	 * @param {object} props the attributes of the Direction block.
-	 *
-	 * @returns {Component} The component representing a Direction block.
-	 */
-	static Content( props ) {
-		let { steps } = props;
-
-		const {
-			title,
-			id,
-			print_visibility,
-			className,
-		} = props;
-
-		steps = steps
-			? steps.map( ( step ) => {
-				return (
-					<DirectionStep.Content
-						{ ...step }
-						key={ step.id }
-					/>
-				);
-			} )
-			: null;
-
-		const classNames       = [ "", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames   = [ "directions-list" ].filter( ( item ) => item ).join( " " );
-
-		return (
-			<div className={ classNames } id={ id }>
-				<div className={ "wpzoom-recipe-card-print-link" + " " + print_visibility }>
-                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-                        <img className="icon-print-link" src={ pluginURL + 'src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
-                    </a>
-                </div>
-				<RichText.Content
-					tagName="h3"
-					className="directions-title"
-					value={ title }
-				/>
-				<ul className={ listClassNames }>{ steps }</ul>
-			</div>
-		);
 	}
 
 	/**
@@ -347,7 +375,7 @@ export default class Direction extends Component {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertStep() }
+				onClick={ this.onAddStepButtonClick }
 				className="editor-inserter__toggle"
 			>
 				<span className="components-icon-button-text">{ __( "Add step", "wpzoom-recipe-card" ) }</span>
@@ -362,28 +390,29 @@ export default class Direction extends Component {
 	 */
 	render() {
 		const { attributes, setAttributes, className } = this.props;
+		const { title, id, print_visibility } = attributes;
 
 		const classNames     = [ "", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "directions-list" ].filter( ( item ) => item ).join( " " );
 
 		return (
-			<div className={ classNames } id={ attributes.id }>
-				<div className={ 'wpzoom-recipe-card-print-link' + ' ' + attributes.print_visibility }>
-				    <a className="btn-print-link no-print" href={ '#'+ attributes.id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
+			<div className={ classNames } id={ id }>
+				<div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
+				    <a className="btn-print-link no-print" href={ '#'+ id } title={ __( "Print ingredients...", "wpzoom-recipe-card" ) }>
 				        <img className="icon-print-link" src={ pluginURL + 'src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
 				    </a>
 				</div>
 				<RichText
 					tagName="h3"
 					className="directions-title"
-					value={ attributes.title }
-					isSelected={ this.state.focus === "title" }
-					unstableOnFocus={ () => this.setFocus( "title" ) }
-					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
-					onSetup={ ( ref ) => {
-						this.editorRefs.title = ref;
-					} }
+					format="string"
+					value={ title }
+					isSelected={ this.state.focus === 'title' }
+					setFocusedElement={ this.setFocusToTitle }
+					onChange={ this.onChangeTitle }
+					unstableOnSetup={ this.setTitleRef }
 					placeholder={ __( "Write Directions title", "wpzoom-recipe-card" ) }
+					formattingControls={ [] }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<ul className={ listClassNames }>{ this.getSteps() }</ul>
@@ -394,3 +423,13 @@ export default class Direction extends Component {
 	}
 
 }
+
+Direction.propTypes = {
+	attributes: PropTypes.object.isRequired,
+	setAttributes: PropTypes.func.isRequired,
+	className: PropTypes.string,
+};
+
+Direction.defaultProps = {
+	className: "",
+};

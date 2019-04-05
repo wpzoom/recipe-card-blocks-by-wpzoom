@@ -241,6 +241,10 @@ $heading_color: #222;
                 cursor: pointer;
                 line-height: 1.7;
 
+                &.ingredient-item-group {
+                    cursor: initial;
+                }
+
                 &::after {
                     content: '';
                     clear: both;

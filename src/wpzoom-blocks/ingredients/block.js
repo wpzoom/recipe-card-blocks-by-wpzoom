@@ -135,8 +135,6 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
             ];
         }
 
-        attributes.items = Ingredient.removeDuplicates( attributes.items );
-
         return <Ingredient { ...{ attributes, setAttributes, className } } />;
     },
 

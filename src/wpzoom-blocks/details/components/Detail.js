@@ -2,14 +2,17 @@
 import DetailItem from "./DetailItem";
 import Inspector from "./Inspector";
 import isUndefined from "lodash/isUndefined";
+import PropTypes from "prop-types";
 import uniq from "lodash/uniq";
 import uniqueId from "lodash/uniqueId";
+import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
+const { speak } = wp.a11y;
 const { RichText } = wp.editor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
@@ -35,10 +38,16 @@ export default class Detail extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeDetail      	 = this.changeDetail.bind( this );
-		this.insertDetail      	 = this.insertDetail.bind( this );
-		this.removeDetail      	 = this.removeDetail.bind( this );
-		this.setFocus        	 = this.setFocus.bind( this );
+		this.changeDetail      	 		= this.changeDetail.bind( this );
+		this.insertDetail      	 		= this.insertDetail.bind( this );
+		this.removeDetail      	 		= this.removeDetail.bind( this );
+		this.setFocus        	 		= this.setFocus.bind( this );
+		this.setFocusToTitle 			= this.setFocusToTitle.bind( this );
+		this.setFocusToDetail 			= this.setFocusToDetail.bind( this );
+		this.setTitleRef 				= this.setTitleRef.bind( this );
+		this.setDetailRef 				= this.setDetailRef.bind( this );
+		this.onChangeTitle 				= this.onChangeTitle.bind( this );
+		this.onAddDetailButtonClick 	= this.onAddDetailButtonClick.bind( this );
 
 		this.props.attributes.id = Detail.generateId( 'wpzoom-block-details' );
 
@@ -53,39 +62,7 @@ export default class Detail extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return prefix !== '' ? uniqueId( prefix + '-' ) : uniqueId();
-	}
-
-	/**
-	 * Remove duplicate from generated pseudo-unique id. In case the ids are duplicated, change it
-	 *
-	 * @param {string} [details] The array of details.
-	 *
-	 * @returns {object} Items array without duplicates ids.
-	 */
-	static removeDuplicates( details ) {
-		let newArray = [];
-		let ids = [];
-		let hasDuplicates = false;
-
-		if ( isUndefined( details ) )
-			return [];
-
-		details.map( ( item, index ) => {
-			ids.push( item.id );
-			newArray.push( {
-				id: this.generateId( "detail-item" ),
-				icon: item.icon,
-				iconSet: item.iconSet,
-				label: item.label,
-				value: item.value
-			} );
-		} );
-
-		if ( uniq( ids ).length < newArray.length )
-			hasDuplicates = true;
-
-		return hasDuplicates ? newArray : details;
+		return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
 	}
 
 	/**
@@ -142,10 +119,10 @@ export default class Detail extends Component {
 	 *
 	 * @returns {void}
 	 */
-	insertDetail( index, icon = null, label = [], value = [], focus = true ) {
+	insertDetail( index = null, icon = null, label = [], value = [], focus = true ) {
 		const details = this.props.attributes.details ? this.props.attributes.details.slice() : [];
 
-		if ( isUndefined( index ) ) {
+		if ( index === null ) {
 			index = details.length - 1;
 		}
 
@@ -233,6 +210,79 @@ export default class Detail extends Component {
 	}
 
 	/**
+	 * Handles the Add Detail Button click event.
+	 *
+	 * Necessary because insertDetail needs to be called without arguments, to assure the detail is added properly.
+	 *
+	 * @returns {void}
+	 */
+	onAddDetailButtonClick() {
+		this.insertDetail( null, null, [], [], true );
+	}
+
+	/**
+	 * Sets the focus to an element within the specified detail.
+	 *
+	 * @param {number} detailIndex      	Index of the detail to focus.
+	 * @param {string} elementToFocus 		Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToDetail( detailIndex, elementToFocus ) {
+		this.setFocus( `${ detailIndex }:${ elementToFocus }` );
+	}
+
+	/**
+	 * Sets the focus to detail title.
+	 *
+	 * @param {number} detailIndex      	Index of the detail to focus.
+	 * @param {string} elementToFocus 		Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToTitle() {
+		this.setFocus( "title" );
+	}
+
+	/**
+	 * Set focus to the description field.
+	 *
+	 * @param {object} ref The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setTitleRef( ref ) {
+		this.editorRefs.title = ref;
+	}
+
+	/**
+	 * Set a reference to the specified detail
+	 *
+	 * @param {number} detailIndex 	Index of the detail that should be moved.
+	 * @param {string} part      	The part to set a reference too.
+	 * @param {object} ref       	The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setDetailRef( detailIndex, part, ref ) {
+		this.editorRefs[ `${ detailIndex }:${ part }` ] = ref;
+	}
+
+	/**
+	 * Handles the on change event for the detail title field.
+	 *
+	 * @param {string} value The new title.
+	 *
+	 * @returns {void}
+	 */
+	onChangeTitle( value ) {
+		this.props.setAttributes( { 
+			title: value,
+			jsonTitle: stripHTML( renderToString( value ) ) 
+		} );
+	}
+
+	/**
 	 * Returns an array of Details item components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The item components.
@@ -250,16 +300,11 @@ export default class Detail extends Component {
 					key={ item.id }
 					item={ item }
 					index={ index }
-					editorRef={ ( part, ref ) => {
-						this.editorRefs[ `${ index }:${ part }` ] = ref;
-					} }
-					onChange={
-						( newIcon, newLabel, newValue, previousIcon, previousLabel, previousValue ) =>
-							this.changeDetail( newIcon, newLabel, newValue, previousIcon, previousLabel, previousValue, index )
-					}
-					insertDetail={ () => this.insertDetail( index ) }
-					removeDetail={ () => this.removeDetail( index ) }
-					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					editorRef={ this.setDetailRef }
+					onChange={ this.changeDetail }
+					insertDetail={ this.insertDetail }
+					removeDetail={ this.removeDetail }
+					onFocus={ this.setFocusToDetail }
 					subElement={ subElement }
 					isFirst={ index === 0 }
 					isLast={ index === this.props.attributes.details.length - 1 }
@@ -279,7 +324,7 @@ export default class Detail extends Component {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertDetail() }
+				onClick={ this.onAddDetailButtonClick }
 				className="editor-inserter__toggle"
 			>
 				<span className="components-icon-button-text">{ __( "Add item", "wpzoom-recipe-card" ) }</span>
@@ -289,14 +334,7 @@ export default class Detail extends Component {
 
 	render() {
 		const { attributes, setAttributes, className } = this.props;
-
-		const {
-			id,
-			title,
-			details,
-			columns,
-		} = attributes;
-
+		const { id, title, columns } = attributes;
 		const classNames 	= [ className, "col-" + columns ].filter( ( item ) => item ).join( " " );
 		const detailClasses = [ "details-items" ].filter( ( item ) => item ).join( " " );
 
@@ -305,14 +343,14 @@ export default class Detail extends Component {
 				<RichText
 					tagName="h3"
 					className="details-title"
+					format="string"
 					value={ title }
-					isSelected={ this.state.focus === "title" }
-					unstableOnFocus={ () => this.setFocus( "title" ) }
-					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
-					onSetup={ ( ref ) => {
-						this.editorRefs.title = ref;
-					} }
+					isSelected={ this.state.focus === 'title' }
+					setFocusedElement={ this.setFocusToTitle }
+					onChange={ this.onChangeTitle }
+					unstableOnSetup={ this.setTitleRef }
 					placeholder={ __( "Write Details title", "wpzoom-recipe-card" ) }
+					formattingControls={ [] }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<div className={ detailClasses }>{ this.getDetailItems() }</div>
@@ -323,3 +361,13 @@ export default class Detail extends Component {
 	}
 
 }
+
+Detail.propTypes = {
+	attributes: PropTypes.object.isRequired,
+	setAttributes: PropTypes.func.isRequired,
+	className: PropTypes.string,
+};
+
+Detail.defaultProps = {
+	className: "",
+};

@@ -748,31 +748,47 @@ class WPZOOM_Recipe_Card_Block {
 
 		foreach ( $ingredients as $index => $ingredient ) {
 			$tick = $name = '';
-			if ( 'newdesign' === self::$style ) {
-				$styles = array(
-					'border' => '2px solid ' . @self::$settings['primary_color']
-				);
-				$tickStyles = self::$helpers->render_styles_attributes( $styles );
+			$isGroup = isset($ingredient['isGroup']) ? $ingredient['isGroup'] : false;
 
-				$tick = sprintf(
-					'<span class="tick-circle" style="%s"></span>',
-					$tickStyles
+			if ( !$isGroup ) {
+				if ( 'newdesign' === self::$style ) {
+					$styles = array(
+						'border' => '2px solid ' . @self::$settings['primary_color']
+					);
+					$tickStyles = self::$helpers->render_styles_attributes( $styles );
+
+					$tick = sprintf(
+						'<span class="tick-circle" style="%s"></span>',
+						$tickStyles
+					);
+				} else {
+					$tick = '<span class="tick-circle"></span>';
+				}
+
+				if ( ! empty( $ingredient[ 'name' ] ) ) {
+					$name = sprintf(
+						'<p class="ingredient-item-name">%s</p>',
+						$this->wrap_ingredient_name( $ingredient['name'] )
+					);
+				}
+
+				$output .= sprintf(
+					'<li class="ingredient-item">%s</li>',
+					$tick . $name
 				);
 			} else {
-				$tick = '<span class="tick-circle"></span>';
-			}
+				if ( ! empty( $ingredient[ 'name' ] ) ) {
+					$name = sprintf(
+						'<strong class="ingredient-item-group-title">%s</strong>',
+						$this->wrap_ingredient_name( $ingredient['name'] )
+					);
+				}
 
-			if ( ! empty( $ingredient[ 'jsonName' ] ) ) {
-				$name = sprintf(
-					'<p class="ingredient-item-name">%s</p>',
-					$ingredient['jsonName']
+				$output .= sprintf(
+					'<li class="ingredient-item ingredient-item-group">%s</li>',
+					$tick . $name
 				);
 			}
-
-			$output .= sprintf(
-				'<li class="ingredient-item">%s</li>',
-				$tick . $name
-			);
 		}
 
 		return force_balance_tags( $output );
@@ -880,6 +896,41 @@ class WPZOOM_Recipe_Card_Block {
 				}
 
 				$output .= $start_tag . $this->wrap_direction_text( $children, $type ) . $end_tag;
+			}
+		}
+
+		return $output;
+	}
+
+	protected function wrap_ingredient_name( $nodes, $type = '' ) {
+		if ( ! is_array( $nodes ) ) {
+			return;
+		}
+
+		$output = '';
+		foreach ( $nodes as $node ) {
+			if ( ! is_array( $node ) ) {
+				$output .= $node;
+			} else {
+				$type = isset( $node['type'] ) ? $node['type'] : null;
+				$children = isset( $node['props']['children'] ) ? $node['props']['children'] : null;
+
+				$start_tag = $type ? "<$type>" : "";
+				$end_tag = $type ? "</$type>" : "";
+
+				if ( 'a' === $type ) {
+					$rel 		= @$node['props']['rel'];
+					$aria_label = @$node['props']['aria-label'];
+					$href 		= @$node['props']['href'];
+					$target 	= @$node['props']['target'];
+
+					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
+				}
+				elseif ( 'br' === $type ) {
+					$end_tag = "";
+				}
+
+				$output .= $start_tag . $this->wrap_ingredient_name( $children, $type ) . $end_tag;
 			}
 		}
 

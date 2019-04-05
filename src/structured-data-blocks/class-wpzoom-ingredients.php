@@ -168,21 +168,35 @@ class WPZOOM_Ingredients_Block {
 		$output = '';
 
 		foreach ( $ingredients as $index => $ingredient ) {
-			$tick = '<span class="tick-circle"></span>';
 			$name = '';
+			$isGroup = isset($ingredient['isGroup']) ? $ingredient['isGroup'] : false;
 
-			if ( ! empty( $ingredient[ 'name' ] ) ) {
-				$name = sprintf(
-					'<p class="ingredient-item-name">%s</p>',
-					$this->wrap_ingredient_name( $ingredient['name'] )
+			if ( !$isGroup ) {
+				if ( ! empty( $ingredient[ 'name' ] ) ) {
+					$name = sprintf(
+						'<p class="ingredient-item-name">%s</p>',
+						$this->wrap_ingredient_name( $ingredient['name'] )
+					);
+				}
+
+				$output .= sprintf(
+					'<li id="%s" class="ingredient-item">%s</li>',
+					$ingredient['id'],
+					$name
+				);
+			} else {
+				if ( ! empty( $ingredient[ 'name' ] ) ) {
+					$name = sprintf(
+						'<strong class="ingredient-item-group-title">%s</strong>',
+						$this->wrap_ingredient_name( $ingredient['name'] )
+					);
+				}
+
+				$output .= sprintf(
+					'<li class="ingredient-item ingredient-item-group">%s</li>',
+					$name
 				);
 			}
-
-			$output .= sprintf(
-				'<li id="%s" class="ingredient-item">%s</li>',
-				$ingredient['id'],
-				$tick . $name
-			);
 		}
 
 		return force_balance_tags( $output );

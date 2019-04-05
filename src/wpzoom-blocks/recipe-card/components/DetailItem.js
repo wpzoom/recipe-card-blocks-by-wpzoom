@@ -1,4 +1,7 @@
 /* External dependencies */
+import PropTypes from "prop-types";
+
+/* External dependencies */
 import IconsModal from "./IconsModal";
 import get from "lodash/get";
 import isUndefined from "lodash/isUndefined";
@@ -28,34 +31,107 @@ export default class DetailItem extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+
+		this.onOpenModal   				= this.onOpenModal.bind( this );
+		this.setLabelRef    			= this.setLabelRef.bind( this );
+		this.onFocusLabel   			= this.onFocusLabel.bind( this );
+		this.setValueRef    			= this.setValueRef.bind( this );
+		this.onFocusValue   			= this.onFocusValue.bind( this );
+		this.onChangeLabel  			= this.onChangeLabel.bind( this );
+		this.onChangeValue  			= this.onChangeValue.bind( this );
 	}
 
 	/**
-	 * The insert and remove item buttons.
+	 * Pass the detail label editor reference down to the parent component.
 	 *
-	 * @returns {Component} The buttons.
+	 * @param {object} ref Reference to the detail label editor.
+	 *
+	 * @returns {void}
 	 */
-	getButtons() {
+	setLabelRef( ref ) {
+		this.props.editorRef( this.props.index, "label", ref );
+	}
+
+	/**
+	 * Handles the focus event on the detail label editor.
+	 *
+	 * @returns {void}
+	 */
+	onFocusLabel() {
+		this.props.onFocus( this.props.index, "label" );
+	}
+
+	/**
+	 * Pass the detail value editor reference down to the parent component.
+	 *
+	 * @param {object} ref Reference to the detail value editor.
+	 *
+	 * @returns {void}
+	 */
+	setValueRef( ref ) {
+		this.props.editorRef( this.props.index, "value", ref );
+	}
+
+	/**
+	 * Handles the focus event on the detail value editor.
+	 *
+	 * @returns {void}
+	 */
+	onFocusValue() {
+		this.props.onFocus( this.props.index, "value" );
+	}
+
+	/**
+	 * Open Modal
+	 *
+	 * @returns {void}
+	 */
+	onOpenModal() {
+	    this.props.setAttributes( { showModal: 'true', toInsert: this.props.index } );
+	}
+
+	/**
+	 * Handles the on change event on the detail label editor.
+	 *
+	 * @param {string} newLabel The new detail label.
+	 *
+	 * @returns {void}
+	 */
+	onChangeLabel( newLabel ) {
 		const {
-			item,
-			removeDetail,
-			insertDetail,
+			onChange,
+			index,
+			item: {
+				icon,
+				label,
+				value,
+				unit
+			},
 		} = this.props;
 
-		return <div className="detail-item-button-container">
-			<IconButton
-				className="detail-item-button detail-item-button-delete editor-inserter__toggle"
-				icon="trash"
-				label={ __( "Delete item", "wpzoom-recipe-card" ) }
-				onClick={ removeDetail }
-			/>
-			<IconButton
-				className="detail-item-button detail-item-button-add editor-inserter__toggle"
-				icon="insert"
-				label={ __( "Insert item", "wpzoom-recipe-card" ) }
-				onClick={ insertDetail }
-			/>
-		</div>;
+		onChange( icon, newLabel, value, unit, icon, label, value, unit, index );
+	}
+
+	/**
+	 * Handles the on change event on the detail value editor.
+	 *
+	 * @param {string} newValue The new detail value.
+	 *
+	 * @returns {void}
+	 */
+	onChangeValue( newValue ) {
+		const {
+			onChange,
+			index,
+			item: {
+				icon,
+				label,
+				value,
+				unit
+			},
+		} = this.props;
+
+		onChange( icon, label, newValue, unit, icon, label, value, unit, index );
 	}
 
 	/**
@@ -66,15 +142,8 @@ export default class DetailItem extends Component {
 	 * @returns {Component}
 	 */
 	getOpenModalButton( props ) {
-		const {
-			item,
-			index
-		} = props;
-
-		let {
-			icon,
-			iconSet
-		} = item;
+		const { item, index } = props;
+		let { icon, iconSet } = item;
 
 		if ( isUndefined( iconSet ) )
 			iconSet = 'oldicon';
@@ -84,15 +153,14 @@ export default class DetailItem extends Component {
 	    return (
 	        <IconButton
 	            icon={ !icon && "insert" }
-	            onClick={ () => this.openModal( index ) }
+	            onClick={ this.onOpenModal }
 	            className="editor-inserter__toggle"
 	            label={ __( "Add icon", "wpzoom-recipe-card" ) }
 	        >
-	        	{ icon && <span class={ `${ iconSet } ${ iconSet }-${ icon }`}></span> }
+	        	{ icon && <span class={ `${ iconSet } ${ iconSet }-${ icon }` }></span> }
 	        </IconButton>
 	    );
 	}
-
 
 	/**
 	 * The predefined text for items.
@@ -116,33 +184,21 @@ export default class DetailItem extends Component {
 	}
 
 	/**
-	 * Open Modal
-	 *
-	 * @returns {void}
-	 */
-	openModal( index ) {
-	    this.props.setAttributes( { showModal: true, toInsert: index } );
-	}
-
-	/**
 	 * Renders this component.
 	 *
 	 * @returns {Component} The detail item editor.
 	 */
 	render() {
-		const { attributes, setAttributes, className } = this.props;
-		const {
+		const { 
+			attributes, 
+			setAttributes, 
+			className,
 			index,
 			item,
-			onChange,
-			onFocus,
 			isSelected,
-			subElement,
-			editorRef,
+			subElement
 		} = this.props;
-
 		const { id, icon, label, value, unit } = item;
-
 		const isSelectedLabel = isSelected && subElement === "label";
 		const isSelectedValue = isSelected && subElement === "value";
 		const isSelectedUnit = isSelected && subElement === "unit";
@@ -157,24 +213,26 @@ export default class DetailItem extends Component {
 				<RichText
 				    className="detail-item-label"
 				    tagName="p"
-				    onSetup={ ( ref ) => editorRef( "label", ref ) }
+				    unstableOnSetup={ this.setLabelRef }
 				    key={ `${ id }-label` }
 				    value={ label }
-				    onChange={ ( newLabel ) => onChange( icon, newLabel, value, unit, icon, label, value, unit ) }
+				    onChange={ this.onChangeLabel }
+				    // isSelected={ isSelectedLabel }
 				    placeholder={ this.getPlaceholder( index, 'label' ) }
-				    unstableOnFocus={ () => onFocus( "label" ) }
+				    unstableOnFocus={ this.onFocusLabel }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
 				    className="detail-item-value"
 				    tagName="p"
-				    onSetup={ ( ref ) => editorRef( "value", ref ) }
+				    unstableOnSetup={ this.setValueRef }
 				    key={ `${ id }-value` }
 				    value={ value }
-				    onChange={ ( newValue ) => onChange( icon, label, newValue, unit, icon, label, value, unit ) }
+				    onChange={ this.onChangeValue }
+				    // isSelected={ isSelectedValue }
 				    placeholder={ this.getPlaceholder( index, 'value' ) }
-				    unstableOnFocus={ () => onFocus( "value" ) }
+				    unstableOnFocus={ this.onFocusValue }
 				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>
@@ -184,3 +242,14 @@ export default class DetailItem extends Component {
 		);
 	}
 }
+DetailItem.propTypes = {
+	index: PropTypes.number.isRequired,
+	item: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+	onFocus: PropTypes.func.isRequired,
+	editorRef: PropTypes.func.isRequired,
+	subElement: PropTypes.string.isRequired,
+	isSelected: PropTypes.bool.isRequired,
+	isFirst: PropTypes.bool.isRequired,
+	isLast: PropTypes.bool.isRequired,
+};

@@ -86,6 +86,13 @@
                 position: relative;
             }
 
+            &.ingredient-item-group {
+                cursor: initial;
+            }
+            &.ingredient-item-group::before {
+                display: none;
+            }
+
             &.ticked > p {
                 text-decoration: line-through;
             }

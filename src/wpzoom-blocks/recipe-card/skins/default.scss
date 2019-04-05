@@ -246,7 +246,6 @@ $heading_color: #222;
         .recipe-card-summary {
             margin-bottom: 20px;
             font-size: 14px;
-            margin-top: -15px;
         }
 
         .ingredients-title,
@@ -288,6 +287,10 @@ $heading_color: #222;
                 position: relative;
                 cursor: pointer;
                 line-height: 1.7;
+
+                &.ingredient-item-group {
+                    cursor: initial;
+                }
 
                 &:last-child {
                     border-bottom: none;

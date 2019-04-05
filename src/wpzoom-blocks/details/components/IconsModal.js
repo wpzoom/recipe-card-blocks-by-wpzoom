@@ -28,6 +28,10 @@ export default class IconsModal extends Component {
      */
     constructor( props ) {
         super( props );
+
+        this.onCloseModal   = this.onCloseModal.bind( this );
+        this.onChangeIcon   = this.onChangeIcon.bind( this );
+        this.filterIcons    = this.filterIcons.bind( this );
     }
 
     /**
@@ -35,7 +39,7 @@ export default class IconsModal extends Component {
      *
      * @returns {void}
      */
-    closeModal( event ) {
+    onCloseModal( event ) {
         const {
             type,
             target
@@ -72,8 +76,16 @@ export default class IconsModal extends Component {
         return collector;
     }
 
-
-    changeIcon( event, iconSet, iconName ) {
+    /**
+     * Handles the on change event on the detail icon editor.
+     *
+     * @param {object} event        Document event.
+     * @param {string} iconSet      The new icon set name.
+     * @param {string} iconName     The new icon.
+     *
+     * @returns {void}
+     */
+    onChangeIcon( event, iconSet, iconName ) {
         const { type, target } = event;
         const toInsert = this.props.attributes.toInsert ? this.props.attributes.toInsert : 0;
         const details = this.props.attributes.details ? this.props.attributes.details.slice() : [];
@@ -126,7 +138,7 @@ export default class IconsModal extends Component {
                     showModal ?
                     <Modal
                         title={ __( "Modal with Icons library", "wpzoom-recipe-card" ) }
-                        onRequestClose={ ( e ) => this.closeModal( e ) }>
+                        onRequestClose={ this.onCloseModal }>
                         <div class="wpzoom-recipe-card-modal-form" style={{maxWidth: 720+'px', maxHeight: 525+'px'}}>
 
                             <div class="form-group">
@@ -134,7 +146,7 @@ export default class IconsModal extends Component {
                                     <label>{ __( "Select Icon Kit", "wpzoom-recipe-card" ) }</label>
                                 </div>
                                 <div class="wrap-input">
-                                    <input onKeyUp={(e) => setAttributes( { searchIcon: e.target.value } ) } type="text"/>
+                                    <input onKeyUp={ (e) => setAttributes( { searchIcon: e.target.value } ) } type="text"/>
                                     <select value={ activeIconSet }
                                             onChange={ (e) => setAttributes( { activeIconSet: e.target.value } ) }
                                             class="wpzoom-recipe-card-icons__field-icon-kit"
@@ -159,7 +171,7 @@ export default class IconsModal extends Component {
                                                 <span
                                                     class={ `wpzoom-recipe-card-icons__single-element ${ iconSet } ${ iconSet }-${ icon.icon } ${ activeIcon === icon.icon ? 'icon-element-active' : '' }` }
                                                     iconset={ iconSet }
-                                                    onClick={ ( e ) => this.changeIcon( e, iconSet, icon.icon ) }>
+                                                    onClick={ ( e ) => this.onChangeIcon( e, iconSet, icon.icon ) }>
                                                 </span>
                                                 )
                                             }

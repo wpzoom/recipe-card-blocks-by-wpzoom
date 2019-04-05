@@ -1,14 +1,15 @@
 /* External dependencies */
 import DirectionStep from "./DirectionStep";
 import isUndefined from "lodash/isUndefined";
+import PropTypes from "prop-types";
 import uniq from "lodash/uniq";
 import uniqueId from "lodash/uniqueId";
+import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
-const { _ } = window._; // Import underscore from window._
 const { __ } = wp.i18n;
 const { RichText } = wp.editor;
 const { IconButton } = wp.components;
@@ -35,11 +36,19 @@ export default class Direction extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeStep      = this.changeStep.bind( this );
-		this.insertStep      = this.insertStep.bind( this );
-		this.removeStep      = this.removeStep.bind( this );
-		this.swapSteps       = this.swapSteps.bind( this );
-		this.setFocus        = this.setFocus.bind( this );
+		this.changeStep      			= this.changeStep.bind( this );
+		this.insertStep      			= this.insertStep.bind( this );
+		this.removeStep      			= this.removeStep.bind( this );
+		this.swapSteps       			= this.swapSteps.bind( this );
+		this.setFocus        			= this.setFocus.bind( this );
+		this.setFocusToTitle 			= this.setFocusToTitle.bind( this );
+		this.setFocusToStep 			= this.setFocusToStep.bind( this );
+		this.setTitleRef 				= this.setTitleRef.bind( this );
+		this.setStepRef 				= this.setStepRef.bind( this );
+		this.moveStepUp 				= this.moveStepUp.bind( this );
+		this.moveStepDown 				= this.moveStepDown.bind( this );
+		this.onChangeTitle 				= this.onChangeTitle.bind( this );
+		this.onAddStepButtonClick 		= this.onAddStepButtonClick.bind( this );
 
 		this.editorRefs = {};
 	}
@@ -52,36 +61,7 @@ export default class Direction extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return prefix !== '' ? uniqueId( prefix + '-' ) : uniqueId();
-	}
-
-	/**
-	 * Remove duplicate from generated pseudo-unique id. In case the ids are duplicated, change it
-	 *
-	 * @param {string} [steps] The array of steps.
-	 *
-	 * @returns {object} Steps array without duplicates ids.
-	 */
-	static removeDuplicates( steps ) {
-		let newArray = [];
-		let ids = [];
-		let hasDuplicates = false;
-
-		if ( isUndefined( steps ) )
-			return [];
-
-		steps.map( ( step, index ) => {
-			ids.push( step.id );
-			newArray.push( {
-				id: this.generateId( "direction-step" ),
-				text: step.text
-			} );
-		} );
-
-		if ( uniq( ids ).length < newArray.length )
-			hasDuplicates = true;
-
-		return hasDuplicates ? newArray : steps;
+		return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
 	}
 
 	/**
@@ -138,10 +118,10 @@ export default class Direction extends Component {
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index, text = [], focus = true ) {
+	insertStep( index = null, text = [], focus = true ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		if ( isUndefined( index ) ) {
+		if ( index === null ) {
 			index = steps.length - 1;
 		}
 
@@ -247,6 +227,101 @@ export default class Direction extends Component {
 	}
 
 	/**
+	 * Handles the Add Step Button click event.
+	 *
+	 * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
+	 *
+	 * @returns {void}
+	 */
+	onAddStepButtonClick() {
+		this.insertStep( null, [], true );
+	}
+
+	/**
+	 * Sets the focus to an element within the specified step.
+	 *
+	 * @param {number} stepIndex      Index of the step to focus.
+	 * @param {string} elementToFocus 		Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToStep( stepIndex, elementToFocus ) {
+		this.setFocus( `${ stepIndex }:${ elementToFocus }` );
+	}
+
+	/**
+	 * Sets the focus to step title.
+	 *
+	 * @param {number} stepIndex      Index of the step to focus.
+	 * @param {string} elementToFocus 		Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToTitle() {
+		this.setFocus( "directionsTitle" );
+	}
+
+	/**
+	 * Set focus to the description field.
+	 *
+	 * @param {object} ref The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setTitleRef( ref ) {
+		this.editorRefs.directionsTitle = ref;
+	}
+
+	/**
+	 * Move the step at the specified index one step up.
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveStepUp( stepIndex ) {
+		this.swapSteps( stepIndex, stepIndex - 1 );
+	}
+
+	/**
+	 * Move the step at the specified index one step down.
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveStepDown( stepIndex ) {
+		this.swapSteps( stepIndex, stepIndex + 1 );
+	}
+
+	/**
+	 * Set a reference to the specified step
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 * @param {string} part      The part to set a reference too.
+	 * @param {object} ref       The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setStepRef( stepIndex, part, ref ) {
+		this.editorRefs[ `${ stepIndex }:${ part }` ] = ref;
+	}
+
+	/**
+	 * Handles the on change event for the step title field.
+	 *
+	 * @param {string} value The new title.
+	 *
+	 * @returns {void}
+	 */
+	onChangeTitle( value ) {
+		this.props.setAttributes( { 
+			directionsTitle: value,
+			jsonTitle: stripHTML( renderToString( value ) ) 
+		} );
+	}
+
+	/**
 	 * Returns an array of Direction step components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The step components.
@@ -264,19 +339,14 @@ export default class Direction extends Component {
 					key={ step.id }
 					step={ step }
 					index={ index }
-					editorRef={ ( part, ref ) => {
-						this.editorRefs[ `${ index }:${ part }` ] = ref;
-					} }
-					onChange={
-						( newText, previousText ) =>
-							this.changeStep( newText, previousText, index )
-					}
-					insertStep={ () => this.insertStep( index ) }
-					removeStep={ () => this.removeStep( index ) }
-					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					editorRef={ this.setStepRef }
+					onChange={ this.changeStep }
+					insertStep={ this.insertStep }
+					removeStep={ this.removeStep }
+					onFocus={ this.setFocusToStep }
 					subElement={ subElement }
-					onMoveUp={ () => this.swapSteps( index, index - 1 ) }
-					onMoveDown={ () => this.swapSteps( index, index + 1 ) }
+					onMoveUp={ this.moveStepUp }
+					onMoveDown={ this.moveStepDown }
 					isFirst={ index === 0 }
 					isLast={ index === this.props.attributes.steps.length - 1 }
 					isSelected={ focusIndex === `${ index }` }
@@ -294,7 +364,7 @@ export default class Direction extends Component {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertStep() }
+				onClick={ this.onAddStepButtonClick }
 				className="editor-inserter__toggle"
 			>
 				<span className="components-icon-button-text">{ __( "Add step", "wpzoom-recipe-card" ) }</span>
@@ -309,6 +379,7 @@ export default class Direction extends Component {
 	 */
 	render() {
 		const { attributes, setAttributes, className } = this.props;
+		const { directionsTitle } = attributes;
 
 		const classNames     = [ "recipe-card-directions" ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "directions-list" ].filter( ( item ) => item ).join( " " );
@@ -319,12 +390,11 @@ export default class Direction extends Component {
 					tagName="h3"
 					className="directions-title"
 					format="string"
-					value={ attributes.directionsTitle }
-					unstableOnFocus={ () => this.setFocus( "directionsTitle" ) }
-					onChange={ ( directionsTitle ) => setAttributes( { directionsTitle, jsonDirectionsTitle: stripHTML( renderToString( directionsTitle ) ) } ) }
-					onSetup={ ( ref ) => {
-						this.editorRefs.directionsTitle = ref;
-					} }
+					value={ directionsTitle }
+					// isSelected={ this.state.focus === 'directionsTitle' }
+					unstableOnFocus={ this.setFocusToTitle }
+					onChange={ this.onChangeTitle }
+					unstableOnSetup={ this.setTitleRef }
 					placeholder={ __( "Write Directions title", "wpzoom-recipe-card" ) }
 					formattingControls={ [] }
 					keepPlaceholderOnFocus={ true }
@@ -336,3 +406,13 @@ export default class Direction extends Component {
 	}
 
 }
+
+Direction.propTypes = {
+	attributes: PropTypes.object.isRequired,
+	setAttributes: PropTypes.func.isRequired,
+	className: PropTypes.string,
+};
+
+Direction.defaultProps = {
+	className: "",
+};

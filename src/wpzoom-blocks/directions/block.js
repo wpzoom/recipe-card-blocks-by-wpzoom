@@ -140,8 +140,6 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
             ];
         }
 
-        attributes.steps = Direction.removeDuplicates( attributes.steps );
-
         return <Direction { ...{ attributes, setAttributes, className } } />;
     },
 

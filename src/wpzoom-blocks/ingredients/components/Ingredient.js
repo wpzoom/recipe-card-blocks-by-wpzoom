@@ -2,14 +2,17 @@
 import IngredientItem from "./IngredientItem";
 import Inspector from "./Inspector";
 import isUndefined from "lodash/isUndefined";
+import PropTypes from "prop-types";
 import uniq from "lodash/uniq";
 import uniqueId from "lodash/uniqueId";
+import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
+const { speak } = wp.a11y;
 const { RichText } = wp.editor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
@@ -36,11 +39,20 @@ export default class Ingredient extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeItem      = this.changeItem.bind( this );
-		this.insertItem      = this.insertItem.bind( this );
-		this.removeItem      = this.removeItem.bind( this );
-		this.swapItem        = this.swapItem.bind( this );
-		this.setFocus        = this.setFocus.bind( this );
+		this.changeItem      			= this.changeItem.bind( this );
+		this.insertItem      			= this.insertItem.bind( this );
+		this.removeItem      			= this.removeItem.bind( this );
+		this.swapItem        			= this.swapItem.bind( this );
+		this.setFocus        			= this.setFocus.bind( this );
+		this.setFocusToTitle 			= this.setFocusToTitle.bind( this );
+		this.setFocusToIngredient 		= this.setFocusToIngredient.bind( this );
+		this.setTitleRef 				= this.setTitleRef.bind( this );
+		this.setIngredientRef 			= this.setIngredientRef.bind( this );
+		this.moveIngredientUp 			= this.moveIngredientUp.bind( this );
+		this.moveIngredientDown 		= this.moveIngredientDown.bind( this );
+		this.onChangeTitle 				= this.onChangeTitle.bind( this );
+		this.onAddIngredientButtonClick = this.onAddIngredientButtonClick.bind( this );
+		this.onAddGroupButtonClick 		= this.onAddGroupButtonClick.bind( this );
 
 		this.props.attributes.id = Ingredient.generateId( 'wpzoom-block-ingredients' );
 
@@ -55,36 +67,7 @@ export default class Ingredient extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return prefix !== '' ? uniqueId( prefix + '-' ) : uniqueId();
-	}
-
-	/**
-	 * Remove duplicate from generated pseudo-unique id. In case the ids are duplicated, change it
-	 *
-	 * @param {string} [items] The array of items.
-	 *
-	 * @returns {object} Items array without duplicates ids.
-	 */
-	static removeDuplicates( items ) {
-		let newArray = [];
-		let ids = [];
-		let hasDuplicates = false;
-
-		if ( isUndefined( items ) )
-			return [];
-
-		items.map( ( item, index ) => {
-			ids.push( item.id );
-			newArray.push( {
-				id: this.generateId( "ingredient-item" ),
-				name: item.name
-			} );
-		} );
-
-		if ( uniq( ids ).length < newArray.length )
-			hasDuplicates = true;
-
-		return hasDuplicates ? newArray : items;
+		return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
 	}
 
 	/**
@@ -93,10 +76,11 @@ export default class Ingredient extends Component {
 	 * @param {array}  newName      The new item-name.
 	 * @param {array}  previousName The previous item-name.
 	 * @param {number} index        The index of the item that needs to be changed.
+	 * @param {bool}   group        Is group item?
 	 *
 	 * @returns {void}
 	 */
-	changeItem( newName, previousName, index ) {
+	changeItem( newName, previousName, index, group = false ) {
 		const ingredientsItems = this.props.attributes.items ? this.props.attributes.items.slice() : [];
 
 		// If the index exceeds the number of items, don't change anything.
@@ -121,6 +105,7 @@ export default class Ingredient extends Component {
 			id: ingredientsItems[ index ].id,
 			name: newName,
 			jsonName: stripHTML( renderToString( newName ) ),
+			isGroup: group
 		};
 
 		this.props.setAttributes( { items: [ ...ingredientsItems ] } );
@@ -129,16 +114,17 @@ export default class Ingredient extends Component {
 	/**
 	 * Inserts an empty item into a Ingredient block at the given index.
 	 *
-	 * @param {number} [index]      The index of the item after which a new item should be added.
-	 * @param {string} [name]       The name of the new item.
-	 * @param {bool}   [focus=true] Whether or not to focus the new item.
+	 * @param {number} [index]       The index of the item after which a new item should be added.
+	 * @param {string} [name]        The name of the new item.
+	 * @param {bool}   [focus=true]  Whether or not to focus the new item.
+	 * @param {bool}   [group=false] Make new item as group title.
 	 *
 	 * @returns {void}
 	 */
-	insertItem( index, name = [], focus = true ) {
+	insertItem( index = null, name = [], focus = true, group = false ) {
 		const ingredientsItems = this.props.attributes.items ? this.props.attributes.items.slice() : [];
 
-		if ( isUndefined( index ) ) {
+		if ( index === null ) {
 			index = ingredientsItems.length - 1;
 		}
 
@@ -152,13 +138,18 @@ export default class Ingredient extends Component {
 			id: Ingredient.generateId( "ingredient-item" ),
 			name,
 			jsonName: "",
+			isGroup: group
 		} );
 
 		this.props.setAttributes( { items: [ ...ingredientsItems ] } );
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:name` ) );
+			// When moving focus to a newly created ingredient, return and don't use the speak() messaage.
+			return;
 		}
+
+		speak( __( "New ingredient added", "wpzoom-recipe-card" ) );
 	}
 
 	/**
@@ -222,6 +213,8 @@ export default class Ingredient extends Component {
 		}
 
 		this.setFocus( fieldToFocus );
+
+		speak( __( "Ingredient removed", "wpzoom-recipe-card" ) );
 	}
 
 	/**
@@ -244,6 +237,111 @@ export default class Ingredient extends Component {
 	}
 
 	/**
+	 * Handles the Add Ingredient Button click event.
+	 *
+	 * Necessary because insertIngredient needs to be called without arguments, to assure the ingredient is added properly.
+	 *
+	 * @returns {void}
+	 */
+	onAddIngredientButtonClick() {
+		this.insertItem( null, [], true );
+	}
+
+	/**
+	 * Handles the Add Ingredient Group Button click event..
+	 *
+	 * @returns {void}
+	 */
+	onAddGroupButtonClick() {
+		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		this.insertItem( toNumber( focusIndex ), [], true, true );
+	}
+
+	/**
+	 * Sets the focus to an element within the specified ingredient.
+	 *
+	 * @param {number} ingredientIndex      Index of the step to focus.
+	 * @param {string} elementToFocus 		Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToIngredient( ingredientIndex, elementToFocus ) {
+		this.setFocus( `${ ingredientIndex }:${ elementToFocus }` );
+	}
+
+	/**
+	 * Sets the focus to ingredient title.
+	 *
+	 * @param {number} ingredientIndex      Index of the step to focus.
+	 * @param {string} elementToFocus 		Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToTitle() {
+		this.setFocus( "title" );
+	}
+
+	/**
+	 * Set focus to the description field.
+	 *
+	 * @param {object} ref The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setTitleRef( ref ) {
+		this.editorRefs.title = ref;
+	}
+
+	/**
+	 * Move the step at the specified index one step up.
+	 *
+	 * @param {number} ingredientIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveIngredientUp( ingredientIndex ) {
+		this.swapItem( ingredientIndex, ingredientIndex - 1 );
+	}
+
+	/**
+	 * Move the step at the specified index one step down.
+	 *
+	 * @param {number} ingredientIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveIngredientDown( ingredientIndex ) {
+		this.swapItem( ingredientIndex, ingredientIndex + 1 );
+	}
+
+	/**
+	 * Set a reference to the specified step
+	 *
+	 * @param {number} ingredientIndex Index of the step that should be moved.
+	 * @param {string} part      The part to set a reference too.
+	 * @param {object} ref       The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setIngredientRef( ingredientIndex, part, ref ) {
+		this.editorRefs[ `${ ingredientIndex }:${ part }` ] = ref;
+	}
+
+	/**
+	 * Handles the on change event for the ingredient title field.
+	 *
+	 * @param {string} value The new title.
+	 *
+	 * @returns {void}
+	 */
+	onChangeTitle( value ) {
+		this.props.setAttributes( { 
+			title: value,
+			jsonTitle: stripHTML( renderToString( value ) ) 
+		} );
+	}
+
+	/**
 	 * Returns an array of Ingredient item components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The item components.
@@ -261,19 +359,14 @@ export default class Ingredient extends Component {
 					key={ item.id }
 					item={ item }
 					index={ index }
-					editorRef={ ( part, ref ) => {
-						this.editorRefs[ `${ index }:${ part }` ] = ref;
-					} }
-					onChange={
-						( newName, previousName ) =>
-							this.changeItem( newName, previousName, index )
-					}
-					insertItem={ () => this.insertItem( index ) }
-					removeItem={ () => this.removeItem( index ) }
-					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					editorRef={ this.setIngredientRef }
+					onChange={ this.changeItem }
+					insertItem={ this.insertItem }
+					removeItem={ this.removeItem }
+					onFocus={ this.setFocusToIngredient }
 					subElement={ subElement }
-					onMoveUp={ () => this.swapItem( index, index - 1 ) }
-					onMoveDown={ () => this.swapItem( index, index + 1 ) }
+					onMoveUp={ this.moveIngredientUp }
+					onMoveDown={ this.moveIngredientDown }
 					isFirst={ index === 0 }
 					isLast={ index === this.props.attributes.items.length - 1 }
 					isSelected={ focusIndex === `${ index }` }
@@ -289,13 +382,22 @@ export default class Ingredient extends Component {
 	 */
 	getAddItemButton() {
 		return (
-			<IconButton
-				icon="insert"
-				onClick={ () => this.insertItem() }
-				className="editor-inserter__toggle"
-			>
-				<span className="components-icon-button-text">{ __( "Add ingredient", "wpzoom-recipe-card" ) }</span>
-			</IconButton>
+			<div className="ingredients-add-buttons">
+				<IconButton
+					icon="insert"
+					onClick={ this.onAddIngredientButtonClick }
+					className="editor-inserter__toggle"
+				>
+					<span className="components-icon-button-text">{ __( "Add ingredient", "wpzoom-recipe-card" ) }</span>
+				</IconButton>
+				<IconButton
+					icon="editor-insertmore"
+					onClick={ this.onAddGroupButtonClick }
+					className="editor-inserter__toggle"
+				>
+					<span className="components-icon-button-text">{ __( "Add ingredient group", "wpzoom-recipe-card" ) }</span>
+				</IconButton>
+			</div>
 		);
 	}
 
@@ -321,14 +423,14 @@ export default class Ingredient extends Component {
 				<RichText
 					tagName="h3"
 					className="ingredients-title"
+					format="string"
 					value={ title }
-					unstableOnFocus={ () => this.setFocus( "title" ) }
-					isSelected={ this.state.focus === "title" }
-					onChange={ ( newTitle ) => setAttributes( { title: newTitle, jsonTitle: stripHTML( renderToString( newTitle ) ) } ) }
-					onSetup={ ( ref ) => {
-						this.editorRefs.title = ref;
-					} }
+					isSelected={ this.state.focus === 'title' }
+					setFocusedElement={ this.setFocusToTitle }
+					onChange={ this.onChangeTitle }
+					unstableOnSetup={ this.setTitleRef }
 					placeholder={ __( "Write Ingredients title", "wpzoom-recipe-card" ) }
+					formattingControls={ [] }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<ul className={ listClassNames }>{ this.getItems() }</ul>
@@ -339,3 +441,13 @@ export default class Ingredient extends Component {
 	}
 
 }
+
+Ingredient.propTypes = {
+	attributes: PropTypes.object.isRequired,
+	setAttributes: PropTypes.func.isRequired,
+	className: PropTypes.string,
+};
+
+Ingredient.defaultProps = {
+	className: "",
+};
