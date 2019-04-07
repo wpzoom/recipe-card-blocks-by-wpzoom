@@ -1,6 +1,7 @@
 /* External dependencies */
 import get from "lodash/get";
 import trim from "lodash/trim";
+import isEmpty from "lodash/isEmpty";
 import isUndefined from "lodash/isUndefined";
 import filter from "lodash/filter";
 import indexOf from "lodash/indexOf";
@@ -175,7 +176,7 @@ export default function ExtraOptionsModal(
 
     function onBulkAddIngredients() {
 		let items = [];
-		const regex = /([^.\S][a-zA-Z0-9].*)/gmi;
+		const regex = /([^.\n\t\r\v\f][a-zA-Z0-9].*)/gmi;
 		let m; let index = 0;
 
 		while ((m = regex.exec(ingredients)) !== null) {
@@ -197,12 +198,14 @@ export default function ExtraOptionsModal(
 		    });
 		}
 
-    	setAttributes( { ingredients: items } );
+		if ( !isEmpty(items) ) {
+	    	setAttributes( { ingredients: items } );
+		}
     }
 
     function onBulkAddDirections() {
 		let steps = [];
-		const regex = /([^.\s][a-zA-Z0-9].*)/gmi;
+		const regex = /([^.\n\t\r\v\f][a-zA-Z0-9].*)/gmi;
 		let m; let index = 0;
 
 		while ((m = regex.exec(directions)) !== null) {
@@ -224,7 +227,9 @@ export default function ExtraOptionsModal(
 		    });
 		}
 
-    	setAttributes( { steps } );
+		if ( !isEmpty(steps) ) {
+	    	setAttributes( { steps } );
+		}
     	setState( { isDataSet: true, isOpen: false } );
     }
 
@@ -304,9 +309,12 @@ export default function ExtraOptionsModal(
         	        	    <Button isDefault onClick={ () => setState( { isOpen: false } ) }>
         	        	        { __( "Cancel", "wpzoom-recipe-card" ) }
         	        	    </Button>
-        	        	    <Button isPrimary onClick={ () => { setState( { isDataSet: false } ); onBulkAddIngredients(); onBulkAddDirections(); } }>
-        	        	        { __( "Bulk Add", "wpzoom-recipe-card" ) }
-        	        	    </Button>
+        	        	    {
+        	        	    	( !isEmpty(ingredients) || !isEmpty(directions) ) &&
+	        	        	    <Button isPrimary onClick={ () => { setState( { isDataSet: false } ); onBulkAddIngredients(); onBulkAddDirections(); } }>
+	        	        	        { __( "Bulk Add", "wpzoom-recipe-card" ) }
+	        	        	    </Button>
+        	        	    }
         	        	</div>
 	                </div>
 	            </Modal>

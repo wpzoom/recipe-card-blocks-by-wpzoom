@@ -211,18 +211,12 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function load_jed_text_domain() {
-			if ( function_exists( 'wp_get_jed_locale_data' ) ) {
- 				wp_add_inline_script(
- 					'wp-i18n',
- 					'wp.i18n.setLocaleData( ' . wp_json_encode( wp_get_jed_locale_data( $this->_textdomain ) ) . ', "' . $this->_textdomain . '" );',
- 					'after'
- 				);
- 			} elseif ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
-				wp_add_inline_script(
-					'wp-i18n',
-					'wp.i18n.setLocaleData( ' . wp_json_encode( gutenberg_get_jed_locale_data( $this->_textdomain ) ) . ', "' . $this->_textdomain . '" );',
-					'after'
-				);
+			/**
+			 * Removed functions wp_get_jed_locale_data and gutenberg_get_jed_locale_data
+			 * @since 2.0.1
+			 */
+			if ( function_exists( 'wp_set_script_translations' ) ) {
+				wp_set_script_translations( $this->_slug, $this->_textdomain );
 			}
 		}
 
