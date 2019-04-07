@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name: Recipe Card Blocks by WPZOOM
- * Plugin URI: https://www.wpzoom.com
- * Description: Beautiful recipe blocks for Gutenberg to help you to add recipe cards: Ingredients, Directions and more to come.
+ * Plugin URI: https://www.wpzoom.com/plugins/recipe-card-blocks-pro/
+ * Description: Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
  * Author: WPZOOM
- * Author URI: https://wpzoom.com
- * Version: 1.2.0
- * Copyright: (c) 2018 WPZOOM
+ * Author URI: https://www.wpzoom.com/
+ * Version: 2.0.1
+ * Copyright: (c) 2019 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wpzoom-recipe-card
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function define_constants() {
-			$this->define( 'WPZOOM_RCB_VERSION', '1.2.0' );
+			$this->define( 'WPZOOM_RCB_VERSION', '2.0.1' );
 			$this->define( 'WPZOOM_RCB_TEXT_DOMAIN', 'wpzoom-recipe-card' );
 			$this->define( 'WPZOOM_RCB_HAS_PRO', false );
 			$this->define( 'WPZOOM_RCB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 */
 		private function init() {
 			add_filter( 'block_categories', array( $this, 'add_custom_category' ), 10, 2 );
-			
+
 			add_action( 'init', array( $this, 'register_block_types' ) );
 			add_action( 'init', array( $this, 'load_textdomain' ) );
 		}
