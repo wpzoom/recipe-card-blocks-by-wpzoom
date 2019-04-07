@@ -61,6 +61,10 @@
         display: none !important;
     }
 
+    .recipe-card-directions + .footer-copyright {
+        margin-top: 30px;
+    }
+
     .footer-copyright p {
         margin-bottom: 0;
         text-align: center;

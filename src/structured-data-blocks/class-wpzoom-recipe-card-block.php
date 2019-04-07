@@ -390,7 +390,8 @@ class WPZOOM_Recipe_Card_Block {
 		$ingredients_content = $this->get_ingredients_content( $ingredients );
 		$steps_content = $this->get_steps_content( $steps );
 
-		$notes_content = isset( $notes ) && ! empty($notes) ?
+		$strinp_tags_notes = isset( $notes ) ? strip_tags($notes) : '';
+		$notes_content = ! empty($strinp_tags_notes) ?
 			sprintf(
 				'<div class="recipe-card-notes">
 					<h3 class="notes-title">%s</h3>
@@ -858,7 +859,7 @@ class WPZOOM_Recipe_Card_Block {
 
 	protected function wrap_direction_text( $nodes, $type = '' ) {
 		if ( ! is_array( $nodes ) ) {
-			return;
+			return $nodes;
 		}
 
 		$output = '';
@@ -904,7 +905,7 @@ class WPZOOM_Recipe_Card_Block {
 
 	protected function wrap_ingredient_name( $nodes, $type = '' ) {
 		if ( ! is_array( $nodes ) ) {
-			return;
+			return $nodes;
 		}
 
 		$output = '';

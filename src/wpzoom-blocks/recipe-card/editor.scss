@@ -222,3 +222,61 @@
 	margin: 0;
 	padding: 0;
 }
+
+
+.wpzoom-recipe-card-extra-options {
+	.form-group {
+		margin-bottom: 15px;
+		padding-bottom: 15px;
+		border-bottom: 1px solid #ededed;
+		&:last-child {
+			border-bottom: 0;
+			text-align: right;
+		}
+		.wrap-label {
+			margin-bottom: 15px;
+			padding-bottom: 15px;
+			border-bottom: 1px solid #ededed;
+			label {
+				font-size: 18px;
+				font-weight: 500;
+				line-height: 1.4em;
+				margin-bottom: 5px;
+				display: block;
+			}
+			.description {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+		}
+		.wrap-content {
+			.bulk-add-unordered-list,
+			.bulk-add-ordered-list {
+				padding: 10px;
+				border: 1px solid #acacac;
+				border-radius: 3px;
+				height: 150px;
+				overflow-x: scroll;
+			}
+			.bulk-add-unordered-list {
+				margin-bottom: 15px;
+				li {
+					list-style-type: disc;
+					margin-left: 20px;
+				}
+			}
+			.bulk-add-ordered-list {
+				li {
+					list-style-type: decimal;
+					margin-left: 20px;
+				}
+			}
+		}
+		button {
+			margin-right: 10px;
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+}

@@ -3,15 +3,11 @@ import Detail from "./Detail";
 import Ingredient from "./Ingredient";
 import Direction from "./Direction";
 import Inspector from "./Inspector";
-import _get from "lodash/get";
-import _forEach from "lodash/forEach";
-import _isUndefined from "lodash/isUndefined";
-import _merge from "lodash/merge";
-import _filter from "lodash/filter";
-import _indexOf from "lodash/indexOf";
-import _isNull from "lodash/isNull";
-import _uniq from "lodash/uniq";
-import _uniqueId from "lodash/uniqueId";
+import ExtraOptionsModal from "./ExtraOptionsModal";
+import isUndefined from "lodash/isUndefined";
+import filter from "lodash/filter";
+import indexOf from "lodash/indexOf";
+import uniqueId from "lodash/uniqueId";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -19,7 +15,7 @@ import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles"
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
-const { Component, renderToString } = wp.element;
+const { Component, renderToString, Fragment } = wp.element;
 const { 
 	DropZoneProvider, 
 	DropZone, 
@@ -27,9 +23,12 @@ const {
 	Placeholder, 
 	FormFileUpload, 
 	Dashicon, 
-	Spinner
+	Spinner,
+	Modal,
+	Toolbar,
+	Disabled
 } = wp.components;
-const { RichText, MediaUpload, InnerBlocks } = wp.editor;
+const { RichText, MediaUpload, InnerBlocks, BlockControls } = wp.editor;
 const {
 	post_permalink,
 	post_title,
@@ -37,9 +36,20 @@ const {
 	post_thumbnail_url,
 	setting_options
 } = wpzoomRecipeCard;
+const { withState } = wp.compose;
+const { select }    = wp.data;
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
+
+const ExtraOptions = withState( {
+    isOpen: false,
+    isDataSet: false,
+    hasBlocks: false,
+    isButtonClicked: false,
+    ingredients: [],
+    directions: []
+} )( ExtraOptionsModal );
 
 /**
  * A Recipe Card block.
@@ -55,18 +65,10 @@ export default class RecipeCard extends Component {
 	 */
 	constructor( props ) {
 		super( props );
-		this.setFocus = this.setFocus.bind( this );
-		this.onSelectImage = this.onSelectImage.bind( this );
+		this.setFocus 			= this.setFocus.bind( this );
+		this.onSelectImage 		= this.onSelectImage.bind( this );
 		this.editorRefs = {};
-		this.state = {
-			focus: '',
-			isLoading: true,
-			isDataSet: false,
-		};
-
-		if ( ! this.state.isDataSet ) {
-			this.updateAttributes( props );
-		}
+		this.state = { focus: "" };
 	}
 
 	/**
@@ -77,100 +79,7 @@ export default class RecipeCard extends Component {
 	 * @returns {string} Returns the unique ID.
 	 */
 	static generateId( prefix = '' ) {
-		return prefix !== '' ? `${ prefix }-${ new Date().getTime() }` : new Date().getTime();
-	}
-
-	/**
-	 * Get attributes from existings `Details`, `Ingredients` and `Directions` Blocks from post
-	 * and set its to our Recipe Card
-	 */
-	updateAttributes( props ) {
-		const { attributes, setAttributes } = props;
-		const blocks        = [ "wpzoom-recipe-card/block-details", "wpzoom-recipe-card/block-ingredients", "wpzoom-recipe-card/block-directions" ];
-		const { select }    = wp.data;
-		const blocksList    = select('core/editor').getBlocks();
-
-		const wpzoomBlocksFilter = _filter( blocksList, function( item ) { return _indexOf( blocks, item.name ) !== -1 } );
-
-		const setDetailsAttributes = ( objects ) => {
-		    const filter = _filter( objects, [ 'name', blocks[0] ] );
-
-		    if ( _isUndefined( filter[0] ) )
-		    	return;
-
-		    let { attributes: { activeIconSet, course, cuisine, keywords, details } } = filter[0];
-
-		    details ? 
-		        details.map( ( item, index ) => {
-		            const regex = /(\d+)(\D+)/;
-		            const m = regex.exec( item.jsonValue );
-
-		            if ( _isNull( m ) )
-		                return;
-
-		            const value = m[1] ? m[1] : 0;
-		            const unit = m[2] ? m[2].trim() : '';
-
-		            details[ index ]['value'] = value;
-		            details[ index ]['jsonValue'] = stripHTML( renderToString( value ) );
-		            details[ index ]['unit'] = unit;
-		            details[ index ]['jsonUnit'] = stripHTML( renderToString( unit ) );
-
-		            return details;
-		        } )
-		    : null;
-
-		    setAttributes( { details, activeIconSet, course, cuisine, keywords } );
-		}
-
-		const setIngredientsAttributes = ( objects ) => {
-		    const filter = _filter( objects, [ 'name', blocks[1] ] );
-
-		    if ( _isUndefined( filter[0] ) )
-		    	return;
-
-		    let { attributes: { title, items } } = filter[0];
-
-		    items ? 
-		        items.map( ( item, index ) => {
-		            items[ index ]['id'] = item.id;
-		            items[ index ]['name'] = item.name;
-		            items[ index ]['jsonName'] = stripHTML( renderToString( item.name ) );
-
-		            return items;
-		        } )
-		    : null;
-
-		    setAttributes( { ingredientsTitle: title, jsonIngredientsTitle: stripHTML( renderToString( title ) ), ingredients: items } );
-		}
-
-		const setStepsAttributes = ( objects ) => {
-		    const filter = _filter( objects, [ 'name', blocks[2] ] );
-
-		    if ( _isUndefined( filter[0] ) )
-		    	return;
-
-		    let { attributes: { title, steps } } = filter[0];
-
-		    steps ? 
-		        steps.map( ( item, index ) => {
-		            steps[ index ]['id'] = item.id;
-		            steps[ index ]['text'] = item.text;
-		            steps[ index ]['jsonText'] = stripHTML( renderToString( item.text ) );
-
-		            return steps;
-		        } )
-		    : null;
-
-		    setAttributes( { directionsTitle: title, jsonDirectionsTitle: stripHTML( renderToString( title ) ), steps } );
-		}
-
-		// setDetailsAttributes( wpzoomBlocksFilter );
-		// setIngredientsAttributes( wpzoomBlocksFilter );
-		// setStepsAttributes( wpzoomBlocksFilter );
-
-		this.state.isLoading = false; 
-		this.state.isDataSet = true;
+		return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
 	}
 
 	/**
@@ -230,7 +139,7 @@ export default class RecipeCard extends Component {
 		if ( setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
 			pin_description = jsonSummary;
 		}
-		if ( _isUndefined( settings[0]['headerAlign'] ) ) {
+		if ( isUndefined( settings[0]['headerAlign'] ) ) {
 			settings[0]['headerAlign'] = setting_options.wpzoom_rcb_settings_heading_content_align;
 		}
 
@@ -394,7 +303,7 @@ export default class RecipeCard extends Component {
 				</div>
 				<Inspector { ...{ attributes, setAttributes, className , clientId } } />
 				<BlockControls>
-					<ExtraOptionsModal />
+					<ExtraOptions { ...{ props: this.props } } />
 				</BlockControls>
 			</div>
 		);
