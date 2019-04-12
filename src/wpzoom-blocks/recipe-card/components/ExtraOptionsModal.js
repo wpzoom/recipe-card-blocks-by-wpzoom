@@ -36,6 +36,7 @@ const { select } = wp.data;
  */
 export default function ExtraOptionsModal(
 	{ 
+		toToolBar,
 		isOpen,
 		isDataSet,
 		isButtonClicked,
@@ -235,7 +236,10 @@ export default function ExtraOptionsModal(
 
     return (
     	<Fragment>
-	        <Toolbar controls={ ['edit'].map( createControl ) } />
+	        {
+	        	toToolBar &&
+	        	<Toolbar controls={ ['edit'].map( createControl ) } />
+	        }
 	        { 
 	        	isOpen &&
 	            <Modal

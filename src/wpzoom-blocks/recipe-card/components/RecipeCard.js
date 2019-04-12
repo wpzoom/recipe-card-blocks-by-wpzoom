@@ -43,6 +43,7 @@ const { select }    = wp.data;
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
 const ExtraOptions = withState( {
+	toToolBar: true,
     isOpen: false,
     isDataSet: false,
     hasBlocks: false,
@@ -65,8 +66,10 @@ export default class RecipeCard extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+
 		this.setFocus 			= this.setFocus.bind( this );
 		this.onSelectImage 		= this.onSelectImage.bind( this );
+
 		this.editorRefs = {};
 		this.state = { focus: "" };
 	}
