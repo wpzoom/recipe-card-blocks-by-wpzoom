@@ -625,17 +625,31 @@ class WPZOOM_Recipe_Card_Block {
 		$details_class = 'recipe-card-details';
 		$details_class .= '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_details') ? ' no-print' : '';
 
-		return sprintf(
-			'<div class="%s"><div class="details-items">%s</div></div>',
-			esc_attr( $details_class ),
-			$detail_items
-		);
+		if ( !empty($detail_items) ) {
+			return sprintf(
+				'<div class="%s"><div class="details-items">%s</div></div>',
+				esc_attr( $details_class ),
+				$detail_items
+			);
+		} else {
+			return '';
+		}
 	}
 
 	protected function get_detail_items( array $details ) {
 		$output = '';
 		foreach ( $details as $index => $detail ) {
 			$icon = $label = $value = $unit = '';
+
+			if ( 0 === $index && self::$settings['displayServings'] != '1' ) {
+				continue;
+			} elseif ( 1 === $index && self::$settings['displayPrepTime'] != '1' ) {
+				continue;
+			} elseif ( 2 === $index && self::$settings['displayCookingTime'] != '1' ) {
+				continue;
+			} elseif ( 3 === $index && self::$settings['displayCalories'] != '1' ) {
+				continue;
+			}
 
 			if ( ! empty( $detail[ 'icon' ] ) ) {
 				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
