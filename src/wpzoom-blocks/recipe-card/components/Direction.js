@@ -11,6 +11,7 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
+const { speak } = wp.a11y;
 const { RichText } = wp.editor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
@@ -141,7 +142,11 @@ export default class Direction extends Component {
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:text` ) );
+			// When moving focus to a newly created step, return and don't use the speak() messaage.
+			return;
 		}
+
+		speak( __( "New step added", "wpzoom-recipe-card" ) );
 	}
 
 	/**

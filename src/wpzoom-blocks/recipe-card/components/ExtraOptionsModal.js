@@ -176,7 +176,7 @@ export default function ExtraOptionsModal(
 
     function onBulkAddIngredients() {
 		let items = [];
-		const regex = /([^.\n\t\r\v\f][a-zA-Z0-9].*)/gmi;
+		const regex = /([^\n\t\r\v\f][\w\W].*)/gmi;
 		let m; let index = 0;
 
 		while ((m = regex.exec(ingredients)) !== null) {
@@ -189,7 +189,7 @@ export default function ExtraOptionsModal(
 		    m.forEach((match, groupIndex) => {
 		    	if ( groupIndex == '1' ) {
 		    		items[ index ] = {
-		    			id: m.index,
+		    			id: `ingredient-item-${m.index}`,
 		    			name: trim( match ),
 		    			jsonName: stripHTML( renderToString( trim( match ) ) )
 		    		}
@@ -218,7 +218,7 @@ export default function ExtraOptionsModal(
 		    m.forEach((match, groupIndex) => {
 		    	if ( groupIndex == '1' ) {
 		    		steps[ index ] = {
-		    			id: m.index,
+		    			id: `direction-step-${m.index}`,
 		    			text: trim( match ),
 		    			jsonText: stripHTML( renderToString( trim( match ) ) )
 		    		}

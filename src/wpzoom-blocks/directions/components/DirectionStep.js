@@ -128,8 +128,6 @@ export default class DirectionStep extends Component {
 			step
 		} = this.props;
 
-		console.log(step);
-
 		return <div className="direction-step-button-container">
 			{ ! DirectionStep.getImageSrc( step.text ) &&
 			<MediaUpload

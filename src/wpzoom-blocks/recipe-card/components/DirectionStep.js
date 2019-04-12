@@ -260,7 +260,7 @@ export default class DirectionStep extends Component {
 					onChange={ this.onChangeText }
 					// isSelected={ isSelectedText }
 					placeholder={ __( "Enter step description", "wpzoom-recipe-card" ) }
-					setFocusedElement={ this.onFocusText }
+					unstableOnFocus={ this.onFocusText }
 					keepPlaceholderOnFocus={ true }
 				/>
 				{ 
