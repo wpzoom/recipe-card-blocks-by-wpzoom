@@ -40,6 +40,10 @@ class WPZOOM_Print_Recipe_Block {
 			return;
 		}
 
+		if ( wpzoom_rcb_block_is_registered( 'wpzoom-recipe-card/block-print-recipe' ) ) {
+			return;
+		}
+
 		$attributes = array(
 			'id' => array(
 			    'type' => 'string',

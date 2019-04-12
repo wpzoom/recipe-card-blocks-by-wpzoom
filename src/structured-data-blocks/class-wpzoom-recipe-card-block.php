@@ -84,6 +84,10 @@ class WPZOOM_Recipe_Card_Block {
 			return;
 		}
 
+		if ( wpzoom_rcb_block_is_registered( 'wpzoom-recipe-card/block-recipe-card' ) ) {
+			return;
+		}
+
 		$attributes = array(
 			'id' => array(
 			    'type' => 'string',

@@ -255,3 +255,16 @@ function recipe_card_block_plugin_activation_redirect() {
 	}
 }
 
+
+/**
+ * Check block is registered.
+ *
+ * @since 2.0.1
+ */
+if ( ! function_exists('wpzoom_rcb_block_is_registered') ) {
+	function wpzoom_rcb_block_is_registered( $name ) {
+		$WP_Block_Type_Registry = new WP_Block_Type_Registry();
+		return $WP_Block_Type_Registry->is_registered( $name );
+	}
+}
+

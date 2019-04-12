@@ -40,6 +40,10 @@ class WPZOOM_Jump_To_Recipe_Block {
 			return;
 		}
 
+		if ( wpzoom_rcb_block_is_registered( 'wpzoom-recipe-card/block-jump-to-recipe' ) ) {
+			return;
+		}
+
 		$attributes = array(
 			'id' => array(
 			    'type' => 'string',
