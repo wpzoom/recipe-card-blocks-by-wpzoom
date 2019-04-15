@@ -38,10 +38,10 @@ registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
     title: __( "Print Recipe", "wpzoom-recipe-card" ), // Block title.
     description: __( "A button to print WPZOOM Recipe Card.", "wpzoom-recipe-card" ),
     icon: {
-        // Specifying a background color to appear with the icon e.g.: in the inserter.
-        background: '#2EA55F',
+        // // Specifying a background color to appear with the icon e.g.: in the inserter.
+        // background: '#2EA55F',
         // Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)
-        foreground: '#fff',
+        foreground: '#2EA55F',
         // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         src: svgIcon,
     },

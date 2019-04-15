@@ -15,7 +15,7 @@ const { __ } = wp.i18n;
 const { renderToString, Fragment } = wp.element;
 const { 
 	Button,
-	Spinner,
+    IconButton,
 	Modal,
 	Toolbar,
 	Disabled,
@@ -59,14 +59,14 @@ export default function ExtraOptionsModal(
 		return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
 	}
 
-    function createControl( control ) {
-        return {
-            icon: control,
-            title: __( "Recipe Card extra options", "wpzoom-recipe-card" ),
-            isActive: isOpen,
-            onClick: () => setState( { isOpen: true, hasBlocks: wpzoomBlocksFilter.length > 0 } ),
-        };
-    }
+    // function createControl( control ) {
+    //     return {
+    //         icon: control,
+    //         title: __( "Recipe Card extra options", "wpzoom-recipe-card" ),
+    //         isPrimary: true,
+    //         onClick: () => setState( { isOpen: true, hasBlocks: wpzoomBlocksFilter.length > 0 } ),
+    //     };
+    // }
 
     /**
      * Get attributes from existings `Details`, `Ingredients` and `Directions` Blocks from post
@@ -120,23 +120,34 @@ export default function ExtraOptionsModal(
     	    if ( isUndefined( _filter[0] ) )
     	    	return;
 
-    	    let { attributes: { title, items } } = _filter[0];
+    	    // Get Title only from first block
+    	    const { attributes: { title } } = _filter[0];
+
+    	    // for multiple blocks
+    	    let index    = 0;
     	    let doUpdate = false;
+    	    let newArray = [];
+    	    _filter.map( ( ingredient ) => {
+    	    	const { attributes: { items } } = ingredient;
+    	    	newArray[ index ] = {};
+    	    	items ? 
+    	    	    items.map( ( item ) => {
+    	    	        newArray[ index ] = {
+    	    	        	id: item.id,
+    	    	        	name: item.name,
+    	    	        	jsonName: stripHTML( renderToString( item.name ) )
+    	    	        };
 
-    	    items ? 
-    	        items.map( ( item, index ) => {
-    	            items[ index ]['id'] = item.id;
-    	            items[ index ]['name'] = item.name;
-    	            items[ index ]['jsonName'] = stripHTML( renderToString( item.name ) );
+    	    	        doUpdate = true;
+    	    	        index++;
 
-    	            doUpdate = true;
-
-    	            return items;
-    	        } )
-    	    : null;
+    	    	        return newArray;
+    	    	    } )
+    	    	: null;
+    	    } );
 
     	    if ( doUpdate ) {
-    	    	setAttributes( { ingredients: items } );
+    	    	setAttributes( { ingredients: newArray } );
     	    }
     	    setAttributes( { 'ingredientsTitle': title, jsonIngredientsTitle: stripHTML( renderToString( title ) ) } );
     	}
@@ -147,23 +158,34 @@ export default function ExtraOptionsModal(
     	    if ( isUndefined( _filter[0] ) )
     	    	return;
 
-    	    let { attributes: { title, steps } } = _filter[0];
+    	    // Get Title only from first block
+    	    const { attributes: { title } } = _filter[0];
+
+    	    // for multiple blocks
+    	    let index    = 0;
     	    let doUpdate = false;
+    	    let newArray = [];
+    	    _filter.map( ( direction ) => {
+    	    	const { attributes: { steps } } = direction;
+    	    	newArray[ index ] = {};
+    	    	steps ? 
+    	    	    steps.map( ( step ) => {
+    	    	        newArray[ index ] = {
+    	    	        	id: step.id,
+    	    	        	text: step.text,
+    	    	        	jsonText: stripHTML( renderToString( step.text ) )
+    	    	        };
 
-    	    steps ? 
-    	        steps.map( ( item, index ) => {
-    	            steps[ index ]['id'] = item.id;
-    	            steps[ index ]['text'] = item.text;
-    	            steps[ index ]['jsonText'] = stripHTML( renderToString( item.text ) );
+    	    	        doUpdate = true;
+    	    	        index++;
 
-    	            doUpdate = true;
-
-    	            return steps;
-    	        } )
-    	    : null;
+    	    	        return newArray;
+    	    	    } )
+    	    	: null;
+    	    } );
 
     	    if ( doUpdate ) {
-    	    	setAttributes( { steps } );
+    	    	setAttributes( { steps: newArray } );
     	    }
     	    setAttributes( { directionsTitle: title, jsonDirectionsTitle: stripHTML( renderToString( title ) ) } );
     	}
@@ -172,7 +194,9 @@ export default function ExtraOptionsModal(
     	setIngredientsAttributes( wpzoomBlocksFilter );
     	setStepsAttributes( wpzoomBlocksFilter );
 
-    	setState( { isDataSet: true } );
+        setTimeout(() => {
+        	setState( { isDataSet: true } );
+        }, 1000);
     }
 
     function onBulkAddIngredients() {
@@ -238,7 +262,18 @@ export default function ExtraOptionsModal(
     	<Fragment>
 	        {
 	        	toToolBar &&
-	        	<Toolbar controls={ ['edit'].map( createControl ) } />
+                <Toolbar>
+    	        	<IconButton
+                        icon="edit"
+                        className="wpzoom-recipe-card__extra-options"
+                        label={ __( "Recipe Card extra options", "wpzoom-recipe-card" ) }
+                        isPrimary={ true }
+                        isLarge={ true }
+                        onClick={ () => setState( { isOpen: true, hasBlocks: wpzoomBlocksFilter.length > 0 } ) }
+                    >
+                        { __( "Bulk Add", "wpzoom-recipe-card" ) }
+                    </IconButton>
+                </Toolbar>
 	        }
 	        { 
 	        	isOpen &&
@@ -255,7 +290,10 @@ export default function ExtraOptionsModal(
 	                        	{
 	                        		!hasBlocks &&
 	                        		<Disabled>
-	                        			<Button isDefault onClick={ () => { setState( { isButtonClicked: true } ); setCollectedData() } }>
+	                        			<Button
+                                            isDefault
+                                            onClick={ () => { setState( { isButtonClicked: true } ); setCollectedData() } }
+                                        >
 	                        			    { __( "0 Blocks found", "wpzoom-recipe-card" ) }
 	                        			</Button>
 	                        		</Disabled>
@@ -263,7 +301,11 @@ export default function ExtraOptionsModal(
 	                        	{
 	                        		hasBlocks &&
 	                        		!isDataSet && 
-	        	                	<Button isDefault onClick={ () => { setState( { isButtonClicked: true } ); setCollectedData() } }>
+	        	                	<Button 
+                                        isDefault
+                                        isBusy={ isButtonClicked && !isDataSet }
+                                        onClick={ () => { setState( { isButtonClicked: true } ); setCollectedData() } }
+                                    >
 	        	                		{
 	        	                			!isButtonClicked && !isDataSet && 
 	        	                			<span>
@@ -274,7 +316,6 @@ export default function ExtraOptionsModal(
 	        	                			isButtonClicked && !isDataSet && 
 	        	                			<span>
 	        	                				{ __( "Please wait...", "wpzoom-recipe-card" ) }
-	        		                			<Spinner />
 	        		                		</span>
 	        	                		}
 	        	                	</Button>
@@ -315,7 +356,10 @@ export default function ExtraOptionsModal(
         	        	    </Button>
         	        	    {
         	        	    	( !isEmpty(ingredients) || !isEmpty(directions) ) &&
-	        	        	    <Button isPrimary onClick={ () => { setState( { isDataSet: false } ); onBulkAddIngredients(); onBulkAddDirections(); } }>
+	        	        	    <Button
+                                    isPrimary
+                                    onClick={ () => { setState( { isDataSet: false } ); onBulkAddIngredients(); onBulkAddDirections(); } }
+                                >
 	        	        	        { __( "Bulk Add", "wpzoom-recipe-card" ) }
 	        	        	    </Button>
         	        	    }

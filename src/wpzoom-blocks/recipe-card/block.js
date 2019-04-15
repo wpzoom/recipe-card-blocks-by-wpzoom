@@ -57,10 +57,10 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
     title: __( "Recipe Card Block (Schema.org)", "wpzoom-recipe-card" ), // Block title.
     description: __( "Display a Recipe Card box with recipe metadata.", "wpzoom-recipe-card" ),
     icon: {
-        // Specifying a background color to appear with the icon e.g.: in the inserter.
-        background: '#2EA55F',
+        // // Specifying a background color to appear with the icon e.g.: in the inserter.
+        // background: '#2EA55F',
         // Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)
-        foreground: '#fff',
+        foreground: '#2EA55F',
         // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         src: svgIcon,
     },

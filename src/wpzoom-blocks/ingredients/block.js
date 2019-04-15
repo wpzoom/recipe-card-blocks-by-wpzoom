@@ -65,17 +65,17 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
     title: __( "Ingredients", "wpzoom-recipe-card" ), // Block title.
     icon: {
-        // Specifying a background color to appear with the icon e.g.: in the inserter.
-        background: '#2EA55F',
+        // // Specifying a background color to appear with the icon e.g.: in the inserter.
+        // background: '#2EA55F',
         // Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)
-        foreground: '#fff',
+        foreground: '#2EA55F',
         // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         src: svgIcon,
     },
     category: 'wpzoom-recipe-card', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-    // Allow only one Ingredients block per post.
+    // Allow multiple Ingredients block per post.
     supports: {
-        multiple: false,
+        multiple: true,
     },
     keywords: [
         __( "ingredients", "wpzoom-recipe-card" ),
