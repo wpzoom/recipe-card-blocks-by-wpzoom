@@ -3,6 +3,7 @@ import get from "lodash/get";
 import trim from "lodash/trim";
 import isEmpty from "lodash/isEmpty";
 import isUndefined from "lodash/isUndefined";
+import replace from "lodash/replace";
 import filter from "lodash/filter";
 import indexOf from "lodash/indexOf";
 import uniqueId from "lodash/uniqueId";
@@ -28,6 +29,14 @@ const {
 } = wp.editor;
 const { select } = wp.data;
 
+/** 
+ * We need to stop the keypress event here, because block.js is firing
+ * a maybeStartTyping on keypress, and that hides the "fixed-to-block" toolbar
+ * which unregisters the slot, so when Editable tries to re-render its input
+ * dialog, the slot is no longer in the system, and the dialog disappears
+ */
+const stopKeyPressPropagation = ( event ) => event.stopPropagation();
+
 /**
  * Extra options for Recipe Card Block
  * Options: 
@@ -41,10 +50,10 @@ export default function ExtraOptionsModal(
 		isDataSet,
 		isButtonClicked,
 		hasBlocks,
-		ingredients,
-		directions,
 		props,
-		setState 
+		setState,
+		_ingredients,
+		_directions
 	} 
 ) {
 	const { 
@@ -55,18 +64,12 @@ export default function ExtraOptionsModal(
 	const blocksList    		= select('core/editor').getBlocks();
 	const wpzoomBlocksFilter 	= filter( blocksList, function( item ) { return indexOf( blocks, item.name ) !== -1 } );
 
-	function generateId( prefix = '' ) {
-		return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
-	}
-
-    // function createControl( control ) {
-    //     return {
-    //         icon: control,
-    //         title: __( "Recipe Card extra options", "wpzoom-recipe-card" ),
-    //         isPrimary: true,
-    //         onClick: () => setState( { isOpen: true, hasBlocks: wpzoomBlocksFilter.length > 0 } ),
-    //     };
-    // }
+    // parse value for ingredients and directions
+    // render from array to string and strip HTML
+    // append \n newline at the end of each item
+    function parseValue( value ) {
+        return ! isEmpty( value ) ? stripHTML( renderToString( trim( value ) ) ) + '\n' : '';
+    }
 
     /**
      * Get attributes from existings `Details`, `Ingredients` and `Directions` Blocks from post
@@ -204,7 +207,7 @@ export default function ExtraOptionsModal(
 		const regex = /([^\n\t\r\v\f][\w\W].*)/gmi;
 		let m; let index = 0;
 
-		while ((m = regex.exec(ingredients)) !== null) {
+		while ((m = regex.exec(_ingredients)) !== null) {
 		    // This is necessary to avoid infinite loops with zero-width matches
 		    if (m.index === regex.lastIndex) {
 		        regex.lastIndex++;
@@ -233,7 +236,7 @@ export default function ExtraOptionsModal(
 		const regex = /([^.\n\t\r\v\f][a-zA-Z0-9].*)/gmi;
 		let m; let index = 0;
 
-		while ((m = regex.exec(directions)) !== null) {
+		while ((m = regex.exec(_directions)) !== null) {
 		    // This is necessary to avoid infinite loops with zero-width matches
 		    if (m.index === regex.lastIndex) {
 		        regex.lastIndex++;
@@ -255,7 +258,33 @@ export default function ExtraOptionsModal(
 		if ( !isEmpty(steps) ) {
 	    	setAttributes( { steps } );
 		}
-    	setState( { isDataSet: true, isOpen: false } );
+    	setState( { isOpen: false } );
+    }
+
+    /**
+     * Fill _ingredients state with existing content from Recipe Card
+     */
+    if ( _ingredients === '<!empty>' ) {
+        const { ingredients } = attributes;
+        ingredients ?
+            ingredients.map( ( item ) => {
+                _ingredients += parseValue( item.name );
+            } )
+        : null;
+        _ingredients = replace( _ingredients, '<!empty>', '' );
+    }
+
+    /**
+     * Fill _directions state with existing content from Recipe Card
+     */
+    if ( _directions === '<!empty>' ) {
+        const { steps } = attributes;
+        steps ?
+            steps.map( ( step ) => {
+                _directions += parseValue( step.text );
+            } )
+        : null;
+        _directions = replace( _directions, '<!empty>', '' );
     }
 
     return (
@@ -269,7 +298,10 @@ export default function ExtraOptionsModal(
                         label={ __( "Recipe Card extra options", "wpzoom-recipe-card" ) }
                         isPrimary={ true }
                         isLarge={ true }
-                        onClick={ () => setState( { isOpen: true, hasBlocks: wpzoomBlocksFilter.length > 0 } ) }
+                        onClick={ ( event ) => {
+                            event.stopPropagation();
+                            setState( { isOpen: true, hasBlocks: wpzoomBlocksFilter.length > 0 } )
+                        } }
                     >
                         { __( "Bulk Add", "wpzoom-recipe-card" ) }
                     </IconButton>
@@ -285,6 +317,7 @@ export default function ExtraOptionsModal(
 	                	    <div className="wrap-label">
 	                	        <label>{ __( "Collect data from blocks", "wpzoom-recipe-card" ) }</label>
 	                	        <p className="description">{ __( "Collect data from Ingredients, Directions, Details block and set to Recipe Card.", "wpzoom-recipe-card" ) }</p>
+                                <p className="description"><strong>{ __( "WARNING! In case you have added content in Recipe Card, this feature will replace it.", "wpzoom-recipe-card" ) }</strong></p>
 	                	    </div>
 	                	    <div className="wrap-content">
 	                        	{
@@ -339,14 +372,16 @@ export default function ExtraOptionsModal(
         	        	    	<TextareaControl
     	        	    	        label={ __( "List for ingredients", "wpzoom-recipe-card" ) }
     	        	    	        help={ __( "Each line break is new ingredient.", "wpzoom-recipe-card" ) }
-    	        	    	        value={ ingredients }
-    	        	    	        onChange={ ( ingredients ) => setState( { ingredients } ) }
+    	        	    	        value={ _ingredients }
+                                    onKeyPress={ stopKeyPressPropagation }
+    	        	    	        onChange={ ( _ingredients ) => setState( { _ingredients } ) }
     	        	    	    />
         	        	    	<TextareaControl
     	        	    	        label={ __( "List for directions", "wpzoom-recipe-card" ) }
     	        	    	        help={ __( "Each line break is new direction.", "wpzoom-recipe-card" ) }
-    	        	    	        value={ directions }
-    	        	    	        onChange={ ( directions ) => setState( { directions } ) }
+    	        	    	        value={ _directions }
+                                    onKeyPress={ stopKeyPressPropagation }
+    	        	    	        onChange={ ( _directions ) => setState( { _directions } ) }
     	        	    	    />
         	        	    </div>
         	        	</div>
@@ -355,10 +390,10 @@ export default function ExtraOptionsModal(
         	        	        { __( "Cancel", "wpzoom-recipe-card" ) }
         	        	    </Button>
         	        	    {
-        	        	    	( !isEmpty(ingredients) || !isEmpty(directions) ) &&
+        	        	    	( !isEmpty( _ingredients ) || !isEmpty( _directions ) ) &&
 	        	        	    <Button
                                     isPrimary
-                                    onClick={ () => { setState( { isDataSet: false } ); onBulkAddIngredients(); onBulkAddDirections(); } }
+                                    onClick={ () => { onBulkAddIngredients(); onBulkAddDirections(); } }
                                 >
 	        	        	        { __( "Bulk Add", "wpzoom-recipe-card" ) }
 	        	        	    </Button>

@@ -48,8 +48,8 @@ const ExtraOptions = withState( {
     isDataSet: false,
     hasBlocks: false,
     isButtonClicked: false,
-    ingredients: [],
-    directions: []
+    _ingredients: "<!empty>",
+    _directions: "<!empty>",
 } )( ExtraOptionsModal );
 
 /**
