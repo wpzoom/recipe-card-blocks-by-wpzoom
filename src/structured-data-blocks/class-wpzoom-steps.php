@@ -200,8 +200,8 @@ class WPZOOM_Steps_Block {
 				$end_tag = $type ? "</$type>" : "";
 
 				if ( 'img' === $type ) {
-					$id = @$node['key'];
-					$src = $id ? wp_get_attachment_image_src( $id, 'wpzoom_rcb_step_image' )[0] : @$node['props']['src'];
+					$id = isset( $node['key'] ) ? $node['key'] : null;
+					$src = @$node['props']['src'];
 					$alt = @$node['props']['alt'];
 					$class = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_steps_image') ? 'no-print' : '';
 					$class .= ' direction-step-image';
