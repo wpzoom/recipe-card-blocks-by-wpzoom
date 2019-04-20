@@ -191,7 +191,13 @@ export default class DirectionStep extends Component {
 	 * @returns {void}
 	 */
 	onSelectImage( media ) {
-		const { text } = this.props.step;
+		const {
+			onChange,
+			index,
+			step: {
+				text
+			}
+		} = this.props;
 
 		let newText = text.slice();
 
@@ -211,7 +217,7 @@ export default class DirectionStep extends Component {
 			newText = [ newText, image ];
 		}
 
-		this.props.onChange( newText, text );
+		onChange( newText, text, index );
 	}
 
 	/**

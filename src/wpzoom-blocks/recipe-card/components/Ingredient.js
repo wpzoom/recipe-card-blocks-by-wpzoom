@@ -6,8 +6,6 @@ import uniq from "lodash/uniq";
 import uniqueId from "lodash/uniqueId";
 import toNumber from "lodash/toNumber";
 
-// const key = require('keyboard-shortcut');
-
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 
@@ -53,17 +51,6 @@ export default class Ingredient extends Component {
 		this.onChangeTitle 				= this.onChangeTitle.bind( this );
 		this.onAddIngredientButtonClick = this.onAddIngredientButtonClick.bind( this );
 		this.onAddGroupButtonClick 		= this.onAddGroupButtonClick.bind( this );
-
-		// this.props.insertItem = this.insertItem.bind( this );
-		// const el = document.getElementById( this.props.attributes.id );
-
-		// key('meta enter', { el: el }, function (e) {
-		// 	props.insertItem()
-		// });
-
-		// key('ctrl enter', { el: el }, function (e) {
-		// 	props.insertItem()
-		// });
 
 		this.editorRefs = {};
 	}
@@ -365,23 +352,23 @@ export default class Ingredient extends Component {
 
 		return this.props.attributes.ingredients.map( ( item, index ) => {
 			return (
-				<IngredientItem
-					key={ item.id }
-					item={ item }
-					index={ index }
-					editorRef={ this.setIngredientRef }
-					onChange={ this.changeItem }
-					insertItem={ this.insertItem }
-					removeItem={ this.removeItem }
-					onFocus={ this.setFocusToIngredient }
-					subElement={ subElement }
-					onMoveUp={ this.moveIngredientUp }
-					onMoveDown={ this.moveIngredientDown }
-					isFirst={ index === 0 }
-					isLast={ index === this.props.attributes.ingredients.length - 1 }
-					isSelected={ focusIndex === `${ index }` }
-					{ ...this.props }
-				/>
+		        <IngredientItem
+		        	key={ item.id }
+		        	item={ item }
+		        	index={ index }
+		        	editorRef={ this.setIngredientRef }
+		        	onChange={ this.changeItem }
+		        	insertItem={ this.insertItem }
+		        	removeItem={ this.removeItem }
+		        	onFocus={ this.setFocusToIngredient }
+		        	subElement={ subElement }
+		        	onMoveUp={ this.moveIngredientUp }
+		        	onMoveDown={ this.moveIngredientDown }
+		        	isFirst={ index === 0 }
+		        	isLast={ index === this.props.attributes.ingredients.length - 1 }
+		        	isSelected={ focusIndex === `${ index }` }
+		        	{ ...this.props }
+		        />
 			);
 		} );
 	}
