@@ -208,7 +208,7 @@ class WPZOOM_Ingredients_Block {
 
 	protected function wrap_ingredient_name( $nodes, $type = '' ) {
 		if ( ! is_array( $nodes ) ) {
-			return;
+			return $nodes;
 		}
 
 		$output = '';
