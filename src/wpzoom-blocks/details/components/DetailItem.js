@@ -243,19 +243,7 @@ export default class DetailItem extends Component {
 						<div className="detail-item-icon">{ this.getOpenModalButton( this.props ) }</div>
 						: <div className="detail-open-modal">{ this.getOpenModalButton( this.props ) }</div>
 				}
-				<RichText
-				    className="detail-item-label"
-				    tagName="p"
-				    unstableOnSetup={ this.setLabelRef }
-				    key={ `${ id }-label` }
-				    value={ label }
-				    onChange={ this.onChangeLabel }
-				    isSelected={ isSelectedLabel }
-				    placeholder={ this.getPlaceholder( index, 'label' ) }
-				    setFocusedElement={ this.onFocusLabel }
-				    formattingControls={ ['bold', 'italic'] }
-				    keepPlaceholderOnFocus={ true }
-				/>
+				<p className="detail-item-label">{ this.getPlaceholder( index, 'label' ) }</p>
 				<RichText
 				    className="detail-item-value"
 				    tagName="p"

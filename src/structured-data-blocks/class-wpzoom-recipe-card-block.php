@@ -638,6 +638,8 @@ class WPZOOM_Recipe_Card_Block {
 
 	protected function get_detail_items( array $details ) {
 		$output = '';
+		$defaults = self::get_details_default();
+
 		foreach ( $details as $index => $detail ) {
 			$icon = $label = $value = $unit = '';
 
@@ -675,19 +677,11 @@ class WPZOOM_Recipe_Card_Block {
 				);
 			}
 
-			if ( ! empty( $detail[ 'label' ] ) ) {
-				if ( !is_array( $detail['label'] ) ) {
-					$label = sprintf(
-						'<span class="detail-item-label">%s</span>',
-						$detail['label']
-					);
-				} elseif( isset( $detail['jsonLabel'] ) ) {
-					$label = sprintf(
-						'<span class="detail-item-label">%s</span>',
-						$detail['jsonLabel']
-					);
-				}
-			}
+			$label = sprintf(
+				'<span class="detail-item-label">%s</span>',
+				$defaults[ $index ]['label']
+			);
+
 			if ( ! empty( $detail[ 'value' ] ) ) {
 				if ( !is_array( $detail['value'] ) ) {
 					$value = sprintf(
@@ -704,7 +698,7 @@ class WPZOOM_Recipe_Card_Block {
 			if ( ! empty( $detail[ 'unit' ] ) ) {
 				$unit = sprintf(
 					'<span class="detail-item-unit">%s</span>',
-					$detail['unit']
+					$defaults[ $index ]['unit']
 				);
 			}
 
