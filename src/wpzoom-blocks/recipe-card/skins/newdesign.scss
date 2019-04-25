@@ -172,17 +172,22 @@ $heading_color: #222;
                     font-size: 16px;
                     margin: auto;
                     color: $detail_icon_color;
-                }
 
-                .detail-item-icon span {
-                    color: $detail_icon_color;
+                    span {
+                        color: $detail_icon_color;
 
-                    &::before {
-                        font-size: 16px;
+                        &::before {
+                            font-size: 16px;
+                        }
                     }
-                }
-                .detail-item-icon svg {
-                    fill: $detail_icon_color;
+
+                    svg {
+                        fill: $detail_icon_color;
+                    }
+
+                    .components-icon-button {
+                        margin: 0 auto;
+                    }
                 }
 
                 &:last-child::after {
