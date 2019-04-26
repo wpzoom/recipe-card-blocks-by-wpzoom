@@ -50,6 +50,7 @@ export default class Direction extends Component {
 		this.moveStepDown 				= this.moveStepDown.bind( this );
 		this.onChangeTitle 				= this.onChangeTitle.bind( this );
 		this.onAddStepButtonClick 		= this.onAddStepButtonClick.bind( this );
+		this.onAddGroupButtonClick 		= this.onAddGroupButtonClick.bind( this );
 
 		this.editorRefs = {};
 	}
@@ -71,10 +72,11 @@ export default class Direction extends Component {
 	 * @param {array}  newText      The new step-text.
 	 * @param {array}  previousText The previous step-text.
 	 * @param {number} index        The index of the step that needs to be changed.
+	 * @param {bool}   group        Is group item?
 	 *
 	 * @returns {void}
 	 */
-	changeStep( newText, previousText, index ) {
+	changeStep( newText, previousText, index, group = false ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		// If the index exceeds the number of steps, don't change anything.
@@ -99,6 +101,7 @@ export default class Direction extends Component {
 			id: steps[ index ].id,
 			text: newText,
 			jsonText: stripHTML( renderToString( newText ) ),
+			isGroup: group
 		};
 
 		const imageSrc = DirectionStep.getImageSrc( newText );
@@ -116,10 +119,11 @@ export default class Direction extends Component {
 	 * @param {number} [index]      The index of the step after which a new step should be added.
 	 * @param {string} [text]       The text of the new step.
 	 * @param {bool}   [focus=true] Whether or not to focus the new step.
+	 * @param {bool}   [group=false] Make new step as group title.
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index = null, text = [], focus = true ) {
+	insertStep( index = null, text = [], focus = true, group = false ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( index === null ) {
@@ -136,6 +140,7 @@ export default class Direction extends Component {
 			id: Direction.generateId( "direction-step" ),
 			text,
 			jsonText: "",
+			isGroup: group
 		} );
 
 		this.props.setAttributes( { steps } );
@@ -240,6 +245,16 @@ export default class Direction extends Component {
 	 */
 	onAddStepButtonClick() {
 		this.insertStep( null, [], true );
+	}
+
+	/**
+	 * Handles the Add Direction Group Button click event..
+	 *
+	 * @returns {void}
+	 */
+	onAddGroupButtonClick() {
+		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		this.insertStep( toNumber( focusIndex ), [], true, true );
 	}
 
 	/**
@@ -367,13 +382,22 @@ export default class Direction extends Component {
 	 */
 	getAddStepButton() {
 		return (
-			<IconButton
-				icon="insert"
-				onClick={ this.onAddStepButtonClick }
-				className="editor-inserter__toggle"
-			>
-				<span className="components-icon-button-text">{ __( "Add step", "wpzoom-recipe-card" ) }</span>
-			</IconButton>
+			<div className="directions-add-buttons">
+				<IconButton
+					icon="insert"
+					onClick={ this.onAddStepButtonClick }
+					className="editor-inserter__toggle"
+				>
+					<span className="components-icon-button-text">{ __( "Add step", "wpzoom-recipe-card" ) }</span>
+				</IconButton>
+				<IconButton
+					icon="editor-insertmore"
+					onClick={ this.onAddGroupButtonClick }
+					className="editor-inserter__toggle"
+				>
+					<span className="components-icon-button-text">{ __( "Add direction group", "wpzoom-recipe-card" ) }</span>
+				</IconButton>
+			</div>
 		);
 	}
 

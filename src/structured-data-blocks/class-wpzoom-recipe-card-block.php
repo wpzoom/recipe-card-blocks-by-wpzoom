@@ -825,15 +825,28 @@ class WPZOOM_Recipe_Card_Block {
 
 		foreach ( $steps as $index => $step ) {
 			$text = '';
+			$isGroup = isset($step['isGroup']) ? $step['isGroup'] : false;
 
-			if ( ! empty( $step['text'] ) ) {
-				$text = $this->wrap_direction_text( $step['text'] );
+			if ( !$isGroup ) {
+				if ( ! empty( $step['text'] ) ) {
+					$text = $this->wrap_direction_text( $step['text'] );
+				}
+				$output .= sprintf(
+					'<li class="direction-step">%s</li>',
+					$text
+				);
+			} else {
+				if ( ! empty( $step['text'] ) ) {
+					$text = sprintf(
+						'<strong class="direction-step-group-title">%s</strong>',
+						$this->wrap_direction_text( $step['text'] )
+					);
+				}
+				$output .= sprintf(
+					'<li class="direction-step direction-step-group">%s</li>',
+					$text
+				);
 			}
-
-			$output .= sprintf(
-				'<li class="direction-step">%s</li>',
-				$text
-			);
 		}
 
 		return force_balance_tags( $output );

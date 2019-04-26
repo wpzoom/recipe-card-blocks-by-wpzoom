@@ -85,6 +85,11 @@
                 margin: 0;
             }
         }
+
+        .direction-step-group::before {
+            content: '';
+            counter-increment: none;
+        }
     }
 
     .direction-step img {

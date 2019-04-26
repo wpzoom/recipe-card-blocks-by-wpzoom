@@ -36,6 +36,7 @@ export default class DirectionStep extends Component {
 		this.setTextRef    			= this.setTextRef.bind( this );
 		this.onFocusText   			= this.onFocusText.bind( this );
 		this.onChangeText  			= this.onChangeText.bind( this );
+		this.onChangeGroupTitle  	= this.onChangeGroupTitle.bind( this );
 	}
 
 	/**
@@ -117,6 +118,25 @@ export default class DirectionStep extends Component {
 		} = this.props;
 
 		onChange( value, text, index );
+	}
+
+	/**
+	 * Handles the on change event on the direction group title editor.
+	 *
+	 * @param {string} value The new direction name.
+	 *
+	 * @returns {void}
+	 */
+	onChangeGroupTitle( value ) {
+		const {
+			onChange,
+			index,
+			step: {
+				text
+			},
+		} = this.props;
+
+		onChange( value, text, index, true );
 	}
 
 	/**
@@ -252,23 +272,43 @@ export default class DirectionStep extends Component {
 			subElement,
 			step
 		} = this.props;
-		const { id, text } = step;
+		const { id, text, isGroup } = step;
 		const isSelectedText = isSelected && subElement === "text";
+		const stepClassName = !isGroup ? "direction-step" : "direction-step direction-step-group";
 
 		return (
-			<li className="direction-step" key={ id }>
-				<RichText
-					className="direction-step-text"
-					tagName="p"
-					unstableOnSetup={ this.setTextRef }
-					key={ `${ id }-text` }
-					value={ text }
-					onChange={ this.onChangeText }
-					// isSelected={ isSelectedText }
-					placeholder={ __( "Enter step description", "wpzoom-recipe-card" ) }
-					unstableOnFocus={ this.onFocusText }
-					keepPlaceholderOnFocus={ true }
-				/>
+			<li className={ stepClassName } key={ id }>
+				{
+					!isGroup &&
+					<RichText
+						className="direction-step-text"
+						tagName="p"
+						unstableOnSetup={ this.setTextRef }
+						key={ `${ id }-text` }
+						value={ text }
+						onChange={ this.onChangeText }
+						isSelected={ isSelectedText }
+						placeholder={ __( "Enter step description", "wpzoom-recipe-card" ) }
+						setFocusedElement={ this.onFocusText }
+						keepPlaceholderOnFocus={ true }
+					/>
+				}
+				{
+					isGroup &&
+					<RichText
+						className="direction-step-group-title"
+						tagName="strong"
+						unstableOnSetup={ this.setTextRef }
+						key={ `${ id }-group-title` }
+						value={ text }
+						onChange={ this.onChangeGroupTitle }
+						isSelected={ isSelectedText }
+						placeholder={ __( "Enter group title", "wpzoom-recipe-card" ) }
+						setFocusedElement={ this.onFocusText }
+						formattingControls={ [] }
+						keepPlaceholderOnFocus={ true }
+					/>
+				}
 				{ 
 					isSelectedText &&
 					<div className="direction-step-controls-container">
