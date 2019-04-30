@@ -223,10 +223,10 @@ class WPZOOM_Ingredients_Block {
 				$end_tag = $type ? "</$type>" : "";
 
 				if ( 'a' === $type ) {
-					$rel 		= @$node['props']['rel'];
-					$aria_label = @$node['props']['aria-label'];
-					$href 		= @$node['props']['href'];
-					$target 	= @$node['props']['target'];
+					$rel 		= isset( $node['props']['rel'] ) ? $node['props']['rel'] : '';
+					$aria_label = isset( $node['props']['aria-label'] ) ? $node['props']['aria-label'] : '';
+					$href 		= isset( $node['props']['href'] ) ? $node['props']['href'] : '#';
+					$target 	= isset( $node['props']['target'] ) ? $node['props']['target'] : '_blank';
 
 					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
 				}

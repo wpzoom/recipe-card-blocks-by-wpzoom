@@ -899,21 +899,24 @@ class WPZOOM_Recipe_Card_Block {
 				$end_tag = $type ? "</$type>" : "";
 
 				if ( 'img' === $type ) {
-					$id = @$node['key'];
-					$src = $id ? wp_get_attachment_image_src( $id, 'wpzoom_rcb_step_image' )[0] : @$node['props']['src'];
-					$alt = @$node['props']['alt'];
-					$class = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_steps_image') ? 'no-print' : '';
-					$class .= ' direction-step-image';
-					$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
+					$src = isset( $node['props']['src'] ) ? $node['props']['src'] : false;
+					if ( $src ) {
+						$alt = isset( $node['props']['alt'] ) ? $node['props']['alt'] : '';
+						$class = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_steps_image') ? 'no-print' : '';
+						$class .= ' direction-step-image';
+						$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
 
-					$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $alt, trim($class), trim($img_style) );
+						$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $alt, trim($class), trim($img_style) );
+					} else {
+						$start_tag = "";
+					}
 					$end_tag = "";
 				}
 				elseif ( 'a' === $type ) {
-					$rel 		= @$node['props']['rel'];
-					$aria_label = @$node['props']['aria-label'];
-					$href 		= @$node['props']['href'];
-					$target 	= @$node['props']['target'];
+					$rel 		= isset( $node['props']['rel'] ) ? $node['props']['rel'] : '';
+					$aria_label = isset( $node['props']['aria-label'] ) ? $node['props']['aria-label'] : '';
+					$href 		= isset( $node['props']['href'] ) ? $node['props']['href'] : '#';
+					$target 	= isset( $node['props']['target'] ) ? $node['props']['target'] : '_blank';
 
 					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
 				}
@@ -945,10 +948,10 @@ class WPZOOM_Recipe_Card_Block {
 				$end_tag = $type ? "</$type>" : "";
 
 				if ( 'a' === $type ) {
-					$rel 		= @$node['props']['rel'];
-					$aria_label = @$node['props']['aria-label'];
-					$href 		= @$node['props']['href'];
-					$target 	= @$node['props']['target'];
+					$rel 		= isset( $node['props']['rel'] ) ? $node['props']['rel'] : '';
+					$aria_label = isset( $node['props']['aria-label'] ) ? $node['props']['aria-label'] : '';
+					$href 		= isset( $node['props']['href'] ) ? $node['props']['href'] : '#';
+					$target 	= isset( $node['props']['target'] ) ? $node['props']['target'] : '_blank';
 
 					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
 				}
