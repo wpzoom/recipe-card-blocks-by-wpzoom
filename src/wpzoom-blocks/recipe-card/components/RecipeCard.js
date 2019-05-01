@@ -3,7 +3,6 @@ import Detail from "./Detail";
 import Ingredient from "./Ingredient";
 import Direction from "./Direction";
 import Inspector from "./Inspector";
-import ExtraOptionsModal from "./ExtraOptionsModal";
 import isUndefined from "lodash/isUndefined";
 import filter from "lodash/filter";
 import indexOf from "lodash/indexOf";
@@ -41,16 +40,6 @@ const { select }    = wp.data;
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
-
-const ExtraOptions = withState( {
-	toToolBar: true,
-    isOpen: false,
-    isDataSet: false,
-    hasBlocks: false,
-    isButtonClicked: false,
-    _ingredients: "<!empty>",
-    _directions: "<!empty>",
-} )( ExtraOptionsModal );
 
 /**
  * A Recipe Card block.
@@ -305,9 +294,6 @@ export default class RecipeCard extends Component {
 					<p className="description">{ __( "Press Enter to add new note.", "wpzoom-recipe-card" ) }</p>
 				</div>
 				<Inspector { ...{ attributes, setAttributes, className , clientId } } />
-				<BlockControls>
-					<ExtraOptions { ...{ props: this.props } } />
-				</BlockControls>
 			</div>
 		);
 	}
