@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function define_constants() {
-			$this->define( 'WPZOOM_RCB_VERSION', '2.0.1' );
+			$this->define( 'WPZOOM_RCB_VERSION', '2.1.0' );
 			$this->define( 'WPZOOM_RCB_TEXT_DOMAIN', 'wpzoom-recipe-card' );
 			$this->define( 'WPZOOM_RCB_HAS_PRO', false );
 			$this->define( 'WPZOOM_RCB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
