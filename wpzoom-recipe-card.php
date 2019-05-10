@@ -5,7 +5,7 @@
  * Description: Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
  * Author: WPZOOM
  * Author URI: https://www.wpzoom.com/
- * Version: 2.1.0
+ * Version: 2.1.1
  * Copyright: (c) 2019 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -69,8 +69,14 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 * @return void
 		 */
 		private function define_constants() {
-			$this->define( 'WPZOOM_RCB_VERSION', '2.1.0' );
-			$this->define( 'WPZOOM_RCB_TEXT_DOMAIN', 'wpzoom-recipe-card' );
+			/**
+			 * Parses the plugin contents to retrieve plugin’s metadata.
+			 * @since 2.1.1
+			 */
+			$plugin_data = get_plugin_data( __FILE__ );
+
+			$this->define( 'WPZOOM_RCB_VERSION', $plugin_data['Version'] );
+			$this->define( 'WPZOOM_RCB_TEXT_DOMAIN', $plugin_data['TextDomain'] );
 			$this->define( 'WPZOOM_RCB_HAS_PRO', false );
 			$this->define( 'WPZOOM_RCB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 			$this->define( 'WPZOOM_RCB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -82,8 +88,8 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 			// settings ?page url attribute
 			$this->define( 'WPZOOM_RCB_SETTINGS_PAGE', 'wpzoom-recipe-card-settings' );
 			// this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
-			$this->define( 'WPZOOM_RCB_STORE_URL', 'https://www.wpzoom.com/' );
-			$this->define( 'WPZOOM_RCB_RENEW_URL', 'https://www.wpzoom.com/account/licenses/' );
+			$this->define( 'WPZOOM_RCB_STORE_URL', $plugin_data['AuthorURI'] );
+			$this->define( 'WPZOOM_RCB_RENEW_URL', $plugin_data['AuthorURI'].'/account/licenses/' );
 			// the download ID. This is the ID of your product in EDD and should match the download ID visible in your Downloads list
 			$this->define( 'WPZOOM_RCB_ITEM_ID', 197189 );
 			$this->define( 'WPZOOM_RCB_ITEM_NAME', 'Recipe Card Block PRO' );

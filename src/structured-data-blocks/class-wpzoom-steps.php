@@ -174,22 +174,22 @@ class WPZOOM_Steps_Block {
 			if ( !$isGroup ) {
 				if ( ! empty( $step['text'] ) ) {
 					$text = $this->wrap_direction_text( $step['text'] );
+					$output .= sprintf(
+						'<li class="direction-step">%s</li>',
+						$text
+					);
 				}
-				$output .= sprintf(
-					'<li class="direction-step">%s</li>',
-					$text
-				);
 			} else {
 				if ( ! empty( $step['text'] ) ) {
 					$text = sprintf(
 						'<strong class="direction-step-group-title">%s</strong>',
 						$this->wrap_direction_text( $step['text'] )
 					);
+					$output .= sprintf(
+						'<li class="direction-step direction-step-group">%s</li>',
+						$text
+					);
 				}
-				$output .= sprintf(
-					'<li class="direction-step direction-step-group">%s</li>',
-					$text
-				);
 			}
 		}
 

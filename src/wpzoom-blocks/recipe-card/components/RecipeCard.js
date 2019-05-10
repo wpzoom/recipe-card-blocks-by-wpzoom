@@ -3,6 +3,7 @@ import Detail from "./Detail";
 import Ingredient from "./Ingredient";
 import Direction from "./Direction";
 import Inspector from "./Inspector";
+import ExtraOptionsModal from "./ExtraOptionsModal";
 import isUndefined from "lodash/isUndefined";
 import filter from "lodash/filter";
 import indexOf from "lodash/indexOf";
@@ -33,6 +34,7 @@ const {
 	post_title,
 	post_author_name,
 	post_thumbnail_url,
+	post_thumbnail_id,
 	setting_options
 } = wpzoomRecipeCard;
 const { withState } = wp.compose;
@@ -40,6 +42,16 @@ const { select }    = wp.data;
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
+
+const ExtraOptions = withState( {
+	toToolBar: true,
+    isOpen: false,
+    isDataSet: false,
+    hasBlocks: false,
+    isButtonClicked: false,
+    _ingredients: "<!empty>",
+    _directions: "<!empty>",
+} )( ExtraOptionsModal );
 
 /**
  * A Recipe Card block.
@@ -163,7 +175,7 @@ export default class RecipeCard extends Component {
 				}
 
 				{
-					! hasImage ?
+					! hasImage && post_thumbnail_id === '' &&
 						<Placeholder
 							icon="format-image"
 							className="recipe-card-image-placeholder"
@@ -173,7 +185,7 @@ export default class RecipeCard extends Component {
 					        	<MediaUpload
 					        		onSelect={ this.onSelectImage }
 					        		allowedTypes={ ALLOWED_MEDIA_TYPES }
-					        		value={ hasImage ? image.id : '' }
+					        		value={ post_thumbnail_id }
 					        		render={ ( { open } ) => (
 					        			<Button
 					        				onClick={ open }
@@ -187,11 +199,13 @@ export default class RecipeCard extends Component {
 					        	/>
 							}
 						/>
-					:
+				}
+				{
+					! hasImage && post_thumbnail_id !== '' &&
 			        	<MediaUpload
 			        		onSelect={ this.onSelectImage }
 			        		allowedTypes={ ALLOWED_MEDIA_TYPES }
-			        		value={ hasImage ? image.id : '' }
+			        		value={ post_thumbnail_id }
 			        		render={ ( { open } ) => (
 			        			<Button
 			        				className="recipe-card-image-preview"
@@ -199,7 +213,7 @@ export default class RecipeCard extends Component {
 			        			>
         							<div className="recipe-card-image">
         								<figure>
-        									<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
+        									<img src={ post_thumbnail_url } id={ post_thumbnail_id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
         									<figcaption>
 												{
 													settings[0]['pin_btn'] && 
@@ -225,8 +239,47 @@ export default class RecipeCard extends Component {
 			        			</Button>
 			        		) }
 			        	/>
-						
 				}
+				{
+		        	hasImage && 
+		        	<MediaUpload
+		        		onSelect={ this.onSelectImage }
+		        		allowedTypes={ ALLOWED_MEDIA_TYPES }
+		        		value={ image.id }
+		        		render={ ( { open } ) => (
+		        			<Button
+		        				className="recipe-card-image-preview"
+		        				onClick={ open }
+		        			>
+    							<div className="recipe-card-image">
+    								<figure>
+    									<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
+    									<figcaption>
+											{
+												settings[0]['pin_btn'] && 
+												<div className={ PinterestClasses }>
+								                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
+								                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
+								                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
+								                    </a>
+								                </div>
+								            }
+								            {
+							                	settings[0]['print_btn'] && 
+							                	<div className={ PrintClasses }>
+								                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
+								                    	<i className="fa fa-print icon-print-link"></i>
+								                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
+								                    </a>
+								                </div>
+							                }
+    						            </figcaption>
+    								</figure>
+    							</div>
+		        			</Button>
+		        		) }
+		        	/>
+		        }
 				<div className="recipe-card-heading">
 					<RichText
 						className="recipe-card-title"
@@ -294,6 +347,9 @@ export default class RecipeCard extends Component {
 					<p className="description">{ __( "Press Enter to add new note.", "wpzoom-recipe-card" ) }</p>
 				</div>
 				<Inspector { ...{ attributes, setAttributes, className , clientId } } />
+				<BlockControls>
+					<ExtraOptions { ...{ props: this.props } } />
+				</BlockControls>
 			</div>
 		);
 	}

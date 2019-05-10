@@ -229,10 +229,19 @@ class WPZOOM_Details_Block {
 				);
 			}
 
-			$label = sprintf(
-				'<span class="detail-item-label">%s</span>',
-				$defaults[ $index ]['label']
-			);
+			if ( ! empty( $detail[ 'label' ] ) ) {
+				if ( !is_array( $detail['label'] ) ) {
+					$label = sprintf(
+						'<span class="detail-item-label">%s</span>',
+						$detail['label']
+					);
+				} elseif( isset( $detail['jsonLabel'] ) ) {
+					$label = sprintf(
+						'<span class="detail-item-label">%s</span>',
+						$detail['jsonLabel']
+					);
+				}
+			}
 
 			if ( ! empty( $detail[ 'value' ] ) ) {
 				if ( !is_array( $detail['value'] ) ) {
@@ -250,38 +259,8 @@ class WPZOOM_Details_Block {
 			if ( ! empty( $detail[ 'unit' ] ) ) {
 				$unit = sprintf(
 					'<span class="detail-item-unit">%s</span>',
-					$defaults[ $index ]['unit']
+					$detail['unit']
 				);
-			}
-
-			// convert minutes to hours for 'prep time' and 'cook time' items
-			if ( 1 === $index || 2 === $index ) {
-				if ( ! empty( $detail['value'] ) ) {
-					$converts = self::$helpers->convertMinutesToHours( $detail['value'], true );
-					if ( ! empty( $converts ) ) {
-						$value = $unit = '';
-						if ( isset( $converts['hours'] ) ) {
-							$value .= sprintf(
-								'<p class="detail-item-value">%s</p>',
-								$converts['hours']['value']
-							);
-							$value .= sprintf(
-								'<span class="detail-item-unit">%s&nbsp;</span>',
-								$converts['hours']['unit']
-							);
-						}
-						if ( isset( $converts['minutes'] ) ) {
-							$unit .= sprintf(
-								'<p class="detail-item-value">%s</p>',
-								$converts['minutes']['value']
-							);
-							$unit .= sprintf(
-								'<span class="detail-item-unit">%s</span>',
-								$converts['minutes']['unit']
-							);
-						}
-					}
-				}
 			}
 
 			$output .= sprintf(

@@ -68,6 +68,9 @@ class WPZOOM_Helpers {
 	}
 
 	public function getNumberFromString( $string ) {
+		if ( ! is_string( $string ) ) {
+			return false;
+		}
 		preg_match('/\d+/', $string, $matches);
 		return $matches ? $matches[0] : 0;
 	}
@@ -75,12 +78,13 @@ class WPZOOM_Helpers {
 	public function convertMinutesToHours( $minutes, $returnArray = false ) {
 		$output = '';
 		$time = $this->getNumberFromString( $minutes );
-		$hours = floor( $time / 60 );
-		$mins = ( $time % 60 );
 
 		if ( ! $time ) {
 			return $minutes;
 		}
+		
+		$hours = floor( $time / 60 );
+		$mins = ( $time % 60 );
 
 		if ( $returnArray ) {
 			if ( $hours ) {

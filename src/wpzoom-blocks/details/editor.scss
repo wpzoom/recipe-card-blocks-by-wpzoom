@@ -12,6 +12,7 @@
 	width: 100%;
 	clear: both;
 	float: left;
+	margin-top: 0;
 	margin: 10px 0;
 }
 
@@ -97,9 +98,11 @@
 
 #wpwrap .edit-post-visual-editor .wp-block-wpzoom-recipe-card-block-details .detail-item-label {
 	font-weight: bold;
+	margin-top: 0;
 	margin-bottom: 0;
 }
 #wpwrap .edit-post-visual-editor .wp-block-wpzoom-recipe-card-block-details p {
+	margin-top: 0;
 	margin-bottom: 0;
 }
 #wpwrap .edit-post-visual-editor .wp-block-wpzoom-recipe-card-block-details ul,

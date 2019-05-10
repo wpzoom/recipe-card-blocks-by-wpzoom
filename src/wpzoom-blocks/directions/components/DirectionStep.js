@@ -145,15 +145,19 @@ export default class DirectionStep extends Component {
 	 */
 	getButtons() {
 		const {
-			step
+			step: {
+				id,
+				text,
+				isGroup
+			}
 		} = this.props;
 
 		return <div className="direction-step-button-container">
-			{ ! DirectionStep.getImageSrc( step.text ) &&
+			{ ! DirectionStep.getImageSrc( text ) && ! isGroup &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				allowedTypes={ ALLOWED_MEDIA_TYPES }
-				value={ step.id }
+				value={ id }
 				render={ ( { open } ) => (
 					<IconButton
 						className="direction-step-button direction-step-button-add-image editor-inserter__toggle direction-step-add-media"

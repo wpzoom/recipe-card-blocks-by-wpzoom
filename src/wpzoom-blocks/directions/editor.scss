@@ -8,6 +8,7 @@
 .wp-block-wpzoom-recipe-card-block-directions p.help, 
 .wp-block-wpzoom-recipe-card-block-directions p.description {
 	font-size: 13px !important;
+	margin-top: 0;
 	opacity: 0.7;
 }
 
@@ -62,6 +63,7 @@
 	color: #a0a0a0;
 }
 #wpwrap .edit-post-visual-editor .wp-block-wpzoom-recipe-card-block-directions p {
+	margin-top: 0;
 	margin-bottom: 0;
 }
 #wpwrap .edit-post-visual-editor .wp-block-wpzoom-recipe-card-block-directions ul,

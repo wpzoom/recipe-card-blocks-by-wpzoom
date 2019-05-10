@@ -144,6 +144,7 @@
 	p.description {
 		font-size: 13px;
 		opacity: 0.7;
+		margin-top: 0;
 		margin-bottom: 10px;
 	}
 	.components-icon-button .dashicon + .components-icon-button-text {
@@ -212,6 +213,7 @@
 	font-style: normal;
 }
 #wpwrap .edit-post-visual-editor .wp-block-wpzoom-recipe-card-block-recipe-card p:not(.description) {
+	margin-top: 0;
 	margin-bottom: 0;
 }
 #wpwrap .edit-post-visual-editor .wp-block-wpzoom-recipe-card-block-recipe-card ul,

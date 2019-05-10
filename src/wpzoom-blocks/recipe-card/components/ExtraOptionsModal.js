@@ -2,6 +2,8 @@
 import get from "lodash/get";
 import trim from "lodash/trim";
 import isEmpty from "lodash/isEmpty";
+import isObject from "lodash/isObject";
+import isString from "lodash/isString";
 import isUndefined from "lodash/isUndefined";
 import replace from "lodash/replace";
 import filter from "lodash/filter";
@@ -68,11 +70,55 @@ export default function ExtraOptionsModal(
     // render from array to string and strip HTML
     // append \n newline at the end of each item
     function parseValue( value ) {
-        return ! isEmpty( value ) ? stripHTML( renderToString( trim( value ) ) ) + '\n' : '';
+        const content = convertObjectToString( value );
+        return ! isEmpty( content ) ? stripHTML( renderToString( trim( content ) ) ) + '\n' : '';
+    }
+
+    function convertObjectToString( nodes, $type = '' ) {
+        if ( isString( nodes ) ) {
+            return nodes;
+        }
+
+        let output = '';
+
+        nodes.forEach((node, index) => {
+            if ( isString( node ) ) {
+                output += node;
+            } else {
+                const type     = ! isUndefined( node['type'] ) ? node['type'] : '';
+                let children   = ! isUndefined( node['props']['children'] ) ? node['props']['children'] : '';
+                let startTag   = type ? '<'+type+'>' : '';
+                let endTag     = type ? '</'+type+'>' : '';
+
+                if ( 'img' === type ) {
+                    const src = ! isUndefined( node['props']['src'] ) ? node['props']['src'] : false;
+                    if ( src ) {
+                        const alt = ! isUndefined( node['props']['alt'] ) ? node['props']['alt'] : '';
+                        const imgStyle = ! isUndefined( node['props']['style'] ) ? node['props']['style'] : '';
+                        const imgClass = 'direction-step-image';
+                        startTag = `<${ type } src="${ src }" alt="${ alt }" class="${ imgClass }" style="${ imgStyle }" />`;
+                    } else {
+                        startTag = '';
+                    }
+                    endTag = '';
+                } else if ( 'a' === type ) {
+                    const rel        = ! isUndefined( node['props']['rel'] ) ? node['props']['rel'] : '';
+                    const ariaLabel  = ! isUndefined( node['props']['aria-label'] ) ? node['props']['aria-label'] : '';
+                    const href       = ! isUndefined( node['props']['href'] ) ? node['props']['href'] : '#';
+                    const target     = ! isUndefined( node['props']['target'] ) ? node['props']['target'] : '_blank';
+                    startTag = `<${ type } rel="${ rel }" aria-label="${ ariaLabel }" href="${ href }" target="${ target }">`;
+                } else if ( 'br' === type ) {
+                    endTag = '';
+                }
+                output += startTag + convertObjectToString( children, type ) + endTag;
+            }
+        });
+
+        return output;
     }
 
     /**
-     * Get attributes from existings `Details`, `Ingredients` and `Directions` Blocks from post
+     * Get attributes from existings `Ingredients` and `Directions` Blocks from post
      * and set its to our Recipe Card
      */
     function setCollectedData() {
@@ -193,7 +239,7 @@ export default function ExtraOptionsModal(
     	    setAttributes( { directionsTitle: title, jsonDirectionsTitle: stripHTML( renderToString( title ) ) } );
     	}
 
-    	setDetailsAttributes( wpzoomBlocksFilter );
+    	// setDetailsAttributes( wpzoomBlocksFilter );
     	setIngredientsAttributes( wpzoomBlocksFilter );
     	setStepsAttributes( wpzoomBlocksFilter );
 
@@ -316,7 +362,7 @@ export default function ExtraOptionsModal(
 	                	<div className="form-group">
 	                	    <div className="wrap-label">
 	                	        <label>{ __( "Collect data from blocks", "wpzoom-recipe-card" ) }</label>
-	                	        <p className="description">{ __( "Collect data from Ingredients, Directions, Details block and set to Recipe Card.", "wpzoom-recipe-card" ) }</p>
+	                	        <p className="description">{ __( "Collect data from Ingredients and Directions block and set to Recipe Card.", "wpzoom-recipe-card" ) }</p>
                                 <p className="description"><strong>{ __( "WARNING! In case you have added content in Recipe Card, this feature will replace it.", "wpzoom-recipe-card" ) }</strong></p>
 	                	    </div>
 	                	    <div className="wrap-content">

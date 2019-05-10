@@ -273,6 +273,7 @@ class WPZOOM_Recipe_Card_Block {
 		$recipe_ID 				= get_the_ID( $this->recipe );
 		$recipe_title 			= get_the_title( $this->recipe );
 		$recipe_thumbnail_url 	= get_the_post_thumbnail_url( $this->recipe );
+		$recipe_thumbnail_id 	= get_post_thumbnail_id( $this->recipe );
 		$recipe_permalink 		= get_the_permalink( $this->recipe );
 		$recipe_author_name 	= get_the_author_meta( 'display_name', $this->recipe->post_author );
 
@@ -368,6 +369,40 @@ class WPZOOM_Recipe_Card_Block {
 		            </figcaption>
 				</figure>
 			</div>';
+		} elseif ( ! $hasImage && ! empty( $recipe_thumbnail_url ) ) {
+				$img_id = $recipe_thumbnail_id;
+				$src 	= $recipe_thumbnail_url;
+				$alt 	= ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) );
+				$img_class  = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_image') ? 'no-print' : '';
+				$img_class .= ' wpzoom-recipe-card-image';
+
+				$recipe_card_image = '<div class="recipe-card-image">
+					<figure>
+						'. sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $img_id, $src, $alt, trim($img_class) ) .'
+						<figcaption>
+							'.
+								( @self::$settings['pin_btn'] ?
+									'<div class="'. esc_attr( $PinterestClasses ) .'">
+					                    <a class="btn-pinit-link no-print" data-pin-do="buttonPin" href="'. esc_url( $pinitURL ) .'" data-pin-custom="true">
+					                    	<i class="fa fa-pinterest-p icon-pinit-link"></i>
+					                    	<span>'. __( "Pin", "wpzoom-recipe-card" ) .'</span>
+					                    </a>
+					                </div>'
+					                : ''
+					            ).
+								( @self::$settings['print_btn'] ?
+									'<div class="'. esc_attr( $PrintClasses ) .'">
+					                    <a class="btn-print-link no-print" href="#'. $id .'" title="'. __( "Print directions...", "wpzoom-recipe-card" ) .'" style="'. $printStyles .'">
+					                    	<i class="fa fa-print icon-print-link"></i>
+					                        <span>'. __( "Print", "wpzoom-recipe-card" ) .'</span>
+					                    </a>
+					                </div>'
+					                : ''
+								)
+							.'
+			            </figcaption>
+					</figure>
+				</div>';
 		}
 
 		$recipe_card_heading = '
@@ -394,8 +429,9 @@ class WPZOOM_Recipe_Card_Block {
 		$ingredients_content = $this->get_ingredients_content( $ingredients );
 		$steps_content = $this->get_steps_content( $steps );
 
-		$strinp_tags_notes = isset( $notes ) ? strip_tags($notes) : '';
-		$notes_content = ! empty($strinp_tags_notes) ?
+		$strip_tags_notes = isset( $notes ) ? strip_tags($notes) : '';
+		$notes = str_replace('<li></li>', '', $notes); // remove empty list item
+		$notes_content = ! empty($strip_tags_notes) ?
 			sprintf(
 				'<div class="recipe-card-notes">
 					<h3 class="notes-title">%s</h3>
@@ -783,24 +819,22 @@ class WPZOOM_Recipe_Card_Block {
 						'<p class="ingredient-item-name">%s</p>',
 						$this->wrap_ingredient_name( $ingredient['name'] )
 					);
+					$output .= sprintf(
+						'<li class="ingredient-item">%s</li>',
+						$tick . $name
+					);
 				}
-
-				$output .= sprintf(
-					'<li class="ingredient-item">%s</li>',
-					$tick . $name
-				);
 			} else {
 				if ( ! empty( $ingredient[ 'name' ] ) ) {
 					$name = sprintf(
 						'<strong class="ingredient-item-group-title">%s</strong>',
 						$this->wrap_ingredient_name( $ingredient['name'] )
 					);
+					$output .= sprintf(
+						'<li class="ingredient-item ingredient-item-group">%s</li>',
+						$tick . $name
+					);
 				}
-
-				$output .= sprintf(
-					'<li class="ingredient-item ingredient-item-group">%s</li>',
-					$tick . $name
-				);
 			}
 		}
 
@@ -830,22 +864,22 @@ class WPZOOM_Recipe_Card_Block {
 			if ( !$isGroup ) {
 				if ( ! empty( $step['text'] ) ) {
 					$text = $this->wrap_direction_text( $step['text'] );
+					$output .= sprintf(
+						'<li class="direction-step">%s</li>',
+						$text
+					);
 				}
-				$output .= sprintf(
-					'<li class="direction-step">%s</li>',
-					$text
-				);
 			} else {
 				if ( ! empty( $step['text'] ) ) {
 					$text = sprintf(
 						'<strong class="direction-step-group-title">%s</strong>',
 						$this->wrap_direction_text( $step['text'] )
 					);
+					$output .= sprintf(
+						'<li class="direction-step direction-step-group">%s</li>',
+						$text
+					);
 				}
-				$output .= sprintf(
-					'<li class="direction-step direction-step-group">%s</li>',
-					$text
-				);
 			}
 		}
 
@@ -854,6 +888,7 @@ class WPZOOM_Recipe_Card_Block {
 
 	protected function get_recipe_terms( $taxonomy, $attributes ) {
 		$className = $label = $terms_output = '';
+		$render = true; // use this to know if allow render on frontend when terms exists
 
 		extract( $attributes );
 
@@ -862,22 +897,33 @@ class WPZOOM_Recipe_Card_Block {
 		$difficulty 	= isset( $difficulty ) ? $difficulty : array();
 
 		if ( 'wpzoom_rcb_courses' === $taxonomy ) {
+			if ( empty( $course ) ) {
+				$render = false;
+			}
 			$terms 			= $course;
 			$className 		= 'recipe-card-course';
 			$label 			= __( "Course:", "wpzoom-recipe-card" );
 		}
 		elseif ( 'wpzoom_rcb_cuisines' === $taxonomy ) {
+			if ( empty( $cuisine ) ) {
+				$render = false;
+			}
 			$terms 			= $cuisine;
 			$className 		= 'recipe-card-cuisine';
 			$label 			= __( "Cuisine:", "wpzoom-recipe-card" );
 		}
 		elseif ( 'wpzoom_rcb_difficulties' === $taxonomy ) {
+			if ( empty( $difficulty ) ) {
+				$render = false;
+			}
 			$terms 			= $difficulty;
 			$className 		= 'recipe-card-difficulty';
 			$label 			= __( "Difficulty:", "wpzoom-recipe-card" );
 		}
 
-		$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', $className, $label, implode( ', ', $terms ) );
+		if ( $render ) {
+			$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', $className, $label, implode( ', ', $terms ) );
+		}
 
 		return $terms_output;
 	}

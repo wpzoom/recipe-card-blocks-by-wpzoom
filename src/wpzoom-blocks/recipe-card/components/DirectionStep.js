@@ -146,15 +146,19 @@ export default class DirectionStep extends Component {
 	 */
 	getButtons() {
 		const {
-			step
+			step: {
+				id,
+				text,
+				isGroup,
+			}
 		} = this.props;
 
 		return <div className="direction-step-button-container">
-			{ ! DirectionStep.getImageSrc( step.text ) &&
+			{ ! DirectionStep.getImageSrc( text ) && ! isGroup &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				allowedTypes={ ALLOWED_MEDIA_TYPES }
-				value={ step.id }
+				value={ id }
 				render={ ( { open } ) => (
 					<IconButton
 						className="direction-step-button direction-step-button-add-image editor-inserter__toggle direction-step-add-media"
@@ -289,7 +293,7 @@ export default class DirectionStep extends Component {
 						onChange={ this.onChangeText }
 						// isSelected={ isSelectedText }
 						placeholder={ __( "Enter step description", "wpzoom-recipe-card" ) }
-						setFocusedElement={ this.onFocusText }
+						unstableOnFocus={ this.onFocusText }
 						keepPlaceholderOnFocus={ true }
 					/>
 				}
@@ -304,7 +308,7 @@ export default class DirectionStep extends Component {
 						onChange={ this.onChangeGroupTitle }
 						// isSelected={ isSelectedText }
 						placeholder={ __( "Enter group title", "wpzoom-recipe-card" ) }
-						setFocusedElement={ this.onFocusText }
+						unstableOnFocus={ this.onFocusText }
 						formattingControls={ [] }
 						keepPlaceholderOnFocus={ true }
 					/>
