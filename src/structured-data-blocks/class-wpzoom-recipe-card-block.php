@@ -300,7 +300,7 @@ class WPZOOM_Recipe_Card_Block {
 		self::$attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? $ingredientsTitle : __( "Ingredients", "wpzoom-recipe-card" );
 		self::$attributes['directionsTitle'] = isset( $directionsTitle ) ? $directionsTitle : __( "Directions", "wpzoom-recipe-card" );
 
-		$class .= strpos( $className, 'is-style' ) === false ? ' is-style-' . $style : '';
+		$class .= strpos( $className, 'is-style' ) === false ? ' is-style-' . self::$style : '';
 		$class .= isset( self::$settings['headerAlign'] ) ? ' header-content-align-' . self::$settings['headerAlign'] : ' header-content-align-left';
 		$class .= $hasImage && isset($image['url']) ? '' : ' recipe-card-noimage';
 		$class .= '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_image') ? ' recipe-card-noimage-print' : '';
@@ -321,12 +321,12 @@ class WPZOOM_Recipe_Card_Block {
 		$pinitURL 				= 'https://www.pinterest.com/pin/create/button/?url=' . $recipe_permalink .'/&media='. ( $hasImage ? $image['url'] : $recipe_thumbnail_url ) .'&description='. $pin_description .'';
 
 		$printStyles = '';
-		if ( 'default' === $style ) {
+		if ( 'default' === self::$style ) {
 			$styles = array(
 				'background-color' => @self::$settings['primary_color'],
 			);
 			$printStyles = self::$helpers->render_styles_attributes( $styles );
-		} else if ( 'newdesign' === $style ) {
+		} else if ( 'newdesign' === self::$style ) {
 			$styles = array(
 				'background-color' => @self::$settings['primary_color'],
 				'box-shadow' => '0 5px 40px '. @self::$settings['primary_color'] . ''
@@ -677,6 +677,9 @@ class WPZOOM_Recipe_Card_Block {
 		$defaults = self::get_details_default();
 
 		foreach ( $details as $index => $detail ) {
+			if ( $index >= 4 ) {
+				return force_balance_tags( $output );
+			}
 			$icon = $label = $value = $unit = '';
 
 			if ( 0 === $index && self::$settings['displayServings'] != '1' ) {
