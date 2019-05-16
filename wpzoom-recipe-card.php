@@ -73,7 +73,15 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 			 * Parses the plugin contents to retrieve plugin’s metadata.
 			 * @since 2.1.1
 			 */
-			$plugin_data = get_plugin_data( __FILE__ );
+			if ( function_exists( 'get_plugin_data' ) ) {
+				$plugin_data = get_plugin_data( __FILE__ );
+			} else {
+				$plugin_data = get_file_data( __FILE__, array(
+					'Version' => 'Version',
+				    'TextDomain' => 'Text Domain',
+				    'AuthorURI' => 'Author URI'
+				), 'plugin' );
+			}
 
 			$this->define( 'WPZOOM_RCB_VERSION', $plugin_data['Version'] );
 			$this->define( 'WPZOOM_RCB_TEXT_DOMAIN', $plugin_data['TextDomain'] );

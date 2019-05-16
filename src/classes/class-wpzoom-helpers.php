@@ -39,7 +39,30 @@ class WPZOOM_Helpers {
 
 	public function parse_block_settings( array $attrs ) {
 		$settings = isset( $attrs['settings'][0] ) ? $attrs['settings'][0] : array();
+		$settings_defaults = WPZOOM_Settings::get_defaults();
 		$blockStyle = isset($attrs['className']) ? $this->get_block_style( $attrs['className'] ) : 'default';
+
+		if ( !isset( $settings['headerAlign'] ) ) {
+			$settings['headerAlign'] = 'left';
+		}
+		if ( !isset( $settings['custom_author_name'] ) ) {
+			$settings['custom_author_name'] = '';
+		}
+		if ( !isset( $settings['displayServings'] ) ) {
+			$settings['displayServings'] = true;
+		}
+		if ( !isset( $settings['displayPrepTime'] ) ) {
+			$settings['displayPrepTime'] = true;
+		}
+		if ( !isset( $settings['displayCookingTime'] ) ) {
+			$settings['displayCookingTime'] = true;
+		}
+		if ( !isset( $settings['displayCalories'] ) ) {
+			$settings['displayCalories'] = true;
+		}
+		if ( !isset( $settings['ingredientsLayout'] ) ) {
+			$settings['ingredientsLayout'] = '1-column';
+		}
 
 		if ( $blockStyle === 'default' ) {
 			$settings['primary_color'] = '#222';
@@ -47,10 +70,16 @@ class WPZOOM_Helpers {
 			$settings['primary_color'] = '#FFA921';
 		}
 
+		if ( !isset( $settings['print_btn'] ) ) {
+			$settings['print_btn'] = true;
+		}
+		if ( !isset( $settings['pin_btn'] ) ) {
+			$settings['pin_btn'] = false;
+		}
 		if ( !isset( $settings['pin_has_custom_image'] ) ) {
 			$settings['pin_has_custom_image'] = false;
 		}
-		elseif ( !isset( $settings['pin_custom_image'] ) ) {
+		if ( !isset( $settings['pin_custom_image'] ) ) {
 			$settings['pin_custom_image'] = array();
 		}
 
