@@ -110,9 +110,34 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 */
 		private function init() {
 			add_filter( 'block_categories', array( $this, 'add_custom_category' ), 10, 2 );
+			add_filter( 'image_size_names_choose', array( $this, 'custom_image_sizes_choose' ) );
 
+			add_action( 'init', array( $this, 'register_custom_image_sizes' ) );
 			add_action( 'init', array( $this, 'register_block_types' ) );
 			add_action( 'init', array( $this, 'load_textdomain' ) );
+		}
+
+		/**
+		 * Register custom image size
+		 * 
+		 * @since 2.1.1
+		 */
+		public function register_custom_image_sizes() {
+			add_image_size( 'wpzoom-rcb-block-header', 800, 530, true );
+		}
+
+		/**
+		 * Make custom sizes selectable from your WordPress admin
+		 * 
+		 * @since 2.1.1
+		 * @param array $size_names  The list of registered sizes
+		 * @return array
+		 */
+		public function custom_image_sizes_choose( $size_names ) {
+			$new_sizes = array(
+		        'wpzoom-rcb-block-header' => __( 'Recipe Card Block', 'wpzoom-recipe-card' )
+		    );
+		    return array_merge( $size_names, $new_sizes );
 		}
 
 		/**
