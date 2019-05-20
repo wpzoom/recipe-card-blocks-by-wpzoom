@@ -62,7 +62,7 @@ export default function ExtraOptionsModal(
 		attributes, 
 		setAttributes 
 	} 	= props;
-	const blocks        		= [ "wpzoom-recipe-card/block-details", "wpzoom-recipe-card/block-ingredients", "wpzoom-recipe-card/block-directions" ];
+	const blocks        		= [ "wpzoom-recipe-card/block-ingredients", "wpzoom-recipe-card/block-directions" ];
 	const blocksList    		= select('core/editor').getBlocks();
 	const wpzoomBlocksFilter 	= filter( blocksList, function( item ) { return indexOf( blocks, item.name ) !== -1 } );
 
@@ -356,14 +356,15 @@ export default function ExtraOptionsModal(
 	        { 
 	        	isOpen &&
 	            <Modal
-	                title={ __( "Recipe Card extra options", "wpzoom-recipe-card" ) }
+	                title={ __( "Recipe Card Bulk Add", "wpzoom-recipe-card" ) }
 	                onRequestClose={ () => setState( { isOpen: false } ) }>
 	                <div className="wpzoom-recipe-card-extra-options" style={{maxWidth: 720+'px', maxHeight: 525+'px'}}>
 	                	<div className="form-group">
 	                	    <div className="wrap-label">
-	                	        <label>{ __( "Collect data from blocks", "wpzoom-recipe-card" ) }</label>
-	                	        <p className="description">{ __( "Collect data from Ingredients and Directions block and set to Recipe Card.", "wpzoom-recipe-card" ) }</p>
-                                <p className="description"><strong>{ __( "WARNING! In case you have added content in Recipe Card, this feature will replace it.", "wpzoom-recipe-card" ) }</strong></p>
+	                	        <label>{ __( "Collect data from individual blocks", "wpzoom-recipe-card" ) }</label>
+	                	        <p className="description">{ __( "Collect data from", "wpzoom-recipe-card" ) } <strong>{ __( "Ingredients", "wpzoom-recipe-card" ) }</strong> { __( "and", "wpzoom-recipe-card" ) } <strong>{ __( "Directions", "wpzoom-recipe-card" ) }</strong> { __( "blocks from this post and add it to this Recipe Card block.", "wpzoom-recipe-card" ) }</p>
+                                <br/>
+                                <p className="description bulk-add-warning-alert"><strong>{ __( "WARNING! In case you have added content in Recipe Card, this feature will replace it.", "wpzoom-recipe-card" ) }</strong></p>
 	                	    </div>
 	                	    <div className="wrap-content">
 	                        	{
@@ -411,20 +412,23 @@ export default function ExtraOptionsModal(
 	                	</div>
         	        	<div className="form-group">
         	        	    <div className="wrap-label">
-        	        	        <label>{ __( "Bulk Add", "wpzoom-recipe-card" ) }</label>
+        	        	        <label>{ __( "Bulk Add Ingredients and Directions", "wpzoom-recipe-card" ) }</label>
         	        	        <p className="description">{ __( "Insert list for ingredients and directions.", "wpzoom-recipe-card" ) }</p>
+                                <p className="bulk-add-danger-alert"><strong>{ __( "Known Problem", "wpzoom-recipe-card" ) }:</strong> { __( "There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the", "wpzoom-recipe-card" ) } <strong>{ __( "Top Toolbar", "wpzoom-recipe-card" ) }</strong> { __( "option in the editor options (click on the ⋮ three dots from right-top corner).", "wpzoom-recipe-card" ) } <br/> <a href="https://wp.md/toolbar" target="_blank">{ __( "View how to do this", "wpzoom-recipe-card" ) }</a></p>
         	        	    </div>
         	        	    <div className="wrap-content">
         	        	    	<TextareaControl
-    	        	    	        label={ __( "List for ingredients", "wpzoom-recipe-card" ) }
+    	        	    	        label={ __( "Enter Ingredients", "wpzoom-recipe-card" ) }
     	        	    	        help={ __( "Each line break is new ingredient.", "wpzoom-recipe-card" ) }
+                                    className="bulk-add-enter-ingredients"
     	        	    	        value={ _ingredients }
                                     onKeyPress={ stopKeyPressPropagation }
     	        	    	        onChange={ ( _ingredients ) => setState( { _ingredients } ) }
     	        	    	    />
         	        	    	<TextareaControl
-    	        	    	        label={ __( "List for directions", "wpzoom-recipe-card" ) }
+    	        	    	        label={ __( "Enter Directions", "wpzoom-recipe-card" ) }
     	        	    	        help={ __( "Each line break is new direction.", "wpzoom-recipe-card" ) }
+                                    className="bulk-add-enter-directions"
     	        	    	        value={ _directions }
                                     onKeyPress={ stopKeyPressPropagation }
     	        	    	        onChange={ ( _directions ) => setState( { _directions } ) }

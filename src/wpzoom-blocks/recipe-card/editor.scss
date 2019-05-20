@@ -278,6 +278,25 @@
 			}
 		}
 	}
+	.bulk-add-enter-ingredients label,
+	.bulk-add-enter-directions label {
+		font-size: 14px;
+		font-weight: bold;
+	}
+	.bulk-add-warning-alert,
+	.bulk-add-danger-alert {
+		font-style: normal;
+		background: #ffe9e9;
+		padding: 10px;
+		border-radius: 5px;
+		border: 1px solid #ff9090;
+		color: #c00000;
+	}
+	.bulk-add-warning-alert {
+		background: #fef5da;
+		border-color: #fac937;
+		color: #a87f04;
+	}
 }
 button.wpzoom-recipe-card__extra-options.is-large {
 	margin: 0 5px;
