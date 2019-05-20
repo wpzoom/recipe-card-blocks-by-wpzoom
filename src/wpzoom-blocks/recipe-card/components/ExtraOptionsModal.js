@@ -8,6 +8,7 @@ import isUndefined from "lodash/isUndefined";
 import replace from "lodash/replace";
 import filter from "lodash/filter";
 import indexOf from "lodash/indexOf";
+import includes from "lodash/includes";
 import uniqueId from "lodash/uniqueId";
 
 /* Internal dependencies */
@@ -68,9 +69,17 @@ export default function ExtraOptionsModal(
     // parse value for ingredients and directions
     // render from array to string and strip HTML
     // append \n newline at the end of each item
-    function parseValue( value ) {
+    function parseValue( value, isGroup = false ) {
         const content = convertObjectToString( value );
-        return ! isEmpty( content ) ? stripHTML( renderToString( trim( content ) ) ) + '\n' : '';
+        let returnValue = '';
+
+        if ( ! isEmpty( content ) ) {
+            returnValue = stripHTML( renderToString( trim( content ) ) );
+        }
+        if ( isGroup ) {
+            returnValue = `**${ returnValue }**`;
+        }
+        return ! isEmpty( returnValue ) ? returnValue + '\n' : '';
     }
 
     function convertObjectToString( nodes, $type = '' ) {
@@ -130,10 +139,17 @@ export default function ExtraOptionsModal(
 		    // The result can be accessed through the `m`-variable.
 		    m.forEach((match, groupIndex) => {
 		    	if ( groupIndex == '1' ) {
+                    const isGroup = includes( match, '**' ); // check for group title if contains **Text**
+                    
+                    if ( isGroup ) {
+                        match = trim( match, '**' );
+                    }
+
 		    		items[ index ] = {
 		    			id: `ingredient-item-${m.index}`,
 		    			name: trim( match ),
-		    			jsonName: stripHTML( renderToString( trim( match ) ) )
+		    			jsonName: stripHTML( renderToString( trim( match ) ) ),
+                        isGroup
 		    		}
 		    		index++;
 		    	}
@@ -159,10 +175,17 @@ export default function ExtraOptionsModal(
 		    // The result can be accessed through the `m`-variable.
 		    m.forEach((match, groupIndex) => {
 		    	if ( groupIndex == '1' ) {
+                    const isGroup = includes( match, '**' ); // check for group title if contains **Text**
+                    
+                    if ( isGroup ) {
+                        match = trim( match, '**' );
+                    }
+
 		    		steps[ index ] = {
 		    			id: `direction-step-${m.index}`,
 		    			text: trim( match ),
-		    			jsonText: stripHTML( renderToString( trim( match ) ) )
+		    			jsonText: stripHTML( renderToString( trim( match ) ) ),
+                        isGroup
 		    		}
 		    		index++;
 		    	}
@@ -182,7 +205,8 @@ export default function ExtraOptionsModal(
         const { ingredients } = attributes;
         ingredients ?
             ingredients.map( ( item ) => {
-                _ingredients += parseValue( item.name );
+                const isGroup = !isUndefined( item.isGroup ) ? item.isGroup : false;
+                _ingredients += parseValue( item.name, isGroup );
             } )
         : null;
         _ingredients = replace( _ingredients, '<!empty>', '' );
@@ -195,7 +219,8 @@ export default function ExtraOptionsModal(
         const { steps } = attributes;
         steps ?
             steps.map( ( step ) => {
-                _directions += parseValue( step.text );
+                const isGroup = !isUndefined( step.isGroup ) ? step.isGroup : false;
+                _directions += parseValue( step.text, isGroup );
             } )
         : null;
         _directions = replace( _directions, '<!empty>', '' );
@@ -228,15 +253,12 @@ export default function ExtraOptionsModal(
 	                onRequestClose={ () => setState( { isOpen: false } ) }>
 	                <div className="wpzoom-recipe-card-extra-options" style={{maxWidth: 720+'px', maxHeight: 525+'px'}}>
         	        	<div className="form-group">
-        	        	    <div className="wrap-label">
-        	        	        <label>{ __( "Bulk Add Ingredients and Directions", "wpzoom-recipe-card" ) }</label>
-        	        	        <p className="description">{ __( "Insert list for ingredients and directions.", "wpzoom-recipe-card" ) }</p>
-                                <p className="bulk-add-danger-alert"><strong>{ __( "Known Problem", "wpzoom-recipe-card" ) }:</strong> { __( "There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the", "wpzoom-recipe-card" ) } <strong>{ __( "Top Toolbar", "wpzoom-recipe-card" ) }</strong> { __( "option in the editor options (click on the ⋮ three dots from right-top corner).", "wpzoom-recipe-card" ) } <br/> <a href="https://wp.md/toolbar" target="_blank">{ __( "View how to do this", "wpzoom-recipe-card" ) }</a></p>
-        	        	    </div>
+                            <p className="bulk-add-danger-alert"><strong>{ __( "Known Problem", "wpzoom-recipe-card" ) }:</strong> { __( "There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the", "wpzoom-recipe-card" ) } <strong>{ __( "Top Toolbar", "wpzoom-recipe-card" ) }</strong> { __( "option in the editor options (click on the ⋮ three dots from right-top corner).", "wpzoom-recipe-card" ) } <br/> <a href="https://wp.md/toolbar" target="_blank">{ __( "View how to do this", "wpzoom-recipe-card" ) }</a></p>
+                            <br/>
         	        	    <div className="wrap-content">
         	        	    	<TextareaControl
-    	        	    	        label={ __( "Enter Ingredients", "wpzoom-recipe-card" ) }
-    	        	    	        help={ __( "Each line break is new ingredient.", "wpzoom-recipe-card" ) }
+    	        	    	        label={ __( "Insert Ingredients", "wpzoom-recipe-card" ) }
+    	        	    	        help={ __( "Each line break is a new ingredient.", "wpzoom-recipe-card" ) }
                                     className="bulk-add-enter-ingredients"
                                     rows="8"
     	        	    	        value={ _ingredients }
@@ -244,8 +266,8 @@ export default function ExtraOptionsModal(
     	        	    	        onChange={ ( _ingredients ) => setState( { _ingredients } ) }
     	        	    	    />
         	        	    	<TextareaControl
-    	        	    	        label={ __( "Enter Directions", "wpzoom-recipe-card" ) }
-    	        	    	        help={ __( "Each line break is new direction.", "wpzoom-recipe-card" ) }
+    	        	    	        label={ __( "Insert Directions", "wpzoom-recipe-card" ) }
+    	        	    	        help={ __( "Each line break is a new direction.", "wpzoom-recipe-card" ) }
                                     className="bulk-add-enter-directions"
                                     rows="8"
     	        	    	        value={ _directions }
