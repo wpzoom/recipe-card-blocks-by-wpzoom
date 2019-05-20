@@ -260,7 +260,7 @@ export default function ExtraOptionsModal(
     	        	    	        label={ __( "Insert Ingredients", "wpzoom-recipe-card" ) }
     	        	    	        help={ __( "Each line break is a new ingredient.", "wpzoom-recipe-card" ) }
                                     className="bulk-add-enter-ingredients"
-                                    rows="8"
+                                    rows="5"
     	        	    	        value={ _ingredients }
                                     onKeyPress={ stopKeyPressPropagation }
     	        	    	        onChange={ ( _ingredients ) => setState( { _ingredients } ) }
@@ -269,7 +269,7 @@ export default function ExtraOptionsModal(
     	        	    	        label={ __( "Insert Directions", "wpzoom-recipe-card" ) }
     	        	    	        help={ __( "Each line break is a new direction.", "wpzoom-recipe-card" ) }
                                     className="bulk-add-enter-directions"
-                                    rows="8"
+                                    rows="5"
     	        	    	        value={ _directions }
                                     onKeyPress={ stopKeyPressPropagation }
     	        	    	        onChange={ ( _directions ) => setState( { _directions } ) }
