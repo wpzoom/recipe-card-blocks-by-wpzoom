@@ -42,7 +42,6 @@ const stopKeyPressPropagation = ( event ) => event.stopPropagation();
 /**
  * Extra options for Recipe Card Block
  * Options: 
- *  - Collect data from Ingredients, Directions, Details block and set to Recipe Card
  *  - Bulk add
  */
 export default function ExtraOptionsModal(
@@ -115,137 +114,6 @@ export default function ExtraOptionsModal(
         });
 
         return output;
-    }
-
-    /**
-     * Get attributes from existings `Ingredients` and `Directions` Blocks from post
-     * and set its to our Recipe Card
-     */
-    function setCollectedData() {
-    	const setDetailsAttributes = ( objects ) => {
-    	    const _filter = filter(objects, ['name', blocks[0]]);
-
-    	    if ( isUndefined( _filter[0] ) )
-    	    	return;
-
-    	    let { attributes: { activeIconSet, course, cuisine, keywords, details } } = _filter[0];
-    	    let doUpdate = false;
-
-    	    details ? 
-    	        details.map( ( item, index ) => {
-    	            const regex = /(\d+)(\D+)/;
-    	            const m = regex.exec( item.jsonValue );
-
-    	            if ( isUndefined( attributes.details[ index ] ) ) {
-    	            	return;
-    	            }
-
-    	            if ( m === null )
-    	                return;
-
-    	            const value = m[1] ? m[1] : 0;
-    	            const unit = m[2] ? m[2].trim() : '';
-
-    	            details[ index ]['value'] = value;
-    	            details[ index ]['jsonValue'] = stripHTML( renderToString( value ) );
-    	            details[ index ]['unit'] = attributes.details[ index ].unit;
-    	            details[ index ]['jsonUnit'] = stripHTML( renderToString( attributes.details[ index ].unit ) );
-
-    	            doUpdate = true;
-
-    	            return details;
-    	        } )
-    	    : null;
-
-    	    if ( doUpdate ) {
-	    	    setAttributes( { details } );
-    	    }
-    	    setAttributes( { activeIconSet, course, cuisine, keywords } );
-    	}
-
-    	const setIngredientsAttributes = ( objects ) => {
-    	    const _filter = filter( objects, [ 'name', blocks[1] ] );
-
-    	    if ( isUndefined( _filter[0] ) )
-    	    	return;
-
-    	    // Get Title only from first block
-    	    const { attributes: { title } } = _filter[0];
-
-    	    // for multiple blocks
-    	    let index    = 0;
-    	    let doUpdate = false;
-    	    let newArray = [];
-    	    _filter.map( ( ingredient ) => {
-    	    	const { attributes: { items } } = ingredient;
-    	    	newArray[ index ] = {};
-    	    	items ? 
-    	    	    items.map( ( item ) => {
-    	    	        newArray[ index ] = {
-    	    	        	id: item.id,
-    	    	        	name: item.name,
-    	    	        	jsonName: stripHTML( renderToString( item.name ) )
-    	    	        };
-
-    	    	        doUpdate = true;
-    	    	        index++;
-
-    	    	        return newArray;
-    	    	    } )
-    	    	: null;
-    	    } );
-
-    	    if ( doUpdate ) {
-    	    	setAttributes( { ingredients: newArray } );
-    	    }
-    	    setAttributes( { 'ingredientsTitle': title, jsonIngredientsTitle: stripHTML( renderToString( title ) ) } );
-    	}
-
-    	const setStepsAttributes = ( objects ) => {
-    	    const _filter = filter( objects, [ 'name', blocks[2] ] );
-
-    	    if ( isUndefined( _filter[0] ) )
-    	    	return;
-
-    	    // Get Title only from first block
-    	    const { attributes: { title } } = _filter[0];
-
-    	    // for multiple blocks
-    	    let index    = 0;
-    	    let doUpdate = false;
-    	    let newArray = [];
-    	    _filter.map( ( direction ) => {
-    	    	const { attributes: { steps } } = direction;
-    	    	newArray[ index ] = {};
-    	    	steps ? 
-    	    	    steps.map( ( step ) => {
-    	    	        newArray[ index ] = {
-    	    	        	id: step.id,
-    	    	        	text: step.text,
-    	    	        	jsonText: stripHTML( renderToString( step.text ) )
-    	    	        };
-
-    	    	        doUpdate = true;
-    	    	        index++;
-
-    	    	        return newArray;
-    	    	    } )
-    	    	: null;
-    	    } );
-
-    	    if ( doUpdate ) {
-    	    	setAttributes( { steps: newArray } );
-    	    }
-    	    setAttributes( { directionsTitle: title, jsonDirectionsTitle: stripHTML( renderToString( title ) ) } );
-    	}
-
-    	// setDetailsAttributes( wpzoomBlocksFilter );
-    	setIngredientsAttributes( wpzoomBlocksFilter );
-    	setStepsAttributes( wpzoomBlocksFilter );
-
-        setTimeout(() => {
-        	setState( { isDataSet: true } );
-        }, 1000);
     }
 
     function onBulkAddIngredients() {
@@ -359,57 +227,6 @@ export default function ExtraOptionsModal(
 	                title={ __( "Recipe Card Bulk Add", "wpzoom-recipe-card" ) }
 	                onRequestClose={ () => setState( { isOpen: false } ) }>
 	                <div className="wpzoom-recipe-card-extra-options" style={{maxWidth: 720+'px', maxHeight: 525+'px'}}>
-	                	<div className="form-group">
-	                	    <div className="wrap-label">
-	                	        <label>{ __( "Collect data from individual blocks", "wpzoom-recipe-card" ) }</label>
-	                	        <p className="description">{ __( "Collect data from", "wpzoom-recipe-card" ) } <strong>{ __( "Ingredients", "wpzoom-recipe-card" ) }</strong> { __( "and", "wpzoom-recipe-card" ) } <strong>{ __( "Directions", "wpzoom-recipe-card" ) }</strong> { __( "blocks from this post and add it to this Recipe Card block.", "wpzoom-recipe-card" ) }</p>
-                                <br/>
-                                <p className="description bulk-add-warning-alert"><strong>{ __( "WARNING! In case you have added content in Recipe Card, this feature will replace it.", "wpzoom-recipe-card" ) }</strong></p>
-	                	    </div>
-	                	    <div className="wrap-content">
-	                        	{
-	                        		!hasBlocks &&
-	                        		<Disabled>
-	                        			<Button
-                                            isDefault
-                                            onClick={ () => { setState( { isButtonClicked: true } ); setCollectedData() } }
-                                        >
-	                        			    { __( "0 Blocks found", "wpzoom-recipe-card" ) }
-	                        			</Button>
-	                        		</Disabled>
-	                        	}
-	                        	{
-	                        		hasBlocks &&
-	                        		!isDataSet && 
-	        	                	<Button 
-                                        isDefault
-                                        isBusy={ isButtonClicked && !isDataSet }
-                                        onClick={ () => { setState( { isButtonClicked: true } ); setCollectedData() } }
-                                    >
-	        	                		{
-	        	                			!isButtonClicked && !isDataSet && 
-	        	                			<span>
-		        	                			{ __( "Collect data from blocks", "wpzoom-recipe-card" ) }
-	        		                		</span>
-	        	                		}
-	        	                		{
-	        	                			isButtonClicked && !isDataSet && 
-	        	                			<span>
-	        	                				{ __( "Please wait...", "wpzoom-recipe-card" ) }
-	        		                		</span>
-	        	                		}
-	        	                	</Button>
-	                        	}
-	                        	{
-	                        		hasBlocks &&
-	                        		isButtonClicked &&
-	                        		isDataSet && 
-	        	                	<div>
-	        	                		{ __( "Recipe Card is Updated", "wpzoom-recipe-card" ) }
-	        	                	</div>
-	                        	}
-	                	    </div>
-	                	</div>
         	        	<div className="form-group">
         	        	    <div className="wrap-label">
         	        	        <label>{ __( "Bulk Add Ingredients and Directions", "wpzoom-recipe-card" ) }</label>
@@ -421,6 +238,7 @@ export default function ExtraOptionsModal(
     	        	    	        label={ __( "Enter Ingredients", "wpzoom-recipe-card" ) }
     	        	    	        help={ __( "Each line break is new ingredient.", "wpzoom-recipe-card" ) }
                                     className="bulk-add-enter-ingredients"
+                                    rows="8"
     	        	    	        value={ _ingredients }
                                     onKeyPress={ stopKeyPressPropagation }
     	        	    	        onChange={ ( _ingredients ) => setState( { _ingredients } ) }
@@ -429,6 +247,7 @@ export default function ExtraOptionsModal(
     	        	    	        label={ __( "Enter Directions", "wpzoom-recipe-card" ) }
     	        	    	        help={ __( "Each line break is new direction.", "wpzoom-recipe-card" ) }
                                     className="bulk-add-enter-directions"
+                                    rows="8"
     	        	    	        value={ _directions }
                                     onKeyPress={ stopKeyPressPropagation }
     	        	    	        onChange={ ( _directions ) => setState( { _directions } ) }

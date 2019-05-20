@@ -50,8 +50,9 @@ class Inspector extends Component {
 	 */
 	constructor( props ) {
 		super( ...arguments );
-		this.onSelectImage = this.onSelectImage.bind( this );
-		this.updateURL = this.updateURL.bind( this );
+
+		this.onSelectImage 		= this.onSelectImage.bind( this );
+		this.updateURL 			= this.updateURL.bind( this );
 	}
 
 	onSelectImage( media ) {
@@ -84,6 +85,9 @@ class Inspector extends Component {
 
 	getImageSizeOptions() {
 		const { imageSizes, image } = this.props;
+
+		if ( ! image ) return false;
+
 		return compact( map( imageSizes, ( { name, slug } ) => {
 			const sizeUrl = get( image, [ 'media_details', 'sizes', slug, 'source_url' ] );
 			if ( ! sizeUrl ) {
@@ -315,7 +319,7 @@ class Inspector extends Component {
 	        			! isEmpty( imageSizeOptions ) &&
 		                <SelectControl
 	                		label={ __( "Image Size", "wpzoom-recipe-card" ) }
-	                		value={ image.url }
+	                		value={ hasImage ? image.url : '' }
 	                		options={ imageSizeOptions }
 	                		onChange={ this.updateURL }
 	                	/>
@@ -568,8 +572,9 @@ class Inspector extends Component {
 export default compose( [
 	withSelect( ( select, props ) => {
 		const { getMedia } = select( 'core' );
-		const { getEditorSettings } = select( 'core/editor' );
+		const { getEditorSettings, getEditedPostAttribute } = select( 'core/editor' );
 		const { maxWidth, isRTL, imageSizes } = getEditorSettings();
+		const featuredImageId = getEditedPostAttribute( 'featured_media' );
 
 		let id = null;
 
@@ -578,6 +583,22 @@ export default compose( [
 				id = props.attributes.image.id;
 			}
 		}
+		// else if ( featuredImageId ) {
+		// 	const media = getMedia( featuredImageId );
+		// 	const relevantMedia = pickRelevantMediaFiles( media );
+		// 	return {
+		// 		hasImage: true,
+		// 		image: {
+		// 			id: relevantMedia.id,
+		// 			url: relevantMedia.url,
+		// 			alt: relevantMedia.alt,
+		// 			sizes: media.sizes
+		// 		},
+		// 		maxWidth,
+		// 		isRTL,
+		// 		imageSizes
+		// 	};
+		// }
 
 		return {
 			image: id ? getMedia( id ) : null,
