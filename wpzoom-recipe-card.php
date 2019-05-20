@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Recipe Card Blocks by WPZOOM
- * Plugin URI: https://www.wpzoom.com/plugins/recipe-card-blocks-pro/
+ * Plugin URI: https://www.wpzoom.com/plugins/recipe-card-blocks/
  * Description: Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
  * Author: WPZOOM
  * Author URI: https://www.wpzoom.com/
- * Version: 2.1.1
+ * Version: 2.1.0
  * Copyright: (c) 2019 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -119,7 +119,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 
 		/**
 		 * Register custom image size
-		 * 
+		 *
 		 * @since 2.1.1
 		 */
 		public function register_custom_image_sizes() {
@@ -128,7 +128,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 
 		/**
 		 * Make custom sizes selectable from your WordPress admin
-		 * 
+		 *
 		 * @since 2.1.1
 		 * @param array $size_names  The list of registered sizes
 		 * @return array

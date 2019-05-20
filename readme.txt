@@ -4,7 +4,7 @@ Donate link: https://www.wpzoom.com/
 Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card
 Requires at least: 5.0
 Requires PHP: 5.6
-Tested up to: 5.1
+Tested up to: 5.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -33,6 +33,11 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Recipe Details**
 * **Ingredients**
 * **Directions**
+
+
+= 📌 WHAT'S NEW IN 2.1? =
+* New Feature: Ingredients and Directions **Groups**: you can now organize in **sub-sections** ingredients and directions
+* New Feature: **Bulk Add**. You can add ingredients and directions by inserting more entries at once.
 
 
 = 📌 WHAT'S NEW IN 2.0? =
@@ -102,6 +107,22 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.1.0 =
+* New Feature: Ingredients and Directions Groups: you can now organize in sub-sections ingredients and directions
+* New Feature: Bulk Add. You can add ingredients and directions by inserting more entries at once.
+* New Image Size for recipe card header: "Recipe Card Block". It's helpful if your images are potrait, and this image size will crop them to take less space vertically.
+* Multiple bug fixes and improvements
+
+= 2.0.4 =
+* Fixed a bug with adding links in the Ingredients and Directions
+
+= 2.0.3 =
+* Fixed a bug with translation strings
+
+= 2.0.2 =
+* Fixed a problem with Recipe Card details not hiding when disabling them.
+* Ingredients and Directions blocks can now be inserted multiple times in a post. There is no longer a limit of one of these blocks per post.
+
 = 2.0.1 =
 * Fixing error 500 after update to version 2.0 on servers running on PHP 5.6 or lower.
 
@@ -122,6 +143,18 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+⚠️ In this update we've added a new "Bulk Add" feature. There is known problem when using it, and in order to have it working properly, we recommend to enable the Top Toolbar option in the editor options (click on the ⋮ three dots from right-top corner). View how to do this here - https://wp.md/toolbar
+
+= 2.0.4 =
+⚠️ Version 2.0 is a major update and it's possible that it may break old Recipe blocks added in previous posts (Ingredients, Directions). Starting with 2.0 version we recommend using the new "Recipe Card Block (schema.org)".
+
+= 2.0.3 =
+⚠️ Version 2.0 is a major update and it's possible that it may break old Recipe blocks added in previous posts (Ingredients, Directions). Starting with 2.0 version we recommend using the new "Recipe Card Block (schema.org)".
+
+= 2.0.2 =
+⚠️ Version 2.0 is a major update and it's possible that it may break old Recipe blocks added in previous posts (Ingredients, Directions). Starting with 2.0 version we recommend using the new "Recipe Card Block (schema.org)".
 
 = 2.0.1 =
 ⚠️ Version 2.0 is a major update and it's possible that it may break old Recipe blocks added in previous posts (Ingredients, Directions). Starting with 2.0 version we recommend using the new "Recipe Card Block (schema.org)".
