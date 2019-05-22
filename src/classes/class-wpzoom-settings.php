@@ -520,6 +520,7 @@ class WPZOOM_Settings {
 									'options' 		=> array(
 										'default' 	=> __( 'Default', 'wpzoom-recipe-card' ),
 										'newdesign' => __( 'New Design', 'wpzoom-recipe-card' ),
+										'simple' 	=> __( 'Simple Design', 'wpzoom-recipe-card' ),
 									)
 								)
 							),

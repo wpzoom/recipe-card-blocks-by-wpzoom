@@ -332,6 +332,11 @@ class WPZOOM_Recipe_Card_Block {
 				'box-shadow' => '0 5px 40px '. self::$settings['primary_color'] . ''
 			);
 			$printStyles = self::$helpers->render_styles_attributes( $styles );
+		} else if ( 'simple' === self::$style ) {
+			$styles = array(
+				'background-color' => self::$settings['primary_color'],
+			);
+			$printStyles = self::$helpers->render_styles_attributes( $styles );
 		}
 
 		$recipe_card_image = '';
@@ -446,6 +451,13 @@ class WPZOOM_Recipe_Card_Block {
 	        		<a href="https://www.wpzoom.com/plugins/recipe-card-blocks/" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
 	        	</p>
 	        </div>';
+
+	    if ( 'simple' === self::$style ) {
+	    	// Wrap recipe card heading and details content into one div
+	    	$recipe_card_image 		= '<div class="recipe-card-header-wrap">'. $recipe_card_image;
+	    	$recipe_card_heading 	= '<div class="recipe-card-along-image">'. $recipe_card_heading;
+	    	$details_content 		= $details_content .'</div></div><!-- /.recipe-card-header-wrap -->';
+	    }
 
 		$block_content = sprintf(
 			'<div class="%1$s" id="%2$s">%3$s</div>',
@@ -704,6 +716,10 @@ class WPZOOM_Recipe_Card_Block {
 					$styles = array(
 						'color' => @self::$settings['primary_color']
 					);
+				} elseif ( 'simple' === self::$style ) {
+					$styles = array(
+						'color' => self::$settings['icon_details_color']
+					);
 				}
 				$iconStyles = self::$helpers->render_styles_attributes( $styles );
 
@@ -803,7 +819,7 @@ class WPZOOM_Recipe_Card_Block {
 			$isGroup = isset($ingredient['isGroup']) ? $ingredient['isGroup'] : false;
 
 			if ( !$isGroup ) {
-				if ( 'newdesign' === self::$style ) {
+				if ( 'newdesign' === self::$style || 'simple' === self::$style ) {
 					$styles = array(
 						'border' => '2px solid ' . self::$settings['primary_color']
 					);

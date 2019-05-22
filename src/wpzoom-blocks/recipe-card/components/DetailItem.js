@@ -6,6 +6,8 @@ import IconsModal from "./IconsModal";
 import get from "lodash/get";
 import isUndefined from "lodash/isUndefined";
 
+import { getBlockStyle } from "../../../helpers/getBlockStyle";
+
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
@@ -142,13 +144,28 @@ export default class DetailItem extends Component {
 	 * @returns {Component}
 	 */
 	getOpenModalButton( props ) {
-		const { item, index } = props;
-		let { icon, iconSet } = item;
+		const {
+			attributes: {
+				settings
+			},
+			index,
+			className
+		} = props;
+		let {
+			item: {
+				icon,
+				iconSet
+			}
+		} = props;
+		let style = getBlockStyle( className );
 
 		if ( isUndefined( iconSet ) )
 			iconSet = 'oldicon';
 
-		const settings = this.props.attributes.settings;
+		let iconStyles = { 'color': settings[0]['icon_details_color'] };
+		if ( 'newdesign' === style ) {
+			iconStyles = { 'color': '#FFA921' };	
+		}
 
 	    return (
 	        <IconButton
@@ -157,7 +174,7 @@ export default class DetailItem extends Component {
 	            className="editor-inserter__toggle"
 	            label={ __( "Add icon", "wpzoom-recipe-card" ) }
 	        >
-	        	{ icon && <span class={ `${ iconSet } ${ iconSet }-${ icon }` }></span> }
+	        	{ icon && <span class={ `${ iconSet } ${ iconSet }-${ icon }`} style={ iconStyles }></span> }
 	        </IconButton>
 	    );
 	}

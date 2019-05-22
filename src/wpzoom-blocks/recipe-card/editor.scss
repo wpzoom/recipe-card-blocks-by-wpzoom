@@ -28,6 +28,22 @@
 		margin-top: 20px;
 		margin-bottom: 10px;
 	}
+
+	&.is-style-simple {
+		.recipe-card-image-placeholder,
+		.recipe-card-image-preview {
+			margin-top: 0;
+			margin-bottom: 0;
+	        float: left;
+	        width: 40%;
+	        text-align: left;
+	    }
+	    .recipe-card-image-preview .recipe-card-image {
+	    	width: 100%;
+	    	float: none;
+	    }
+	}
+	
 	.recipe-card-details {
 		margin-bottom: 0;
 		.details-items {

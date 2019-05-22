@@ -146,7 +146,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function block_assets() {
-			$options = get_option( 'wpzoom-recipe-card-settings' );
+			$options = WPZOOM_Settings::get_settings();
 
 			// Scripts.
 			wp_enqueue_script(
@@ -232,7 +232,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 */
 
         public function editor_assets() {
-        	$options = get_option( 'wpzoom-recipe-card-settings' );
+        	$options = WPZOOM_Settings::get_settings();
 
             // Scripts.
             wp_enqueue_script(

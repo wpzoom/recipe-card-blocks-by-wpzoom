@@ -85,6 +85,11 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
             name: 'newdesign', 
             label: __( "New Design", "wpzoom-recipe-card" ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'newdesign'
+        },
+        { 
+            name: 'simple', 
+            label: __( "Simple Design", "wpzoom-recipe-card" ),
+            isDefault: setting_options.wpzoom_rcb_settings_template === 'simple'
         }
     ],
     // Transform block to Premium Recipe Card if is PRO active

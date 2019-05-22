@@ -344,21 +344,24 @@ class Inspector extends Component {
 		                    onChange={ display => onChangeSettings( display, 0, 'pin_btn' ) }
 		                />
 	        		</BaseControl>
-			    	<BaseControl
-						id={ `${ id }-heading-align` }
-						label={ __( "Header Content Align", "wpzoom-recipe-card" ) }
-					>
-		                <SelectControl
-	                		label={ __( "Select Alignment", "wpzoom-recipe-card" ) }
-	                		value={ settings[0]['headerAlign'] }
-	                		options={ [
-	                			{ label: __( "Left" ), value: "left" },
-	                			{ label: __( "Center" ), value: "center" },
-	                			{ label: __( "Right" ), value: "right" },
-	                		] }
-	                		onChange={ alignment => onChangeSettings( alignment, 0, 'headerAlign' ) }
-	                	/>
-	        		</BaseControl>
+	        		{
+	        			'simple' !== style &&
+				    	<BaseControl
+							id={ `${ id }-heading-align` }
+							label={ __( "Header Content Align", "wpzoom-recipe-card" ) }
+						>
+			                <SelectControl
+		                		label={ __( "Select Alignment", "wpzoom-recipe-card" ) }
+		                		value={ settings[0]['headerAlign'] }
+		                		options={ [
+		                			{ label: __( "Left" ), value: "left" },
+		                			{ label: __( "Center" ), value: "center" },
+		                			{ label: __( "Right" ), value: "right" },
+		                		] }
+		                		onChange={ alignment => onChangeSettings( alignment, 0, 'headerAlign' ) }
+		                	/>
+		        		</BaseControl>
+	        		}
     		    	<BaseControl
     					id={ `${ id }-author` }
     					label={ __( "Author", "wpzoom-recipe-card" ) }

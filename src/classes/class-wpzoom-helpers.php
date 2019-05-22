@@ -28,7 +28,7 @@ class WPZOOM_Helpers {
 	}
 
 	public function get_block_style( $className ) {
-		$style = 'default';
+		$style = WPZOOM_Settings::get( 'wpzoom_rcb_settings_template' );
 		if ( strpos( $className, 'is-style' ) !== false ) {
 			preg_match('/is-style-(\S*)/', $className, $matches);
 			$style = $matches ? $matches[1] : $style;
@@ -39,12 +39,15 @@ class WPZOOM_Helpers {
 
 	public function parse_block_settings( array $attrs ) {
 		$settings = isset( $attrs['settings'][0] ) ? $attrs['settings'][0] : array();
-		$settings_defaults = WPZOOM_Settings::get_defaults();
-		$blockStyle = isset($attrs['className']) ? $this->get_block_style( $attrs['className'] ) : 'default';
+		$blockStyle = isset($attrs['className']) ? $this->get_block_style( $attrs['className'] ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_template' );
 
 		if ( !isset( $settings['headerAlign'] ) ) {
 			$settings['headerAlign'] = 'left';
 		}
+		if ( $blockStyle === 'simple' ) {
+			$settings['headerAlign'] = 'left';
+		}
+		
 		if ( !isset( $settings['custom_author_name'] ) ) {
 			$settings['custom_author_name'] = '';
 		}
