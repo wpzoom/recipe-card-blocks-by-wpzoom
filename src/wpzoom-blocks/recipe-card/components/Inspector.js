@@ -52,14 +52,44 @@ class Inspector extends Component {
 		super( ...arguments );
 
 		this.onSelectImage 		= this.onSelectImage.bind( this );
+		this.onSetFeaturedImage = this.onSetFeaturedImage.bind( this );
 		this.updateURL 			= this.updateURL.bind( this );
 	}
 
-	onSelectImage( media ) {
+	onSetFeaturedImage() {
+		const {
+			media,
+			attributes: {
+				hasImage
+			},
+			setAttributes
+		} = this.props;
+
+		if ( hasImage || ! media ) {
+			return false;
+		}
+
 		const relevantMedia = pickRelevantMediaFiles( media );
 
-		this.props.setAttributes( {
-			hasImage: true,
+		setAttributes( {
+			hasImage: !isNull( relevantMedia.id ),
+			image: {
+				id: relevantMedia.id,
+				url: relevantMedia.url,
+				alt: relevantMedia.alt,
+				sizes: get( media, [ 'sizes' ] ) || get( media, [ 'media_details', 'sizes' ] )
+			}
+		} );
+	}
+
+	onSelectImage( media ) {
+		const {
+			setAttributes
+		} = this.props;
+		const relevantMedia = pickRelevantMediaFiles( media );
+
+		setAttributes( {
+			hasImage: !isNull( relevantMedia.id ),
 			image: {
 				id: relevantMedia.id,
 				url: relevantMedia.url,
@@ -70,7 +100,15 @@ class Inspector extends Component {
 	}
 
 	updateURL( url ) {
-		const { id, alt, sizes } = this.props.attributes.image;
+		const {
+			attributes: {
+				image: {
+					id,
+					alt,
+					sizes
+				}
+			}
+		} = this.props;
 		
 		this.props.setAttributes( {
 			hasImage: true,
@@ -84,12 +122,9 @@ class Inspector extends Component {
 	}
 
 	getImageSizeOptions() {
-		const { imageSizes, image } = this.props;
-
-		if ( ! image ) return false;
-
+		const { imageSizes, media } = this.props;
 		return compact( map( imageSizes, ( { name, slug } ) => {
-			const sizeUrl = get( image, [ 'media_details', 'sizes', slug, 'source_url' ] );
+			const sizeUrl = get( media, [ 'media_details', 'sizes', slug, 'source_url' ] );
 			if ( ! sizeUrl ) {
 				return null;
 			}
@@ -107,8 +142,12 @@ class Inspector extends Component {
 	 */
 	render() {
 
+		// Set featured image if Recipe Card image aren't uploaded
+		this.onSetFeaturedImage();
+
 		const {
 			clientId,
+			media,
 			attributes,
 			setAttributes
 		} = this.props;
@@ -255,7 +294,7 @@ class Inspector extends Component {
             		</PanelRow>
             		<PanelRow className={ ! hasImage ? "text-color-red": "" }>
             			<span>image</span>
-            			<strong>{ hasImage ? image.url : '' }</strong>
+            			<strong>{ hasImage ? get( image, ['url'] ) : '' }</strong>
             		</PanelRow>
             		<PanelRow>
             			<span>recipeYield</span>
@@ -305,7 +344,7 @@ class Inspector extends Component {
 	                				{ hasImage ?
 	                					<img
 	                                        className={ `${ id }-image` }
-	                                        src={ image.sizes ? image.sizes.full.url : image.url }
+	                                        src={ get( image, ['sizes', 'full', 'url'] ) || get( image, ['sizes', 'full', 'source_url'] ) || get( image, ['url'] ) || get( image, ['source_url'] ) }
 	                                        alt={ image.alt ? image.alt : recipeTitle }
 	                                    />
 	                					: __( "Add recipe image", "wpzoom-recipe-card" )
@@ -316,10 +355,11 @@ class Inspector extends Component {
 	                	{ hasImage ? <Button isLink="true" isDestructive="true" onClick={ removeRecipeImage }>{ __( "Remove Image", "wpzoom-recipe-card" ) }</Button> : '' }
 	        		</BaseControl>
 	        		{
+	        			hasImage &&
 	        			! isEmpty( imageSizeOptions ) &&
 		                <SelectControl
 	                		label={ __( "Image Size", "wpzoom-recipe-card" ) }
-	                		value={ hasImage ? image.url : '' }
+	                		value={ get( image, ['url'] ) }
 	                		options={ imageSizeOptions }
 	                		onChange={ this.updateURL }
 	                	/>
@@ -574,40 +614,37 @@ class Inspector extends Component {
 
 export default compose( [
 	withSelect( ( select, props ) => {
-		const { getMedia } = select( 'core' );
-		const { getEditorSettings, getEditedPostAttribute } = select( 'core/editor' );
-		const { maxWidth, isRTL, imageSizes } = getEditorSettings();
-		const featuredImageId = getEditedPostAttribute( 'featured_media' );
-
-		let id = null;
-
-		if ( !isUndefined(props.attributes.image) && !isNull( props.attributes.image ) ) {
-			if ( !isUndefined( props.attributes.image.id ) ) {
-				id = props.attributes.image.id;
+		const {
+			attributes: {
+				image,
+				hasImage
 			}
-		}
-		// else if ( featuredImageId ) {
-		// 	const media = getMedia( featuredImageId );
-		// 	const relevantMedia = pickRelevantMediaFiles( media );
-		// 	return {
-		// 		hasImage: true,
-		// 		image: {
-		// 			id: relevantMedia.id,
-		// 			url: relevantMedia.url,
-		// 			alt: relevantMedia.alt,
-		// 			sizes: media.sizes
-		// 		},
-		// 		maxWidth,
-		// 		isRTL,
-		// 		imageSizes
-		// 	};
-		// }
-
-		return {
-			image: id ? getMedia( id ) : null,
+		} = props;
+		const { getMedia } = select( 'core' );
+		const { 
+			getEditorSettings,
+			getEditedPostAttribute
+		} = select( 'core/editor' );
+		const { 
 			maxWidth,
 			isRTL,
+			imageSizes
+		} = getEditorSettings();
+		const featuredImageId = getEditedPostAttribute( 'featured_media' );
+
+		let id = 0;
+
+		if ( hasImage ) {
+			id = get( image, ['id'] ) || 0;
+		} else {
+			id = featuredImageId;
+	 	}
+
+		return {
+			media: id ? getMedia( id ) : false,
 			imageSizes,
+			maxWidth,
+			isRTL
 		};
 	} )
 ] )( Inspector );
