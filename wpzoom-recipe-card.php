@@ -124,6 +124,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 */
 		public function register_custom_image_sizes() {
 			add_image_size( 'wpzoom-rcb-block-header', 800, 530, true );
+			add_image_size( 'wpzoom-rcb-block-header-square', 530, 530, true );
 		}
 
 		/**
@@ -135,7 +136,8 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Block_Gutenberg' ) ) :
 		 */
 		public function custom_image_sizes_choose( $size_names ) {
 			$new_sizes = array(
-		        'wpzoom-rcb-block-header' => __( 'Recipe Card Block', 'wpzoom-recipe-card' )
+		        'wpzoom-rcb-block-header' => __( 'Recipe Card Block', 'wpzoom-recipe-card' ),
+		        'wpzoom-rcb-block-header-square' => __( 'Recipe Card Block Square', 'wpzoom-recipe-card' )
 		    );
 		    return array_merge( $size_names, $new_sizes );
 		}

@@ -1,5 +1,10 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
+import isObject from "lodash/isObject";
+import isString from "lodash/isString";
+import includes from "lodash/includes";
+import isUndefined from "lodash/isUndefined";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
@@ -9,6 +14,7 @@ const { IconButton } = wp.components;
 const { setting_options } = wpzoomRecipeCard;
 
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
+import { matchIMGsrc } from "../../../helpers/stringHelpers";
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
@@ -251,19 +257,25 @@ export default class DirectionStep extends Component {
 	 *
 	 * @returns {string|boolean} The image src or false if none is found.
 	 */
-	static getImageSrc( contents ) {
-		if ( ! contents || ! contents.filter ) {
-			return false;
-		}
+	 static getImageSrc( contents, index = 0 ) {
+	 	let image = false;
+	 	if ( isString( contents ) ) {
+	 		image = matchIMGsrc( contents );
+	 	}
+	 	if ( isObject( contents ) ) {
+	 		image = contents.filter( ( node ) => node && node.type && node.type === "img" );
+	 	}
 
-		const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
+	 	if ( ! image || ! image[ index ] ) {
+	 		return false;
+	 	}
 
-		if ( ! image ) {
-			return false;
-		}
-
-		return image.props.src;
-	}
+	 	if ( ! isUndefined( image[ index ].props ) ) {
+	 		return image[ index ].props.src;
+	 	} else {
+	 		return image[ index ];
+	 	}
+	 }
 
 	/**
 	 * Renders this component.

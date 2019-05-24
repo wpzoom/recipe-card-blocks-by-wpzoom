@@ -104,12 +104,6 @@ export default class Direction extends Component {
 			isGroup: group
 		};
 
-		const imageSrc = DirectionStep.getImageSrc( newText );
-
-		if ( imageSrc ) {
-			steps[ index ].jsonImageSrc = imageSrc;
-		}
-
 		this.props.setAttributes( { steps } );
 	}
 

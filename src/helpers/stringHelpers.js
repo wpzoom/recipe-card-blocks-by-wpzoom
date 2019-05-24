@@ -36,3 +36,39 @@ export function humanize( string ) {
   	}
   	return frags.join(' ');
 }
+
+/**
+ * Extract the src element from all image tags in an HTML string passed.
+ *
+ * @param   {string} string The string to extract img src.
+ *
+ * @returns {array}         The array with all extracted src from string.
+ */
+export function matchIMGsrc( string ) {
+  	const regex = /<img[^>]+src="([^">]+)"/gm;
+  	let IMGsources = [];
+  	let m;
+  	let i = 0;
+
+  	while ((m = regex.exec(string)) !== null) {
+  	    // This is necessary to avoid infinite loops with zero-width matches
+  	    if (m.index === regex.lastIndex) {
+  	        regex.lastIndex++;
+  	    }
+  	    
+  	    // The result can be accessed through the `m`-variable.
+  	    m.forEach((match, groupIndex) => {
+  	    	if ( groupIndex === 1 ) {
+  	    		IMGsources[ i ] = match;
+  	    	}
+  	    });
+
+  	    i++;
+  	}
+
+  	if ( IMGsources.length ) {
+  		return IMGsources;
+  	}
+
+  	return false;
+}
