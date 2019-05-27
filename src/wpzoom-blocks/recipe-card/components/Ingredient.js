@@ -405,11 +405,21 @@ export default class Ingredient extends Component {
 	 * @returns {Component} The Ingredient block editor.
 	 */
 	render() {
-		const { attributes, setAttributes, className } = this.props;
-		const { ingredientsTitle, settings } = attributes;
+		const {
+			attributes: {
+				ingredientsTitle,
+				settings: {
+					0: {
+						ingredientsLayout
+					}
+				}
+			},
+			setAttributes,
+			className
+		} = this.props;
 
 		const classNames     = [ "recipe-card-ingredients" ].filter( ( item ) => item ).join( " " );
-		const listClassNames = [ "ingredients-list", `layout-${ settings[0]['ingredientsLayout'] }` ].filter( ( item ) => item ).join( " " );
+		const listClassNames = [ "ingredients-list", `layout-${ ingredientsLayout }` ].filter( ( item ) => item ).join( " " );
 
 		return (
 			<div className={ classNames }>

@@ -262,18 +262,29 @@ export default class Detail extends Component {
 	 * @returns {Component[]} The item components.
 	 */
 	getDetailItems() {
-		if ( ! this.props.attributes.details ) {
+		const {
+			details,
+			settings: {
+				0: {
+					displayServings,
+					displayPrepTime,
+					displayCookingTime,
+					displayCalories
+				}
+			}
+		} = this.props.attributes;
+
+		if ( ! details ) {
 			return null;
 		}
 
-		const { settings } = this.props.attributes;
 		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
-		return this.props.attributes.details.map( ( item, index ) => {
-			if ( 0 === index && settings[0]['displayServings'] || 
-				1 === index && settings[0]['displayPrepTime'] || 
-				2 === index && settings[0]['displayCookingTime'] || 
-				3 === index && settings[0]['displayCalories'] 
+		return details.map( ( item, index ) => {
+			if ( 0 === index && displayServings || 
+				1 === index && displayPrepTime || 
+				2 === index && displayCookingTime || 
+				3 === index && displayCalories 
 			) {
 				return (
 					<DetailItem
@@ -287,7 +298,7 @@ export default class Detail extends Component {
 						onFocus={ this.setFocusToDetail }						
 						subElement={ subElement }
 						isFirst={ index === 0 }
-						isLast={ index === this.props.attributes.details.length - 1 }
+						isLast={ index === details.length - 1 }
 						isSelected={ focusIndex === `${ index }` }
 						{ ...this.props }
 					/>
@@ -297,8 +308,13 @@ export default class Detail extends Component {
 	}
 	
 	render() {
-		const { attributes, setAttributes, className } = this.props;
-		const { details } = attributes;
+		const {
+			attributes: {
+				details
+			},
+			setAttributes,
+			className
+		} = this.props;
 
 		const classNames    = [ "recipe-card-details" ].filter( ( item ) => item ).join( " " );
 		const detailClasses = [ "details-items" ].filter( ( item ) => item ).join( " " );

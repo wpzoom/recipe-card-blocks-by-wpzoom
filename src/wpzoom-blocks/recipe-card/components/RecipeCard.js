@@ -4,6 +4,7 @@ import Ingredient from "./Ingredient";
 import Direction from "./Direction";
 import Inspector from "./Inspector";
 import ExtraOptionsModal from "./ExtraOptionsModal";
+import get from "lodash/get";
 import isUndefined from "lodash/isUndefined";
 import filter from "lodash/filter";
 import indexOf from "lodash/indexOf";
@@ -134,36 +135,55 @@ export default class RecipeCard extends Component {
 			difficulty,
 			hasImage,
 			image,
-			settings,
+			settings: {
+				0: {
+					primary_color,
+					icon_details_color,
+					print_btn,
+					pin_btn,
+					custom_author_name,
+					displayCourse,
+					displayCuisine,
+					displayDifficulty,
+					displayAuthor,
+					displayServings,
+					displayPrepTime,
+					displayCookingTime,
+					displayCalories,
+					headerAlign,
+					ingredientsLayout
+				}
+			},
 		} = attributes;
 
 		let style = getBlockStyle( className );
 		let pin_description = recipeTitle;
+		let headerContentAlign, customAuthorName;
 		const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
 
 		if ( setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {
 			pin_description = jsonSummary;
 		}
-		if ( isUndefined( settings[0]['headerAlign'] ) ) {
-			settings[0]['headerAlign'] = setting_options.wpzoom_rcb_settings_heading_content_align;
+		if ( isUndefined( headerAlign ) ) {
+			headerContentAlign = setting_options.wpzoom_rcb_settings_heading_content_align;
 		}
 		if ( 'simple' === style ) {
-			settings[0]['headerAlign'] = 'left';
+			headerContentAlign = 'left';
 		}
 
-		let custom_author_name = settings[0]['custom_author_name'];
-		if ( custom_author_name === '' ) {
-		    custom_author_name = post_author_name;
+		customAuthorName = custom_author_name;
+		if ( customAuthorName === '' ) {
+		    customAuthorName = post_author_name;
 		}
 
 		const regex = /is-style-(\S*)/g;
 		let m = regex.exec( className );
-		let classNames = m !== null ? [ className, `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ] : [ className, `is-style-${ style }`, `header-content-align-${ settings[0]['headerAlign'] }`, loadingClass ]
+		let classNames = m !== null ? [ className, `header-content-align-${ headerContentAlign }`, loadingClass ] : [ className, `is-style-${ style }`, `header-content-align-${ headerContentAlign }`, loadingClass ]
 
 		const RecipeCardClassName = classNames.filter( ( item ) => item ).join( " " );
 		const PrintClasses = [ "wpzoom-recipe-card-print-link" ].filter( ( item ) => item ).join( " " );
 		const PinterestClasses = [ "wpzoom-recipe-card-pinit" ].filter( ( item ) => item ).join( " " );
-		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ post_permalink }&media=${ hasImage ? image.url : post_thumbnail_url }&description=${ pin_description }`;
+		const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ post_permalink }&media=${ get( image, ['url'] ) || post_thumbnail_url }&description=${ pin_description }`;
 
 		return (
 			<div className={ RecipeCardClassName } id={ id }>
@@ -183,7 +203,7 @@ export default class RecipeCard extends Component {
 					<Fragment>
 
 					{
-						! hasImage && post_thumbnail_id === '' &&
+						! hasImage &&
 							<Placeholder
 								icon="format-image"
 								className="recipe-card-image-placeholder"
@@ -193,7 +213,7 @@ export default class RecipeCard extends Component {
 						        	<MediaUpload
 						        		onSelect={ this.onSelectImage }
 						        		allowedTypes={ ALLOWED_MEDIA_TYPES }
-						        		value={ post_thumbnail_id }
+						        		value="0"
 						        		render={ ( { open } ) => (
 						        			<Button
 						        				onClick={ open }
@@ -209,84 +229,34 @@ export default class RecipeCard extends Component {
 							/>
 					}
 					{
-						! hasImage && post_thumbnail_id !== '' &&
-				        	<MediaUpload
-				        		onSelect={ this.onSelectImage }
-				        		allowedTypes={ ALLOWED_MEDIA_TYPES }
-				        		value={ post_thumbnail_id }
-				        		render={ ( { open } ) => (
-				        			<Button
-				        				className="recipe-card-image-preview"
-				        				onClick={ open }
-				        			>
-	        							<div className="recipe-card-image">
-	        								<figure>
-	        									<img src={ post_thumbnail_url } id={ post_thumbnail_id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
-	        									<figcaption>
-													{
-														settings[0]['pin_btn'] && 
-														<div className={ PinterestClasses }>
-										                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
-										                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
-										                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
-										                    </a>
-										                </div>
-										            }
-										            {
-									                	settings[0]['print_btn'] && 
-									                	<div className={ PrintClasses }>
-										                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-										                    	<i className="fa fa-print icon-print-link"></i>
-										                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
-										                    </a>
-										                </div>
-									                }
-	        						            </figcaption>
-	        								</figure>
-	        							</div>
-				        			</Button>
-				        		) }
-				        	/>
-					}
-					{
-			        	hasImage && 
-			        	<MediaUpload
-			        		onSelect={ this.onSelectImage }
-			        		allowedTypes={ ALLOWED_MEDIA_TYPES }
-			        		value={ image.id }
-			        		render={ ( { open } ) => (
-			        			<Button
-			        				className="recipe-card-image-preview"
-			        				onClick={ open }
-			        			>
-	    							<div className="recipe-card-image">
-	    								<figure>
-	    									<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
-	    									<figcaption>
-												{
-													settings[0]['pin_btn'] && 
-													<div className={ PinterestClasses }>
-									                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
-									                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
-									                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
-									                    </a>
-									                </div>
-									            }
-									            {
-								                	settings[0]['print_btn'] && 
-								                	<div className={ PrintClasses }>
-									                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-									                    	<i className="fa fa-print icon-print-link"></i>
-									                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
-									                    </a>
-									                </div>
-								                }
-	    						            </figcaption>
-	    								</figure>
-	    							</div>
-			        			</Button>
-			        		) }
-			        	/>
+			        	hasImage &&
+			        	<div className="recipe-card-image-preview">
+							<div className="recipe-card-image">
+								<figure>
+									<img src={ get( image, ['url'] ) } id={ get( image, ['id'] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
+									<figcaption>
+										{
+											pin_btn && 
+											<div className={ PinterestClasses }>
+							                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
+							                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
+							                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
+							                    </a>
+							                </div>
+							            }
+							            {
+						                	print_btn && 
+						                	<div className={ PrintClasses }>
+							                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
+							                    	<i className="fa fa-print icon-print-link"></i>
+							                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
+							                    </a>
+							                </div>
+						                }
+						            </figcaption>
+								</figure>
+							</div>
+			        	</div> 
 			        }
 					<div className="recipe-card-heading">
 						<RichText
@@ -303,10 +273,10 @@ export default class RecipeCard extends Component {
 							formattingControls={ [] }
 							keepPlaceholderOnFocus={ true }
 						/>
-						{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ __( "Recipe by", "wpzoom-recipe-card" ) } { custom_author_name }</span> }
-						{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-						{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-						{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+						{ displayAuthor && <span className="recipe-card-author">{ __( "Recipe by", "wpzoom-recipe-card" ) } { customAuthorName }</span> }
+						{ displayCourse && <span className="recipe-card-course">{ __( "Course", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+						{ displayCuisine && <span className="recipe-card-cuisine">{ __( "Cuisine", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+						{ displayDifficulty && <span className="recipe-card-difficulty">{ __( "Difficulty", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
 						<p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
 					</div>
 					<Detail { ...{ attributes, setAttributes, className } } />
@@ -319,7 +289,7 @@ export default class RecipeCard extends Component {
 					<div className="recipe-card-header-wrap">
 
 					{
-						! hasImage && post_thumbnail_id === '' &&
+						! hasImage &&
 							<Placeholder
 								icon="format-image"
 								className="recipe-card-image-placeholder"
@@ -329,7 +299,7 @@ export default class RecipeCard extends Component {
 						        	<MediaUpload
 						        		onSelect={ this.onSelectImage }
 						        		allowedTypes={ ALLOWED_MEDIA_TYPES }
-						        		value={ post_thumbnail_id }
+						        		value="0"
 						        		render={ ( { open } ) => (
 						        			<Button
 						        				onClick={ open }
@@ -345,84 +315,34 @@ export default class RecipeCard extends Component {
 							/>
 					}
 					{
-						! hasImage && post_thumbnail_id !== '' &&
-				        	<MediaUpload
-				        		onSelect={ this.onSelectImage }
-				        		allowedTypes={ ALLOWED_MEDIA_TYPES }
-				        		value={ post_thumbnail_id }
-				        		render={ ( { open } ) => (
-				        			<Button
-				        				className="recipe-card-image-preview"
-				        				onClick={ open }
-				        			>
-	        							<div className="recipe-card-image">
-	        								<figure>
-	        									<img src={ post_thumbnail_url } id={ post_thumbnail_id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
-	        									<figcaption>
-													{
-														settings[0]['pin_btn'] && 
-														<div className={ PinterestClasses }>
-										                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
-										                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
-										                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
-										                    </a>
-										                </div>
-										            }
-										            {
-									                	settings[0]['print_btn'] && 
-									                	<div className={ PrintClasses }>
-										                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-										                    	<i className="fa fa-print icon-print-link"></i>
-										                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
-										                    </a>
-										                </div>
-									                }
-	        						            </figcaption>
-	        								</figure>
-	        							</div>
-				        			</Button>
-				        		) }
-				        	/>
-					}
-					{
 			        	hasImage && 
-			        	<MediaUpload
-			        		onSelect={ this.onSelectImage }
-			        		allowedTypes={ ALLOWED_MEDIA_TYPES }
-			        		value={ image.id }
-			        		render={ ( { open } ) => (
-			        			<Button
-			        				className="recipe-card-image-preview"
-			        				onClick={ open }
-			        			>
-	    							<div className="recipe-card-image">
-	    								<figure>
-	    									<img src={ image.url } id={ image.id } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
-	    									<figcaption>
-												{
-													settings[0]['pin_btn'] && 
-													<div className={ PinterestClasses }>
-									                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
-									                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
-									                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
-									                    </a>
-									                </div>
-									            }
-									            {
-								                	settings[0]['print_btn'] && 
-								                	<div className={ PrintClasses }>
-									                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-									                    	<i className="fa fa-print icon-print-link"></i>
-									                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
-									                    </a>
-									                </div>
-								                }
-	    						            </figcaption>
-	    								</figure>
-	    							</div>
-			        			</Button>
-			        		) }
-			        	/>
+			        	<div className="recipe-card-image-preview">
+							<div className="recipe-card-image">
+								<figure>
+									<img src={ get( image, ['url'] ) } id={ get( image, ['id'] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
+									<figcaption>
+										{
+											pin_btn && 
+											<div className={ PinterestClasses }>
+							                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
+							                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
+							                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
+							                    </a>
+							                </div>
+							            }
+							            {
+						                	print_btn && 
+						                	<div className={ PrintClasses }>
+							                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
+							                    	<i className="fa fa-print icon-print-link"></i>
+							                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
+							                    </a>
+							                </div>
+						                }
+						            </figcaption>
+								</figure>
+							</div>
+			        	</div>
 			        }
 
 			        <div className="recipe-card-along-image">
@@ -442,10 +362,10 @@ export default class RecipeCard extends Component {
 							formattingControls={ [] }
 							keepPlaceholderOnFocus={ true }
 						/>
-						{ settings[0]['displayAuthor'] && <span className="recipe-card-author">{ __( "Recipe by", "wpzoom-recipe-card" ) } { custom_author_name }</span> }
-						{ settings[0]['displayCourse'] && <span className="recipe-card-course">{ __( "Course", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-						{ settings[0]['displayCuisine'] && <span className="recipe-card-cuisine">{ __( "Cuisine", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
-						{ settings[0]['displayDifficulty'] && <span className="recipe-card-difficulty">{ __( "Difficulty", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+						{ displayAuthor && <span className="recipe-card-author">{ __( "Recipe by", "wpzoom-recipe-card" ) } { customAuthorName }</span> }
+						{ displayCourse && <span className="recipe-card-course">{ __( "Course", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(course) ? course.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+						{ displayCuisine && <span className="recipe-card-cuisine">{ __( "Cuisine", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(cuisine) ? cuisine.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
+						{ displayDifficulty && <span className="recipe-card-difficulty">{ __( "Difficulty", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty(difficulty) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
 						<p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
 					</div>
 					<Detail { ...{ attributes, setAttributes, className } } />

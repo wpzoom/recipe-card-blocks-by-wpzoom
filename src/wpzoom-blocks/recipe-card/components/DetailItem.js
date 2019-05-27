@@ -146,7 +146,11 @@ export default class DetailItem extends Component {
 	getOpenModalButton( props ) {
 		const {
 			attributes: {
-				settings
+				settings: {
+					0: {
+						icon_details_color
+					}
+				}
 			},
 			index,
 			className
@@ -162,7 +166,7 @@ export default class DetailItem extends Component {
 		if ( isUndefined( iconSet ) )
 			iconSet = 'oldicon';
 
-		let iconStyles = { 'color': settings[0]['icon_details_color'] };
+		let iconStyles = { 'color': icon_details_color };
 		if ( 'newdesign' === style ) {
 			iconStyles = { 'color': '#FFA921' };	
 		}

@@ -50,7 +50,6 @@ class Inspector extends Component {
 	 */
 	constructor( props ) {
 		super( ...arguments );
-
 		this.onSelectImage 		= this.onSelectImage.bind( this );
 		this.onSetFeaturedImage = this.onSetFeaturedImage.bind( this );
 		this.updateURL 			= this.updateURL.bind( this );
@@ -169,7 +168,25 @@ class Inspector extends Component {
 			ingredients,
 			steps,
 			details,
-			settings,
+			settings: {
+				0: {
+					primary_color,
+					icon_details_color,
+					print_btn,
+					pin_btn,
+					custom_author_name,
+					displayCourse,
+					displayCuisine,
+					displayDifficulty,
+					displayAuthor,
+					displayServings,
+					displayPrepTime,
+					displayCookingTime,
+					displayCalories,
+					headerAlign,
+					ingredientsLayout
+				}
+			},
 		} = attributes;
 
 		const imageSizeOptions = this.getImageSizeOptions();
@@ -229,7 +246,7 @@ class Inspector extends Component {
 			setAttributes( { details } );
 		}
 
-		const removeRecipeImage = () => {
+		const onRemoveRecipeImage = () => {
 			setAttributes( { hasImage: false, image: null } )
 		}
 
@@ -329,30 +346,67 @@ class Inspector extends Component {
                 <PanelBody className="wpzoom-recipe-card-settings" initialOpen={ true } title={ __( "Recipe Card Settings", "wpzoom-recipe-card" ) }>
 	            	<BaseControl
 	        			id={ `${ id }-image` }
+	        			className="editor-post-featured-image"
 	        			label={ __( "Recipe Card Image (required)", "wpzoom-recipe-card" ) }
 	        			help={ __( "Upload image for Recipe Card.", "wpzoom-recipe-card" ) }
 	        		>
-	                	<MediaUpload
-	                		onSelect={ this.onSelectImage }
-	                		allowedTypes={ ALLOWED_MEDIA_TYPES }
-	                		value={ hasImage ? image.id : '' }
-	                		render={ ( { open } ) => (
-	                			<Button
-	                				className={ hasImage ? "editor-post-featured-image__preview" : "editor-post-featured-image__toggle" }
-	                				onClick={ open }
-	                			>
-	                				{ hasImage ?
-	                					<img
-	                                        className={ `${ id }-image` }
-	                                        src={ get( image, ['sizes', 'full', 'url'] ) || get( image, ['sizes', 'full', 'source_url'] ) || get( image, ['url'] ) || get( image, ['source_url'] ) }
-	                                        alt={ image.alt ? image.alt : recipeTitle }
-	                                    />
-	                					: __( "Add recipe image", "wpzoom-recipe-card" )
-	                                }
-	                			</Button>
-	                		) }
-	                	/>
-	                	{ hasImage ? <Button isLink="true" isDestructive="true" onClick={ removeRecipeImage }>{ __( "Remove Image", "wpzoom-recipe-card" ) }</Button> : '' }
+        				{
+        					hasImage &&
+		                	<MediaUpload
+		                		onSelect={ this.onSelectImage }
+		                		allowedTypes={ ALLOWED_MEDIA_TYPES }
+		                		value={ get( image, ['id'] ) }
+		                		render={ ( { open } ) => (
+		                			<Button
+		                				className="editor-post-featured-image__preview"
+		                				onClick={ open }
+		                			>
+    									<img
+    				                        className={ `${ id }-image` }
+    				                        src={ get( image, ['sizes', 'full', 'url'] ) || get( image, ['sizes', 'full', 'source_url'] ) || get( image, ['url'] ) || get( image, ['source_url'] ) }
+    				                        alt={ get( image, ['alt'] ) || recipeTitle }
+    				                    />
+		                			</Button>
+		                		) }
+		                	/>
+        				}
+        				{
+		            		! hasImage &&
+		            		<MediaUpload
+		            			onSelect={ this.onSelectImage }
+		            			allowedTypes={ ALLOWED_MEDIA_TYPES }
+		            			value={ get( image, ['id'] ) }
+		            			render={ ( { open } ) => (
+		            				<Button
+			            				className="editor-post-featured-image__toggle"
+			            				onClick={ open }
+			            			>
+			            				{ __( "Add Recipe Image", "wpzoom-recipe-card" ) }
+			            			</Button>
+		            			) }
+		            		/>
+		            	}
+		                {
+		                	hasImage &&
+		                	<MediaUpload
+		                		onSelect={ this.onSelectImage }
+		                		allowedTypes={ ALLOWED_MEDIA_TYPES }
+		                		value={ get( image, ['id'] ) }
+		                		render={ ( { open } ) => (
+		                			<Button
+		                				isDefault
+		                				isLarge
+		                				onClick={ open }
+		                			>
+		                				{__( "Replace Image", "wpzoom-recipe-card" ) }
+		                			</Button>
+		                		) }
+		                	/>
+		                }
+	                	{ 
+	                		hasImage && 
+	                		<Button isLink="true" isDestructive="true" onClick={ onRemoveRecipeImage }>{ __( "Remove Recipe Image", "wpzoom-recipe-card" ) }</Button>
+	                	}
 	        		</BaseControl>
 	        		{
 	        			hasImage &&
@@ -370,7 +424,7 @@ class Inspector extends Component {
 					>
 		                <ToggleControl
 		                    label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
-		                    checked={ settings[0]['print_btn'] }
+		                    checked={ print_btn }
 		                    onChange={ display => onChangeSettings( display, 0, 'print_btn' ) }
 		                />
 	        		</BaseControl>
@@ -380,7 +434,7 @@ class Inspector extends Component {
 					>
 		                <ToggleControl
 		                    label={ __( "Display Pinterest Button", "wpzoom-recipe-card" ) }
-		                    checked={ settings[0]['pin_btn'] }
+		                    checked={ pin_btn }
 		                    onChange={ display => onChangeSettings( display, 0, 'pin_btn' ) }
 		                />
 	        		</BaseControl>
@@ -392,7 +446,7 @@ class Inspector extends Component {
 						>
 			                <SelectControl
 		                		label={ __( "Select Alignment", "wpzoom-recipe-card" ) }
-		                		value={ settings[0]['headerAlign'] }
+		                		value={ headerAlign }
 		                		options={ [
 		                			{ label: __( "Left" ), value: "left" },
 		                			{ label: __( "Center" ), value: "center" },
@@ -408,18 +462,18 @@ class Inspector extends Component {
     				>
 		                <ToggleControl
 		                    label={ __( "Display Author", "wpzoom-recipe-card" ) }
-		                    checked={ settings[0]['displayAuthor'] }
+		                    checked={ displayAuthor }
 		                    onChange={ display => onChangeSettings( display, 0, 'displayAuthor' ) }
 		                />
 		                {
-		                	settings[0]['displayAuthor'] &&
+		                	displayAuthor &&
 			                <TextControl
 			                	id={ `${ id }-custom-author-name` }
 			                	instanceId={ `${ id }-custom-author-name` }
 			                	type="text"
 			                	label={ __( "Custom author name", "wpzoom-recipe-card" ) }
 			                	help={ __( "Default: Post author name", "wpzoom-recipe-card" ) }
-			                	value={ settings[0]['custom_author_name'] }
+			                	value={ custom_author_name }
 			                	onChange={ authorName => onChangeSettings( authorName, 0, 'custom_author_name' ) }
 			                />
 			            }
@@ -433,7 +487,7 @@ class Inspector extends Component {
    				                <SelectControl
    			                		label={ __( "Select Layout", "wpzoom-recipe-card" ) }
    			                		help={ __( "This setting is visible only on Front-End. In Editor still appears in one column to prevent floating elements on editing.", "wpzoom-recipe-card" ) }
-   			                		value={ settings[0]['ingredientsLayout'] }
+   			                		value={ ingredientsLayout }
    			                		options={ [
    			                			{ label: __( "1 column" ), value: "1-column" },
    			                			{ label: __( "2 columns" ), value: "2-columns" },
@@ -450,11 +504,11 @@ class Inspector extends Component {
 					>
 						<ToggleControl
 						    label={ __( "Display Course", "wpzoom-recipe-card" ) }
-						    checked={ settings[0]['displayCourse'] }
+						    checked={ displayCourse }
 						    onChange={ display => onChangeSettings( display, 0, 'displayCourse' ) }
 						/>
 						{
-							settings[0]['displayCourse'] &&
+							displayCourse &&
 		            		<FormTokenField 
 		            			label={ __( "Add course", "wpzoom-recipe-card" ) }
 		        				value={ course } 
@@ -470,11 +524,11 @@ class Inspector extends Component {
 					>
 						<ToggleControl
 						    label={ __( "Display Cuisine", "wpzoom-recipe-card" ) }
-						    checked={ settings[0]['displayCuisine'] }
+						    checked={ displayCuisine }
 						    onChange={ display => onChangeSettings( display, 0, 'displayCuisine' ) }
 						/>
 						{
-							settings[0]['displayCuisine'] &&
+							displayCuisine &&
 		            		<FormTokenField 
 		            			label={ __( "Add cuisine", "wpzoom-recipe-card" ) }
 		        				value={ cuisine } 
@@ -490,11 +544,11 @@ class Inspector extends Component {
 					>
 						<ToggleControl
 						    label={ __( "Display Difficulty", "wpzoom-recipe-card" ) }
-						    checked={ settings[0]['displayDifficulty'] }
+						    checked={ displayDifficulty }
 						    onChange={ display => onChangeSettings( display, 0, 'displayDifficulty' ) }
 						/>
 						{
-							settings[0]['displayDifficulty'] &&
+							displayDifficulty &&
 		            		<FormTokenField 
 		            			label={ __( "Add difficulty level", "wpzoom-recipe-card" ) }
 		        				value={ difficulty } 
@@ -521,12 +575,12 @@ class Inspector extends Component {
 	            <PanelBody className="wpzoom-recipe-card-details" initialOpen={ true } title={ __( "Recipe Card Details", "wpzoom-recipe-card" ) }>
     				<ToggleControl
     				    label={ __( "Display Servings", "wpzoom-recipe-card" ) }
-    				    checked={ settings[0]['displayServings'] }
+    				    checked={ displayServings }
     				    onChange={ display => onChangeSettings( display, 0, 'displayServings' ) }
     				/>
         			<PanelRow>
         				{
-        					settings[0]['displayServings'] &&
+        					displayServings &&
         					<Fragment>
 		        	    		<TextControl
 		        	    			id={ `${ id }-yield` }
@@ -542,12 +596,12 @@ class Inspector extends Component {
         			</PanelRow>
     				<ToggleControl
     				    label={ __( "Display Preparation Time", "wpzoom-recipe-card" ) }
-    				    checked={ settings[0]['displayPrepTime'] }
+    				    checked={ displayPrepTime }
     				    onChange={ display => onChangeSettings( display, 0, 'displayPrepTime' ) }
     				/>
         			<PanelRow>
         				{
-        					settings[0]['displayPrepTime'] &&
+        					displayPrepTime &&
         					<Fragment>
 		        	    		<TextControl
 		        	    			id={ `${ id }-preptime` }
@@ -563,12 +617,12 @@ class Inspector extends Component {
         			</PanelRow>
     				<ToggleControl
     				    label={ __( "Display Cooking Time", "wpzoom-recipe-card" ) }
-    				    checked={ settings[0]['displayCookingTime'] }
+    				    checked={ displayCookingTime }
     				    onChange={ display => onChangeSettings( display, 0, 'displayCookingTime' ) }
     				/>
         			<PanelRow>
         				{
-        					settings[0]['displayCookingTime'] &&
+        					displayCookingTime &&
         					<Fragment>
 		        	    		<TextControl
 		        	    			id={ `${ id }-cookingtime` }
@@ -584,12 +638,12 @@ class Inspector extends Component {
         			</PanelRow>
     				<ToggleControl
     				    label={ __( "Display Calories", "wpzoom-recipe-card" ) }
-    				    checked={ settings[0]['displayCalories'] }
+    				    checked={ displayCalories }
     				    onChange={ display => onChangeSettings( display, 0, 'displayCalories' ) }
     				/>
         			<PanelRow>
         				{
-        					settings[0]['displayCalories'] &&
+        					displayCalories &&
         					<Fragment>
 		        	    		<TextControl
 		        	    			id={ `${ id }-calories` }
