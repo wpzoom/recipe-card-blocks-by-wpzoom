@@ -259,8 +259,9 @@ export default class Direction extends Component {
 	 * @returns {void}
 	 */
 	onAddGroupButtonClick() {
-		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
-		this.insertStep( toNumber( focusIndex ), [], true, true );
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		focusIndex = focusIndex != '' && focusIndex != 'title' ? toNumber( focusIndex ) : null;
+		this.insertStep( focusIndex, [], true, true );
 	}
 
 	/**

@@ -971,7 +971,7 @@ class WPZOOM_Recipe_Card_Block {
 						$class .= ' direction-step-image';
 						$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
 
-						$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $alt, trim($class), trim($img_style) );
+						$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $alt, trim($class), $this->parseTagStyle($img_style) );
 					} else {
 						$start_tag = "";
 					}
@@ -1087,5 +1087,24 @@ class WPZOOM_Recipe_Card_Block {
 		}
 
 		return $output . $content;
+	}
+
+	/**
+	 * Parse HTML tag styles
+	 *
+	 * @since 2.1.0
+	 * @param string|array $style Tag styles to parse
+	 * @return string 			  CSS styles
+	 */
+	public function parseTagStyle( $styles ) {
+		$css = '';
+		if ( is_array( $styles ) ) {
+			foreach ( $styles as $property => $value ) {
+				$css .= $property.': '.$value.';';
+			}
+		} elseif ( is_string( $styles ) ) {
+			$css = $styles;
+		}
+		return $css;
 	}
 }

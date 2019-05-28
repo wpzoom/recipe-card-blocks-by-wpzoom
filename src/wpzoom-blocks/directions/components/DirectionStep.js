@@ -153,7 +153,7 @@ export default class DirectionStep extends Component {
 		} = this.props;
 
 		return <div className="direction-step-button-container">
-			{ ! DirectionStep.getImageSrc( text ) && ! isGroup &&
+			{ ! isGroup &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				allowedTypes={ ALLOWED_MEDIA_TYPES }

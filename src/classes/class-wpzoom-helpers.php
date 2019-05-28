@@ -19,10 +19,14 @@ class WPZOOM_Helpers {
 		return $prefix !== '' ? uniqid( $prefix . '-' ) : uniqid();
 	}
 
-	public function render_styles_attributes( array $styles ) {
+	public function render_styles_attributes( $styles ) {
 		$render = '';
-		foreach ( $styles as $property => $value ) {
-			$render .= sprintf( '%s: %s; ', $property, $value );
+		if ( is_array( $styles ) ) {
+			foreach ( $styles as $property => $value ) {
+				$render .= sprintf( '%s: %s; ', $property, $value );
+			}
+		} elseif ( is_string( $styles ) ) {
+			$render = $styles;
 		}
 		return trim( $render );
 	}
@@ -37,7 +41,7 @@ class WPZOOM_Helpers {
 		return $style;
 	}
 
-	public function parse_block_settings( array $attrs ) {
+	public function parse_block_settings( $attrs ) {
 		$settings = isset( $attrs['settings'][0] ) ? $attrs['settings'][0] : array();
 		$blockStyle = isset($attrs['className']) ? $this->get_block_style( $attrs['className'] ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_template' );
 

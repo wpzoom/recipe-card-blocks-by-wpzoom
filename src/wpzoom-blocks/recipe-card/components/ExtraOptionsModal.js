@@ -1,15 +1,18 @@
 /* External dependencies */
 import get from "lodash/get";
 import trim from "lodash/trim";
+import isNull from "lodash/isNull";
 import isEmpty from "lodash/isEmpty";
 import isObject from "lodash/isObject";
 import isString from "lodash/isString";
 import isUndefined from "lodash/isUndefined";
 import replace from "lodash/replace";
 import filter from "lodash/filter";
+import forEach from "lodash/forEach";
 import indexOf from "lodash/indexOf";
 import includes from "lodash/includes";
 import uniqueId from "lodash/uniqueId";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -82,38 +85,55 @@ export default function ExtraOptionsModal(
         return ! isEmpty( returnValue ) ? returnValue + '\n' : '';
     }
 
+    function parseObjectStyle( style ) {
+        let css = '';
+        if ( isObject(style) ) {
+            forEach( style, (value, property) => {
+                css += `${ property }: ${ value };`
+            });
+        }
+        if ( isString(style) ) {
+            css = style;
+        }
+        return css;
+    }
+
     function convertObjectToString( nodes, $type = '' ) {
         if ( isString( nodes ) ) {
             return nodes;
         }
 
+        if ( isNull( nodes ) ) {
+            return '';
+        }
+
         let output = '';
 
-        nodes.forEach((node, index) => {
+        forEach( nodes, (node, index) => {
             if ( isString( node ) ) {
                 output += node;
             } else {
-                const type     = ! isUndefined( node['type'] ) ? node['type'] : '';
-                let children   = ! isUndefined( node['props']['children'] ) ? node['props']['children'] : '';
+                const type     = get( node, ['type'] ) || '';
+                let children   = get( node, ['props', 'children'] ) || '';
                 let startTag   = type ? '<'+type+'>' : '';
                 let endTag     = type ? '</'+type+'>' : '';
 
                 if ( 'img' === type ) {
-                    const src = ! isUndefined( node['props']['src'] ) ? node['props']['src'] : false;
+                    const src = get( node, ['props', 'src'] ) || false;
                     if ( src ) {
-                        const alt = ! isUndefined( node['props']['alt'] ) ? node['props']['alt'] : '';
-                        const imgStyle = ! isUndefined( node['props']['style'] ) ? node['props']['style'] : '';
+                        const alt      = get( node, ['props', 'alt'] ) || '';
+                        const imgStyle = get( node, ['props', 'style'] ) || '';
                         const imgClass = 'direction-step-image';
-                        startTag = `<${ type } src="${ src }" alt="${ alt }" class="${ imgClass }" style="${ imgStyle }" />`;
+                        startTag = `<${ type } src="${ src }" alt="${ alt }" class="${ imgClass }" style="${ parseObjectStyle( imgStyle ) }" />`;
                     } else {
                         startTag = '';
                     }
                     endTag = '';
                 } else if ( 'a' === type ) {
-                    const rel        = ! isUndefined( node['props']['rel'] ) ? node['props']['rel'] : '';
-                    const ariaLabel  = ! isUndefined( node['props']['aria-label'] ) ? node['props']['aria-label'] : '';
-                    const href       = ! isUndefined( node['props']['href'] ) ? node['props']['href'] : '#';
-                    const target     = ! isUndefined( node['props']['target'] ) ? node['props']['target'] : '_blank';
+                    const rel        = get( node, ['props', 'rel'] ) || '';
+                    const ariaLabel  = get( node, ['props', 'aria-label'] ) || '';
+                    const href       = get( node, ['props', 'href'] ) || '#';
+                    const target     = get( node, ['props', 'target'] ) || '_blank';
                     startTag = `<${ type } rel="${ rel }" aria-label="${ ariaLabel }" href="${ href }" target="${ target }">`;
                 } else if ( 'br' === type ) {
                     endTag = '';
@@ -137,7 +157,7 @@ export default function ExtraOptionsModal(
 		    }
 		    
 		    // The result can be accessed through the `m`-variable.
-		    m.forEach((match, groupIndex) => {
+		    forEach( m, (match, groupIndex) => {
 		    	if ( groupIndex == '1' ) {
                     const isGroup = includes( match, '**' ); // check for group title if contains **Text**
                     
@@ -145,9 +165,12 @@ export default function ExtraOptionsModal(
                         match = trim( match, '**' );
                     }
 
+                    // Converting HTML strings into React components
+                    const ParserHTML = ReactHtmlParser(match);
+
 		    		items[ index ] = {
 		    			id: `ingredient-item-${m.index}`,
-		    			name: trim( match ),
+		    			name: ParserHTML,
 		    			jsonName: stripHTML( renderToString( trim( match ) ) ),
                         isGroup
 		    		}
@@ -173,7 +196,7 @@ export default function ExtraOptionsModal(
 		    }
 		    
 		    // The result can be accessed through the `m`-variable.
-		    m.forEach((match, groupIndex) => {
+		    forEach( m, (match, groupIndex) => {
 		    	if ( groupIndex == '1' ) {
                     const isGroup = includes( match, '**' ); // check for group title if contains **Text**
                     
@@ -181,9 +204,12 @@ export default function ExtraOptionsModal(
                         match = trim( match, '**' );
                     }
 
+                    // Converting HTML strings into React components
+                    const ParserHTML = ReactHtmlParser(match);
+
 		    		steps[ index ] = {
 		    			id: `direction-step-${m.index}`,
-		    			text: trim( match ),
+		    			text: ParserHTML,
 		    			jsonText: stripHTML( renderToString( trim( match ) ) ),
                         isGroup
 		    		}

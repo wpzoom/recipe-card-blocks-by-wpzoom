@@ -37,19 +37,23 @@ class WPZOOM_Structured_Data_Helpers {
 	/**
 	 * Backward compatibility with ingredients that don't have jsonName attribute.
 	 *
-	 * @param array $ingredient_name The ingredient name array.
+	 * @param array|string $ingredient_name The ingredient name.
 	 *
 	 * @return string The json name generated from array.
 	 */
-	public function ingredient_name_to_JSON( array $ingredient_name, $jsonName = '' ) {
-		foreach ( $ingredient_name as $name ) {
-			if ( ! is_null( $name ) ) {
-				if ( is_array( $name ) && isset( $name['props']['children'] ) && is_array( $text['props']['children'] ) ) {
-					$jsonName = $this->ingredient_name_to_JSON( $name['props']['children'], $jsonName );
-				} elseif ( is_string( $name ) ) {
-					$jsonName .= $name;
+	public function ingredient_name_to_JSON( $ingredient_name, $jsonName = '' ) {
+		if ( is_array( $ingredient_name ) ) {
+			foreach ( $ingredient_name as $name ) {
+				if ( ! is_null( $name ) ) {
+					if ( is_array( $name ) && isset( $name['props']['children'] ) && is_array( $text['props']['children'] ) ) {
+						$jsonName = $this->ingredient_name_to_JSON( $name['props']['children'], $jsonName );
+					} elseif ( is_string( $name ) ) {
+						$jsonName .= $name;
+					}
 				}
 			}
+		} elseif ( is_string( $ingredient_name ) ) {
+			$jsonName = $ingredient_name;
 		}
 
 		return $jsonName;
@@ -79,19 +83,23 @@ class WPZOOM_Structured_Data_Helpers {
 	/**
 	 * Backward compatibility with steps that don't have jsonText attribute.
 	 *
-	 * @param array $step_text The step text array.
+	 * @param array|string $step_text The step text.
 	 *
 	 * @return string The json text generated from array.
 	 */
-	public function step_text_to_JSON( array $step_text, $jsonText = '' ) {
-		foreach ( $step_text as $text ) {
-			if ( ! is_null( $text ) ) {
-				if ( is_array( $text ) && isset( $text['props']['children'] ) && is_array( $text['props']['children'] ) ) {
-					$jsonText = $this->step_text_to_JSON( $text['props']['children'], $jsonText );
-				} elseif ( is_string( $text ) ) {
-					$jsonText .= $text;
+	public function step_text_to_JSON( $step_text, $jsonText = '' ) {
+		if ( is_array( $step_text ) ) {
+			foreach ( $step_text as $text ) {
+				if ( ! is_null( $text ) ) {
+					if ( is_array( $text ) && isset( $text['props']['children'] ) && is_array( $text['props']['children'] ) ) {
+						$jsonText = $this->step_text_to_JSON( $text['props']['children'], $jsonText );
+					} elseif ( is_string( $text ) ) {
+						$jsonText .= $text;
+					}
 				}
 			}
+		} elseif ( is_string( $step_text ) ) {
+			$jsonText = $step_text;
 		}
 
 		return $jsonText;
