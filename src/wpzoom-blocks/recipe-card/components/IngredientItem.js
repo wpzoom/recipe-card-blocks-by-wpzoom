@@ -1,5 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import isString from "lodash/isString";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
@@ -187,11 +189,21 @@ export default class IngredientItem extends Component {
 		const {
 			isSelected,
 			subElement,
-			item
+			item: {
+				id,
+				name,
+				isGroup
+			}
 		} = this.props;
-		const { id, name, isGroup } = item;
+
 		const isSelectedName = isSelected && subElement === "name";
 		const itemClassName = !isGroup ? "ingredient-item" : "ingredient-item ingredient-item-group";
+
+		let nameContent = name;
+		if ( isString( nameContent ) ) {
+			// Converting HTML strings into React components
+			nameContent = ReactHtmlParser( name );
+		}
 
 		return (
 			<li className={ itemClassName } key={ id }>
@@ -204,7 +216,7 @@ export default class IngredientItem extends Component {
 							tagName="p"
 							unstableOnSetup={ this.setNameRef }
 							key={ `${ id }-name` }
-							value={ name }
+							value={ nameContent }
 							onChange={ this.onChangeName }
 							// isSelected={ isSelectedName }
 							placeholder={ __( "Enter ingredient name", "wpzoom-recipe-card" ) }
@@ -220,7 +232,7 @@ export default class IngredientItem extends Component {
 						tagName="strong"
 						unstableOnSetup={ this.setNameRef }
 						key={ `${ id }-group-title` }
-						value={ name }
+						value={ nameContent }
 						onChange={ this.onChangeGroupTitle }
 						// isSelected={ isSelectedName }
 						placeholder={ __( "Enter group title", "wpzoom-recipe-card" ) }
