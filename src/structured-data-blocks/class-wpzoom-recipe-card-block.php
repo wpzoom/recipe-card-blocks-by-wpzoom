@@ -433,6 +433,7 @@ class WPZOOM_Recipe_Card_Block {
 		$details_content = $this->get_details_content( $details );
 		$ingredients_content = $this->get_ingredients_content( $ingredients );
 		$steps_content = $this->get_steps_content( $steps );
+		$recipe_card_video = $this->get_video_content( $attributes );
 
 		$strip_tags_notes = isset( $notes ) ? strip_tags($notes) : '';
 		$notes = str_replace('<li></li>', '', $notes); // remove empty list item
@@ -469,6 +470,7 @@ class WPZOOM_Recipe_Card_Block {
 			$summary_text .
 			$ingredients_content .
 			$steps_content .
+			$recipe_card_video .
 			$notes_content .
 			$footer_copyright
 		);
@@ -499,15 +501,15 @@ class WPZOOM_Recipe_Card_Block {
 			'name'			=> $this->recipe->post_title,
 			'description' 	=> $this->recipe->post_excerpt,
 			'image'			=> '',
-			// 'video'			=> array(
-			// 	'name'  	=> '',
-			// 	'description' 	=> '',
-			// 	'thumbnailUrl' 	=> '',
-			// 	'contentUrl' 	=> '',
-			// 	'embedUrl' 		=> '',
-			// 	'uploadDate' 	=> '',
-			// 	'duration' 		=> '',
-			// ),
+			'video'			=> array(
+				'name'  		=> '',
+				'description' 	=> '',
+				'thumbnailUrl' 	=> '',
+				'contentUrl' 	=> '',
+				'embedUrl' 		=> '',
+				'uploadDate' 	=> '',
+				'duration' 		=> '',
+			),
 			'recipeCategory' => $cat_list,
 			'recipeCuisine'  => array(),
 			'keywords'  	=> $tag_list,
@@ -529,6 +531,29 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( ! empty( $attributes['image'] ) && isset( $attributes['hasImage'] ) && $attributes['hasImage'] ) {
 			$json_ld['image'] = $attributes['image']['url'];
+		}
+
+		if ( isset( $attributes['video'] ) && ! empty( $attributes['video'] ) && isset( $attributes['hasVideo'] ) && $attributes['hasVideo'] ) {
+			$video = $attributes['video'];
+
+			if ( isset( $video['title'] ) && ! empty( $video['title'] ) ) {
+				$json_ld['video']['name'] = esc_html( $video['title'] );
+			}
+			if ( isset( $video['caption'] ) && !empty( $video['caption'] ) ) {
+				$json_ld['video']['description'] = esc_html( $video['caption'] );
+			}
+			if ( isset( $video['description'] ) && !empty( $video['description'] ) ) {
+				$json_ld['video']['description'] = esc_html( $video['description'] );
+			}
+			if ( isset( $video['poster']['url'] ) ) {
+				$json_ld['video']['thumbnailUrl'] = esc_url( $video['poster']['url'] );
+			}
+			if ( isset( $video['url'] ) ) {
+				$json_ld['video']['contentUrl'] = esc_url( $video['url'] );
+			}
+			if ( isset( $video['date'] ) ) {
+				$json_ld['video']['uploadDate'] = $video['date'];
+			}
 		}
 
 		if ( ! empty( $attributes['course'] ) ) {
@@ -1026,6 +1051,50 @@ class WPZOOM_Recipe_Card_Block {
 
 				$output .= $start_tag . $this->wrap_ingredient_name( $children, $type ) . $end_tag;
 			}
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Get HTML content for recipe video
+	 * 
+	 * @since 2.1.1
+	 * @param array $attributes The main block attributes
+	 * @return void
+	 */
+	public function get_video_content( $attributes ) {
+		$hasVideo = isset( $attributes['hasVideo'] ) && $attributes['hasVideo'];
+		$output = '';
+
+		if ( ! $hasVideo ) {
+			return '';
+		}
+
+		$video = isset( $attributes['video'] ) && ! empty( $attributes['video'] ) ? $attributes['video'] : array();
+		$video_type = isset( $video['type'] ) ? $video['type'] : '';
+		$video_url = isset( $video['url'] ) ? esc_url( $video['url'] ) : '';
+		$video_poster = isset( $video['poster']['url'] ) ? esc_url( $video['poster']['url'] ) : '';
+		$video_settings = isset( $video['settings'] ) ? $video['settings'] : array();
+
+		if ( 'embed' === $video_type ) {
+			$output = wp_oembed_get( $video_url );
+		}
+		elseif ( 'self-hosted' === $video_type ) {
+			$attrs = array();
+			foreach ( $video_settings as $attribute => $value ) {
+				if ( $value ) {
+					$attrs[] = $attribute;
+				}
+			}
+			$attrs = implode( ' ', $attrs );
+
+			$output = sprintf(
+				'<div class="recipe-card-video"><video %s src="%s" poster="%s"></video></div>',
+				esc_attr( $attrs ),
+				$video_url,
+				$video_poster
+			);
 		}
 
 		return $output;
