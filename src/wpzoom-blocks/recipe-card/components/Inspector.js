@@ -10,18 +10,23 @@ import isUndefined from "lodash/isUndefined";
 import { stripHTML } from "../../../helpers/stringHelpers";
 import { humanize } from "../../../helpers/stringHelpers";
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
+import { getBlockStyle } from "../../../helpers/getBlockStyle";
+import VideoUpload from "./VideoUpload";
 
 /* WordPress dependencies */
 const { __, _n } = wp.i18n;
-const { Component, renderToString, Fragment } = wp.element;
-const { RichText, InspectorControls, MediaUpload } = wp.editor;
+const { Component, renderToString, Fragment, createRef } = wp.element;
+const { 
+	RichText,
+	InspectorControls,
+	MediaUpload
+} = wp.editor;
 const { 
 	BaseControl,
 	PanelBody,
 	PanelRow,
 	ToggleControl,
 	TextControl,
-	TextareaControl,
 	Button,
 	IconButton,
 	FormTokenField,
@@ -50,9 +55,13 @@ class Inspector extends Component {
 	 */
 	constructor( props ) {
 		super( ...arguments );
-		this.onSelectImage 		= this.onSelectImage.bind( this );
-		this.onSetFeaturedImage = this.onSetFeaturedImage.bind( this );
-		this.updateURL 			= this.updateURL.bind( this );
+
+		this.onSelectImage 				= this.onSelectImage.bind( this );
+		this.onSetFeaturedImage 		= this.onSetFeaturedImage.bind( this );
+		this.onRemoveRecipeImage 		= this.onRemoveRecipeImage.bind( this );
+		this.onChangeDetail 			= this.onChangeDetail.bind( this );
+		this.onChangeSettings 			= this.onChangeSettings.bind( this );
+		this.onUpdateURL 				= this.onUpdateURL.bind( this );
 	}
 
 	onSetFeaturedImage() {
@@ -82,9 +91,7 @@ class Inspector extends Component {
 	}
 
 	onSelectImage( media ) {
-		const {
-			setAttributes
-		} = this.props;
+		const { setAttributes } = this.props;
 		const relevantMedia = pickRelevantMediaFiles( media );
 
 		setAttributes( {
@@ -98,8 +105,45 @@ class Inspector extends Component {
 		} );
 	}
 
-	updateURL( url ) {
+	onChangeSettings( newValue, param, index = 0 ) {
 		const {
+			setAttributes,
+			attributes: {
+				settings
+			}
+		} = this.props;
+		const newSettings = settings ? settings.slice() : [];
+
+		newSettings[ index ][ param ] = newValue;
+
+		setAttributes( { settings: newSettings } );
+	}
+
+	onChangeDetail( newValue, index ) {
+		const {
+			setAttributes,
+			attributes: {
+				details
+			}
+		} = this.props;
+		const newDetails = details ? details.slice() : [];
+
+		newDetails[ index ][ 'value' ] = newValue;
+		newDetails[ index ][ 'jsonValue' ] = stripHTML( renderToString( newValue ) );
+		newDetails[ index ][ 'jsonUnit' ] = stripHTML( renderToString( newDetails[ index ][ 'unit' ] ) );
+
+		setAttributes( { details: newDetails } );
+	}
+
+	onRemoveRecipeImage() {
+		const { setAttributes } = this.props;
+		
+		setAttributes( { hasImage: false, image: null } );
+	}
+
+	onUpdateURL( url ) {
+		const {
+			setAttributes,
 			attributes: {
 				image: {
 					id,
@@ -109,7 +153,7 @@ class Inspector extends Component {
 			}
 		} = this.props;
 		
-		this.props.setAttributes( {
+		setAttributes( {
 			hasImage: true,
 			image: {
 				id: id,
@@ -148,12 +192,12 @@ class Inspector extends Component {
 			clientId,
 			media,
 			attributes,
-			setAttributes
+			className,
+			setAttributes,
 		} = this.props;
 
 		const {
 			id,
-			style,
 			hasImage,
 			image,
 			hasVideo,
@@ -189,6 +233,7 @@ class Inspector extends Component {
 			},
 		} = attributes;
 
+		const style = getBlockStyle( className );
 		const imageSizeOptions = this.getImageSizeOptions();
 
 		const coursesToken = [
@@ -228,28 +273,6 @@ class Inspector extends Component {
 
 		const keywordsToken = [];
 
-		const onChangeSettings = ( newValue, index, param ) => {
-			const settings = this.props.attributes.settings ? this.props.attributes.settings.slice() : [];
-
-			settings[ index ][ param ] = newValue;
-
-			setAttributes( { settings } );
-		}
-
-		const onChangeDetail = ( newValue, index ) => {
-			const details = this.props.attributes.details ? this.props.attributes.details.slice() : [];
-
-			details[ index ][ 'value' ] = newValue;
-			details[ index ][ 'jsonValue' ] = stripHTML( renderToString( newValue ) );
-			details[ index ][ 'jsonUnit' ] = stripHTML( renderToString( details[ index ][ 'unit' ] ) );
-
-			setAttributes( { details } );
-		}
-
-		const onRemoveRecipeImage = () => {
-			setAttributes( { hasImage: false, image: null } )
-		}
-
 		function structuredDataTestingTool() {
 			let dataTable = {
 				ingredients: [],
@@ -275,7 +298,7 @@ class Inspector extends Component {
 
 			RichText.isEmpty( summary ) ? check.warnings.push("summary") : '';
 			! hasImage ? check.errors.push("image") : '';
-			// ! hasVideo ? check.warnings.push("video") : '';
+			! hasVideo ? check.warnings.push("video") : '';
 			! dataTable.ingredients.length ? check.errors.push("ingredients") : '';
 			! dataTable.steps.length ? check.errors.push("steps") : '';
 			! get( details, [ 1 ,'value' ] ) ? check.warnings.push("prepTime") : '';
@@ -312,6 +335,10 @@ class Inspector extends Component {
             		<PanelRow className={ ! hasImage ? "text-color-red": "" }>
             			<span>image</span>
             			<strong>{ hasImage ? get( image, ['url'] ) : '' }</strong>
+            		</PanelRow>
+            		<PanelRow className={ ! hasVideo ? "text-color-orange": "" }>
+            			<span>video</span>
+            			<strong>{ hasVideo ? get( video, ['url'] ) : '' }</strong>
             		</PanelRow>
             		<PanelRow>
             			<span>recipeYield</span>
@@ -351,26 +378,6 @@ class Inspector extends Component {
 	        			help={ __( "Upload image for Recipe Card.", "wpzoom-recipe-card" ) }
 	        		>
         				{
-        					hasImage &&
-		                	<MediaUpload
-		                		onSelect={ this.onSelectImage }
-		                		allowedTypes={ ALLOWED_MEDIA_TYPES }
-		                		value={ get( image, ['id'] ) }
-		                		render={ ( { open } ) => (
-		                			<Button
-		                				className="editor-post-featured-image__preview"
-		                				onClick={ open }
-		                			>
-    									<img
-    				                        className={ `${ id }-image` }
-    				                        src={ get( image, ['sizes', 'full', 'url'] ) || get( image, ['sizes', 'full', 'source_url'] ) || get( image, ['url'] ) || get( image, ['source_url'] ) }
-    				                        alt={ get( image, ['alt'] ) || recipeTitle }
-    				                    />
-		                			</Button>
-		                		) }
-		                	/>
-        				}
-        				{
 		            		! hasImage &&
 		            		<MediaUpload
 		            			onSelect={ this.onSelectImage }
@@ -387,25 +394,41 @@ class Inspector extends Component {
 		            		/>
 		            	}
 		                {
-		                	hasImage &&
-		                	<MediaUpload
-		                		onSelect={ this.onSelectImage }
-		                		allowedTypes={ ALLOWED_MEDIA_TYPES }
-		                		value={ get( image, ['id'] ) }
-		                		render={ ( { open } ) => (
-		                			<Button
-		                				isDefault
-		                				isLarge
-		                				onClick={ open }
-		                			>
-		                				{__( "Replace Image", "wpzoom-recipe-card" ) }
-		                			</Button>
-		                		) }
-		                	/>
-		                }
-	                	{ 
-	                		hasImage && 
-	                		<Button isLink="true" isDestructive="true" onClick={ onRemoveRecipeImage }>{ __( "Remove Recipe Image", "wpzoom-recipe-card" ) }</Button>
+        					hasImage &&
+        					<Fragment>
+			                	<MediaUpload
+			                		onSelect={ this.onSelectImage }
+			                		allowedTypes={ ALLOWED_MEDIA_TYPES }
+			                		value={ get( image, ['id'] ) }
+			                		render={ ( { open } ) => (
+			                			<Button
+			                				className="editor-post-featured-image__preview"
+			                				onClick={ open }
+			                			>
+	    									<img
+	    				                        className={ `${ id }-image` }
+	    				                        src={ get( image, ['sizes', 'full', 'url'] ) || get( image, ['sizes', 'full', 'source_url'] ) || get( image, ['url'] ) || get( image, ['source_url'] ) }
+	    				                        alt={ get( image, ['alt'] ) || recipeTitle }
+	    				                    />
+			                			</Button>
+			                		) }
+			                	/>
+			                	<MediaUpload
+			                		onSelect={ this.onSelectImage }
+			                		allowedTypes={ ALLOWED_MEDIA_TYPES }
+			                		value={ get( image, ['id'] ) }
+			                		render={ ( { open } ) => (
+			                			<Button
+			                				isDefault
+			                				isLarge
+			                				onClick={ open }
+			                			>
+			                				{__( "Replace Image", "wpzoom-recipe-card" ) }
+			                			</Button>
+			                		) }
+			                	/>
+		                		<Button isLink="true" isDestructive="true" onClick={ this.onRemoveRecipeImage }>{ __( "Remove Recipe Image", "wpzoom-recipe-card" ) }</Button>
+		                	</Fragment>
 	                	}
 	        		</BaseControl>
 	        		{
@@ -415,7 +438,7 @@ class Inspector extends Component {
 	                		label={ __( "Image Size", "wpzoom-recipe-card" ) }
 	                		value={ get( image, ['url'] ) }
 	                		options={ imageSizeOptions }
-	                		onChange={ this.updateURL }
+	                		onChange={ this.onUpdateURL }
 	                	/>
 	        		}
 			    	<BaseControl
@@ -425,7 +448,7 @@ class Inspector extends Component {
 		                <ToggleControl
 		                    label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
 		                    checked={ print_btn }
-		                    onChange={ display => onChangeSettings( display, 0, 'print_btn' ) }
+		                    onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
 		                />
 	        		</BaseControl>
 			    	<BaseControl
@@ -435,7 +458,7 @@ class Inspector extends Component {
 		                <ToggleControl
 		                    label={ __( "Display Pinterest Button", "wpzoom-recipe-card" ) }
 		                    checked={ pin_btn }
-		                    onChange={ display => onChangeSettings( display, 0, 'pin_btn' ) }
+		                    onChange={ display => this.onChangeSettings( display, 'pin_btn' ) }
 		                />
 	        		</BaseControl>
 	        		{
@@ -452,7 +475,7 @@ class Inspector extends Component {
 		                			{ label: __( "Center" ), value: "center" },
 		                			{ label: __( "Right" ), value: "right" },
 		                		] }
-		                		onChange={ alignment => onChangeSettings( alignment, 0, 'headerAlign' ) }
+		                		onChange={ alignment => this.onChangeSettings( alignment, 'headerAlign' ) }
 		                	/>
 		        		</BaseControl>
 	        		}
@@ -463,7 +486,7 @@ class Inspector extends Component {
 		                <ToggleControl
 		                    label={ __( "Display Author", "wpzoom-recipe-card" ) }
 		                    checked={ displayAuthor }
-		                    onChange={ display => onChangeSettings( display, 0, 'displayAuthor' ) }
+		                    onChange={ display => this.onChangeSettings( display, 'displayAuthor' ) }
 		                />
 		                {
 		                	displayAuthor &&
@@ -474,7 +497,7 @@ class Inspector extends Component {
 			                	label={ __( "Custom author name", "wpzoom-recipe-card" ) }
 			                	help={ __( "Default: Post author name", "wpzoom-recipe-card" ) }
 			                	value={ custom_author_name }
-			                	onChange={ authorName => onChangeSettings( authorName, 0, 'custom_author_name' ) }
+			                	onChange={ authorName => this.onChangeSettings( authorName, 'custom_author_name' ) }
 			                />
 			            }
 		           	</BaseControl>
@@ -492,11 +515,12 @@ class Inspector extends Component {
    			                			{ label: __( "1 column" ), value: "1-column" },
    			                			{ label: __( "2 columns" ), value: "2-columns" },
    			                		] }
-   			                		onChange={ size => onChangeSettings( size, 0, 'ingredientsLayout' ) }
+   			                		onChange={ size => this.onChangeSettings( size, 'ingredientsLayout' ) }
    			                	/>
    			        		</BaseControl>
    	        		}
 	            </PanelBody>
+                <VideoUpload { ...{ attributes, setAttributes, className , clientId } } />
                 <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ true } title={ __( "Recipe Card SEO Settings", "wpzoom-recipe-card" ) }>
 			    	<BaseControl
 						id={ `${ id }-course` }
@@ -505,7 +529,7 @@ class Inspector extends Component {
 						<ToggleControl
 						    label={ __( "Display Course", "wpzoom-recipe-card" ) }
 						    checked={ displayCourse }
-						    onChange={ display => onChangeSettings( display, 0, 'displayCourse' ) }
+						    onChange={ display => this.onChangeSettings( display, 'displayCourse' ) }
 						/>
 						{
 							displayCourse &&
@@ -525,7 +549,7 @@ class Inspector extends Component {
 						<ToggleControl
 						    label={ __( "Display Cuisine", "wpzoom-recipe-card" ) }
 						    checked={ displayCuisine }
-						    onChange={ display => onChangeSettings( display, 0, 'displayCuisine' ) }
+						    onChange={ display => this.onChangeSettings( display, 'displayCuisine' ) }
 						/>
 						{
 							displayCuisine &&
@@ -545,7 +569,7 @@ class Inspector extends Component {
 						<ToggleControl
 						    label={ __( "Display Difficulty", "wpzoom-recipe-card" ) }
 						    checked={ displayDifficulty }
-						    onChange={ display => onChangeSettings( display, 0, 'displayDifficulty' ) }
+						    onChange={ display => this.onChangeSettings( display, 'displayDifficulty' ) }
 						/>
 						{
 							displayDifficulty &&
@@ -576,7 +600,7 @@ class Inspector extends Component {
     				<ToggleControl
     				    label={ __( "Display Servings", "wpzoom-recipe-card" ) }
     				    checked={ displayServings }
-    				    onChange={ display => onChangeSettings( display, 0, 'displayServings' ) }
+    				    onChange={ display => this.onChangeSettings( display, 'displayServings' ) }
     				/>
         			<PanelRow>
         				{
@@ -588,7 +612,7 @@ class Inspector extends Component {
 		        	    			type="number"
 		        	    			label={ __( "Servings", "wpzoom-recipe-card" ) }
 		        	    			value={ get( details, [ 0, 'value' ] ) }
-		        	    			onChange={ newYield => onChangeDetail(newYield, 0) }
+		        	    			onChange={ newYield => this.onChangeDetail(newYield, 0) }
 		        	    		/>
 		        				<span>{ get( details, [ 0, 'unit' ] ) }</span>
 		        			</Fragment>
@@ -597,7 +621,7 @@ class Inspector extends Component {
     				<ToggleControl
     				    label={ __( "Display Preparation Time", "wpzoom-recipe-card" ) }
     				    checked={ displayPrepTime }
-    				    onChange={ display => onChangeSettings( display, 0, 'displayPrepTime' ) }
+    				    onChange={ display => this.onChangeSettings( display, 'displayPrepTime' ) }
     				/>
         			<PanelRow>
         				{
@@ -609,7 +633,7 @@ class Inspector extends Component {
 		        	    			type="number"
 		        	    			label={ __( "Preparation time", "wpzoom-recipe-card" ) }
 		        	    			value={ get( details, [ 1, 'value' ] ) }
-		        	    			onChange={ newPrepTime => onChangeDetail(newPrepTime, 1) }
+		        	    			onChange={ newPrepTime => this.onChangeDetail(newPrepTime, 1) }
 		        	    		/>
 		        				<span>{ get( details, [ 1, 'unit' ] ) }</span>
 		        			</Fragment>
@@ -618,7 +642,7 @@ class Inspector extends Component {
     				<ToggleControl
     				    label={ __( "Display Cooking Time", "wpzoom-recipe-card" ) }
     				    checked={ displayCookingTime }
-    				    onChange={ display => onChangeSettings( display, 0, 'displayCookingTime' ) }
+    				    onChange={ display => this.onChangeSettings( display, 'displayCookingTime' ) }
     				/>
         			<PanelRow>
         				{
@@ -630,7 +654,7 @@ class Inspector extends Component {
 		        	    			type="number"
 		        	    			label={ __( "Cooking time", "wpzoom-recipe-card" ) }
 		        	    			value={ get( details, [ 2, 'value' ] ) }
-		        	    			onChange={ newCookingTime => onChangeDetail(newCookingTime, 2) }
+		        	    			onChange={ newCookingTime => this.onChangeDetail(newCookingTime, 2) }
 		        	    		/>
 		        				<span>{ get( details, [ 2, 'unit' ] ) }</span>
 		        			</Fragment>
@@ -639,7 +663,7 @@ class Inspector extends Component {
     				<ToggleControl
     				    label={ __( "Display Calories", "wpzoom-recipe-card" ) }
     				    checked={ displayCalories }
-    				    onChange={ display => onChangeSettings( display, 0, 'displayCalories' ) }
+    				    onChange={ display => this.onChangeSettings( display, 'displayCalories' ) }
     				/>
         			<PanelRow>
         				{
@@ -651,7 +675,7 @@ class Inspector extends Component {
 		        	    			type="number"
 		        	    			label={ __( "Calories", "wpzoom-recipe-card" ) }
 		        	    			value={ get( details, [ 3, 'value' ] ) }
-		        	    			onChange={ newCalories => onChangeDetail(newCalories, 3) }
+		        	    			onChange={ newCalories => this.onChangeDetail(newCalories, 3) }
 		        	    		/>
 		        				<span>{ get( details, [ 3, 'unit' ] ) }</span>
 		        			</Fragment>
