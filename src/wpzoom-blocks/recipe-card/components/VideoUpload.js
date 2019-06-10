@@ -1,9 +1,6 @@
 /* External dependencies */
 import get from "lodash/get";
 
-/* Internal dependencies */
-import { excludeClassNames } from "../../../helpers/parseClassName";
-
 /* WordPress dependencies */
 const { __, _n } = wp.i18n;
 const { Component, Fragment, createRef } = wp.element;
@@ -11,8 +8,7 @@ const {
 	InspectorControls,
 	MediaPlaceholder,
 	MediaUpload,
-	mediaUpload,
-	URLInput
+	mediaUpload
 } = wp.editor;
 const { 
 	BaseControl,
@@ -24,7 +20,6 @@ const {
 	IconButton,
 	withNotices
 } = wp.components;
-const { URLPopover } = wp.blockEditor;
 const { getBlobByURL, isBlobURL } = wp.blob;
 
 /* Module constants */
@@ -39,7 +34,6 @@ class VideoUpload extends Component {
 		// without setting the actual value outside of the edit UI
 		this.state = {
 			editing: get( this.props.attributes.video, 'url' ) === undefined,
-			isVisible: false
 		};
 
 		this.videoPlayer 				= createRef();
@@ -49,10 +43,6 @@ class VideoUpload extends Component {
 		this.onRemovePoster 			= this.onRemovePoster.bind( this );
 		this.toggleAttributes 			= this.toggleAttributes.bind( this );
 		this.onRemoveVideo 				= this.onRemoveVideo.bind( this );
-		this.onChangeURL 				= this.onChangeURL.bind( this );
-		this.openURLPopover 			= this.openURLPopover.bind( this );
-		this.closeURLPopover 			= this.closeURLPopover.bind( this );
-		this.onSubmitURL 				= this.onSubmitURL.bind( this );
 	}
 
 	componentDidMount() {
@@ -83,7 +73,6 @@ class VideoUpload extends Component {
 
 	componentDidUpdate( prevProps ) {
 		const { hasVideo, video } = this.props.attributes;
-
 		const posterURL = get( video, 'poster.url' );
 		const prevPosterURL = get( prevProps.attributes.video, 'poster.url' );
 
@@ -122,7 +111,7 @@ class VideoUpload extends Component {
 		}
 	}
 
-	onSelectURL( newURL ) {
+	onSelectURL( newSrc ) {
 		const { attributes, setAttributes } = this.props;
 		const { video } = attributes;
 		
@@ -130,14 +119,13 @@ class VideoUpload extends Component {
 
 		// Set the block's src from the edit component's state, and switch off
 		// the editing UI.
-		if ( newURL !== url ) {
+		if ( newSrc !== url ) {
 			const newObj = {...video};
-			newObj.url = newURL;
+			newObj.url = newSrc;
 			newObj.id = undefined;
 			newObj.type = 'embed';
 
 			setAttributes( { hasVideo: true, video: newObj } );
-			this.setState( { hasVideo: true, editing: false } );
 		}
 	}
 
@@ -165,42 +153,17 @@ class VideoUpload extends Component {
 	}
 
 	getAutoplayHelp( checked ) {
-		return checked ? __( "Note: Many browsers can only autoplay the videos with sound off, so you'll need to enable muted attribute to the video too.", "wpzoom-recipe-card" ) : null;
-	}
-
-	onChangeURL( url ) {
-		const { attributes, setAttributes } = this.props;
-		const { video } = attributes;
-		const newObj = {...video};
-
-		newObj.url = url;
-		newObj.type = 'embed';
-
-		setAttributes( { hasVideo: true, video: newObj } );
-	}
-
-	openURLPopover() {
-		this.setState( {
-			isVisible: true,
-		} );
-	}
-
-	closeURLPopover() {
-		this.setState( {
-			isVisible: false,
-		} );
-	}
-
-	onSubmitURL() {
-		// Not shown: Store the updated url.
-		this.closeURLPopover();
+		return checked ? __( "Note: Autoplaying videos may cause usability issues for some visitors.", "wpzoom-recipe-card" ) : null;
 	}
 
 	render() {
 		const { attributes, setAttributes, noticeOperations, noticeUI } = this.props;
-		const { hasVideo, video } = attributes;
-		const { editing, isVisible } = this.state;
-		const className = excludeClassNames( this.props.className, ['wp-block-wpzoom-recipe-card-block-recipe-card', 'is-style-simple', 'is-style-default', 'is-style-newdesign'] ); // exclude all uneeded class names
+		const {
+			hasVideo,
+			video
+		} = attributes;
+		
+		const { editing } = this.state;
 
 		const id = get( video, 'id' );
 		const url = get( video, 'url' );
@@ -255,45 +218,22 @@ class VideoUpload extends Component {
             <PanelBody className="wpzoom-recipe-card-video-settings" initialOpen={ true } title={ __( "Recipe Card Video Settings", "wpzoom-recipe-card" ) }>
             	<BaseControl
         			id={ `${ id }-video` }
-        			className="editor-video__recipe-card"
+        			className="editor-post-recipe-card-video"
         			label={ __( "Recipe Card Video", "wpzoom-recipe-card" ) }
         		>
 			    {
 			    	editing &&
     			    <MediaPlaceholder
     					icon="media-video"
-    					className={ className }
+    					className="components-placeholder block-editor-media-placeholder editor-media-placeholder"
     					onSelect={ onSelectVideo }
     					onSelectURL={ this.onSelectURL }
     					accept="video/*"
     					allowedTypes={ ALLOWED_MEDIA_TYPES }
-    					value={ { src: url, id: id, poster: posterURL } }
+    					value={ { src: get( video, 'url' ), id: get( video, 'id' ), poster: posterURL } }
     					notices={ noticeUI }
     					onError={ noticeOperations.createErrorNotice }
     				/>
-			    }
-			    {
-			    	hasVideo &&
-			    	'embed' === type &&
-			    	! editing &&
-			    	<Fragment>
-			    		<div className="editor-video__url-input-container">
-				    		<Button isDefault onClick={ this.openURLPopover }>{ __( "Edit URL", "wpzoom-recipe-card" ) }</Button>
-							{ isVisible && (
-								<URLPopover
-									onClose={ this.closeURLPopover }
-								>
-									<URLInput
-										className={ className }
-										value={ url }
-										onChange={ ( url, post ) => this.onChangeURL( url ) }
-									/>
-									<IconButton icon="editor-break" label={ __( "Apply", "wpzoom-recipe-card" ) } onClick={ this.onSubmitURL } />
-								</URLPopover>
-							) }
-						</div>
-			    		<Button isLink="true" isDestructive="true" onClick={ this.onRemoveVideo }>{ __( "Remove Recipe Video", "wpzoom-recipe-card" ) }</Button>
-		    		</Fragment>
 			    }
 			    {
 			    	hasVideo &&

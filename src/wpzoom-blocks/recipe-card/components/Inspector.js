@@ -201,7 +201,6 @@ class Inspector extends Component {
 			hasImage,
 			image,
 			hasVideo,
-			video,
 			recipeTitle,
 			summary,
 			jsonSummary,
@@ -335,10 +334,6 @@ class Inspector extends Component {
             		<PanelRow className={ ! hasImage ? "text-color-red": "" }>
             			<span>image</span>
             			<strong>{ hasImage ? get( image, ['url'] ) : '' }</strong>
-            		</PanelRow>
-            		<PanelRow className={ ! hasVideo ? "text-color-orange": "" }>
-            			<span>video</span>
-            			<strong>{ hasVideo ? get( video, ['url'] ) : '' }</strong>
             		</PanelRow>
             		<PanelRow>
             			<span>recipeYield</span>
