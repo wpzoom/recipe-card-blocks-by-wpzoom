@@ -10,11 +10,12 @@ import isUndefined from "lodash/isUndefined";
 import { stripHTML } from "../../../helpers/stringHelpers";
 import { humanize } from "../../../helpers/stringHelpers";
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
+import { getBlockStyle } from "../../../helpers/getBlockStyle";
 
 /* WordPress dependencies */
 const { __, _n } = wp.i18n;
 const { Component, renderToString, Fragment } = wp.element;
-const { RichText, InspectorControls, MediaUpload } = wp.editor;
+const { RichText, InspectorControls, MediaUpload } = wp.blockEditor;
 const { 
 	BaseControl,
 	PanelBody,
@@ -25,9 +26,7 @@ const {
 	Button,
 	IconButton,
 	FormTokenField,
-	PanelColor,
 	ColorIndicator,
-	ColorPalette,
 	SelectControl
 } = wp.components;
 const { withSelect } = wp.data;
@@ -148,12 +147,12 @@ class Inspector extends Component {
 			clientId,
 			media,
 			attributes,
+			className,
 			setAttributes
 		} = this.props;
 
 		const {
 			id,
-			style,
 			hasImage,
 			image,
 			hasVideo,
@@ -189,6 +188,7 @@ class Inspector extends Component {
 			},
 		} = attributes;
 
+		let style = getBlockStyle( className );
 		const imageSizeOptions = this.getImageSizeOptions();
 
 		const coursesToken = [

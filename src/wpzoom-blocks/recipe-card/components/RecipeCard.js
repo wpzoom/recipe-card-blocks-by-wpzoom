@@ -30,7 +30,12 @@ const {
 	Toolbar,
 	Disabled
 } = wp.components;
-const { RichText, MediaUpload, InnerBlocks, BlockControls } = wp.editor;
+const {
+	RichText,
+	BlockControls,
+	MediaUpload,
+	InnerBlocks
+} = wp.blockEditor;
 const {
 	post_permalink,
 	post_title,
@@ -158,7 +163,8 @@ export default class RecipeCard extends Component {
 
 		let style = getBlockStyle( className );
 		let pin_description = recipeTitle;
-		let headerContentAlign, customAuthorName;
+		let headerContentAlign = headerAlign;
+		let customAuthorName;
 		const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
 
 		if ( setting_options.wpzoom_rcb_settings_pin_description === 'recipe_summary' ) {

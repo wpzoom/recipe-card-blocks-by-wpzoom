@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
-const { RichText, MediaUpload } = wp.editor;
+const { RichText, MediaUpload } = wp.blockEditor;
 const { IconButton } = wp.components;
 
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";

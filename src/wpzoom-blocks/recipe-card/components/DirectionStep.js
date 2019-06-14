@@ -10,7 +10,7 @@ import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
-const { RichText, MediaUpload } = wp.editor;
+const { RichText, MediaUpload } = wp.blockEditor;
 const { IconButton } = wp.components;
 const { setting_options } = wpzoomRecipeCard;
 

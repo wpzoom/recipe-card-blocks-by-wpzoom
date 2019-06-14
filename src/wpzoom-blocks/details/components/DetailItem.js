@@ -10,7 +10,7 @@ import isUndefined from "lodash/isUndefined";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
-const { RichText, InnerBlocks } = wp.editor;
+const { RichText } = wp.blockEditor;
 const { IconButton } = wp.components;
 
 /**

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-const { RichText } = wp.editor;
+const { RichText } = wp.blockEditor;
 const { IconButton } = wp.components;
 
 /**

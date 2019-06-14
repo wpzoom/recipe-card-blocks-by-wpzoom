@@ -10,7 +10,7 @@ import Inspector from '../components/Inspector';
 
 /* External dependencies */
 const { __ } = wp.i18n;
-const { RichText } = wp.editor;
+const { RichText } = wp.blockEditor;
 const { pluginURL } = window.wpzoomRecipeCard; // Import pluginURL from window.wpzoomRecipeCard
 
 

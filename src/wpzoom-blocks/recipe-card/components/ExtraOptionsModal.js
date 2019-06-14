@@ -31,8 +31,8 @@ const {
 const { 
 	MediaUpload,
 	InnerBlocks,
-	BlockControls
-} = wp.editor;
+    BlockControls
+} = wp.blockEditor;
 const { select } = wp.data;
 
 /** 
@@ -66,7 +66,7 @@ export default function ExtraOptionsModal(
 		setAttributes 
 	} 	= props;
 	const blocks        		= [ "wpzoom-recipe-card/block-ingredients", "wpzoom-recipe-card/block-directions" ];
-	const blocksList    		= select('core/editor').getBlocks();
+	const blocksList    		= select('core/block-editor').getBlocks();
 	const wpzoomBlocksFilter 	= filter( blocksList, function( item ) { return indexOf( blocks, item.name ) !== -1 } );
 
     // parse value for ingredients and directions

@@ -12,7 +12,7 @@ import times from 'lodash/times';
 
 /* External dependencies */
 const { __ } = wp.i18n;
-const { RichText } = wp.editor;
+const { RichText } = wp.blockEditor;
 
 
 /**

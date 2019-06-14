@@ -107,6 +107,9 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.1.1 =
+* Fixed issues after update to Gutenberg 5.9
+
 = 2.1.0 =
 * New Feature: Ingredients and Directions Groups: you can now organize in sub-sections ingredients and directions
 * New Feature: Bulk Add. You can add ingredients and directions by inserting more entries at once.

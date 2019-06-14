@@ -13,7 +13,7 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { speak } = wp.a11y;
-const { RichText } = wp.editor;
+const { RichText } = wp.blockEditor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
 const { pluginURL } = window.wpzoomRecipeCard;

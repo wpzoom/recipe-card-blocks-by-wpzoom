@@ -8,7 +8,7 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component, renderToString } = wp.element;
-const { InspectorControls, MediaUpload } = wp.editor;
+const { InspectorControls, MediaUpload } = wp.blockEditor;
 const { 
 	BaseControl,
 	PanelBody,
