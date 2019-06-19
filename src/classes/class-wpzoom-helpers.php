@@ -19,8 +19,28 @@ class WPZOOM_Helpers {
 		return $prefix !== '' ? uniqid( $prefix . '-' ) : uniqid();
 	}
 
-	public function render_styles_attributes( $styles ) {
+	public function render_attributes( $attributes ) {
+		if ( empty( $attributes ) )
+			return '';
+
 		$render = '';
+
+		if ( is_array( $attributes ) ) {
+			foreach ( $attributes as $property => $value ) {
+				$render .= sprintf( '%s="%s" ', $property, esc_attr( $value ) );
+			}
+		} elseif ( is_string( $attributes ) ) {
+			$render = $attributes;
+		}
+		return trim( $render );
+	}
+
+	public function render_styles_attributes( $styles ) {
+		if ( empty( $styles ) )
+			return '';
+
+		$render = '';
+
 		if ( is_array( $styles ) ) {
 			foreach ( $styles as $property => $value ) {
 				$render .= sprintf( '%s: %s; ', $property, $value );

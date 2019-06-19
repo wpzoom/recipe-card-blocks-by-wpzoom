@@ -276,6 +276,8 @@ class WPZOOM_Recipe_Card_Block {
 		$recipe_thumbnail_id 	= get_post_thumbnail_id( $this->recipe );
 		$recipe_permalink 		= get_the_permalink( $this->recipe );
 		$recipe_author_name 	= get_the_author_meta( 'display_name', $this->recipe->post_author );
+		$attachment_id 			= isset( $image['id'] ) ? $image['id'] : $recipe_thumbnail_id;
+		$tasty_pins_pinterest_text = get_post_meta( $attachment_id, 'tp_pinterest_text', true );
 
 		// Variables from attributes
 		// add default value if not exists
@@ -307,7 +309,12 @@ class WPZOOM_Recipe_Card_Block {
 
 		$pin_description = strip_tags($recipeTitle);
 		if ( 'recipe_summary' === WPZOOM_Settings::get('wpzoom_rcb_settings_pin_description') ) {
-			$pin_description = strip_tags($summary);
+			$pin_description = strip_tags( $summary );
+		}
+
+		// compatibility with Tasty Pins plugin
+		if ( !empty( $tasty_pins_pinterest_text ) ) {
+			$pin_description = strip_tags( $tasty_pins_pinterest_text );
 		}
 
 		$custom_author_name = $recipe_author_name;
@@ -315,29 +322,24 @@ class WPZOOM_Recipe_Card_Block {
 			$custom_author_name = self::$settings['custom_author_name'];
 		}
 
-		$RecipeCardClassName 	= implode( ' ', array( $class, $className ) );
-		$PrintClasses 			= implode( ' ', array( "wpzoom-recipe-card-print-link" ) );
-		$PinterestClasses 		= implode( ' ', array( "wpzoom-recipe-card-pinit" ) );
-		$pinitURL 				= 'https://www.pinterest.com/pin/create/button/?url=' . $recipe_permalink .'/&media='. ( $hasImage ? $image['url'] : $recipe_thumbnail_url ) .'&description='. $pin_description .'';
+		$RecipeCardClassName = implode( ' ', array( $class, $className ) );
 
-		$printStyles = '';
+		$styles = '';
 		if ( 'default' === self::$style ) {
 			$styles = array(
 				'background-color' => self::$settings['primary_color'],
 			);
-			$printStyles = self::$helpers->render_styles_attributes( $styles );
 		} else if ( 'newdesign' === self::$style ) {
 			$styles = array(
 				'background-color' => self::$settings['primary_color'],
 				'box-shadow' => '0 5px 40px '. self::$settings['primary_color'] . ''
 			);
-			$printStyles = self::$helpers->render_styles_attributes( $styles );
 		} else if ( 'simple' === self::$style ) {
 			$styles = array(
 				'background-color' => self::$settings['primary_color'],
 			);
-			$printStyles = self::$helpers->render_styles_attributes( $styles );
 		}
+		$printStyles = self::$helpers->render_styles_attributes( $styles );
 
 		$recipe_card_image = '';
 		if ( $hasImage && isset($image['url']) ) {
@@ -352,24 +354,8 @@ class WPZOOM_Recipe_Card_Block {
 					'. sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $img_id, $src, $alt, trim($img_class) ) .'
 					<figcaption>
 						'.
-							( self::$settings['pin_btn'] ?
-								'<div class="'. esc_attr( $PinterestClasses ) .'">
-				                    <a class="btn-pinit-link no-print" data-pin-do="buttonPin" href="'. esc_url( $pinitURL ) .'" data-pin-custom="true">
-				                    	<i class="fa fa-pinterest-p icon-pinit-link"></i>
-				                    	<span>'. __( "Pin", "wpzoom-recipe-card" ) .'</span>
-				                    </a>
-				                </div>'
-				                : ''
-				            ).
-							( self::$settings['print_btn'] ?
-								'<div class="'. esc_attr( $PrintClasses ) .'">
-				                    <a class="btn-print-link no-print" href="#'. $id .'" title="'. __( "Print directions...", "wpzoom-recipe-card" ) .'" style="'. $printStyles .'">
-				                    	<i class="fa fa-print icon-print-link"></i>
-				                        <span>'. __( "Print", "wpzoom-recipe-card" ) .'</span>
-				                    </a>
-				                </div>'
-				                : ''
-							)
+							( self::$settings['pin_btn'] ? self::get_pinterest_button( $image, $recipe_permalink, $pin_description ) : '' ).
+							( self::$settings['print_btn'] ? self::get_print_button( $id, array( 'title' => __( "Print directions...", "wpzoom-recipe-card" ), 'style' => $printStyles ) ) : '' )
 						.'
 		            </figcaption>
 				</figure>
@@ -386,24 +372,8 @@ class WPZOOM_Recipe_Card_Block {
 						'. sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $img_id, $src, $alt, trim($img_class) ) .'
 						<figcaption>
 							'.
-								( self::$settings['pin_btn'] ?
-									'<div class="'. esc_attr( $PinterestClasses ) .'">
-					                    <a class="btn-pinit-link no-print" data-pin-do="buttonPin" href="'. esc_url( $pinitURL ) .'" data-pin-custom="true">
-					                    	<i class="fa fa-pinterest-p icon-pinit-link"></i>
-					                    	<span>'. __( "Pin", "wpzoom-recipe-card" ) .'</span>
-					                    </a>
-					                </div>'
-					                : ''
-					            ).
-								( self::$settings['print_btn'] ?
-									'<div class="'. esc_attr( $PrintClasses ) .'">
-					                    <a class="btn-print-link no-print" href="#'. $id .'" title="'. __( "Print directions...", "wpzoom-recipe-card" ) .'" style="'. $printStyles .'">
-					                    	<i class="fa fa-print icon-print-link"></i>
-					                        <span>'. __( "Print", "wpzoom-recipe-card" ) .'</span>
-					                    </a>
-					                </div>'
-					                : ''
-								)
+								( self::$settings['pin_btn'] ? self::get_pinterest_button( array( 'url' => $recipe_thumbnail_url ), $recipe_permalink, $pin_description ) : '' ).
+								( self::$settings['print_btn'] ? self::get_print_button( $id, array( 'title' => __( "Print directions...", "wpzoom-recipe-card" ), 'style' => $printStyles ) ) : '' )
 							.'
 			            </figcaption>
 					</figure>
@@ -1106,5 +1076,77 @@ class WPZOOM_Recipe_Card_Block {
 			$css = $styles;
 		}
 		return $css;
+	}
+
+	/**
+	 * Get HTML for print button
+	 * 
+	 * @since 2.2.0
+	 * 
+	 * @param array $media        The recipe media image array which include 'url'
+	 * @param string $url         The recipe permalink url
+	 * @param string $description The description to display on pinterest board
+	 * @param array $attributes   Additional html attributes like ('style' => 'color: red; font-size: inherit')
+	 * @return string
+	 */
+	public static function get_print_button( $content_id, $attributes = array() ) {
+		if ( empty( $content_id ) )
+			return '';
+
+		$PrintClasses = implode( ' ', array( "wpzoom-recipe-card-print-link" ) );
+
+		$atts = self::$helpers->render_attributes( $attributes );
+
+		$output = sprintf(
+			'<div class="%s">
+	            <a class="btn-print-link no-print" href="#%s" %s>
+	            	<i class="fa fa-print icon-print-link"></i>
+	                <span>%s</span>
+	            </a>
+	        </div>',
+			esc_attr( $PrintClasses ),
+			esc_attr( $content_id ),
+			$atts,
+			__( "Print", "wpzoom-recipe-card" )
+		);
+
+		return $output;
+	}
+
+	/**
+	 * Get HTML for pinterest button
+	 * 
+	 * @since 2.2.0
+	 * 
+	 * @param array $media        The recipe media image array which include 'url'
+	 * @param string $url         The recipe permalink url
+	 * @param string $description The description to display on pinterest board
+	 * @param array|string $attributes   Additional html attributes: array('style' => 'color: red; font-size: inherit') or 
+	 * 									 string 'style="color: red; font-size: inherit"'
+	 * @return string
+	 */
+	public static function get_pinterest_button( $media, $url, $description = '', $attributes = '' ) {
+		if ( ! isset(  $media['url'] ) )
+			return '';
+
+		$PinterestClasses = implode( ' ', array( "wpzoom-recipe-card-pinit" ) );
+		$pinitURL 		  = 'https://www.pinterest.com/pin/create/button/?url=' . esc_url( $url ) .'&media='. esc_url( $media['url'] ) .'&description='. esc_html( $description ) .'';
+
+		$atts = self::$helpers->render_attributes( $attributes );
+
+		$output = sprintf(
+			'<div class="%s">
+	            <a class="btn-pinit-link no-print" data-pin-do="buttonPin" href="%s" data-pin-custom="true" %s>
+	            	<i class="fa fa-pinterest-p icon-pinit-link"></i>
+	            	<span>%s</span>
+	            </a>
+	        </div>',
+	        esc_attr( $PinterestClasses ),
+	        esc_url( $pinitURL ),
+	        $atts,
+	        __( "Pin", "wpzoom-recipe-card" )
+		);
+
+		return $output;
 	}
 }
