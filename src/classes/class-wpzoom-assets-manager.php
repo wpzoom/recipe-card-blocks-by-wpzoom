@@ -65,20 +65,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		private $_url;
 
 		/**
-		 * The Plugin text domain.
-		 *
-		 * @var string $_textdomain
-		 */
-		public $_textdomain;
-
-		/**
-		 * The Plugin version.
-		 *
-		 * @var string $_version
-		 */
-		public $_version;
-
-		/**
 		 * The Plugin version.
 		 *
 		 * @var string $_slug
@@ -96,8 +82,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * The Constructor.
 		 */
 		private function __construct() {
-			$this->_version 	= WPZOOM_RCB_VERSION;
-			$this->_textdomain 	= WPZOOM_RCB_TEXT_DOMAIN;
 			$this->_slug    	= 'wpzoom-rcb-block';
 			$this->_url     	= untrailingslashit( WPZOOM_RCB_PLUGIN_URL );
 
@@ -105,7 +89,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 			add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
 			add_action( 'enqueue_block_assets', array( $this, 'load_icon_fonts' ) );
-			add_action( 'enqueue_block_assets', array( $this, 'load_jed_text_domain' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 		}
 
@@ -153,7 +136,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			    $this->_slug . '-script',
 			    $this->asset_source( 'js', 'script.js' ),
 			    $this->get_dependencies( $this->_slug . '-script' ),
-			    $this->_version,
+			    WPZOOM_RCB_VERSION,
 			    true
 			);
 
@@ -170,7 +153,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				$this->_slug . '-style-css', // Handle.
 				$this->asset_source( '', 'blocks.style.build.css' ), // Block style CSS.
 				$this->get_dependencies( $this->_slug . '-style-css' ), // Dependency to include the CSS after it.
-				$this->_version
+				WPZOOM_RCB_VERSION
 			);
 
 			wp_enqueue_style(
@@ -192,8 +175,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		    	$this->_slug . '-script',
 		    	'wpzoomRecipeCard',
 		    	array(
-		    		'version' => $this->_version,
-		    		'textdomain' => $this->_textdomain,
+		    		'version' => WPZOOM_RCB_VERSION,
+		    		'textdomain' => WPZOOM_RCB_TEXT_DOMAIN,
 		    		'pluginURL' => WPZOOM_RCB_PLUGIN_URL,
 		    		'post_permalink' => str_replace( '?p=', '', get_the_permalink( $this->post ) ),
 		    		'post_thumbnail_url' => get_the_post_thumbnail_url( $this->post ),
@@ -204,21 +187,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		    		'setting_options' => ( !empty( $options ) ? $options : WPZOOM_Settings::get_defaults() )
 		    	)
 		    );
-		}
-
-		/**
-		 * Load Jed-formatted localization text domain.
-		 *
-		 * @since 1.1.0
-		 */
-		public function load_jed_text_domain() {
-			/**
-			 * Removed functions wp_get_jed_locale_data and gutenberg_get_jed_locale_data
-			 * @since 2.0.1
-			 */
-			if ( function_exists( 'wp_set_script_translations' ) ) {
-				wp_set_script_translations( $this->_slug, $this->_textdomain );
-			}
 		}
 
 		/**
@@ -239,14 +207,14 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                 $this->_slug . '-js', // Handle.
                 $this->asset_source( '', 'blocks.build.js' ), // Block.build.js: We register the block here. Built with Webpack.
                 $this->get_dependencies( $this->_slug . '-js' ), // Dependencies, defined above.
-                $this->_version,
+                WPZOOM_RCB_VERSION,
                 true // Enqueue the script in the footer.
             );
 
             // Tell to WordPress that our script contains translations
             // this function was added in 5.0 version
             if ( function_exists( 'wp_set_script_translations' ) ) {
-	            wp_set_script_translations( $this->_slug . '-js', $this->_textdomain );
+            	wp_set_script_translations( $this->_slug .'-js', WPZOOM_RCB_TEXT_DOMAIN, WPZOOM_RCB_PLUGIN_DIR . 'languages' );
             }
 
             // Styles.
@@ -254,7 +222,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                 $this->_slug . '-editor-css', // Handle.
                 $this->asset_source( '', 'blocks.editor.build.css' ), // Block editor CSS.
                 $this->get_dependencies( $this->_slug . '-editor-css' ), // Dependency to include the CSS after it.
-                $this->_version
+                WPZOOM_RCB_VERSION
             );
 
             $this->post = get_post();
@@ -270,8 +238,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                 $this->_slug . '-js',
                 'wpzoomRecipeCard',
                 array(
-                    'version' => $this->_version,
-                    'textdomain' => $this->_textdomain,
+                    'version' => WPZOOM_RCB_VERSION,
+                    'textdomain' => WPZOOM_RCB_TEXT_DOMAIN,
                     'pluginURL' => WPZOOM_RCB_PLUGIN_URL,
                     'post_permalink' => str_replace( '?p=', '', get_the_permalink( $this->post ) ),
                     'post_thumbnail_url' => get_the_post_thumbnail_url( $this->post ),
@@ -301,7 +269,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 					$this->_slug . '-' . $icon . '-css', // Handle.
 					$this->asset_source( 'css', $icon .'.min.css' ), // Block editor CSS.
 					$this->get_dependencies( $this->_slug . '-' . $icon . '_css' ), // Dependency to include the CSS after it.
-					$this->_version
+					WPZOOM_RCB_VERSION
 				);
 			}
 		}
