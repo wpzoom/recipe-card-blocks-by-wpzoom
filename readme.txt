@@ -1,5 +1,5 @@
 === Recipe Card Blocks by WPZOOM ===
-Contributors: WPZOOM, ciorici
+Contributors: WPZOOM, ciorici, vicolaspetru
 Donate link: https://www.wpzoom.com/
 Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card
 Requires at least: 5.0
@@ -9,7 +9,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg)
+Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup (JSON-LD) for the new WordPress editor (Gutenberg)
 
 == Description ==
 
@@ -107,7 +107,10 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
-= 2.1.1 =
+= 2.2.0 =
+* New Block Style: Simple Design
+* Added new images sizes for header image in the block
+* New: multiple images per direction. You can now add more than just 1 image in each step from Directions.
 * Fixed issues after update to Gutenberg 5.9
 
 = 2.1.0 =

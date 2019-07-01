@@ -10,7 +10,7 @@ $heading_color: #222;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 
     &.is-style-simple {
-        padding: 10px 10px 20px;
+        padding: 20px;
         margin: 50px 0;
         background: #ffffff;
         border: 1px solid rgba(0,0,0,.1);
@@ -21,9 +21,9 @@ $heading_color: #222;
                 clear: both;
                 display: table;
             }
-            
-            margin: -10px -10px 10px -10px;
-            padding: 10px;
+
+            margin: -20px -20px 10px -20px;
+            padding: 20px;
             background-color: #FBF9E7;
         }
 
@@ -32,7 +32,7 @@ $heading_color: #222;
             width: 40%;
             figure {
                 position: relative;
-                margin: 0;
+                margin: 5px 0 0;
                 line-height: 0;
                 img {
                     max-width: 100%;
@@ -92,7 +92,7 @@ $heading_color: #222;
         }
         .recipe-card-heading {
             margin-bottom: 5px;
-            margin-left: 15px;
+            margin-left: 20px;
             .recipe-card-title {
                 font-size: 24px;
                 margin: 0 0 10px;
@@ -133,7 +133,7 @@ $heading_color: #222;
 
         }
         .recipe-card-details {
-            margin-left: 15px;
+            margin-left: 20px;
             margin-bottom: 0;
             padding-top: 5px;
             border-top: 1px dashed rgba(0,0,0,.1);
@@ -142,6 +142,9 @@ $heading_color: #222;
 
             .detail-item {
                 color: #333;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 15px;
 
                 .detail-item-label {
                     font-weight: bold;
