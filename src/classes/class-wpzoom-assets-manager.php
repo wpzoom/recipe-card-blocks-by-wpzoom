@@ -43,14 +43,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		}
 
 		/**
-		 * The WPZOOM_Recipe_Card_Block_Gutenberg instance.
-		 *
-		 * @var WPZOOM_Recipe_Card_Block_Gutenberg
-		 * @since 1.1.0
-		 */
-		private $_recipe_card_block;
-
-		/**
 		 * The base directory path.
 		 *
 		 * @var string $_dir
@@ -84,8 +76,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		private function __construct() {
 			$this->_slug    	= 'wpzoom-rcb-block';
 			$this->_url     	= untrailingslashit( WPZOOM_RCB_PLUGIN_URL );
-
-			$this->_recipe_card_block = WPZOOM_Recipe_Card_Block_Gutenberg::instance();
 
 			add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
 			add_action( 'enqueue_block_assets', array( $this, 'load_icon_fonts' ) );
