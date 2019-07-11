@@ -1,8 +1,4 @@
 <?php
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
 
 if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 	

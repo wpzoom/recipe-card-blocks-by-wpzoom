@@ -27,15 +27,16 @@ register_deactivation_hook( __FILE__, 'WPZOOM_Plugin_Activator::deactivate' );
  *
  * @since 1.2.0
  */
-function recipe_card_block_plugin_activation_redirect() {
-	if ( get_option( 'wpzoom_rcb_do_activation_redirect', false ) ) {
-		delete_option( 'wpzoom_rcb_do_activation_redirect' );
-		if ( ! isset( $_GET['activate-multi'] ) ) {
-			wp_redirect( 'options-general.php?page=wpzoom-recipe-card-settings' );
+if ( ! function_exists( 'recipe_card_block_plugin_activation_redirect' ) ) {
+	function recipe_card_block_plugin_activation_redirect() {
+		if ( get_option( 'wpzoom_rcb_do_activation_redirect', false ) ) {
+			delete_option( 'wpzoom_rcb_do_activation_redirect' );
+			if ( ! isset( $_GET['activate-multi'] ) ) {
+				wp_redirect( 'options-general.php?page=wpzoom-recipe-card-settings' );
+			}
 		}
 	}
 }
-
 add_action( 'admin_init', 'recipe_card_block_plugin_activation_redirect' );
 
 
