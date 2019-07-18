@@ -1,18 +1,13 @@
 /* External dependencies */
 import DetailItem from "./DetailItem";
-import isUndefined from "lodash/isUndefined";
 import PropTypes from "prop-types";
-import uniq from "lodash/uniq";
 import uniqueId from "lodash/uniqueId";
-import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
-const { speak } = wp.a11y;
-const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
 
 /* Import CSS. */

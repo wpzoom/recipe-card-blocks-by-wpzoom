@@ -4,20 +4,12 @@ import PropTypes from "prop-types";
 /* External dependencies */
 import IconsModal from "./IconsModal";
 import get from "lodash/get";
-import isUndefined from "lodash/isUndefined";
-
-import { getBlockStyle } from "../../../helpers/getBlockStyle";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { RichText } = wp.blockEditor;
-const { IconButton, Button, Popover, MenuItemsChoice, MenuGroup } = wp.components;
-const { withState } = wp.compose;
-
-const states = {
-	isVisible: false
-}
+const { IconButton } = wp.components;
 
 /**
  * A Detail items within a Details block.
@@ -34,7 +26,6 @@ export default class DetailItem extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onOpenModal   				= this.onOpenModal.bind( this );
 		this.setLabelRef    			= this.setLabelRef.bind( this );
 		this.onFocusLabel   			= this.onFocusLabel.bind( this );
 		this.setValueRef    			= this.setValueRef.bind( this );
@@ -81,15 +72,6 @@ export default class DetailItem extends Component {
 	 */
 	onFocusValue() {
 		this.props.onFocus( this.props.index, "value" );
-	}
-
-	/**
-	 * Open Modal
-	 *
-	 * @returns {void}
-	 */
-	onOpenModal() {
-	    this.props.setAttributes( { showModal: 'true', toInsert: this.props.index } );
 	}
 
 	/**
@@ -144,42 +126,8 @@ export default class DetailItem extends Component {
 	 * @returns {Component}
 	 */
 	getOpenModalButton( props ) {
-		const {
-			attributes: {
-				settings: {
-					0: {
-						icon_details_color
-					}
-				}
-			},
-			index,
-			className
-		} = props;
-		let {
-			item: {
-				icon,
-				iconSet
-			}
-		} = props;
-		let style = getBlockStyle( className );
-
-		if ( isUndefined( iconSet ) )
-			iconSet = 'oldicon';
-
-		let iconStyles = { 'color': icon_details_color };
-		if ( 'newdesign' === style ) {
-			iconStyles = { 'color': '#FFA921' };	
-		}
-
 	    return (
-	        <IconButton
-	            icon={ !icon && "insert" }
-	            onClick={ this.onOpenModal }
-	            className="editor-inserter__toggle"
-	            label={ __( "Add icon", "wpzoom-recipe-card" ) }
-	        >
-	        	{ icon && <span class={ `${ iconSet } ${ iconSet }-${ icon }`} style={ iconStyles }></span> }
-	        </IconButton>
+	    	<IconsModal { ... { props } } />
 	    );
 	}
 
@@ -211,15 +159,22 @@ export default class DetailItem extends Component {
 	 */
 	render() {
 		const { 
-			attributes, 
-			setAttributes, 
+			attributes,
 			className,
 			index,
 			item,
 			isSelected,
 			subElement
 		} = this.props;
-		const { id, icon, label, value, unit } = item;
+
+		const {
+			id,
+			icon,
+			label,
+			value,
+			unit
+		} = item;
+
 		const isSelectedLabel = isSelected && subElement === "label";
 		const isSelectedValue = isSelected && subElement === "value";
 		const isSelectedUnit = isSelected && subElement === "unit";
@@ -246,7 +201,6 @@ export default class DetailItem extends Component {
 				    keepPlaceholderOnFocus={ true }
 				/>
 				<p className="detail-item-unit">{ this.getPlaceholder( index, 'unit' ) }</p>
-				<IconsModal { ... { attributes, setAttributes, className } } />
 			</div>
 		);
 	}
