@@ -47,15 +47,25 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 		 * @return void
 		 */
 		private static function define_constants() {
+			define( 'WPZOOM_RCB_HAS_PRO', false );
+			define( 'WPZOOM_RCB_PLUGIN_FILE', trailingslashit( dirname( dirname( dirname( __FILE__ ) ) ) ) . 'wpzoom-recipe-card.php' );
+			define( 'WPZOOM_RCB_PLUGIN_DIR', plugin_dir_path( WPZOOM_RCB_PLUGIN_FILE ) );
+			define( 'WPZOOM_RCB_PLUGIN_URL', plugins_url( '/', WPZOOM_RCB_PLUGIN_FILE ) );
+			define( 'WPZOOM_RCB_SD_BLOCKS_DIR', WPZOOM_RCB_PLUGIN_DIR . 'src/structured-data-blocks/' );
+			define( 'WPZOOM_RCB_REVIEW_URL', 'https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/' );
+
+			// settings page url attribute
+			define( 'WPZOOM_RCB_SETTINGS_PAGE', 'wpzoom-recipe-card-settings' );
+
 			/**
 			 * Parses the plugin contents to retrieve plugin’s metadata.
 			 * @since 2.1.1
 			 */
 			if ( function_exists( 'get_plugin_data' ) ) {
-				$plugin_data = get_plugin_data( __FILE__ );
+				$plugin_data = get_plugin_data( WPZOOM_RCB_PLUGIN_FILE );
 			}
 			else {
-				$plugin_data = get_file_data( __FILE__, array(
+				$plugin_data = get_file_data( WPZOOM_RCB_PLUGIN_FILE, array(
 					'Version' => 'Version',
 				    'TextDomain' => 'Text Domain',
 				    'AuthorURI' => 'Author URI'
@@ -64,21 +74,10 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 
 			define( 'WPZOOM_RCB_VERSION', $plugin_data['Version'] );
 			define( 'WPZOOM_RCB_TEXT_DOMAIN', $plugin_data['TextDomain'] );
-			define( 'WPZOOM_RCB_HAS_PRO', false );
-			define( 'WPZOOM_RCB_PLUGIN_FILE', trailingslashit( dirname( dirname( dirname( __FILE__ ) ) ) ) . 'wpzoom-recipe-card.php' );
-			define( 'WPZOOM_RCB_PLUGIN_DIR', plugin_dir_path( WPZOOM_RCB_PLUGIN_FILE ) );
-			define( 'WPZOOM_RCB_PLUGIN_URL', plugins_url( '/', WPZOOM_RCB_PLUGIN_FILE ) );
-			define( 'WPZOOM_RCB_SD_BLOCKS_DIR', WPZOOM_RCB_PLUGIN_DIR . 'src/structured-data-blocks/' );
-			define( 'WPZOOM_RCB_REVIEW_URL', 'https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/' );
 
-			// settings ?page url attribute
-			define( 'WPZOOM_RCB_SETTINGS_PAGE', 'wpzoom-recipe-card-settings' );
 			// this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
 			define( 'WPZOOM_RCB_STORE_URL', $plugin_data['AuthorURI'] );
 			define( 'WPZOOM_RCB_RENEW_URL', $plugin_data['AuthorURI'].'/account/licenses/' );
-			// the download ID. This is the ID of your product in EDD and should match the download ID visible in your Downloads list
-			define( 'WPZOOM_RCB_ITEM_ID', 197189 );
-			define( 'WPZOOM_RCB_ITEM_NAME', 'Recipe Card Block PRO' );
 		}
 
 		/**

@@ -19,9 +19,6 @@
 
 require_once 'src/classes/class-wpzoom-plugin-loader.php';
 
-register_activation_hook( __FILE__, 'WPZOOM_Plugin_Activator::activate' );
-register_deactivation_hook( __FILE__, 'WPZOOM_Plugin_Activator::deactivate' );
-
 /**
  * Redirect to the WPZOOM Recipe Card Getting Started page on single plugin activation
  *
