@@ -299,8 +299,9 @@ class WPZOOM_Recipe_Card_Block {
 		self::$style 		= self::$helpers->get_block_style( $className );
 		self::$settings 	= self::$helpers->parse_block_settings( $attributes );
 
-		self::$attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? $ingredientsTitle : __( "Ingredients", "wpzoom-recipe-card" );
-		self::$attributes['directionsTitle'] = isset( $directionsTitle ) ? $directionsTitle : __( "Directions", "wpzoom-recipe-card" );
+		self::$attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? $ingredientsTitle : WPZOOM_Settings::get('wpzoom_rcb_settings_ingredients_title');
+		self::$attributes['directionsTitle'] = isset( $directionsTitle ) ? $directionsTitle : WPZOOM_Settings::get('wpzoom_rcb_settings_steps_title');
+		self::$attributes['videoTitle'] = isset( $videoTitle ) ? $videoTitle : WPZOOM_Settings::get('wpzoom_rcb_settings_video_title');
 
 		$class .= strpos( $className, 'is-style' ) === false ? ' is-style-' . self::$style : '';
 		$class .= ' header-content-align-' . self::$settings['headerAlign'];
@@ -384,9 +385,9 @@ class WPZOOM_Recipe_Card_Block {
 			<div class="recipe-card-heading">
 				'. sprintf( '<h2 class="%s">%s</h2>', "recipe-card-title", ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) ) ) .
 				( self::$settings['displayAuthor'] ? '<span class="recipe-card-author">'. __( "Recipe by", "wpzoom-recipe-card" ) . " " . $custom_author_name .'</span>' : '' ) .
-				( self::$settings['displayCourse'] ? $this->get_recipe_terms( 'wpzoom_rcb_courses', $attributes ) : '' ) .
-				( self::$settings['displayCuisine'] ? $this->get_recipe_terms( 'wpzoom_rcb_cuisines', $attributes ) : '' ) .
-				( self::$settings['displayDifficulty'] ? $this->get_recipe_terms( 'wpzoom_rcb_difficulties', $attributes ) : '' ) .
+				( self::$settings['displayCourse'] ? $this->get_recipe_terms( 'wpzoom_rcb_courses' ) : '' ) .
+				( self::$settings['displayCuisine'] ? $this->get_recipe_terms( 'wpzoom_rcb_cuisines' ) : '' ) .
+				( self::$settings['displayDifficulty'] ? $this->get_recipe_terms( 'wpzoom_rcb_difficulties' ) : '' ) .
 			'</div>';
 
 		$summary_text = '';
@@ -403,6 +404,7 @@ class WPZOOM_Recipe_Card_Block {
 		$details_content = $this->get_details_content( $details );
 		$ingredients_content = $this->get_ingredients_content( $ingredients );
 		$steps_content = $this->get_steps_content( $steps );
+		$recipe_card_video = $this->get_video_content();
 
 		$strip_tags_notes = isset( $notes ) ? strip_tags($notes) : '';
 		$notes = str_replace('<li></li>', '', $notes); // remove empty list item
@@ -439,6 +441,7 @@ class WPZOOM_Recipe_Card_Block {
 			$summary_text .
 			$ingredients_content .
 			$steps_content .
+			$recipe_card_video .
 			$notes_content .
 			$footer_copyright
 		);
@@ -451,11 +454,10 @@ class WPZOOM_Recipe_Card_Block {
 	/**
 	 * Returns the JSON-LD for a recipe-card block.
 	 *
-	 * @param array $attributes The attributes of the recipe-card block.
-	 *
 	 * @return array The JSON-LD representation of the recipe-card block.
 	 */
-	protected function get_json_ld( array $attributes ) {
+	protected function get_json_ld() {
+		$attributes = self::$attributes;
 		$tag_list = wp_get_post_terms( $this->recipe->ID, 'post_tag', array( 'fields' => 'names' ) );
 		$cat_list = wp_get_post_terms( $this->recipe->ID, 'category', array( 'fields' => 'names' ) );
 
@@ -469,15 +471,15 @@ class WPZOOM_Recipe_Card_Block {
 			'name'			=> $this->recipe->post_title,
 			'description' 	=> $this->recipe->post_excerpt,
 			'image'			=> '',
-			// 'video'			=> array(
-			// 	'name'  	=> '',
-			// 	'description' 	=> '',
-			// 	'thumbnailUrl' 	=> '',
-			// 	'contentUrl' 	=> '',
-			// 	'embedUrl' 		=> '',
-			// 	'uploadDate' 	=> '',
-			// 	'duration' 		=> '',
-			// ),
+			'video'			=> array(
+				'name'  		=> $this->recipe->post_title,
+				'description' 	=> $this->recipe->post_excerpt,
+				'thumbnailUrl' 	=> '',
+				'contentUrl' 	=> '',
+				'embedUrl' 		=> '',
+				'uploadDate' 	=> '',
+				'duration' 		=> '',
+			),
 			'recipeCategory' => $cat_list,
 			'recipeCuisine'  => array(),
 			'keywords'  	=> $tag_list,
@@ -499,6 +501,37 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( ! empty( $attributes['image'] ) && isset( $attributes['hasImage'] ) && $attributes['hasImage'] ) {
 			$json_ld['image'] = $attributes['image']['url'];
+		}
+
+		if ( isset( $attributes['video'] ) && ! empty( $attributes['video'] ) && isset( $attributes['hasVideo'] ) && $attributes['hasVideo'] ) {
+			$video = $attributes['video'];
+			$video_type = isset( $video['type'] ) ? $video['type'] : '';
+
+			if ( isset( $video['title'] ) && ! empty( $video['title'] ) ) {
+				$json_ld['video']['name'] = esc_html( $video['title'] );
+			}
+			if ( isset( $video['caption'] ) && !empty( $video['caption'] ) ) {
+				$json_ld['video']['description'] = esc_html( $video['caption'] );
+			}
+			if ( isset( $video['description'] ) && !empty( $video['description'] ) ) {
+				$json_ld['video']['description'] = esc_html( $video['description'] );
+			}
+			if ( isset( $video['poster']['url'] ) ) {
+				$json_ld['video']['thumbnailUrl'] = esc_url( $video['poster']['url'] );
+			}
+			if ( isset( $video['url'] ) ) {
+				if ( 'self-hosted' === $video_type ) {
+					$json_ld['video']['contentUrl'] = esc_url( $video['url'] );
+					unset( $json_ld['video']['embedUrl'] );
+				}
+				elseif ( 'embed' === $video_type ) {
+					$json_ld['video']['embedUrl'] = esc_url( $video['url'] );
+					unset($json_ld['video']['contentUrl']);
+				}
+			}
+			if ( isset( $video['date'] ) ) {
+				$json_ld['video']['uploadDate'] = $video['date'];
+			}
 		}
 
 		if ( ! empty( $attributes['course'] ) ) {
@@ -875,9 +908,10 @@ class WPZOOM_Recipe_Card_Block {
 		return force_balance_tags( $output );
 	}
 
-	protected function get_recipe_terms( $taxonomy, $attributes ) {
+	protected function get_recipe_terms( $taxonomy ) {
 		$className = $label = $terms_output = '';
 		$render = true; // use this to know if allow render on frontend when terms exists
+		$attributes = self::$attributes;
 
 		extract( $attributes );
 
@@ -999,6 +1033,50 @@ class WPZOOM_Recipe_Card_Block {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Get HTML content for recipe video
+	 * 
+	 * @since 2.1.1
+	 * @return void
+	 */
+	public function get_video_content() {
+		$attributes = self::$attributes;
+		$hasVideo = isset( $attributes['hasVideo'] ) && $attributes['hasVideo'];
+		$output = '';
+
+		if ( ! $hasVideo ) {
+			return '';
+		}
+
+		$video = isset( $attributes['video'] ) && ! empty( $attributes['video'] ) ? $attributes['video'] : array();
+		$video_type = isset( $video['type'] ) ? $video['type'] : '';
+		$video_url = isset( $video['url'] ) ? esc_url( $video['url'] ) : '';
+		$video_poster = isset( $video['poster']['url'] ) ? esc_url( $video['poster']['url'] ) : '';
+		$video_settings = isset( $video['settings'] ) ? $video['settings'] : array();
+
+		if ( 'embed' === $video_type ) {
+			$output = wp_oembed_get( $video_url );
+		}
+		elseif ( 'self-hosted' === $video_type ) {
+			$attrs = array();
+			foreach ( $video_settings as $attribute => $value ) {
+				if ( $value ) {
+					$attrs[] = $attribute;
+				}
+			}
+			$attrs = implode( ' ', $attrs );
+
+			$output = sprintf(
+				'<video %s src="%s" poster="%s"></video>',
+				esc_attr( $attrs ),
+				$video_url,
+				$video_poster
+			);
+		}
+
+		return sprintf( '<div class="recipe-card-video"><h3 class="video-title">%s</h3>%s</div>', $attributes['videoTitle'], $output );
 	}
 
 	/**

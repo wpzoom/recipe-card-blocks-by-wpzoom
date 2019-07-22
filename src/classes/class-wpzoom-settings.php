@@ -371,6 +371,18 @@ class WPZOOM_Settings {
 								)
 							),
 							array(
+								'id' 		=> 'wpzoom_rcb_settings_video_title',
+								'title' 	=> __( 'Recipe Video Title', 'wpzoom-recipe-card' ),
+								'type'		=> 'input',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_video_title',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Add your custom title for Recipe video.', 'wpzoom-recipe-card' ),
+									'default'		=> __( 'Recipe Video', 'wpzoom-recipe-card' ),
+									'type'			=> 'text'
+								)
+							),
+							array(
 								'id' 		=> 'wpzoom_rcb_settings_notes_title',
 								'title' 	=> __( 'Default Notes Title', 'wpzoom-recipe-card' ),
 								'type'		=> 'input',
