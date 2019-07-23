@@ -83,7 +83,7 @@ final class WPZOOM_Plugin_Activator {
 		// Is Lite version?
 		if ( WPZOOM_RCB_HAS_PRO === false ) {
 			$url = self::get_upgrade_url();
-			$actions[] = '<a href="' . $url . '" style="color:#FFA921;" target="_blank">' . _x( 'Premium', 'Plugin action link label.', 'wpzoom-recipe-card' ) . '</a>';
+			$actions[] = '<a href="' . $url . '" style="color:#FFA921;font-weight:bold;" target="_blank">' . _x( 'Go Premium', 'Plugin action link label.', 'wpzoom-recipe-card' ) . '</a>';
 		}
 
 		return $actions;
@@ -101,7 +101,7 @@ final class WPZOOM_Plugin_Activator {
 		 * Use this filter to modify the upgrade URL in Recipe Card Blocks by WPZOOM Lite.
 		 * @see wpzoom_recipe_card_upgrade_url
 		 */
-		return apply_filters( 'wpzoom_recipe_card_upgrade_url', self::get_store_url( '', $params ) );
+		return apply_filters( 'wpzoom_recipe_card_upgrade_url', self::get_store_url( 'plugins/recipe-card-blocks/', $params ) );
 	}
 
 	/**

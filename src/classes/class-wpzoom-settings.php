@@ -235,6 +235,8 @@ class WPZOOM_Settings {
 			return;
 		}
 
+		$upgrade_url = WPZOOM_Plugin_Activator::get_upgrade_url();
+
 		ob_start();
 		?>
 		<div id="wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome">
@@ -246,7 +248,7 @@ class WPZOOM_Settings {
 					<a href="https://www.wpzoom.com/documentation/recipe-card-blocks/" target="_blank" class="wpzoom-doc-link"><?php _e( "Documentation", "wpzoom-recipe-card" ) ?></a>
 					<a href="https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/" target="_blank" class="wpzoom-support-link"><?php _e( "Support Forum", "wpzoom-recipe-card" ) ?></a>
                     <a href="https://www.wpzoom.com/support/tickets/" target="_blank" class="wpzoom-support-link"><strong><?php _e( "Premium Support", "wpzoom-recipe-card" ) ?></strong></a>
-					<?php /* <a href="#" target="_blank" class="wpzoom-pro-link"><?php _e( "Upgrade PRO", "wpzoom-recipe-card" ) ?></a> */ ?>
+					<a href="<?php echo esc_url( $upgrade_url ); ?>" target="_blank" class="wpzoom-pro-link" style="color:#FFA921;"><strong><?php _e( "Upgrade PRO", "wpzoom-recipe-card" ) ?></strong></a>
 				</div>
 			</div>
 			<a href="#wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i><?php _e( "Close", "wpzoom-recipe-card" ) ?></a>
