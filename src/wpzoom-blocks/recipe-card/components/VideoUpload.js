@@ -1,5 +1,6 @@
 /* External dependencies */
 import get from "lodash/get";
+import ReactPlayer from "react-player";
 
 /* Internal dependencies */
 import { excludeClassNames } from "../../../helpers/parseClassName";
@@ -9,8 +10,6 @@ const { __, _n } = wp.i18n;
 const { Component, Fragment, createRef } = wp.element;
 const { 
 	InspectorControls,
-	MediaPlaceholder,
-	MediaUpload,
 	mediaUpload,
 	URLInput
 } = wp.editor;
@@ -24,7 +23,11 @@ const {
 	IconButton,
 	withNotices
 } = wp.components;
-const { URLPopover } = wp.blockEditor;
+const {
+	URLPopover,
+	MediaPlaceholder,
+	MediaUpload
+} = wp.blockEditor;
 const { getBlobByURL, isBlobURL } = wp.blob;
 
 /* Module constants */
@@ -292,6 +295,12 @@ class VideoUpload extends Component {
 								</URLPopover>
 							) }
 						</div>
+						<ReactPlayer
+							width="100%"
+							height="auto"
+							url={ url }
+						/>
+						<br/>
 			    		<Button isLink="true" isDestructive="true" onClick={ this.onRemoveVideo }>{ __( "Remove Recipe Video", "wpzoom-recipe-card" ) }</Button>
 		    		</Fragment>
 			    }

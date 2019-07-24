@@ -111,6 +111,11 @@ class WPZOOM_Recipe_Card_Block {
 			    'type' => 'boolean',
 			    'default' => false
 			),
+			'videoTitle' => array(
+			    'type' => 'string',
+			    'selector' => '.video-title',
+			    'default' => WPZOOM_Settings::get('wpzoom_rcb_settings_video_title'),
+			),
 			'recipeTitle' => array(
 			    'type' => 'string',
 			    'selector' => '.recipe-card-title',

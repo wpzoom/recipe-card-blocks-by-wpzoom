@@ -31,11 +31,15 @@
     .recipe-card-image figure img {
         width: 100%;
     }
-    .recipe-card-video video {
-        max-width: 100%;
-    }
-    .recipe-card-video [poster] {
-        object-fit: cover;
+    .recipe-card-video {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        video {
+            max-width: 100%;
+        }
+        [poster] {
+            object-fit: cover;
+        }
     }
     .recipe-card-details {
         margin-bottom: 15px;
