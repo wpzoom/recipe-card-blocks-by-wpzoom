@@ -75,9 +75,12 @@
         margin-top: 30px;
     }
     
-    .recipe-card-directions .directions-list .direction-step-group::before {
-        content: '';
-        counter-increment: none;
+    .recipe-card-directions .directions-list .direction-step-group {
+        counter-reset: count;
+        &::before {
+            content: '';
+            counter-increment: none;
+        }
     }
 
     .footer-copyright p {
