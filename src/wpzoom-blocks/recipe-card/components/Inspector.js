@@ -307,8 +307,8 @@ class Inspector extends Component {
 					<PanelRow>
 						<span>{ __( "Legend:", "wpzoom-recipe-card" ) }</span>
 					</PanelRow>
-					<PanelRow className="text-color-red">
-						<ColorIndicator aria-label={ __( "Required fields", "wpzoom-recipe-card" ) } colorValue="#ff2725" />
+					<PanelRow className={ check.errors.length === 0 ? `text-color-green` : `text-color-red` }>
+						<ColorIndicator aria-label={ __( "Required fields", "wpzoom-recipe-card" ) } colorValue={ check.errors.length === 0 ? `#29a740` : `#ff2725` } />
 						<strong>{ `${ check.errors.length } ` + _n( "error", "errors", `${ check.errors.length }`, "wpzoom-recipe-card" ) }</strong>
 					</PanelRow>
 					<PanelRow className="text-color-orange">

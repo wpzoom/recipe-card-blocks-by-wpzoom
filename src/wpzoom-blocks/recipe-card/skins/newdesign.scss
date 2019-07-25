@@ -291,6 +291,9 @@ $heading_color: #222;
             }
             &.layout-2-columns {
                 columns: 2;
+                .ingredient-item-group {
+                    column-span: all;
+                }
             }
         }
 
