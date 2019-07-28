@@ -473,12 +473,13 @@ class WPZOOM_Recipe_Card_Block {
 				'@type'		=> 'Person',
 				'name'		=> get_the_author()
 			),
-			'name'			=> $this->recipe->post_title,
-			'description' 	=> $this->recipe->post_excerpt,
+			'name'			=> isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : $this->recipe->post_title,
+			'description' 	=> isset( $attributes['summary'] ) ? $attributes['summary'] : $this->recipe->post_excerpt,
 			'image'			=> '',
 			'video'			=> array(
-				'name'  		=> $this->recipe->post_title,
-				'description' 	=> $this->recipe->post_excerpt,
+				'@type'			=> 'CreativeWork',
+				'name'  		=> isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : $this->recipe->post_title,
+				'description' 	=> isset( $attributes['summary'] ) ? $attributes['summary'] : $this->recipe->post_excerpt,
 				'thumbnailUrl' 	=> '',
 				'contentUrl' 	=> '',
 				'embedUrl' 		=> '',
@@ -530,7 +531,22 @@ class WPZOOM_Recipe_Card_Block {
 					unset( $json_ld['video']['embedUrl'] );
 				}
 				elseif ( 'embed' === $video_type ) {
-					$json_ld['video']['embedUrl'] = esc_url( $video['url'] );
+					$video_embed_url = $video['url'];
+
+					$json_ld['video']['@type'] = 'VideoObject';
+
+					if ( ! empty( $attributes['image'] ) && isset( $attributes['hasImage'] ) && $attributes['hasImage'] ) {
+						$json_ld['video']['thumbnailUrl'] = $attributes['image']['url'];
+					}
+
+					if ( strpos( $video['url'], 'youtu' ) ) {
+						$video_embed_url = self::$helpers->convert_youtube_url_to_embed( $video['url'] );
+					}
+					elseif ( strpos( $video['url'] , 'vimeo' ) ) {
+						$video_embed_url = self::$helpers->convert_vimeo_url_to_embed( $video['url'] );
+					}
+
+					$json_ld['video']['embedUrl'] = esc_url( $video_embed_url );
 					unset($json_ld['video']['contentUrl']);
 				}
 			}
