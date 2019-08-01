@@ -1097,7 +1097,7 @@ class WPZOOM_Recipe_Card_Block {
 			);
 		}
 
-		return sprintf( '<div class="recipe-card-video"><h3 class="video-title">%s</h3>%s</div>', $attributes['videoTitle'], $output );
+		return sprintf( '<div class="recipe-card-video no-print"><h3 class="video-title">%s</h3>%s</div>', $attributes['videoTitle'], $output );
 	}
 
 	/**

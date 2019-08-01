@@ -266,6 +266,7 @@ class WPZOOM_Settings {
 	 */
 	public function settings_init() {
 		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">'. __( 'Premium', 'wpzoom-recipe-card' ) .'</span>';
+		$soon_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_coming_soon">'. __( 'Coming Soon', 'wpzoom-recipe-card' ) .'</span>';
 
 		$this->settings = array(
 			'general' => array(
@@ -711,7 +712,7 @@ class WPZOOM_Settings {
 									'description' 	=> esc_html__( 'Make Course as taxonomy.', 'wpzoom-recipe-card' ),
 									'default'		=> false,
 									'disabled'		=> true,
-									'badge' 		=> $premium_badge,
+									'badge' 		=> $premium_badge . $soon_badge,
 								)
 							),
 							array(
@@ -724,7 +725,7 @@ class WPZOOM_Settings {
 									'description' 	=> esc_html__( 'Make Cuisine as taxonomy.', 'wpzoom-recipe-card' ),
 									'default'		=> false,
 									'disabled'		=> true,
-									'badge' 		=> $premium_badge,
+									'badge' 		=> $premium_badge . $soon_badge,
 								)
 							),
 							array(
@@ -737,7 +738,7 @@ class WPZOOM_Settings {
 									'description' 	=> esc_html__( 'Make Difficulty as taxonomy.', 'wpzoom-recipe-card' ),
 									'default'		=> false,
 									'disabled'		=> true,
-									'badge' 		=> $premium_badge,
+									'badge' 		=> $premium_badge . $soon_badge,
 								)
 							),
 						)

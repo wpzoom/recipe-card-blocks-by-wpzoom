@@ -280,7 +280,7 @@ export default class RecipeCard extends Component {
 							onSetup={ ( ref ) => {
 								this.editorRefs.recipeTitle = ref;
 							} }
-							placeholder={ __( "Enter the title of your Recipe Card.", "wpzoom-recipe-card" ) }
+							placeholder={ __( "Enter the title of your Recipe Card", "wpzoom-recipe-card" ) }
 							formattingControls={ [] }
 							keepPlaceholderOnFocus={ true }
 						/>
