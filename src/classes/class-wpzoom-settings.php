@@ -344,7 +344,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_details_title',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Add your custom Details title.', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Add your custom Details title for new or existing Recipe Cards.', 'wpzoom-recipe-card' ),
 									'default'		=> __( 'Details', 'wpzoom-recipe-card' ),
 									'type'			=> 'text'
 								)
@@ -356,7 +356,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_ingredients_title',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Add your custom Ingredients title for all new Recipe Cards.', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Add your custom Ingredients title for new or existing Recipe Cards.', 'wpzoom-recipe-card' ),
 									'default'		=> __( 'Ingredients', 'wpzoom-recipe-card' ),
 									'type'			=> 'text'
 								)
@@ -368,7 +368,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_steps_title',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Add your custom title for Directions section in new Recipe Cards.', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Add your custom Directions title for new or existing Recipe Cards.', 'wpzoom-recipe-card' ),
 									'default'		=> __( 'Directions', 'wpzoom-recipe-card' ),
 									'type'			=> 'text'
 								)
@@ -380,7 +380,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_video_title',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Add your custom title for Recipe video.', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Add your custom Recipe video title for new or existing Recipe Cards.', 'wpzoom-recipe-card' ),
 									'default'		=> __( 'Recipe Video', 'wpzoom-recipe-card' ),
 									'type'			=> 'text'
 								)
@@ -392,7 +392,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_notes_title',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Add your custom Notes title for all new Recipe Cards.', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Add your custom Notes title for new or existing Recipe Cards.', 'wpzoom-recipe-card' ),
 									'default'		=> __( 'Notes', 'wpzoom-recipe-card' ),
 									'type'			=> 'text'
 								)

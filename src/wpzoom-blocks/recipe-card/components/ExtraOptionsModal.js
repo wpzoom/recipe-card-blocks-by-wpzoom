@@ -284,7 +284,7 @@ export default function ExtraOptionsModal(
         	        	    <div className="wrap-content">
         	        	    	<TextareaControl
     	        	    	        label={ __( "Insert Ingredients", "wpzoom-recipe-card" ) }
-    	        	    	        help={ __( "Each line break is a new ingredient.", "wpzoom-recipe-card" ) }
+    	        	    	        help={ __( "Each line break is a new ingredient. Note: To add Ingredient Group Title just type **Group Title** on new line.", "wpzoom-recipe-card" ) }
                                     className="bulk-add-enter-ingredients"
                                     rows="5"
     	        	    	        value={ _ingredients }
@@ -293,7 +293,7 @@ export default function ExtraOptionsModal(
     	        	    	    />
         	        	    	<TextareaControl
     	        	    	        label={ __( "Insert Directions", "wpzoom-recipe-card" ) }
-    	        	    	        help={ __( "Each line break is a new direction.", "wpzoom-recipe-card" ) }
+    	        	    	        help={ __( "Each line break is a new direction. Note: To add Direction Group Title just type **Group Title** on new line.", "wpzoom-recipe-card" ) }
                                     className="bulk-add-enter-directions"
                                     rows="5"
     	        	    	        value={ _directions }
