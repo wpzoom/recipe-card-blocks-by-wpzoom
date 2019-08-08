@@ -91,10 +91,14 @@ class WPZOOM_Helpers {
 			$settings['ingredientsLayout'] = '1-column';
 		}
 
-		if ( $blockStyle === 'default' ) {
+		if ( 'default' === $blockStyle ) {
 			$settings['primary_color'] = '#222';
-		} elseif ( $blockStyle === 'newdesign' ) {
+		}
+		elseif ( 'newdesign' === $blockStyle ) {
 			$settings['primary_color'] = '#FFA921';
+		}
+		elseif ( 'simple' === $blockStyle ) {
+			$settings['primary_color'] = '';
 		}
 
 		if ( !isset( $settings['print_btn'] ) ) {

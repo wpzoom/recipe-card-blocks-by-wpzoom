@@ -331,19 +331,22 @@ class WPZOOM_Recipe_Card_Block {
 		$RecipeCardClassName = implode( ' ', array( $class, $className ) );
 
 		$styles = '';
-		if ( 'default' === self::$style ) {
-			$styles = array(
-				'background-color' => self::$settings['primary_color'],
-			);
-		} else if ( 'newdesign' === self::$style ) {
-			$styles = array(
-				'background-color' => self::$settings['primary_color'],
-				'box-shadow' => '0 5px 40px '. self::$settings['primary_color'] . ''
-			);
-		} else if ( 'simple' === self::$style ) {
-			$styles = array(
-				'background-color' => self::$settings['primary_color'],
-			);
+
+		if ( '' != self::$settings['primary_color'] ) {
+			if ( 'default' === self::$style ) {
+				$styles = array(
+					'background-color' => self::$settings['primary_color'],
+				);
+			} else if ( 'newdesign' === self::$style ) {
+				$styles = array(
+					'background-color' => self::$settings['primary_color'],
+					'box-shadow' => '0 5px 40px '. self::$settings['primary_color'] . ''
+				);
+			} else if ( 'simple' === self::$style ) {
+				$styles = array(
+					'background-color' => self::$settings['primary_color'],
+				);
+			}
 		}
 		$printStyles = self::$helpers->render_styles_attributes( $styles );
 
@@ -731,20 +734,28 @@ class WPZOOM_Recipe_Card_Block {
 			if ( ! empty( $detail[ 'icon' ] ) ) {
 				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
 				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $detail['iconSet'], $detail['iconSet'] . '-' . $detail['icon'] ) );
+				$styles = array();
 
-				if ( 'default' === self::$style ) {
-					$styles = array(
-						'color' => @self::$settings['icon_details_color']
-					);
-				} elseif ( 'newdesign' === self::$style ) {
-					$styles = array(
-						'color' => @self::$settings['primary_color']
-					);
-				} elseif ( 'simple' === self::$style ) {
-					$styles = array(
-						'color' => self::$settings['icon_details_color']
-					);
+				if ( '' != self::$settings['icon_details_color'] ) {
+					if ( 'default' === self::$style ) {
+						$styles = array(
+							'color' => self::$settings['icon_details_color']
+						);
+					} elseif ( 'simple' === self::$style ) {
+						$styles = array(
+							'color' => self::$settings['icon_details_color']
+						);
+					}
 				}
+
+				if ( '' != self::$settings['primary_color'] ) {
+					if ( 'newdesign' === self::$style ) {
+						$styles = array(
+							'color' => self::$settings['primary_color']
+						);
+					} 
+				}
+
 				$iconStyles = self::$helpers->render_styles_attributes( $styles );
 
 				$icon = sprintf(
@@ -840,13 +851,18 @@ class WPZOOM_Recipe_Card_Block {
 
 		foreach ( $ingredients as $index => $ingredient ) {
 			$tick = $name = '';
+			$styles = array();
 			$isGroup = isset($ingredient['isGroup']) ? $ingredient['isGroup'] : false;
 
 			if ( !$isGroup ) {
 				if ( 'newdesign' === self::$style || 'simple' === self::$style ) {
-					$styles = array(
-						'border' => '2px solid ' . self::$settings['primary_color']
-					);
+
+					if ( '' != self::$settings['primary_color'] ) {
+						$styles = array(
+							'border' => '2px solid ' . self::$settings['primary_color']
+						);
+					}
+					
 					$tickStyles = self::$helpers->render_styles_attributes( $styles );
 
 					$tick = sprintf(
