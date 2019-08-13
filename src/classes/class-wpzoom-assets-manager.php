@@ -80,6 +80,9 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
 			add_action( 'enqueue_block_assets', array( $this, 'load_icon_fonts' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
+
+			// Include admin scripts & styles
+            add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		}
 
 		/**
@@ -188,7 +191,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 *
 		 * @since 1.1.0
 		 */
-
         public function editor_assets() {
         	$options = WPZOOM_Settings::get_settings();
 
@@ -240,6 +242,20 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                     'setting_options' => ( !empty( $options ) ? $options : WPZOOM_Settings::get_defaults() )
                 )
             );
+        }
+
+        /**
+         * Enqueue admin scripts and styles
+         *
+         * @since 2.2.0
+         */
+        public function admin_scripts() {
+        	wp_enqueue_style(
+        		'wpzoom-rcb-admin-css',
+        		$this->asset_source( '', 'assets/admin/css/admin.css' ),
+        		$this->get_dependencies( 'wpzoom-rcb-admin-css' ),
+        		WPZOOM_RCB_VERSION
+        	);
         }
 
 
