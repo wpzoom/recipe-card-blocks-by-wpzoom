@@ -30,7 +30,7 @@ class WPZOOM_Admin_Menu {
 	 */
 	public function register_menus() {
 		add_menu_page(
-			esc_html__( 'Recipe Card', 'wpzoom-recipe-card' ),
+			esc_html__( 'WPZOOM Recipe Card Settings', 'wpzoom-recipe-card' ),
 			esc_html__( 'Recipe Card', 'wpzoom-recipe-card' ),
 			'manage_options',
 			WPZOOM_RCB_SETTINGS_PAGE,
