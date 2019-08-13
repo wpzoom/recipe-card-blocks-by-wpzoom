@@ -51,8 +51,8 @@ class WPZOOM_Admin_Menu {
 
 		add_submenu_page(
 			WPZOOM_RCB_SETTINGS_PAGE,
-			esc_html__( 'WPZOOM Recipe Card Lite vs PRO', 'wpzoom-recipe-card' ),
-			'<span style="color:#FFA921">' . esc_html__( 'Lite vs PRO', 'wpzoom-recipe-card' ) . '</span>',
+			esc_html__( 'WPZOOM Recipe Card Free vs. PRO', 'wpzoom-recipe-card' ),
+			'<span style="color:#FFA921">' . esc_html__( 'Free vs. PRO', 'wpzoom-recipe-card' ) . '</span>',
 			'manage_options',
 			'wpzoom-recipe-card-vs-pro',
 			array( $this, 'admin_page' )

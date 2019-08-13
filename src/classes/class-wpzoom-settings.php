@@ -147,7 +147,7 @@ class WPZOOM_Settings {
 	 */
 	public static function update_option( $value, $option = '', $autoload = null ) {
 		if ( empty( $option ) ) $option = self::$option;
-		
+
 		if ( self::$options !== false ) {
 		    // The option already exists, so we just update it.
 		    update_option( $option, $value, $autoload );
@@ -247,7 +247,7 @@ class WPZOOM_Settings {
 					<a href="https://www.wpzoom.com/documentation/recipe-card-blocks/" target="_blank" class="wpzoom-doc-link"><?php _e( "Documentation", "wpzoom-recipe-card" ) ?></a>
 					<a href="https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/" target="_blank" class="wpzoom-support-link"><?php _e( "Support Forum", "wpzoom-recipe-card" ) ?></a>
                     <a href="https://www.wpzoom.com/support/tickets/" target="_blank" class="wpzoom-support-link"><strong><?php _e( "Premium Support", "wpzoom-recipe-card" ) ?></strong></a>
-					<a href="<?php echo esc_url( $upgrade_url ); ?>" target="_blank" class="wpzoom-pro-link" style="color:#FFA921;"><strong><?php _e( "Upgrade PRO", "wpzoom-recipe-card" ) ?></strong></a>
+					<a href="<?php echo esc_url( $upgrade_url ); ?>" target="_blank" class="wpzoom-pro-link" style="color:#FFA921;"><strong><?php _e( "Upgrade to PRO", "wpzoom-recipe-card" ) ?></strong></a>
 				</div>
 			</div>
 			<a href="#wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i><?php _e( "Close", "wpzoom-recipe-card" ) ?></a>
