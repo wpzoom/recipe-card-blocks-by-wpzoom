@@ -687,6 +687,25 @@ class WPZOOM_Settings {
 							),
 						)
 					),
+					array(
+						'id' 		=> 'wpzoom_rcb_settings_google_fonts',
+						'title' 	=> __( 'Google Fonts', 'wpzoom-recipe-card' ),
+						'page' 		=> 'wpzoom-recipe-card-settings-appearance',
+						'callback' 	=> '__return_false',
+						'fields' 	=> array(
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_enable_google_fonts',
+								'title' 	=> __( 'Enable Google Fonts', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_enable_google_fonts',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'If you check this field, then it means that plugin will load Google Fonts to use them into blocks.', 'wpzoom-recipe-card' ),
+									'default'		=> true
+								)
+							),
+						)
+					),
 				)
 			),
 			'metadata' => array(
