@@ -1,4 +1,4 @@
-.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar {
+.toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar {
 	/*position: fixed;*/
 	float: left;
 	width: 150px;
@@ -7,24 +7,24 @@
 	margin: 0 -150px 0 5px;
 	padding: 0;
 }
-.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li {
+.toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li {
 	padding: 8px;
 	display: block;
 }
-.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a {
+.toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a {
 	text-decoration: underline;
 }
-.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a:active,
-.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a:focus {
+.toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a:active,
+.toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a:focus {
 	box-shadow: none;
 }
-.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active {
+.toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active {
  	-webkit-border-top-left-radius: 3px;
  	-webkit-border-bottom-left-radius: 3px;
  	border-top-left-radius: 3px;
  	border-bottom-left-radius: 3px;
 }
-.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active a {
+.toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active a {
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -34,13 +34,13 @@ div.wp-tab-panel-active {
 div.wp-tab-panel-inactive {
  	display:none;
 }
-.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel {
+.toplevel_page_wpzoom-recipe-card-settings div.wp-tab-panel {
 	margin: 0 5px 0 155px;
 	padding: 0 1.5em;
 	max-height: none;
 	min-height: 200px;
 }
-.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel h2 {
+.toplevel_page_wpzoom-recipe-card-settings div.wp-tab-panel h2 {
 	text-transform: uppercase;
 	font-size: 15px;
 	font-weight: 700;
@@ -48,10 +48,10 @@ div.wp-tab-panel-inactive {
 	padding-bottom: 10px;
 	margin: 15px 0;
 }
-.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel h2 + p {
+.toplevel_page_wpzoom-recipe-card-settings div.wp-tab-panel h2 + p {
 	color: #a0a0a0;
 }
-.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel h2::after {
+.toplevel_page_wpzoom-recipe-card-settings div.wp-tab-panel h2::after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -60,16 +60,16 @@ div.wp-tab-panel-inactive {
 	height: 4px;
 	background-color: #282828;
 }
-.settings_page_wpzoom-recipe-card-settings div.wp-tab-panel .form-table + h2 {
+.toplevel_page_wpzoom-recipe-card-settings div.wp-tab-panel .form-table + h2 {
 	padding-top: 25px;
 	border-top: 1px solid #ededed;
 }
-.settings_page_wpzoom-recipe-card-settings .wp-tab-bar li.wp-tab-active {
+.toplevel_page_wpzoom-recipe-card-settings .wp-tab-bar li.wp-tab-active {
 	border-style: solid none solid solid;
 	border-width: 1px 0 1px 1px;
 	margin-right: -1px;
 }
-.settings_page_wpzoom-recipe-card-settings ul.wp-tab-bar #wpzoom_rcb_settings_save {
+.toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar #wpzoom_rcb_settings_save {
 	padding-bottom: 0;
 }
 
@@ -80,7 +80,7 @@ div.wp-tab-panel-inactive {
  * Fields
  *
 */
-.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-badge {
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-badge {
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 5px;
@@ -90,26 +90,26 @@ div.wp-tab-panel-inactive {
     font-size: 12px;
     border-radius: 2px;
 }
-.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_premium {
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_premium {
     background: #FDA921;
 }
-.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_active {
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_active {
     background: #46b450;
 }
-.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_inactive {
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-is_inactive {
     background: #dc3232;
 }
-.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] {
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] {
 	display: inline-block;
 }
-.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] + .description {
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-checkbox input[type="checkbox"] + .description {
 	margin-top: 0;
 	margin-left: 5px;
 	vertical-align: top;
 	display: inline-block;
 }
 
-.settings_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-subsection th {
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-subsection th {
 	font-size: 16px;
 	padding-top: 0;
 }
@@ -191,4 +191,207 @@ div.wp-tab-panel-inactive {
 }
 .wpzoom-rcb-welcome-buttons a:last-child::after {
 	display: none;
+}
+
+
+
+/*
+ *
+ * Lite VS PRO
+ *
+*/
+.plugin-comparison-table {
+    width: 100%;
+    font-size: 16px;
+    background: #fff;
+    border: 1px solid #ededed;
+    border-collapse: collapse;
+    border-top: 1px solid #ededed;
+    border-bottom: 1px solid #ededed;
+}
+.plugin-comparison-table thead th {
+    width: 33%;
+    background: #555;
+    text-align: center;
+}
+.plugin-comparison-table thead th:first-child {
+    background: #a0a0a0;
+    text-align: left;
+}
+.plugin-comparison-table thead th:last-child {
+    background: #FFA921;
+    text-align: center;
+}
+.plugin-comparison-table thead h3 {
+    font-size: 16px;
+    color: #fff;
+    margin: 10px 20px;
+}
+.plugin-comparison-table tr:nth-child(2n) {
+    background-color: #f6f6f6;
+    border-top: 1px solid #ededed;
+    border-bottom: 1px solid #ededed;
+}
+.plugin-comparison-table td {
+    padding: 15px 20px;
+    border-right: 1px solid #ededed;
+    text-align: center;
+}
+.plugin-comparison-table td.table-index {
+    text-align: left;
+}
+.plugin-comparison-table td h3 {
+    font-size: 14px;
+    margin: 0;
+}
+.plugin-comparison-table .dashicons {
+    font-size: 25px;
+}
+.plugin-comparison-table .dashicons-no {
+    color: #e64946;
+}
+.plugin-comparison-table .dashicons-yes {
+    color: #2ac539;
+}
+
+
+
+
+
+/* Plugin Info Page */
+
+.plugin-info-wrap {
+    margin: 25px 40px 0 20px;
+    max-width: 1050px;
+    position: relative;
+}
+
+.plugin-info-wrap img {
+    max-width: 100%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    border: 1px solid #eee;
+}
+
+.plugin-info-wrap .wpz-clearfix:before,
+.plugin-info-wrap .wpz-clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.plugin-info-wrap .wpz-clearfix:after {
+    clear: both;
+}
+
+.plugin-info-wrap .wpz-clearfix {
+    *zoom: 1;
+}
+
+.plugin-info-wrap .wpz-row [class*='wpz-col-']:first-child {
+    margin: 0;
+}
+
+.plugin-info-wrap [class*='wpz-col-'] {
+    float: left;
+    margin-left: 2.5%;
+}
+
+.plugin-info-wrap .wpz-col-1-2 {
+    width: 48.75%;
+}
+
+.plugin-info-wrap .wpz-col-1-3 {
+    width: 31.66%;
+}
+
+.plugin-info-wrap .wpz-col-2-3 {
+    width: 65.83%;
+}
+
+.plugin-info-wrap .wpz-col-1-4 {
+    width: 23.12%;
+}
+
+.plugin-info-wrap .wpz-col-3-4 {
+    width: 74.37%;
+}
+
+.plugin-info-wrap h3 {
+    font-size: 24px;
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
+
+.plugin-info-wrap h4 {
+    font-size: 18px;
+    font-size: 1.125rem;
+    margin: 10px 0;
+    margin: 0.625rem 0;
+}
+
+.plugin-info-wrap .theme-description {
+    font-size: 17px;
+    font-size: 1.0625rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #777777;
+}
+
+.plugin-info-wrap .theme-links p strong {
+    font-size: 14px;
+    font-size: 0.875rem;
+    margin-right: 16px;
+    margin-right: 1rem;
+}
+
+.plugin-info-wrap .theme-links p a {
+    font-size: 14px;
+    font-size: 0.875rem;
+    margin-right: 16px;
+    margin-right: 1rem;
+}
+
+#getting-started {
+    margin: 16px 0;
+    background: #fff;
+    padding: 30px;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    margin: 30px 10px 30px 0 !important;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#getting-started .section {
+    margin: 8px 0 30px;
+    margin: 0.5rem 0 1.875rem;
+}
+
+#getting-started .section .about {
+    font-size: 14px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #777777;
+}
+
+#getting-started .section .button {
+    max-width: 100%;
+}
+
+#getting-started img {
+    margin-top: 16px;
+    margin-top: 1rem;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .plugin-info-wrap .theme-links p strong {
+        display: block;
+    }
+    .plugin-info-wrap [class*='wpz-col-'] {
+        float: none;
+        width: 100%;
+        margin: 0;
+    }
+    .plugin-info-wrap .theme-screenshot {
+        margin-bottom: 20px;
+    }
 }

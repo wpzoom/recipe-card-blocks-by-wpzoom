@@ -29,7 +29,7 @@ if ( ! function_exists( 'recipe_card_block_plugin_activation_redirect' ) ) {
 		if ( get_option( 'wpzoom_rcb_do_activation_redirect', false ) ) {
 			delete_option( 'wpzoom_rcb_do_activation_redirect' );
 			if ( ! isset( $_GET['activate-multi'] ) ) {
-				wp_redirect( 'options-general.php?page=wpzoom-recipe-card-settings' );
+				wp_redirect( 'admin.php?page=wpzoom-recipe-card-settings' );
 			}
 		}
 	}
