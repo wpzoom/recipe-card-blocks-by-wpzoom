@@ -19,13 +19,13 @@ import { getBlockStyle } from "../../../helpers/getBlockStyle";
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component, renderToString, Fragment } = wp.element;
-const { 
-	DropZoneProvider, 
-	DropZone, 
-	Button, 
-	Placeholder, 
-	FormFileUpload, 
-	Dashicon, 
+const {
+	DropZoneProvider,
+	DropZone,
+	Button,
+	Placeholder,
+	FormFileUpload,
+	Dashicon,
 	Spinner,
 	Modal,
 	Toolbar,
@@ -200,7 +200,7 @@ export default class RecipeCard extends Component {
 			<div className={ RecipeCardClassName } id={ id }>
 
 				{
-					this.state.isLoading && 
+					this.state.isLoading &&
 					<Placeholder
 						className="wpzoom-recipe-card-loading-spinner"
 						label={ __( "Loading Recipe Data", "wpzoom-recipe-card" ) }
@@ -247,7 +247,7 @@ export default class RecipeCard extends Component {
 									<img src={ get( image, ['url'] ) } id={ get( image, ['id'] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
 									<figcaption>
 										{
-											pin_btn && 
+											pin_btn &&
 											<div className={ PinterestClasses }>
 							                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
 							                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
@@ -256,7 +256,7 @@ export default class RecipeCard extends Component {
 							                </div>
 							            }
 							            {
-						                	print_btn && 
+						                	print_btn &&
 						                	<div className={ PrintClasses }>
 							                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
 							                    	<i className="fa fa-print icon-print-link"></i>
@@ -267,7 +267,7 @@ export default class RecipeCard extends Component {
 						            </figcaption>
 								</figure>
 							</div>
-			        	</div> 
+			        	</div>
 			        }
 					<div className="recipe-card-heading">
 						<RichText
@@ -280,7 +280,7 @@ export default class RecipeCard extends Component {
 							onSetup={ ( ref ) => {
 								this.editorRefs.recipeTitle = ref;
 							} }
-							placeholder={ __( "Enter the title of your Recipe Card", "wpzoom-recipe-card" ) }
+							placeholder={ __( "Enter the title of your recipe", "wpzoom-recipe-card" ) }
 							formattingControls={ [] }
 							keepPlaceholderOnFocus={ true }
 						/>
@@ -326,14 +326,14 @@ export default class RecipeCard extends Component {
 							/>
 					}
 					{
-			        	hasImage && 
+			        	hasImage &&
 			        	<div className="recipe-card-image-preview">
 							<div className="recipe-card-image">
 								<figure>
 									<img src={ get( image, ['url'] ) } id={ get( image, ['id'] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
 									<figcaption>
 										{
-											pin_btn && 
+											pin_btn &&
 											<div className={ PinterestClasses }>
 							                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
 							                    	<i className="fa fa-pinterest-p icon-pinit-link"></i>
@@ -342,7 +342,7 @@ export default class RecipeCard extends Component {
 							                </div>
 							            }
 							            {
-						                	print_btn && 
+						                	print_btn &&
 						                	<div className={ PrintClasses }>
 							                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
 							                    	<i className="fa fa-print icon-print-link"></i>
@@ -369,7 +369,7 @@ export default class RecipeCard extends Component {
 							onSetup={ ( ref ) => {
 								this.editorRefs.recipeTitle = ref;
 							} }
-							placeholder={ __( "Enter the title of your Recipe Card.", "wpzoom-recipe-card" ) }
+							placeholder={ __( "Enter the title of your recipe.", "wpzoom-recipe-card" ) }
 							formattingControls={ [] }
 							keepPlaceholderOnFocus={ true }
 						/>
@@ -386,7 +386,7 @@ export default class RecipeCard extends Component {
 					</div>
 				}
 
-				
+
 				<RichText
 					className="recipe-card-summary"
 					tagName="p"
@@ -421,7 +421,7 @@ export default class RecipeCard extends Component {
 						<Placeholder
 							icon="video-alt3"
 							className="wpzoom-recipe-card-video-placeholder"
-							instructions={ __( "You can add Recipe Video from block settings on right sidebar", "wpzoom-recipe-card" ) }
+							instructions={ __( "You can add a video here from Recipe Card Video Settings in the right sidebar", "wpzoom-recipe-card" ) }
 							label={ __( "Recipe Card Video", "wpzoom-recipe-card" ) }
 						/>
 					}

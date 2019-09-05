@@ -81,7 +81,7 @@ class WPZOOM_Lite_vs_PRO {
                                 <?php esc_html_e('Recipe Card Blocks PRO', 'wpzoom-recipe-card'); ?>
                             </h4>
                             <p class="about">
-                                <?php esc_html_e('If you like the free version of this plugin, you will LOVE the PRO version which includes features like Recipe Ratings, Color Schemes and other useful features to grow your food blog!', 'wpzoom-recipe-card'); ?>
+                                <?php esc_html_e('If you like the free version of this plugin, you will LOVE the PRO version which includes features like Recipe Ratings, Color Schemes and other useful features to take your food blog to the next level!', 'wpzoom-recipe-card'); ?>
                             </p>
                             <p>
                                 <a href="<?php echo esc_url(__('https://www.wpzoom.com/plugins/recipe-card-blocks/', 'wpzoom-recipe-card')); ?>" target="_blank" class="button button-primary">
@@ -97,8 +97,15 @@ class WPZOOM_Lite_vs_PRO {
 
 
 			<h3 class="plugin-comparison-intro">
-				<?php esc_html_e('Recipe Card Blocks Free vs. PRO', 'wpzoom-recipe-card'); ?>
+				<?php esc_html_e('Recipe Card Block Free vs. PRO', 'wpzoom-recipe-card'); ?>
 			</h3>
+            <p>
+                <?php esc_html_e('Take your recipes to the next level with Recipe Card Blocks PRO!', 'wpzoom-recipe-card'); ?>
+               </p>
+            <p>
+                <?php esc_html_e('Unlock premium features and extend the functionalities & look of your food blog.', 'wpzoom-recipe-card'); ?>
+            </p>
+
 			<table class="plugin-comparison-table">
 				<thead>
 					<tr>
@@ -116,7 +123,7 @@ class WPZOOM_Lite_vs_PRO {
                     <tr>
                         <td class="table-index"><h3><?php esc_html_e('Recipe Card Styles', 'wpzoom-recipe-card'); ?></h3></td>
                         <td><?php esc_html_e('3', 'wpzoom-recipe-card'); ?></td>
-                        <td><?php esc_html_e('3', 'wpzoom-recipe-card'); ?></td>
+                        <td><?php esc_html_e('3 + More Coming Soon', 'wpzoom-recipe-card'); ?></td>
                     </tr>
                     <tr>
                         <td class="table-index"><h3><?php esc_html_e('Schema Markup', 'wpzoom-recipe-card'); ?></h3></td>
@@ -134,12 +141,12 @@ class WPZOOM_Lite_vs_PRO {
                         <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
                     <tr>
-                        <td class="table-index"><h3><?php esc_html_e('Structured Data Inline Validator', 'wpzoom-recipe-card'); ?></h3></td>
+                        <td class="table-index"><h3><?php esc_html_e('Inline Structured Data Validator', 'wpzoom-recipe-card'); ?></h3></td>
                         <td><span class="dashicons dashicons-yes"></span></td>
                         <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
 					<tr>
-						<td class="table-index"><h3><?php esc_html_e('Rating Star', 'wpzoom-recipe-card'); ?></h3></td>
+						<td class="table-index"><h3><?php esc_html_e('Star Rating', 'wpzoom-recipe-card'); ?></h3></td>
 						<td><span class="dashicons dashicons-no"></span></td>
 						<td><span class="dashicons dashicons-yes"></span></td>
 					</tr>
