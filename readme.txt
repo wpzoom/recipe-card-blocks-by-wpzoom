@@ -107,6 +107,11 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.3.0 =
+* Added Video Recipe feature in the block
+* Numerous changes and improvements; new admin menu
+* Fixed a conflict with Tasty Pins plugin
+
 = 2.2.0 =
 * New Block Style: Simple Design
 * Added new images sizes for header image in the block
