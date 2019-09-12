@@ -82,6 +82,37 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
         __( "wpzoom", "wpzoom-recipe-card" ),
         __( "recipe", "wpzoom-recipe-card" ),
     ],
+    example: {
+        attributes: {
+            items: [
+                {
+                    id: Ingredient.generateId( "ingredient-item" ),
+                    isGroup: false,
+                    name: ["Lorem ipsum dolor sit amet"]
+                },
+                {
+                    id: Ingredient.generateId( "ingredient-item" ),
+                    isGroup: false,
+                    name: ["Praesent feugiat dui eu pretium eleifend"]
+                },
+                {
+                    id: Ingredient.generateId( "ingredient-item" ),
+                    isGroup: true,
+                    name: ["Group Title here"]
+                },
+                {
+                    id: Ingredient.generateId( "ingredient-item" ),
+                    isGroup: false,
+                    name: ["Aenean nec diam a augue efficitur venenatis"]
+                },
+                {
+                    id: Ingredient.generateId( "ingredient-item" ),
+                    isGroup: false,
+                    name: ["Pellentesque habitant morbi"]
+                }
+            ]
+        },
+    },
 
     /**
      * The edit function describes the structure of your block in the context of the editor.

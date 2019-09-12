@@ -11,7 +11,7 @@ import RecipeCard from './components/RecipeCard';
 /* External dependencies */
 const { __ } = wp.i18n;
 const { registerBlockType, createBlock } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { setting_options } = wpzoomRecipeCard;
+const { setting_options, pluginURL } = wpzoomRecipeCard;
 
 // Create SVG icon for block
 const el = wp.element.createElement;
@@ -54,6 +54,19 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         __( "Block Recipe Card", "wpzoom-recipe-card" ),
         __( "WPZOOM", "wpzoom-recipe-card" ),
     ],
+    example: {
+        attributes: {
+            recipeTitle: __( "Your recipe title goes here", "wpzoom-recipe-card" ),
+            hasImage: true,
+            image: {
+                id: 0,
+                url: pluginURL + 'dist/assets/images/examples/recipe-card-image-example-1.jpg',
+            },
+            course: [ __( "Main", "wpzoom-recipe-card" ) ],
+            cuisine: [ __( "Italian", "wpzoom-recipe-card" ) ],
+            difficulty: [ __( "Medium", "wpzoom-recipe-card" ) ],
+        },
+    },
     styles: [
         // Mark style as default.
         { 

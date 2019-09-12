@@ -118,6 +118,19 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
         __( "wpzoom", "wpzoom-recipe-card" ),
         __( "recipe", "wpzoom-recipe-card" ),
     ],
+    example: {
+        attributes: {
+            course: [ __( "Main", "wpzoom-recipe-card" ) ],
+            cuisine: [ __( "Italian", "wpzoom-recipe-card" ) ],
+            difficulty: [ __( "Medium", "wpzoom-recipe-card" ) ],
+            details: [
+                { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'food', label: __( "Servings", "wpzoom-recipe-card" ) },
+                { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'room-service', label: __( "Prep time", "wpzoom-recipe-card" ) },
+                { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'cook', label: __( "Cooking time", "wpzoom-recipe-card" ) },
+                { id: Detail.generateId( "detail-item" ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( "Calories", "wpzoom-recipe-card" ) }
+            ]
+        },
+    },
 
     /**
      * The edit function describes the structure of your block in the context of the editor.
