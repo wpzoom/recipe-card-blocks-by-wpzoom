@@ -350,7 +350,6 @@ export default class Detail extends Component {
 					onChange={ this.onChangeTitle }
 					unstableOnSetup={ this.setTitleRef }
 					placeholder={ __( "Write Details title", "wpzoom-recipe-card" ) }
-					formattingControls={ [] }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<div className={ detailClasses }>{ this.getDetailItems() }</div>

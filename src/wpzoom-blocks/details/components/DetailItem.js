@@ -253,7 +253,7 @@ export default class DetailItem extends Component {
 				    isSelected={ isSelectedLabel }
 				    placeholder={ this.getPlaceholder( index, 'label' ) }
 				    setFocusedElement={ this.onFocusLabel }
-				    formattingControls={ ['bold', 'italic'] }
+				    allowedFormats={ ['bold', 'italic'] }
 				    keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
@@ -266,7 +266,6 @@ export default class DetailItem extends Component {
 				    isSelected={ isSelectedValue }
 				    placeholder={ this.getPlaceholder( index, 'value' ) }
 				    setFocusedElement={ this.onFocusValue }
-				    formattingControls={ [] }
 				    keepPlaceholderOnFocus={ true }
 				/>
 				{ ( isSelectedLabel || isSelectedValue ) &&

@@ -258,25 +258,25 @@ export default class DirectionStep extends Component {
 	 *
 	 * @returns {string|boolean} The image src or false if none is found.
 	 */
-	 static getImageSrc( contents, index = 0 ) {
-	 	let image = false;
-	 	if ( isString( contents ) ) {
-	 		image = matchIMGsrc( contents );
-	 	}
-	 	if ( isObject( contents ) ) {
-	 		image = contents.filter( ( node ) => node && node.type && node.type === "img" );
-	 	}
+	static getImageSrc( contents, index = 0 ) {
+		let image = false;
+		if ( isString( contents ) ) {
+			image = matchIMGsrc( contents );
+		}
+		if ( isObject( contents ) ) {
+			image = contents.filter( ( node ) => node && node.type && node.type === "img" );
+		}
 
-	 	if ( ! image || ! image[ index ] ) {
-	 		return false;
-	 	}
+		if ( ! image || ! image[ index ] ) {
+			return false;
+		}
 
-	 	if ( ! isUndefined( image[ index ].props ) ) {
-	 		return image[ index ].props.src;
-	 	} else {
-	 		return image[ index ];
-	 	}
-	 }
+		if ( ! isUndefined( image[ index ].props ) ) {
+			return image[ index ].props.src;
+		} else {
+			return image[ index ];
+		}
+	}
 
 	/**
 	 * Renders this component.
@@ -324,7 +324,7 @@ export default class DirectionStep extends Component {
 					isGroup &&
 					<RichText
 						className="direction-step-group-title"
-						tagName="strong"
+						tagName="p"
 						unstableOnSetup={ this.setTextRef }
 						key={ `${ id }-group-title` }
 						value={ textContent }
@@ -332,7 +332,6 @@ export default class DirectionStep extends Component {
 						// isSelected={ isSelectedText }
 						placeholder={ __( "Enter group title", "wpzoom-recipe-card" ) }
 						unstableOnFocus={ this.onFocusText }
-						formattingControls={ [] }
 						keepPlaceholderOnFocus={ true }
 					/>
 				}

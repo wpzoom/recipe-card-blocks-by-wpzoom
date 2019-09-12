@@ -214,7 +214,7 @@ export default class IngredientItem extends Component {
 					isGroup &&
 					<RichText
 						className="ingredient-item-group-title"
-						tagName="strong"
+						tagName="p"
 						unstableOnSetup={ this.setNameRef }
 						key={ `${ id }-group-title` }
 						value={ name }
@@ -222,7 +222,6 @@ export default class IngredientItem extends Component {
 						isSelected={ isSelectedName }
 						placeholder={ __( "Enter group title", "wpzoom-recipe-card" ) }
 						setFocusedElement={ this.onFocusName }
-						formattingControls={ [] }
 						keepPlaceholderOnFocus={ true }
 					/>
 				}

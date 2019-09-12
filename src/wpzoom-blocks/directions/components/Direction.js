@@ -437,7 +437,6 @@ export default class Direction extends Component {
 					onChange={ this.onChangeTitle }
 					unstableOnSetup={ this.setTitleRef }
 					placeholder={ __( "Write Directions title", "wpzoom-recipe-card" ) }
-					formattingControls={ [] }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<ul className={ listClassNames }>{ this.getSteps() }</ul>

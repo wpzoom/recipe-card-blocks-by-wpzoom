@@ -281,7 +281,6 @@ export default class RecipeCard extends Component {
 								this.editorRefs.recipeTitle = ref;
 							} }
 							placeholder={ __( "Enter the title of your recipe", "wpzoom-recipe-card" ) }
-							formattingControls={ [] }
 							keepPlaceholderOnFocus={ true }
 						/>
 						{ displayAuthor && <span className="recipe-card-author">{ __( "Recipe by", "wpzoom-recipe-card" ) } { customAuthorName }</span> }
@@ -370,7 +369,6 @@ export default class RecipeCard extends Component {
 								this.editorRefs.recipeTitle = ref;
 							} }
 							placeholder={ __( "Enter the title of your recipe.", "wpzoom-recipe-card" ) }
-							formattingControls={ [] }
 							keepPlaceholderOnFocus={ true }
 						/>
 						{ displayAuthor && <span className="recipe-card-author">{ __( "Recipe by", "wpzoom-recipe-card" ) } { customAuthorName }</span> }
@@ -413,7 +411,6 @@ export default class RecipeCard extends Component {
 							this.editorRefs.videoTitle = ref;
 						} }
 						placeholder={ __( "Write Recipe Video title", "wpzoom-recipe-card" ) }
-						formattingControls={ [] }
 						keepPlaceholderOnFocus={ true }
 					/>
 					{
@@ -460,7 +457,6 @@ export default class RecipeCard extends Component {
 							this.editorRefs.notesTitle = ref;
 						} }
 						placeholder={ __( "Write Notes title", "wpzoom-recipe-card" ) }
-						formattingControls={ [] }
 						keepPlaceholderOnFocus={ true }
 					/>
 					<RichText
