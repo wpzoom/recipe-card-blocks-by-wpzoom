@@ -290,7 +290,21 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		public function load_icon_fonts() {
 			$icon_fonts = array( 'oldicon', 'foodicons', 'font-awesome', 'genericons' );
 
-			if ( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) ) {
+            // enqueue all icon fonts only on editing page from admin panel
+            if ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) {
+
+                foreach ( $icon_fonts as $icon ) {
+                    wp_enqueue_style(
+                        $this->_slug . '-' . $icon . '-css', // Handle.
+                        $this->asset_source( 'css', $icon .'.min.css' ), // Block editor CSS.
+                        $this->get_dependencies( $this->_slug . '-' . $icon . '_css' ), // Dependency to include the CSS after it.
+                        WPZOOM_RCB_VERSION
+                    );
+                }
+
+            }
+
+			if ( ! is_admin() && ( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) ) ) {
 
 				foreach ( $icon_fonts as $icon ) {
 					wp_enqueue_style(

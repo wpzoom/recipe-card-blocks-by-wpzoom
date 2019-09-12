@@ -86,6 +86,37 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
         __( "wpzoom", "wpzoom-recipe-card" ),
         __( "recipe", "wpzoom-recipe-card" ),
     ],
+    example: {
+        attributes: {
+            steps: [
+                {
+                    id: Direction.generateId( "direction-step" ),
+                    isGroup: false,
+                    text: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla nunc id nibh rutrum, tristique finibus quam interdum."]
+                },
+                {
+                    id: Direction.generateId( "direction-step" ),
+                    isGroup: false,
+                    text: ["Praesent feugiat dui eu pretium eleifend. In non tempus est. Praesent ullamcorper sapien vitae viverra imperdiet."]
+                },
+                {
+                    id: Direction.generateId( "direction-step" ),
+                    isGroup: true,
+                    text: ["Group Title here"]
+                },
+                {
+                    id: Direction.generateId( "direction-step" ),
+                    isGroup: false,
+                    text: ["Aenean nec diam a augue efficitur venenatis."]
+                },
+                {
+                    id: Direction.generateId( "direction-step" ),
+                    isGroup: false,
+                    text: ["Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."]
+                }
+            ]
+        },
+    },
 
     /**
      * The edit function describes the structure of your block in the context of the editor.
