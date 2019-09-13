@@ -13,7 +13,7 @@ Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup (JSON-LD) for 
 
 == Description ==
 
-⭐️ **[Recipe Card Blocks PRO](https://www.wpzoom.com/plugins/recipe-card-blocks)** *Coming Soon* ⭐️
+⭐️ **[Recipe Card Blocks PRO](https://www.wpzoom.com/plugins/recipe-card-blocks)** *NOW AVAILABLE!* ⭐️
 
 📩 [Subscribe to our newsletter](https://www.wpzoom.com/plugins/recipe-card-blocks) for updates
 
@@ -34,6 +34,22 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Ingredients**
 * **Directions**
 
+
+= ⭐️ PRO FEATURES ⭐️ =
+* **Star Rating**
+* **Video Recipe**
+* Credit Removal
+* Color Schemes
+* Premium Support
+* and many new features coming soon!
+
+⭐️ **[Get the PRO version!](https://www.wpzoom.com/plugins/recipe-card-blocks)** ⭐️
+
+
+
+= 📌 WHAT'S NEW IN 2.3? =
+* Added **Video Recipe** feature in the block
+* Numerous changes and improvements; new admin menu
 
 = 📌 WHAT'S NEW IN 2.1? =
 * New Feature: Ingredients and Directions **Groups**: you can now organize in **sub-sections** ingredients and directions
@@ -57,7 +73,8 @@ You can view the Recipe Card Block live [here](http://demo.wpzoom.com/recipe-car
 = 📌 Coming Soon in future updates... =
 
 * Nutrition
-* Rating
+* Adjustable servings
+* Ingredients quantity
 
 
 = 🙌 CREDITS & THANKS =
