@@ -346,7 +346,7 @@ export default class Detail extends Component {
 					format="string"
 					value={ title }
 					isSelected={ this.state.focus === 'title' }
-					setFocusedElement={ this.setFocusToTitle }
+					unstableOnFocus={ this.setFocusToTitle }
 					onChange={ this.onChangeTitle }
 					unstableOnSetup={ this.setTitleRef }
 					placeholder={ __( "Write Details title", "wpzoom-recipe-card" ) }

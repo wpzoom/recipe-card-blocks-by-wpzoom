@@ -204,9 +204,9 @@ export default class IngredientItem extends Component {
 						key={ `${ id }-name` }
 						value={ name }
 						onChange={ this.onChangeName }
-						isSelected={ isSelectedName }
+						// isSelected={ isSelectedName }
 						placeholder={ __( "Enter ingredient name", "wpzoom-recipe-card" ) }
-						setFocusedElement={ this.onFocusName }
+						unstableOnFocus={ this.onFocusName }
 						keepPlaceholderOnFocus={ true }
 					/>
 				}
@@ -219,9 +219,9 @@ export default class IngredientItem extends Component {
 						key={ `${ id }-group-title` }
 						value={ name }
 						onChange={ this.onChangeGroupTitle }
-						isSelected={ isSelectedName }
+						// isSelected={ isSelectedName }
 						placeholder={ __( "Enter group title", "wpzoom-recipe-card" ) }
-						setFocusedElement={ this.onFocusName }
+						unstableOnFocus={ this.onFocusName }
 						keepPlaceholderOnFocus={ true }
 					/>
 				}
