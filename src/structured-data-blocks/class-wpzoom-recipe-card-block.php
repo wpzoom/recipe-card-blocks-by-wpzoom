@@ -486,7 +486,7 @@ class WPZOOM_Recipe_Card_Block {
 				'thumbnailUrl' 	=> '',
 				'contentUrl' 	=> '',
 				'embedUrl' 		=> '',
-				'uploadDate' 	=> '',
+				'uploadDate' 	=> get_the_time('c'), // by default is post plublish date
 				'duration' 		=> '',
 			),
 			'recipeCategory' => $cat_list,
