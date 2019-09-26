@@ -116,6 +116,10 @@ class WPZOOM_Recipe_Card_Block {
 			    'selector' => '.video-title',
 			    'default' => WPZOOM_Settings::get('wpzoom_rcb_settings_video_title'),
 			),
+			'hasInstance' => array(
+			    'type' => 'boolean',
+			    'default' => false
+			),
 			'recipeTitle' => array(
 			    'type' => 'string',
 			    'selector' => '.recipe-card-title',
@@ -156,7 +160,7 @@ class WPZOOM_Recipe_Card_Block {
 			    'type' => 'array',
 			    'default' => array(
 			        array(
-			            'primary_color' => '#222',
+			            'primary_color' => '#222222',
 			            'icon_details_color' => '#6d767f',
 			            'print_btn' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_print') === '1',
 			            'pin_btn' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_pin') === '1',

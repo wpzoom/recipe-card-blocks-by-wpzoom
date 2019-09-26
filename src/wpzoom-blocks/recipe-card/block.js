@@ -7,6 +7,7 @@
 
 /* Internal dependencies */
 import RecipeCard from './components/RecipeCard';
+import { getBlockStyle } from "../../helpers/getBlockStyle";
 
 /* External dependencies */
 const { __ } = wp.i18n;
@@ -95,6 +96,23 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
     edit: ( { attributes, setAttributes, className, clientId } ) => {
+        const style = getBlockStyle( className );
+        const { settings, hasInstance } = attributes;
+
+        if ( ! hasInstance ) {
+            if ( 'newdesign' === style ) {
+                settings[0]['primary_color'] = '#FFA921';
+            }
+            else if ( 'default' === style ) {
+                settings[0]['primary_color'] = '#222222';
+            }
+            else if ( 'simple' === style ) {
+                settings[0]['primary_color'] = '#222222';
+            }
+
+            setAttributes( { settings, hasInstance: true } );
+        }
+
         return <RecipeCard { ...{ attributes, setAttributes, className, clientId } } />;
     },
 
