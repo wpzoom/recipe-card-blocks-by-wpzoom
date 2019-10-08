@@ -216,11 +216,12 @@ class WPZOOM_Steps_Block {
 					$src = isset( $node['props']['src'] ) ? $node['props']['src'] : false;
 					if ( $src ) {
 						$alt = isset( $node['props']['alt'] ) ? $node['props']['alt'] : '';
+						$title = isset( $node['props']['title'] ) ? $node['props']['title'] : '';
 						$class = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_steps_image') ? 'no-print' : '';
 						$class .= ' direction-step-image';
 						$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
 
-						$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $alt, trim($class), trim($img_style) );
+						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, trim($class), trim($img_style) );
 					} else {
 						$start_tag = "";
 					}

@@ -1,5 +1,6 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import isUndefined from "lodash/isUndefined";
 
 /* External dependencies */
 import IconsModal from "./IconsModal";
@@ -139,8 +140,9 @@ export default class DetailItem extends Component {
 	 *
 	 * @returns {Component}
 	 */
-	getPlaceholder( index, key ) {
-		let newIndex = index % 4;
+	getPlaceholder( index, key = '' ) {
+		const { item } = this.props;
+		const itemValue = get( item, key );
 
 		const placeholderText = {
 		    0: { label: __( "Servings", "wpzoom-recipe-card" ), value: 4, unit: __( "servings", "wpzoom-recipe-card" ) },
@@ -149,7 +151,11 @@ export default class DetailItem extends Component {
 		    3: { label: __( "Calories", "wpzoom-recipe-card" ), value: 300, unit: __( "kcal", "wpzoom-recipe-card" ) },
 		}
 
-		return get( placeholderText, [ newIndex, key ] );
+		if ( isUndefined( itemValue ) ) {
+			return get( placeholderText, [ index, key ] ) || get( placeholderText, index ) || '';
+		} else {
+			return itemValue;
+		}
 	}
 
 	/**
@@ -204,6 +210,7 @@ export default class DetailItem extends Component {
 		);
 	}
 }
+
 DetailItem.propTypes = {
 	index: PropTypes.number.isRequired,
 	item: PropTypes.object.isRequired,

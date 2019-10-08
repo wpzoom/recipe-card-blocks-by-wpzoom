@@ -136,16 +136,19 @@ $heading_color: #222222;
         }
         .details-items {
             font-size: 0;
-            border: 1px dashed rgba(0,0,0,.1);
+            border-left: 1px dashed rgba(0,0,0,.1);
+            border-top: 1px dashed rgba(0,0,0,.1);
             text-align: center;
             display: flex;
+            flex-wrap: wrap;
 
             .detail-item {
-                flex: 1;
+                flex: 1 0 25%;
                 padding: 10px 1.5%;
                 position: relative;
                 box-sizing: border-box;
                 border-right: 1px dashed rgba(0,0,0,.1);
+                border-bottom: 1px dashed rgba(0,0,0,.1);
                 // color: #333;
 
                 .detail-item-label {
@@ -189,25 +192,6 @@ $heading_color: #222222;
                         margin: 0 auto !important;
                     }
                 }
-
-                &:last-child::after {
-                    display: none;
-                }
-
-                &:last-child {
-                    border-right: 0;
-                }
-            }
-
-            > div:nth-child(4) {
-                margin-right: 0;
-                padding-right: 0;
-            }
-
-            &::after {
-                content: '';
-                clear: both;
-                display: table;
             }
         }
         .recipe-card-summary {

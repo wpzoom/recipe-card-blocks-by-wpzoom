@@ -6,8 +6,14 @@ import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from
 /* WordPress dependencies */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-const { RichText } = wp.blockEditor;
+const { RichText, MediaUpload } = wp.blockEditor;
 const { IconButton } = wp.components;
+
+/* Internal dependencies */
+import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
+
+/* Module constants */
+const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
 /**
  * A Ingredient item within a Ingredient block.
@@ -24,6 +30,7 @@ export default class IngredientItem extends Component {
 	constructor( props ) {
 		super( props );
 
+		this.onSelectImage 			= this.onSelectImage.bind( this );
 		this.onInsertIngredient   	= this.onInsertIngredient.bind( this );
 		this.onRemoveIngredient   	= this.onRemoveIngredient.bind( this );
 		this.onMoveIngredientUp   	= this.onMoveIngredientUp.bind( this );
@@ -140,7 +147,29 @@ export default class IngredientItem extends Component {
 	 * @returns {Component} The buttons.
 	 */
 	getButtons() {
+		const {
+			item: {
+				id,
+				name,
+				isGroup,
+			}
+		} = this.props;
+
 		return <div className="ingredient-item-button-container">
+			{ ! isGroup &&
+			<MediaUpload
+				onSelect={ this.onSelectImage }
+				allowedTypes={ ALLOWED_MEDIA_TYPES }
+				value={ id }
+				render={ ( { open } ) => (
+					<IconButton
+						className="direction-step-button direction-step-button-add-image editor-inserter__toggle direction-step-add-media"
+						icon="format-image"
+						onClick={ open }
+					/>
+				) }
+			/>
+			}
 			<IconButton
 				className="ingredient-item-button ingredient-item-button-delete editor-inserter__toggle"
 				icon="trash"
@@ -178,6 +207,44 @@ export default class IngredientItem extends Component {
 				aria-disabled={ this.props.isLast }
 			/>
 		</div>;
+	}
+
+	/**
+	 * Callback when an image from the media library has been selected.
+	 *
+	 * @param {Object} media The selected image.
+	 *
+	 * @returns {void}
+	 */
+	onSelectImage( media ) {
+		const {
+			onChange,
+			index,
+			item: {
+				name
+			}
+		} = this.props;
+
+		let newName = name.slice();
+
+		const relevantMedia = pickRelevantMediaFiles( media, 'ingredient' );
+		const image = (
+			<img
+				key={ relevantMedia.id }
+				alt={ relevantMedia.alt }
+				title={ relevantMedia.title }
+				src={ relevantMedia.url }
+				className="no-print"
+			/>
+		);
+
+		if ( newName.push ) {
+			newName.push( image );
+		} else {
+			newName = [ newName, image ];
+		}
+
+		onChange( newName, name, index );
 	}
 
 	/**
@@ -251,7 +318,6 @@ export default class IngredientItem extends Component {
 		);
 	}
 }
-
 
 IngredientItem.propTypes = {
 	index: PropTypes.number.isRequired,

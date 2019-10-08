@@ -1,15 +1,16 @@
 /* External dependencies */
+import get from "lodash/get";
+import filter from "lodash/filter";
+import uniqueId from "lodash/uniqueId";
+import invoke from "lodash/invoke";
+import isUndefined from "lodash/isUndefined";
+import ReactPlayer from "react-player";
+
 import Detail from "./Detail";
 import Ingredient from "./Ingredient";
 import Direction from "./Direction";
 import Inspector from "./Inspector";
 import ExtraOptionsModal from "./ExtraOptionsModal";
-import get from "lodash/get";
-import isUndefined from "lodash/isUndefined";
-import filter from "lodash/filter";
-import indexOf from "lodash/indexOf";
-import uniqueId from "lodash/uniqueId";
-import ReactPlayer from "react-player";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -26,10 +27,7 @@ const {
 	Placeholder,
 	FormFileUpload,
 	Dashicon,
-	Spinner,
-	Modal,
-	Toolbar,
-	Disabled
+	Spinner
 } = wp.components;
 const {
 	RichText,
@@ -60,6 +58,10 @@ const ExtraOptions = withState( {
     _ingredients: "<!empty>",
     _directions: "<!empty>",
 } )( ExtraOptionsModal );
+
+/* Import CSS. */
+import '../style.scss';
+import '../editor.scss';
 
 /**
  * A Recipe Card block.
@@ -114,7 +116,7 @@ export default class RecipeCard extends Component {
 	}
 
 	onSelectImage( media ) {
-		const relevantMedia = pickRelevantMediaFiles( media );
+		const relevantMedia = pickRelevantMediaFiles( media, 'header' );
 
 		this.props.setAttributes( {
 			hasImage: true,
@@ -122,6 +124,7 @@ export default class RecipeCard extends Component {
 				id: relevantMedia.id,
 				url: relevantMedia.url,
 				alt: relevantMedia.alt,
+				title: relevantMedia.title,
 				sizes: media.sizes
 			}
 		} );

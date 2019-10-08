@@ -561,6 +561,13 @@ class WPZOOM_Recipe_Card_Block {
 				$json_ld['video']['uploadDate'] = $video['date'];
 			}
 		}
+		else {
+
+			// we have no video added
+			// removed video attribute from json_ld array
+			unset( $json_ld['video'] );
+
+		}
 
 		if ( ! empty( $attributes['course'] ) ) {
 			$json_ld['recipeCategory'] = $attributes['course'];
@@ -631,28 +638,52 @@ class WPZOOM_Recipe_Card_Block {
 				'iconSet' 	=> 'oldicon',
 				'icon' 		=> 'food',
 				'label' 	=> __( "Servings", "wpzoom-recipe-card" ),
-				'unit' 		=> __( "servings", "wpzoom-recipe-card" )
+				'unit' 		=> __( "servings", "wpzoom-recipe-card" ),
+				'value'		=> '4'
 			),
 		    array(
 		    	'id' 		=> self::$helpers->generateId( "detail-item" ),
 		    	'iconSet' 	=> 'oldicon',
 		    	'icon' 		=> 'clock',
 		    	'label' 	=> __( "Prep time", "wpzoom-recipe-card" ),
-		    	'unit' 		=> __( "minutes", "wpzoom-recipe-card" )
+		    	'unit' 		=> __( "minutes", "wpzoom-recipe-card" ),
+		    	'value'		=> '30'
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'foodicons',
 		        'icon' 		=> 'cooking-food-in-a-hot-casserole',
 		        'label' 	=> __( "Cooking time", "wpzoom-recipe-card" ),
-		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" )
+		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" ),
+		        'value'		=> '40'
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'foodicons',
 		        'icon' 		=> 'fire-flames',
 		        'label' 	=> __( "Calories", "wpzoom-recipe-card" ),
-		        'unit' 		=> __( "kcal", "wpzoom-recipe-card" )
+		        'unit' 		=> __( "kcal", "wpzoom-recipe-card" ),
+		        'value'		=> '300'
+		    ),
+		    array(
+		        'id' 		=> self::$helpers->generateId( "detail-item" ),
+		        'iconSet' 	=> 'fa',
+		        'icon' 		=> 'clock-o',
+		    ),
+		    array(
+		        'id' 		=> self::$helpers->generateId( "detail-item" ),
+		        'iconSet' 	=> 'oldicon',
+		        'icon' 		=> 'chef-cooking',
+		    ),
+		    array(
+		        'id' 		=> self::$helpers->generateId( "detail-item" ),
+		        'iconSet' 	=> 'fa',
+		        'icon' 		=> 'clock-o',
+		    ),
+		    array(
+		        'id' 		=> self::$helpers->generateId( "detail-item" ),
+		        'iconSet' 	=> 'fa',
+		        'icon' 		=> 'sort-amount-asc',
 		    )
 		);
 	}
@@ -717,12 +748,8 @@ class WPZOOM_Recipe_Card_Block {
 
 	protected function get_detail_items( array $details ) {
 		$output = '';
-		$defaults = self::get_details_default();
 
 		foreach ( $details as $index => $detail ) {
-			if ( $index >= 4 ) {
-				return force_balance_tags( $output );
-			}
 			$icon = $label = $value = $unit = '';
 
 			if ( 0 === $index && self::$settings['displayServings'] != '1' ) {
@@ -732,6 +759,8 @@ class WPZOOM_Recipe_Card_Block {
 			} elseif ( 2 === $index && self::$settings['displayCookingTime'] != '1' ) {
 				continue;
 			} elseif ( 3 === $index && self::$settings['displayCalories'] != '1' ) {
+				continue;
+			} elseif ( ( 4 === $index || 5 === $index || 6 === $index || 7 === $index ) && empty( $detail['label'] ) ) {
 				continue;
 			}
 
@@ -771,10 +800,12 @@ class WPZOOM_Recipe_Card_Block {
 				);
 			}
 
-			$label = sprintf(
-				'<span class="detail-item-label">%s</span>',
-				$defaults[ $index ]['label']
-			);
+			if ( ! empty( $detail['label'] ) ) {
+				$label = sprintf(
+					'<span class="detail-item-label">%s</span>',
+					$detail['label']
+				);
+			}
 
 			if ( ! empty( $detail[ 'value' ] ) ) {
 				if ( !is_array( $detail['value'] ) ) {
@@ -792,7 +823,7 @@ class WPZOOM_Recipe_Card_Block {
 			if ( ! empty( $detail[ 'unit' ] ) ) {
 				$unit = sprintf(
 					'<span class="detail-item-unit">%s</span>',
-					$defaults[ $index ]['unit']
+					$detail['unit']
 				);
 			}
 
@@ -866,7 +897,7 @@ class WPZOOM_Recipe_Card_Block {
 							'border' => '2px solid ' . self::$settings['primary_color']
 						);
 					}
-					
+
 					$tickStyles = self::$helpers->render_styles_attributes( $styles );
 
 					$tick = sprintf(
@@ -1012,11 +1043,12 @@ class WPZOOM_Recipe_Card_Block {
 					$src = isset( $node['props']['src'] ) ? $node['props']['src'] : false;
 					if ( $src ) {
 						$alt = isset( $node['props']['alt'] ) ? $node['props']['alt'] : '';
+						$title = isset( $node['props']['title'] ) ? $node['props']['title'] : ( isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : $this->recipe->post_title );
 						$class = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_steps_image') ? 'no-print' : '';
 						$class .= ' direction-step-image';
 						$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
 
-						$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $alt, trim($class), $this->parseTagStyle($img_style) );
+						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, trim($class), $this->parseTagStyle($img_style) );
 					} else {
 						$start_tag = "";
 					}
@@ -1042,6 +1074,8 @@ class WPZOOM_Recipe_Card_Block {
 	}
 
 	protected function wrap_ingredient_name( $nodes, $type = '' ) {
+		$attributes = self::$attributes;
+
 		if ( ! is_array( $nodes ) ) {
 			return $nodes;
 		}
@@ -1057,7 +1091,22 @@ class WPZOOM_Recipe_Card_Block {
 				$start_tag = $type ? "<$type>" : "";
 				$end_tag = $type ? "</$type>" : "";
 
-				if ( 'a' === $type ) {
+				if ( 'img' === $type ) {
+					$src = isset( $node['props']['src'] ) ? $node['props']['src'] : false;
+					if ( $src ) {
+						$alt = isset( $node['props']['alt'] ) ? $node['props']['alt'] : '';
+						$title = isset( $node['props']['title'] ) ? $node['props']['title'] : ( isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : $this->recipe->post_title );
+						$class = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_steps_image') ? 'no-print' : '';
+						$class .= ' direction-step-image';
+						$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
+
+						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, trim($class), $this->parseTagStyle($img_style) );
+					} else {
+						$start_tag = "";
+					}
+					$end_tag = "";
+				}
+				elseif ( 'a' === $type ) {
 					$rel 		= isset( $node['props']['rel'] ) ? $node['props']['rel'] : '';
 					$aria_label = isset( $node['props']['aria-label'] ) ? $node['props']['aria-label'] : '';
 					$href 		= isset( $node['props']['href'] ) ? $node['props']['href'] : '#';

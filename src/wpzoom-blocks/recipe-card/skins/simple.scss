@@ -21,7 +21,7 @@ $heading_color: #222222;
                 clear: both;
                 display: table;
             }
-
+            
             margin: -20px -20px 10px -20px;
             padding: 20px;
             background-color: #FBF9E7;
@@ -32,7 +32,7 @@ $heading_color: #222222;
             width: 40%;
             figure {
                 position: relative;
-                margin: 5px 0 0;
+                margin: 0;
                 line-height: 0;
                 img {
                     max-width: 100%;
@@ -244,7 +244,6 @@ $heading_color: #222222;
                     display: table;
                 }
                 .ingredient-item-name {
-                    display: inline;
                     margin: 0;
                     vertical-align: middle;
 
@@ -255,11 +254,10 @@ $heading_color: #222222;
                 }
                 .tick-circle {
                     content: '';
-                    display: inline-block;
-                    vertical-align: middle;
+                    float: left;
                     width: 18px;
                     height: 18px;
-                    margin: 3px 10px 0 0;
+                    margin: 6px 10px 0 0;
                     border-radius: 50%;
                     border: 2px solid $tick_color;
                     cursor: pointer;

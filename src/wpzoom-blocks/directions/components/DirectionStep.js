@@ -223,11 +223,12 @@ export default class DirectionStep extends Component {
 		} = this.props;
 		let newText = text.slice();
 
-		const relevantMedia = pickRelevantMediaFiles( media );
+		const relevantMedia = pickRelevantMediaFiles( media, 'step' );
 		const image = (
 			<img
 				key={ relevantMedia.id }
 				alt={ relevantMedia.alt }
+				title={ relevantMedia.title }
 				src={ relevantMedia.url }
 			/>
 		);

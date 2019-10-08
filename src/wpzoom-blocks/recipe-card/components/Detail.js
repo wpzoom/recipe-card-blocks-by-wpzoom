@@ -1,5 +1,6 @@
 /* External dependencies */
 import DetailItem from "./DetailItem";
+import get from "lodash/get";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 
@@ -254,16 +255,18 @@ export default class Detail extends Component {
 	 */
 	getDetailItems() {
 		const {
-			details,
-			settings: {
-				0: {
-					displayServings,
-					displayPrepTime,
-					displayCookingTime,
-					displayCalories
+			attributes: {
+				details,
+				settings: {
+					0: {
+						displayServings,
+						displayPrepTime,
+						displayCalories,
+						displayCookingTime
+					}
 				}
 			}
-		} = this.props.attributes;
+		} = this.props;
 
 		if ( ! details ) {
 			return null;
@@ -272,14 +275,21 @@ export default class Detail extends Component {
 		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
 		return details.map( ( item, index ) => {
+			const id = get( item, 'id' );
+			const label = get( item, 'label' );
+
 			if ( 0 === index && displayServings || 
 				1 === index && displayPrepTime || 
 				2 === index && displayCookingTime || 
-				3 === index && displayCalories 
+				3 === index && displayCalories ||
+				4 === index && label ||
+				5 === index && label ||
+				6 === index && label ||
+				7 === index && label
 			) {
 				return (
 					<DetailItem
-						key={ item.id }
+						key={ id }
 						item={ item }
 						index={ index }
 						editorRef={ this.setDetailRef }
