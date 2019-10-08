@@ -903,7 +903,7 @@ class Inspector extends Component {
     					}
     	        		<PanelRow>
     	        			<span>recipeTitle</span>
-    	        			<strong>{ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : postTitle }</strong>
+    	        			<strong>{ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }</strong>
     	        		</PanelRow>
     	        		<PanelRow className={ RichText.isEmpty( summary ) ? "text-color-orange": "" }>
     	        			<span>description</span>
