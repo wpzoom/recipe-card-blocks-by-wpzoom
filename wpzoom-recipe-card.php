@@ -12,7 +12,7 @@
  * Text Domain: wpzoom-recipe-card
  * Domain Path: /languages
  *
- * @package   WPZOOM Recipe Card Block
+ * @package   WPZOOM_Recipe_Card_Blocks
  * @author    Vicolas Petru
  * @license   GPL-2+
  */

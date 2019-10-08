@@ -3,7 +3,7 @@
  * Class Settings Page
  *
  * @since   1.1.0
- * @package WPZOOM Recipe Card Block
+ * @package WPZOOM_Recipe_Card_Blocks
  */
 
 // Exit if accessed directly.

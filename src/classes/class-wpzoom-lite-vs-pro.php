@@ -3,7 +3,7 @@
  * Class Lite vs PRO Page
  *
  * @since   2.2.0
- * @package WPZOOM Recipe Card Block
+ * @package WPZOOM_Recipe_Card_Blocks
  */
 
 // Exit if accessed directly.

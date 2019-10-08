@@ -3,7 +3,7 @@
  * Fired during plugin activation.
  *
  * @since   1.2.0
- * @package WPZOOM Recipe Card Block
+ * @package WPZOOM_Recipe_Card_Blocks
  */
 
 /**
