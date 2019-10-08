@@ -79,6 +79,9 @@
 .wp-block-wpzoom-recipe-card-block-recipe-card .ingredients-list > li .tick-circle {
 	display: none !important;
 }
+.wp-block-wpzoom-recipe-card-block-recipe-card .ingredients-list .ingredient-item .ingredient-item-name {
+	padding-left: 0;
+}
 .wp-block-wpzoom-recipe-card-block-recipe-card .details-items .detail-item .detail-item-icon {
 	display: none !important;
 }

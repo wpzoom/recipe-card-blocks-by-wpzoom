@@ -64,18 +64,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		public $_slug;
 
 		/**
-		 * The Post Object.
-		 *
-		 * @var string $post
-		 */
-		public $post;
-
-		/**
 		 * The Constructor.
 		 */
 		private function __construct() {
-			$this->_slug    	= 'wpzoom-rcb-block';
-			$this->_url     	= untrailingslashit( WPZOOM_RCB_PLUGIN_URL );
+			$this->_slug = 'wpzoom-rcb-block';
+			$this->_url  = untrailingslashit( WPZOOM_RCB_PLUGIN_URL );
 
 			add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
 			add_action( 'enqueue_block_assets', array( $this, 'load_icon_fonts' ) );
@@ -104,11 +97,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			elseif ( $this->_slug . '-script' === $handle ) {
 				$dependencies = array( 'jquery' );
 			}
-			elseif ( $this->_slug . '-oldicon-css' === $handle || $this->_slug . '-foodicons-css' === $handle || $this->_slug . '-font-awesome-css' === $handle || $this->_slug . '-genericons-css' === $handle ) {
+			elseif ( $this->_slug . '-icon-fonts-css' === $handle ) {
 				$dependencies = array( 'wp-edit-blocks' );
 			}
 			elseif ( 'wpzoom-rating-stars-script' === $handle ) {
-				$dependencies = array( 'jquery', 'wp-blocks', 'wp-i18n' );
+				$dependencies = array( 'jquery' );
 			}
 
 			return $dependencies;
@@ -122,84 +115,82 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function block_assets() {
-			$options = WPZOOM_Settings::get_settings();
+            if ( is_admin() ) {
+                
+                wp_enqueue_style(
+                    $this->_slug . '-style-css', // Handle.
+                    $this->asset_source( '', 'blocks.style.build.css' ), // Block style CSS.
+                    $this->get_dependencies( $this->_slug . '-style-css' ), // Dependency to include the CSS after it.
+                    WPZOOM_RCB_VERSION
+                );
 
-			if ( is_admin() ) {
-				
-				wp_enqueue_style(
-					$this->_slug . '-style-css', // Handle.
-					$this->asset_source( '', 'blocks.style.build.css' ), // Block style CSS.
-					$this->get_dependencies( $this->_slug . '-style-css' ), // Dependency to include the CSS after it.
-					WPZOOM_RCB_VERSION
-				);
+                // Enable Google Fonts
+                if ( '1' === WPZOOM_Settings::get('wpzoom_rcb_settings_enable_google_fonts') ) {
+                    wp_enqueue_style(
+                        $this->_slug . '-google-font',
+                        'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
+                        false
+                    );
+                }
 
-				// Enable Google Fonts
-				if ( '1' === WPZOOM_Settings::get('wpzoom_rcb_settings_enable_google_fonts') ) {
-					wp_enqueue_style(
-				    	$this->_slug . '-google-font',
-				    	'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
-				    	false
-				    );
-				}
+            } else {
 
-			} else {
+                if ( has_block( 'wpzoom-recipe-card/block-details' ) || 
+                     has_block( 'wpzoom-recipe-card/block-ingredients' ) || 
+                     has_block( 'wpzoom-recipe-card/block-directions' ) || 
+                     has_block( 'wpzoom-recipe-card/block-print-recipe' ) || 
+                     has_block( 'wpzoom-recipe-card/block-jump-to-recipe' ) || 
+                     has_block( 'wpzoom-recipe-card/block-recipe-card' )
+                ) {
 
-				if ( has_block( 'wpzoom-recipe-card/block-details' ) || 
-					 has_block( 'wpzoom-recipe-card/block-ingredients' ) || 
-					 has_block( 'wpzoom-recipe-card/block-directions' ) || 
-					 has_block( 'wpzoom-recipe-card/block-print-recipe' ) || 
-					 has_block( 'wpzoom-recipe-card/block-jump-to-recipe' ) || 
-					 has_block( 'wpzoom-recipe-card/block-recipe-card' )
-				) {
+                    // Scripts.
+                    wp_enqueue_script(
+                        $this->_slug . '-script',
+                        $this->asset_source( 'js', 'script.js' ),
+                        $this->get_dependencies( $this->_slug . '-script' ),
+                        WPZOOM_RCB_VERSION,
+                        true
+                    );
 
-					// Scripts.
-					wp_enqueue_script(
-					    $this->_slug . '-script',
-					    $this->asset_source( 'js', 'script.js' ),
-					    $this->get_dependencies( $this->_slug . '-script' ),
-					    WPZOOM_RCB_VERSION,
-					    true
-					);
+                    wp_enqueue_script(
+                        $this->_slug . '-pinit',
+                        'https://assets.pinterest.com/js/pinit.js',
+                        array(),
+                        false,
+                        true
+                    );
 
-					wp_enqueue_script(
-					    $this->_slug . '-pinit',
-					    'https://assets.pinterest.com/js/pinit.js',
-					    array(),
-					    false,
-					    true
-					);
+                    // Styles.
+                    wp_enqueue_style(
+                        $this->_slug . '-style-css', // Handle.
+                        $this->asset_source( '', 'blocks.style.build.css' ), // Block style CSS.
+                        $this->get_dependencies( $this->_slug . '-style-css' ), // Dependency to include the CSS after it.
+                        WPZOOM_RCB_VERSION
+                    );
 
-					// Styles.
-					wp_enqueue_style(
-						$this->_slug . '-style-css', // Handle.
-						$this->asset_source( '', 'blocks.style.build.css' ), // Block style CSS.
-						$this->get_dependencies( $this->_slug . '-style-css' ), // Dependency to include the CSS after it.
-						WPZOOM_RCB_VERSION
-					);
+                    // Enable Google Fonts
+                    if ( '1' === WPZOOM_Settings::get('wpzoom_rcb_settings_enable_google_fonts') ) {
+                        wp_enqueue_style(
+                            $this->_slug . '-google-font',
+                            'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
+                            false
+                        );
+                    }
 
-					// Enable Google Fonts
-					if ( '1' === WPZOOM_Settings::get('wpzoom_rcb_settings_enable_google_fonts') ) {
-						wp_enqueue_style(
-					    	$this->_slug . '-google-font',
-					    	'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
-					    	false
-					    );
-					}
+                    /**
+                     * Localize script data.
+                     */
+                    $this->localize_script(
+                        $this->_slug . '-script',
+                        'wpzoomRecipeCard',
+                        array(
+                            'pluginURL' => WPZOOM_RCB_PLUGIN_URL,
+                        )
+                    );                    
+                }
 
-				    /**
-				     * Localize script data.
-				     */
-				    $this->localize_script(
-				    	$this->_slug . '-script',
-				    	'wpzoomRecipeCard',
-				    	array(
-				    		'pluginURL' => WPZOOM_RCB_PLUGIN_URL
-				    	)
-				    );
-					
-				}
-
-			}
+            }
+            
 		}
 
 		/**
@@ -212,6 +203,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
         public function editor_assets() {
+            global $post;
+
         	$options = WPZOOM_Settings::get_settings();
 
             // Scripts.
@@ -226,7 +219,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
             // Tell to WordPress that our script contains translations
             // this function was added in 5.0 version
             if ( function_exists( 'wp_set_script_translations' ) ) {
-            	wp_set_script_translations( $this->_slug .'-js', WPZOOM_RCB_TEXT_DOMAIN, WPZOOM_RCB_PLUGIN_DIR . 'languages' );
+	            wp_set_script_translations( $this->_slug .'-js', WPZOOM_RCB_TEXT_DOMAIN, WPZOOM_RCB_PLUGIN_DIR . 'languages' );
             }
 
             // Styles.
@@ -253,11 +246,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                     'version' => WPZOOM_RCB_VERSION,
                     'textdomain' => WPZOOM_RCB_TEXT_DOMAIN,
                     'pluginURL' => WPZOOM_RCB_PLUGIN_URL,
-                    'post_permalink' => str_replace( '?p=', '', get_the_permalink( $this->post ) ),
-                    'post_thumbnail_url' => get_the_post_thumbnail_url( $this->post ),
-                    'post_thumbnail_id' => get_post_thumbnail_id( $this->post ),
-                    'post_title' => $this->post->post_title,
-                    'post_author_name' => get_the_author_meta( 'display_name', $this->post->post_author ),
+                    'post_permalink' => str_replace( '?p=', '', get_the_permalink( $post->ID ) ),
+                    'post_thumbnail_url' => get_the_post_thumbnail_url( $post->ID ),
+                    'post_thumbnail_id' => get_post_thumbnail_id( $post->ID ),
+                    'post_title' => $post->post_title,
+                    'post_author_name' => get_the_author_meta( 'display_name', $post->post_author ),
                     'is_pro' => WPZOOM_Recipe_Card_Block_Gutenberg::is_pro(),
                     'setting_options' => ( !empty( $options ) ? $options : WPZOOM_Settings::get_defaults() )
                 )
@@ -288,34 +281,28 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function load_icon_fonts() {
-			$icon_fonts = array( 'oldicon', 'foodicons', 'font-awesome', 'genericons' );
+            // enqueue all icon fonts only in admin panel
+            if ( is_admin() ) {
 
-            // enqueue all icon fonts only on editing page from admin panel
-            if ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) {
-
-                foreach ( $icon_fonts as $icon ) {
-                    wp_enqueue_style(
-                        $this->_slug . '-' . $icon . '-css', // Handle.
-                        $this->asset_source( 'css', $icon .'.min.css' ), // Block editor CSS.
-                        $this->get_dependencies( $this->_slug . '-' . $icon . '_css' ), // Dependency to include the CSS after it.
-                        WPZOOM_RCB_VERSION
-                    );
-                }
+                wp_enqueue_style(
+                    $this->_slug . '-icon-fonts-css', // Handle.
+                    $this->asset_source( 'css', 'icon-fonts.build.css' ), // Block editor CSS.
+                    $this->get_dependencies( $this->_slug . '-icon-fonts-css' ), // Dependency to include the CSS after it.
+                    WPZOOM_RCB_VERSION
+                );
 
             }
 
-			if ( ! is_admin() && ( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) ) ) {
+            if ( ! is_admin() && ( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) ) ) {
 
-				foreach ( $icon_fonts as $icon ) {
-					wp_enqueue_style(
-						$this->_slug . '-' . $icon . '-css', // Handle.
-						$this->asset_source( 'css', $icon .'.min.css' ), // Block editor CSS.
-						$this->get_dependencies( $this->_slug . '-' . $icon . '_css' ), // Dependency to include the CSS after it.
-						WPZOOM_RCB_VERSION
-					);
-				}
+                wp_enqueue_style(
+                    $this->_slug . '-icon-fonts-css', // Handle.
+                    $this->asset_source( 'css', 'icon-fonts.build.css' ), // Block editor CSS.
+                    $this->get_dependencies( $this->_slug . '-icon-fonts-css' ), // Dependency to include the CSS after it.
+                    WPZOOM_RCB_VERSION
+                );
 
-			}
+            }
 		}
 
 		/**
