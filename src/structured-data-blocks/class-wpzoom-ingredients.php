@@ -126,7 +126,7 @@ class WPZOOM_Ingredients_Block {
 			esc_attr( $class ),
 			esc_attr( $print_visibility ),
 			__( 'Print ingredients...', 'wpzoom-recipe-card' ),
-			esc_url( WPZOOM_RCB_PLUGIN_URL . 'src/assets/images/printer.svg' ),
+			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),
 			__( 'Print', 'wpzoom-recipe-card' ),
 			esc_html( $title ),
 			$ingredients_content

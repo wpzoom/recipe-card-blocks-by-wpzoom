@@ -10,10 +10,6 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 const { __ } = wp.i18n;
 const { Component, renderToString } = wp.element;
 
-/* Import CSS. */
-import '../style.scss';
-import '../editor.scss';
-
 /**
  * A Detail item within a Detail block.
  */

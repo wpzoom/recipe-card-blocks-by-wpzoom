@@ -10,10 +10,6 @@ const { __ } = wp.i18n;
 const { IconButton, Modal } = wp.components;
 const { Component, renderToString } = wp.element;
 
-/* Import CSS. */
-import '../style.scss';
-import '../editor.scss';
-
 /**
  * A Icons Modal within a Details block.
  */

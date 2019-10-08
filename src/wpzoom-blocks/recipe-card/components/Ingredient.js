@@ -16,10 +16,6 @@ const { RichText } = wp.blockEditor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;
 
-/* Import CSS. */
-import '../style.scss';
-import '../editor.scss';
-
 /**
  * A Ingredient item within a Ingredient block.
  */

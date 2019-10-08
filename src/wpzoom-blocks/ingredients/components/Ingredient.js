@@ -417,7 +417,7 @@ export default class Ingredient extends Component {
 			<div className={ classNames } id={ id }>
 				<div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
 				    <a className="btn-print-link no-print" href={ '#'+ id } title={ __( "Print ingredients...", "wpzoom-recipe-card" ) }>
-				        <img className="icon-print-link" src={ pluginURL + 'src/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
+				        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
 				    </a>
 				</div>
 				<RichText

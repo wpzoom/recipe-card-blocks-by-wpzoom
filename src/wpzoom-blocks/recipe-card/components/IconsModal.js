@@ -13,10 +13,6 @@ const { IconButton, Modal } = wp.components;
 const { renderToString, Fragment } = wp.element;
 const { withState } = wp.compose;
 
-/* Import CSS. */
-import '../style.scss';
-import '../editor.scss';
-
 /**
  * A Icons Modal within a Details block.
  */
@@ -33,9 +29,9 @@ function IconsModal(
     const {
         attributes,
         setAttributes,
+        className,
         item,
-        index,
-        className
+        index
     } = props;
 
     const {
@@ -47,7 +43,7 @@ function IconsModal(
         }
     } = attributes;
 
-    let { icon, iconSet } = item;;
+    let { icon, iconSet } = item;
     let style = getBlockStyle( className );
     const activeIcon = get( details, [ toInsert, 'icon' ] );
 
