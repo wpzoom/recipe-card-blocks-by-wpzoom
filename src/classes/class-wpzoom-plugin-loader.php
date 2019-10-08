@@ -1,7 +1,7 @@
 <?php
 
 if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
-	
+
 	/**
 	 * Responsible for setting up plugin constants, classes and includes.
 	 *

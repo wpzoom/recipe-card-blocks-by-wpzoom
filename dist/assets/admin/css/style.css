@@ -80,6 +80,9 @@ div.wp-tab-panel-inactive {
  * Fields
  *
 */
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field fieldset {
+    position: relative;
+}
 .toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-badge {
 	display: inline-block;
 	vertical-align: middle;
@@ -113,6 +116,42 @@ div.wp-tab-panel-inactive {
 	font-size: 16px;
 	padding-top: 0;
 }
+
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-preview {
+    line-height: inherit;
+    margin-left: 10px;
+    color: #acacac;
+    cursor: pointer;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-preview.active {
+    color: #23282d;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-preview-thumbnail {
+    position: absolute;
+    line-height: 0;
+    z-index: 10;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-preview-thumbnail.preview-position-right {
+    top: -100px;
+    right: 0;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-preview-thumbnail.preview-position-top {
+    bottom: 50px;
+    left: 0;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-preview-thumbnail.preview-position-bottom {
+    top: 50px;
+    left: 0;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-field-preview-thumbnail.preview-position-bottom-right {
+    top: 50px;
+    right: 0;
+}
+
 
 
 /*

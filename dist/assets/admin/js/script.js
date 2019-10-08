@@ -33,7 +33,7 @@ jQuery(document).ready(function(){
 
 			if (window.confirm("Do you really want to Reset all settings to default?")) {
 				$.post( Settings.ajaxUrl, data, function(response){
-					if ( response.status == '200' ) {
+					if ( response.success ) {
 						var query_args = getUrlVars( window.location.href );
 
 						if ( query_args.length > 0 ) {
@@ -61,7 +61,7 @@ jQuery(document).ready(function(){
 			$(banner).fadeOut();
 
 			$.post( Settings.ajaxUrl, data, function(response){
-				if ( response.status != '200' ) {
+				if ( ! response.success ) {
 					alert('Something went wrong!')
 				}
 			});
@@ -78,5 +78,51 @@ jQuery(document).ready(function(){
 		    }
 		    return vars;
 		}
+
+        // setting field preview
+        $('.wpzoom-rcb-field-preview').each(function(){
+            var $this = $(this),
+                $field = $(this).parents('fieldset');
+            var thumbnail = $(this).data('preview-thumbnail'),
+                position = $(this).data('preview-position');
+
+            $(this).on('mouseover', function(){
+
+                if ( $this.hasClass('active') ) {
+                    $this.removeClass('active');
+                    $field.find('.wpzoom-rcb-field-preview-thumbnail').remove();
+                    return;
+                }
+
+                $this.addClass('active');
+                $field.append('<span class="wpzoom-rcb-field-preview-thumbnail preview-position-'+ position +'"><img src="'+ thumbnail +'" width="400" height="300"></span>');
+
+                $('.wpzoom-rcb-field-preview').not(this).parent().find('.wpzoom-rcb-field-preview-thumbnail').remove();
+                $('.wpzoom-rcb-field-preview').not(this).removeClass('active');
+                
+            });
+
+            $(this).on('mouseout', function(){
+
+                if ( $this.hasClass('active') ) {
+                    $this.removeClass('active');
+                    $field.find('.wpzoom-rcb-field-preview-thumbnail').remove();
+                    return;
+                }
+
+            });
+
+        });
+
+        // Add Color Picker to all inputs that have 'color-field' class
+        $('.wpzoom-rcb-color-picker').wpColorPicker({
+            change: function(event, ui){
+                var $this = $(this);
+                setTimeout(function(){
+                    $this.val( ui.color.toString().toUpperCase() ) // uppercase color value
+                },1);
+            }
+        });
+
 	})(jQuery, WPZOOM_Settings);
 });
