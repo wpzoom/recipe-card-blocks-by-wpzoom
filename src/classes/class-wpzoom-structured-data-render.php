@@ -48,10 +48,7 @@ class WPZOOM_Structured_Data_Render {
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-jump-to-recipe.php';
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-print-recipe.php';
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-recipe-card-block.php';
-
-		if ( WPZOOM_RCB_HAS_PRO ) {
-			require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-premium-recipe-card-block.php';
-		}
+		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-nutrition.php';
 	}
 
 	/**
@@ -64,7 +61,8 @@ class WPZOOM_Structured_Data_Render {
 			new WPZOOM_Steps_Block(),
 			new WPZOOM_Jump_To_Recipe_Block(),
 			new WPZOOM_Print_Recipe_Block(),
-			new WPZOOM_Recipe_Card_Block()
+			new WPZOOM_Recipe_Card_Block(),
+			new WPZOOM_Nutrition_Block(),
 		);
 
 		if ( WPZOOM_RCB_HAS_PRO ) {

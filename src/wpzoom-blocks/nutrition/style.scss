@@ -1,0 +1,248 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+#wpzoom-recipe-nutrition {
+    .wp-block-wpzoom-recipe-card-block-nutrition {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        line-height: 1.6;
+        font-size: 14px;
+        border: 1px solid #aaa;
+        border-radius: 3px;
+        padding: 20px;
+        margin: 0 0 2em;
+        color: #222;
+
+        h2 {
+            font-size: 2.4em;
+            line-height: 1;
+            letter-spacing: 0;
+            font-weight: 800;
+            padding: 0 0 .4em;
+            margin: 0;
+            border-bottom: 1px solid #aaa;
+            color: inherit;
+        }
+        p {
+            margin: 0;
+            padding: 0;
+            font-size: 1em;
+            line-height: 1.4em;
+        }
+        ul {
+            list-style: none !important;
+            margin: 0;
+            padding: 0;
+
+            li {
+                position: relative;
+                margin: 0;
+                padding: 3px 0;
+                border-top: 1px solid #aaa;
+                list-style-type: none;
+
+                &.nutrition-facts-no-border,
+                &:empty,
+                &:first-child {
+                    border: none;
+                }
+
+                &::after {
+                    content: '';
+                    clear: both;
+                    display: table;
+                }
+            }
+
+            ul {
+                padding-left: 20px;
+            }
+        }
+        strong {
+            font-weight: 700;
+
+            &.nutrition-facts-label {
+                font-weight: 400;
+            }
+        }
+        .nutrition-facts-heading {
+            font-size: .85em;
+            font-weight: 800;
+        }
+        .nutrition-facts-right {
+            float: right;
+        }
+        .nutrition-facts-serving {
+            font-size: 1em;
+        }
+        .nutrition-facts-serving-size {
+            font-size: 1.1em;
+            font-weight: 800;
+
+            + .nutrition-facts-label {
+                font-size: 1.1em;
+                font-weight: 800;
+            }
+        }
+        .nutrition-facts-hr {
+            border: none;
+            border-top: 1em solid;
+            margin: .2em 0 0;
+            padding: 0;
+        }
+        .nutrition-facts-spacer {
+            border: none;
+            height: .5em;
+            padding: 0;
+            background: #222;
+        }
+        .nutrition-facts-amount-per-serving {
+            display: block;
+        }
+        .nutrition-facts-calories {
+            font-weight: 800;
+            font-size: 1.8em;
+
+            + .nutrition-facts-label {
+                float: right;
+                font-size: 2.5em;
+                line-height: 1em;
+                font-weight: 800;
+            }
+        }
+        .nutrition-facts-daily-value-text {
+            line-height: 1.2em;
+            font-size: .75em;
+        }
+    }
+
+    &.layout-orientation-vertical {
+        .wp-block-wpzoom-recipe-card-block-nutrition {
+            display: inline-block;
+
+            .nutrition-facts-daily-value-text {
+                max-width: 300px;
+            }
+        }
+    }
+}
+
+#wpzoom-recipe-nutrition {
+    &.layout-orientation-horizontal {
+        .wp-block-wpzoom-recipe-card-block-nutrition {
+            &::after {
+                content: '';
+                clear: both;
+                display: table;
+            }
+
+            .horizontal-column-1,
+            .horizontal-column-2,
+            .horizontal-column-3 {
+                float: left;
+                width: 33.3333%;
+                padding-right: 10px;
+            }
+            .horizontal-column-3 {
+                padding-right: 0;
+            }
+            .horizontal-column-1 {
+                .nutrition-facts-hr {
+                    border-top: 1px solid #aaa;
+                    margin: .5em 0;
+                    background-color: transparent;
+                    + p {
+                        line-height: 2em;
+                    }
+                }
+                .nutrition-facts-calories {
+                    display: inline-block;
+                    margin-top: .3em;
+                }
+            }
+            ul > li.nutrition-facts-no-border:first-child {
+                line-height: 1em;
+                > strong {
+                    font-size: .75em;
+                }
+            }
+            .nutrition-facts-amount-per-serving {
+                display: inline-block;
+            }
+            .nutrition-facts-bottom {
+                clear: both;
+                border-bottom: 1px solid #aaa;
+                padding-top: 5px;
+
+                li {
+                    border: none;
+                    display: inline-block;
+                    padding: 0;
+
+                    .nutrition-facts-right {
+                        float: none;
+                    }
+
+                    > strong {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    &::after {
+                        content: '\2022';
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin: auto 10px;
+                    }
+                    &:last-child::after {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    #wpzoom-recipe-nutrition {
+        &.layout-orientation-horizontal {
+            .wp-block-wpzoom-recipe-card-block-nutrition {
+                .horizontal-column-1,
+                .horizontal-column-2,
+                .horizontal-column-3 {
+                    float: none;
+                    width: 100%;
+                    padding-right: 0;
+                }
+                .horizontal-column-1 {
+                    p {
+                        line-height: 1.8em;
+                    }
+                    .nutrition-facts-hr {
+                        border: none;
+                        border-top: 1em solid;
+                        margin: .2em 0 0;
+                        padding: 0;
+                    }
+                }
+                .horizontal-column-2 {
+                    > ul > .nutrition-facts-spacer {
+                        display: none;
+                    }
+                }
+                .horizontal-column-3 {
+                    > ul > li:nth-child(1),
+                    > ul > li:nth-child(2) {
+                        display: none;
+                    }
+                    > ul > li:nth-child(3) {
+                        border-top: 1px solid #aaa;
+                    }
+                }
+            }
+        }
+    }
+}
+
