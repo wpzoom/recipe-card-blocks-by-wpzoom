@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 /* External dependencies */
 import IconsModal from "./IconsModal";
-import FoodIcons from "./FoodIcons";
 import get from "lodash/get";
 import isUndefined from "lodash/isUndefined";
 
