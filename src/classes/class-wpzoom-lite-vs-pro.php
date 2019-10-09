@@ -168,7 +168,7 @@ class WPZOOM_Lite_vs_PRO {
                     <tr>
                         <td class="table-index"><h3><?php esc_html_e('Nutrition Info', 'wpzoom-recipe-card'); ?></h3></td>
                         <td><span class="dashicons dashicons-no"></span></td>
-                        <td><?php esc_html_e('Coming Soon', 'wpzoom-recipe-card'); ?></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
                     <tr>
                         <td class="table-index"><h3><?php esc_html_e('Automatic Recipe Archives', 'wpzoom-recipe-card'); ?></h3></td>
