@@ -590,29 +590,55 @@ class WPZOOM_Recipe_Card_Block {
 
 			foreach ( $details as $key => $detail ) {
 				if ( $key === 0 ) {
-					if ( ! empty( $detail['jsonValue'] ) ) {
-						$json_ld['recipeYield'] = $detail['jsonValue'];
+					if ( ! empty( $detail[ 'value' ] ) ) {
+						if ( !is_array( $detail['value'] ) ) {
+							$json_ld['recipeYield'] = $detail['value'];
 
-						if ( isset( $detail['unit'] ) && ! empty( $detail['unit'] ) ) {
-							$json_ld['recipeYield'] .= ' '.$detail['unit'];
+							if ( isset( $detail['unit'] ) && ! empty( $detail['unit'] ) ) {
+								$json_ld['recipeYield'] .= ' '.$detail['unit'];
+							}
+						}
+						elseif ( isset( $detail['jsonValue'] ) ) {
+							$json_ld['recipeYield'] = $detail['jsonValue'];
+
+							if ( isset( $detail['unit'] ) && ! empty( $detail['unit'] ) ) {
+								$json_ld['recipeYield'] .= ' '.$detail['unit'];
+							}
 						}
 					}
 				}
 				elseif ( $key === 3 ) {
-					if ( ! empty( $detail['jsonValue'] ) ) {
-						$json_ld['nutrition']['calories'] = $detail['jsonValue'];
+					if ( ! empty( $detail[ 'value' ] ) ) {
+						if ( !is_array( $detail['value'] ) ) {
+							$json_ld['nutrition']['calories'] = $detail['value'] .' cal';
+						}
+						elseif ( isset( $detail['jsonValue'] ) ) {
+							$json_ld['nutrition']['calories'] = $detail['jsonValue'] .' cal';
+						}
 					}
 				}
 				elseif ( $key === 1 ) {
-					if ( ! empty( $detail['jsonValue'] ) ) {
-						$prepTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['prepTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
+					if ( ! empty( $detail[ 'value' ] ) ) {
+						if ( !is_array( $detail['value'] ) ) {
+							$prepTime = $this->structured_data_helpers->get_number_from_string( $detail['value'] );
+						    $json_ld['prepTime'] = $this->structured_data_helpers->get_period_time( $detail['value'] );
+						}
+						elseif ( isset( $detail['jsonValue'] ) ) {
+							$prepTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+						    $json_ld['prepTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
+						}
 					}
 				}
 				elseif ( $key === 2 ) {
-					if ( ! empty( $detail['jsonValue'] ) ) {
-						$cookTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['cookTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
+					if ( ! empty( $detail[ 'value' ] ) ) {
+						if ( !is_array( $detail['value'] ) ) {
+							$cookTime = $this->structured_data_helpers->get_number_from_string( $detail['value'] );
+						    $json_ld['cookTime'] = $this->structured_data_helpers->get_period_time( $detail['value'] );
+						}
+						elseif ( isset( $detail['jsonValue'] ) ) {
+							$cookTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+						    $json_ld['cookTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
+						}
 					}
 				}
 			}
