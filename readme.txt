@@ -33,6 +33,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Recipe Details**
 * **Ingredients**
 * **Directions**
+* **Nutrition Facts**
 
 
 = ⭐️ PRO FEATURES ⭐️ =
@@ -72,7 +73,6 @@ You can view the Recipe Card Block live [here](http://demo.wpzoom.com/recipe-car
 
 = 📌 Coming Soon in future updates... =
 
-* Nutrition
 * Adjustable servings
 * Ingredients quantity
 
@@ -88,13 +88,17 @@ You can view the Recipe Card Block live [here](http://demo.wpzoom.com/recipe-car
 * 📘 [Facebook](https://facebook.com/wpzoom)
 * 🌄 [Instagram](https://instagram.com/wpzoom)
 
+= GDPR COMPLIANCE =
+
+In order to make the plugin **100% GDPR compliant**, you will have to disable **Google Fonts** in **Settings > Appearance**.
+Recipe Card Blocks by WPZOOM does not collect any information outside your WordPress installation, therefore it’s **100% GDPR compliant**.
+
 
 == Installation ==
 
 Simply search for the plugin name via the **Plugins -> Add New** dialog and click install, or download and extract the plugin, and copy the plugin folder into your wp-content/plugins directory and activate.
 
 After installation create a new post or edit an existing one using Gutenberg editor, and when adding a new block, look under  **WPZOOM - Recipe Card** section to find these 2 blocks.
-
 
 
 == Frequently Asked Questions ==
@@ -110,7 +114,6 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 [Go to Documentation](https://www.wpzoom.com/documentation/recipe-card-blocks/)
 
 
-
 == Screenshots ==
 
 1. Adding a block to editor
@@ -123,6 +126,14 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 
 == Changelog ==
+
+= 2.4.0 =
+* 🔥 Added Nutrition Block with two Layouts (Vertical / Horizontal)
+* Added possibility to edit details labels from Block Settings, and also edit unit for Servings
+* Added possibility to add additional custom details from Block Settings
+* Numerous changes and improvements
+* Fixed issue with Database table for recipe ratings
+* Fixed issue to not include video attribute in Schema Markup if it's not added to the block
 
 = 2.3.0 =
 * Added Video Recipe feature in the block
