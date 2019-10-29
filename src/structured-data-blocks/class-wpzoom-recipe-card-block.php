@@ -476,13 +476,26 @@ class WPZOOM_Recipe_Card_Block {
 		$json_ld = array(
 			'@context' 		=> 'https://schema.org',
 			'@type'    		=> 'Recipe',
+			'name'			=> isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : $this->recipe->post_title,
+			'image'			=> '',
+			'description' 	=> isset( $attributes['summary'] ) ? $attributes['summary'] : $this->recipe->post_excerpt,
+			'keywords'  	=> $tag_list,
 			'author' 		=> array(
 				'@type'		=> 'Person',
 				'name'		=> get_the_author()
 			),
-			'name'			=> isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : $this->recipe->post_title,
-			'description' 	=> isset( $attributes['summary'] ) ? $attributes['summary'] : $this->recipe->post_excerpt,
-			'image'			=> '',
+			'datePublished' => get_the_time('c'),
+			'prepTime' 		=> '',
+			'cookTime'		=> '',
+			'totalTime' 	=> '',
+			'recipeCategory' => $cat_list,
+			'recipeCuisine'  => array(),
+			'recipeYield'	=> '',
+			'nutrition' 	=> array(
+				'@type' 	=> 'NutritionInformation'
+			),
+			'recipeIngredient'	 => array(),
+			'recipeInstructions' => array(),
 			'video'			=> array(
 				'@type'			=> 'CreativeWork',
 				'name'  		=> isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : $this->recipe->post_title,
@@ -493,15 +506,6 @@ class WPZOOM_Recipe_Card_Block {
 				'uploadDate' 	=> get_the_time('c'), // by default is post plublish date
 				'duration' 		=> '',
 			),
-			'recipeCategory' => $cat_list,
-			'recipeCuisine'  => array(),
-			'keywords'  	=> $tag_list,
-			'datePublished' => get_the_time('c'),
-			'nutrition' 	=> array(
-				'@type' 	=> 'NutritionInformation'
-			),
-			'recipeIngredient'	 => array(),
-			'recipeInstructions' => array(),
 		);
 
 		if ( ! empty( $attributes['recipeTitle'] ) ) {
@@ -587,7 +591,11 @@ class WPZOOM_Recipe_Card_Block {
 			foreach ( $details as $key => $detail ) {
 				if ( $key === 0 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$json_ld['nutrition']['servingSize'] = $detail['jsonValue'];
+						$json_ld['recipeYield'] = $detail['jsonValue'];
+
+						if ( isset( $detail['unit'] ) && ! empty( $detail['unit'] ) ) {
+							$json_ld['recipeYield'] .= ' '.$detail['unit'];
+						}
 					}
 				}
 				elseif ( $key === 3 ) {
