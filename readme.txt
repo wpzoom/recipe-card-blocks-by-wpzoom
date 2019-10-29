@@ -132,7 +132,6 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 * Added possibility to edit details labels from Block Settings, and also edit unit for Servings
 * Added possibility to add additional custom details from Block Settings
 * Numerous changes and improvements
-* Fixed issue with Database table for recipe ratings
 * Fixed issue to not include video attribute in Schema Markup if it's not added to the block
 
 = 2.3.0 =
