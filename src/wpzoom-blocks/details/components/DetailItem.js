@@ -177,21 +177,8 @@ export default class DetailItem extends Component {
 	 * @returns {Component}
 	 */
 	getOpenModalButton( props ) {
-		const { item, index } = props;
-		let { icon, iconSet } = item;
-
-		if ( isUndefined( iconSet ) )
-			iconSet = 'oldicon';
-
 	    return (
-	        <IconButton
-	            icon={ !icon && "insert" }
-	            onClick={ this.onOpenModal }
-	            className="editor-inserter__toggle"
-	            label={ __( "Add icon", "wpzoom-recipe-card" ) }
-	        >
-	        	{ icon && <span class={ `${ iconSet } ${ iconSet }-${ icon }` }></span> }
-	        </IconButton>
+	    	<IconsModal { ... { props } } />
 	    );
 	}
 
@@ -272,7 +259,6 @@ export default class DetailItem extends Component {
 						{ this.getButtons() }
 					</div>
 				}
-				<IconsModal { ... { attributes, setAttributes, className } } />
 			</div>
 		);
 	}
