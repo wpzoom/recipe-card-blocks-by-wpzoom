@@ -158,7 +158,7 @@ function IconsModal (
             tabName = 'fas' == _prefix ? 'solid' : 'fab' == _prefix ? 'brands' : 'regular';
         }
 
-        setState( { isOpen: true, toInsert: props.index, activeIconSet: props.item.iconSet, activeTab: tabName } )
+        setState( { isOpen: true, toInsert: props.index, activeIconSet: props.item.iconSet || 'foodicons', activeTab: tabName } )
     }
 
     /**
