@@ -221,11 +221,17 @@ class WPZOOM_Details_Block {
 			if ( ! empty( $detail[ 'icon' ] ) ) {
 				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
 				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $detail['iconSet'], $detail['iconSet'] . '-' . $detail['icon'] ) );
+
+				$icon 	 			= $detail['icon'];
+ 				$iconSet 			= isset( $detail['iconSet'] ) ? $detail['iconSet'] : 'oldicon';
+ 				$_prefix 			= isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? $detail['_prefix'] : $iconSet;
+ 				$itemIconClasses 	= implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $detail['icon'] ) );
+
 				$icon = sprintf(
 					'<span class="%s" icon-name="%s" iconset="%s"></span>',
 					$itemIconClasses,
-					$detail['icon'],
-					$detail['iconSet']
+					$icon,
+					$iconSet
 				);
 			}
 
