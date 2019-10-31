@@ -219,9 +219,6 @@ class WPZOOM_Details_Block {
 			$icon = $label = $value = $unit = '';
 
 			if ( ! empty( $detail[ 'icon' ] ) ) {
-				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
-				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $detail['iconSet'], $detail['iconSet'] . '-' . $detail['icon'] ) );
-
 				$icon 	 			= $detail['icon'];
  				$iconSet 			= isset( $detail['iconSet'] ) ? $detail['iconSet'] : 'oldicon';
  				$_prefix 			= isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? $detail['_prefix'] : $iconSet;

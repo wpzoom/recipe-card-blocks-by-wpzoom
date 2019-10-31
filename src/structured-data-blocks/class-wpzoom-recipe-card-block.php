@@ -799,9 +799,11 @@ class WPZOOM_Recipe_Card_Block {
 			}
 
 			if ( ! empty( $detail[ 'icon' ] ) ) {
-				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
-				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $detail['iconSet'], $detail['iconSet'] . '-' . $detail['icon'] ) );
-				$styles = array();
+				$icon 	 			= $detail['icon'];
+ 				$iconSet 			= isset( $detail['iconSet'] ) ? $detail['iconSet'] : 'oldicon';
+ 				$_prefix 			= isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? $detail['_prefix'] : $iconSet;
+ 				$itemIconClasses 	= implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $detail['icon'] ) );
+ 				$styles 			= array();
 
 				if ( '' != self::$settings['icon_details_color'] ) {
 					if ( 'default' === self::$style ) {
@@ -828,8 +830,8 @@ class WPZOOM_Recipe_Card_Block {
 				$icon = sprintf(
 					'<span class="%s" icon-name="%s" iconset="%s" style="%s"></span>',
 					$itemIconClasses,
-					$detail['icon'],
-					$detail['iconSet'],
+					$icon,
+					$iconSet,
 					$iconStyles
 				);
 			}
@@ -1302,7 +1304,7 @@ class WPZOOM_Recipe_Card_Block {
 		$output = sprintf(
 			'<div class="%s">
 	            <a class="btn-print-link no-print" href="#%s" %s>
-	            	<i class="fa fa-print icon-print-link"></i>
+	            	<i class="fab fa-print icon-print-link"></i>
 	                <span>%s</span>
 	            </a>
 	        </div>',
@@ -1339,7 +1341,7 @@ class WPZOOM_Recipe_Card_Block {
 		$output = sprintf(
 			'<div class="%s">
 	            <a class="btn-pinit-link no-print" data-pin-do="buttonPin" href="%s" data-pin-custom="true" %s>
-	            	<i class="fa fa-pinterest-p icon-pinit-link"></i>
+	            	<i class="fab fa-pinterest-p icon-pinit-link"></i>
 	            	<span>%s</span>
 	            </a>
 	        </div>',
