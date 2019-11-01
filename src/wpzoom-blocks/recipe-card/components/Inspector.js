@@ -11,7 +11,7 @@ import isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
-import { getNumberFromString } from "../../../helpers/convertMinutesToHours";
+import { getNumberFromString, convertMinutesToHours } from "../../../helpers/convertMinutesToHours";
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 import { getBlockStyle } from "../../../helpers/getBlockStyle";
 import VideoUpload from "./VideoUpload";
@@ -879,6 +879,7 @@ class Inspector extends Component {
         	    			value={ get( details, [ 6, 'unit' ] ) }
         	    			onChange={ newValue => this.onChangeDetail(newValue, 6, 'unit') }
         	    		/>
+                        <p className="description">{ __( "This field are used for Schema Markup (Rich Snippets)", "wpzoom-recipe-card" ) }</p>
         			</PanelRow>
         			<PanelRow>
         	    		<TextControl
@@ -947,12 +948,16 @@ class Inspector extends Component {
     	        		</PanelRow>
     	        		<PanelRow className={ ! get( details, [ 1, 'value' ] ) ? "text-color-orange": "" }>
     	        			<span>prepTime</span>
-    	        			<strong><strong>{ get( details, [ 1, 'value' ] ) ? get( details, [ 1, 'value' ] ) + ' ' + get( details, [ 1, 'unit' ] ) : '0 ' + get( details, [ 1, 'unit' ] ) }</strong></strong>
+    	        			<strong><strong>{ convertMinutesToHours( get( details, [ 1, 'value' ] ) ) }</strong></strong>
     	        		</PanelRow>
     	        		<PanelRow className={ ! get( details, [ 2, 'value' ] ) ? "text-color-orange": "" }>
     	        			<span>cookTime</span>
-    	        			<strong>{ get( details, [ 2, 'value' ] ) ? get( details, [ 2, 'value' ] ) + ' ' + get( details, [ 2, 'unit' ] ) : '0 ' + get( details, [ 2, 'unit' ] ) }</strong>
+    	        			<strong>{ convertMinutesToHours( get( details, [ 2, 'value' ] ) ) }</strong>
     	        		</PanelRow>
+                        <PanelRow>
+                            <span>totalTime</span>
+                            <strong>{ convertMinutesToHours( get( details, [ 6, 'value' ] ) ) }</strong>
+                        </PanelRow>
     	        		<PanelRow className={ ! get( details, [ 3, 'value' ] ) ? "text-color-orange": "" }>
     	        			<span>calories</span>
     	        			<strong>{ get( details, [ 3, 'value' ] ) ? get( details, [ 3, 'value' ] ) + ' ' + get( details, [ 3, 'unit' ] ) : '0 ' + get( details, [ 3, 'unit' ] ) }</strong>
