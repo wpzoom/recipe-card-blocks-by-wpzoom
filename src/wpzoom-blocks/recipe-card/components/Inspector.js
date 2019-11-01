@@ -315,6 +315,10 @@ class Inspector extends Component {
 		const totalTime 	= prepTime + cookTime;
 		const unit 			= __( "minutes", "wpzoom-recipe-card" );
 
+        if ( '' != get( details, [ index, 'value' ] ) ) {
+            return;
+        }
+
 		if ( '' != prepTime && '' != cookTime && totalTime > 0 ) {
 			this.onChangeDetail( toString( totalTime ), index, 'value' )
 			this.onChangeDetail( unit, index, 'unit' )
