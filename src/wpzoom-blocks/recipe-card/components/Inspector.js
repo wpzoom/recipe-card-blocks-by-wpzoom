@@ -11,7 +11,7 @@ import isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
-import { humanize } from "../../../helpers/stringHelpers";
+import { getNumberFromString } from "../../../helpers/convertMinutesToHours";
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 import { getBlockStyle } from "../../../helpers/getBlockStyle";
 import VideoUpload from "./VideoUpload";
@@ -65,8 +65,7 @@ class Inspector extends Component {
 		this.state = {
 			updateIngredients: false,
 			updateInstructions: false,
-			updateErrors: false,
-			updateWarnings: false,
+            isCalculatedTotalTime: false,
 			structuredDataNotice: {
 				errors: [],
 				warnings: []
@@ -303,6 +302,26 @@ class Inspector extends Component {
 		}
 	}
 
+	calculateTotalTime() {
+        // We already have value for total time, in this case we don't need to recalculate them
+        if ( this.state.isCalculatedTotalTime ) {
+            return;
+        }
+
+		const { details } 	= this.props.attributes;
+        const index         = 6; // Total Time index in details object array
+		const prepTime 		= getNumberFromString( get( details, [ 1, 'value' ] ) );
+		const cookTime 		= getNumberFromString( get( details, [ 2, 'value' ] ) );
+		const totalTime 	= prepTime + cookTime;
+		const unit 			= __( "minutes", "wpzoom-recipe-card" );
+
+		if ( '' != prepTime && '' != cookTime && totalTime > 0 ) {
+			this.onChangeDetail( toString( totalTime ), index, 'value' )
+			this.onChangeDetail( unit, index, 'unit' )
+            this.setState( { isCalculatedTotalTime: true } )
+		}
+	}
+
 	/**
 	 * Renders this component.
 	 *
@@ -316,6 +335,7 @@ class Inspector extends Component {
 		// Inline check Schema Markup
 		this.structuredDataTable();
 		this.structuredDataNotice();
+		this.calculateTotalTime();
 
 		const {
 			className,
@@ -756,8 +776,8 @@ class Inspector extends Component {
 		        	    			id={ `${ id }-calories-label` }
 		        	    			instanceId={ `${ id }-calories-label` }
 		        	    			type="text"
-		        	    			label={ __( "Cook Time Label", "wpzoom-recipe-card" ) }
-		        	    			placeholder={ __( "Cooking Time", "wpzoom-recipe-card" ) }
+		        	    			label={ __( "Calories Label", "wpzoom-recipe-card" ) }
+		        	    			placeholder={ __( "Calories", "wpzoom-recipe-card" ) }
 		        	    			value={ get( details, [ 3, 'label' ] ) }
 		        	    			onChange={ newValue => this.onChangeDetail(newValue, 3, 'label') }
 		        	    		/>
@@ -765,7 +785,7 @@ class Inspector extends Component {
 		        	    			id={ `${ id }-calories-value` }
 		        	    			instanceId={ `${ id }-calories-value` }
 		        	    			type="number"
-		        	    			label={ __( "Cook Time Value", "wpzoom-recipe-card" ) }
+		        	    			label={ __( "Calories Value", "wpzoom-recipe-card" ) }
 		        	    			value={ get( details, [ 3, 'value' ] ) }
 		        	    			onChange={ newValue => this.onChangeDetail(newValue, 3, 'value') }
 		        	    		/>

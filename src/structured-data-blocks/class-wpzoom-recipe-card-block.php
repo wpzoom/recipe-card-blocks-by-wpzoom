@@ -641,10 +641,19 @@ class WPZOOM_Recipe_Card_Block {
 						}
 					}
 				}
-			}
-
-			if ( isset( $prepTime, $cookTime ) && ( $prepTime + $cookTime ) > 0 ) {
-				$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $prepTime + $cookTime );
+				elseif ( $key === 6 ) {
+					if ( ! empty( $detail[ 'value' ] ) ) {
+						if ( !is_array( $detail['value'] ) ) {
+							$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $detail['value'] );
+						}
+						elseif ( isset( $detail['jsonValue'] ) ) {
+							$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
+						}
+					}
+					elseif ( isset( $prepTime, $cookTime ) && ( $prepTime + $cookTime ) > 0 ) {
+						$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $prepTime + $cookTime );
+					}
+				}
 			}
 		}
 
