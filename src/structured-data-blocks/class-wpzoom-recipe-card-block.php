@@ -172,6 +172,7 @@ class WPZOOM_Recipe_Card_Block {
 			            'displayServings' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_servings') === '1',
 			            'displayPrepTime' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_preptime') === '1',
 			            'displayCookingTime' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_cookingtime') === '1',
+			            'displayTotalTime' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_totaltime') === '1',
 			            'displayCalories' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_calories') === '1',
 			            'headerAlign' => WPZOOM_Settings::get('wpzoom_rcb_settings_heading_content_align'),
 			            'ingredientsLayout' => '1-column'
@@ -641,7 +642,7 @@ class WPZOOM_Recipe_Card_Block {
 						}
 					}
 				}
-				elseif ( $key === 6 ) {
+				elseif ( $key === 8 ) {
 					if ( ! empty( $detail[ 'value' ] ) ) {
 						if ( !is_array( $detail['value'] ) ) {
 							$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $detail['value'] );
@@ -720,14 +721,22 @@ class WPZOOM_Recipe_Card_Block {
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
-		        'iconSet' 	=> 'fa',
-		        'icon' 		=> 'clock-o',
+		        'iconSet' 	=> 'oldicon',
+		        'icon' 		=> 'food-1',
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'fa',
 		        'icon' 		=> 'sort-amount-asc',
-		    )
+		    ),
+		    array(
+		        'id' 		=> self::$helpers->generateId( "detail-item" ),
+		        'iconSet' 	=> 'fa',
+		        'icon' 		=> 'clock-o',
+		        'label' 	=> __( "Total time", "wpzoom-recipe-card" ),
+		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" ),
+		        'value'		=> '0'
+		    ),
 		);
 	}
 
@@ -800,6 +809,8 @@ class WPZOOM_Recipe_Card_Block {
 			} elseif ( 1 === $index && self::$settings['displayPrepTime'] != '1' ) {
 				continue;
 			} elseif ( 2 === $index && self::$settings['displayCookingTime'] != '1' ) {
+				continue;
+			} elseif ( 8 === $index && self::$settings['displayTotalTime'] != '1' ) {
 				continue;
 			} elseif ( 3 === $index && self::$settings['displayCalories'] != '1' ) {
 				continue;

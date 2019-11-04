@@ -84,6 +84,9 @@ class WPZOOM_Helpers {
 		if ( !isset( $settings['displayCookingTime'] ) ) {
 			$settings['displayCookingTime'] = true;
 		}
+		if ( !isset( $settings['displayTotalTime'] ) ) {
+			$settings['displayTotalTime'] = false;
+		}
 		if ( !isset( $settings['displayCalories'] ) ) {
 			$settings['displayCalories'] = true;
 		}

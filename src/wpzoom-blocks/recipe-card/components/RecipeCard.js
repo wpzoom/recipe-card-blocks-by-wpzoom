@@ -158,12 +158,7 @@ export default class RecipeCard extends Component {
 					displayCuisine,
 					displayDifficulty,
 					displayAuthor,
-					displayServings,
-					displayPrepTime,
-					displayCookingTime,
-					displayCalories,
-					headerAlign,
-					ingredientsLayout
+					headerAlign
 				}
 			},
 		} = attributes;

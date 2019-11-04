@@ -309,13 +309,15 @@ class Inspector extends Component {
         }
 
 		const { details } 	= this.props.attributes;
-        const index         = 6; // Total Time index in details object array
+        const index         = 8; // Total Time index in details object array
 		const prepTime 		= getNumberFromString( get( details, [ 1, 'value' ] ) );
 		const cookTime 		= getNumberFromString( get( details, [ 2, 'value' ] ) );
 		const totalTime 	= prepTime + cookTime;
 		const unit 			= __( "minutes", "wpzoom-recipe-card" );
 
-        if ( '' != get( details, [ index, 'value' ] ) ) {
+        const totalTimeValue = get( details, [ index, 'value' ] );
+
+        if ( ! isUndefined( totalTimeValue ) && ! isEmpty( totalTimeValue ) && 0 != totalTimeValue ) {
             return;
         }
 
@@ -384,6 +386,7 @@ class Inspector extends Component {
 					displayServings,
 					displayPrepTime,
 					displayCookingTime,
+                    displayTotalTime,
 					displayCalories,
 					headerAlign,
 					ingredientsLayout
@@ -767,6 +770,36 @@ class Inspector extends Component {
 		        			</Fragment>
         				}
         			</PanelRow>
+                    <ToggleControl
+                        label={ __( "Display Total Time", "wpzoom-recipe-card" ) }
+                        checked={ displayTotalTime }
+                        onChange={ display => this.onChangeSettings( display, 'displayTotalTime' ) }
+                    />
+                    <PanelRow>
+                        {
+                            displayTotalTime &&
+                            <Fragment>
+                                <TextControl
+                                    id={ `${ id }-totaltime-label` }
+                                    instanceId={ `${ id }-totaltime-label` }
+                                    type="text"
+                                    label={ __( "Total Time Label", "wpzoom-recipe-card" ) }
+                                    placeholder={ __( "Total Time", "wpzoom-recipe-card" ) }
+                                    value={ get( details, [ 8, 'label' ] ) }
+                                    onChange={ newValue => this.onChangeDetail(newValue, 8, 'label') }
+                                />
+                                <TextControl
+                                    id={ `${ id }-totaltime-value` }
+                                    instanceId={ `${ id }-totaltime-value` }
+                                    type="number"
+                                    label={ __( "Total Time Value (Default prep + cook)", "wpzoom-recipe-card" ) }
+                                    value={ get( details, [ 8, 'value' ] ) }
+                                    onChange={ newValue => this.onChangeDetail(newValue, 8, 'value') }
+                                />
+                                <span>{ get( details, [ 8, 'unit' ] ) }</span>
+                            </Fragment>
+                        }
+                    </PanelRow>
     				<ToggleControl
     				    label={ __( "Display Calories", "wpzoom-recipe-card" ) }
     				    checked={ displayCalories }
@@ -859,7 +892,7 @@ class Inspector extends Component {
         	    			instanceId={ `${ id }-custom-detail-3-label` }
         	    			type="text"
         	    			label={ __( "Custom Label 3", "wpzoom-recipe-card" ) }
-        	    			placeholder={ __( "Total Time", "wpzoom-recipe-card" ) }
+        	    			placeholder={ __( "Serving Size", "wpzoom-recipe-card" ) }
         	    			value={ get( details, [ 6, 'label' ] ) }
         	    			onChange={ newValue => this.onChangeDetail(newValue, 6, 'label') }
         	    		/>
@@ -879,7 +912,6 @@ class Inspector extends Component {
         	    			value={ get( details, [ 6, 'unit' ] ) }
         	    			onChange={ newValue => this.onChangeDetail(newValue, 6, 'unit') }
         	    		/>
-                        <p className="description">{ __( "This field are used for Schema Markup (Rich Snippets)", "wpzoom-recipe-card" ) }</p>
         			</PanelRow>
         			<PanelRow>
         	    		<TextControl
@@ -956,7 +988,7 @@ class Inspector extends Component {
     	        		</PanelRow>
                         <PanelRow>
                             <span>totalTime</span>
-                            <strong>{ convertMinutesToHours( get( details, [ 6, 'value' ] ) ) }</strong>
+                            <strong>{ convertMinutesToHours( get( details, [ 8, 'value' ] ) ) }</strong>
                         </PanelRow>
     	        		<PanelRow className={ ! get( details, [ 3, 'value' ] ) ? "text-color-orange": "" }>
     	        			<span>calories</span>
