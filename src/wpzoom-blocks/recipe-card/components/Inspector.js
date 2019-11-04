@@ -158,10 +158,18 @@ class Inspector extends Component {
 		if ( !id ) {
 			newDetails[ index ][ 'id' ] = uniqueId( `detail-item-${ new Date().getTime() }` );
 		}
-		if ( !icon ) {
+
+        if ( 'icon' === field ) {
+            newDetails[ index ][ 'icon' ] = newValue;
+        }
+		else if ( !icon ) {
 			newDetails[ index ][ 'icon' ] = 'restaurant-utensils';
 		}
-		if ( !iconSet ) {
+
+        if ( 'iconSet' === field ) {
+            newDetails[ index ][ 'iconSet' ] = newValue;
+        }
+		else if ( !iconSet ) {
 			newDetails[ index ][ 'iconSet' ] = 'foodicons';
 		}
 
@@ -313,7 +321,10 @@ class Inspector extends Component {
 		const prepTime 		= getNumberFromString( get( details, [ 1, 'value' ] ) );
 		const cookTime 		= getNumberFromString( get( details, [ 2, 'value' ] ) );
 		const totalTime 	= prepTime + cookTime;
-		const unit 			= __( "minutes", "wpzoom-recipe-card" );
+		const iconSet 		= 'fa';
+        const icon          = 'clock-o';
+        const label         = __( "Total time", "wpzoom-recipe-card" );
+        const unit          = __( "minutes", "wpzoom-recipe-card" );
 
         const totalTimeValue = get( details, [ index, 'value' ] );
 
@@ -322,8 +333,12 @@ class Inspector extends Component {
         }
 
 		if ( '' != prepTime && '' != cookTime && totalTime > 0 ) {
-			this.onChangeDetail( toString( totalTime ), index, 'value' )
-			this.onChangeDetail( unit, index, 'unit' )
+			this.onChangeDetail( icon,                  index, 'icon' )
+            this.onChangeDetail( iconSet,               index, 'iconSet' )
+            this.onChangeDetail( label,                 index, 'label' )
+            this.onChangeDetail( toString( totalTime ), index, 'value' )
+			this.onChangeDetail( unit,                  index, 'unit' )
+
             this.setState( { isCalculatedTotalTime: true } )
 		}
 	}
