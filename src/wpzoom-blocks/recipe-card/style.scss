@@ -7,6 +7,11 @@
 .wp-block-wpzoom-recipe-card-block-recipe-card {
     max-width: 750px;
 
+    &.recipe-card-noimage {
+        .recipe-card-image {
+            display: none;
+        }
+    }
 	&.header-content-align-left {
 		.recipe-card-heading {
 			text-align: left;

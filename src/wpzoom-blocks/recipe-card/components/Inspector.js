@@ -391,6 +391,7 @@ class Inspector extends Component {
 				0: {
 					primary_color,
 					icon_details_color,
+                    hide_header_image,
 					print_btn,
 					pin_btn,
 					custom_author_name,
@@ -523,15 +524,25 @@ class Inspector extends Component {
 	                	/>
 	        		}
 			    	<BaseControl
-						id={ `${ id }-print-btn` }
-						label={ __( "Print Button", "wpzoom-recipe-card" ) }
+						id={ `${ id }-hide-header-image` }
+						label={ __( "Hide Recipe Image on Front-End", "wpzoom-recipe-card" ) }
 					>
 		                <ToggleControl
-		                    label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
-		                    checked={ print_btn }
-		                    onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
-		                />
+                            label={ __( "Hide Image", "wpzoom-recipe-card" ) }
+                            checked={ hide_header_image }
+                            onChange={ display => this.onChangeSettings( display, 'hide_header_image' ) }
+                        />
 	        		</BaseControl>
+                    <BaseControl
+                        id={ `${ id }-print-btn` }
+                        label={ __( "Print Button", "wpzoom-recipe-card" ) }
+                    >
+                        <ToggleControl
+                            label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
+                            checked={ print_btn }
+                            onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
+                        />
+                    </BaseControl>
 			    	<BaseControl
 						id={ `${ id }-pinit-btn` }
 						label={ __( "Pinterest Button", "wpzoom-recipe-card" ) }

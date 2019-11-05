@@ -90,6 +90,7 @@ $heading_color: #222222;
             float: right;
             width: 60%;
         }
+
         .recipe-card-heading {
             margin-bottom: 5px;
             margin-left: 20px;
@@ -392,6 +393,21 @@ $heading_color: #222222;
                         top: 25px;
                     }
                 }
+            }
+        }
+
+        &.recipe-card-noimage {
+            .recipe-card-image-preview,
+            .recipe-card-image {
+                display: none;
+            }
+            .recipe-card-along-image {
+                float: none;
+                width: 100%;
+            }
+            .recipe-card-heading,
+            .recipe-card-details {
+                margin-left: 0;
             }
         }
     }
