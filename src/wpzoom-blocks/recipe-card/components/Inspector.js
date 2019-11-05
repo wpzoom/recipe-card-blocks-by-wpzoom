@@ -807,11 +807,12 @@ class Inspector extends Component {
                                     id={ `${ id }-totaltime-value` }
                                     instanceId={ `${ id }-totaltime-value` }
                                     type="number"
-                                    label={ __( "Total Time Value (Default prep + cook)", "wpzoom-recipe-card" ) }
+                                    label={ __( "Total Time Value", "wpzoom-recipe-card" ) }
                                     value={ get( details, [ 8, 'value' ] ) }
                                     onChange={ newValue => this.onChangeDetail(newValue, 8, 'value') }
                                 />
                                 <span>{ get( details, [ 8, 'unit' ] ) }</span>
+                                <p className="description">{ __( "Default value: prepTime + cookTime", "wpzoom-recipe-card" ) }</p>
                             </Fragment>
                         }
                     </PanelRow>
