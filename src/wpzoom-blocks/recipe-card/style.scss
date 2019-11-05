@@ -5,6 +5,8 @@
  */
 
 .wp-block-wpzoom-recipe-card-block-recipe-card {
+    max-width: 750px;
+
 	&.header-content-align-left {
 		.recipe-card-heading {
 			text-align: left;
