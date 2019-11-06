@@ -1,13 +1,4 @@
-$primary_color: #222222;
-$tick_color: #d0d0d0;
-$ticked_color: #9AD093;
-$detail_icon_color: #6d767f;
-$meta_color: #5b5d61;
-$heading_color: #222222;
-
 .wp-block-wpzoom-recipe-card-block-recipe-card {
-
-    // font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 
     &.is-style-simple {
         padding: 20px;
@@ -24,16 +15,18 @@ $heading_color: #222222;
             
             margin: -20px -20px 10px -20px;
             padding: 20px;
-            background-color: #FBF9E7;
+            background-color: $coconut-cream;
         }
 
         .recipe-card-image {
             float: left;
             width: 40%;
+
             figure {
                 position: relative;
                 margin: 0;
                 line-height: 0;
+
                 img {
                     max-width: 100%;
                     width: 100%;
@@ -76,7 +69,7 @@ $heading_color: #222222;
                     }
                 }
                 .btn-print-link {
-                    background-color: $primary_color;
+                    background-color: $simple-primary-color;
                 }
                 .btn-pinit-link {
                     background-color: #C62122;
@@ -94,30 +87,26 @@ $heading_color: #222222;
         .recipe-card-heading {
             margin-bottom: 5px;
             margin-left: 20px;
+
             .recipe-card-title {
-                font-size: 24px;
-                margin: 0 0 10px;
-                font-weight: 600;
-                font-family: inherit;
+                @include recipe-title( 24 );
             }
             .recipe-card-author {
-                display: block;
-                color: $meta_color;
-                font-size: 14px;
-                font-weight: normal;
-                font-style: italic;
-                margin: 0 0 6px;
-                padding: 0 0 12px;
-                border-bottom: 1px dashed rgba(0,0,0,0.1);
+                @include recipe-author( $simple-meta-color, 0 0 6px, 0 0 12px );
             }
 
-            .recipe-card-course, .recipe-card-cuisine, .recipe-card-difficulty {
+            @include recipe-heading-metadata( $simple-meta-color, $simple-heading-color );
+
+            .recipe-card-course,
+            .recipe-card-cuisine,
+            .recipe-card-difficulty {
                 font-size: 14px;
-                color: $meta_color;
+                color: $simple-meta-color;
                 display: inline-block;
                 margin-bottom: 5px;
+
                 mark {
-                    color: $heading_color;
+                    color: $simple-heading-color;
                     font-weight: 600;
                     background: transparent;
                     padding: 0;
@@ -125,11 +114,7 @@ $heading_color: #222222;
             }
 
             span:not(.recipe-card-author) + span:not(.recipe-card-author):before {
-                content: "/";
-                color: #B6BABB;
-                margin: 0 6px;
-                font-style: normal;
-                opacity: .5;
+                @include heading-meta-delimiter;
             }
 
         }
@@ -173,7 +158,7 @@ $heading_color: #222222;
                     height: 35px;
                     line-height: 35px;
                     font-size: 16px;
-                    color: $detail_icon_color;
+                    color: $simple-detail-icon-color;
                     display: inline-block;
 
                     .components-icon-button {
@@ -182,14 +167,14 @@ $heading_color: #222222;
                 }
 
                 .detail-item-icon span {
-                    color: $detail_icon_color;
+                    color: $simple-detail-icon-color;
 
                     &::before {
                         font-size: 16px;
                     }
                 }
                 .detail-item-icon svg {
-                    fill: $detail_icon_color;
+                    fill: $simple-detail-icon-color;
                 }
 
             }
@@ -199,15 +184,7 @@ $heading_color: #222222;
             margin-bottom: 20px !important;
         }
 
-        .ingredients-title,
-        .directions-title,
-        .video-title,
-        .notes-title {
-            font-size: 22px;
-            font-family: inherit;
-            color: $heading_color;
-            margin: 0 0 15px;
-        }
+        @include recipe-sections-title( $simple-heading-color, none, 'ingredients-title', 'directions-title', 'video-title', 'notes-title' );
 
         .directions-title {
             margin-bottom: 25px;
@@ -220,9 +197,7 @@ $heading_color: #222222;
         }
 
         .ingredients-list {
-            margin: 0;
-            padding: 0;
-            list-style: none;
+            @include reset-list;
 
             > li {
                 list-style: none;
@@ -253,30 +228,8 @@ $heading_color: #222222;
                     }
 
                 }
-                .tick-circle {
-                    content: '';
-                    float: left;
-                    width: 18px;
-                    height: 18px;
-                    margin: 6px 10px 0 0;
-                    border-radius: 50%;
-                    border: 2px solid $tick_color;
-                    cursor: pointer;
-                    position: relative;
-                }
-
-                &.ticked > p {
-                    text-decoration: line-through;
-                }
-
-                &.ticked .tick-circle {
-                    border: 2px solid $ticked_color !important;
-                    background: $ticked_color;
-
-                    -webkit-box-shadow: inset 0px 0px 0px 2px #fff;
-                    -moz-box-shadow: inset 0px 0px 0px 2px #fff;
-                    box-shadow: inset 0px 0px 0px 2px #fff;
-                }
+                
+                @include ingredient-tick( $simple-tick-color, $simple-ticked-color );
             }
         }
 
@@ -301,25 +254,7 @@ $heading_color: #222222;
                 }
 
                 &::before {
-                    counter-increment: count;
-                    content: counter(count);
-                    display: block;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    font-size: 24px;
-                    font-weight: bold;
-                    color: #222222;
-                    font-family: inherit;
-                    text-transform: uppercase;
-                    line-height: 1.4;
-                    width: 35px;
-                    vertical-align: middle;
-                    padding: 0;
-                    -webkit-border-radius: 50%;
-                    -moz-border-radius: 50%;
-                    border-radius: 50%;
-                    margin-right: 20px;
+                    @include direction-counter;
                 }
 
                 &:last-child {
@@ -355,44 +290,7 @@ $heading_color: #222222;
             margin-bottom: 30px;
 
             .recipe-card-notes-list {
-                padding: 0;
-                margin: 0;
-                list-style-type: none;
-
-                > li:empty {
-                    display: none;
-                }
-
-                > li {
-                    background-color: #FBF9E7;
-                    color: #736458;
-                    margin-left: 0;
-                    margin-right: 0;
-                    padding-left: 25px;
-                    padding-right: 25px;
-                    padding-top: 20px;
-                    padding-bottom: 20px;
-                    position: relative;
-                    list-style-type: none;
-                    margin-bottom: 15px;
-                    font-size: 14px;
-
-                    &::before {
-                        content: 'i';
-                        position: absolute;
-                        display: block;
-                        background-color: $primary_color;
-                        border-radius: 8px;
-                        height: 16px;
-                        width: 16px;
-                        font-size: 12px;
-                        line-height: 16px;
-                        text-align: center;
-                        color: #fff;
-                        left: -6px;
-                        top: 25px;
-                    }
-                }
+                @include recipe-notes-list( $coconut-cream, $coffee, $simple-primary-color, $simple-primary-text-color );
             }
         }
 
