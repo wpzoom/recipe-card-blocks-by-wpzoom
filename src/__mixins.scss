@@ -4,26 +4,51 @@
  * Mixins allow you to define styles that can be re-used throughout your stylesheet.
 */
 
+@mixin clear-after {
+    &::after {
+        content: '';
+        clear: both;
+        display: table;
+    }
+}
+
+@mixin padding( $values... ) {
+    @each $var in $values {
+        padding: #{$var};
+    }
+}
+
+@mixin margin( $values... ) {
+    @each $var in $values {
+        margin: #{$var};
+    }
+}
+
+@mixin size( $width, $height: $width ) {
+    width: $width;
+    height: $height;
+}
+
 @mixin reset-list {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-@mixin direction-counter( $font-size: 24, $width: 35 ) {
+@mixin direction-counter( $font-size: 24px, $width: 35px ) {
     counter-increment: count;
     content: counter(count);
     display: block;
     position: absolute;
     top: 0;
     left: 0;
-    font-size: #{$font-size}px;
+    font-size: $font-size;
     font-weight: bold;
     font-family: inherit;
     text-transform: uppercase;
     line-height: 1.4;
     color: $dark-gray;
-    width: #{$width}px;
+    width: $width;
     vertical-align: middle;
     padding: 0;
     margin-right: 20px;
@@ -32,16 +57,16 @@
 @mixin heading-meta-delimiter( $delimiter: '/' ) {
     content: " #{$delimiter} ";
     color: $silver-sand;
-    margin: 0 12px;
+    @include margin( 0 12px );
     font-style: normal;
     opacity: .5;
 }
 
-@mixin recipe-title( $font-size: 30, $font-weight: 600, $font-family: inherit ) {
-    font-size: #{$font-size}px;
+@mixin recipe-title( $font-size: 30px, $font-weight: 600, $font-family: inherit ) {
+    font-size: $font-size;
     font-weight: $font-weight;
     font-family: $font-family;
-    margin: 0 0 10px;
+    @include margin( 0 0 10px );
 }
 
 @mixin recipe-sections-title( $color, $text-transform, $selectors... ) {
@@ -52,7 +77,7 @@
             color: $color;
             font-family: inherit;
             text-transform: $text-transform;
-            margin: 0 0 15px;
+            @include margin( 0 0 15px );
         }
     }
 }
@@ -63,16 +88,16 @@
     font-size: 14px;
     font-weight: normal;
     font-style: italic;
-    margin: $margin;
-    padding: $padding;
+    @include margin( $margin );
+    @include padding( $padding );
     border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
 }
 
-@mixin recipe-heading-metadata( $meta-color, $meta-mark-color, $font-size: 14, $font-weight: 600 ) {
+@mixin recipe-heading-metadata( $meta-color, $meta-mark-color, $font-size: 14px, $font-weight: 600 ) {
     .recipe-card-course,
     .recipe-card-cuisine,
     .recipe-card-difficulty {
-        font-size: #{$font-size}px;
+        font-size: $font-size;
         color: $meta-color;
 
         mark {
@@ -120,17 +145,12 @@
     }
 
     > li {
+        position: relative;
         background-color: $item-bg;
         color: $item-color;
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: 25px;
-        padding-right: 25px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        position: relative;
+        @include margin( 0 0 15px );
+        @include padding( 20px 25px );
         list-style-type: none;
-        margin-bottom: 15px;
         font-size: 14px;
 
         &::before {
@@ -140,10 +160,9 @@
             color: $badge-color;
             background-color: $badge-bg;
             border-radius: 8px;
-            height: 16px;
-            width: 16px;
-            font-size: 12px;
+            @include size( 16px );
             line-height: 16px;
+            font-size: 12px;
             text-align: center;
             left: -6px;
             top: 25px;

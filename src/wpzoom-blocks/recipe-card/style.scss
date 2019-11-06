@@ -34,11 +34,8 @@
 		.recipe-card-title + p {
 			margin-bottom: 0;
 		}
-		&::after {
-			content: '';
-			clear: both;
-			display: table;
-		}
+        
+		@include clear-after;
 	}
 	.recipe-card-image figure img {
 		width: 100%;

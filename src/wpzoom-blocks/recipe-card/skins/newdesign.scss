@@ -178,7 +178,9 @@
             text-align: left;
         }
 
-        @include recipe-sections-title( $newdesign-heading-color, uppercase, 'ingredients-title', 'directions-title', 'video-title', 'notes-title' );
+        $selectors: 'ingredients-title', 'directions-title', 'video-title', 'notes-title';
+
+        @include recipe-sections-title( $newdesign-heading-color, uppercase, $selectors... );
 
         .ingredients-list {
             @include reset-list;
@@ -194,11 +196,8 @@
                     cursor: initial;
                 }
 
-                &::after {
-                    content: '';
-                    clear: both;
-                    display: table;
-                }
+                @include clear-after;
+                
                 .ingredient-item-name {
                     margin: 0;
                     vertical-align: middle;

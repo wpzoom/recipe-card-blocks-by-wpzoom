@@ -48,11 +48,7 @@
                     border: none;
                 }
 
-                &::after {
-                    content: '';
-                    clear: both;
-                    display: table;
-                }
+                @include clear-after;
             }
 
             ul {
@@ -131,11 +127,7 @@
 #wpzoom-recipe-nutrition {
     &.layout-orientation-horizontal {
         .wp-block-wpzoom-recipe-card-block-nutrition {
-            &::after {
-                content: '';
-                clear: both;
-                display: table;
-            }
+            @include clear-after;
 
             .horizontal-column-1,
             .horizontal-column-2,

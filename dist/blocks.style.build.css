@@ -41,11 +41,10 @@
   .wp-block-wpzoom-recipe-card-block-details .details-title {
     font-size: 20px;
     font-weight: bold;
-    font-family: "Roboto Condensed", sans-serif;
+    color: inherit;
+    font-family: inherit;
     text-transform: uppercase;
-    margin: 0 0 20px;
-    float: left;
-    width: 100%; }
+    margin: 0 0 15px; }
   .wp-block-wpzoom-recipe-card-block-details::after {
     content: '';
     clear: both;
@@ -194,9 +193,10 @@
   .wp-block-wpzoom-recipe-card-block-directions .directions-title {
     font-size: 20px;
     font-weight: bold;
-    font-family: "Roboto Condensed", sans-serif;
+    color: inherit;
+    font-family: inherit;
     text-transform: uppercase;
-    margin: 0 0 20px; }
+    margin: 0 0 15px; }
   .wp-block-wpzoom-recipe-card-block-directions .directions-list {
     counter-reset: count;
     line-height: normal;
@@ -292,9 +292,10 @@
   .wp-block-wpzoom-recipe-card-block-ingredients .ingredients-title {
     font-size: 20px;
     font-weight: bold;
-    font-family: "Roboto Condensed", sans-serif;
+    color: inherit;
+    font-family: inherit;
     text-transform: uppercase;
-    margin: 0 0 20px; }
+    margin: 0 0 15px; }
   .wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list {
     margin: 0 !important;
     padding: 0 !important;
@@ -634,7 +635,7 @@
   .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-default .ingredients-title {
     font-size: 20px;
     font-weight: bold;
-    color: #222222;
+    color: inherit;
     font-family: inherit;
     text-transform: uppercase;
     margin: 0 0 15px; }
@@ -769,17 +770,12 @@
       .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-default .recipe-card-notes .recipe-card-notes-list > li:empty {
         display: none; }
       .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-default .recipe-card-notes .recipe-card-notes-list > li {
+        position: relative;
         background-color: #FBF9E7;
         color: #736458;
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: 25px;
-        padding-right: 25px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        position: relative;
+        margin: 0 0 15px;
+        padding: 20px 25px;
         list-style-type: none;
-        margin-bottom: 15px;
         font-size: 14px; }
         .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-default .recipe-card-notes .recipe-card-notes-list > li::before {
           content: "i";
@@ -788,10 +784,10 @@
           color: #ffffff;
           background-color: #222222;
           border-radius: 8px;
-          height: 16px;
           width: 16px;
-          font-size: 12px;
+          height: 16px;
           line-height: 16px;
+          font-size: 12px;
           text-align: center;
           left: -6px;
           top: 25px; }
@@ -1107,17 +1103,12 @@
       .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-newdesign .recipe-card-notes .recipe-card-notes-list > li:empty {
         display: none; }
       .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-newdesign .recipe-card-notes .recipe-card-notes-list > li {
+        position: relative;
         background-color: #f5f5f5;
         color: inherit;
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: 25px;
-        padding-right: 25px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        position: relative;
+        margin: 0 0 15px;
+        padding: 20px 25px;
         list-style-type: none;
-        margin-bottom: 15px;
         font-size: 14px; }
         .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-newdesign .recipe-card-notes .recipe-card-notes-list > li::before {
           content: "i";
@@ -1126,10 +1117,10 @@
           color: #ffffff;
           background-color: #FFA921;
           border-radius: 8px;
-          height: 16px;
           width: 16px;
-          font-size: 12px;
+          height: 16px;
           line-height: 16px;
+          font-size: 12px;
           text-align: center;
           left: -6px;
           top: 25px; }
@@ -1332,28 +1323,28 @@
     font-weight: bold;
     color: #222222;
     font-family: inherit;
-    text-transform: none;
+    text-transform: uppercase;
     margin: 0 0 15px; }
   .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple .directions-title {
     font-size: 20px;
     font-weight: bold;
     color: #222222;
     font-family: inherit;
-    text-transform: none;
+    text-transform: uppercase;
     margin: 0 0 15px; }
   .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple .video-title {
     font-size: 20px;
     font-weight: bold;
     color: #222222;
     font-family: inherit;
-    text-transform: none;
+    text-transform: uppercase;
     margin: 0 0 15px; }
   .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple .notes-title {
     font-size: 20px;
     font-weight: bold;
     color: #222222;
     font-family: inherit;
-    text-transform: none;
+    text-transform: uppercase;
     margin: 0 0 15px; }
   .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple .directions-title {
     margin-bottom: 25px; }
@@ -1462,17 +1453,12 @@
       .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple .recipe-card-notes .recipe-card-notes-list > li:empty {
         display: none; }
       .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple .recipe-card-notes .recipe-card-notes-list > li {
+        position: relative;
         background-color: #FBF9E7;
         color: #736458;
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: 25px;
-        padding-right: 25px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        position: relative;
+        margin: 0 0 15px;
+        padding: 20px 25px;
         list-style-type: none;
-        margin-bottom: 15px;
         font-size: 14px; }
         .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple .recipe-card-notes .recipe-card-notes-list > li::before {
           content: "i";
@@ -1481,10 +1467,10 @@
           color: #ffffff;
           background-color: #222222;
           border-radius: 8px;
-          height: 16px;
           width: 16px;
-          font-size: 12px;
+          height: 16px;
           line-height: 16px;
+          font-size: 12px;
           text-align: center;
           left: -6px;
           top: 25px; }

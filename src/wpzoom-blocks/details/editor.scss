@@ -61,11 +61,7 @@
  		margin-left: -10px;
  		margin-right: -10px;
 
- 		&::after {
- 			content: '';
- 			clear: both;
- 			display: table;
- 		}
+ 		@include clear-after;
 
  		> .components-base-control {
  			float: left;
@@ -105,11 +101,8 @@
 	padding: 15px 0;
 	margin-top: 10px;
 	border-top: 1px solid #ededed;
-	&::after {
-		content: '';
-		clear: both;
-		display: table;
-	}
+	
+	@include clear-after;
 
 	.wpzoom-recipe-card-icons__single-element {
 		float: left;

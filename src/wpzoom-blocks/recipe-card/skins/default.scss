@@ -185,7 +185,11 @@
             font-size: 14px;
         }
 
-        @include recipe-sections-title( $default-heading-color, uppercase, 'ingredients-title', 'directions-title', 'video-title', 'notes-title' );
+        $selectors1: 'ingredients-title';
+        $selectors2: 'directions-title', 'video-title', 'notes-title';
+
+        @include recipe-sections-title( inherit, uppercase, $selectors1... );
+        @include recipe-sections-title( $default-heading-color, uppercase, $selectors2... );
 
         .directions-title {
             margin-bottom: 25px;
@@ -221,11 +225,8 @@
                     border-bottom: none;
                 }
 
-                &::after {
-                    content: '';
-                    clear: both;
-                    display: table;
-                }
+                @include clear-after;
+                
                 .ingredient-item-name {
                     margin: 0;
                     vertical-align: middle;

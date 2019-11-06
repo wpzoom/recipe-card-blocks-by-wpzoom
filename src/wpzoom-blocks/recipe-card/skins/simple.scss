@@ -7,11 +7,7 @@
         border: 1px solid rgba(0,0,0,.1);
 
         .recipe-card-header-wrap {
-            &::after {
-                content: '';
-                clear: both;
-                display: table;
-            }
+            @include clear-after;
             
             margin: -20px -20px 10px -20px;
             padding: 20px;
@@ -89,7 +85,7 @@
             margin-left: 20px;
 
             .recipe-card-title {
-                @include recipe-title( 24 );
+                @include recipe-title( 24px );
             }
             .recipe-card-author {
                 @include recipe-author( $simple-meta-color, 0 0 6px, 0 0 12px );
@@ -184,7 +180,9 @@
             margin-bottom: 20px !important;
         }
 
-        @include recipe-sections-title( $simple-heading-color, none, 'ingredients-title', 'directions-title', 'video-title', 'notes-title' );
+        $selectors: 'ingredients-title', 'directions-title', 'video-title', 'notes-title';
+
+        @include recipe-sections-title( $simple-heading-color, uppercase, $selectors... );
 
         .directions-title {
             margin-bottom: 25px;
@@ -214,11 +212,8 @@
                     border-bottom: none;
                 }
 
-                &::after {
-                    content: '';
-                    clear: both;
-                    display: table;
-                }
+                @include clear-after;
+                
                 .ingredient-item-name {
                     margin: 0;
                     vertical-align: middle;
