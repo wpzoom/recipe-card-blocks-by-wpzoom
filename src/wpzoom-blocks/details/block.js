@@ -8,7 +8,7 @@
 /* Internal dependencies */
 import Detail from './components/Detail';
 import legacy from "./legacy";
-import Icons from "./utils/IconsArray";
+import Icons from "../../utils/IconsArray";
 
 /* External dependencies */
 const { __ } = wp.i18n;

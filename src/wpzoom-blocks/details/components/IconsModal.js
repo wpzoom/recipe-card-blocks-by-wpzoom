@@ -1,5 +1,5 @@
 /* External dependencies */
-import Icons from "../utils/IconsArray";
+import Icons from "../../../utils/IconsArray";
 import isUndefined from "lodash/isUndefined";
 import get from "lodash/get";
 import replace from "lodash/replace";
