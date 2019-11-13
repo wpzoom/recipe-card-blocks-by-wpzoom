@@ -116,6 +116,9 @@ class WPZOOM_Helpers {
 		if ( !isset( $settings['pin_custom_image'] ) ) {
 			$settings['pin_custom_image'] = array();
 		}
+		if ( !isset( $settings['hide_header_image'] ) ) {
+			$settings['hide_header_image'] = false;
+		}
 
 		return $settings;
 	}
