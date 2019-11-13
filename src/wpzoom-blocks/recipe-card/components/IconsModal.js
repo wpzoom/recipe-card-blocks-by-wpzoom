@@ -2,10 +2,11 @@
 import Icons from "../../../utils/IconsArray";
 import isUndefined from "lodash/isUndefined";
 import get from "lodash/get";
+import forEach from "lodash/forEach";
+import isObject from "lodash/isObject";
 import replace from "lodash/replace";
 
 /* Internal dependencies */
-import { stripHTML } from "../../../helpers/stringHelpers";
 import { getBlockStyle } from "../../../helpers/getBlockStyle";
 
 /* WordPress dependencies */
@@ -17,7 +18,7 @@ const {
     SelectControl,
     TextControl
 } = wp.components;
-const { renderToString, Fragment } = wp.element;
+const { Fragment } = wp.element;
 const { withState } = wp.compose;
 
 /**
@@ -38,8 +39,7 @@ function IconsModal (
         attributes,
         setAttributes,
         className,
-        item,
-        index
+        item
     } = props;
 
     const {
@@ -60,7 +60,7 @@ function IconsModal (
     let iconStyles = { 'color': icon_details_color };
 
     if ( 'newdesign' === style ) {
-        iconStyles = { 'color': '#FFA921' };    
+        iconStyles = { 'color': '#FFA921' };
     }
 
     _prefix = _prefix || iconSet;
@@ -88,9 +88,9 @@ function IconsModal (
         if ( searchIcon === '' )
             return Icons;
 
-        _.each( Icons, function ( iconsArray, key ) {
+        forEach( Icons, function ( iconsArray, key ) {
             collector[ key ] = iconsArray.filter( function ( item ) {
-                if ( _.isObject( item ) ) {
+                if ( isObject( item ) ) {
                     return item.icon.indexOf( searchIcon ) > -1;
                 }
 
@@ -174,7 +174,8 @@ function IconsModal (
     function iconsGrid ( tabName = 'regular' ) {
         return Object.keys( filterIcons( searchIcon ) ).map( iconSet =>
             <div
-                class={ `wpzoom-recipe-card-icon_kit ${ iconSet }-wrapper` }
+                key={ iconSet }
+                className={ `wpzoom-recipe-card-icon_kit ${ iconSet }-wrapper` }
                 style={ { display: activeIconSet === iconSet ? 'block' : 'none' } }
             >
                 {
@@ -190,7 +191,7 @@ function IconsModal (
 
                                 return (
                                     <span
-                                        class={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
+                                        className={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
                                         iconset={ iconSet }
                                         onClick={ ( e ) => onChangeIcon( e, iconSet, icon, iconPrefix ) }>
                                     </span>
@@ -199,7 +200,7 @@ function IconsModal (
                         } else {
                             return (
                                 <span
-                                    class={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
+                                    className={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
                                     iconset={ iconSet }
                                     onClick={ ( e ) => onChangeIcon( e, iconSet, icon ) }>
                                 </span>
@@ -226,7 +227,7 @@ function IconsModal (
             >
                 {
                     icon &&
-                    <span class={ `${ _prefix } ${ iconSet }-${ icon }` } style={ iconStyles }></span>
+                    <span className={ `${ _prefix } ${ iconSet }-${ icon }` } style={ iconStyles }></span>
                 }
             </IconButton>
             {
@@ -235,8 +236,8 @@ function IconsModal (
                     title={ __( "Modal with Icons library", "wpzoom-recipe-card" ) }
                     onRequestClose={ () => setState( { isOpen: false } ) }
                 >
-                    <div class="wpzoom-recipe-card-modal-form" style={ { width: 720 + 'px', maxHeight: 525 + 'px' } }>
-                        <div class="form-group">
+                    <div className="wpzoom-recipe-card-modal-form" style={ { width: 720 + 'px', maxHeight: 525 + 'px' } }>
+                        <div className="form-group">
                             <TextControl
                                 label={ __( "Enter icon name", "wpzoom-recipe-card" ) }
                                 value={ searchIcon }
@@ -249,7 +250,7 @@ function IconsModal (
                                 onChange={ onChangeIconSet }
                             />
                         </div>
-                        <div class="modal-icons-wrapper">
+                        <div className="modal-icons-wrapper">
                             {
                                 'fa' == activeIconSet &&
                                 <TabPanel

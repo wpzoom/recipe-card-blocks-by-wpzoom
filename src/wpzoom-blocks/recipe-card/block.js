@@ -6,12 +6,12 @@
  */
 
 /* Internal dependencies */
-import RecipeCard from './components/RecipeCard';
+import RecipeCard from "./components/RecipeCard";
 import { getBlockStyle } from "../../helpers/getBlockStyle";
 
 /* External dependencies */
 const { __ } = wp.i18n;
-const { registerBlockType, createBlock } = wp.blocks; // Import registerBlockType() from wp.blocks
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 const { setting_options, pluginURL } = wpzoomRecipeCard;
 
 // Create SVG icon for block
@@ -70,18 +70,18 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
     },
     styles: [
         // Mark style as default.
-        { 
-            name: 'default', 
-            label: __( "Default", "wpzoom-recipe-card" ), 
+        {
+            name: 'default',
+            label: __( "Default", "wpzoom-recipe-card" ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'default'
         },
-        { 
-            name: 'newdesign', 
+        {
+            name: 'newdesign',
             label: __( "New Design", "wpzoom-recipe-card" ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'newdesign'
         },
-        { 
-            name: 'simple', 
+        {
+            name: 'simple',
             label: __( "Simple Design", "wpzoom-recipe-card" ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'simple'
         }
@@ -101,13 +101,13 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
 
         if ( ! hasInstance ) {
             if ( 'newdesign' === style ) {
-                settings[0]['primary_color'] = '#FFA921';
+                settings[0] = { ...settings[0], primary_color: '#FFA921' };
             }
             else if ( 'default' === style ) {
-                settings[0]['primary_color'] = '#222222';
+                settings[0] = { ...settings[0], primary_color: '#222222' };
             }
             else if ( 'simple' === style ) {
-                settings[0]['primary_color'] = '#222222';
+                settings[0] = { ...settings[0], primary_color: '#222222' };
             }
 
             setAttributes( { settings, hasInstance: true } );
