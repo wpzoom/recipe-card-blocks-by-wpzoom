@@ -65,7 +65,7 @@ registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes, setAttributes, className, clientId } ) => {
+    edit: ( { attributes, className } ) => {
         const { id, text } = attributes;
 
         return (

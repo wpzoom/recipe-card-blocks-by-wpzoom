@@ -56,6 +56,7 @@ export default class Direction extends Component {
      * shouldComponentUpdate() is invoked before rendering when new props or state are being received.
      *
      * @param  {object} [nextProps]
+     * @param  {object} [nextState]
      * @return {bool}
      */
     shouldComponentUpdate( nextProps, nextState ) {

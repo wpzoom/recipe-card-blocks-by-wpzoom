@@ -1,9 +1,8 @@
 /* External dependencies */
 import DirectionStep from "./DirectionStep";
 import Inspector from "./Inspector";
-import isUndefined from "lodash/isUndefined";
 import PropTypes from "prop-types";
-import uniq from "lodash/uniq";
+import isEqual from "lodash/isEqual";
 import uniqueId from "lodash/uniqueId";
 import toNumber from "lodash/toNumber";
 
@@ -27,433 +26,454 @@ import '../editor.scss';
  */
 export default class Direction extends Component {
 
-	/**
-	 * Constructs a Direction editor component.
-	 *
-	 * @param {Object} props This component's properties.
-	 *
-	 * @returns {void}
-	 */
-	constructor( props ) {
-		super( props );
+    /**
+     * Constructs a Direction editor component.
+     *
+     * @param {Object} props This component's properties.
+     *
+     * @returns {void}
+     */
+    constructor( props ) {
+        super( props );
 
-		this.state = { focus: "" };
+        this.state = { focus: "" };
 
-		this.changeStep      			= this.changeStep.bind( this );
-		this.insertStep      			= this.insertStep.bind( this );
-		this.removeStep      			= this.removeStep.bind( this );
-		this.swapSteps       			= this.swapSteps.bind( this );
-		this.setFocus        			= this.setFocus.bind( this );
-		this.setFocusToTitle 			= this.setFocusToTitle.bind( this );
-		this.setFocusToStep 			= this.setFocusToStep.bind( this );
-		this.setTitleRef 				= this.setTitleRef.bind( this );
-		this.setStepRef 				= this.setStepRef.bind( this );
-		this.moveStepUp 				= this.moveStepUp.bind( this );
-		this.moveStepDown 				= this.moveStepDown.bind( this );
-		this.onChangeTitle 				= this.onChangeTitle.bind( this );
-		this.onAddStepButtonClick 		= this.onAddStepButtonClick.bind( this );
-		this.onAddGroupButtonClick 		= this.onAddGroupButtonClick.bind( this );
+        this.changeStep = this.changeStep.bind( this );
+        this.insertStep = this.insertStep.bind( this );
+        this.removeStep = this.removeStep.bind( this );
+        this.swapSteps = this.swapSteps.bind( this );
+        this.setFocus = this.setFocus.bind( this );
+        this.setFocusToTitle = this.setFocusToTitle.bind( this );
+        this.setFocusToStep = this.setFocusToStep.bind( this );
+        this.setTitleRef = this.setTitleRef.bind( this );
+        this.setStepRef = this.setStepRef.bind( this );
+        this.moveStepUp = this.moveStepUp.bind( this );
+        this.moveStepDown = this.moveStepDown.bind( this );
+        this.onChangeTitle = this.onChangeTitle.bind( this );
+        this.onAddStepButtonClick = this.onAddStepButtonClick.bind( this );
+        this.onAddGroupButtonClick = this.onAddGroupButtonClick.bind( this );
 
-		this.props.attributes.id = Direction.generateId( 'wpzoom-block-directions' );
+        this.props.attributes.id = Direction.generateId( 'wpzoom-block-directions' );
 
-		this.editorRefs = {};
-	}
+        this.editorRefs = {};
+    }
 
-	/**
-	 * Generates a pseudo-unique id.
-	 *
-	 * @param {string} [prefix] The prefix to use.
-	 *
-	 * @returns {string} Returns the unique ID.
-	 */
-	static generateId( prefix = '' ) {
-		return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
-	}
+    /**
+     * Use shouldComponentUpdate() to let React know if a component’s output is not affected by the current change in state or props.
+     * The default behavior is to re-render on every state change, and in the vast majority of cases you should rely on the default behavior.
+     * shouldComponentUpdate() is invoked before rendering when new props or state are being received.
+     *
+     * @param  {object} [nextProps]
+     * @param  {object} [nextState]
+     * @return {bool}
+     */
+    shouldComponentUpdate( nextProps, nextState ) {
+        if ( this.state.focus !== nextState.focus ) {
+            return true;
+        }
 
-	/**
-	 * Replaces the Direction step with the given index.
-	 *
-	 * @param {array}  newText      The new step-text.
-	 * @param {array}  previousText The previous step-text.
-	 * @param {number} index        The index of the step that needs to be changed.
-	 * @param {bool}   group        Is group item?
-	 *
-	 * @returns {void}
-	 */
-	changeStep( newText, previousText, index, group = false ) {
-		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+        if ( isEqual( this.props.attributes.steps, nextProps.attributes.steps ) ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-		// If the index exceeds the number of steps, don't change anything.
-		if ( index >= steps.length ) {
-			return;
-		}
+    /**
+     * Generates a pseudo-unique id.
+     *
+     * @param {string} [prefix] The prefix to use.
+     *
+     * @returns {string} Returns the unique ID.
+     */
+    static generateId( prefix = '' ) {
+        return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
+    }
 
-		/*
-		 * Because the DOM re-uses input elements, the changeStep function was triggered when removing/inserting/swapping
-		 * input elements. We need to check for such events, and return early if the changeStep was called without any
-		 * user changes to the input field, but because the underlying input elements moved around in the DOM.
-		 *
-		 * In essence, when the name at the current index does not match the name that was in the input field previously,
-		 * the changeStep was triggered by input fields moving in the DOM.
-		 */
-		if ( steps[ index ].text !== previousText ) {
-			return;
-		}
+    /**
+     * Replaces the Direction step with the given index.
+     *
+     * @param {array}  newText      The new step-text.
+     * @param {array}  previousText The previous step-text.
+     * @param {number} index        The index of the step that needs to be changed.
+     * @param {bool}   group        Is group item?
+     *
+     * @returns {void}
+     */
+    changeStep( newText, previousText, index, group = false ) {
+        const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		// Rebuild the step with the newly made changes.
-		steps[ index ] = {
-			id: steps[ index ].id,
-			text: newText,
-			jsonText: stripHTML( renderToString( newText ) ),
-			isGroup: group
-		};
+        // If the index exceeds the number of steps, don't change anything.
+        if ( index >= steps.length ) {
+            return;
+        }
 
-		const imageSrc = DirectionStep.getImageSrc( newText );
+        /*
+         * Because the DOM re-uses input elements, the changeStep function was triggered when removing/inserting/swapping
+         * input elements. We need to check for such events, and return early if the changeStep was called without any
+         * user changes to the input field, but because the underlying input elements moved around in the DOM.
+         *
+         * In essence, when the name at the current index does not match the name that was in the input field previously,
+         * the changeStep was triggered by input fields moving in the DOM.
+         */
+        if ( steps[ index ].text !== previousText ) {
+            return;
+        }
 
-		if ( imageSrc ) {
-			steps[ index ].jsonImageSrc = imageSrc;
-		}
+        // Rebuild the step with the newly made changes.
+        steps[ index ] = {
+            ...steps[ index ],
+            text: newText,
+            jsonText: stripHTML( renderToString( newText ) ),
+            isGroup: group
+        }
 
-		this.props.setAttributes( { steps } );
-	}
+        const imageSrc = DirectionStep.getImageSrc( newText );
 
-	/**
-	 * Inserts an empty step into a Direction block at the given index.
-	 *
-	 * @param {number} [index]      The index of the step after which a new step should be added.
-	 * @param {string} [text]       The text of the new step.
-	 * @param {bool}   [focus=true] Whether or not to focus the new step.
-	 * @param {bool}   [group=false] Make new step as group title.
-	 *
-	 * @returns {void}
-	 */
-	insertStep( index = null, text = [], focus = true, group = false ) {
-		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+        if ( imageSrc ) {
+            steps[ index ].jsonImageSrc = imageSrc;
+        }
 
-		if ( index === null ) {
-			index = steps.length - 1;
-		}
+        this.props.setAttributes( { steps } );
+    }
 
-		let lastIndex = steps.length - 1;
-		while ( lastIndex > index ) {
-			this.editorRefs[ `${ lastIndex + 1 }:text` ] = this.editorRefs[ `${ lastIndex }:text` ];
-			lastIndex--;
-		}
+    /**
+     * Inserts an empty step into a Direction block at the given index.
+     *
+     * @param {number} [index]      The index of the step after which a new step should be added.
+     * @param {string} [text]       The text of the new step.
+     * @param {bool}   [focus=true] Whether or not to focus the new step.
+     * @param {bool}   [group=false] Make new step as group title.
+     *
+     * @returns {void}
+     */
+    insertStep( index = null, text = [], focus = true, group = false ) {
+        const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		steps.splice( index + 1, 0, {
-			id: Direction.generateId( "direction-step" ),
-			text,
-			jsonText: "",
-			isGroup: group
-		} );
+        if ( index === null ) {
+            index = steps.length - 1;
+        }
 
-		this.props.setAttributes( { steps } );
+        let lastIndex = steps.length - 1;
+        while ( lastIndex > index ) {
+            this.editorRefs[ `${ lastIndex + 1 }:text` ] = this.editorRefs[ `${ lastIndex }:text` ];
+            lastIndex--;
+        }
 
-		if ( focus ) {
-			setTimeout( this.setFocus.bind( this, `${ index + 1 }:text` ) );
-			// When moving focus to a newly created step, return and don't use the speak() messaage.
-			return;
-		}
+        steps.splice( index + 1, 0, {
+            id: Direction.generateId( "direction-step" ),
+            text,
+            jsonText: "",
+            isGroup: group
+        } );
 
-		speak( __( "New step added", "wpzoom-recipe-card" ) );
-	}
+        this.props.setAttributes( { steps } );
 
-	/**
-	 * Swaps two steps in the Direction block.
-	 *
-	 * @param {number} index1 The index of the first block.
-	 * @param {number} index2 The index of the second block.
-	 *
-	 * @returns {void}
-	 */
-	swapSteps( index1, index2 ) {
-		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
-		const step  = steps[ index1 ];
+        if ( focus ) {
+            setTimeout( this.setFocus.bind( this, `${ index + 1 }:text` ) );
+            // When moving focus to a newly created step, return and don't use the speak() messaage.
+            return;
+        }
 
-		steps[ index1 ] = steps[ index2 ];
-		steps[ index2 ] = step;
+        speak( __( "New step added", "wpzoom-recipe-card" ) );
+    }
 
-		const TextEditorRef = this.editorRefs[ `${ index1 }:text` ];
-		this.editorRefs[ `${ index1 }:text` ] = this.editorRefs[ `${ index2 }:text` ];
-		this.editorRefs[ `${ index2 }:text` ] = TextEditorRef;
+    /**
+     * Swaps two steps in the Direction block.
+     *
+     * @param {number} index1 The index of the first block.
+     * @param {number} index2 The index of the second block.
+     *
+     * @returns {void}
+     */
+    swapSteps( index1, index2 ) {
+        const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+        const step  = steps[ index1 ];
 
-		this.props.setAttributes( { steps } );
+        steps[ index1 ] = steps[ index2 ];
+        steps[ index2 ] = step;
 
-		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
-		if ( focusIndex === `${ index1 }` ) {
-			this.setFocus( `${ index2 }:${ subElement }` );
-		}
+        const TextEditorRef = this.editorRefs[ `${ index1 }:text` ];
+        this.editorRefs[ `${ index1 }:text` ] = this.editorRefs[ `${ index2 }:text` ];
+        this.editorRefs[ `${ index2 }:text` ] = TextEditorRef;
 
-		if ( focusIndex === `${ index2 }` ) {
-			this.setFocus( `${ index1 }:${ subElement }` );
-		}
-	}
+        this.props.setAttributes( { steps } );
 
-	/**
-	 * Removes a step from a Direction block.
-	 *
-	 * @param {number} index The index of the step that needs to be removed.
-	 *
-	 * @returns {void}
-	 */
-	removeStep( index ) {
-		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+        const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        if ( focusIndex === `${ index1 }` ) {
+            this.setFocus( `${ index2 }:${ subElement }` );
+        }
 
-		steps.splice( index, 1 );
-		this.props.setAttributes( { steps } );
+        if ( focusIndex === `${ index2 }` ) {
+            this.setFocus( `${ index1 }:${ subElement }` );
+        }
+    }
 
-		delete this.editorRefs[ `${ index }:text` ];
+    /**
+     * Removes a step from a Direction block.
+     *
+     * @param {number} index The index of the step that needs to be removed.
+     *
+     * @returns {void}
+     */
+    removeStep( index ) {
+        const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		let nextIndex = index + 1;
-		while ( this.editorRefs[ `${ nextIndex }:text` ] ) {
-			this.editorRefs[ `${ nextIndex - 1 }:text` ] = this.editorRefs[ `${ nextIndex }:text` ];
-			nextIndex++;
-		}
+        steps.splice( index, 1 );
+        this.props.setAttributes( { steps } );
 
-		const indexToRemove = steps.length;
-		delete this.editorRefs[ `${ indexToRemove }:text` ];
+        delete this.editorRefs[ `${ index }:text` ];
 
-		let fieldToFocus = "title";
-		if ( this.editorRefs[ `${ index - 1 }:text` ] ) {
-			fieldToFocus = `${ index - 1 }:text`;
-		}
+        let nextIndex = index + 1;
+        while ( this.editorRefs[ `${ nextIndex }:text` ] ) {
+            this.editorRefs[ `${ nextIndex - 1 }:text` ] = this.editorRefs[ `${ nextIndex }:text` ];
+            nextIndex++;
+        }
 
-		this.setFocus( fieldToFocus );
+        const indexToRemove = steps.length;
+        delete this.editorRefs[ `${ indexToRemove }:text` ];
 
-		speak( __( "Step removed", "wpzoom-recipe-card" ) );
-	}
+        let fieldToFocus = "title";
+        if ( this.editorRefs[ `${ index - 1 }:text` ] ) {
+            fieldToFocus = `${ index - 1 }:text`;
+        }
 
-	/**
-	 * Sets the focus to a specific step in the Direction block.
-	 *
-	 * @param {number|string} elementToFocus The element to focus, either the index of the step that should be in focus or name of the input.
-	 *
-	 * @returns {void}
-	 */
-	setFocus( elementToFocus ) {
-		if ( elementToFocus === this.state.focus ) {
-			return;
-		}
+        this.setFocus( fieldToFocus );
 
-		this.setState( { focus: elementToFocus } );
+        speak( __( "Step removed", "wpzoom-recipe-card" ) );
+    }
 
-		if ( this.editorRefs[ elementToFocus ] ) {
-			this.editorRefs[ elementToFocus ].focus();
-		}
-	}
+    /**
+     * Sets the focus to a specific step in the Direction block.
+     *
+     * @param {number|string} elementToFocus The element to focus, either the index of the step that should be in focus or name of the input.
+     *
+     * @returns {void}
+     */
+    setFocus( elementToFocus ) {
+        if ( elementToFocus === this.state.focus ) {
+            return;
+        }
 
-	/**
-	 * Handles the Add Step Button click event.
-	 *
-	 * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
-	 *
-	 * @returns {void}
-	 */
-	onAddStepButtonClick() {
-		this.insertStep( null, [], true );
-	}
+        this.setState( { focus: elementToFocus } );
 
-	/**
-	 * Handles the Add Direction Group Button click event..
-	 *
-	 * @returns {void}
-	 */
-	onAddGroupButtonClick() {
-		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
-		focusIndex = focusIndex != '' && focusIndex != 'title' ? toNumber( focusIndex ) : null;
-		this.insertStep( focusIndex, [], true, true );
-	}
+        if ( this.editorRefs[ elementToFocus ] ) {
+            this.editorRefs[ elementToFocus ].focus();
+        }
+    }
 
-	/**
-	 * Sets the focus to an element within the specified step.
-	 *
-	 * @param {number} stepIndex      Index of the step to focus.
-	 * @param {string} elementToFocus 		Name of the element to focus.
-	 *
-	 * @returns {void}
-	 */
-	setFocusToStep( stepIndex, elementToFocus ) {
-		this.setFocus( `${ stepIndex }:${ elementToFocus }` );
-	}
+    /**
+     * Handles the Add Step Button click event.
+     *
+     * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
+     *
+     * @returns {void}
+     */
+    onAddStepButtonClick() {
+        this.insertStep( null, [], true );
+    }
 
-	/**
-	 * Sets the focus to step title.
-	 *
-	 * @param {number} stepIndex      Index of the step to focus.
-	 * @param {string} elementToFocus 		Name of the element to focus.
-	 *
-	 * @returns {void}
-	 */
-	setFocusToTitle() {
-		this.setFocus( "title" );
-	}
+    /**
+     * Handles the Add Direction Group Button click event..
+     *
+     * @returns {void}
+     */
+    onAddGroupButtonClick() {
+        let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        focusIndex = focusIndex != '' && focusIndex != 'title' ? toNumber( focusIndex ) : null;
+        this.insertStep( focusIndex, [], true, true );
+    }
 
-	/**
-	 * Set focus to the description field.
-	 *
-	 * @param {object} ref The reference object.
-	 *
-	 * @returns {void}
-	 */
-	setTitleRef( ref ) {
-		this.editorRefs.title = ref;
-	}
+    /**
+     * Sets the focus to an element within the specified step.
+     *
+     * @param {number} stepIndex      Index of the step to focus.
+     * @param {string} elementToFocus       Name of the element to focus.
+     *
+     * @returns {void}
+     */
+    setFocusToStep( stepIndex, elementToFocus ) {
+        this.setFocus( `${ stepIndex }:${ elementToFocus }` );
+    }
 
-	/**
-	 * Move the step at the specified index one step up.
-	 *
-	 * @param {number} stepIndex Index of the step that should be moved.
-	 *
-	 * @returns {void}
-	 */
-	moveStepUp( stepIndex ) {
-		this.swapSteps( stepIndex, stepIndex - 1 );
-	}
+    /**
+     * Sets the focus to step title.
+     *
+     * @param {number} stepIndex      Index of the step to focus.
+     * @param {string} elementToFocus       Name of the element to focus.
+     *
+     * @returns {void}
+     */
+    setFocusToTitle() {
+        this.setFocus( "title" );
+    }
 
-	/**
-	 * Move the step at the specified index one step down.
-	 *
-	 * @param {number} stepIndex Index of the step that should be moved.
-	 *
-	 * @returns {void}
-	 */
-	moveStepDown( stepIndex ) {
-		this.swapSteps( stepIndex, stepIndex + 1 );
-	}
+    /**
+     * Set focus to the description field.
+     *
+     * @param {object} ref The reference object.
+     *
+     * @returns {void}
+     */
+    setTitleRef( ref ) {
+        this.editorRefs.title = ref;
+    }
 
-	/**
-	 * Set a reference to the specified step
-	 *
-	 * @param {number} stepIndex Index of the step that should be moved.
-	 * @param {string} part      The part to set a reference too.
-	 * @param {object} ref       The reference object.
-	 *
-	 * @returns {void}
-	 */
-	setStepRef( stepIndex, part, ref ) {
-		this.editorRefs[ `${ stepIndex }:${ part }` ] = ref;
-	}
+    /**
+     * Move the step at the specified index one step up.
+     *
+     * @param {number} stepIndex Index of the step that should be moved.
+     *
+     * @returns {void}
+     */
+    moveStepUp( stepIndex ) {
+        this.swapSteps( stepIndex, stepIndex - 1 );
+    }
 
-	/**
-	 * Handles the on change event for the step title field.
-	 *
-	 * @param {string} value The new title.
-	 *
-	 * @returns {void}
-	 */
-	onChangeTitle( value ) {
-		this.props.setAttributes( { 
-			title: value,
-			jsonTitle: stripHTML( renderToString( value ) ) 
-		} );
-	}
+    /**
+     * Move the step at the specified index one step down.
+     *
+     * @param {number} stepIndex Index of the step that should be moved.
+     *
+     * @returns {void}
+     */
+    moveStepDown( stepIndex ) {
+        this.swapSteps( stepIndex, stepIndex + 1 );
+    }
 
-	/**
-	 * Returns an array of Direction step components to be rendered on screen.
-	 *
-	 * @returns {Component[]} The step components.
-	 */
-	getSteps() {
-		if ( ! this.props.attributes.steps ) {
-			return null;
-		}
+    /**
+     * Set a reference to the specified step
+     *
+     * @param {number} stepIndex Index of the step that should be moved.
+     * @param {string} part      The part to set a reference too.
+     * @param {object} ref       The reference object.
+     *
+     * @returns {void}
+     */
+    setStepRef( stepIndex, part, ref ) {
+        this.editorRefs[ `${ stepIndex }:${ part }` ] = ref;
+    }
 
-		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+    /**
+     * Handles the on change event for the step title field.
+     *
+     * @param {string} value The new title.
+     *
+     * @returns {void}
+     */
+    onChangeTitle( value ) {
+        this.props.setAttributes( {
+            title: value,
+            jsonTitle: stripHTML( renderToString( value ) )
+        } );
+    }
 
-		return this.props.attributes.steps.map( ( step, index ) => {
-			return (
-				<DirectionStep
-					key={ step.id }
-					step={ step }
-					index={ index }
-					editorRef={ this.setStepRef }
-					onChange={ this.changeStep }
-					insertStep={ this.insertStep }
-					removeStep={ this.removeStep }
-					onFocus={ this.setFocusToStep }
-					subElement={ subElement }
-					onMoveUp={ this.moveStepUp }
-					onMoveDown={ this.moveStepDown }
-					isFirst={ index === 0 }
-					isLast={ index === this.props.attributes.steps.length - 1 }
-					isSelected={ focusIndex === `${ index }` }
-				/>
-			);
-		} );
-	}
+    /**
+     * Returns an array of Direction step components to be rendered on screen.
+     *
+     * @returns {Component[]} The step components.
+     */
+    getSteps() {
+        if ( ! this.props.attributes.steps ) {
+            return null;
+        }
 
-	/**
-	 * A button to add a step to the front of the list.
-	 *
-	 * @returns {Component} a button to add a step
-	 */
-	getAddStepButton() {
-		return (
-			<div className="directions-add-buttons">
-				<IconButton
-					icon="insert"
-					onClick={ this.onAddStepButtonClick }
-					className="editor-inserter__toggle"
-				>
-					<span className="components-icon-button-text">{ __( "Add step", "wpzoom-recipe-card" ) }</span>
-				</IconButton>
-				<IconButton
-					icon="editor-insertmore"
-					onClick={ this.onAddGroupButtonClick }
-					className="editor-inserter__toggle"
-				>
-					<span className="components-icon-button-text">{ __( "Add direction group", "wpzoom-recipe-card" ) }</span>
-				</IconButton>
-			</div>
-		);
-	}
+        const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
-	/**
-	 * Renders this component.
-	 *
-	 * @returns {Component} The Direction block editor.
-	 */
-	render() {
-		const { attributes, setAttributes, className } = this.props;
-		const { title, id, print_visibility } = attributes;
+        return this.props.attributes.steps.map( ( step, index ) => {
+            return (
+                <DirectionStep
+                    key={ step.id }
+                    step={ step }
+                    index={ index }
+                    editorRef={ this.setStepRef }
+                    onChange={ this.changeStep }
+                    insertStep={ this.insertStep }
+                    removeStep={ this.removeStep }
+                    onFocus={ this.setFocusToStep }
+                    subElement={ subElement }
+                    onMoveUp={ this.moveStepUp }
+                    onMoveDown={ this.moveStepDown }
+                    isFirst={ index === 0 }
+                    isLast={ index === this.props.attributes.steps.length - 1 }
+                    isSelected={ focusIndex === `${ index }` }
+                />
+            );
+        } );
+    }
 
-		const classNames     = [ "", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames = [ "directions-list" ].filter( ( item ) => item ).join( " " );
+    /**
+     * A button to add a step to the front of the list.
+     *
+     * @returns {Component} a button to add a step
+     */
+    getAddStepButton() {
+        return (
+            <div className="directions-add-buttons">
+                <IconButton
+                    icon="insert"
+                    onClick={ this.onAddStepButtonClick }
+                    className="editor-inserter__toggle"
+                >
+                    <span className="components-icon-button-text">{ __( "Add step", "wpzoom-recipe-card" ) }</span>
+                </IconButton>
+                <IconButton
+                    icon="editor-insertmore"
+                    onClick={ this.onAddGroupButtonClick }
+                    className="editor-inserter__toggle"
+                >
+                    <span className="components-icon-button-text">{ __( "Add direction group", "wpzoom-recipe-card" ) }</span>
+                </IconButton>
+            </div>
+        );
+    }
 
-		return (
-			<div className={ classNames } id={ id }>
-				<div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
-				    <a className="btn-print-link no-print" href={ '#'+ id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-				        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
-				    </a>
-				</div>
-				<RichText
-					tagName="h3"
-					className="directions-title"
-					format="string"
-					value={ title }
-					isSelected={ this.state.focus === 'title' }
-					setFocusedElement={ this.setFocusToTitle }
-					onChange={ this.onChangeTitle }
-					unstableOnSetup={ this.setTitleRef }
-					placeholder={ __( "Write Directions title", "wpzoom-recipe-card" ) }
-					keepPlaceholderOnFocus={ true }
-				/>
-				<ul className={ listClassNames }>{ this.getSteps() }</ul>
-				<div className="direction-buttons">{ this.getAddStepButton() }</div>
-				<Inspector { ...{ attributes, setAttributes, className } } />
-			</div>
-		);
-	}
+    /**
+     * Renders this component.
+     *
+     * @returns {Component} The Direction block editor.
+     */
+    render() {
+        const { attributes, setAttributes, className } = this.props;
+        const { title, id, print_visibility } = attributes;
+
+        const classNames     = [ "", className ].filter( ( item ) => item ).join( " " );
+        const listClassNames = [ "directions-list" ].filter( ( item ) => item ).join( " " );
+
+        return (
+            <div className={ classNames } id={ id }>
+                <div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
+                    <a className="btn-print-link no-print" href={ '#'+ id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
+                        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
+                    </a>
+                </div>
+                <RichText
+                    tagName="h3"
+                    className="directions-title"
+                    format="string"
+                    value={ title }
+                    isSelected={ this.state.focus === 'title' }
+                    setFocusedElement={ this.setFocusToTitle }
+                    onChange={ this.onChangeTitle }
+                    unstableOnSetup={ this.setTitleRef }
+                    placeholder={ __( "Write Directions title", "wpzoom-recipe-card" ) }
+                    keepPlaceholderOnFocus={ true }
+                />
+                <ul className={ listClassNames }>{ this.getSteps() }</ul>
+                <div className="direction-buttons">{ this.getAddStepButton() }</div>
+                <Inspector { ...{ attributes, setAttributes, className } } />
+            </div>
+        );
+    }
 
 }
 
 Direction.propTypes = {
-	attributes: PropTypes.object.isRequired,
-	setAttributes: PropTypes.func.isRequired,
-	className: PropTypes.string,
+    attributes: PropTypes.object.isRequired,
+    setAttributes: PropTypes.func.isRequired,
+    className: PropTypes.string,
 };
 
 Direction.defaultProps = {
-	className: "",
+    className: "",
 };
