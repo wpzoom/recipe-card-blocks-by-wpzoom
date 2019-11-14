@@ -106,16 +106,16 @@ export default function ExtraOptionsModal(
             if ( isString( node ) ) {
                 output += node;
             } else {
-                const type     = get( node, ['type'] ) || '';
-                let children   = get( node, ['props', 'children'] ) || '';
+                const type     = get( node, [ 'type' ] ) || '';
+                let children   = get( node, [ 'props', 'children' ] ) || '';
                 let startTag   = type ? '<'+type+'>' : '';
                 let endTag     = type ? '</'+type+'>' : '';
 
                 if ( 'img' === type ) {
-                    const src = get( node, ['props', 'src'] ) || false;
+                    const src = get( node, [ 'props', 'src' ] ) || false;
                     if ( src ) {
-                        const alt      = get( node, ['props', 'alt'] ) || '';
-                        const imgStyle = get( node, ['props', 'style'] ) || '';
+                        const alt      = get( node, [ 'props', 'alt' ] ) || '';
+                        const imgStyle = get( node, [ 'props', 'style' ] ) || '';
                         const imgClass = 'direction-step-image';
                         startTag = `<${ type } src="${ src }" alt="${ alt }" class="${ imgClass }" style="${ parseObjectStyle( imgStyle ) }" />`;
                     } else {
@@ -123,10 +123,10 @@ export default function ExtraOptionsModal(
                     }
                     endTag = '';
                 } else if ( 'a' === type ) {
-                    const rel        = get( node, ['props', 'rel'] ) || '';
-                    const ariaLabel  = get( node, ['props', 'aria-label'] ) || '';
-                    const href       = get( node, ['props', 'href'] ) || '#';
-                    const target     = get( node, ['props', 'target'] ) || '_blank';
+                    const rel        = get( node, [ 'props', 'rel' ] ) || '';
+                    const ariaLabel  = get( node, [ 'props', 'aria-label' ] ) || '';
+                    const href       = get( node, [ 'props', 'href' ] ) || '#';
+                    const target     = get( node, [ 'props', 'target' ] ) || '_blank';
                     startTag = `<${ type } rel="${ rel }" aria-label="${ ariaLabel }" href="${ href }" target="${ target }">`;
                 } else if ( 'br' === type ) {
                     endTag = '';
@@ -266,7 +266,7 @@ export default function ExtraOptionsModal(
                 <Modal
                     title={ __( "Recipe Card Bulk Add", "wpzoom-recipe-card" ) }
                     onRequestClose={ () => setState( { isOpen: false } ) }>
-                    <div className="wpzoom-recipe-card-extra-options" style={ {maxWidth: 720+'px', maxHeight: 525+'px'} }>
+                    <div className="wpzoom-recipe-card-extra-options" style={ { maxWidth: 720+'px', maxHeight: 525+'px' } }>
                         <div className="form-group">
                             <p className="bulk-add-danger-alert"><strong>{ __( "Known Problem", "wpzoom-recipe-card" ) }:</strong> { __( "There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the", "wpzoom-recipe-card" ) } <strong>{ __( "Top Toolbar", "wpzoom-recipe-card" ) }</strong> { __( "option in the editor options (click on the ⋮ three dots from right-top corner).", "wpzoom-recipe-card" ) } <br/> <a href="https://wp.md/toolbar" target="_blank" rel="noopener noreferrer">{ __( "View how to do this", "wpzoom-recipe-card" ) }</a></p>
                             <br/>
