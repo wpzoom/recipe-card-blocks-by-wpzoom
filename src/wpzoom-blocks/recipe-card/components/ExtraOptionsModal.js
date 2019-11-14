@@ -172,9 +172,7 @@ export default function ExtraOptionsModal(
             } );
         }
 
-        if ( !isEmpty( items ) ) {
-            setAttributes( { ingredients: items } );
-        }
+        setAttributes( { ingredients: items } );
     }
 
     function onBulkAddDirections() {
@@ -211,9 +209,7 @@ export default function ExtraOptionsModal(
             } );
         }
 
-        if ( !isEmpty( steps ) ) {
-            setAttributes( { steps } );
-        }
+        setAttributes( { steps } );
         setState( { isOpen: false } );
     }
 
