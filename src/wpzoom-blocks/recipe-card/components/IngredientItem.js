@@ -285,7 +285,6 @@ export default class IngredientItem extends Component {
                             key={ `${ id }-name` }
                             value={ nameContent }
                             onChange={ this.onChangeName }
-                            // isSelected={ isSelectedName }
                             placeholder={ __( "Enter ingredient name", "wpzoom-recipe-card" ) }
                             unstableOnFocus={ this.onFocusName }
                             keepPlaceholderOnFocus={ true }
@@ -301,7 +300,6 @@ export default class IngredientItem extends Component {
                         key={ `${ id }-group-title` }
                         value={ nameContent }
                         onChange={ this.onChangeGroupTitle }
-                        // isSelected={ isSelectedName }
                         placeholder={ __( "Enter group title", "wpzoom-recipe-card" ) }
                         unstableOnFocus={ this.onFocusName }
                         keepPlaceholderOnFocus={ true }

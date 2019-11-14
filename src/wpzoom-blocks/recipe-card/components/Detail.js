@@ -1,6 +1,7 @@
 /* External dependencies */
 import DetailItem from "./DetailItem";
 import get from "lodash/get";
+import isEqual from "lodash/isEqual";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 
@@ -36,6 +37,26 @@ export default class Detail extends Component {
         this.onAddDetailButtonClick = this.onAddDetailButtonClick.bind( this );
 
         this.editorRefs = {};
+    }
+
+    /**
+     * Use shouldComponentUpdate() to let React know if a component’s output is not affected by the current change in state or props.
+     * The default behavior is to re-render on every state change, and in the vast majority of cases you should rely on the default behavior.
+     * shouldComponentUpdate() is invoked before rendering when new props or state are being received.
+     *
+     * @param  {object} [nextProps]
+     * @return {bool}
+     */
+    shouldComponentUpdate( nextProps, nextState ) {
+        if ( this.state.focus !== nextState.focus ) {
+            return true;
+        }
+
+        if ( isEqual( this.props.attributes.details, nextProps.attributes.details ) ) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
