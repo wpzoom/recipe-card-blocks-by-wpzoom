@@ -34,8 +34,8 @@ const VIDEO_POSTER_ALLOWED_MEDIA_TYPES = [ 'image' ];
 
 
 class VideoUpload extends Component {
-    constructor() {
-        super( ...arguments );
+    constructor( props ) {
+        super( props );
         // edit component has its own src in the state so it can be edited
         // without setting the actual value outside of the edit UI
         this.state = {
@@ -69,7 +69,7 @@ class VideoUpload extends Component {
                 mediaUpload( {
                     filesList: [ file ],
                     onFileChange: ( [ { newURL } ] ) => {
-                        const newObj = {...video};
+                        const newObj = { ...video };
                         newObj.url = newURL;
                         setAttributes( { video: newObj } );
                     },
@@ -100,7 +100,7 @@ class VideoUpload extends Component {
                 video
             }
         } = this.props;
-        const newObj = {...video};
+        const newObj = { ...video };
 
         newObj.poster = {
             id: get( media, 'id' ),
@@ -117,7 +117,7 @@ class VideoUpload extends Component {
                     video
                 }
             } = this.props;
-            const newObj = {...video};
+            const newObj = { ...video };
             newObj.settings[ attribute ] = newValue;
             setAttributes( { video: newObj } );
         }
@@ -132,7 +132,7 @@ class VideoUpload extends Component {
         // Set the block's src from the edit component's state, and switch off
         // the editing UI.
         if ( newURL !== url ) {
-            const newObj = {...video};
+            const newObj = { ...video };
             newObj.url = newURL;
             newObj.id = undefined;
             newObj.type = 'embed';
@@ -155,7 +155,7 @@ class VideoUpload extends Component {
                 video
             }
         } = this.props;
-        const newObj = {...video};
+        const newObj = { ...video };
 
         newObj.poster = undefined;
 
@@ -172,7 +172,7 @@ class VideoUpload extends Component {
     onChangeURL( url ) {
         const { attributes, setAttributes } = this.props;
         const { video } = attributes;
-        const newObj = {...video};
+        const newObj = { ...video };
 
         newObj.url = url;
         newObj.type = 'embed';
@@ -201,7 +201,7 @@ class VideoUpload extends Component {
         const { attributes, setAttributes, noticeOperations, noticeUI } = this.props;
         const { hasVideo, video } = attributes;
         const { editing, isVisible } = this.state;
-        const className = excludeClassNames( this.props.className, ['wp-block-wpzoom-recipe-card-block-recipe-card', 'is-style-simple', 'is-style-default', 'is-style-newdesign'] ); // exclude all uneeded class names
+        const className = excludeClassNames( this.props.className, [ 'wp-block-wpzoom-recipe-card-block-recipe-card', 'is-style-simple', 'is-style-default', 'is-style-newdesign' ] ); // exclude all uneeded class names
 
         const id = get( video, 'id' );
         const url = get( video, 'url' );

@@ -17,7 +17,7 @@ export default class Inspector extends Component {
      * @returns {void}
      */
     constructor( props ) {
-        super( ...props );
+        super( props );
     }
 
     /**

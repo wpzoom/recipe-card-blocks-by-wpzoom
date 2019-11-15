@@ -28,7 +28,7 @@ const labels = wpzoomRecipeCard.nutritionFactsLabel;
 
 class Nutrition extends Component {
     constructor( props ) {
-        super( ...props );
+        super( props );
 
         this.preFillData = this.preFillData.bind( this );
         this.onChangeData = this.onChangeData.bind( this );
