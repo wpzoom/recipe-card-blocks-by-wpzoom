@@ -621,6 +621,9 @@ class WPZOOM_Recipe_Card_Block {
 							$json_ld['nutrition']['calories'] = $detail['jsonValue'] .' cal';
 						}
 					}
+					else {
+						unset( $json_ld['nutrition'] );
+					}
 				}
 				elseif ( $key === 1 ) {
 					if ( ! empty( $detail[ 'value' ] ) ) {
