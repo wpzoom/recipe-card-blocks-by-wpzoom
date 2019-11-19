@@ -521,26 +521,31 @@ class Inspector extends Component {
                             onChange={ display => this.onChangeSettings( display, 'hide_header_image' ) }
                         />
                     </BaseControl>
-                    <BaseControl
-                        id={ `${ id }-print-btn` }
-                        label={ __( "Print Button", "wpzoom-recipe-card" ) }
-                    >
-                        <ToggleControl
-                            label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
-                            checked={ print_btn }
-                            onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
-                        />
-                    </BaseControl>
-                    <BaseControl
-                        id={ `${ id }-pinit-btn` }
-                        label={ __( "Pinterest Button", "wpzoom-recipe-card" ) }
-                    >
-                        <ToggleControl
-                            label={ __( "Display Pinterest Button", "wpzoom-recipe-card" ) }
-                            checked={ pin_btn }
-                            onChange={ display => this.onChangeSettings( display, 'pin_btn' ) }
-                        />
-                    </BaseControl>
+                    {
+                        !hide_header_image &&
+                        <Fragment>
+                            <BaseControl
+                                id={ `${ id }-print-btn` }
+                                label={ __( "Print Button", "wpzoom-recipe-card" ) }
+                            >
+                                <ToggleControl
+                                    label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
+                                    checked={ print_btn }
+                                    onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
+                                />
+                            </BaseControl>
+                            <BaseControl
+                                id={ `${ id }-pinit-btn` }
+                                label={ __( "Pinterest Button", "wpzoom-recipe-card" ) }
+                            >
+                                <ToggleControl
+                                    label={ __( "Display Pinterest Button", "wpzoom-recipe-card" ) }
+                                    checked={ pin_btn }
+                                    onChange={ display => this.onChangeSettings( display, 'pin_btn' ) }
+                                />
+                            </BaseControl>
+                        </Fragment>
+                    }
                     {
                         'simple' !== style &&
                         <BaseControl
