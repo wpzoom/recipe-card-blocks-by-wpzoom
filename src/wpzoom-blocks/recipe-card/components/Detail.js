@@ -246,7 +246,7 @@ export default class Detail extends Component {
     /**
      * Set a reference to the specified detail
      *
-     * @param {number} detailIndex  Index of the step that should be moved.
+     * @param {number} detailIndex  Index of the detail that should be moved.
      * @param {string} part         The part to set a reference too.
      * @param {object} ref          The reference object.
      *

@@ -146,7 +146,7 @@ export default class Ingredient extends Component {
 
         if ( focus ) {
             setTimeout( this.setFocus.bind( this, `${ index + 1 }:name` ) );
-            // When moving focus to a newly created step, return and don't use the speak() messaage.
+            // When moving focus to a newly created ingredient, return and don't use the speak() messaage.
             return;
         }
 
@@ -262,7 +262,7 @@ export default class Ingredient extends Component {
     /**
      * Sets the focus to an element within the specified ingredient.
      *
-     * @param {number} ingredientIndex      Index of the step to focus.
+     * @param {number} ingredientIndex      Index of the ingredient to focus.
      * @param {string} elementToFocus       Name of the element to focus.
      *
      * @returns {void}
@@ -274,7 +274,7 @@ export default class Ingredient extends Component {
     /**
      * Sets the focus to ingredient title.
      *
-     * @param {number} ingredientIndex      Index of the step to focus.
+     * @param {number} ingredientIndex      Index of the ingredient to focus.
      * @param {string} elementToFocus       Name of the element to focus.
      *
      * @returns {void}
@@ -295,9 +295,9 @@ export default class Ingredient extends Component {
     }
 
     /**
-     * Move the step at the specified index one step up.
+     * Move the ingredient at the specified index one ingredient up.
      *
-     * @param {number} ingredientIndex Index of the step that should be moved.
+     * @param {number} ingredientIndex Index of the ingredient that should be moved.
      *
      * @returns {void}
      */
@@ -306,9 +306,9 @@ export default class Ingredient extends Component {
     }
 
     /**
-     * Move the step at the specified index one step down.
+     * Move the ingredient at the specified index one ingredient down.
      *
-     * @param {number} ingredientIndex Index of the step that should be moved.
+     * @param {number} ingredientIndex Index of the ingredient that should be moved.
      *
      * @returns {void}
      */
@@ -317,9 +317,9 @@ export default class Ingredient extends Component {
     }
 
     /**
-     * Set a reference to the specified step
+     * Set a reference to the specified ingredient
      *
-     * @param {number} ingredientIndex Index of the step that should be moved.
+     * @param {number} ingredientIndex Index of the ingredient that should be moved.
      * @param {string} part      The part to set a reference too.
      * @param {object} ref       The reference object.
      *
