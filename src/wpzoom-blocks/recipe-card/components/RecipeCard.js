@@ -83,7 +83,7 @@ export default class RecipeCard extends Component {
      *
      * @returns {string} Returns the unique ID.
      */
-    static generateId( prefix = '' ) {
+    generateId( prefix = '' ) {
         return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
     }
 
@@ -122,7 +122,7 @@ export default class RecipeCard extends Component {
     }
 
     render() {
-        const { attributes, setAttributes, className, clientId } = this.props;
+        const { attributes, setAttributes, className } = this.props;
         const {
             id,
             recipeTitle,
@@ -184,7 +184,7 @@ export default class RecipeCard extends Component {
         const RecipeCardClassName = classNames.filter( ( item ) => item ).join( " " );
         const PrintClasses = [ "wpzoom-recipe-card-print-link" ].filter( ( item ) => item ).join( " " );
         const PinterestClasses = [ "wpzoom-recipe-card-pinit" ].filter( ( item ) => item ).join( " " );
-        const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ post_permalink }&media=${ get( image, ['url'] ) || post_thumbnail_url }&description=${ pin_description }`;
+        const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ post_permalink }&media=${ get( image, [ 'url' ] ) || post_thumbnail_url }&description=${ pin_description }`;
 
         return (
             <div className={ RecipeCardClassName } id={ id }>
@@ -233,7 +233,7 @@ export default class RecipeCard extends Component {
                             <div className="recipe-card-image-preview">
                                 <div className="recipe-card-image">
                                     <figure>
-                                        <img src={ get( image, ['url'] ) } id={ get( image, ['id'] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
+                                        <img src={ get( image, [ 'url' ] ) } id={ get( image, [ 'id' ] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
                                         <figcaption>
                                             {
                                                 pin_btn &&
@@ -278,7 +278,10 @@ export default class RecipeCard extends Component {
                             { displayDifficulty && <span className="recipe-card-difficulty">{ __( "Difficulty", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty( difficulty ) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
                             <p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
                         </div>
-                        <Detail { ...{ attributes, setAttributes, className } } />
+                        <Detail
+                            generateId={ this.generateId }
+                            { ...{ attributes, setAttributes, className } }
+                        />
 
                     </Fragment>
                 }
@@ -317,7 +320,7 @@ export default class RecipeCard extends Component {
                             <div className="recipe-card-image-preview">
                                 <div className="recipe-card-image">
                                     <figure>
-                                        <img src={ get( image, ['url'] ) } id={ get( image, ['id'] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
+                                        <img src={ get( image, [ 'url' ] ) } id={ get( image, [ 'id' ] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
                                         <figcaption>
                                             {
                                                 pin_btn &&
@@ -365,7 +368,10 @@ export default class RecipeCard extends Component {
                                 { displayDifficulty && <span className="recipe-card-difficulty">{ __( "Difficulty", "wpzoom-recipe-card" ) }: <mark>{ ! RichText.isEmpty( difficulty ) ? difficulty.filter( ( item ) => item ).join( ", " ) : __( "Not added", "wpzoom-recipe-card" ) }</mark></span> }
                                 <p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
                             </div>
-                            <Detail { ...{ attributes, setAttributes, className } } />
+                            <Detail
+                                generateId={ this.generateId }
+                                { ...{ attributes, setAttributes, className } }
+                            />
 
                         </div>
 
@@ -385,8 +391,14 @@ export default class RecipeCard extends Component {
                     placeholder={ __( "Enter a short recipe description.", "wpzoom-recipe-card" ) }
                     keepPlaceholderOnFocus={ true }
                 />
-                <Ingredient { ...{ attributes, setAttributes, className, clientId } } />
-                <Direction { ...{ attributes, setAttributes, className, clientId } } />
+                <Ingredient
+                    generateId={ this.generateId }
+                    { ...{ attributes, setAttributes, className } }
+                />
+                <Direction
+                    generateId={ this.generateId }
+                    { ...{ attributes, setAttributes, className } }
+                />
                 <div className="recipe-card-video">
                     <RichText
                         tagName="h3"
@@ -462,7 +474,7 @@ export default class RecipeCard extends Component {
                     />
                     <p className="description">{ __( "Press Enter to add new note.", "wpzoom-recipe-card" ) }</p>
                 </div>
-                <Inspector { ...{ attributes, setAttributes, className , clientId } } />
+                <Inspector { ...{ attributes, setAttributes, className } } />
                 <BlockControls>
                     <ExtraOptions { ...{ props: this.props } } />
                 </BlockControls>

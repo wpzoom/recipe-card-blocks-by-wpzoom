@@ -61,17 +61,6 @@ export default class Detail extends Component {
     }
 
     /**
-     * Generates a pseudo-unique id.
-     *
-     * @param {string} [prefix] The prefix to use.
-     *
-     * @returns {string} Returns the unique ID.
-     */
-    static generateId( prefix = '' ) {
-        return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
-    }
-
-    /**
      * Replaces the Details item with the given index.
      *
      * @param {array}  newIcon       The new detail-icon name.
@@ -150,7 +139,7 @@ export default class Detail extends Component {
         }
 
         details.splice( index + 1, 0, {
-            id: Detail.generateId( "detail-item" ),
+            id: this.props.generateId( "detail-item" ),
             icon,
             label,
             value,

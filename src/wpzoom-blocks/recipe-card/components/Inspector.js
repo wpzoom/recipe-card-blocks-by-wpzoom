@@ -290,9 +290,9 @@ class Inspector extends Component {
         // Push warnings
         RichText.isEmpty( summary ) && warnings.push( "summary" );
         ! hasVideo && warnings.push( "video" );
-        ! get( details, [ 1 ,'value' ] ) && warnings.push( "prepTime" );
-        ! get( details, [ 2 ,'value' ] ) && warnings.push( "cookTime" );
-        ! get( details, [ 3 ,'value' ] ) && warnings.push( "calories" );
+        ! get( details, [ 1, 'value' ] ) && warnings.push( "prepTime" );
+        ! get( details, [ 2, 'value' ] ) && warnings.push( "cookTime" );
+        ! get( details, [ 3, 'value' ] ) && warnings.push( "calories" );
 
         // Push errors
         ! hasImage && errors.push( "image" );
@@ -354,7 +354,6 @@ class Inspector extends Component {
 
         const {
             className,
-            clientId,
             attributes,
             setAttributes
         } = this.props;
@@ -453,7 +452,7 @@ class Inspector extends Component {
                             <MediaUpload
                                 onSelect={ this.onSelectImage }
                                 allowedTypes={ ALLOWED_MEDIA_TYPES }
-                                value={ get( image, ['id'] ) }
+                                value={ get( image, [ 'id' ] ) }
                                 render={ ( { open } ) => (
                                     <Button
                                         className="editor-post-featured-image__toggle"
@@ -470,7 +469,7 @@ class Inspector extends Component {
                                 <MediaUpload
                                     onSelect={ this.onSelectImage }
                                     allowedTypes={ ALLOWED_MEDIA_TYPES }
-                                    value={ get( image, ['id'] ) }
+                                    value={ get( image, [ 'id' ] ) }
                                     render={ ( { open } ) => (
                                         <Button
                                             className="editor-post-featured-image__preview"
@@ -478,8 +477,8 @@ class Inspector extends Component {
                                         >
                                             <img
                                                 className={ `${ id }-image` }
-                                                src={ get( image, ['sizes', 'full', 'url'] ) || get( image, ['sizes', 'full', 'source_url'] ) || get( image, ['url'] ) || get( image, ['source_url'] ) }
-                                                alt={ get( image, ['alt'] ) || recipeTitle }
+                                                src={ get( image, [ 'sizes', 'full', 'url' ] ) || get( image, [ 'sizes', 'full', 'source_url' ] ) || get( image, [ 'url' ] ) || get( image, [ 'source_url' ] ) }
+                                                alt={ get( image, [ 'alt' ] ) || recipeTitle }
                                             />
                                         </Button>
                                     ) }
@@ -487,7 +486,7 @@ class Inspector extends Component {
                                 <MediaUpload
                                     onSelect={ this.onSelectImage }
                                     allowedTypes={ ALLOWED_MEDIA_TYPES }
-                                    value={ get( image, ['id'] ) }
+                                    value={ get( image, [ 'id' ] ) }
                                     render={ ( { open } ) => (
                                         <Button
                                             isDefault
@@ -507,7 +506,7 @@ class Inspector extends Component {
                         ! isEmpty( imageSizeOptions ) &&
                         <SelectControl
                             label={ __( "Image Size", "wpzoom-recipe-card" ) }
-                            value={ get( image, ['url'] ) }
+                            value={ get( image, [ 'url' ] ) }
                             options={ imageSizeOptions }
                             onChange={ this.onUpdateURL }
                         />
@@ -601,7 +600,7 @@ class Inspector extends Component {
                             </BaseControl>
                     }
                 </PanelBody>
-                <VideoUpload { ...{ attributes, setAttributes, className , clientId } } />
+                <VideoUpload { ...{ attributes, setAttributes, className } } />
                 <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ true } title={ __( "Recipe Card SEO Settings", "wpzoom-recipe-card" ) }>
                     <BaseControl
                         id={ `${ id }-course` }
@@ -1048,7 +1047,7 @@ export default compose( [
         let id = 0;
 
         if ( hasImage ) {
-            id = get( image, ['id'] ) || 0;
+            id = get( image, [ 'id' ] ) || 0;
         } else {
             id = featuredImageId;
         }

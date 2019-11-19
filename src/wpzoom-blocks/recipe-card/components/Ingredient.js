@@ -72,17 +72,6 @@ export default class Ingredient extends Component {
     }
 
     /**
-     * Generates a pseudo-unique id.
-     *
-     * @param {string} [prefix] The prefix to use.
-     *
-     * @returns {string} Returns the unique ID.
-     */
-    static generateId( prefix = '' ) {
-        return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
-    }
-
-    /**
      * Replaces the Ingredient item with the given index.
      *
      * @param {array}  newName      The new item-name.
@@ -147,7 +136,7 @@ export default class Ingredient extends Component {
         }
 
         ingredients.splice( index + 1, 0, {
-            id: Ingredient.generateId( "ingredient-item" ),
+            id: this.props.generateId( "ingredient-item" ),
             name,
             jsonName: "",
             isGroup: group

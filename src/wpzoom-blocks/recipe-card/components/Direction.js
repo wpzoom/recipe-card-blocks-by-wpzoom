@@ -72,17 +72,6 @@ export default class Direction extends Component {
     }
 
     /**
-     * Generates a pseudo-unique id.
-     *
-     * @param {string} [prefix] The prefix to use.
-     *
-     * @returns {string} Returns the unique ID.
-     */
-    static generateId( prefix = '' ) {
-        return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
-    }
-
-    /**
      * Replaces the Direction step with the given index.
      *
      * @param {array}  newText      The new step-text.
@@ -147,7 +136,7 @@ export default class Direction extends Component {
         }
 
         steps.splice( index + 1, 0, {
-            id: Direction.generateId( "direction-step" ),
+            id: this.props.generateId( "direction-step" ),
             text,
             jsonText: "",
             isGroup: group
