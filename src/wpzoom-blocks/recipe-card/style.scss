@@ -79,10 +79,12 @@
 		}
 	}
 	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i,
-	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i::before ,
+	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i::before {
+        font-family: 'Font Awesome 5 Free';
+    }
 	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i,
 	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i::before {
-		font-family: 'FontAwesome';
+		font-family: 'Font Awesome 5 Brands';
 	}
     .hidden {
         display: none !important;
