@@ -262,7 +262,8 @@ export default class Detail extends Component {
 						displayServings,
 						displayPrepTime,
 						displayCalories,
-						displayCookingTime
+						displayCookingTime,
+						displayTotalTime
 					}
 				}
 			}
@@ -281,6 +282,7 @@ export default class Detail extends Component {
 			if ( 0 === index && displayServings || 
 				1 === index && displayPrepTime || 
 				2 === index && displayCookingTime || 
+				8 === index && displayTotalTime ||
 				3 === index && displayCalories ||
 				4 === index && label ||
 				5 === index && label ||

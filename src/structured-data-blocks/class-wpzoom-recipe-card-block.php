@@ -162,6 +162,7 @@ class WPZOOM_Recipe_Card_Block {
 			        array(
 			            'primary_color' => '#222222',
 			            'icon_details_color' => '#6d767f',
+			            'hide_header_image' => false,
 			            'print_btn' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_print') === '1',
 			            'pin_btn' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_pin') === '1',
 			            'custom_author_name' => WPZOOM_Settings::get('wpzoom_rcb_settings_author_custom_name'),
@@ -172,6 +173,7 @@ class WPZOOM_Recipe_Card_Block {
 			            'displayServings' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_servings') === '1',
 			            'displayPrepTime' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_preptime') === '1',
 			            'displayCookingTime' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_cookingtime') === '1',
+			            'displayTotalTime' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_totaltime') === '1',
 			            'displayCalories' => WPZOOM_Settings::get('wpzoom_rcb_settings_display_calories') === '1',
 			            'headerAlign' => WPZOOM_Settings::get('wpzoom_rcb_settings_heading_content_align'),
 			            'ingredientsLayout' => '1-column'
@@ -315,6 +317,7 @@ class WPZOOM_Recipe_Card_Block {
 		$class .= strpos( $className, 'is-style' ) === false ? ' is-style-' . self::$style : '';
 		$class .= ' header-content-align-' . self::$settings['headerAlign'];
 		$class .= $hasImage && isset($image['url']) ? '' : ' recipe-card-noimage';
+		$class .= self::$settings['hide_header_image'] ? ' recipe-card-noimage' : '';
 		$class .= '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_image') ? ' recipe-card-noimage-print' : '';
 
 		$pin_description = strip_tags($recipeTitle);
@@ -355,7 +358,8 @@ class WPZOOM_Recipe_Card_Block {
 		$printStyles = self::$helpers->render_styles_attributes( $styles );
 
 		$recipe_card_image = '';
-		if ( $hasImage && isset($image['url']) ) {
+
+		if ( $hasImage && isset( $image['url'] ) ) {
 			$img_id = $image['id'];
 			$src 	= $image['url'];
 			$alt 	= ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) );
@@ -373,24 +377,25 @@ class WPZOOM_Recipe_Card_Block {
 		            </figcaption>
 				</figure>
 			</div>';
-		} elseif ( ! $hasImage && ! empty( $recipe_thumbnail_url ) ) {
-				$img_id = $recipe_thumbnail_id;
-				$src 	= $recipe_thumbnail_url;
-				$alt 	= ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) );
-				$img_class  = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_image') ? 'no-print' : '';
-				$img_class .= ' wpzoom-recipe-card-image';
+		}
+		elseif ( ! $hasImage && ! empty( $recipe_thumbnail_url ) ) {
+			$img_id = $recipe_thumbnail_id;
+			$src 	= $recipe_thumbnail_url;
+			$alt 	= ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) );
+			$img_class  = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_image') ? 'no-print' : '';
+			$img_class .= ' wpzoom-recipe-card-image';
 
-				$recipe_card_image = '<div class="recipe-card-image">
-					<figure>
-						'. sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $img_id, $src, $alt, trim($img_class) ) .'
-						<figcaption>
-							'.
-								( self::$settings['pin_btn'] ? self::get_pinterest_button( array( 'url' => $recipe_thumbnail_url ), $recipe_permalink, $pin_description ) : '' ).
-								( self::$settings['print_btn'] ? self::get_print_button( $id, array( 'title' => __( "Print directions...", "wpzoom-recipe-card" ), 'style' => $printStyles ) ) : '' )
-							.'
-			            </figcaption>
-					</figure>
-				</div>';
+			$recipe_card_image = '<div class="recipe-card-image">
+				<figure>
+					'. sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $img_id, $src, $alt, trim($img_class) ) .'
+					<figcaption>
+						'.
+							( self::$settings['pin_btn'] ? self::get_pinterest_button( array( 'url' => $recipe_thumbnail_url ), $recipe_permalink, $pin_description ) : '' ).
+							( self::$settings['print_btn'] ? self::get_print_button( $id, array( 'title' => __( "Print directions...", "wpzoom-recipe-card" ), 'style' => $printStyles ) ) : '' )
+						.'
+		            </figcaption>
+				</figure>
+			</div>';
 		}
 
 		$recipe_card_heading = '
@@ -616,6 +621,9 @@ class WPZOOM_Recipe_Card_Block {
 							$json_ld['nutrition']['calories'] = $detail['jsonValue'] .' cal';
 						}
 					}
+					else {
+						unset( $json_ld['nutrition'] );
+					}
 				}
 				elseif ( $key === 1 ) {
 					if ( ! empty( $detail[ 'value' ] ) ) {
@@ -641,10 +649,22 @@ class WPZOOM_Recipe_Card_Block {
 						}
 					}
 				}
+				elseif ( $key === 8 ) {
+					if ( ! empty( $detail[ 'value' ] ) ) {
+						if ( !is_array( $detail['value'] ) ) {
+							$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $detail['value'] );
+						}
+						elseif ( isset( $detail['jsonValue'] ) ) {
+							$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
+						}
+					}
+				}
 			}
 
-			if ( isset( $prepTime, $cookTime ) && ( $prepTime + $cookTime ) > 0 ) {
-				$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $prepTime + $cookTime );
+			if ( empty( $json_ld['totalTime'] ) ) {
+				if ( isset( $prepTime, $cookTime ) && ( $prepTime + $cookTime ) > 0 ) {
+					$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $prepTime + $cookTime );
+				}
 			}
 		}
 
@@ -711,14 +731,22 @@ class WPZOOM_Recipe_Card_Block {
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
-		        'iconSet' 	=> 'fa',
-		        'icon' 		=> 'clock-o',
+		        'iconSet' 	=> 'oldicon',
+		        'icon' 		=> 'food-1',
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'fa',
 		        'icon' 		=> 'sort-amount-asc',
-		    )
+		    ),
+		    array(
+		        'id' 		=> self::$helpers->generateId( "detail-item" ),
+		        'iconSet' 	=> 'fa',
+		        'icon' 		=> 'clock-o',
+		        'label' 	=> __( "Total time", "wpzoom-recipe-card" ),
+		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" ),
+		        'value'		=> '0'
+		    ),
 		);
 	}
 
@@ -792,6 +820,8 @@ class WPZOOM_Recipe_Card_Block {
 				continue;
 			} elseif ( 2 === $index && self::$settings['displayCookingTime'] != '1' ) {
 				continue;
+			} elseif ( 8 === $index && self::$settings['displayTotalTime'] != '1' ) {
+				continue;
 			} elseif ( 3 === $index && self::$settings['displayCalories'] != '1' ) {
 				continue;
 			} elseif ( ( 4 === $index || 5 === $index || 6 === $index || 7 === $index ) && empty( $detail['label'] ) ) {
@@ -799,9 +829,11 @@ class WPZOOM_Recipe_Card_Block {
 			}
 
 			if ( ! empty( $detail[ 'icon' ] ) ) {
-				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
-				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $detail['iconSet'], $detail['iconSet'] . '-' . $detail['icon'] ) );
-				$styles = array();
+				$icon 	 			= $detail['icon'];
+ 				$iconSet 			= isset( $detail['iconSet'] ) ? $detail['iconSet'] : 'oldicon';
+ 				$_prefix 			= isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? $detail['_prefix'] : $iconSet;
+ 				$itemIconClasses 	= implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $detail['icon'] ) );
+ 				$styles 			= array();
 
 				if ( '' != self::$settings['icon_details_color'] ) {
 					if ( 'default' === self::$style ) {
@@ -828,8 +860,8 @@ class WPZOOM_Recipe_Card_Block {
 				$icon = sprintf(
 					'<span class="%s" icon-name="%s" iconset="%s" style="%s"></span>',
 					$itemIconClasses,
-					$detail['icon'],
-					$detail['iconSet'],
+					$icon,
+					$iconSet,
 					$iconStyles
 				);
 			}
@@ -1302,7 +1334,7 @@ class WPZOOM_Recipe_Card_Block {
 		$output = sprintf(
 			'<div class="%s">
 	            <a class="btn-print-link no-print" href="#%s" %s>
-	            	<i class="fa fa-print icon-print-link"></i>
+	            	<i class="fab fa-print icon-print-link"></i>
 	                <span>%s</span>
 	            </a>
 	        </div>',
@@ -1339,7 +1371,7 @@ class WPZOOM_Recipe_Card_Block {
 		$output = sprintf(
 			'<div class="%s">
 	            <a class="btn-pinit-link no-print" data-pin-do="buttonPin" href="%s" data-pin-custom="true" %s>
-	            	<i class="fa fa-pinterest-p icon-pinit-link"></i>
+	            	<i class="fab fa-pinterest-p icon-pinit-link"></i>
 	            	<span>%s</span>
 	            </a>
 	        </div>',

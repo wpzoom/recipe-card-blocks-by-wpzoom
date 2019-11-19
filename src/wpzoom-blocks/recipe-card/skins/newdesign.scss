@@ -389,7 +389,7 @@ $heading_color: #222222;
 
 @media screen and (max-width: 700px) {
     .wp-block-wpzoom-recipe-card-block-recipe-card {
-        .is-style-newdesign {
+        &.is-style-newdesign {
             .recipe-card-image {
                 margin-bottom: 15px;
             }

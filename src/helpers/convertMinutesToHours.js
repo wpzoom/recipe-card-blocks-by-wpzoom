@@ -25,12 +25,13 @@ export function convertMinutesToHours( minutes, returnObject = false ) {
 	};
 
 	const time = getNumberFromString( minutes );
-	const hours = floor( time / 60 );
-	const mins = ( time % 60 );
 
 	if ( ! time ) {
 		return minutes;
 	}
+
+	const hours = floor( time / 60 );
+	const mins = ( time % 60 );
 
 	if ( returnObject ) {
 		if ( hours ) {

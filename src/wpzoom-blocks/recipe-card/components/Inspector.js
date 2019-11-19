@@ -11,7 +11,7 @@ import isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
-import { humanize } from "../../../helpers/stringHelpers";
+import { getNumberFromString, convertMinutesToHours } from "../../../helpers/convertMinutesToHours";
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 import { getBlockStyle } from "../../../helpers/getBlockStyle";
 import VideoUpload from "./VideoUpload";
@@ -65,8 +65,7 @@ class Inspector extends Component {
 		this.state = {
 			updateIngredients: false,
 			updateInstructions: false,
-			updateErrors: false,
-			updateWarnings: false,
+            isCalculatedTotalTime: false,
 			structuredDataNotice: {
 				errors: [],
 				warnings: []
@@ -159,10 +158,18 @@ class Inspector extends Component {
 		if ( !id ) {
 			newDetails[ index ][ 'id' ] = uniqueId( `detail-item-${ new Date().getTime() }` );
 		}
-		if ( !icon ) {
+
+        if ( 'icon' === field ) {
+            newDetails[ index ][ 'icon' ] = newValue;
+        }
+		else if ( !icon ) {
 			newDetails[ index ][ 'icon' ] = 'restaurant-utensils';
 		}
-		if ( !iconSet ) {
+
+        if ( 'iconSet' === field ) {
+            newDetails[ index ][ 'iconSet' ] = newValue;
+        }
+		else if ( !iconSet ) {
 			newDetails[ index ][ 'iconSet' ] = 'foodicons';
 		}
 
@@ -303,6 +310,39 @@ class Inspector extends Component {
 		}
 	}
 
+	calculateTotalTime() {
+        // We already have value for total time, in this case we don't need to recalculate them
+        if ( this.state.isCalculatedTotalTime ) {
+            return;
+        }
+
+		const { details } 	= this.props.attributes;
+        const index         = 8; // Total Time index in details object array
+		const prepTime 		= getNumberFromString( get( details, [ 1, 'value' ] ) );
+		const cookTime 		= getNumberFromString( get( details, [ 2, 'value' ] ) );
+		const totalTime 	= prepTime + cookTime;
+		const iconSet 		= 'fa';
+        const icon          = 'clock-o';
+        const label         = __( "Total time", "wpzoom-recipe-card" );
+        const unit          = __( "minutes", "wpzoom-recipe-card" );
+
+        const totalTimeValue = get( details, [ index, 'value' ] );
+
+        if ( ! isUndefined( totalTimeValue ) && ! isEmpty( totalTimeValue ) && 0 != totalTimeValue ) {
+            return;
+        }
+
+		if ( '' != prepTime && '' != cookTime && totalTime > 0 ) {
+			this.onChangeDetail( icon,                  index, 'icon' )
+            this.onChangeDetail( iconSet,               index, 'iconSet' )
+            this.onChangeDetail( label,                 index, 'label' )
+            this.onChangeDetail( toString( totalTime ), index, 'value' )
+			this.onChangeDetail( unit,                  index, 'unit' )
+
+            this.setState( { isCalculatedTotalTime: true } )
+		}
+	}
+
 	/**
 	 * Renders this component.
 	 *
@@ -316,6 +356,7 @@ class Inspector extends Component {
 		// Inline check Schema Markup
 		this.structuredDataTable();
 		this.structuredDataNotice();
+		this.calculateTotalTime();
 
 		const {
 			className,
@@ -350,6 +391,7 @@ class Inspector extends Component {
 				0: {
 					primary_color,
 					icon_details_color,
+                    hide_header_image,
 					print_btn,
 					pin_btn,
 					custom_author_name,
@@ -360,6 +402,7 @@ class Inspector extends Component {
 					displayServings,
 					displayPrepTime,
 					displayCookingTime,
+                    displayTotalTime,
 					displayCalories,
 					headerAlign,
 					ingredientsLayout
@@ -481,15 +524,25 @@ class Inspector extends Component {
 	                	/>
 	        		}
 			    	<BaseControl
-						id={ `${ id }-print-btn` }
-						label={ __( "Print Button", "wpzoom-recipe-card" ) }
+						id={ `${ id }-hide-header-image` }
+						label={ __( "Hide Recipe Image on Front-End", "wpzoom-recipe-card" ) }
 					>
 		                <ToggleControl
-		                    label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
-		                    checked={ print_btn }
-		                    onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
-		                />
+                            label={ __( "Hide Image", "wpzoom-recipe-card" ) }
+                            checked={ hide_header_image }
+                            onChange={ display => this.onChangeSettings( display, 'hide_header_image' ) }
+                        />
 	        		</BaseControl>
+                    <BaseControl
+                        id={ `${ id }-print-btn` }
+                        label={ __( "Print Button", "wpzoom-recipe-card" ) }
+                    >
+                        <ToggleControl
+                            label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
+                            checked={ print_btn }
+                            onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
+                        />
+                    </BaseControl>
 			    	<BaseControl
 						id={ `${ id }-pinit-btn` }
 						label={ __( "Pinterest Button", "wpzoom-recipe-card" ) }
@@ -743,6 +796,37 @@ class Inspector extends Component {
 		        			</Fragment>
         				}
         			</PanelRow>
+                    <ToggleControl
+                        label={ __( "Display Total Time", "wpzoom-recipe-card" ) }
+                        checked={ displayTotalTime }
+                        onChange={ display => this.onChangeSettings( display, 'displayTotalTime' ) }
+                    />
+                    <PanelRow>
+                        {
+                            displayTotalTime &&
+                            <Fragment>
+                                <TextControl
+                                    id={ `${ id }-totaltime-label` }
+                                    instanceId={ `${ id }-totaltime-label` }
+                                    type="text"
+                                    label={ __( "Total Time Label", "wpzoom-recipe-card" ) }
+                                    placeholder={ __( "Total Time", "wpzoom-recipe-card" ) }
+                                    value={ get( details, [ 8, 'label' ] ) }
+                                    onChange={ newValue => this.onChangeDetail(newValue, 8, 'label') }
+                                />
+                                <TextControl
+                                    id={ `${ id }-totaltime-value` }
+                                    instanceId={ `${ id }-totaltime-value` }
+                                    type="number"
+                                    label={ __( "Total Time Value", "wpzoom-recipe-card" ) }
+                                    value={ get( details, [ 8, 'value' ] ) }
+                                    onChange={ newValue => this.onChangeDetail(newValue, 8, 'value') }
+                                />
+                                <span>{ get( details, [ 8, 'unit' ] ) }</span>
+                                <p className="description">{ __( "Default value: prepTime + cookTime", "wpzoom-recipe-card" ) }</p>
+                            </Fragment>
+                        }
+                    </PanelRow>
     				<ToggleControl
     				    label={ __( "Display Calories", "wpzoom-recipe-card" ) }
     				    checked={ displayCalories }
@@ -756,8 +840,8 @@ class Inspector extends Component {
 		        	    			id={ `${ id }-calories-label` }
 		        	    			instanceId={ `${ id }-calories-label` }
 		        	    			type="text"
-		        	    			label={ __( "Cook Time Label", "wpzoom-recipe-card" ) }
-		        	    			placeholder={ __( "Cooking Time", "wpzoom-recipe-card" ) }
+		        	    			label={ __( "Calories Label", "wpzoom-recipe-card" ) }
+		        	    			placeholder={ __( "Calories", "wpzoom-recipe-card" ) }
 		        	    			value={ get( details, [ 3, 'label' ] ) }
 		        	    			onChange={ newValue => this.onChangeDetail(newValue, 3, 'label') }
 		        	    		/>
@@ -765,7 +849,7 @@ class Inspector extends Component {
 		        	    			id={ `${ id }-calories-value` }
 		        	    			instanceId={ `${ id }-calories-value` }
 		        	    			type="number"
-		        	    			label={ __( "Cook Time Value", "wpzoom-recipe-card" ) }
+		        	    			label={ __( "Calories Value", "wpzoom-recipe-card" ) }
 		        	    			value={ get( details, [ 3, 'value' ] ) }
 		        	    			onChange={ newValue => this.onChangeDetail(newValue, 3, 'value') }
 		        	    		/>
@@ -835,7 +919,7 @@ class Inspector extends Component {
         	    			instanceId={ `${ id }-custom-detail-3-label` }
         	    			type="text"
         	    			label={ __( "Custom Label 3", "wpzoom-recipe-card" ) }
-        	    			placeholder={ __( "Total Time", "wpzoom-recipe-card" ) }
+        	    			placeholder={ __( "Serving Size", "wpzoom-recipe-card" ) }
         	    			value={ get( details, [ 6, 'label' ] ) }
         	    			onChange={ newValue => this.onChangeDetail(newValue, 6, 'label') }
         	    		/>
@@ -923,12 +1007,16 @@ class Inspector extends Component {
     	        		</PanelRow>
     	        		<PanelRow className={ ! get( details, [ 1, 'value' ] ) ? "text-color-orange": "" }>
     	        			<span>prepTime</span>
-    	        			<strong><strong>{ get( details, [ 1, 'value' ] ) ? get( details, [ 1, 'value' ] ) + ' ' + get( details, [ 1, 'unit' ] ) : '0 ' + get( details, [ 1, 'unit' ] ) }</strong></strong>
+    	        			<strong><strong>{ convertMinutesToHours( get( details, [ 1, 'value' ] ) ) }</strong></strong>
     	        		</PanelRow>
     	        		<PanelRow className={ ! get( details, [ 2, 'value' ] ) ? "text-color-orange": "" }>
     	        			<span>cookTime</span>
-    	        			<strong>{ get( details, [ 2, 'value' ] ) ? get( details, [ 2, 'value' ] ) + ' ' + get( details, [ 2, 'unit' ] ) : '0 ' + get( details, [ 2, 'unit' ] ) }</strong>
+    	        			<strong>{ convertMinutesToHours( get( details, [ 2, 'value' ] ) ) }</strong>
     	        		</PanelRow>
+                        <PanelRow>
+                            <span>totalTime</span>
+                            <strong>{ convertMinutesToHours( get( details, [ 8, 'value' ] ) ) }</strong>
+                        </PanelRow>
     	        		<PanelRow className={ ! get( details, [ 3, 'value' ] ) ? "text-color-orange": "" }>
     	        			<span>calories</span>
     	        			<strong>{ get( details, [ 3, 'value' ] ) ? get( details, [ 3, 'value' ] ) + ' ' + get( details, [ 3, 'unit' ] ) : '0 ' + get( details, [ 3, 'unit' ] ) }</strong>

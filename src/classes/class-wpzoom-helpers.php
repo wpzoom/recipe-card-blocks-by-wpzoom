@@ -84,6 +84,9 @@ class WPZOOM_Helpers {
 		if ( !isset( $settings['displayCookingTime'] ) ) {
 			$settings['displayCookingTime'] = true;
 		}
+		if ( !isset( $settings['displayTotalTime'] ) ) {
+			$settings['displayTotalTime'] = false;
+		}
 		if ( !isset( $settings['displayCalories'] ) ) {
 			$settings['displayCalories'] = true;
 		}
@@ -112,6 +115,9 @@ class WPZOOM_Helpers {
 		}
 		if ( !isset( $settings['pin_custom_image'] ) ) {
 			$settings['pin_custom_image'] = array();
+		}
+		if ( !isset( $settings['hide_header_image'] ) ) {
+			$settings['hide_header_image'] = false;
 		}
 
 		return $settings;

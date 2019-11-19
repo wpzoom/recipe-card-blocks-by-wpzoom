@@ -236,7 +236,7 @@ class Nutrition extends Component {
                             <Fragment>
                                 <strong className="nutrition-facts-heading">{ this.getLabelTitle('cholesterol') }</strong>
                                 <strong className="nutrition-facts-label"> { this.getValue('cholesterol') }</strong><strong className="nutrition-facts-label">{ __( "mg", "wpzoom-recipe-card" ) }</strong>
-                                <strong className="nutrition-facts-right"><span className="nutrition-facts-percent">{ ceil( ( this.getValue('cholesterol') / get( labels, [ 6, "pdv" ] ) ) * 100 ) }</span>%</strong>
+                                <strong className="nutrition-facts-right"><span className="nutrition-facts-percent">{ ceil( ( this.getValue('cholesterol') / this.getPDV('cholesterol') ) * 100 ) }</span>%</strong>
                             </Fragment>
                         }
                     </li>

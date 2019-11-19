@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 /* WordPress dependencies */
 const { __ } = wp.i18n;
-const { Component } = wp.element;
+const { Component, Fragment } = wp.element;
 const { RichText, MediaUpload } = wp.blockEditor;
 const { IconButton } = wp.components;
 
@@ -153,6 +153,7 @@ export default class DirectionStep extends Component {
 		} = this.props;
 
 		return <div className="direction-step-button-container">
+			{ this.getMover() }
 			{ ! isGroup &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
@@ -188,7 +189,7 @@ export default class DirectionStep extends Component {
 	 * @returns {Component} the buttons.
 	 */
 	getMover() {
-		return <div className="direction-step-mover">
+		return <Fragment>
 			<IconButton
 				className="editor-block-mover__control"
 				onClick={ this.onMoveStepUp }
@@ -203,7 +204,7 @@ export default class DirectionStep extends Component {
 				label={ __( "Move step down", "wpzoom-recipe-card" ) }
 				aria-disabled={ this.props.isLast }
 			/>
-		</div>;
+		</Fragment>;
 	}
 
 	/**
@@ -313,7 +314,6 @@ export default class DirectionStep extends Component {
 				{ 
 					isSelectedText &&
 					<div className="direction-step-controls-container">
-						{ this.getMover() }
 						{ this.getButtons() }
 					</div>
 				}

@@ -5,6 +5,13 @@
  */
 
 .wp-block-wpzoom-recipe-card-block-recipe-card {
+    max-width: 750px;
+
+    &.recipe-card-noimage {
+        .recipe-card-image {
+            display: none;
+        }
+    }
 	&.header-content-align-left {
 		.recipe-card-heading {
 			text-align: left;
@@ -105,7 +112,7 @@
         letter-spacing: 1px;
         text-transform: uppercase;
         color: #ababab;
-        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+        // font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 
         a {
             color: #222222;
