@@ -251,7 +251,7 @@ export default class RecipeCard extends Component {
 											pin_btn &&
 											<div className={ PinterestClasses }>
 							                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
-							                    	<i className="fab fa-pinterest-p icon-pinit-link"></i>
+							                    	<i className="icon-pinit-link"></i>
 							                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
 							                    </a>
 							                </div>
@@ -260,7 +260,7 @@ export default class RecipeCard extends Component {
 						                	print_btn &&
 						                	<div className={ PrintClasses }>
 							                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-							                    	<i className="fas fa-print icon-print-link"></i>
+							                    	<i className="icon-print-link"></i>
 							                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
 							                    </a>
 							                </div>
@@ -336,7 +336,7 @@ export default class RecipeCard extends Component {
 											pin_btn &&
 											<div className={ PinterestClasses }>
 							                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
-							                    	<i className="fab fa-pinterest-p icon-pinit-link"></i>
+							                    	<i className="icon-pinit-link"></i>
 							                    	<span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
 							                    </a>
 							                </div>
@@ -345,7 +345,7 @@ export default class RecipeCard extends Component {
 						                	print_btn &&
 						                	<div className={ PrintClasses }>
 							                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-							                    	<i className="fas fa-print icon-print-link"></i>
+							                    	<i className="icon-print-link"></i>
 							                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
 							                    </a>
 							                </div>
