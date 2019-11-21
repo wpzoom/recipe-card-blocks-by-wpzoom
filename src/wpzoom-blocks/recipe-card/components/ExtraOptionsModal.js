@@ -1,4 +1,5 @@
 /* External dependencies */
+import { __ } from "@wordpress/i18n";
 import get from "lodash/get";
 import trim from "lodash/trim";
 import isNull from "lodash/isNull";
@@ -17,7 +18,6 @@ import ReactHtmlParser from 'react-html-parser';
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { renderToString, Fragment } = wp.element;
 const {
     Button,

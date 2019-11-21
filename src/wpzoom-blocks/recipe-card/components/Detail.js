@@ -1,9 +1,9 @@
 /* External dependencies */
-import DetailItem from "./DetailItem";
-import get from "lodash/get";
 import PropTypes from "prop-types";
+import get from "lodash/get";
 
 /* Internal dependencies */
+import DetailItem from "./DetailItem";
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */

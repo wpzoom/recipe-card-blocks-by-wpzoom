@@ -6,7 +6,9 @@
  */
 
 /* External dependencies */
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
+
+/* WordPress dependencies */
 const { Fragment } = wp.element;
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 

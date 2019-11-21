@@ -1,12 +1,14 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
+import isShallowEqual from "@wordpress/is-shallow-equal/objects";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
 const { RichText, MediaUpload } = wp.blockEditor;
 const { IconButton } = wp.components;
 
+/* Internal dependencies */
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 
 /* Module constants */
@@ -261,6 +263,17 @@ export default class DirectionStep extends Component {
         }
 
         return image.props.src;
+    }
+
+    /**
+     * Perform a shallow equal to prevent every step item from being rerendered.
+     *
+     * @param {object} nextProps The next props the component will receive.
+     *
+     * @returns {boolean} Whether or not the component should perform an update.
+     */
+    shouldComponentUpdate( nextProps ) {
+        return ! isShallowEqual( nextProps, this.props );
     }
 
     /**

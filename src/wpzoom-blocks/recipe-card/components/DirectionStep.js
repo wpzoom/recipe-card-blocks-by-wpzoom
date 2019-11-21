@@ -1,19 +1,21 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
+import isShallowEqual from "@wordpress/is-shallow-equal/objects";
 import isObject from "lodash/isObject";
 import isString from "lodash/isString";
 import isUndefined from "lodash/isUndefined";
-import ReactHtmlParser from 'react-html-parser';
+import ReactHtmlParser from "react-html-parser";
+
+/* Internal dependencies */
+import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
+import { matchIMGsrc } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
 const { RichText, MediaUpload } = wp.blockEditor;
 const { IconButton } = wp.components;
 const { setting_options } = wpzoomRecipeCard;
-
-import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
-import { matchIMGsrc } from "../../../helpers/stringHelpers";
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
@@ -275,6 +277,17 @@ export default class DirectionStep extends Component {
         } else {
             return image[ index ];
         }
+    }
+
+    /**
+     * Perform a shallow equal to prevent every step item from being rerendered.
+     *
+     * @param {object} nextProps The next props the component will receive.
+     *
+     * @returns {boolean} Whether or not the component should perform an update.
+     */
+    shouldComponentUpdate( nextProps ) {
+        return ! isShallowEqual( nextProps, this.props );
     }
 
     /**

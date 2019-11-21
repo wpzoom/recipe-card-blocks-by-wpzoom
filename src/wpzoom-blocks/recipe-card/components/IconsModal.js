@@ -1,5 +1,5 @@
 /* External dependencies */
-import Icons from "../../../utils/IconsArray";
+import { __ } from "@wordpress/i18n";
 import isUndefined from "lodash/isUndefined";
 import get from "lodash/get";
 import forEach from "lodash/forEach";
@@ -7,10 +7,10 @@ import isObject from "lodash/isObject";
 import replace from "lodash/replace";
 
 /* Internal dependencies */
+import Icons from "../../../utils/IconsArray";
 import { getBlockStyle } from "../../../helpers/getBlockStyle";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const {
     IconButton,
     Modal,

@@ -1,12 +1,13 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-
-/* External dependencies */
-import IconsModal from "./IconsModal";
+import { __ } from "@wordpress/i18n";
+import isShallowEqual from "@wordpress/is-shallow-equal/objects";
 import get from "lodash/get";
 
+/* Internal dependencies */
+import IconsModal from "./IconsModal";
+
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { RichText } = wp.blockEditor;
 const { IconButton } = wp.components;
@@ -200,6 +201,17 @@ export default class DetailItem extends Component {
         }
 
         return get( placeholderText, [ newIndex, key ] );
+    }
+
+    /**
+     * Perform a shallow equal to prevent every detail item from being rerendered.
+     *
+     * @param {object} nextProps The next props the component will receive.
+     *
+     * @returns {boolean} Whether or not the component should perform an update.
+     */
+    shouldComponentUpdate( nextProps ) {
+        return ! isShallowEqual( nextProps, this.props );
     }
 
     /**

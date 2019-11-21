@@ -5,13 +5,15 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
+/* External dependencies */
+import { __ } from "@wordpress/i18n";
+import isUndefined from "lodash/isUndefined";
+
 /* Internal dependencies */
 import Direction from './components/Direction';
 import legacy from "./legacy";
-import isUndefined from "lodash/isUndefined";
 
-/* External dependencies */
-const { __ } = wp.i18n;
+/* WordPress dependencies */
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 // Create SVG icon for block

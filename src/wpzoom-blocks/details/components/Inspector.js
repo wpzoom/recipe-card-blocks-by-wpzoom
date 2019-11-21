@@ -1,4 +1,5 @@
 /* External dependencies */
+import { __ } from "@wordpress/i18n";
 import get from "lodash/get";
 import isUndefined from "lodash/isUndefined";
 
@@ -6,7 +7,6 @@ import isUndefined from "lodash/isUndefined";
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component, renderToString } = wp.element;
 const { InspectorControls } = wp.blockEditor;
 const {

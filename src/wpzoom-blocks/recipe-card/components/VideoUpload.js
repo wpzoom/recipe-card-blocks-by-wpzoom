@@ -1,4 +1,5 @@
 /* External dependencies */
+import { __ } from "@wordpress/i18n";
 import get from "lodash/get";
 import ReactPlayer from "react-player";
 
@@ -6,7 +7,6 @@ import ReactPlayer from "react-player";
 import { excludeClassNames } from "../../../helpers/parseClassName";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component, Fragment, createRef } = wp.element;
 const {
     mediaUpload,

@@ -1,8 +1,9 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
+import isShallowEqual from "@wordpress/is-shallow-equal/objects";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
 const { RichText } = wp.blockEditor;
 const { IconButton } = wp.components;
@@ -177,6 +178,17 @@ export default class IngredientItem extends Component {
                 aria-disabled={ this.props.isLast }
             />
         </Fragment>;
+    }
+
+    /**
+     * Perform a shallow equal to prevent every ingredient item from being rerendered.
+     *
+     * @param {object} nextProps The next props the component will receive.
+     *
+     * @returns {boolean} Whether or not the component should perform an update.
+     */
+    shouldComponentUpdate( nextProps ) {
+        return ! isShallowEqual( nextProps, this.props );
     }
 
     /**

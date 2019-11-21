@@ -1,4 +1,5 @@
 /* External dependencies */
+import { __ } from "@wordpress/i18n";
 import get from "lodash/get";
 import map from "lodash/map";
 import compact from "lodash/compact";
@@ -9,14 +10,13 @@ import uniqueId from "lodash/uniqueId";
 import isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
+import VideoUpload from "./VideoUpload";
 import { stripHTML } from "../../../helpers/stringHelpers";
 import { getNumberFromString, convertMinutesToHours } from "../../../helpers/convertMinutesToHours";
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 import { getBlockStyle } from "../../../helpers/getBlockStyle";
-import VideoUpload from "./VideoUpload";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component, renderToString, Fragment } = wp.element;
 const { RichText, InspectorControls, MediaUpload } = wp.blockEditor;
 const {

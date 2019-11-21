@@ -1,5 +1,7 @@
+/* External dependencies */
+import { __ } from "@wordpress/i18n";
+
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { InspectorControls } = wp.blockEditor;
 const { PanelBody, ToggleControl } = wp.components;

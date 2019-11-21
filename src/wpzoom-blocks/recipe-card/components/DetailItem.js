@@ -1,13 +1,14 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
+import isShallowEqual from "@wordpress/is-shallow-equal/objects";
 import isUndefined from "lodash/isUndefined";
-
-/* External dependencies */
-import IconsModal from "./IconsModal";
 import get from "lodash/get";
 
+/* Internal dependencies */
+import IconsModal from "./IconsModal";
+
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component } = wp.element;
 const { TextControl } = wp.components;
 
@@ -156,6 +157,17 @@ export default class DetailItem extends Component {
         } else {
             return itemValue;
         }
+    }
+
+    /**
+     * Perform a shallow equal to prevent every detail item from being rerendered.
+     *
+     * @param {object} nextProps The next props the component will receive.
+     *
+     * @returns {boolean} Whether or not the component should perform an update.
+     */
+    shouldComponentUpdate( nextProps ) {
+        return ! isShallowEqual( nextProps, this.props );
     }
 
     /**

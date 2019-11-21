@@ -1,22 +1,21 @@
 /* External dependencies */
+import { __ } from "@wordpress/i18n";
 import get from "lodash/get";
 import uniqueId from "lodash/uniqueId";
 import isUndefined from "lodash/isUndefined";
 import ReactPlayer from "react-player";
 
+/* Internal dependencies */
 import Detail from "./Detail";
 import Ingredient from "./Ingredient";
 import Direction from "./Direction";
 import Inspector from "./Inspector";
 import ExtraOptionsModal from "./ExtraOptionsModal";
-
-/* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
 import { getBlockStyle } from "../../../helpers/getBlockStyle";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component, renderToString, Fragment } = wp.element;
 const {
     Button,

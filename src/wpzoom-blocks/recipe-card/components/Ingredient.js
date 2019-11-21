@@ -1,14 +1,14 @@
 /* External dependencies */
-import IngredientItem from "./IngredientItem";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
+import { speak } from "@wordpress/a11y";
 import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
+import IngredientItem from "./IngredientItem";
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
-const { speak } = wp.a11y;
 const { RichText } = wp.blockEditor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;

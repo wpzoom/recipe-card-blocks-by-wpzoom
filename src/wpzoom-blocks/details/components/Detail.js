@@ -1,14 +1,14 @@
 /* External dependencies */
-import DetailItem from "./DetailItem";
-import Inspector from "./Inspector";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 import uniqueId from "lodash/uniqueId";
 
 /* Internal dependencies */
+import DetailItem from "./DetailItem";
+import Inspector from "./Inspector";
 import { stripHTML } from "../../../helpers/stringHelpers";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { RichText } = wp.blockEditor;
 const { IconButton } = wp.components;
 const { Component, renderToString } = wp.element;

@@ -1,4 +1,5 @@
 /* External dependencies */
+import { __ } from "@wordpress/i18n";
 import get from "lodash/get";
 import ceil from "lodash/ceil";
 import filter from "lodash/filter";
@@ -8,7 +9,6 @@ import findKey from "lodash/findKey";
 import { parseClassName } from "../../../helpers/getBlockStyle";
 
 /* WordPress dependencies */
-const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
 const { withSelect } = wp.data;
 const { compose } = wp.compose;
