@@ -76,11 +76,20 @@
 		}
 	}
 	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i,
-	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i::before ,
-	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i,
-	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i::before {
-		font-family: 'FontAwesome';
-	}
+	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i {
+        display: inline-block;
+        text-indent: -9999px;
+        width: 18px;
+        height: 18px;
+        background-size: 18px 18px;
+        vertical-align: middle;
+    }
+    .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i {
+        background-image: url(assets/images/iconfinder_print_paper.svg);
+    }
+    .recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i {
+        background-image: url(assets/images/iconfinder_pinterest.svg);
+    }
     .hidden {
         display: none !important;
     }

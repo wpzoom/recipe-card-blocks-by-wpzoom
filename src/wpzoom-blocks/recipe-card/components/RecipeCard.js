@@ -46,7 +46,7 @@ import '../editor.scss';
  * A Recipe Card block.
  */
 export default class RecipeCard extends Component {
-
+  
     /**
      * Constructs a Recipe Card editor component.
      *
@@ -469,5 +469,4 @@ export default class RecipeCard extends Component {
             </div>
         );
     }
-
 }
