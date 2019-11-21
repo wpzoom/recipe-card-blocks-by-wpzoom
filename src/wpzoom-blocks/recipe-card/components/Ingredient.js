@@ -1,8 +1,6 @@
 /* External dependencies */
 import IngredientItem from "./IngredientItem";
 import PropTypes from "prop-types";
-import isEqual from "lodash/isEqual";
-import uniqueId from "lodash/uniqueId";
 import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
@@ -48,27 +46,6 @@ export default class Ingredient extends Component {
         this.onAddGroupButtonClick = this.onAddGroupButtonClick.bind( this );
 
         this.editorRefs = {};
-    }
-
-    /**
-     * Use shouldComponentUpdate() to let React know if a component’s output is not affected by the current change in state or props.
-     * The default behavior is to re-render on every state change, and in the vast majority of cases you should rely on the default behavior.
-     * shouldComponentUpdate() is invoked before rendering when new props or state are being received.
-     *
-     * @param  {object} [nextProps]
-     * @param  {object} [nextState]
-     * @return {bool}
-     */
-    shouldComponentUpdate( nextProps, nextState ) {
-        if ( this.state.focus !== nextState.focus ) {
-            return true;
-        }
-
-        if ( isEqual( this.props.attributes.ingredients, nextProps.attributes.ingredients ) ) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     /**

@@ -35,20 +35,9 @@ const {
     post_thumbnail_url,
     setting_options
 } = wpzoomRecipeCard;
-const { withState } = wp.compose;
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
-
-const ExtraOptions = withState( {
-    toToolBar: true,
-    isOpen: false,
-    isDataSet: false,
-    hasBlocks: false,
-    isButtonClicked: false,
-    _ingredients: "<!empty>",
-    _directions: "<!empty>",
-} )( ExtraOptionsModal );
 
 /* Import CSS. */
 import '../style.scss';
@@ -476,7 +465,7 @@ export default class RecipeCard extends Component {
                 </div>
                 <Inspector { ...{ attributes, setAttributes, className } } />
                 <BlockControls>
-                    <ExtraOptions { ...{ props: this.props } } />
+                    <ExtraOptionsModal { ...{ props: this.props } } />
                 </BlockControls>
             </div>
         );

@@ -26,6 +26,7 @@ const {
     Toolbar,
     TextareaControl
 } = wp.components;
+const { withState } = wp.compose;
 const { select } = wp.data;
 
 /**
@@ -41,7 +42,7 @@ const stopKeyPressPropagation = ( event ) => event.stopPropagation();
  * Options:
  *  - Bulk add
  */
-export default function ExtraOptionsModal(
+function ExtraOptionsModal(
     {
         toToolBar,
         isOpen,
@@ -311,3 +312,13 @@ export default function ExtraOptionsModal(
         </Fragment>
     );
 }
+
+export default withState( {
+    toToolBar: true,
+    isOpen: false,
+    isDataSet: false,
+    hasBlocks: false,
+    isButtonClicked: false,
+    _ingredients: "<!empty>",
+    _directions: "<!empty>",
+} )( ExtraOptionsModal );
