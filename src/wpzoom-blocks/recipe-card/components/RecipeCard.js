@@ -20,7 +20,8 @@ const { Component, renderToString, Fragment } = wp.element;
 const {
     Button,
     Placeholder,
-    Spinner
+    Spinner,
+    Disabled
 } = wp.components;
 const {
     RichText,
@@ -222,24 +223,26 @@ export default class RecipeCard extends Component {
                                     <figure>
                                         <img src={ get( image, [ 'url' ] ) } id={ get( image, [ 'id' ] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
                                         <figcaption>
-                                            {
-                                                pin_btn &&
-                                                <div className={ PinterestClasses }>
-                                                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
-                                                        <i className="icon-pinit-link"></i>
-                                                        <span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            {
-                                                print_btn &&
-                                                <div className={ PrintClasses }>
-                                                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-                                                        <i className="icon-print-link"></i>
-                                                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
-                                                    </a>
-                                                </div>
-                                            }
+                                            <Disabled>
+                                                {
+                                                    pin_btn &&
+                                                    <div className={ PinterestClasses }>
+                                                        <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
+                                                            <i className="icon-pinit-link"></i>
+                                                            <span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
+                                                        </a>
+                                                    </div>
+                                                }
+                                                {
+                                                    print_btn &&
+                                                    <div className={ PrintClasses }>
+                                                        <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
+                                                            <i className="icon-print-link"></i>
+                                                            <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
+                                                        </a>
+                                                    </div>
+                                                }
+                                            </Disabled>
                                         </figcaption>
                                     </figure>
                                 </div>
@@ -309,24 +312,26 @@ export default class RecipeCard extends Component {
                                     <figure>
                                         <img src={ get( image, [ 'url' ] ) } id={ get( image, [ 'id' ] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
                                         <figcaption>
-                                            {
-                                                pin_btn &&
-                                                <div className={ PinterestClasses }>
-                                                    <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
-                                                        <i className="icon-pinit-link"></i>
-                                                        <span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            {
-                                                print_btn &&
-                                                <div className={ PrintClasses }>
-                                                    <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
-                                                        <i className="icon-print-link"></i>
-                                                        <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
-                                                    </a>
-                                                </div>
-                                            }
+                                            <Disabled>
+                                                {
+                                                    pin_btn &&
+                                                    <div className={ PinterestClasses }>
+                                                        <a className="btn-pinit-link no-print" data-pin-do="buttonPin" href={ pinitURL } data-pin-custom="true">
+                                                            <i className="icon-pinit-link"></i>
+                                                            <span>{ __( "Pin", "wpzoom-recipe-card" ) }</span>
+                                                        </a>
+                                                    </div>
+                                                }
+                                                {
+                                                    print_btn &&
+                                                    <div className={ PrintClasses }>
+                                                        <a className="btn-print-link no-print" href={ "#" + id } title={ __( "Print directions...", "wpzoom-recipe-card" ) }>
+                                                            <i className="icon-print-link"></i>
+                                                            <span>{ __( "Print", "wpzoom-recipe-card" ) }</span>
+                                                        </a>
+                                                    </div>
+                                                }
+                                            </Disabled>
                                         </figcaption>
                                     </figure>
                                 </div>
