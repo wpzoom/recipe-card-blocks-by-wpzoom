@@ -44,7 +44,7 @@
     left: 0;
     font-size: $font-size;
     font-weight: bold;
-    font-family: inherit;
+    font-family: $google-font-family;
     text-transform: uppercase;
     line-height: 1.4;
     color: $dark-gray;
@@ -62,10 +62,10 @@
     opacity: .5;
 }
 
-@mixin recipe-title( $font-size: 30px, $font-weight: 600, $font-family: inherit ) {
+@mixin recipe-title( $font-size: 30px, $font-weight: 600 ) {
     font-size: $font-size;
     font-weight: $font-weight;
-    font-family: $font-family;
+    font-family: inherit;
     @include margin( 0 0 10px );
 }
 
@@ -75,7 +75,7 @@
             font-size: 20px;
             font-weight: bold;
             color: $color;
-            font-family: inherit;
+            font-family: $google-font-family;
             text-transform: $text-transform;
             @include margin( 0 0 15px );
         }
