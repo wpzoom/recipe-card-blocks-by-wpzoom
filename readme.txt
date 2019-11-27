@@ -4,7 +4,7 @@ Donate link: https://www.wpzoom.com/
 Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card
 Requires at least: 5.0
 Requires PHP: 5.6
-Tested up to: 5.2
+Tested up to: 5.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -126,6 +126,9 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 
 == Changelog ==
+
+= 2.5.0 =
+* Multiple fixes and improvements
 
 = 2.4.0 =
 * 🔥 Added Nutrition Block with two Layouts (Vertical / Horizontal)
