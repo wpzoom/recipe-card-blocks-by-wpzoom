@@ -5,18 +5,10 @@
  * which makes it higher in priority.
  */
 #wpzoom-recipe-nutrition {
-    &::after {
-        content: '';
-        clear: both;
-        display: table;
-    }
+    @include clear-after;
 
     .wp-block-wpzoom-recipe-card-block-nutrition-information {
-        &::after {
-            content: '';
-            clear: both;
-            display: table;
-        }
+        @include clear-after;
     }
 
     &.layout-orientation-vertical {

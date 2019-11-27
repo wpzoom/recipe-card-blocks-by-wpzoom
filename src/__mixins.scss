@@ -1,0 +1,171 @@
+/**
+ * #.# Mixins SCSS
+ *
+ * Mixins allow you to define styles that can be re-used throughout your stylesheet.
+*/
+
+@mixin clear-after {
+    &::after {
+        content: '';
+        clear: both;
+        display: table;
+    }
+}
+
+@mixin padding( $values... ) {
+    @each $var in $values {
+        padding: #{$var};
+    }
+}
+
+@mixin margin( $values... ) {
+    @each $var in $values {
+        margin: #{$var};
+    }
+}
+
+@mixin size( $width, $height: $width ) {
+    width: $width;
+    height: $height;
+}
+
+@mixin reset-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@mixin direction-counter( $font-size: 24px, $width: 35px ) {
+    counter-increment: count;
+    content: counter(count);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: $font-size;
+    font-weight: bold;
+    font-family: $google-font-family;
+    text-transform: uppercase;
+    line-height: 1.4;
+    color: $dark-gray;
+    width: $width;
+    vertical-align: middle;
+    padding: 0;
+    margin-right: 20px;
+}
+
+@mixin heading-meta-delimiter( $delimiter: '/' ) {
+    content: " #{$delimiter} ";
+    color: $silver-sand;
+    @include margin( 0 12px );
+    font-style: normal;
+    opacity: .5;
+}
+
+@mixin recipe-title( $font-size: 30px, $font-weight: 600 ) {
+    font-size: $font-size;
+    font-weight: $font-weight;
+    font-family: inherit;
+    @include margin( 0 0 10px );
+}
+
+@mixin recipe-sections-title( $color, $text-transform, $selectors... ) {
+    @for $i from 0 to length($selectors) {
+        .#{nth($selectors, $i + 1)} {
+            font-size: 20px;
+            font-weight: bold;
+            color: $color;
+            font-family: $google-font-family;
+            text-transform: $text-transform;
+            @include margin( 0 0 15px );
+        }
+    }
+}
+
+@mixin recipe-author( $color, $margin: 0 0 12px, $padding: 0 0 12px ) {
+    display: block;
+    color: $color;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: italic;
+    @include margin( $margin );
+    @include padding( $padding );
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+@mixin recipe-heading-metadata( $meta-color, $meta-mark-color, $font-size: 14px, $font-weight: 600 ) {
+    .recipe-card-course,
+    .recipe-card-cuisine,
+    .recipe-card-difficulty {
+        font-size: $font-size;
+        color: $meta-color;
+
+        mark {
+            color: $meta-mark-color;
+            font-weight: $font-weight;
+            background: transparent;
+            padding: 0;
+        }
+    }
+    span:not(.recipe-card-author) + span:not(.recipe-card-author):before {
+        @include heading-meta-delimiter;
+    }
+}
+
+@mixin ingredient-tick( $tick-color, $ticked-color ) {
+    .tick-circle {
+        content: '';
+        float: left;
+        width: 18px;
+        height: 18px;
+        margin: 6px 10px 0 0;
+        border-radius: 50%;
+        border: 2px solid $tick-color;
+        cursor: pointer;
+        position: relative;
+    }
+    &.ticked > p {
+        text-decoration: line-through;
+    }
+    &.ticked .tick-circle {
+        border: 2px solid $ticked-color !important;
+        background: $ticked-color;
+
+        -webkit-box-shadow: inset 0px 0px 0px 2px #fff;
+        -moz-box-shadow: inset 0px 0px 0px 2px #fff;
+        box-shadow: inset 0px 0px 0px 2px #fff;
+    }
+}
+
+@mixin recipe-notes-list( $item-bg, $item-color, $badge-bg, $badge-color, $badge-content: 'i' ) {
+    @include reset-list;
+
+    > li:empty {
+        display: none;
+    }
+
+    > li {
+        position: relative;
+        background-color: $item-bg;
+        color: $item-color;
+        @include margin( 0 0 15px );
+        @include padding( 20px 25px );
+        list-style-type: none;
+        font-size: 14px;
+
+        &::before {
+            content: $badge-content;
+            position: absolute;
+            display: block;
+            color: $badge-color;
+            background-color: $badge-bg;
+            border-radius: 8px;
+            @include size( 16px );
+            line-height: 16px;
+            font-size: 12px;
+            text-align: center;
+            left: -6px;
+            top: 25px;
+        }
+    }
+}

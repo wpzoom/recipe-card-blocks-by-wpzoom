@@ -6,7 +6,9 @@
  */
 
 /* External dependencies */
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
+
+/* WordPress dependencies */
 const { Fragment } = wp.element;
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
@@ -65,7 +67,7 @@ registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes, setAttributes, className, clientId } ) => {
+    edit: ( { attributes, className } ) => {
         const { id, text } = attributes;
 
         return (

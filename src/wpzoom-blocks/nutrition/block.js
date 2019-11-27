@@ -5,11 +5,13 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
+/* External dependencies */
+import { __ } from "@wordpress/i18n";
+
 /* Internal dependencies */
 import Nutrition from './components/Nutrition';
 
-/* External dependencies */
-const { __ } = wp.i18n;
+/* WordPress dependencies */
 const { registerBlockType } = wp.blocks;
 
 /**

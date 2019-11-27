@@ -5,13 +5,15 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
+/* External dependencies */
+import { __ } from "@wordpress/i18n";
+import isUndefined from "lodash/isUndefined";
+
 /* Internal dependencies */
 import Direction from './components/Direction';
 import legacy from "./legacy";
-import isUndefined from "lodash/isUndefined";
 
-/* External dependencies */
-const { __ } = wp.i18n;
+/* WordPress dependencies */
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 // Create SVG icon for block
@@ -23,7 +25,7 @@ const path3 = el( 'path', { d: "M 2.324219 16.304688 C 2.523438 16.210938 2.6835
 const path4 = el( 'path', { d: "M 4.4375 14.164062 L 20 14.164062 L 20 17.003906 L 4.4375 17.003906 Z M 4.4375 14.164062 " } );
 const path5 = el( 'path', { d: "M 4.4375 8.574219 L 20 8.574219 L 20 11.414062 L 4.4375 11.414062 Z M 4.4375 8.574219 " } );
 const path6 = el( 'path', { d: "M 4.4375 2.8125 L 20 2.8125 L 20 5.652344 L 4.4375 5.652344 Z M 4.4375 2.8125 " } );
-const svgIcon = el( SVG, { width: 20, height: 20, viewBox: '0 0 20 20'}, path1, path2, path3, path4, path5, path6 );
+const svgIcon = el( SVG, { width: 20, height: 20, viewBox: '0 0 20 20' }, path1, path2, path3, path4, path5, path6 );
 
 const deprecatedAttr = {
     title: {
@@ -92,27 +94,27 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
                 {
                     id: Direction.generateId( "direction-step" ),
                     isGroup: false,
-                    text: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla nunc id nibh rutrum, tristique finibus quam interdum."]
+                    text: [ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla nunc id nibh rutrum, tristique finibus quam interdum." ]
                 },
                 {
                     id: Direction.generateId( "direction-step" ),
                     isGroup: false,
-                    text: ["Praesent feugiat dui eu pretium eleifend. In non tempus est. Praesent ullamcorper sapien vitae viverra imperdiet."]
+                    text: [ "Praesent feugiat dui eu pretium eleifend. In non tempus est. Praesent ullamcorper sapien vitae viverra imperdiet." ]
                 },
                 {
                     id: Direction.generateId( "direction-step" ),
                     isGroup: true,
-                    text: ["Group Title here"]
+                    text: [ "Group Title here" ]
                 },
                 {
                     id: Direction.generateId( "direction-step" ),
                     isGroup: false,
-                    text: ["Aenean nec diam a augue efficitur venenatis."]
+                    text: [ "Aenean nec diam a augue efficitur venenatis." ]
                 },
                 {
                     id: Direction.generateId( "direction-step" ),
                     isGroup: false,
-                    text: ["Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."]
+                    text: [ "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas." ]
                 }
             ]
         },
@@ -137,10 +139,10 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
             if ( steps.length === 0 ) {
                 for ( var i = 0; i < content.length; i++ ) {
                     if ( ! isUndefined( content[i].props ) ) {
-                        steps.push({
+                        steps.push( {
                             id: Direction.generateId( "direction-step" ),
                             text: content[i].props.children
-                        });
+                        } );
                     }
                 }
 
