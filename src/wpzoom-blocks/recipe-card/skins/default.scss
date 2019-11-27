@@ -187,11 +187,9 @@
             font-size: 14px;
         }
 
-        $selectors1: 'ingredients-title';
-        $selectors2: 'directions-title', 'video-title', 'notes-title';
+        $selectors: 'ingredients-title', 'directions-title', 'video-title', 'notes-title';
 
-        @include recipe-sections-title( inherit, uppercase, $selectors1... );
-        @include recipe-sections-title( $default-heading-color, uppercase, $selectors2... );
+        @include recipe-sections-title( $default-heading-color, uppercase, $selectors... );
 
         .directions-title {
             margin-bottom: 25px;
