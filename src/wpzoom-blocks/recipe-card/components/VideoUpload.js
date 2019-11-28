@@ -40,7 +40,8 @@ class VideoUpload extends Component {
         // without setting the actual value outside of the edit UI
         this.state = {
             editing: get( this.props.attributes.video, 'url' ) === undefined,
-            isVisible: false
+            isVisible: false,
+            isLoading: false
         };
 
         this.videoPlayer = createRef();
@@ -82,11 +83,19 @@ class VideoUpload extends Component {
         }
     }
 
-    componentDidUpdate( prevProps ) {
+    componentDidUpdate( prevProps, prevState ) {
         const { hasVideo, video } = this.props.attributes;
 
         const posterURL = get( video, 'poster.url' );
         const prevPosterURL = get( prevProps.attributes.video, 'poster.url' );
+
+        if ( this.state.isLoading && ! prevState.isLoading ) {
+            setTimeout( this.props.hintLoading.bind( this ) );
+        }
+
+        if ( hasVideo && ! prevProps.attributes.hasVideo || this.state.isLoading !== prevState.isLoading ) {
+            setTimeout( this.props.hintLoading.bind( this, false ), 500 );
+        }
 
         if ( hasVideo && posterURL !== prevPosterURL ) {
             this.videoPlayer.current.load();
@@ -138,14 +147,14 @@ class VideoUpload extends Component {
             newObj.type = 'embed';
 
             setAttributes( { hasVideo: true, video: newObj } );
-            this.setState( { hasVideo: true, editing: false } );
+            this.setState( { hasVideo: true, editing: false, isLoading: true } );
         }
     }
 
     onRemoveVideo() {
         const { setAttributes } = this.props;
         setAttributes( { hasVideo: false, video: undefined } );
-        this.setState( { hasVideo: false, editing: true } );
+        this.setState( { hasVideo: false, editing: true, isLoading: false } );
     }
 
     onRemovePoster() {
@@ -177,7 +186,7 @@ class VideoUpload extends Component {
         newObj.url = url;
         newObj.type = 'embed';
 
-        setAttributes( { hasVideo: true, video: newObj } );
+        setAttributes( { hasVideo: true, video: newObj, isLoading: true } );
     }
 
     openURLPopover() {
@@ -246,7 +255,7 @@ class VideoUpload extends Component {
                     }
                 }
             } );
-            this.setState( { hasVideo: true, editing: false } );
+            this.setState( { hasVideo: true, editing: false, isLoading: true } );
         }
 
         return (
@@ -370,27 +379,29 @@ class VideoUpload extends Component {
                         id={ `${ id }-video-poster` }
                         label={ __( "Video Poster", "wpzoom-recipe-card" ) }
                     >
-                        <MediaUpload
-                            onSelect={ this.onSelectPoster }
-                            allowedTypes={ VIDEO_POSTER_ALLOWED_MEDIA_TYPES }
-                            value={ posterId }
-                            render={ ( { open } ) => (
-                                <Button
-                                    isDefault
-                                    isLarge
-                                    onClick={ open }
-                                    ref={ this.posterImageButton }
-                                >
-                                    {
-                                        posterURL ? __( "Replace Poster", "wpzoom-recipe-card" ) : __( "Select Poster Image", "wpzoom-recipe-card" )
-                                    }
-                                </Button>
-                            ) }
-                        />
-                        {
-                            posterURL &&
-                            <Button isLink="true" isDestructive="true" onClick={ this.onRemovePoster }>{ __( "Remove Poster Image", "wpzoom-recipe-card" ) }</Button>
-                        }
+                        <div>
+                            <MediaUpload
+                                onSelect={ this.onSelectPoster }
+                                allowedTypes={ VIDEO_POSTER_ALLOWED_MEDIA_TYPES }
+                                value={ posterId }
+                                render={ ( { open } ) => (
+                                    <Button
+                                        isDefault
+                                        isLarge
+                                        onClick={ open }
+                                        ref={ this.posterImageButton }
+                                    >
+                                        {
+                                            posterURL ? __( "Replace Poster", "wpzoom-recipe-card" ) : __( "Select Poster Image", "wpzoom-recipe-card" )
+                                        }
+                                    </Button>
+                                ) }
+                            />
+                            {
+                                posterURL &&
+                                <Button isLink="true" isDestructive="true" onClick={ this.onRemovePoster }>{ __( "Remove Poster Image", "wpzoom-recipe-card" ) }</Button>
+                            }
+                        </div>
                     </BaseControl>
                 }
             </PanelBody>

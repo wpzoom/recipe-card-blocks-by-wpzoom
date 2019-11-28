@@ -29,6 +29,10 @@
 		margin-bottom: 10px;
 	}
 
+	&.recipe-card-noimage .components-placeholder.recipe-card-image-placeholder {
+		display: none;
+	} 
+
 	&.is-style-simple {
 		.recipe-card-image-placeholder,
 		.recipe-card-image-preview {

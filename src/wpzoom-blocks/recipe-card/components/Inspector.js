@@ -30,16 +30,18 @@ const {
     SelectControl,
     Notice
 } = wp.components;
-const { withSelect } = wp.data;
-const { compose } = wp.compose;
 
-/* Module constants */
+/**
+ * Module Constants
+ */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
+const NOT_ADDED = __( "Not added", "wpzoom-recipe-card" );
+const NOT_DISPLAYED = __( "Not displayed", "wpzoom-recipe-card" );
 
 /**
  * Inspector controls
  */
-class Inspector extends Component {
+export default class Inspector extends Component {
 
     /**
      * Constructs a Inspector editor component.
@@ -52,7 +54,6 @@ class Inspector extends Component {
         super( props );
 
         this.onSelectImage = this.onSelectImage.bind( this );
-        this.onSetFeaturedImage = this.onSetFeaturedImage.bind( this );
         this.onRemoveRecipeImage = this.onRemoveRecipeImage.bind( this );
         this.onChangeDetail = this.onChangeDetail.bind( this );
         this.onChangeSettings = this.onChangeSettings.bind( this );
@@ -64,7 +65,8 @@ class Inspector extends Component {
             isCalculatedTotalTime: false,
             structuredDataNotice: {
                 errors: [],
-                warnings: []
+                warnings: [],
+                not_display: []
             },
             structuredDataTable: {
                 recipeIngredients: 0,
@@ -73,7 +75,21 @@ class Inspector extends Component {
         }
     }
 
-    onSetFeaturedImage() {
+    componentDidMount() {
+        this.setFeaturedImage();
+    }
+
+    componentDidUpdate( prevProps ) {
+        if ( ! this.props.attributes.hasImage && this.props.media !== prevProps.media ) {
+            this.props.hintLoading();
+            this.setFeaturedImage();
+        }
+    }
+
+    /*
+     * Set featured image if Recipe Card image aren't uploaded
+     */
+    setFeaturedImage() {
         const {
             media,
             attributes: {
@@ -83,7 +99,8 @@ class Inspector extends Component {
         } = this.props;
 
         if ( hasImage || ! media ) {
-            return false;
+            this.props.hintLoading( false );
+            return;
         }
 
         const relevantMedia = pickRelevantMediaFiles( media, 'header' );
@@ -98,6 +115,8 @@ class Inspector extends Component {
                 sizes: get( media, [ 'sizes' ] ) || get( media, [ 'media_details', 'sizes' ] )
             }
         } );
+
+        setTimeout( this.props.hintLoading.bind( this, false ), 500 );
     }
 
     onSelectImage( media ) {
@@ -239,6 +258,11 @@ class Inspector extends Component {
         return string.replace( /,/g, ', ' );
     }
 
+    notDisplayDetails() {
+        const string = toString( this.state.structuredDataNotice.not_display );
+        return string.replace( /,/g, ', ' );
+    }
+
     structuredDataTable() {
         const {
             structuredDataTable
@@ -280,10 +304,23 @@ class Inspector extends Component {
         const {
             hasImage,
             details,
+            course,
+            cuisine,
+            keywords,
             summary,
-            hasVideo
+            hasVideo,
+            settings: {
+                0: {
+                    displayPrepTime,
+                    displayCookingTime,
+                    displayCourse,
+                    displayCuisine,
+                    displayCalories
+                }
+            }
         } = this.props.attributes;
 
+        let not_display = [];
         let warnings = [];
         let errors = [];
 
@@ -293,14 +330,24 @@ class Inspector extends Component {
         ! get( details, [ 1, 'value' ] ) && warnings.push( "prepTime" );
         ! get( details, [ 2, 'value' ] ) && warnings.push( "cookTime" );
         ! get( details, [ 3, 'value' ] ) && warnings.push( "calories" );
+        isEmpty( course ) && warnings.push( "course" );
+        isEmpty( cuisine ) && warnings.push( "cuisine" );
+        isEmpty( keywords ) && warnings.push( "keywords" );
+
+        // Push not displayed
+        ! displayCookingTime && not_display.push( "cookTime" );
+        ! displayPrepTime && not_display.push( "prepTime" );
+        ! displayCalories && not_display.push( "calories" );
+        ! displayCuisine && not_display.push( "cuisine" );
+        ! displayCourse && not_display.push( "course" );
 
         // Push errors
         ! hasImage && errors.push( "image" );
         ! get( structuredDataTable, 'recipeIngredients' ) && errors.push( "ingredients" );
         ! get( structuredDataTable, 'recipeInstructions' ) && errors.push( "steps" );
 
-        if ( warnings.length != get( structuredDataNotice, 'warnings' ).length || errors.length != get( structuredDataNotice, 'errors' ).length ) {
-            this.setState( { structuredDataNotice: { warnings, errors } } );
+        if ( warnings.length != get( structuredDataNotice, 'warnings' ).length || errors.length != get( structuredDataNotice, 'errors' ).length || not_display.length != get( structuredDataNotice, 'not_display' ).length ) {
+            this.setState( { structuredDataNotice: { warnings, errors, not_display } } );
         }
     }
 
@@ -333,7 +380,7 @@ class Inspector extends Component {
             this.onChangeDetail( toString( totalTime ), index, 'value' )
             this.onChangeDetail( unit, index, 'unit' )
 
-            this.setState( { isCalculatedTotalTime: true } )
+            this.setState( { isCalculatedTotalTime: true } );
         }
     }
 
@@ -344,9 +391,6 @@ class Inspector extends Component {
      */
     render() {
 
-        // Set featured image if Recipe Card image aren't uploaded
-        this.onSetFeaturedImage();
-
         // Inline check Schema Markup
         this.structuredDataTable();
         this.structuredDataNotice();
@@ -355,7 +399,8 @@ class Inspector extends Component {
         const {
             className,
             attributes,
-            setAttributes
+            setAttributes,
+            postTitle
         } = this.props;
 
         const {
@@ -605,11 +650,15 @@ class Inspector extends Component {
                             </BaseControl>
                     }
                 </PanelBody>
-                <VideoUpload { ...{ attributes, setAttributes, className } } />
+                <VideoUpload
+                    hintLoading={ this.props.hintLoading }
+                    { ...{ attributes, setAttributes, className } }
+                />
                 <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ true } title={ __( "Recipe Card SEO Settings", "wpzoom-recipe-card" ) }>
                     <BaseControl
                         id={ `${ id }-course` }
                         label={ __( "Course (required)", "wpzoom-recipe-card" ) }
+                        help={ __( "If no value is set then the post category is added by default.", "wpzoom-recipe-card" ) }
                     >
                         <ToggleControl
                             label={ __( "Display Course", "wpzoom-recipe-card" ) }
@@ -978,49 +1027,102 @@ class Inspector extends Component {
                                 <p>{ __( "We recommend to add value for following fields: ", "wpzoom-recipe-card" ) } <strong>{ this.warningDetails() }</strong>.</p>
                             </Notice>
                         }
+                        {
+                            get( structuredDataNotice, 'not_display' ).length > 0 &&
+                            <Notice status="warning" isDismissible={ false }>
+                                <p>{ __( "We recommend to display following fields: ", "wpzoom-recipe-card" ) } <strong>{ this.notDisplayDetails() }</strong>.</p>
+                            </Notice>
+                        }
                         <PanelRow>
                             <span>recipeTitle</span>
-                            <strong>{ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }</strong>
+                            <strong>{ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : postTitle }</strong>
                         </PanelRow>
                         <PanelRow className={ RichText.isEmpty( summary ) ? "text-color-orange": "" }>
                             <span>description</span>
-                            <strong>{ ! isUndefined( jsonSummary ) ? stripHTML( jsonSummary ) : __( "Not added", "wpzoom-recipe-card" ) }</strong>
+                            <strong>{ ! isUndefined( jsonSummary ) ? stripHTML( jsonSummary ) : NOT_ADDED }</strong>
                         </PanelRow>
                         <PanelRow className={ ! hasImage ? "text-color-red": "" }>
                             <span>image</span>
-                            <strong>{ hasImage ? get( image, 'url' ) : __( "Not added", "wpzoom-recipe-card" ) }</strong>
+                            <strong>{ hasImage ? get( image, 'url' ) : NOT_ADDED }</strong>
                         </PanelRow>
                         <PanelRow className={ ! hasVideo ? "text-color-orange": "" }>
                             <span>video</span>
-                            <strong>{ hasVideo ? get( video, 'url' ) : __( "Not added", "wpzoom-recipe-card" ) }</strong>
+                            <strong>{ hasVideo ? get( video, 'url' ) : NOT_ADDED }</strong>
+                        </PanelRow>
+                        <PanelRow className={ isEmpty( keywords ) ? "text-color-orange": "" }>
+                            <span>keywords</span>
+                            <strong>{ ! isEmpty( keywords ) ? keywords.filter( ( item ) => item ).join( ", " ) : NOT_ADDED }</strong>
+                        </PanelRow>
+                        <PanelRow className={ ! displayCourse || isEmpty( course ) ? "text-color-orange": "" }>
+                            <span>recipeCategory</span>
+                            {
+                                displayCourse &&
+                                <strong>{ ! isEmpty( course ) ? course.filter( ( item ) => item ).join( ", " ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayCourse &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
+                        </PanelRow>
+                        <PanelRow className={ ! displayCuisine || isEmpty( cuisine ) ? "text-color-orange": "" }>
+                            <span>recipeCuisine</span>
+                            {
+                                displayCuisine &&
+                                <strong>{ ! isEmpty( cuisine ) ? cuisine.filter( ( item ) => item ).join( ", " ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayCuisine &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
                         </PanelRow>
                         <PanelRow>
                             <span>recipeYield</span>
-                            <strong>{ get( details, [ 0, 'value' ] ) ? get( details, [ 0, 'value' ] ) + ' ' + get( details, [ 0, 'unit' ] ) : '0 ' + get( details, [ 0, 'unit' ] ) }</strong>
+                            <strong>{ get( details, [ 0, 'value' ] ) ? get( details, [ 0, 'value' ] ) + ' ' + get( details, [ 0, 'unit' ] ) : NOT_ADDED }</strong>
                         </PanelRow>
-                        <PanelRow className={ ! get( details, [ 1, 'value' ] ) ? "text-color-orange": "" }>
+                        <PanelRow className={ ! displayPrepTime || ! get( details, [ 1, 'value' ] ) ? "text-color-orange": "" }>
                             <span>prepTime</span>
-                            <strong><strong>{ convertMinutesToHours( get( details, [ 1, 'value' ] ) ) }</strong></strong>
+                            {
+                                displayPrepTime &&
+                                <strong>{ get( details, [ 1, 'value' ] ) ? convertMinutesToHours( get( details, [ 1, 'value' ] ) ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayPrepTime &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
                         </PanelRow>
-                        <PanelRow className={ ! get( details, [ 2, 'value' ] ) ? "text-color-orange": "" }>
+                        <PanelRow className={ ! displayCookingTime || ! get( details, [ 2, 'value' ] ) ? "text-color-orange": "" }>
                             <span>cookTime</span>
-                            <strong>{ convertMinutesToHours( get( details, [ 2, 'value' ] ) ) }</strong>
+                            {
+                                displayCookingTime &&
+                                <strong>{ get( details, [ 2, 'value' ] ) ? convertMinutesToHours( get( details, [ 2, 'value' ] ) ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayCookingTime &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
                         </PanelRow>
                         <PanelRow>
                             <span>totalTime</span>
-                            <strong>{ convertMinutesToHours( get( details, [ 8, 'value' ] ) ) }</strong>
+                            <strong>{ get( details, [ 8, 'value' ] ) ? convertMinutesToHours( get( details, [ 8, 'value' ] ) ) : NOT_ADDED }</strong>
                         </PanelRow>
-                        <PanelRow className={ ! get( details, [ 3, 'value' ] ) ? "text-color-orange": "" }>
+                        <PanelRow className={ ! displayCalories || ! get( details, [ 3, 'value' ] ) ? "text-color-orange": "" }>
                             <span>calories</span>
-                            <strong>{ get( details, [ 3, 'value' ] ) ? get( details, [ 3, 'value' ] ) + ' ' + get( details, [ 3, 'unit' ] ) : '0 ' + get( details, [ 3, 'unit' ] ) }</strong>
+                            {
+                                displayCalories &&
+                                <strong>{ get( details, [ 3, 'value' ] ) ? get( details, [ 3, 'value' ] ) + ' ' + get( details, [ 3, 'unit' ] ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayCalories &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
                         </PanelRow>
                         <PanelRow className={ ! get( structuredDataTable, 'recipeIngredients' ) ? "text-color-red": "" }>
                             <span>{ __( "Ingredients", "wpzoom-recipe-card" ) }</span>
-                            <strong>{ get( structuredDataTable, 'recipeIngredients' ) }</strong>
+                            <strong>{ get( structuredDataTable, 'recipeIngredients' ) ? get( structuredDataTable, 'recipeIngredients' ) : NOT_ADDED }</strong>
                         </PanelRow>
                         <PanelRow className={ ! get( structuredDataTable, 'recipeInstructions' ) ? "text-color-red" : "" }>
                             <span>{ __( "Steps", "wpzoom-recipe-card" ) }</span>
-                            <strong>{ get( structuredDataTable, 'recipeInstructions' ) }</strong>
+                            <strong>{ get( structuredDataTable, 'recipeInstructions' ) ? get( structuredDataTable, 'recipeInstructions' ) : NOT_ADDED }</strong>
                         </PanelRow>
                     </BaseControl>
                 </PanelBody>
@@ -1028,40 +1130,3 @@ class Inspector extends Component {
         );
     }
 }
-
-export default compose( [
-    withSelect( ( select, props ) => {
-        const {
-            attributes: {
-                image,
-                hasImage
-            }
-        } = props;
-        const { getMedia } = select( 'core' );
-        const {
-            getEditorSettings,
-            getEditedPostAttribute
-        } = select( 'core/editor' );
-        const {
-            maxWidth,
-            isRTL,
-            imageSizes
-        } = getEditorSettings();
-        const featuredImageId = getEditedPostAttribute( 'featured_media' );
-
-        let id = 0;
-
-        if ( hasImage ) {
-            id = get( image, [ 'id' ] ) || 0;
-        } else {
-            id = featuredImageId;
-        }
-
-        return {
-            media: id ? getMedia( id ) : false,
-            imageSizes,
-            maxWidth,
-            isRTL
-        };
-    } )
-] )( Inspector );

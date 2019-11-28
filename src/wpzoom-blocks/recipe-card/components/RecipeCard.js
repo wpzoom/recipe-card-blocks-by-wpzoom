@@ -1,8 +1,11 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
 import get from "lodash/get";
+import map from "lodash/map";
+import isEmpty from "lodash/isEmpty";
 import uniqueId from "lodash/uniqueId";
 import isUndefined from "lodash/isUndefined";
+import invoke from 'lodash/invoke';
 import ReactPlayer from "react-player";
 
 /* Internal dependencies */
@@ -23,21 +26,32 @@ const {
     Spinner,
     Disabled
 } = wp.components;
+
 const {
     RichText,
     BlockControls,
     MediaUpload,
 } = wp.blockEditor;
+
 const {
-    post_permalink,
-    post_title,
-    post_author_name,
-    post_thumbnail_url,
     setting_options
 } = wpzoomRecipeCard;
 
-/* Module constants */
+const { withSelect } = wp.data;
+const { compose } = wp.compose;
+const { apiFetch } = wp;
+const { addQueryArgs } = wp.url;
+
+/**
+ * Module Constants
+ */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
+const DEFAULT_QUERY = {
+    per_page: -1,
+    orderby: 'name',
+    order: 'asc',
+    _fields: 'id,name,parent',
+};
 
 /* Import CSS. */
 import '../style.scss';
@@ -46,7 +60,7 @@ import '../editor.scss';
 /**
  * A Recipe Card block.
  */
-export default class RecipeCard extends Component {
+class RecipeCard extends Component {
     /**
      * Constructs a Recipe Card editor component.
      *
@@ -58,10 +72,99 @@ export default class RecipeCard extends Component {
         super( props );
 
         this.setFocus = this.setFocus.bind( this );
+        this.hintLoading = this.hintLoading.bind( this );
         this.onSelectImage = this.onSelectImage.bind( this );
 
         this.editorRefs = {};
-        this.state = { focus: "" };
+        this.state = {
+            isLoading: false,
+            focus: ""
+        };
+    }
+
+    componentDidMount() {
+        this.setPostTitle();
+        this.fetchCategories();
+    }
+
+    componentWillUnmount() {
+        invoke( this.fetchRequest, [ 'abort' ] );
+    }
+
+    componentDidUpdate( prevProps ) {
+        if ( RichText.isEmpty( this.props.attributes.recipeTitle ) ) {
+            this.setState( { isLoading: true } );
+            this.setPostTitle();
+        }
+        if ( this.props.attributes.course !== prevProps.attributes.course || this.props.categories !== prevProps.categories ) {
+            this.setState( { isLoading: true } );
+            this.fetchCategories();
+        }
+    }
+
+    setPostTitle() {
+        const { postTitle } = this.props;
+
+        if ( ! RichText.isEmpty( this.props.attributes.recipeTitle ) ) {
+            return;
+        }
+
+        // Because setAttributes is quite slow we fake having a recipeTitle.
+        this.props.attributes.recipeTitle = postTitle;
+
+        this.setState( {
+            isLoading: false
+        } );
+    }
+
+    fetchCategories() {
+        const {
+            attributes: {
+                course
+            },
+            categories
+        } = this.props;
+
+        // We have added course
+        if ( ! isEmpty( course ) ) {
+            this.setState( { isLoading: false } );
+            return;
+        }
+
+        // We don't have selected post category
+        if ( isEmpty( categories ) ) {
+            this.setState( { isLoading: false } );
+            return;
+        }
+
+        const query = { ...DEFAULT_QUERY, ...{ include: categories.join( ',' ) } };
+
+        this.fetchRequest = apiFetch( {
+            path: addQueryArgs( `/wp/v2/categories`, query ),
+        } );
+
+        this.fetchRequest.then(
+            ( terms ) => { // resolve
+                const availableCategories = map( terms, ( { name } ) => {
+                    return name;
+                } );
+
+                this.fetchRequest = null;
+                this.props.attributes.course = availableCategories;
+                this.setState( {
+                    isLoading: false
+                } );
+            },
+            ( xhr ) => { // reject
+                if ( xhr.statusText === 'abort' ) {
+                    return;
+                }
+                this.fetchRequest = null;
+                this.setState( {
+                    isLoading: false
+                } );
+            }
+        );
     }
 
     /**
@@ -109,8 +212,22 @@ export default class RecipeCard extends Component {
         } );
     }
 
+    hintLoading( isLoading = true ) {
+        this.setState( { isLoading } );
+    }
+
     render() {
-        const { attributes, setAttributes, className } = this.props;
+        const {
+            attributes,
+            setAttributes,
+            className,
+            postType,
+            postTitle,
+            postAuthor,
+            postPermalink,
+            media
+        } = this.props;
+
         const {
             id,
             recipeTitle,
@@ -141,6 +258,8 @@ export default class RecipeCard extends Component {
             },
         } = attributes;
 
+        const postThumbnail = pickRelevantMediaFiles( media, 'header' );
+
         const style = getBlockStyle( className );
         const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
         const hideRecipeImgClass = hide_header_image ? 'recipe-card-noimage' : '';
@@ -162,7 +281,7 @@ export default class RecipeCard extends Component {
 
         customAuthorName = custom_author_name;
         if ( customAuthorName === '' ) {
-            customAuthorName = post_author_name;
+            customAuthorName = postAuthor;
         }
 
         const regex = /is-style-(\S*)/g;
@@ -172,7 +291,7 @@ export default class RecipeCard extends Component {
         const RecipeCardClassName = classNames.filter( ( item ) => item ).join( " " );
         const PrintClasses = [ "wpzoom-recipe-card-print-link" ].filter( ( item ) => item ).join( " " );
         const PinterestClasses = [ "wpzoom-recipe-card-pinit" ].filter( ( item ) => item ).join( " " );
-        const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ post_permalink }&media=${ get( image, [ 'url' ] ) || post_thumbnail_url }&description=${ pin_description }`;
+        const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ postPermalink }&media=${ get( image, [ 'url' ] ) || get( postThumbnail, [ 'url' ] ) }&description=${ pin_description }`;
 
         return (
             <div className={ RecipeCardClassName } id={ id }>
@@ -181,7 +300,7 @@ export default class RecipeCard extends Component {
                     this.state.isLoading &&
                     <Placeholder
                         className="wpzoom-recipe-card-loading-spinner"
-                        label={ __( "Loading Recipe Data", "wpzoom-recipe-card" ) }
+                        label={ __( "Loading...", "wpzoom-recipe-card" ) }
                     >
                         <Spinner />
                     </Placeholder>
@@ -221,7 +340,7 @@ export default class RecipeCard extends Component {
                             <div className="recipe-card-image-preview">
                                 <div className="recipe-card-image">
                                     <figure>
-                                        <img src={ get( image, [ 'url' ] ) } id={ get( image, [ 'id' ] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
+                                        <img src={ get( image, [ 'url' ] ) } id={ get( image, [ 'id' ] ) } alt={ recipeTitle }/>
                                         <figcaption>
                                             <Disabled>
                                                 {
@@ -253,7 +372,7 @@ export default class RecipeCard extends Component {
                                 className="recipe-card-title"
                                 tagName="h2"
                                 format="string"
-                                value={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }
+                                value={ recipeTitle }
                                 unstableOnFocus={ () => this.setFocus( "recipeTitle" ) }
                                 onChange={ newTitle => setAttributes( { recipeTitle: newTitle } ) }
                                 onSetup={ ( ref ) => {
@@ -310,7 +429,7 @@ export default class RecipeCard extends Component {
                             <div className="recipe-card-image-preview">
                                 <div className="recipe-card-image">
                                     <figure>
-                                        <img src={ get( image, [ 'url' ] ) } id={ get( image, [ 'id' ] ) } alt={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }/>
+                                        <img src={ get( image, [ 'url' ] ) } id={ get( image, [ 'id' ] ) } alt={ recipeTitle }/>
                                         <figcaption>
                                             <Disabled>
                                                 {
@@ -345,7 +464,7 @@ export default class RecipeCard extends Component {
                                     className="recipe-card-title"
                                     tagName="h2"
                                     format="string"
-                                    value={ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : post_title }
+                                    value={ recipeTitle }
                                     unstableOnFocus={ () => this.setFocus( "recipeTitle" ) }
                                     onChange={ newTitle => setAttributes( { recipeTitle: newTitle } ) }
                                     onSetup={ ( ref ) => {
@@ -466,7 +585,18 @@ export default class RecipeCard extends Component {
                     />
                     <p className="description">{ __( "Press Enter to add new note.", "wpzoom-recipe-card" ) }</p>
                 </div>
-                <Inspector { ...{ attributes, setAttributes, className } } />
+                <Inspector
+                    media={ this.props.media }
+                    categories={ this.props.categories }
+                    postTitle={ postTitle }
+                    postType={ postType }
+                    postAuthor={ postAuthor }
+                    imageSizes={ this.props.imageSizes }
+                    maxWidth={ this.props.maxWidth }
+                    isRTL={ this.props.isRTL }
+                    hintLoading={ this.hintLoading }
+                    { ...{ attributes, setAttributes, className } }
+                />
                 <BlockControls>
                     <ExtraOptionsModal { ...{ props: this.props } } />
                 </BlockControls>
@@ -474,3 +604,79 @@ export default class RecipeCard extends Component {
         );
     }
 }
+
+export default compose( [
+    withSelect( ( select, props ) => {
+        const {
+            attributes: {
+                image,
+                hasImage
+            }
+        } = props;
+
+        const {
+            getMedia,
+            getPostType,
+            getAuthors
+        } = select( 'core' );
+
+        const {
+            getEditorSettings,
+            getEditedPostAttribute,
+            getPermalink
+        } = select( 'core/editor' );
+
+        const {
+            maxWidth,
+            isRTL,
+            imageSizes
+        } = getEditorSettings();
+
+        const getAuthorData = ( authors, path = '' ) => {
+            let postAuthor = getEditedPostAttribute( 'author' );
+            let authorData = null;
+
+            authors.map(
+                function( author, key ) {
+                    if ( author.id === postAuthor ) {
+                        if ( path !== '' ) {
+                            authorData = get( authors, [ key, path ] );
+                        } else {
+                            authorData = get( authors, [ key ] );
+                        }
+                    }
+                }
+            );
+
+            return authorData;
+        }
+
+        const postType = getPostType( getEditedPostAttribute( 'type' ) );
+        const postPermalink = getPermalink();
+        const categories = getEditedPostAttribute( 'categories' );
+        const postTitle = getEditedPostAttribute( 'title' );
+        const featuredImageId = getEditedPostAttribute( 'featured_media' );
+        const authors = getAuthors();
+        const postAuthor = getAuthorData( authors, 'name' );
+
+        let id = 0;
+
+        if ( hasImage ) {
+            id = get( image, [ 'id' ] ) || 0;
+        } else {
+            id = featuredImageId;
+        }
+
+        return {
+            media: id ? getMedia( id ) : false,
+            postTitle,
+            postType,
+            postAuthor,
+            postPermalink,
+            categories,
+            imageSizes,
+            maxWidth,
+            isRTL
+        };
+    } )
+] )( RecipeCard )
