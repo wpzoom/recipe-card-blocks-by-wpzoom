@@ -65,6 +65,7 @@ export default class Inspector extends Component {
             updateIngredients: false,
             updateInstructions: false,
             isCalculatedTotalTime: false,
+            isCalculateBtnClick: false,
             structuredDataNotice: {
                 errors: [],
                 warnings: [],
@@ -137,7 +138,7 @@ export default class Inspector extends Component {
             }
         } );
 
-        setTimeout( this.props.hintLoading.bind( this, false ), 500 );
+        setTimeout( this.props.hintLoading.bind( this, false ), 250 );
     }
 
     onSelectImage( media ) {
@@ -380,9 +381,9 @@ export default class Inspector extends Component {
 
         const totalTimeValue = get( details, [ index, 'value' ] );
 
-        if ( ! isUndefined( totalTimeValue ) && ! isEmpty( totalTimeValue ) && 0 != totalTimeValue ) {
-            setTimeout( this.props.hintLoading.bind( this, false ), 500 );
-            this.setState( { isCalculatedTotalTime: true } );
+        if ( ! this.state.isCalculateBtnClick && ! isUndefined( totalTimeValue ) && ! isEmpty( totalTimeValue ) && 0 != totalTimeValue ) {
+            setTimeout( this.props.hintLoading.bind( this, false ), 250 );
+            this.setState( { isCalculatedTotalTime: true, isCalculateBtnClick: false } );
             return;
         }
 
@@ -393,8 +394,8 @@ export default class Inspector extends Component {
             this.onChangeDetail( toString( totalTime ), index, 'value' )
             this.onChangeDetail( unit, index, 'unit' )
 
-            setTimeout( this.props.hintLoading.bind( this, false ), 500 );
-            this.setState( { isCalculatedTotalTime: true } );
+            setTimeout( this.props.hintLoading.bind( this, false ), 250 );
+            this.setState( { isCalculatedTotalTime: true, isCalculateBtnClick: false } );
         }
     }
 
@@ -665,7 +666,7 @@ export default class Inspector extends Component {
                     <BaseControl
                         id={ `${ id }-course` }
                         label={ __( "Course (required)", "wpzoom-recipe-card" ) }
-                        help={ __( "If no value is set then the post category is added by default.", "wpzoom-recipe-card" ) }
+                        help={ __( "The post category is added by default.", "wpzoom-recipe-card" ) }
                     >
                         <ToggleControl
                             label={ __( "Display Course", "wpzoom-recipe-card" ) }
@@ -726,7 +727,7 @@ export default class Inspector extends Component {
                     <BaseControl
                         id={ `${ id }-keywords` }
                         label={ __( "Keywords (recommended)", "wpzoom-recipe-card" ) }
-                        help={ __( "For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword).", "wpzoom-recipe-card" ) }
+                        help={ __( "For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword). Note: The post tags is added by default.", "wpzoom-recipe-card" ) }
                     >
                         <FormTokenField
                             label={ __( "Add keywords", "wpzoom-recipe-card" ) }
@@ -875,7 +876,7 @@ export default class Inspector extends Component {
                                 <Button
                                     isDefault
                                     className="editor-calculate-total-time"
-                                    onClick={ () => this.setState( { isCalculatedTotalTime: false } ) }
+                                    onClick={ () => this.setState( { isCalculatedTotalTime: false, isCalculateBtnClick: true } ) }
                                 >
                                     { __( "Calculate Total Time", "wpzoom-recipe-card" ) }
                                 </Button>

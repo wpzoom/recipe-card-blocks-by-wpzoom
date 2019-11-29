@@ -94,7 +94,7 @@ class VideoUpload extends Component {
         }
 
         if ( hasVideo && ! prevProps.attributes.hasVideo || this.state.isLoading !== prevState.isLoading ) {
-            setTimeout( this.props.hintLoading.bind( this, false ), 500 );
+            setTimeout( this.props.hintLoading.bind( this, false ), 250 );
         }
 
         if ( hasVideo && posterURL !== prevPosterURL ) {

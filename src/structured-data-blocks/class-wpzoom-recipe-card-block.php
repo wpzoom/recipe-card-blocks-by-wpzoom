@@ -890,8 +890,8 @@ class WPZOOM_Recipe_Card_Block {
 				);
 			}
 
-			// convert minutes to hours for 'prep time' and 'cook time' items
-			if ( 1 === $index || 2 === $index ) {
+			// convert minutes to hours for 'prep time', 'cook time' and 'total time'
+			if ( 1 === $index || 2 === $index || 8 === $index ) {
 				if ( ! empty( $detail['value'] ) ) {
 					$converts = self::$helpers->convertMinutesToHours( $detail['value'], true );
 					if ( ! empty( $converts ) ) {

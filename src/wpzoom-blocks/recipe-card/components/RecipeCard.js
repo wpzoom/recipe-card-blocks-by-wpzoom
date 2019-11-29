@@ -50,7 +50,7 @@ const DEFAULT_QUERY = {
     per_page: -1,
     orderby: 'name',
     order: 'asc',
-    _fields: 'id,name,parent',
+    _fields: 'id,name',
 };
 
 /* Import CSS. */
@@ -78,6 +78,9 @@ class RecipeCard extends Component {
         this.editorRefs = {};
         this.state = {
             isLoading: true,
+            isPostTitleSet: false,
+            isCategoriesFetched: false,
+            isTagsFetched: false,
             focus: ""
         };
     }
@@ -85,20 +88,27 @@ class RecipeCard extends Component {
     componentDidMount() {
         this.setPostTitle();
         this.fetchCategories();
+        this.fetchTags();
     }
 
     componentWillUnmount() {
         invoke( this.fetchRequest, [ 'abort' ] );
     }
 
-    componentDidUpdate( prevProps ) {
-        if ( RichText.isEmpty( this.props.attributes.recipeTitle ) ) {
+    componentDidUpdate( prevProps, prevState ) {
+        if ( this.state.isPostTitleSet && ! prevState.isPostTitleSet && RichText.isEmpty( this.props.attributes.recipeTitle ) ) {
             this.setState( { isLoading: true } );
             this.setPostTitle();
         }
-        if ( this.props.attributes.course !== prevProps.attributes.course || this.props.categories !== prevProps.categories ) {
+
+        if ( this.state.isCategoriesFetched && ! prevState.isCategoriesFetched && isEmpty( this.props.attributes.course ) ) {
             this.setState( { isLoading: true } );
             this.fetchCategories();
+        }
+
+        if ( this.state.isTagsFetched && ! prevState.isTagsFetched && isEmpty( this.props.attributes.keywords ) ) {
+            this.setState( { isLoading: true } );
+            this.fetchTags();
         }
     }
 
@@ -109,12 +119,9 @@ class RecipeCard extends Component {
             return;
         }
 
-        // Because setAttributes is quite slow we fake having a recipeTitle.
-        this.props.attributes.recipeTitle = postTitle;
+        this.props.setAttributes( { recipeTitle: postTitle } );
 
-        this.setState( {
-            isLoading: false
-        } );
+        setTimeout( this.setState.bind( this, { isPostTitleSet: true, isLoading: false } ), 250 );
     }
 
     fetchCategories() {
@@ -150,10 +157,56 @@ class RecipeCard extends Component {
                 } );
 
                 this.fetchRequest = null;
-                this.props.attributes.course = availableCategories;
+                this.props.setAttributes( { course: availableCategories } );
+                setTimeout( this.setState.bind( this, { isCategoriesFetched: true, isLoading: false } ), 250 );
+            },
+            ( xhr ) => { // reject
+                if ( xhr.statusText === 'abort' ) {
+                    return;
+                }
+                this.fetchRequest = null;
                 this.setState( {
                     isLoading: false
                 } );
+            }
+        );
+    }
+
+    fetchTags() {
+        const {
+            attributes: {
+                keywords
+            },
+            tags
+        } = this.props;
+
+        // We have added keywords
+        if ( ! isEmpty( keywords ) ) {
+            this.setState( { isLoading: false } );
+            return;
+        }
+
+        // We don't have added post tags
+        if ( isEmpty( tags ) ) {
+            this.setState( { isLoading: false } );
+            return;
+        }
+
+        const query = { ...DEFAULT_QUERY, ...{ include: tags.join( ',' ) } };
+
+        this.fetchRequest = apiFetch( {
+            path: addQueryArgs( `/wp/v2/tags`, query ),
+        } );
+
+        this.fetchRequest.then(
+            ( terms ) => { // resolve
+                const availableTags = map( terms, ( { name } ) => {
+                    return name;
+                } );
+
+                this.fetchRequest = null;
+                this.props.setAttributes( { keywords: availableTags } );
+                setTimeout( this.setState.bind( this, { isTagsFetched: true, isLoading: false } ), 250 );
             },
             ( xhr ) => { // reject
                 if ( xhr.statusText === 'abort' ) {
@@ -654,6 +707,7 @@ export default compose( [
         const postType = getPostType( getEditedPostAttribute( 'type' ) );
         const postPermalink = getPermalink();
         const categories = getEditedPostAttribute( 'categories' );
+        const tags = getEditedPostAttribute( 'tags' );
         const postTitle = getEditedPostAttribute( 'title' );
         const featuredImageId = getEditedPostAttribute( 'featured_media' );
         const authors = getAuthors();
@@ -674,6 +728,7 @@ export default compose( [
             postAuthor,
             postPermalink,
             categories,
+            tags,
             imageSizes,
             maxWidth,
             isRTL
