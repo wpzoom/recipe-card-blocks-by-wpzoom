@@ -595,7 +595,7 @@ class WPZOOM_Recipe_Card_Block {
 
 			foreach ( $details as $key => $detail ) {
 				if ( $key === 0 ) {
-					if ( ! empty( $detail[ 'value' ] ) ) {
+					if ( ! empty( $detail[ 'value' ] ) && self::$settings['displayServings'] ) {
 						if ( !is_array( $detail['value'] ) ) {
 							$json_ld['recipeYield'] = $detail['value'];
 
@@ -719,7 +719,7 @@ class WPZOOM_Recipe_Card_Block {
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'far',
-		        'icon' 		=> 'clock-o',
+		        'icon' 		=> 'clock',
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
@@ -739,7 +739,7 @@ class WPZOOM_Recipe_Card_Block {
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'far',
-		        'icon' 		=> 'clock-o',
+		        'icon' 		=> 'clock',
 		        'label' 	=> __( "Total time", "wpzoom-recipe-card" ),
 		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" ),
 		        'value'		=> '0'

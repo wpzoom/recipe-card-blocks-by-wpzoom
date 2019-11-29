@@ -77,7 +77,7 @@ class RecipeCard extends Component {
 
         this.editorRefs = {};
         this.state = {
-            isLoading: false,
+            isLoading: true,
             focus: ""
         };
     }
