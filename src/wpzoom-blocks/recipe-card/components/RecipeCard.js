@@ -72,6 +72,7 @@ class RecipeCard extends Component {
         super( props );
 
         this.setFocus = this.setFocus.bind( this );
+        this.onBulkAdd = this.onBulkAdd.bind( this );
         this.hintLoading = this.hintLoading.bind( this );
         this.onSelectImage = this.onSelectImage.bind( this );
 
@@ -81,6 +82,7 @@ class RecipeCard extends Component {
             isPostTitleSet: false,
             isCategoriesFetched: false,
             isTagsFetched: false,
+            isBulkAdd: false,
             focus: ""
         };
     }
@@ -267,6 +269,10 @@ class RecipeCard extends Component {
 
     hintLoading( isLoading = true ) {
         this.setState( { isLoading } );
+    }
+
+    onBulkAdd() {
+        this.setState( { isBulkAdd: true } );
     }
 
     render() {
@@ -651,7 +657,12 @@ class RecipeCard extends Component {
                     { ...{ attributes, setAttributes, className } }
                 />
                 <BlockControls>
-                    <ExtraOptionsModal { ...{ props: this.props } } />
+                    <ExtraOptionsModal
+                        ingredients={ this.props.attributes.ingredients }
+                        steps={ this.props.attributes.steps }
+                        setAttributes={ this.props.setAttributes }
+                        onBulkAdd={ this.onBulkAdd }
+                    />
                 </BlockControls>
             </div>
         );
