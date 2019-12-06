@@ -548,7 +548,6 @@ class RecipeCard extends Component {
                     </div>
                 }
 
-
                 <RichText
                     className="recipe-card-summary"
                     tagName="p"

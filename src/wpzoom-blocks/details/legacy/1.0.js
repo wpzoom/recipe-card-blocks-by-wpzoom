@@ -11,7 +11,7 @@ import get from 'lodash/get';
 import times from 'lodash/times';
 
 /* External dependencies */
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 const { RichText } = wp.blockEditor;
 
 
@@ -43,11 +43,11 @@ export default function LegacyDetails( props ) {
 
                     return (
                         <div className={ detailItemClass }>
-                            { icon ? <span 
-                                    className="detail-item-icon" 
+                            { icon ? <span
+                                    className="detail-item-icon"
                                     icon-name={ icon }>
-                                        <FoodIcons icon={ icon }/>
-                                </span> : ''
+                                <FoodIcons icon={ icon }/>
+                            </span> : ''
                             }
                             { ! RichText.isEmpty( label ) && <RichText.Content
                                     value={ label }
@@ -63,7 +63,7 @@ export default function LegacyDetails( props ) {
                             }
                         </div>
                     );
-                })
+                } )
             }
         </div>
     );

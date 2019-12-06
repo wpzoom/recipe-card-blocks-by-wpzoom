@@ -5,11 +5,8 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
-/* Internal dependencies */
-import Inspector from '../components/Inspector';
-
 /* External dependencies */
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 const { RichText } = wp.blockEditor;
 const { pluginURL } = window.wpzoomRecipeCard; // Import pluginURL from window.wpzoomRecipeCard
 

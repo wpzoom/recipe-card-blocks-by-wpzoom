@@ -6,7 +6,7 @@
  * @returns {string}        The string with the first letter capitalized.
  */
 export function firstToUpperCase( string ) {
-	return string.charAt( 0 ).toUpperCase() + string.slice( 1 );
+    return string.charAt( 0 ).toUpperCase() + string.slice( 1 );
 }
 
 /**
@@ -17,9 +17,9 @@ export function firstToUpperCase( string ) {
  * @returns {string} The string with HTML stripped.
  */
 export function stripHTML( string ) {
-	const tmp = document.createElement( "DIV" );
-	tmp.innerHTML = string;
-	return tmp.textContent || tmp.innerText || "";
+    const tmp = document.createElement( "DIV" );
+    tmp.innerHTML = string;
+    return tmp.textContent || tmp.innerText || "";
 }
 
 /**
@@ -30,11 +30,11 @@ export function stripHTML( string ) {
  * @returns {string}        The string with the first letter capitalized and underscore removed.
  */
 export function humanize( string ) {
-  	const frags = string.split('_');
-  	for (var i = 0; i < frags.length; i++) {
-    	frags[i] = firstToUpperCase( frags[i] );
-  	}
-  	return frags.join(' ');
+    const frags = string.split( '_' );
+    for ( var i = 0; i < frags.length; i++ ) {
+        frags[i] = firstToUpperCase( frags[i] );
+    }
+    return frags.join( ' ' );
 }
 
 /**
@@ -45,30 +45,30 @@ export function humanize( string ) {
  * @returns {array}         The array with all extracted src from string.
  */
 export function matchIMGsrc( string ) {
-  	const regex = /<img[^>]+src="([^">]+)"/gm;
-  	let IMGsources = [];
-  	let m;
-  	let i = 0;
+    const regex = /<img[^>]+src="([^">]+)"/gm;
+    let IMGsources = [];
+    let m;
+    let i = 0;
 
-  	while ((m = regex.exec(string)) !== null) {
-  	    // This is necessary to avoid infinite loops with zero-width matches
-  	    if (m.index === regex.lastIndex) {
-  	        regex.lastIndex++;
-  	    }
-  	    
-  	    // The result can be accessed through the `m`-variable.
-  	    m.forEach((match, groupIndex) => {
-  	    	if ( groupIndex === 1 ) {
-  	    		IMGsources[ i ] = match;
-  	    	}
-  	    });
+    while ( ( m = regex.exec( string ) ) !== null ) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if ( m.index === regex.lastIndex ) {
+            regex.lastIndex++;
+        }
 
-  	    i++;
-  	}
+        // The result can be accessed through the `m`-variable.
+        m.forEach( ( match, groupIndex ) => {
+            if ( groupIndex === 1 ) {
+                IMGsources[ i ] = match;
+            }
+        } );
 
-  	if ( IMGsources.length ) {
-  		return IMGsources;
-  	}
+        i++;
+    }
 
-  	return false;
+    if ( IMGsources.length ) {
+        return IMGsources;
+    }
+
+    return false;
 }

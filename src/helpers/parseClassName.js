@@ -10,11 +10,11 @@ import includes from "lodash/includes";
  * @returns {string} className.
  */
 export function excludeClassNames( className, exclude ) {
-	let classname = className;
-	exclude.map( (item, index) => {
-		if ( includes( classname, item ) ) {
-			classname = trim( classname, item );
-		}
-	} );
-	return classname;
+    let classname = className;
+    exclude.map( ( item, index ) => {
+        if ( includes( classname, item ) ) {
+            classname = trim( classname, item );
+        }
+    } );
+    return classname;
 }
