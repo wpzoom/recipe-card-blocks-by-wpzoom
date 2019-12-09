@@ -374,10 +374,6 @@ export default class Inspector extends Component {
         const prepTime      = getNumberFromString( get( details, [ 1, 'value' ] ) );
         const cookTime      = getNumberFromString( get( details, [ 2, 'value' ] ) );
         const totalTime     = prepTime + cookTime;
-        const iconSet       = 'fa';
-        const icon          = 'clock-o';
-        const label         = __( "Total time", "wpzoom-recipe-card" );
-        const unit          = __( "minutes", "wpzoom-recipe-card" );
 
         const totalTimeValue = get( details, [ index, 'value' ] );
 
@@ -388,11 +384,7 @@ export default class Inspector extends Component {
         }
 
         if ( '' != prepTime && '' != cookTime && totalTime > 0 ) {
-            this.onChangeDetail( icon, index, 'icon' )
-            this.onChangeDetail( iconSet, index, 'iconSet' )
-            this.onChangeDetail( label, index, 'label' )
             this.onChangeDetail( toString( totalTime ), index, 'value' )
-            this.onChangeDetail( unit, index, 'unit' )
 
             setTimeout( this.props.hintLoading.bind( this, false ), 250 );
             this.setState( { isCalculatedTotalTime: true, isCalculateBtnClick: false } );
