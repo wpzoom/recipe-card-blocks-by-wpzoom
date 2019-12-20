@@ -894,7 +894,7 @@ class WPZOOM_Recipe_Card_Block {
 			}
 
 			// convert minutes to hours for 'prep time', 'cook time' and 'total time'
-			if ( 1 === $index || 2 === $index || 8 === $index ) {
+			if ( 1 === $index || 2 === $index || 4 === $index || 8 === $index ) {
 				if ( ! empty( $detail['value'] ) ) {
 					$converts = self::$helpers->convertMinutesToHours( $detail['value'], true );
 					if ( ! empty( $converts ) ) {
@@ -1208,6 +1208,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		$video = isset( $attributes['video'] ) && ! empty( $attributes['video'] ) ? $attributes['video'] : array();
 		$video_type = isset( $video['type'] ) ? $video['type'] : '';
+		$video_id = isset( $video['id'] ) ? $video['id'] : 0;
 		$video_url = isset( $video['url'] ) ? esc_url( $video['url'] ) : '';
 		$video_poster = isset( $video['poster']['url'] ) ? esc_url( $video['poster']['url'] ) : '';
 		$video_settings = isset( $video['settings'] ) ? $video['settings'] : array();
@@ -1223,6 +1224,10 @@ class WPZOOM_Recipe_Card_Block {
 				}
 			}
 			$attrs = implode( ' ', $attrs );
+
+			if ( empty( $video_url ) && 0 !== $video_id ) {
+ 				$video_url = wp_get_attachment_url( $video_id );
+ 			}
 
 			$output = sprintf(
 				'<video %s src="%s" poster="%s"></video>',

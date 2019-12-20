@@ -373,7 +373,8 @@ export default class Inspector extends Component {
         const index         = 8; // Total Time index in details object array
         const prepTime      = getNumberFromString( get( details, [ 1, 'value' ] ) );
         const cookTime      = getNumberFromString( get( details, [ 2, 'value' ] ) );
-        const totalTime     = prepTime + cookTime;
+        const restingTime   = getNumberFromString( get( details, [ 4, 'value' ] ) );
+        const totalTime     = prepTime + cookTime + restingTime;
 
         const totalTimeValue = get( details, [ index, 'value' ] );
 
