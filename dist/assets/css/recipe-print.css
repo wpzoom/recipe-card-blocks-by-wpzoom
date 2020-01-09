@@ -1,6 +1,9 @@
 .no-print {
 	display: none !important;
 }
+.only-print-visible {
+    display: inline-block !important;
+}
 .wp-block-wpzoom-recipe-card-block-recipe-card {
 	font-size: 14px;
 }

@@ -7,7 +7,6 @@ import isEmpty from "lodash/isEmpty";
 import isObject from "lodash/isObject";
 import isString from "lodash/isString";
 import isUndefined from "lodash/isUndefined";
-import replace from "lodash/replace";
 import filter from "lodash/filter";
 import forEach from "lodash/forEach";
 import indexOf from "lodash/indexOf";
@@ -47,18 +46,16 @@ function ExtraOptionsModal(
         toToolBar,
         isOpen,
         isDataSet,
-        isButtonClicked,
         hasBlocks,
-        props,
-        setState,
+        ingredients,
+        steps,
         _ingredients,
-        _directions
+        _directions,
+        setAttributes,
+        setState,
+        onBulkAdd
     }
 ) {
-    const {
-        attributes,
-        setAttributes
-    }   = props;
     const blocks                = [ "wpzoom-recipe-card/block-ingredients", "wpzoom-recipe-card/block-directions" ];
     const blocksList            = select( 'core/block-editor' ).getBlocks();
     const wpzoomBlocksFilter    = filter( blocksList, function( item ) { return indexOf( blocks, item.name ) !== -1 } );
@@ -214,32 +211,22 @@ function ExtraOptionsModal(
         setState( { isOpen: false } );
     }
 
-    /**
-     * Fill _ingredients state with existing content from Recipe Card
-     */
-    if ( _ingredients === '<!empty>' ) {
-        const { ingredients } = attributes;
+    if ( ! isDataSet ) {
         ingredients ?
             ingredients.map( ( item ) => {
                 const isGroup = !isUndefined( item.isGroup ) ? item.isGroup : false;
                 _ingredients += parseValue( item.name, isGroup );
             } )
             : null;
-        _ingredients = replace( _ingredients, '<!empty>', '' );
-    }
 
-    /**
-     * Fill _directions state with existing content from Recipe Card
-     */
-    if ( _directions === '<!empty>' ) {
-        const { steps } = attributes;
         steps ?
             steps.map( ( step ) => {
                 const isGroup = !isUndefined( step.isGroup ) ? step.isGroup : false;
                 _directions += parseValue( step.text, isGroup );
             } )
             : null;
-        _directions = replace( _directions, '<!empty>', '' );
+
+        setState( { isDataSet: true, _ingredients, _directions } );
     }
 
     return (
@@ -255,7 +242,7 @@ function ExtraOptionsModal(
                         isLarge={ true }
                         onClick={ ( event ) => {
                             event.stopPropagation();
-                            setState( { isOpen: true, hasBlocks: wpzoomBlocksFilter.length > 0 } )
+                            setState( { isOpen: true, isDataSet: false, _ingredients: "", _directions: "", hasBlocks: wpzoomBlocksFilter.length > 0 } )
                         } }
                     >
                         { __( "Bulk Add", "wpzoom-recipe-card" ) }
@@ -300,7 +287,7 @@ function ExtraOptionsModal(
                                 ( !isEmpty( _ingredients ) || !isEmpty( _directions ) ) &&
                                 <Button
                                     isPrimary
-                                    onClick={ () => { onBulkAddIngredients(); onBulkAddDirections(); } }
+                                    onClick={ () => { onBulkAddIngredients(); onBulkAddDirections(); onBulkAdd(); } }
                                 >
                                     { __( "Bulk Add", "wpzoom-recipe-card" ) }
                                 </Button>
@@ -318,7 +305,6 @@ export default withState( {
     isOpen: false,
     isDataSet: false,
     hasBlocks: false,
-    isButtonClicked: false,
-    _ingredients: "<!empty>",
-    _directions: "<!empty>",
+    _ingredients: "",
+    _directions: "",
 } )( ExtraOptionsModal );

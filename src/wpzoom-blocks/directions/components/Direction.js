@@ -2,13 +2,13 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { speak } from "@wordpress/a11y";
-import uniqueId from "lodash/uniqueId";
 import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
 import DirectionStep from "./DirectionStep";
 import Inspector from "./Inspector";
 import { stripHTML } from "../../../helpers/stringHelpers";
+import { generateId } from "../../../helpers/generateId";
 
 /* WordPress dependencies */
 const { RichText } = wp.blockEditor;
@@ -52,20 +52,9 @@ export default class Direction extends Component {
         this.onAddStepButtonClick = this.onAddStepButtonClick.bind( this );
         this.onAddGroupButtonClick = this.onAddGroupButtonClick.bind( this );
 
-        this.props.attributes.id = Direction.generateId( 'wpzoom-block-directions' );
+        this.props.attributes.id = generateId( 'wpzoom-block-directions' );
 
         this.editorRefs = {};
-    }
-
-    /**
-     * Generates a pseudo-unique id.
-     *
-     * @param {string} [prefix] The prefix to use.
-     *
-     * @returns {string} Returns the unique ID.
-     */
-    static generateId( prefix = '' ) {
-        return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
     }
 
     /**
@@ -139,7 +128,7 @@ export default class Direction extends Component {
         }
 
         steps.splice( index + 1, 0, {
-            id: Direction.generateId( "direction-step" ),
+            id: generateId( "direction-step" ),
             text,
             jsonText: "",
             isGroup: group

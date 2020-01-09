@@ -8,10 +8,10 @@ import split from "lodash/split";
  * @returns {number} Block style.
  */
 export function getBlockStyle( className ) {
-	const { setting_options } = wpzoomRecipeCard;
-	const regex = /is-style-(\S*)/g;
-	let m = regex.exec( className );
-	return m !== null ? m[1] : setting_options.wpzoom_rcb_settings_template;
+    const { setting_options } = wpzoomRecipeCard;
+    const regex = /is-style-(\S*)/g;
+    let m = regex.exec( className );
+    return m !== null ? m[1] : setting_options.wpzoom_rcb_settings_template;
 }
 
 /**
@@ -22,7 +22,6 @@ export function getBlockStyle( className ) {
  * @returns {number} Block style.
  */
 export function parseClassName( className ) {
-    const regex = /is-style-(\S*)/g;
     let m = split( className, ' ' );
     return m ? m[0] : className;
 }

@@ -578,11 +578,11 @@ class WPZOOM_Recipe_Card_Block {
 
 		}
 
-		if ( ! empty( $attributes['course'] ) ) {
+		if ( ! empty( $attributes['course'] ) && self::$settings['displayCourse'] ) {
 			$json_ld['recipeCategory'] = $attributes['course'];
 		}
 
-		if ( ! empty( $attributes['cuisine'] ) ) {
+		if ( ! empty( $attributes['cuisine'] ) && self::$settings['displayCuisine'] ) {
 			$json_ld['recipeCuisine'] = $attributes['cuisine'];
 		}
 
@@ -595,7 +595,7 @@ class WPZOOM_Recipe_Card_Block {
 
 			foreach ( $details as $key => $detail ) {
 				if ( $key === 0 ) {
-					if ( ! empty( $detail[ 'value' ] ) ) {
+					if ( ! empty( $detail[ 'value' ] ) && self::$settings['displayServings'] ) {
 						if ( !is_array( $detail['value'] ) ) {
 							$json_ld['recipeYield'] = $detail['value'];
 
@@ -613,7 +613,7 @@ class WPZOOM_Recipe_Card_Block {
 					}
 				}
 				elseif ( $key === 3 ) {
-					if ( ! empty( $detail[ 'value' ] ) ) {
+					if ( ! empty( $detail[ 'value' ] ) && self::$settings['displayCalories'] ) {
 						if ( !is_array( $detail['value'] ) ) {
 							$json_ld['nutrition']['calories'] = $detail['value'] .' cal';
 						}
@@ -621,12 +621,9 @@ class WPZOOM_Recipe_Card_Block {
 							$json_ld['nutrition']['calories'] = $detail['jsonValue'] .' cal';
 						}
 					}
-					else {
-						unset( $json_ld['nutrition'] );
-					}
 				}
 				elseif ( $key === 1 ) {
-					if ( ! empty( $detail[ 'value' ] ) ) {
+					if ( ! empty( $detail[ 'value' ] ) && self::$settings['displayPrepTime'] ) {
 						if ( !is_array( $detail['value'] ) ) {
 							$prepTime = $this->structured_data_helpers->get_number_from_string( $detail['value'] );
 						    $json_ld['prepTime'] = $this->structured_data_helpers->get_period_time( $detail['value'] );
@@ -638,7 +635,7 @@ class WPZOOM_Recipe_Card_Block {
 					}
 				}
 				elseif ( $key === 2 ) {
-					if ( ! empty( $detail[ 'value' ] ) ) {
+					if ( ! empty( $detail[ 'value' ] ) && self::$settings['displayCookingTime'] ) {
 						if ( !is_array( $detail['value'] ) ) {
 							$cookTime = $this->structured_data_helpers->get_number_from_string( $detail['value'] );
 						    $json_ld['cookTime'] = $this->structured_data_helpers->get_period_time( $detail['value'] );
@@ -650,7 +647,7 @@ class WPZOOM_Recipe_Card_Block {
 					}
 				}
 				elseif ( $key === 8 ) {
-					if ( ! empty( $detail[ 'value' ] ) ) {
+					if ( ! empty( $detail[ 'value' ] ) && self::$settings['displayTotalTime'] ) {
 						if ( !is_array( $detail['value'] ) ) {
 							$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $detail['value'] );
 						}
@@ -722,7 +719,8 @@ class WPZOOM_Recipe_Card_Block {
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'fa',
-		        'icon' 		=> 'clock-o',
+		        '_prefix' 	=> 'far',
+		        'icon' 		=> 'clock',
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
@@ -737,12 +735,14 @@ class WPZOOM_Recipe_Card_Block {
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'fa',
-		        'icon' 		=> 'sort-amount-asc',
+		        '_prefix' 	=> 'fas',
+		        'icon' 		=> 'sort-amount-down',
 		    ),
 		    array(
 		        'id' 		=> self::$helpers->generateId( "detail-item" ),
 		        'iconSet' 	=> 'fa',
-		        'icon' 		=> 'clock-o',
+		        '_prefix' 	=> 'far',
+		        'icon' 		=> 'clock',
 		        'label' 	=> __( "Total time", "wpzoom-recipe-card" ),
 		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" ),
 		        'value'		=> '0'
@@ -893,8 +893,8 @@ class WPZOOM_Recipe_Card_Block {
 				);
 			}
 
-			// convert minutes to hours for 'prep time' and 'cook time' items
-			if ( 1 === $index || 2 === $index ) {
+			// convert minutes to hours for 'prep time', 'cook time' and 'total time'
+			if ( 1 === $index || 2 === $index || 4 === $index || 8 === $index ) {
 				if ( ! empty( $detail['value'] ) ) {
 					$converts = self::$helpers->convertMinutesToHours( $detail['value'], true );
 					if ( ! empty( $converts ) ) {
@@ -1208,6 +1208,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		$video = isset( $attributes['video'] ) && ! empty( $attributes['video'] ) ? $attributes['video'] : array();
 		$video_type = isset( $video['type'] ) ? $video['type'] : '';
+		$video_id = isset( $video['id'] ) ? $video['id'] : 0;
 		$video_url = isset( $video['url'] ) ? esc_url( $video['url'] ) : '';
 		$video_poster = isset( $video['poster']['url'] ) ? esc_url( $video['poster']['url'] ) : '';
 		$video_settings = isset( $video['settings'] ) ? $video['settings'] : array();
@@ -1223,6 +1224,10 @@ class WPZOOM_Recipe_Card_Block {
 				}
 			}
 			$attrs = implode( ' ', $attrs );
+
+			if ( empty( $video_url ) && 0 !== $video_id ) {
+ 				$video_url = wp_get_attachment_url( $video_id );
+ 			}
 
 			$output = sprintf(
 				'<video %s src="%s" poster="%s"></video>',

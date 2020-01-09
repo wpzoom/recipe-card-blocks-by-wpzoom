@@ -72,7 +72,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 	public static function register_custom_image_sizes() {
 		add_image_size( 'wpzoom-rcb-block-header', 			800, 530, true );
 		add_image_size( 'wpzoom-rcb-block-header-square', 	530, 530, true );
-		add_image_size( 'wpzoom-rcb-block-step-image', 		500 );
+		add_image_size( 'wpzoom-rcb-block-step-image', 		750 );
 	}
 
 	/**
