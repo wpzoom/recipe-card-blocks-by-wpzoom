@@ -127,6 +127,20 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.6.0 =
+* Changed step image size from 500px to 750px
+* Fixed issue when display detail is off and it appear on rich snippets
+* Fixed issue that causes to display wrong data (default value) for details in Recipe Card on Front-End
+* Fixed issue to convert total time minutes to hours
+* Fixed issue when click Calculate Total Time and value is not null
+* Fixed issue with ingredients & steps value when open Bulk Add modal
+* Multiple fixes and improvements to Block Settings
+* Added button Calculate Total Time in Block Settings
+* Added Resting Time value to Calculate Total Time
+* Added className "text-color-green" for details that have value and are displayed in Structured Data Testing Tool
+* Added state preloader to Recipe Card on events (fetchCategories, calculateTotalTime, setFeaturedImage, UploadVideo)
+* Added fetchTags for keywords
+
 = 2.5.0 =
 * Multiple fixes and improvements
 
