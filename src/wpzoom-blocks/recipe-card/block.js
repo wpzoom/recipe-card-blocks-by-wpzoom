@@ -7,10 +7,13 @@
 
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
+import map from "lodash/map";
+import isNull from "lodash/isNull";
 
 /* Internal dependencies */
 import RecipeCard from "./components/RecipeCard";
 import { getBlockStyle } from "../../helpers/getBlockStyle";
+import { generateId } from "../../helpers/generateId";
 import icon from "./icon";
 
 /* WordPress dependencies */
@@ -109,6 +112,52 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
 
             setAttributes( { settings, hasInstance: true } );
         }
+
+        // Fix issue with null value for custom details items
+        // Add default value instead of null
+        const customDetailsDetaults = [
+            {
+                'id': generateId( "detail-item" ),
+                'iconSet': 'fa',
+                '_prefix': 'far',
+                'icon': 'clock'
+            },
+            {
+                'id': generateId( "detail-item" ),
+                'iconSet': 'oldicon',
+                'icon': 'chef-cooking'
+            },
+            {
+                'id': generateId( "detail-item" ),
+                'iconSet': 'oldicon',
+                'icon': 'food-1'
+            },
+            {
+                'id': generateId( "detail-item" ),
+                'iconSet': 'fa',
+                '_prefix': 'fas',
+                'icon': 'sort-amount-down'
+            }
+        ];
+
+        attributes.details = map( attributes.details, ( item, index ) => {
+            if ( isNull( item ) ) {
+                if ( 4 === index ) {
+                    return customDetailsDetaults[0];
+                }
+                else if ( 5 === index ) {
+                    return customDetailsDetaults[1];
+                }
+                else if ( 6 === index ) {
+                    return customDetailsDetaults[2];
+                }
+                else if ( 7 === index ) {
+                    return customDetailsDetaults[3];
+                }
+            } else {
+                return item;
+            }
+        } );
 
         return <RecipeCard { ...{ attributes, setAttributes, className } } />;
     },

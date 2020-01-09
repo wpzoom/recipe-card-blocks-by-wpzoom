@@ -11,6 +11,7 @@ import isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import Ingredient from './components/Ingredient';
+import { generateId } from "../../helpers/generateId";
 import legacy from "./legacy";
 import icon from "./icon";
 
@@ -82,27 +83,27 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
         attributes: {
             items: [
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     isGroup: false,
                     name: [ "Lorem ipsum dolor sit amet" ]
                 },
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     isGroup: false,
                     name: [ "Praesent feugiat dui eu pretium eleifend" ]
                 },
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     isGroup: true,
                     name: [ "Group Title here" ]
                 },
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     isGroup: false,
                     name: [ "Aenean nec diam a augue efficitur venenatis" ]
                 },
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     isGroup: false,
                     name: [ "Pellentesque habitant morbi" ]
                 }
@@ -130,7 +131,7 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
                 for ( var i = 0; i < content.length; i++ ) {
                     if ( ! isUndefined( content[i].props ) ) {
                         items.push( {
-                            id: Ingredient.generateId( "ingredient-item" ),
+                            id: generateId( "ingredient-item" ),
                             name: content[i].props.children
                         } );
                     }
@@ -144,19 +145,19 @@ registerBlockType( 'wpzoom-recipe-card/block-ingredients', {
         if ( ! items || items.length === 0 ) {
             attributes.items = [
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     name: []
                 },
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     name: []
                 },
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     name: []
                 },
                 {
-                    id: Ingredient.generateId( "ingredient-item" ),
+                    id: generateId( "ingredient-item" ),
                     name: []
                 }
             ];

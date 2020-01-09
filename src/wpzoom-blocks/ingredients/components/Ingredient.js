@@ -2,13 +2,13 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { speak } from "@wordpress/a11y";
-import uniqueId from "lodash/uniqueId";
 import toNumber from "lodash/toNumber";
 
 /* Internal dependencies */
 import IngredientItem from "./IngredientItem";
 import Inspector from "./Inspector";
 import { stripHTML } from "../../../helpers/stringHelpers";
+import { generateId } from "../../../helpers/generateId";
 
 /* WordPress dependencies */
 const { RichText } = wp.blockEditor;
@@ -52,20 +52,9 @@ export default class Ingredient extends Component {
         this.onAddIngredientButtonClick = this.onAddIngredientButtonClick.bind( this );
         this.onAddGroupButtonClick = this.onAddGroupButtonClick.bind( this );
 
-        this.props.attributes.id = Ingredient.generateId( 'wpzoom-block-ingredients' );
+        this.props.attributes.id = generateId( 'wpzoom-block-ingredients' );
 
         this.editorRefs = {};
-    }
-
-    /**
-     * Generates a pseudo-unique id.
-     *
-     * @param {string} [prefix] The prefix to use.
-     *
-     * @returns {string} Returns the unique ID.
-     */
-    static generateId( prefix = '' ) {
-        return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
     }
 
     /**
@@ -133,7 +122,7 @@ export default class Ingredient extends Component {
         }
 
         ingredientsItems.splice( index + 1, 0, {
-            id: Ingredient.generateId( "ingredient-item" ),
+            id: generateId( "ingredient-item" ),
             name,
             jsonName: "",
             isGroup: group

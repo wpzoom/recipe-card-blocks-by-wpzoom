@@ -1,12 +1,12 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import uniqueId from "lodash/uniqueId";
 
 /* Internal dependencies */
 import DetailItem from "./DetailItem";
 import Inspector from "./Inspector";
 import { stripHTML } from "../../../helpers/stringHelpers";
+import { generateId } from "../../../helpers/generateId";
 
 /* WordPress dependencies */
 const { RichText } = wp.blockEditor;
@@ -45,20 +45,9 @@ export default class Detail extends Component {
         this.onChangeTitle = this.onChangeTitle.bind( this );
         this.onAddDetailButtonClick = this.onAddDetailButtonClick.bind( this );
 
-        this.props.attributes.id = Detail.generateId( 'wpzoom-block-details' );
+        this.props.attributes.id = generateId( 'wpzoom-block-details' );
 
         this.editorRefs = {};
-    }
-
-    /**
-     * Generates a pseudo-unique id.
-     *
-     * @param {string} [prefix] The prefix to use.
-     *
-     * @returns {string} Returns the unique ID.
-     */
-    static generateId( prefix = '' ) {
-        return prefix !== '' ? uniqueId( `${ prefix }-${ new Date().getTime() }` ) : uniqueId( new Date().getTime() );
     }
 
     /**
@@ -130,7 +119,7 @@ export default class Detail extends Component {
         }
 
         details.splice( index + 1, 0, {
-            id: Detail.generateId( "detail-item" ),
+            id: generateId( "detail-item" ),
             icon,
             label,
             value,

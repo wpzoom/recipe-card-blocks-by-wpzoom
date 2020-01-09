@@ -11,6 +11,7 @@ import isUndefined from "lodash/isUndefined";
 
 /* Internal dependencies */
 import Direction from './components/Direction';
+import { generateId } from "../../helpers/generateId";
 import legacy from "./legacy";
 import icon from "./icon";
 
@@ -82,27 +83,27 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
         attributes: {
             steps: [
                 {
-                    id: Direction.generateId( "direction-step" ),
+                    id: generateId( "direction-step" ),
                     isGroup: false,
                     text: [ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla nunc id nibh rutrum, tristique finibus quam interdum." ]
                 },
                 {
-                    id: Direction.generateId( "direction-step" ),
+                    id: generateId( "direction-step" ),
                     isGroup: false,
                     text: [ "Praesent feugiat dui eu pretium eleifend. In non tempus est. Praesent ullamcorper sapien vitae viverra imperdiet." ]
                 },
                 {
-                    id: Direction.generateId( "direction-step" ),
+                    id: generateId( "direction-step" ),
                     isGroup: true,
                     text: [ "Group Title here" ]
                 },
                 {
-                    id: Direction.generateId( "direction-step" ),
+                    id: generateId( "direction-step" ),
                     isGroup: false,
                     text: [ "Aenean nec diam a augue efficitur venenatis." ]
                 },
                 {
-                    id: Direction.generateId( "direction-step" ),
+                    id: generateId( "direction-step" ),
                     isGroup: false,
                     text: [ "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas." ]
                 }
@@ -130,7 +131,7 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
                 for ( var i = 0; i < content.length; i++ ) {
                     if ( ! isUndefined( content[i].props ) ) {
                         steps.push( {
-                            id: Direction.generateId( "direction-step" ),
+                            id: generateId( "direction-step" ),
                             text: content[i].props.children
                         } );
                     }
@@ -144,15 +145,15 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
         if ( ! steps || steps.length === 0 ) {
             attributes.steps = [
                 {
-                    id: Direction.generateId( "direction-step" ),
+                    id: generateId( "direction-step" ),
                     text: []
                 },
                 {
-                    id: Direction.generateId( "direction-step" ),
+                    id: generateId( "direction-step" ),
                     text: []
                 },
                 {
-                    id: Direction.generateId( "direction-step" ),
+                    id: generateId( "direction-step" ),
                     text: []
                 }
             ];
