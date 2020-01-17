@@ -40,6 +40,43 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
 const NOT_ADDED = __( "Not added", "wpzoom-recipe-card" );
 const NOT_DISPLAYED = <Icon icon="hidden" title={ __( "Not displayed", "wpzoom-recipe-card" ) }/>;
 
+const coursesToken = [
+    __( "Appetizers", "wpzoom-recipe-card" ),
+    __( "Snacks", "wpzoom-recipe-card" ),
+    __( "Breakfast", "wpzoom-recipe-card" ),
+    __( "Brunch", "wpzoom-recipe-card" ),
+    __( "Dessert", "wpzoom-recipe-card" ),
+    __( "Drinks", "wpzoom-recipe-card" ),
+    __( "Dinner", "wpzoom-recipe-card" ),
+    __( "Main", "wpzoom-recipe-card" ),
+    __( "Lunch", "wpzoom-recipe-card" ),
+    __( "Salads", "wpzoom-recipe-card" ),
+    __( "Sides", "wpzoom-recipe-card" ),
+    __( "Soups", "wpzoom-recipe-card" ),
+];
+
+const cuisinesToken = [
+    __( "American", "wpzoom-recipe-card" ),
+    __( "Chinese", "wpzoom-recipe-card" ),
+    __( "French", "wpzoom-recipe-card" ),
+    __( "Indian", "wpzoom-recipe-card" ),
+    __( "Italian", "wpzoom-recipe-card" ),
+    __( "Japanese", "wpzoom-recipe-card" ),
+    __( "Mediterranean", "wpzoom-recipe-card" ),
+    __( "Mexican", "wpzoom-recipe-card" ),
+    __( "Southern", "wpzoom-recipe-card" ),
+    __( "Thai", "wpzoom-recipe-card" ),
+    __( "Other world cuisine", "wpzoom-recipe-card" ),
+];
+
+const difficultyToken = [
+    __( "Easy", "wpzoom-recipe-card" ),
+    __( "Medium", "wpzoom-recipe-card" ),
+    __( "Difficult", "wpzoom-recipe-card" ),
+];
+
+const keywordsToken = [];
+
 /**
  * Inspector controls
  */
@@ -81,7 +118,6 @@ export default class Inspector extends Component {
     componentDidMount() {
         this.setFeaturedImage();
         this.structuredDataTable();
-        this.structuredDataNotice();
         this.calculateTotalTime();
     }
 
@@ -310,7 +346,7 @@ export default class Inspector extends Component {
             }
         } );
 
-        this.setState( { structuredDataTable: { recipeIngredients, recipeInstructions } } );
+        this.setState( { structuredDataTable: { recipeIngredients, recipeInstructions } }, this.structuredDataNotice );
     }
 
     structuredDataNotice() {
@@ -446,43 +482,6 @@ export default class Inspector extends Component {
 
         const style = getBlockStyle( className );
         const imageSizeOptions = this.getImageSizeOptions();
-
-        const coursesToken = [
-            __( "Appetizers", "wpzoom-recipe-card" ),
-            __( "Snacks", "wpzoom-recipe-card" ),
-            __( "Breakfast", "wpzoom-recipe-card" ),
-            __( "Brunch", "wpzoom-recipe-card" ),
-            __( "Dessert", "wpzoom-recipe-card" ),
-            __( "Drinks", "wpzoom-recipe-card" ),
-            __( "Dinner", "wpzoom-recipe-card" ),
-            __( "Main", "wpzoom-recipe-card" ),
-            __( "Lunch", "wpzoom-recipe-card" ),
-            __( "Salads", "wpzoom-recipe-card" ),
-            __( "Sides", "wpzoom-recipe-card" ),
-            __( "Soups", "wpzoom-recipe-card" ),
-        ];
-
-        const cuisinesToken = [
-            __( "American", "wpzoom-recipe-card" ),
-            __( "Chinese", "wpzoom-recipe-card" ),
-            __( "French", "wpzoom-recipe-card" ),
-            __( "Indian", "wpzoom-recipe-card" ),
-            __( "Italian", "wpzoom-recipe-card" ),
-            __( "Japanese", "wpzoom-recipe-card" ),
-            __( "Mediterranean", "wpzoom-recipe-card" ),
-            __( "Mexican", "wpzoom-recipe-card" ),
-            __( "Southern", "wpzoom-recipe-card" ),
-            __( "Thai", "wpzoom-recipe-card" ),
-            __( "Other world cuisine", "wpzoom-recipe-card" ),
-        ];
-
-        const difficultyToken = [
-            __( "Easy", "wpzoom-recipe-card" ),
-            __( "Medium", "wpzoom-recipe-card" ),
-            __( "Difficult", "wpzoom-recipe-card" ),
-        ];
-
-        const keywordsToken = [];
 
         return (
             <InspectorControls>
