@@ -127,6 +127,9 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.6.1 =
+* Added Toggle option to set Resting Time field in custom details
+
 = 2.6.0 =
 * Changed step image size from 500px to 750px
 * Fixed issue when display detail is off and it appear on rich snippets
