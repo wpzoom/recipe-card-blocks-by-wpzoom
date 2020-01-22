@@ -6,5 +6,8 @@
 /package.json export-ignore
 /src/wpzoom-blocks export-ignore
 /src/helpers export-ignore
+/src/utils export-ignore
 /src/blocks.js export-ignore
+/src/icon.js export-ignore
 /src/common.scss export-ignore
+/src/__mixins.scss export-ignore
