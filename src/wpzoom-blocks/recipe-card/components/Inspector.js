@@ -258,6 +258,9 @@ export default class Inspector extends Component {
             newDetails[ index ][ field ] = newValue;
             newDetails[ index ][ 'jsonUnit' ] = stripHTML( renderToString( newValue ) );
         }
+        if ( 'isRestingTimeField' === field ) {
+            newDetails[ index ][ field ] = newValue;
+        }
 
         setAttributes( { details: newDetails } );
     }
@@ -410,7 +413,14 @@ export default class Inspector extends Component {
         const prepTime      = getNumberFromString( get( details, [ 1, 'value' ] ) );
         const cookTime      = getNumberFromString( get( details, [ 2, 'value' ] ) );
         const restingTime   = getNumberFromString( get( details, [ 4, 'value' ] ) );
-        const totalTime     = prepTime + cookTime + restingTime;
+        const isRestingTimeField = get( details, [ 4, 'isRestingTimeField' ] ) || false;
+
+        let totalTime = prepTime + cookTime;
+
+        // Add resting time value to sum
+        if ( isRestingTimeField ) {
+            totalTime = prepTime + cookTime + restingTime;
+        }
 
         const totalTimeValue = get( details, [ index, 'value' ] );
 
@@ -933,6 +943,12 @@ export default class Inspector extends Component {
                             label={ __( "Custom Unit 1", "wpzoom-recipe-card" ) }
                             value={ get( details, [ 4, 'unit' ] ) }
                             onChange={ newValue => this.onChangeDetail( newValue, 4, 'unit' ) }
+                        />
+                        <ToggleControl
+                            label={ __( "Is Resting Time field?", "wpzoom-recipe-card" ) }
+                            help={__( "If option is enabled, this means that the value is used to calculate the Total Time. And unit will be converted from minutes to hours if it's needed.", "wpzoom-recipe-card" )}
+                            checked={ get( details, [ 4, 'isRestingTimeField' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 4, 'isRestingTimeField' ) }
                         />
                     </PanelRow>
                     <PanelRow>

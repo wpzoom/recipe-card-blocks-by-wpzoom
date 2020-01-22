@@ -813,6 +813,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		foreach ( $details as $index => $detail ) {
 			$icon = $label = $value = $unit = '';
+			$isRestingTimeField = 4 === $index && isset( $detail['isRestingTimeField'] ) ? $detail['isRestingTimeField'] : false;
 
 			if ( 0 === $index && self::$settings['displayServings'] != '1' ) {
 				continue;
@@ -894,7 +895,7 @@ class WPZOOM_Recipe_Card_Block {
 			}
 
 			// convert minutes to hours for 'prep time', 'cook time' and 'total time'
-			if ( 1 === $index || 2 === $index || 4 === $index || 8 === $index ) {
+			if ( 1 === $index || 2 === $index || $isRestingTimeField || 8 === $index ) {
 				if ( ! empty( $detail['value'] ) ) {
 					$converts = self::$helpers->convertMinutesToHours( $detail['value'], true );
 					if ( ! empty( $converts ) ) {

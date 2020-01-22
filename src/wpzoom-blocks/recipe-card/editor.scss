@@ -303,6 +303,12 @@
 			&:last-child {
 				margin-bottom: 0 !important;
 			}
+			&.components-toggle-control {
+				margin-top: 20px;
+				.components-base-control__help {
+					margin-top: 10px;
+				}
+			}
 		}
 	}
 }
