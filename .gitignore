@@ -1,15 +1,9 @@
-#Ignore folder node_modules
-/node_modules
-
-#Ignore uneeded files
-/.editorconfig
-/.eslintignore
-/.eslintrc.json
-/package-lock.json
-/package.json
+**/node_modules/**
+*.sublime-project
+*.sublime-workspace
+*.cache
+**/.DS_Store
 
 #Ignore Custom Components
 /src/components/food-icons/index.js
 /src/components/food-icons/svg/*.svg
-
-.DS_Store
