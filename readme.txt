@@ -4,7 +4,7 @@ Donate link: https://www.wpzoom.com/
 Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card
 Requires at least: 5.0
 Requires PHP: 5.6
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -126,6 +126,10 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 
 == Changelog ==
+
+= 2.6.2 =
+* Fixed issue with conversion of minutes to Schema.org duration format
+* Fixed issue with Additional CSS Class for blocks
 
 = 2.6.1 =
 * Added Toggle option to set Resting Time field in custom details
