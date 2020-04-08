@@ -114,23 +114,29 @@ class WPZOOM_Structured_Data_Helpers {
 	 */
 	public function get_period_time( $value ) {
 		$time = $this->get_number_from_string( $value );
-		$hours = floor( $time / 60 );
-		$days = round( $hours / 24 );
-		$minutes = ( $time % 60 );
-		$period = 'PT';
+		$days = floor ($time / 1440);
+		$hours = floor (($time - $days * 1440) / 60);
+		$minutes = $time - ($days * 1440) - ($hours * 60);
+		$period = '';
 
-		if ( $days ) {
+		if ( $days > 0 ) {
 			$hours = ( $hours % 24 );
 			$period .= $days . 'D';
 		}
 
-		if ( $hours ) {
-			$period .= $hours . 'H';
+		if ( $hours > 0 ) {
+			$period .= 'T' . $hours . 'H';
 		}
 
-		if ( $minutes ) {
-			$period .= $minutes . 'M';
+		if ( $minutes > 0 ) {
+			if ( intval($hours) === 0 ) {
+				$period .= 'T' . $minutes . 'M';
+			} else {
+				$period .= $minutes . 'M';
+			}
 		}
+
+		$period = 'P' . $period;
 
 		return $period;
 	}
