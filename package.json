@@ -1,0 +1,45 @@
+{
+  "name": "recipe-card-blocks-by-wpzoom-cgb-guten-block",
+  "version": "2.6.1",
+  "private": true,
+  "description": "A set of Gutenberg Blocks (Recipe Card, details, ingredients, directions, nutrition ...) for recipe blogs.",
+  "author": "WPZOOM",
+  "keywords": [
+    "WordPress",
+    "Gutenberg",
+    "Block",
+    "Recipe Card"
+  ],
+  "scripts": {
+    "start": "cgb-scripts start",
+    "build": "cgb-scripts build",
+    "eject": "cgb-scripts eject"
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.3",
+    "@wordpress/a11y": "^2.5.1",
+    "@wordpress/api-fetch": "^3.11.0",
+    "@wordpress/blob": "^2.7.0",
+    "@wordpress/icons": "^1.1.0",
+    "@wordpress/keycodes": "^2.9.0",
+    "@wordpress/rich-text": "^3.2.2",
+    "@wordpress/url": "^2.10.0",
+    "@wordpress/viewport": "^2.12.0",
+    "browserslist": "^4.5.4",
+    "cgb-scripts": "^1.22.0",
+    "classnames": "^2.2.6",
+    "html-react-parser": "^0.9.1",
+    "ingredients-parser": "^1.4.0",
+    "react-html-parser": "^2.0.2",
+    "react-player": "^1.11.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@wordpress/base-styles": "^1.4.0",
+    "babel-plugin-lodash": "^3.3.4"
+  },
+  "includePaths": [
+    "node_modules"
+  ]
+}
