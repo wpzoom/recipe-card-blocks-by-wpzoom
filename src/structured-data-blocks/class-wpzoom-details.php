@@ -152,8 +152,11 @@ class WPZOOM_Details_Block {
 		$class = 'wp-block-wpzoom-recipe-card-block-details';
 		$class .= ' col-' . $columns;
 
+		$className = isset( $className ) ? $className : '';
 		$details = isset( $details ) ? $details : array();
 		$details_content = $this->get_details_content( $details );
+
+		$blockClassNames = implode( ' ', array( $class, $className ) );
 
 		$block_content = sprintf(
 			'<div id="%1$s" class="%2$s">
@@ -161,7 +164,7 @@ class WPZOOM_Details_Block {
 				%4$s
 			</div>',
 			esc_attr( $id ),
-			esc_attr( $class ),
+			esc_attr( $blockClassNames ),
 			esc_html( $title ),
 			$details_content
 		);

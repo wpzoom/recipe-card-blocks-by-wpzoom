@@ -135,17 +135,20 @@ class WPZOOM_Nutrition_Block {
 		self::$attributes = $attributes;
 
 		$class = 'wp-block-wpzoom-recipe-card-block-nutrition';
+		$className = isset( $className ) ? $className : '';
 
 		$layout_orientation = isset( $settings['layout-orientation'] ) ? $settings['layout-orientation'] : 'vertical';
 		$daily_value_text = esc_html__( "The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.", "wpzoom-recipe-card" );
+
+		$blockClassNames = implode( ' ',  array( $class, $className ) );
 
 		$block_content = sprintf(
 			'<div id="%s" class="layout-orientation-%s">
 				<div class="%s">%s<p class="nutrition-facts-daily-value-text">* %s</p></div>
 			</div>',
-			$id,
-			$layout_orientation,
-			$class,
+			esc_attr( $id ),
+			esc_attr( $layout_orientation ),
+			esc_attr( $blockClassNames ),
 			self::get_nutrition_facts(),
 			$daily_value_text
 		);

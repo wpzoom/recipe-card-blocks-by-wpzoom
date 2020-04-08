@@ -109,8 +109,11 @@ class WPZOOM_Steps_Block {
 
 		$class = 'wp-block-wpzoom-recipe-card-block-directions';
 
+		$className = isset( $className ) ? $className : '';
 		$steps = isset( $steps ) ? $steps : array();
 		$steps_content = $this->get_steps_content( $steps );
+
+		$blockClassNames = implode( ' ', array( $class, $className ) );
 
 		$block_content = sprintf(
 			'<div id="%1$s" class="%2$s">
@@ -123,7 +126,7 @@ class WPZOOM_Steps_Block {
 				%8$s
 			</div>',
 			esc_attr( $id ),
-			esc_attr( $class ),
+			esc_attr( $blockClassNames ),
 			esc_attr( $print_visibility ),
 			__( 'Print directions...', 'wpzoom-recipe-card' ),
 			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),

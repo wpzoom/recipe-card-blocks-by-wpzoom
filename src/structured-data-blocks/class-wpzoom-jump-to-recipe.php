@@ -81,11 +81,14 @@ class WPZOOM_Jump_To_Recipe_Block {
 		extract( $attributes );
 
 		$class = 'wpzoom-recipe-snippet-button wp-block-wpzoom-recipe-card-block-jump-to-recipe';
+		$className = isset( $className ) ? $className : '';
+
+		$blockClassNames = implode( ' ', array( $class, $className ) );
 
 		$block_content = sprintf(
 			'<a href="#%s" rel="nofollow" class="%s">%s</a>',
 			esc_attr( $id ),
-			esc_attr( $class ),
+			esc_attr( $blockClassNames ),
 			esc_html( $text )
 		);
 

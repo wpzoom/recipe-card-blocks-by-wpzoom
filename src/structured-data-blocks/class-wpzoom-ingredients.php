@@ -109,8 +109,11 @@ class WPZOOM_Ingredients_Block {
 
 		$class = 'wp-block-wpzoom-recipe-card-block-ingredients';
 
+		$className = isset( $className ) ? $className : '';
 		$items = isset( $items ) ? $items : array();
 		$ingredients_content = $this->get_ingredients_content( $items );
+
+		$blockClassNames = implode( ' ', array( $class, $className ) );
 
 		$block_content = sprintf(
 			'<div id="%1$s" class="%2$s">
@@ -123,7 +126,7 @@ class WPZOOM_Ingredients_Block {
 				%8$s
 			</div>',
 			esc_attr( $id ),
-			esc_attr( $class ),
+			esc_attr( $blockClassNames ),
 			esc_attr( $print_visibility ),
 			__( 'Print ingredients...', 'wpzoom-recipe-card' ),
 			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),
