@@ -41,6 +41,8 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Video Recipe**
 * Credit Removal
 * Color Schemes
+* Food Labels
+* Social Call-to-action (Facebook, Instagram, Pinterest)
 * Premium Support
 * and many new features coming soon!
 
