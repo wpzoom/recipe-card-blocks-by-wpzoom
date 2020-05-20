@@ -662,6 +662,17 @@ class WPZOOM_Settings {
 								)
 							),
 							array(
+ 								'id' 		=> 'wpzoom_rcb_settings_print_only_published_posts',
+ 								'title' 	=> __( 'Print only Published Posts', 'wpzoom-recipe-card' ),
+ 								'type'		=> 'checkbox',
+ 								'args' 		=> array(
+ 									'label_for' 	=> 'wpzoom_rcb_settings_print_only_published_posts',
+ 									'class' 		=> 'wpzoom-rcb-field',
+ 									'description' 	=> esc_html__( 'Redirect visitors to the homepage when trying to print a recipe that has not been published yet.', 'wpzoom-recipe-card' ),
+ 									'default'		=> false,
+ 								)
+ 							),
+							array(
 								'id' 		=> 'wpzoom_rcb_settings_print_show_image',
 								'title' 	=> __( 'Recipe Image', 'wpzoom-recipe-card' ),
 								'type'		=> 'checkbox',
