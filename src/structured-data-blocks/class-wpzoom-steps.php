@@ -95,7 +95,9 @@ class WPZOOM_Steps_Block {
 	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) || ! is_singular() ) {
+		global $post;
+		
+		if ( ! is_array( $attributes ) ) {
 			return $content;
 		}
 
@@ -109,16 +111,23 @@ class WPZOOM_Steps_Block {
 
 		$class = 'wp-block-wpzoom-recipe-card-block-directions';
 
-		$className = isset( $className ) ? $className : '';
 		$steps = isset( $steps ) ? $steps : array();
-		$steps_content = $this->get_steps_content( $steps );
+		$steps_content = self::get_steps_content( $steps );
 
-		$blockClassNames = implode( ' ', array( $class, $className ) );
+		$btn_attributes = array(
+			'title' => __( 'Print directions...', 'wpzoom-recipe-card' )
+		);
+
+		if ( $post ) {
+			$btn_attributes = array_merge( $btn_attributes, array( 'data-recipe-id' => $post->ID ) );
+		}
+
+		$atts = self::$helpers->render_attributes( $btn_attributes );
 
 		$block_content = sprintf(
 			'<div id="%1$s" class="%2$s">
 				<div class="wpzoom-recipe-card-print-link %3$s">
-					<a class="btn-print-link no-print" href="#%1$s" title="%4$s">
+					<a class="btn-print-link no-print" href="#%1$s" %4$s>
 						<img class="icon-print-link" src="%5$s" alt="%6$s"/>%6$s
 					</a>
 				</div>
@@ -126,9 +135,9 @@ class WPZOOM_Steps_Block {
 				%8$s
 			</div>',
 			esc_attr( $id ),
-			esc_attr( $blockClassNames ),
+			esc_attr( $class ),
 			esc_attr( $print_visibility ),
-			__( 'Print directions...', 'wpzoom-recipe-card' ),
+			$atts,
 			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),
 			__( 'Print', 'wpzoom-recipe-card' ),
 			esc_html( $title ),
@@ -155,8 +164,8 @@ class WPZOOM_Steps_Block {
 		);
 	}
 
-	protected function get_steps_content( array $steps ) {
-		$direction_items = $this->get_direction_items( $steps );
+	public static function get_steps_content( array $steps ) {
+		$direction_items = self::get_direction_items( $steps );
 
 		$listClassNames = implode( ' ', array( 'directions-list' ) );
 
@@ -167,7 +176,7 @@ class WPZOOM_Steps_Block {
 		);
 	}
 
-	protected function get_direction_items( array $steps ) {
+	public static function get_direction_items( array $steps ) {
 		$output = '';
 
 		foreach ( $steps as $index => $step ) {
@@ -176,7 +185,7 @@ class WPZOOM_Steps_Block {
 
 			if ( !$isGroup ) {
 				if ( ! empty( $step['text'] ) ) {
-					$text = $this->wrap_direction_text( $step['text'] );
+					$text = self::wrap_direction_text( $step['text'] );
 					$output .= sprintf(
 						'<li class="direction-step">%s</li>',
 						$text
@@ -186,7 +195,7 @@ class WPZOOM_Steps_Block {
 				if ( ! empty( $step['text'] ) ) {
 					$text = sprintf(
 						'<strong class="direction-step-group-title">%s</strong>',
-						$this->wrap_direction_text( $step['text'] )
+						self::wrap_direction_text( $step['text'] )
 					);
 					$output .= sprintf(
 						'<li class="direction-step direction-step-group">%s</li>',
@@ -199,7 +208,7 @@ class WPZOOM_Steps_Block {
 		return force_balance_tags( $output );
 	}
 
-	protected function wrap_direction_text( $nodes, $type = '' ) {
+	public static function wrap_direction_text( $nodes, $type = '' ) {
 		if ( ! is_array( $nodes ) ) {
 			return $nodes;
 		}
@@ -242,7 +251,7 @@ class WPZOOM_Steps_Block {
 					$end_tag = "";
 				}
 
-				$output .= $start_tag . $this->wrap_direction_text( $children, $type ) . $end_tag;
+				$output .= $start_tag . self::wrap_direction_text( $children, $type ) . $end_tag;
 			}
 		}
 
