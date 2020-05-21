@@ -62,7 +62,7 @@
                 margin: 0;
                 vertical-align: middle;
 
-                &:hover  {
+                &.is-strikethrough-active:hover {
                     text-decoration: line-through;
                 }
             }
@@ -87,8 +87,10 @@
                 display: none;
             }
 
-            &.ticked > p {
-                text-decoration: line-through;
+            &.ticked .ingredient-item-name {
+                &.is-strikethrough-active {
+                    text-decoration: line-through;
+                }
             }
 
             &.ticked::before {

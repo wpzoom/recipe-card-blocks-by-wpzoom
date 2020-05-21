@@ -215,16 +215,6 @@
 
                 @include clear-after;
                 
-                .ingredient-item-name {
-                    margin: 0;
-                    vertical-align: middle;
-
-                    &:hover  {
-                        text-decoration: line-through;
-                    }
-
-                }
-                
                 @include ingredient-tick( $simple-tick-color, $simple-ticked-color );
             }
         }

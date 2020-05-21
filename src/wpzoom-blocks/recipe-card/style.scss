@@ -72,6 +72,12 @@
             
             .ingredient-item-name {
                 padding-left: 30px;
+                margin: 0;
+                vertical-align: middle;
+
+                &.is-strikethrough-active:hover {
+                    text-decoration: line-through;
+                }
             }
 		}
 	}

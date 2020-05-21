@@ -424,6 +424,20 @@ class WPZOOM_Settings {
 								)
 							),
 							array(
+								'id' 		=> 'wpzoom_rcb_settings_ingredients_strikethrough',
+								'title' 	=> __( 'Ingredients Strikethrough', 'wpzoom-recipe-card' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_ingredients_strikethrough',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Enable strikethrough for ingredients on hover or when selected.', 'wpzoom-recipe-card' ),
+									'default'		=> true,
+									'disabled'		=> false,
+                                    'preview'       => true,
+                                    'preview_pos'	=> 'bottom',
+								)
+							),
+							array(
 								'id' 		=> 'wpzoom_rcb_settings_footer_copyright',
 								'title' 	=> __( 'Footer Copyright', 'wpzoom-recipe-card' ),
 								'type'		=> 'checkbox',

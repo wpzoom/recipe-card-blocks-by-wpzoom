@@ -124,8 +124,10 @@
         cursor: pointer;
         position: relative;
     }
-    &.ticked > p {
-        text-decoration: line-through;
+    &.ticked .ingredient-item-name {
+        &.is-strikethrough-active {
+            text-decoration: line-through;
+        }
     }
     &.ticked .tick-circle {
         border: 2px solid $ticked-color !important;
