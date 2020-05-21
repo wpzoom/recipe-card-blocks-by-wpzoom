@@ -47,7 +47,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 		add_filter( 'block_categories', 			__CLASS__ . '::add_custom_category', 10, 2 );
 		add_filter( 'image_size_names_choose', 		__CLASS__ . '::custom_image_sizes_choose' );
 
-		add_action( 'init', 						__CLASS__ . '::register_custom_image_sizes' );
+		add_action( 'after_setup_theme', 			__CLASS__ . '::register_custom_image_sizes' );
 		add_action( 'init', 						__CLASS__ . '::register_block_types' );
 		add_action( 'init', 						__CLASS__ . '::load_textdomain' );
 	}
@@ -70,9 +70,25 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 	 * @since 2.1.1
 	 */
 	public static function register_custom_image_sizes() {
-		add_image_size( 'wpzoom-rcb-block-header', 			800, 530, true );
-		add_image_size( 'wpzoom-rcb-block-header-square', 	530, 530, true );
-		add_image_size( 'wpzoom-rcb-block-step-image', 		750 );
+		if ( function_exists( 'fly_add_image_size' ) ) {
+			fly_add_image_size( 'wpzoom-rcb-block-header', 				800, 530, true );
+			fly_add_image_size( 'wpzoom-rcb-block-header-square', 		530, 530, true );
+			fly_add_image_size( 'wpzoom-rcb-block-step-image', 			750 );
+
+			// Add image size for recipe Schema.org markup
+			fly_add_image_size( 'wpzoom-rcb-structured-data-1_1', 		500, 500, true );
+			fly_add_image_size( 'wpzoom-rcb-structured-data-4_3', 		500, 375, true );
+			fly_add_image_size( 'wpzoom-rcb-structured-data-16_9', 		480, 270, true );
+		} else {
+			add_image_size( 'wpzoom-rcb-block-header', 					800, 530, true );
+			add_image_size( 'wpzoom-rcb-block-header-square', 			530, 530, true );
+			add_image_size( 'wpzoom-rcb-block-step-image', 				750 );
+
+			// Add image size for recipe Schema.org markup
+			add_image_size( 'wpzoom-rcb-structured-data-1_1', 			500, 500, true );
+			add_image_size( 'wpzoom-rcb-structured-data-4_3', 			500, 375, true );
+			add_image_size( 'wpzoom-rcb-structured-data-16_9', 			480, 270, true );
+		}
 	}
 
 	/**
