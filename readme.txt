@@ -129,6 +129,12 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.6.3 =
+* Added support for the new "Guided Recipes" in Structured Data
+* Printing functionality was re-written and works differently now. This ensures printing will work from all devices and browsers without any problems
+* Added option in Settings for Ingredients Strikethrough
+* Fixed issue with blocks not showing in archive pages and RSS feeds
+
 = 2.6.2 =
 * Fixed issue with conversion of minutes to Schema.org duration format
 * Fixed issue with Additional CSS Class for blocks
