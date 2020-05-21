@@ -129,7 +129,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 	 * @access public
 	 */
 	public static function is_pro() {
-		if ( class_exists( 'WPZOOM_Recipe_Card_Block_PRO' ) ) {
+		if ( class_exists( 'WPZOOM_Premium_Recipe_Card_Block' ) ) {
 			return true;
 		} else {
 			return false;
