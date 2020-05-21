@@ -267,7 +267,7 @@ class WPZOOM_Recipe_Card_Block {
 	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) || ! is_singular() ) {
+		if ( ! is_array( $attributes ) ) {
 			return $content;
 		}
 
