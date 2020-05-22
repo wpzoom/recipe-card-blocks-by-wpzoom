@@ -68,9 +68,6 @@ class WPZOOM_Helpers {
 		if ( !isset( $settings['headerAlign'] ) ) {
 			$settings['headerAlign'] = WPZOOM_Settings::get('wpzoom_rcb_settings_heading_content_align');
 		}
-		if ( $blockStyle === 'simple' ) {
-			$settings['headerAlign'] = 'left';
-		}
 		
 		if ( !isset( $settings['custom_author_name'] ) ) {
 			$settings['custom_author_name'] = WPZOOM_Settings::get('wpzoom_rcb_settings_author_custom_name');

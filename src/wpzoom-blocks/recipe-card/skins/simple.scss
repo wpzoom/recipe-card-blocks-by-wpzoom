@@ -14,6 +14,22 @@
             background-color: $coconut-cream;
         }
 
+        &.header-content-align-right {
+            .recipe-card-image {
+                float: right;
+                text-align: right;
+            }
+            .recipe-card-along-image {
+                float: left;
+                text-align: right;
+            }
+            .recipe-card-heading,
+            .recipe-card-details {
+                margin-right: 20px;
+                margin-left: 0;
+            }
+        }
+
         .recipe-card-image {
             float: left;
             width: 40%;

@@ -591,6 +591,23 @@ export default class Inspector extends Component {
                         </Fragment>
                     }
                     {
+                        'simple' === style &&
+                        <BaseControl
+                            id={ `${ id }-heading-align` }
+                            label={ __( 'Header Content Align', 'wpzoom-recipe-card' ) }
+                        >
+                            <SelectControl
+                                label={ __( 'Select Alignment', 'wpzoom-recipe-card' ) }
+                                value={ headerAlign }
+                                options={ [
+                                    { label: __( 'Left' ), value: 'left' },
+                                    { label: __( 'Right' ), value: 'right' },
+                                ] }
+                                onChange={ alignment => this.onChangeSettings( alignment, 'headerAlign' ) }
+                            />
+                        </BaseControl>
+                    }
+                    {
                         'simple' !== style &&
                         <BaseControl
                             id={ `${ id }-heading-align` }

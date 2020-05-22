@@ -27,6 +27,82 @@
 			text-align: right;
 		}
 	}
+
+    // Block Alignment
+    // @since 2.6.4
+    &.is-style-default,
+    &.is-style-newdesign,
+    &.is-style-simple {
+        &.block-alignment-left {
+            margin-right: auto;
+            .recipe-card-summary,
+            .recipe-card-ingredients,
+            .recipe-card-directions,
+            .recipe-card-video,
+            .recipe-card-notes {
+                text-align: left;
+            }
+            .recipe-card-directions {
+                .directions-list > li {
+                    img {
+                        margin-right: auto;
+                    }
+                }
+            }
+        }
+        &.block-alignment-center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        &.block-alignment-right {
+            margin-left: auto;
+            .recipe-card-summary,
+            .recipe-card-ingredients,
+            .recipe-card-directions,
+            .recipe-card-video,
+            .recipe-card-notes {
+                text-align: right;
+            }
+            .recipe-card-ingredients {
+                .ingredients-list {
+                    > li .tick-circle {
+                        float: right;
+                        margin: 6px 0 0 10px;
+                    }
+                    .ingredient-item-name {
+                        padding-left: 0;
+                        padding-right: 30px;
+                    }
+                }
+            }
+            .recipe-card-directions {
+                .directions-list > li {
+                    padding-left: 0;
+                    padding-right: 40px;
+                    &::before {
+                        left: auto;
+                        right: 0;
+                        margin-right: 0;
+                        margin-left: 20px;
+                    }
+                    img {
+                        margin-left: auto;
+                    }
+                }
+            }
+            .recipe-card-notes {
+                .recipe-card-notes-list {
+                    >li {
+                        &::before {
+                            left: auto;
+                            right: -6px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 	.recipe-card-heading {
 		.recipe-card-author {
 			margin-bottom: 10px;

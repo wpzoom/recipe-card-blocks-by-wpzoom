@@ -19,39 +19,56 @@ import { getBlockStyle } from '../../../helpers/getBlockStyle';
 import { generateId } from '../../../helpers/generateId';
 
 /* WordPress dependencies */
-const { Component, renderToString, Fragment } = wp.element;
-const {
+import { Component, renderToString, Fragment } from '@wordpress/element';
+import {
     Button,
     Placeholder,
     Spinner,
     Disabled,
-} = wp.components;
-
-const {
+} from '@wordpress/components';
+import {
     RichText,
+    AlignmentToolbar,
     BlockControls,
     MediaUpload,
-} = wp.blockEditor;
-
-const {
-    setting_options,
-} = wpzoomRecipeCard;
-
-const { withSelect } = wp.data;
-const { compose } = wp.compose;
-const { apiFetch } = wp;
-const { addQueryArgs } = wp.url;
+} from '@wordpress/block-editor';
+import { withSelect } from '@wordpress/data';
+import { compose } from '@wordpress/compose';
+import apiFetch from '@wordpress/api-fetch';
+import { addQueryArgs } from '@wordpress/url';
+import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
 
 /**
  * Module Constants
  */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
+const BLOCK_ALIGNMENT_CONTROLS = [
+    {
+        icon: alignLeft,
+        title: __( 'Align block left', 'wpzoom-recipe-card' ),
+        align: 'left',
+    },
+    {
+        icon: alignCenter,
+        title: __( 'Align block center', 'wpzoom-recipe-card' ),
+        align: 'center',
+    },
+    {
+        icon: alignRight,
+        title: __( 'Align block right', 'wpzoom-recipe-card' ),
+        align: 'right',
+    },
+];
 const DEFAULT_QUERY = {
     per_page: -1,
     orderby: 'name',
     order: 'asc',
     _fields: 'id,name',
 };
+
+const {
+    setting_options,
+} = wpzoomRecipeCard;
 
 /* Import CSS. */
 import '../style.scss';
@@ -74,6 +91,7 @@ class RecipeCard extends Component {
         this.setFocus = this.setFocus.bind( this );
         this.onBulkAdd = this.onBulkAdd.bind( this );
         this.onSelectImage = this.onSelectImage.bind( this );
+        this.onChangeAlignment = this.onChangeAlignment.bind( this );
 
         this.editorRefs = {};
         this.state = {
@@ -259,6 +277,45 @@ class RecipeCard extends Component {
         this.setState( { isBulkAdd: true } );
     }
 
+    /**
+     * Change block alignment
+     *
+     * @since 2.6.4
+     * @param  {string} newAlignment     The new alignment value
+     * @return {void}                    Update attributes to set newAlignment
+     */
+    onChangeAlignment( newAlignment ) {
+        const {
+            className,
+            attributes: {
+                settings,
+                blockAlignment,
+            },
+        } = this.props;
+        const { 0: { headerAlign } } = settings;
+        const style = getBlockStyle( className );
+
+        const newSettings = settings ? settings.slice() : [];
+
+        newSettings[ 0 ] = {
+            ...newSettings[ 0 ],
+            headerAlign: newAlignment === undefined ? headerAlign : newAlignment,
+        };
+
+        console.log( style, newAlignment );
+        if ( 'simple' === style && 'center' === newAlignment ) {
+            newSettings[ 0 ] = {
+                ...newSettings[ 0 ],
+                headerAlign: 'left',
+            };
+        }
+
+        this.props.setAttributes( {
+            blockAlignment: newAlignment === undefined ? blockAlignment : newAlignment,
+            settings: newSettings,
+        } );
+    }
+
     render() {
         const {
             attributes,
@@ -286,6 +343,7 @@ class RecipeCard extends Component {
             videoTitle,
             hasImage,
             image,
+            blockAlignment,
             settings: {
                 0: {
                     hide_header_image,
@@ -318,7 +376,7 @@ class RecipeCard extends Component {
         if ( isUndefined( headerAlign ) ) {
             headerContentAlign = setting_options.wpzoom_rcb_settings_heading_content_align;
         }
-        if ( 'simple' === style ) {
+        if ( 'simple' === style && 'center' === blockAlignment ) {
             headerContentAlign = 'left';
         }
 
@@ -329,7 +387,7 @@ class RecipeCard extends Component {
 
         const regex = /is-style-(\S*)/g;
         const m = regex.exec( className );
-        const classNames = m !== null ? [ className, `header-content-align-${ headerContentAlign }`, loadingClass, hideRecipeImgClass ] : [ className, `is-style-${ style }`, `header-content-align-${ headerContentAlign }`, loadingClass, hideRecipeImgClass ];
+        const classNames = m !== null ? [ className, `header-content-align-${ headerContentAlign }`, `block-alignment-${ blockAlignment }`, loadingClass, hideRecipeImgClass ] : [ className, `is-style-${ style }`, `header-content-align-${ headerContentAlign }`, `block-alignment-${ blockAlignment }`, loadingClass, hideRecipeImgClass ];
 
         const RecipeCardClassName = classNames.filter( ( item ) => item ).join( ' ' );
         const PrintClasses = [ 'wpzoom-recipe-card-print-link' ].filter( ( item ) => item ).join( ' ' );
@@ -337,8 +395,10 @@ class RecipeCard extends Component {
         const pinitURL = `https://www.pinterest.com/pin/create/button/?url=${ postPermalink }&media=${ get( image, [ 'url' ] ) || get( postThumbnail, [ 'url' ] ) }&description=${ pin_description }`;
 
         return (
-            <div className={ RecipeCardClassName } id={ id }>
-
+            <div
+                id={ id }
+                className={ RecipeCardClassName }
+            >
                 {
                     this.state.isLoading &&
                     <Placeholder
@@ -639,6 +699,12 @@ class RecipeCard extends Component {
                     { ...{ attributes, setAttributes, className } }
                 />
                 <BlockControls>
+                    <AlignmentToolbar
+                        alignmentControls={ BLOCK_ALIGNMENT_CONTROLS }
+                        label={ __( 'Change Block Alignment', 'wpzoom-recipe-card' ) }
+                        value={ blockAlignment }
+                        onChange={ this.onChangeAlignment }
+                    />
                     <ExtraOptionsModal
                         ingredients={ this.props.attributes.ingredients }
                         steps={ this.props.attributes.steps }
