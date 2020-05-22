@@ -699,6 +699,7 @@ class RecipeCard extends Component {
                 />
                 <BlockControls>
                     <AlignmentToolbar
+                        isRTL={ this.props.isRTL }
                         alignmentControls={ BLOCK_ALIGNMENT_CONTROLS }
                         label={ __( 'Change Block Alignment', 'wpzoom-recipe-card' ) }
                         value={ blockAlignment }
