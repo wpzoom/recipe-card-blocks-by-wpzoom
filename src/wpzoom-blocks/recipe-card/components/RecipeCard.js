@@ -302,7 +302,6 @@ class RecipeCard extends Component {
             headerAlign: newAlignment === undefined ? headerAlign : newAlignment,
         };
 
-        console.log( style, newAlignment );
         if ( 'simple' === style && 'center' === newAlignment ) {
             newSettings[ 0 ] = {
                 ...newSettings[ 0 ],
