@@ -24,19 +24,10 @@ class WPZOOM_Details_Block {
 	private static $helpers;
 
 	/**
-	 * Class instance Structured Data Helpers.
-	 *
-	 * @var WPZOOM_Structured_Data_Helpers
-	 * @since 1.2.0
-	 */
-	private $structured_data_helpers;
-
-	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
 		self::$helpers = new WPZOOM_Helpers();
-		$this->structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
 	}
 
 	/**

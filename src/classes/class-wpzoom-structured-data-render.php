@@ -21,14 +21,14 @@ class WPZOOM_Structured_Data_Render {
 	 * @var WPZOOM_Structured_Data_Helpers
 	 * @since 1.2.0
 	 */
-	private $structured_data_helpers;
+	private static $structured_data_helpers;
 
 	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
 		$this->load_dependencies();
-		$this->structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
+		self::$structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
 
 		add_filter( 'the_content', array( $this, 'filter_content_blocks' ) );
 	}
@@ -173,34 +173,34 @@ class WPZOOM_Structured_Data_Render {
 				}
 				elseif ( $key === 1 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$prepTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['prepTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
+						$prepTime = self::$structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+					    $json_ld['prepTime'] = self::$structured_data_helpers->get_period_time( $detail['jsonValue'] );
 					}
 				}
 				elseif ( $key === 2 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$cookTime = $this->structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['cookTime'] = $this->structured_data_helpers->get_period_time( $detail['jsonValue'] );
+						$cookTime = self::$structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+					    $json_ld['cookTime'] = self::$structured_data_helpers->get_period_time( $detail['jsonValue'] );
 					}
 				}
 			}
 
 			if ( isset( $prepTime, $cookTime ) && ( $prepTime + $cookTime ) > 0 ) {
-				$json_ld['totalTime'] = $this->structured_data_helpers->get_period_time( $prepTime + $cookTime );
+				$json_ld['totalTime'] = self::$structured_data_helpers->get_period_time( $prepTime + $cookTime );
 			}
 		}
 
 		if ( ! empty( $attributes['items'] ) && is_array( $attributes['items'] ) ) {
 			$ingredients = array_filter( $attributes['items'], 'is_array' );
 			foreach ( $ingredients as $ingredient ) {
-				$json_ld['recipeIngredient'][] = $this->structured_data_helpers->get_ingredient_json_ld( $ingredient );
+				$json_ld['recipeIngredient'][] = self::$structured_data_helpers->get_ingredient_json_ld( $ingredient );
 			}
 		}
 
 		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$steps = array_filter( $attributes['steps'], 'is_array' );
 			foreach ( $steps as $step ) {
-				$json_ld['recipeInstructions'][] = $this->structured_data_helpers->get_step_json_ld( $step );
+				$json_ld['recipeInstructions'][] = self::$structured_data_helpers->get_step_json_ld( $step );
 			}
 		}
 
