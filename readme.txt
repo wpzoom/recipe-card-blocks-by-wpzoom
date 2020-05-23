@@ -38,7 +38,10 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 = ⭐️ PRO FEATURES ⭐️ =
 * **Star Rating**
-* **Video Recipe**
+* **Gallery in Directions**
+* Adjustable servings
+* Ingredients quantity
+* Custom Pinterest image and description for Pin
 * Credit Removal
 * Color Schemes
 * Food Labels
@@ -72,12 +75,6 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 = 📌 Where I can view a Demo? =
 
 You can view the Recipe Card Block live [here](http://demo.wpzoom.com/recipe-card-blocks/).
-
-= 📌 Coming Soon in future updates... =
-
-* Adjustable servings
-* Ingredients quantity
-
 
 = 🙌 CREDITS & THANKS =
 
@@ -128,6 +125,10 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 
 == Changelog ==
+
+= 2.6.4 =
+* Fixed issue with Jump to Recipe and Print Recipe that are showing up on homepage as part of the excerpt
+* Fixed error: "$this" can no longer be used in a plain function or method
 
 = 2.6.3 =
 * Added support for the new "Guided Recipes" in Structured Data
