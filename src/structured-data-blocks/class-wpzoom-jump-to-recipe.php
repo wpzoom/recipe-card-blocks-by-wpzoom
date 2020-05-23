@@ -72,7 +72,7 @@ class WPZOOM_Jump_To_Recipe_Block {
 	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) ) {
+		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
 

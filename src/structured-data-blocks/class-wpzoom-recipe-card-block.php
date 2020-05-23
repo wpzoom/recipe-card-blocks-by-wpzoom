@@ -271,7 +271,9 @@ class WPZOOM_Recipe_Card_Block {
 			return $content;
 		}
 
-		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
+		if ( is_singular() ) {
+			add_filter( 'the_content', array( $this, 'filter_the_content' ) );
+		}
 
 		$attributes = self::$helpers->omit( $attributes, array( 'toInsert', 'activeIconSet', 'showModal', 'searchIcon', 'icons' ) );
 		// Import variables into the current symbol table from an array
