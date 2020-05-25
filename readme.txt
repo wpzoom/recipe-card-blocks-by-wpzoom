@@ -1,7 +1,7 @@
 === Recipe Card Blocks by WPZOOM ===
 Contributors: WPZOOM, ciorici, vicolaspetru
 Donate link: https://www.wpzoom.com/
-Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card
+Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card, recipe maker, foodie, cook, snippet, block, pinterest, rating, nutrition, nutrition label, nutrition facts, schema, structured data, cooking, chef, seo, culinary, food blog, drink, drinks recipes, baking, crafts, steps, meal
 Requires at least: 5.0
 Requires PHP: 5.6
 Tested up to: 5.4
