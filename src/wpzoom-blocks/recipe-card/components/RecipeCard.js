@@ -36,7 +36,7 @@ import { withSelect } from '@wordpress/data';
 import { compose } from '@wordpress/compose';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
-import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
+import { positionLeft, positionRight, positionCenter } from '@wordpress/icons';
 
 /**
  * Module Constants
@@ -44,17 +44,17 @@ import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
 const BLOCK_ALIGNMENT_CONTROLS = [
     {
-        icon: alignLeft,
+        icon: positionLeft,
         title: __( 'Align block left', 'wpzoom-recipe-card' ),
         align: 'left',
     },
     {
-        icon: alignCenter,
+        icon: positionCenter,
         title: __( 'Align block center', 'wpzoom-recipe-card' ),
         align: 'center',
     },
     {
-        icon: alignRight,
+        icon: positionRight,
         title: __( 'Align block right', 'wpzoom-recipe-card' ),
         align: 'right',
     },

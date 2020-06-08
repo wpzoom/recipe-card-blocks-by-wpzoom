@@ -473,10 +473,10 @@
 			box-shadow: inset 0 -1px 0 #00435d;
 		}
 	}
-	.components-button svg[size="24"] {
-		width: 24px;
-		height: 24px;
-	}
+}
+.components-button svg[size="24"] {
+	width: 24px;
+	height: 24px;
 }
 
 .wpzoom-recipe-card-settings {
@@ -489,5 +489,8 @@
 			height: 100%;
 			line-height: 0;
 		}
+	}
+	.components-button-group {
+		display: block;
 	}
 }

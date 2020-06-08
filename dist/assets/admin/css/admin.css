@@ -23,3 +23,18 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+.wpzoom-rcb-plugin-row-meta-rate-stars {
+    display: inline-block;
+    color: #ffb900;
+    position: relative;
+    top: 3px;
+}
+.wpzoom-rcb-plugin-row-meta-rate-stars svg {
+    fill: #ffb900;
+}
+.wpzoom-rcb-plugin-row-meta-rate-stars svg:hover {
+    fill: #ffb900
+}
+.wpzoom-rcb-plugin-row-meta-rate-stars svg:hover ~ svg {
+    fill: none;
+}

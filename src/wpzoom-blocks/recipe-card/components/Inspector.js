@@ -27,11 +27,13 @@ const {
     ToggleControl,
     TextControl,
     Button,
+    ButtonGroup,
     FormTokenField,
     SelectControl,
     Notice,
     Icon,
 } = wp.components;
+import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
 
 /**
  * Module Constants
@@ -596,33 +598,53 @@ export default class Inspector extends Component {
                             id={ `${ id }-heading-align` }
                             label={ __( 'Header Content Align', 'wpzoom-recipe-card' ) }
                         >
-                            <SelectControl
-                                label={ __( 'Select Alignment', 'wpzoom-recipe-card' ) }
-                                value={ headerAlign }
-                                options={ [
-                                    { label: __( 'Left' ), value: 'left' },
-                                    { label: __( 'Right' ), value: 'right' },
-                                ] }
-                                onChange={ alignment => this.onChangeSettings( alignment, 'headerAlign' ) }
-                            />
+                            <ButtonGroup>
+                                <Button
+                                    isPrimary={ 'left' === headerAlign }
+                                    isSecondary={ 'left' !== headerAlign }
+                                    icon={ alignLeft }
+                                    title={ __( 'Left', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'left', 'headerAlign' ) }
+                                />
+                                <Button
+                                    isPrimary={ 'right' === headerAlign }
+                                    isSecondary={ 'right' !== headerAlign }
+                                    icon={ alignRight }
+                                    title={ __( 'Right', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'right', 'headerAlign' ) }
+                                />
+                            </ButtonGroup>
                         </BaseControl>
-                    }
+                     }
                     {
                         'simple' !== style &&
                         <BaseControl
                             id={ `${ id }-heading-align` }
                             label={ __( 'Header Content Align', 'wpzoom-recipe-card' ) }
                         >
-                            <SelectControl
-                                label={ __( 'Select Alignment', 'wpzoom-recipe-card' ) }
-                                value={ headerAlign }
-                                options={ [
-                                    { label: __( 'Left' ), value: 'left' },
-                                    { label: __( 'Center' ), value: 'center' },
-                                    { label: __( 'Right' ), value: 'right' },
-                                ] }
-                                onChange={ alignment => this.onChangeSettings( alignment, 'headerAlign' ) }
-                            />
+                            <ButtonGroup>
+                                <Button
+                                    isPrimary={ 'left' === headerAlign }
+                                    isSecondary={ 'left' !== headerAlign }
+                                    icon={ alignLeft }
+                                    title={ __( 'Left', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'left', 'headerAlign' ) }
+                                />
+                                <Button
+                                    isPrimary={ 'center' === headerAlign }
+                                    isSecondary={ 'center' !== headerAlign }
+                                    icon={ alignCenter }
+                                    title={ __( 'Center', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'center', 'headerAlign' ) }
+                                />
+                                <Button
+                                    isPrimary={ 'right' === headerAlign }
+                                    isSecondary={ 'right' !== headerAlign }
+                                    icon={ alignRight }
+                                    title={ __( 'Right', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'right', 'headerAlign' ) }
+                                />
+                            </ButtonGroup>
                         </BaseControl>
                     }
                     <BaseControl
