@@ -74,7 +74,7 @@ class WPZOOM_Print_Recipe_Block {
 	public function render( $attributes, $content ) {
 		global $post;
 
-		if ( ! is_array( $attributes ) ) {
+		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
 

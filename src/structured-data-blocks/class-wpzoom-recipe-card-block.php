@@ -275,7 +275,9 @@ class WPZOOM_Recipe_Card_Block {
 			return $content;
 		}
 
-		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
+		if ( is_singular() ) {
+			add_filter( 'the_content', array( $this, 'filter_the_content' ) );
+		}
 
 		$attributes = self::$helpers->omit( $attributes, array( 'toInsert', 'activeIconSet', 'showModal', 'searchIcon', 'icons' ) );
 		// Import variables into the current symbol table from an array
@@ -1374,7 +1376,7 @@ class WPZOOM_Recipe_Card_Block {
 						$class .= ' direction-step-image';
 						$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
 
-						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, trim($class), $this->parseTagStyle($img_style) );
+						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, trim($class), self::parseTagStyle($img_style) );
 					} else {
 						$start_tag = "";
 					}
@@ -1632,8 +1634,16 @@ class WPZOOM_Recipe_Card_Block {
     			}
     		}
     	}
-    	else {
-    		$size = 'wpzoom-rcb-block-header';
+
+    	if ( ! isset( $size ) ) {
+    		$size = 'full';
+    		
+    		if ( 'simple' === self::$style ) {
+    			$size = 'wpzoom-rcb-block-header-square';
+    		}
+    		if ( 'default' === self::$style || 'newdesign' === self::$style ) {
+				$size = 'wpzoom-rcb-block-header';
+    		}
     	}
 
     	return $size;
