@@ -35,6 +35,11 @@
     &.is-style-simple {
         &.block-alignment-left {
             margin-right: auto;
+            .recipe-card-image {
+                figure figcaption {
+                    text-align: left;
+                }
+            }
             .recipe-card-summary,
             .recipe-card-ingredients,
             .recipe-card-directions,
@@ -56,6 +61,11 @@
         }
         &.block-alignment-right {
             margin-left: auto;
+            .recipe-card-image {
+                figure figcaption {
+                    text-align: right;
+                }
+            }
             .recipe-card-summary,
             .recipe-card-ingredients,
             .recipe-card-directions,
@@ -98,6 +108,15 @@
                             right: -6px;
                         }
                     }
+                }
+            }
+        }
+    }
+    &.is-style-simple {
+        &.block-alignment-center {
+            .recipe-card-image {
+                figure figcaption {
+                    text-align: left;
                 }
             }
         }
@@ -145,7 +164,9 @@
 		.ingredients-list {
 			margin: 0;
 			padding: 0;
-            
+            > li {
+                padding-left: 0;
+            }
             .ingredient-item-name {
                 padding-left: 30px;
                 margin: 0;

@@ -76,6 +76,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 			// Include admin scripts & styles
             add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+
+            add_action( 'amp_post_template_css', array( $this, 'amp_for_wp_include_css_template' ) );
 		}
 
 		/**
@@ -306,6 +308,119 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
             }
 		}
 
+        /**
+         * Include block CSS to AMP for WP template
+         * 
+         * @since 2.6.5
+         * @return string Combined CSS content from block build file and inline CSS
+         */
+        public function amp_for_wp_include_css_template() {
+            $style = WPZOOM_Recipe_Card_Block::$style;
+            $settings = WPZOOM_Recipe_Card_Block::$settings;
+
+            $block_class_name = ".wp-block-wpzoom-recipe-card-block-recipe-card.is-style-{$style}";
+            $primary_color = $settings['primary_color'];
+
+            $fa_brands_400_eot = $this->asset_source( 'webfonts', 'fa-brands-400.eot' );
+            $fa_brands_400_woff = $this->asset_source( 'webfonts', 'fa-brands-400.woff' );
+            $fa_brands_400_woff2 = $this->asset_source( 'webfonts', 'fa-brands-400.woff2' );
+            $fa_brands_400_ttf = $this->asset_source( 'webfonts', 'fa-brands-400.ttf' );
+            $fa_brands_400_svg = $this->asset_source( 'webfonts', 'fa-brands-400.svg' );
+
+            $fa_regular_400_eot = $this->asset_source( 'webfonts', 'fa-regular-400.eot' );
+            $fa_regular_400_woff = $this->asset_source( 'webfonts', 'fa-regular-400.woff' );
+            $fa_regular_400_woff2 = $this->asset_source( 'webfonts', 'fa-regular-400.woff2' );
+            $fa_regular_400_ttf = $this->asset_source( 'webfonts', 'fa-regular-400.ttf' );
+            $fa_regular_400_svg = $this->asset_source( 'webfonts', 'fa-regular-400.svg' );
+            
+            $fa_solid_900_eot = $this->asset_source( 'webfonts', 'fa-solid-900.eot' );
+            $fa_solid_900_woff = $this->asset_source( 'webfonts', 'fa-solid-900.woff' );
+            $fa_solid_900_woff2 = $this->asset_source( 'webfonts', 'fa-solid-900.woff2' );
+            $fa_solid_900_ttf = $this->asset_source( 'webfonts', 'fa-solid-900.ttf' );
+            $fa_solid_900_svg = $this->asset_source( 'webfonts', 'fa-solid-900.svg' );
+            
+            $foodicons_eot = $this->asset_source( 'webfonts', 'Foodicons.eot' );
+            $foodicons_woff = $this->asset_source( 'webfonts', 'Foodicons.woff' );
+            $foodicons_ttf = $this->asset_source( 'webfonts', 'Foodicons.ttf' );
+            $foodicons_svg = $this->asset_source( 'webfonts', 'Foodicons.svg' );
+
+            $genericons_eot = $this->asset_source( 'webfonts', 'Genericons.eot' );
+            $genericons_woff = $this->asset_source( 'webfonts', 'Genericons.woff' );
+            $genericons_ttf = $this->asset_source( 'webfonts', 'Genericons.ttf' );
+            $genericons_svg = $this->asset_source( 'webfonts', 'Genericons.svg' );
+
+            $oldicon_eot = $this->asset_source( 'webfonts', 'Oldicon.eot' );
+            $oldicon_woff = $this->asset_source( 'webfonts', 'Oldicon.woff' );
+            $oldicon_ttf = $this->asset_source( 'webfonts', 'Oldicon.ttf' );
+            $oldicon_svg = $this->asset_source( 'webfonts', 'Oldicon.svg' );
+
+            $inline_CSS = file_get_contents( $this->asset_source( '', 'blocks.style.build.css' ) );
+            $inline_CSS .= file_get_contents( $this->asset_source( 'css', 'amp-icon-fonts.build.css' ) );
+
+            $inline_CSS .= ".artl-cnt ul li:before {display: none}";
+            $inline_CSS .= "{$block_class_name} .recipe-card-notes .recipe-card-notes-list>li::before {
+                background-color: {$primary_color};
+            }";
+            $inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Brands\";font-style:normal;font-weight:400;font-display:auto;src:url({$fa_brands_400_eot});src:url({$fa_brands_400_eot}?#iefix) format(\"embedded-opentype\"),url({$fa_brands_400_woff2}) format(\"woff2\"),url({$fa_brands_400_woff}) format(\"woff\"),url({$fa_brands_400_ttf}) format(\"truetype\"),url({$fa_brands_400_svg}#fontawesome) format(\"svg\")}.fab{font-family:\"Font Awesome 5 Brands\"}";
+            $inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Free\";font-style:normal;font-weight:400;font-display:auto;src:url({$fa_regular_400_eot});src:url({$fa_regular_400_eot}?#iefix) format(\"embedded-opentype\"),url({$fa_regular_400_woff2}) format(\"woff2\"),url({$fa_regular_400_woff}) format(\"woff\"),url({$fa_regular_400_ttf}) format(\"truetype\"),url({$fa_regular_400_svg}#fontawesome) format(\"svg\")}.far{font-weight:400}";
+            $inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Free\";font-style:normal;font-weight:900;font-display:auto;src:url({$fa_solid_900_eot});src:url({$fa_solid_900_eot}?#iefix) format(\"embedded-opentype\"),url({$fa_solid_900_woff2}) format(\"woff2\"),url({$fa_solid_900_woff}) format(\"woff\"),url({$fa_solid_900_ttf}) format(\"truetype\"),url({$fa_solid_900_svg}#fontawesome) format(\"svg\")}";
+            $inline_CSS .= "@font-face{font-family:FoodIcons;src:url({$foodicons_eot});src:url({$foodicons_eot}?#iefix) format(\"embedded-opentype\"),url({$foodicons_woff}) format(\"woff\"),url({$foodicons_ttf}) format(\"truetype\"),url({$foodicons_svg}#Flaticon) format(\"svg\");font-weight:400;font-style:normal}";
+            $inline_CSS .= "@media screen and (-webkit-min-device-pixel-ratio:0){@font-face{font-family:FoodIcons;src:url({$foodicons_svg}#Flaticon) format(\"svg\")}}";
+            $inline_CSS .= "@font-face{font-family:Genericons;src:url({$genericons_eot});src:url({$genericons_eot}?) format(\"embedded-opentype\"),url({$genericons_woff}) format(\"woff\"),url({$genericons_ttf}) format(\"truetype\"),url({$genericons_svg}#Genericons) format(\"svg\");font-weight:400;font-style:normal}";
+            $inline_CSS .= "@media screen and (-webkit-min-device-pixel-ratio:0){@font-face{font-family:Genericons;src:url({$genericons_svg}#Genericons) format(\"svg\")}}";
+            $inline_CSS .= "@font-face{font-family:Oldicon;src:url({$oldicon_eot});src:url({$oldicon_eot}?#iefix) format(\"embedded-opentype\"),url({$oldicon_woff}) format(\"woff\"),url({$oldicon_ttf}) format(\"truetype\"),url({$oldicon_svg}#Flaticon) format(\"svg\");font-weight:400;font-style:normal}";
+            $inline_CSS .= "@media screen and (-webkit-min-device-pixel-ratio:0){@font-face{font-family:Oldicon;src:url({$oldicon_svg}#Flaticon) format(\"svg\")}}";
+
+            if ( $style === 'default' ) {
+                if ( ! empty( $primary_color ) ) {
+                    $inline_CSS .= "{$block_class_name} .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link {
+                        background-color: {$primary_color};
+                    }";
+                    $inline_CSS .= "{$block_class_name} .details-items .detail-item .detail-item-icon {
+                        color: {$primary_color};
+                    }";
+                }
+            }
+
+            if ( $style === 'newdesign' ) {
+                if ( ! empty( $primary_color ) ) {
+                    $inline_CSS .= "{$block_class_name} .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link {
+                        background-color: {$primary_color};
+                        box-shadow: 0 5px 40px {$primary_color};
+                    }";
+                    $inline_CSS .= "{$block_class_name} .details-items .detail-item .detail-item-icon {
+                        color: {$primary_color};
+                    }";
+                    $inline_CSS .= "{$block_class_name} .ingredients-list>li .tick-circle {
+                        border: 2px solid {$primary_color};
+                    }";
+                }
+                $inline_CSS .= "{$block_class_name} .ingredients-list > li .tick-circle {
+                    border-color: {$primary_color};
+                }";
+                $inline_CSS .= "{$block_class_name} .ingredients-list > li.ticked .tick-circle {
+                    border-color: {$primary_color} !important;
+                    background-color: {$primary_color};
+                }";
+            }
+
+            if ( $style === 'simple' ) {
+                if ( ! empty( $primary_color ) ) {
+                    $inline_CSS .= "{$block_class_name} .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link {
+                        background-color: {$primary_color};
+                    }";
+                    $inline_CSS .= "{$block_class_name} .details-items .detail-item .detail-item-icon {
+                        color: {$primary_color};
+                    }";
+                    $inline_CSS .= "{$block_class_name} .ingredients-list>li .tick-circle {
+                        border: 2px solid {$primary_color};
+                    }";
+                }
+            }
+
+            echo $inline_CSS;
+        }
+
 		/**
 		 * Source assets.
 		 *
@@ -314,7 +429,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @param string|string $directory Any extra directories needed.
 		 */
 		public function asset_source( $type = 'js', $directory = null ) {
-			if ( 'js' === $type || 'css' === $type ) {
+			if ( 'js' === $type || 'css' === $type || 'webfonts' === $type || 'images' === $type ) {
 				return $this->_url . '/dist/assets/' . $type . '/' . $directory;
 			} else {
 				return $this->_url . '/dist/' . $directory;

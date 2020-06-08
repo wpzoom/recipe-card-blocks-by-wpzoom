@@ -153,6 +153,19 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 	}
 
 	/**
+	 * Check if is AMP endpoint
+	 * 
+	 * @since 2.6.5
+	 * @return boolean
+	 */
+	public static function is_AMP() {
+		$ampforwp_is_amp_endpoint = function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint();
+		$is_amp_endpoint = function_exists( 'is_amp_endpoint' ) && is_amp_endpoint();
+
+		return $ampforwp_is_amp_endpoint || $is_amp_endpoint;
+	}
+
+	/**
 	 * Load the plugin textdomain
 	 *
 	 * @since 1.1.0
