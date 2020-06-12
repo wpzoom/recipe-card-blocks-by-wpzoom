@@ -35,11 +35,6 @@
     &.is-style-simple {
         &.block-alignment-left {
             margin-right: auto;
-            .recipe-card-image {
-                figure figcaption {
-                    text-align: left;
-                }
-            }
             .recipe-card-summary,
             .recipe-card-ingredients,
             .recipe-card-directions,
