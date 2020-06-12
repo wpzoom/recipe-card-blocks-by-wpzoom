@@ -1,12 +1,12 @@
 /* External dependencies */
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
+import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
 
 /* Internal dependencies */
-import DetailItem from "./DetailItem";
-import Inspector from "./Inspector";
-import { stripHTML } from "../../../helpers/stringHelpers";
-import { generateId } from "../../../helpers/generateId";
+import DetailItem from './DetailItem';
+import Inspector from './Inspector';
+import { stripHTML } from '../../../helpers/stringHelpers';
+import { generateId } from '../../../helpers/generateId';
 
 /* WordPress dependencies */
 const { RichText } = wp.blockEditor;
@@ -21,7 +21,6 @@ import '../editor.scss';
  * A Detail item within a Detail block.
  */
 export default class Detail extends Component {
-
     /**
      * Constructs a Detail editor component.
      *
@@ -32,7 +31,7 @@ export default class Detail extends Component {
     constructor( props ) {
         super( props );
 
-        this.state = { focus: "" };
+        this.state = { focus: '' };
 
         this.changeDetail = this.changeDetail.bind( this );
         this.insertDetail = this.insertDetail.bind( this );
@@ -86,8 +85,8 @@ export default class Detail extends Component {
             label: newLabel,
             value: newValue,
             jsonLabel: stripHTML( renderToString( newLabel ) ),
-            jsonValue: stripHTML( renderToString( newValue ) )
-        }
+            jsonValue: stripHTML( renderToString( newValue ) ),
+        };
 
         this.props.setAttributes( { details } );
     }
@@ -119,12 +118,12 @@ export default class Detail extends Component {
         }
 
         details.splice( index + 1, 0, {
-            id: generateId( "detail-item" ),
+            id: generateId( 'detail-item' ),
             icon,
             label,
             value,
-            jsonLabel: "",
-            jsonValue: "",
+            jsonLabel: '',
+            jsonValue: '',
         } );
 
         this.props.setAttributes( { details } );
@@ -164,7 +163,7 @@ export default class Detail extends Component {
         delete this.editorRefs[ `${ indexToRemove }:label` ];
         delete this.editorRefs[ `${ indexToRemove }:value` ];
 
-        let fieldToFocus = "title";
+        let fieldToFocus = 'title';
         if ( this.editorRefs[ `${ index - 1 }:label` ] ) {
             fieldToFocus = `${ index - 1 }:label`;
         } else if ( this.editorRefs[ `${ index - 1 }:value` ] ) {
@@ -225,7 +224,7 @@ export default class Detail extends Component {
      * @returns {void}
      */
     setFocusToTitle() {
-        this.setFocus( "title" );
+        this.setFocus( 'title' );
     }
 
     /**
@@ -262,7 +261,7 @@ export default class Detail extends Component {
     onChangeTitle( value ) {
         this.props.setAttributes( {
             title: value,
-            jsonTitle: stripHTML( renderToString( value ) )
+            jsonTitle: stripHTML( renderToString( value ) ),
         } );
     }
 
@@ -276,7 +275,7 @@ export default class Detail extends Component {
             return null;
         }
 
-        const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        const [ focusIndex, subElement ] = this.state.focus.split( ':' );
 
         return this.props.attributes.details.map( ( item, index ) => {
             return (
@@ -311,7 +310,7 @@ export default class Detail extends Component {
                 onClick={ this.onAddDetailButtonClick }
                 className="editor-inserter__toggle"
             >
-                <span className="components-icon-button-text">{ __( "Add item", "wpzoom-recipe-card" ) }</span>
+                <span className="components-icon-button-text">{ __( 'Add item', 'wpzoom-recipe-card' ) }</span>
             </IconButton>
         );
     }
@@ -319,8 +318,8 @@ export default class Detail extends Component {
     render() {
         const { attributes, setAttributes, className } = this.props;
         const { id, title, columns } = attributes;
-        const classNames    = [ className, "col-" + columns ].filter( ( item ) => item ).join( " " );
-        const detailClasses = [ "details-items" ].filter( ( item ) => item ).join( " " );
+        const classNames    = [ className, 'col-' + columns ].filter( ( item ) => item ).join( ' ' );
+        const detailClasses = [ 'details-items' ].filter( ( item ) => item ).join( ' ' );
 
         return (
             <div className={ classNames } key={ id }>
@@ -333,7 +332,7 @@ export default class Detail extends Component {
                     setFocusedElement={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( "Write Details title", "wpzoom-recipe-card" ) }
+                    placeholder={ __( 'Write Details title', 'wpzoom-recipe-card' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <div className={ detailClasses }>{ this.getDetailItems() }</div>
@@ -342,7 +341,6 @@ export default class Detail extends Component {
             </div>
         );
     }
-
 }
 
 Detail.propTypes = {
@@ -352,5 +350,5 @@ Detail.propTypes = {
 };
 
 Detail.defaultProps = {
-    className: "",
+    className: '',
 };

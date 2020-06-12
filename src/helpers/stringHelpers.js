@@ -17,9 +17,9 @@ export function firstToUpperCase( string ) {
  * @returns {string} The string with HTML stripped.
  */
 export function stripHTML( string ) {
-    const tmp = document.createElement( "DIV" );
+    const tmp = document.createElement( 'DIV' );
     tmp.innerHTML = string;
-    return tmp.textContent || tmp.innerText || "";
+    return tmp.textContent || tmp.innerText || '';
 }
 
 /**
@@ -31,8 +31,8 @@ export function stripHTML( string ) {
  */
 export function humanize( string ) {
     const frags = string.split( '_' );
-    for ( var i = 0; i < frags.length; i++ ) {
-        frags[i] = firstToUpperCase( frags[i] );
+    for ( let i = 0; i < frags.length; i++ ) {
+        frags[ i ] = firstToUpperCase( frags[ i ] );
     }
     return frags.join( ' ' );
 }
@@ -46,7 +46,7 @@ export function humanize( string ) {
  */
 export function matchIMGsrc( string ) {
     const regex = /<img[^>]+src="([^">]+)"/gm;
-    let IMGsources = [];
+    const IMGsources = [];
     let m;
     let i = 0;
 

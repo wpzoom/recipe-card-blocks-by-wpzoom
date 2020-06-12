@@ -13,7 +13,8 @@
   "scripts": {
     "start": "cgb-scripts start",
     "build": "cgb-scripts build",
-    "eject": "cgb-scripts eject"
+    "eject": "cgb-scripts eject",
+    "lint": "eslint --fix --ext .js,.jsx src"
   },
   "dependencies": {
     "@babel/core": "^7.4.3",

@@ -1,5 +1,5 @@
-import trim from "lodash/trim";
-import includes from "lodash/includes";
+import trim from 'lodash/trim';
+import includes from 'lodash/includes';
 
 /**
  * Exclude uneeded class names.

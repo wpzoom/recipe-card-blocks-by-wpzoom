@@ -6,14 +6,13 @@
  */
 
 /* Internal dependencies */
-import FoodIcons from "../components/FoodIcons";
+import FoodIcons from '../components/FoodIcons';
 import get from 'lodash/get';
 import times from 'lodash/times';
 
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
 const { RichText } = wp.blockEditor;
-
 
 /**
  * Returns the component to be used to render
@@ -32,7 +31,7 @@ export default function LegacyDetails( props ) {
         <div className={ detailClasses }>
             <RichText.Content
                 value={ title }
-                tagName='h3'
+                tagName="h3"
                 className="details-title"
             />
             { times( columns, ( index ) => {
@@ -46,18 +45,18 @@ export default function LegacyDetails( props ) {
                             { icon ? <span
                                     className="detail-item-icon"
                                     icon-name={ icon }>
-                                <FoodIcons icon={ icon }/>
+                                <FoodIcons icon={ icon } />
                             </span> : ''
                             }
                             { ! RichText.isEmpty( label ) && <RichText.Content
                                     value={ label }
-                                    tagName='span'
+                                    tagName="span"
                                     className="detail-item-label"
                                 />
                             }
                             { ! RichText.isEmpty( value ) && <RichText.Content
                                     value={ value }
-                                    tagName='p'
+                                    tagName="p"
                                     className="detail-item-value"
                                 />
                             }

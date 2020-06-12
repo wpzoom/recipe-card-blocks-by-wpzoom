@@ -1,12 +1,12 @@
 /* External dependencies */
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
-import { speak } from "@wordpress/a11y";
-import toNumber from "lodash/toNumber";
+import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
+import { speak } from '@wordpress/a11y';
+import toNumber from 'lodash/toNumber';
 
 /* Internal dependencies */
-import DirectionStep from "./DirectionStep";
-import { stripHTML } from "../../../helpers/stringHelpers";
+import DirectionStep from './DirectionStep';
+import { stripHTML } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
 const { RichText } = wp.blockEditor;
@@ -17,7 +17,6 @@ const { Component, renderToString } = wp.element;
  * A Direction step within a Direction block.
  */
 export default class Direction extends Component {
-
     /**
      * Constructs a Direction editor component.
      *
@@ -28,7 +27,7 @@ export default class Direction extends Component {
     constructor( props ) {
         super( props );
 
-        this.state = { focus: "" };
+        this.state = { focus: '' };
 
         this.changeStep = this.changeStep.bind( this );
         this.insertStep = this.insertStep.bind( this );
@@ -83,7 +82,7 @@ export default class Direction extends Component {
             id: steps[ index ].id,
             text: newText,
             jsonText: stripHTML( renderToString( newText ) ),
-            isGroup: group
+            isGroup: group,
         };
 
         this.props.setAttributes( { steps } );
@@ -113,10 +112,10 @@ export default class Direction extends Component {
         }
 
         steps.splice( index + 1, 0, {
-            id: this.props.generateId( "direction-step" ),
+            id: this.props.generateId( 'direction-step' ),
             text,
-            jsonText: "",
-            isGroup: group
+            jsonText: '',
+            isGroup: group,
         } );
 
         this.props.setAttributes( { steps } );
@@ -127,7 +126,7 @@ export default class Direction extends Component {
             return;
         }
 
-        speak( __( "New step added", "wpzoom-recipe-card" ) );
+        speak( __( 'New step added', 'wpzoom-recipe-card' ) );
     }
 
     /**
@@ -151,7 +150,7 @@ export default class Direction extends Component {
 
         this.props.setAttributes( { steps } );
 
-        const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        const [ focusIndex, subElement ] = this.state.focus.split( ':' );
         if ( focusIndex === `${ index1 }` ) {
             this.setFocus( `${ index2 }:${ subElement }` );
         }
@@ -185,7 +184,7 @@ export default class Direction extends Component {
         const indexToRemove = steps.length;
         delete this.editorRefs[ `${ indexToRemove }:text` ];
 
-        let fieldToFocus = "directionsTitle";
+        let fieldToFocus = 'directionsTitle';
         if ( this.editorRefs[ `${ index - 1 }:text` ] ) {
             fieldToFocus = `${ index - 1 }:text`;
         }
@@ -229,7 +228,7 @@ export default class Direction extends Component {
      * @returns {void}
      */
     onAddGroupButtonClick() {
-        let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        let [ focusIndex, subElement ] = this.state.focus.split( ':' );
         focusIndex = focusIndex != '' && focusIndex != 'directionsTitle' ? toNumber( focusIndex ) : null;
         this.insertStep( focusIndex, [], true, true );
     }
@@ -255,7 +254,7 @@ export default class Direction extends Component {
      * @returns {void}
      */
     setFocusToTitle() {
-        this.setFocus( "directionsTitle" );
+        this.setFocus( 'directionsTitle' );
     }
 
     /**
@@ -314,7 +313,7 @@ export default class Direction extends Component {
     onChangeTitle( value ) {
         this.props.setAttributes( {
             directionsTitle: value,
-            jsonTitle: stripHTML( renderToString( value ) )
+            jsonTitle: stripHTML( renderToString( value ) ),
         } );
     }
 
@@ -328,7 +327,7 @@ export default class Direction extends Component {
             return null;
         }
 
-        const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        const [ focusIndex, subElement ] = this.state.focus.split( ':' );
 
         return this.props.attributes.steps.map( ( step, index ) => {
             return (
@@ -365,14 +364,14 @@ export default class Direction extends Component {
                     onClick={ this.onAddStepButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( "Add step", "wpzoom-recipe-card" ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add step', 'wpzoom-recipe-card' ) }</span>
                 </IconButton>
                 <IconButton
                     icon="editor-insertmore"
                     onClick={ this.onAddGroupButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( "Add direction group", "wpzoom-recipe-card" ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add direction group', 'wpzoom-recipe-card' ) }</span>
                 </IconButton>
             </div>
         );
@@ -387,8 +386,8 @@ export default class Direction extends Component {
         const { attributes } = this.props;
         const { directionsTitle } = attributes;
 
-        const classNames     = [ "recipe-card-directions" ].filter( ( item ) => item ).join( " " );
-        const listClassNames = [ "directions-list" ].filter( ( item ) => item ).join( " " );
+        const classNames     = [ 'recipe-card-directions' ].filter( ( item ) => item ).join( ' ' );
+        const listClassNames = [ 'directions-list' ].filter( ( item ) => item ).join( ' ' );
 
         return (
             <div className={ classNames }>
@@ -400,7 +399,7 @@ export default class Direction extends Component {
                     unstableOnFocus={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( "Write Directions title", "wpzoom-recipe-card" ) }
+                    placeholder={ __( 'Write Directions title', 'wpzoom-recipe-card' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <ul className={ listClassNames }>{ this.getSteps() }</ul>
@@ -408,7 +407,6 @@ export default class Direction extends Component {
             </div>
         );
     }
-
 }
 
 Direction.propTypes = {
@@ -418,5 +416,5 @@ Direction.propTypes = {
 };
 
 Direction.defaultProps = {
-    className: "",
+    className: '',
 };

@@ -1,14 +1,14 @@
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
-import isUndefined from "lodash/isUndefined";
-import get from "lodash/get";
-import forEach from "lodash/forEach";
-import isObject from "lodash/isObject";
-import replace from "lodash/replace";
+import { __ } from '@wordpress/i18n';
+import isUndefined from 'lodash/isUndefined';
+import get from 'lodash/get';
+import forEach from 'lodash/forEach';
+import isObject from 'lodash/isObject';
+import replace from 'lodash/replace';
 
 /* Internal dependencies */
-import Icons from "../../../utils/IconsArray";
-import { getBlockStyle } from "../../../helpers/getBlockStyle";
+import Icons from '../../../utils/IconsArray';
+import { getBlockStyle } from '../../../helpers/getBlockStyle';
 
 /* WordPress dependencies */
 const {
@@ -16,7 +16,7 @@ const {
     Modal,
     TabPanel,
     SelectControl,
-    TextControl
+    TextControl,
 } = wp.components;
 const { Fragment } = wp.element;
 const { withState } = wp.compose;
@@ -24,7 +24,7 @@ const { withState } = wp.compose;
 /**
  * A Icons Modal within a Details block.
  */
-function IconsModal (
+function IconsModal(
     {
         isOpen,
         toInsert,
@@ -32,35 +32,36 @@ function IconsModal (
         activeIconSet,
         activeTab,
         props,
-        setState
+        setState,
     }
 ) {
     const {
         attributes,
         setAttributes,
         className,
-        item
+        item,
     } = props;
 
     const {
         details,
         settings: {
             0: {
-                icon_details_color
-            }
-        }
+                icon_details_color,
+            },
+        },
     } = attributes;
 
-    let style = getBlockStyle( className );
+    const style = getBlockStyle( className );
     let { icon, iconSet, _prefix } = item;
 
-    if ( isUndefined( iconSet ) )
+    if ( isUndefined( iconSet ) ) {
         iconSet = 'oldicon';
+    }
 
-    let iconStyles = { 'color': icon_details_color };
+    let iconStyles = { color: icon_details_color };
 
     if ( 'newdesign' === style ) {
-        iconStyles = { 'color': '#FFA921' };
+        iconStyles = { color: '#FFA921' };
     }
 
     _prefix = _prefix || iconSet;
@@ -68,11 +69,11 @@ function IconsModal (
     const activeIcon = get( details, [ toInsert, 'icon' ] );
 
     const iconsSets = [
-        { label: __( "Foodicons", "wpzoom-recipe-card" ), value: 'foodicons' },
-        { label: __( "Dashicons", "wpzoom-recipe-card" ), value: 'dashicons' },
-        { label: __( "Font Awesome 5", "wpzoom-recipe-card" ), value: 'fa' },
-        { label: __( "Genericons", "wpzoom-recipe-card" ), value: 'genericons' },
-        { label: __( "Old Food icons", "wpzoom-recipe-card" ), value: 'oldicon' },
+        { label: __( 'Foodicons', 'wpzoom-recipe-card' ), value: 'foodicons' },
+        { label: __( 'Dashicons', 'wpzoom-recipe-card' ), value: 'dashicons' },
+        { label: __( 'Font Awesome 5', 'wpzoom-recipe-card' ), value: 'fa' },
+        { label: __( 'Genericons', 'wpzoom-recipe-card' ), value: 'genericons' },
+        { label: __( 'Old Food icons', 'wpzoom-recipe-card' ), value: 'oldicon' },
     ];
 
     /**
@@ -83,13 +84,14 @@ function IconsModal (
      * @returns {Object}
      */
     function filterIcons( searchIcon ) {
-        var collector = {};
+        const collector = {};
 
-        if ( searchIcon === '' )
+        if ( searchIcon === '' ) {
             return Icons;
+        }
 
-        forEach( Icons, function ( iconsArray, key ) {
-            collector[ key ] = iconsArray.filter( function ( item ) {
+        forEach( Icons, function( iconsArray, key ) {
+            collector[ key ] = iconsArray.filter( function( item ) {
                 if ( isObject( item ) ) {
                     return item.icon.indexOf( searchIcon ) > -1;
                 }
@@ -125,7 +127,7 @@ function IconsModal (
             ...details[ toInsert ],
             icon: iconName,
             iconSet,
-            _prefix
+            _prefix,
         };
 
         setAttributes( { details } );
@@ -145,8 +147,8 @@ function IconsModal (
             tabName = 'fas' == _prefix ? 'solid' : 'fab' == _prefix ? 'brands' : 'regular';
         }
 
-        setState( { activeIconSet: iconSet, activeTab: tabName } )
-    }
+        setState( { activeIconSet: iconSet, activeTab: tabName } );
+    };
 
     /**
      * Open Modal
@@ -158,20 +160,20 @@ function IconsModal (
             tabName = 'fas' == _prefix ? 'solid' : 'fab' == _prefix ? 'brands' : 'regular';
         }
 
-        setState( { isOpen: true, toInsert: props.index, activeIconSet: props.item.iconSet || 'foodicons', activeTab: tabName } )
-    }
+        setState( { isOpen: true, toInsert: props.index, activeIconSet: props.item.iconSet || 'foodicons', activeTab: tabName } );
+    };
 
     /**
      * Select Tab
      */
     const onSelectTab = ( tabName ) => {
-        setState( { activeTab: tabName } )
-    }
+        setState( { activeTab: tabName } );
+    };
 
     /**
      * Display Icons Grid
      */
-    function iconsGrid ( tabName = 'regular' ) {
+    function iconsGrid( tabName = 'regular' ) {
         return Object.keys( filterIcons( searchIcon ) ).map( iconSet =>
             <div
                 key={ iconSet }
@@ -180,14 +182,14 @@ function IconsModal (
             >
                 {
                     filterIcons( searchIcon )[ iconSet ].map( icon => {
-                        let iconClassNames = [ "wpzoom-recipe-card-icons__single-element", `${ iconSet }`, `${ iconSet }-${ icon }` ].filter( ( item ) => item ).join( " " );
+                        let iconClassNames = [ 'wpzoom-recipe-card-icons__single-element', `${ iconSet }`, `${ iconSet }-${ icon }` ].filter( ( item ) => item ).join( ' ' );
 
                         if ( 'fa' === iconSet ) {
                             const iconPrefix = 'solid' == tabName ? 'fas' : 'brands' == tabName ? 'fab' : 'far';
 
                             if ( icon.indexOf( iconPrefix ) != -1 ) {
                                 icon = replace( icon, `${ iconPrefix } ${ iconSet }-`, '' );
-                                iconClassNames = [ "wpzoom-recipe-card-icons__single-element", iconPrefix, `${ iconSet }-${ icon }` ].filter( ( item ) => item ).join( " " );
+                                iconClassNames = [ 'wpzoom-recipe-card-icons__single-element', iconPrefix, `${ iconSet }-${ icon }` ].filter( ( item ) => item ).join( ' ' );
 
                                 return (
                                     <span
@@ -195,7 +197,7 @@ function IconsModal (
                                         iconset={ iconSet }
                                         onClick={ ( e ) => onChangeIcon( e, iconSet, icon, iconPrefix ) }>
                                     </span>
-                                )
+                                );
                             }
                         } else {
                             return (
@@ -204,12 +206,12 @@ function IconsModal (
                                     iconset={ iconSet }
                                     onClick={ ( e ) => onChangeIcon( e, iconSet, icon ) }>
                                 </span>
-                            )
+                            );
                         }
                     } )
                 }
             </div>
-        )
+        );
     }
 
     /**
@@ -220,10 +222,10 @@ function IconsModal (
     return (
         <Fragment>
             <IconButton
-                icon={ !icon && "insert" }
+                icon={ ! icon && 'insert' }
                 onClick={ onOpenModal }
                 className="editor-inserter__toggle"
-                label={ __( "Add icon", "wpzoom-recipe-card" ) }
+                label={ __( 'Add icon', 'wpzoom-recipe-card' ) }
             >
                 {
                     icon &&
@@ -233,18 +235,18 @@ function IconsModal (
             {
                 isOpen &&
                 <Modal
-                    title={ __( "Modal with Icons library", "wpzoom-recipe-card" ) }
+                    title={ __( 'Modal with Icons library', 'wpzoom-recipe-card' ) }
                     onRequestClose={ () => setState( { isOpen: false } ) }
                 >
                     <div className="wpzoom-recipe-card-modal-form" style={ { width: 720 + 'px', maxHeight: 525 + 'px' } }>
                         <div className="form-group">
                             <TextControl
-                                label={ __( "Enter icon name", "wpzoom-recipe-card" ) }
+                                label={ __( 'Enter icon name', 'wpzoom-recipe-card' ) }
                                 value={ searchIcon }
                                 onChange={ ( iconName ) => setState( { searchIcon: iconName } ) }
                             />
                             <SelectControl
-                                label={ __( "Select Icon Kit", "wpzoom-recipe-card" ) }
+                                label={ __( 'Select Icon Kit', 'wpzoom-recipe-card' ) }
                                 value={ activeIconSet }
                                 options={ iconsSets }
                                 onChange={ onChangeIconSet }
@@ -261,26 +263,28 @@ function IconsModal (
                                     tabs={ [
                                         {
                                             name: 'regular',
-                                            title: __( "Regular", "wpzoom-recipe-card" ),
+                                            title: __( 'Regular', 'wpzoom-recipe-card' ),
                                             className: 'tab-regular',
-                                            content: iconsGrid( 'regular' )
+                                            content: iconsGrid( 'regular' ),
                                         },
                                         {
                                             name: 'solid',
-                                            title: __( "Solid", "wpzoom-recipe-card" ),
+                                            title: __( 'Solid', 'wpzoom-recipe-card' ),
                                             className: 'tab-solid',
-                                            content: iconsGrid( 'solid' )
+                                            content: iconsGrid( 'solid' ),
                                         },
                                         {
                                             name: 'brands',
-                                            title: __( "Brands", "wpzoom-recipe-card" ),
+                                            title: __( 'Brands', 'wpzoom-recipe-card' ),
                                             className: 'tab-brands',
-                                            content: iconsGrid( 'brands' )
-                                        }
+                                            content: iconsGrid( 'brands' ),
+                                        },
                                     ] }
                                 >
                                     {
-                                        ( tab ) => { return ( tab.content ) }
+                                        ( tab ) => {
+ return ( tab.content );
+}
                                     }
                                 </TabPanel>
                             }
@@ -294,14 +298,16 @@ function IconsModal (
                                     tabs={ [
                                         {
                                             name: 'regular',
-                                            title: __( "All Icons", "wpzoom-recipe-card" ),
+                                            title: __( 'All Icons', 'wpzoom-recipe-card' ),
                                             className: 'tab-regular',
-                                            content: iconsGrid( 'regular' )
-                                        }
+                                            content: iconsGrid( 'regular' ),
+                                        },
                                     ] }
                                 >
                                     {
-                                        ( tab ) => { return ( tab.content ) }
+                                        ( tab ) => {
+ return ( tab.content );
+}
                                     }
                                 </TabPanel>
                             }
@@ -310,7 +316,7 @@ function IconsModal (
                 </Modal>
             }
         </Fragment>
-    )
+    );
 }
 
 export default withState( {

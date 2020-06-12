@@ -6,10 +6,10 @@
  */
 
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
 
 /* Internal dependencies */
-import icon from "./icon";
+import icon from './icon';
 
 /* WordPress dependencies */
 const { Fragment } = wp.element;
@@ -30,8 +30,8 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  */
 registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( "Print Recipe", "wpzoom-recipe-card" ), // Block title.
-    description: __( "A button to print WPZOOM Recipe Card.", "wpzoom-recipe-card" ),
+    title: __( 'Print Recipe', 'wpzoom-recipe-card' ), // Block title.
+    description: __( 'A button to print WPZOOM Recipe Card.', 'wpzoom-recipe-card' ),
     icon: {
         // // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#2EA55F',
@@ -44,12 +44,12 @@ registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
     // Allow only one Recipe Card Block per post.
     supports: {
         multiple: false,
-        html: false
+        html: false,
     },
     keywords: [
-        __( "Recipe Card", "wpzoom-recipe-card" ),
-        __( "Block Recipe Card", "wpzoom-recipe-card" ),
-        __( "WPZOOM", "wpzoom-recipe-card" ),
+        __( 'Recipe Card', 'wpzoom-recipe-card' ),
+        __( 'Block Recipe Card', 'wpzoom-recipe-card' ),
+        __( 'WPZOOM', 'wpzoom-recipe-card' ),
     ],
 
     /**
@@ -73,9 +73,7 @@ registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
     save() {
         // Rendering in PHP
         return null;
-    }
+    },
 
 } );
-
-
 

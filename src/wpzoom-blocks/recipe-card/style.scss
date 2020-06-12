@@ -12,21 +12,21 @@
             display: none;
         }
     }
-	&.header-content-align-left {
-		.recipe-card-heading {
-			text-align: left;
-		}
-	}
-	&.header-content-align-center {
-		.recipe-card-heading {
-			text-align: center;
-		}
-	}
-	&.header-content-align-right {
-		.recipe-card-heading {
-			text-align: right;
-		}
-	}
+    &.header-content-align-left {
+        .recipe-card-heading {
+            text-align: left;
+        }
+    }
+    &.header-content-align-center {
+        .recipe-card-heading {
+            text-align: center;
+        }
+    }
+    &.header-content-align-right {
+        .recipe-card-heading {
+            text-align: right;
+        }
+    }
 
     // Block Alignment
     // @since 2.6.4
@@ -115,22 +115,49 @@
                 }
             }
         }
+        &.block-alignment-left {
+            .recipe-card-image {
+                figure figcaption {
+                    text-align: left;
+                }
+            }
+        }
     }
 
-	.recipe-card-heading {
-		.recipe-card-author {
-			margin-bottom: 10px;
-		}
-		.recipe-card-title + p {
-			margin-bottom: 0;
-		}
-        
-		@include clear-after;
-	}
-	.recipe-card-image figure img {
-		width: 100%;
-	}
-	.recipe-card-video {
+    .recipe-card-heading {
+        .recipe-card-author {
+            margin-bottom: 10px;
+        }
+        .recipe-card-title + p {
+            margin-bottom: 0;
+        }
+
+        @include clear-after;
+    }
+    .recipe-card-image {
+        figure {
+            img {
+                width: 100%;
+            }
+            figcaption {
+                padding: 0;
+                margin: 0;
+            }
+        }
+        .wpzoom-recipe-card-pinit {
+            .btn-pinit-link {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+        .wpzoom-recipe-card-print-link {
+            .btn-print-link {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+    }
+    .recipe-card-video {
         margin-top: 20px;
         margin-bottom: 20px;
         video {
@@ -139,26 +166,26 @@
         [poster] {
             object-fit: cover;
         }
-     }
-	.recipe-card-details {
-		margin-bottom: 15px;
-		clear: both;
-		.detail-item {
-			> p:not(.detail-item-label):not(.detail-item-value):not(.detail-item-unit) {
-				display: none;
-			}
-			.detail-item-label {
-				margin-bottom: 5px;
-			}
-			.detail-item-unit {
-				margin-bottom: 0;
-			}
-		}
-	}
-	.recipe-card-ingredients {
-		.ingredients-list {
-			margin: 0;
-			padding: 0;
+    }
+    .recipe-card-details {
+            margin-bottom: 15px;
+            clear: both;
+            .detail-item {
+                > p:not(.detail-item-label):not(.detail-item-value):not(.detail-item-unit) {
+                    display: none;
+                }
+                .detail-item-label {
+                    margin-bottom: 5px;
+                }
+                .detail-item-unit {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    .recipe-card-ingredients {
+        .ingredients-list {
+            margin: 0;
+            padding: 0;
             > li {
                 padding-left: 0;
             }
@@ -171,42 +198,29 @@
                     text-decoration: line-through;
                 }
             }
-		}
-	}
-	.recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i,
-	.recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i {
-        display: inline-block;
-        text-indent: -9999px;
-        width: 18px;
-        height: 18px;
-        background-size: 18px 18px;
-        vertical-align: middle;
-    }
-    .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link i {
-        background-image: url(assets/images/iconfinder_print_paper.svg);
-    }
-    .recipe-card-image .wpzoom-recipe-card-pinit .btn-pinit-link i {
-        background-image: url(assets/images/iconfinder_pinterest.svg);
+        }
     }
     .hidden {
         display: none !important;
     }
 
-	.recipe-card-directions + .footer-copyright {
+    .recipe-card-directions + .footer-copyright {
         margin-top: 30px;
     }
-    
+
     .recipe-card-directions .directions-list .direction-step-group {
-    	counter-reset: count;
-    	&::before {
-	        content: '';
-	        counter-increment: none;
+        counter-reset: count;
+        &::before {
+            content: '';
+            counter-increment: none;
         }
     }
 
-	.direction-step img {
-    	display: block;
-		clear: both;
+    .direction-step {
+        img {
+            display: block;
+            clear: both;
+        }
     }
 
     .footer-copyright p {

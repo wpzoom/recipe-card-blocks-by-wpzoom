@@ -1,5 +1,5 @@
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
 
 /* WordPress dependencies */
 const { Component } = wp.element;
@@ -10,7 +10,6 @@ const { PanelBody, ToggleControl } = wp.components;
  * Inspector controls
  */
 export default class Inspector extends Component {
-
     /**
      * Constructs a Inspector editor component.
      *
@@ -28,27 +27,26 @@ export default class Inspector extends Component {
      * @returns {Component} The Ingredient items block settings.
      */
     render() {
-
         const {
             attributes,
-            setAttributes
+            setAttributes,
         } = this.props;
 
         const { print_visibility } = attributes;
 
         const onChangePrint = ( print_visibility ) => {
-            if ( !print_visibility ) {
-                setAttributes( { print_visibility: 'hidden' } )
+            if ( ! print_visibility ) {
+                setAttributes( { print_visibility: 'hidden' } );
             } else {
-                setAttributes( { print_visibility: 'visible' } )
+                setAttributes( { print_visibility: 'visible' } );
             }
-        }
+        };
 
         return (
             <InspectorControls>
-                <PanelBody initialOpen={ true } title={ __( "Ingredients Settings", "wpzoom-recipe-card" ) }>
+                <PanelBody initialOpen={ true } title={ __( 'Ingredients Settings', 'wpzoom-recipe-card' ) }>
                     <ToggleControl
-                        label={ __( "Print Button Visibility", "wpzoom-recipe-card" ) }
+                        label={ __( 'Print Button Visibility', 'wpzoom-recipe-card' ) }
                         checked={ print_visibility === 'visible' ? true : false }
                         onChange={ onChangePrint }
                     />

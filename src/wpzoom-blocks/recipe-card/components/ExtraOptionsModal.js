@@ -1,20 +1,20 @@
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
-import get from "lodash/get";
-import trim from "lodash/trim";
-import isNull from "lodash/isNull";
-import isEmpty from "lodash/isEmpty";
-import isObject from "lodash/isObject";
-import isString from "lodash/isString";
-import isUndefined from "lodash/isUndefined";
-import filter from "lodash/filter";
-import forEach from "lodash/forEach";
-import indexOf from "lodash/indexOf";
-import includes from "lodash/includes";
+import { __ } from '@wordpress/i18n';
+import get from 'lodash/get';
+import trim from 'lodash/trim';
+import isNull from 'lodash/isNull';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
+import isString from 'lodash/isString';
+import isUndefined from 'lodash/isUndefined';
+import filter from 'lodash/filter';
+import forEach from 'lodash/forEach';
+import indexOf from 'lodash/indexOf';
+import includes from 'lodash/includes';
 import ReactHtmlParser from 'react-html-parser';
 
 /* Internal dependencies */
-import { stripHTML } from "../../../helpers/stringHelpers";
+import { stripHTML } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
 const { renderToString, Fragment } = wp.element;
@@ -23,7 +23,7 @@ const {
     IconButton,
     Modal,
     Toolbar,
-    TextareaControl
+    TextareaControl,
 } = wp.components;
 const { withState } = wp.compose;
 const { select } = wp.data;
@@ -53,12 +53,14 @@ function ExtraOptionsModal(
         _directions,
         setAttributes,
         setState,
-        onBulkAdd
+        onBulkAdd,
     }
 ) {
-    const blocks                = [ "wpzoom-recipe-card/block-ingredients", "wpzoom-recipe-card/block-directions" ];
+    const blocks                = [ 'wpzoom-recipe-card/block-ingredients', 'wpzoom-recipe-card/block-directions' ];
     const blocksList            = select( 'core/block-editor' ).getBlocks();
-    const wpzoomBlocksFilter    = filter( blocksList, function( item ) { return indexOf( blocks, item.name ) !== -1 } );
+    const wpzoomBlocksFilter    = filter( blocksList, function( item ) {
+        return indexOf( blocks, item.name ) !== -1;
+    } );
 
     // parse value for ingredients and directions
     // render from array to string and strip HTML
@@ -80,7 +82,7 @@ function ExtraOptionsModal(
         let css = '';
         if ( isObject( style ) ) {
             forEach( style, ( value, property ) => {
-                css += `${ property }: ${ value };`
+                css += `${ property }: ${ value };`;
             } );
         }
         if ( isString( style ) ) {
@@ -105,9 +107,9 @@ function ExtraOptionsModal(
                 output += node;
             } else {
                 const type     = get( node, [ 'type' ] ) || '';
-                let children   = get( node, [ 'props', 'children' ] ) || '';
-                let startTag   = type ? '<'+type+'>' : '';
-                let endTag     = type ? '</'+type+'>' : '';
+                const children   = get( node, [ 'props', 'children' ] ) || '';
+                let startTag   = type ? '<' + type + '>' : '';
+                let endTag     = type ? '</' + type + '>' : '';
 
                 if ( 'img' === type ) {
                     const src = get( node, [ 'props', 'src' ] ) || false;
@@ -137,7 +139,7 @@ function ExtraOptionsModal(
     }
 
     function onBulkAddIngredients() {
-        let items = [];
+        const items = [];
         const regex = /([^\n\t\r\v\f][\w\W].*)/gmi;
         let m; let index = 0;
 
@@ -160,11 +162,11 @@ function ExtraOptionsModal(
                     const ParserHTML = ReactHtmlParser( match );
 
                     items[ index ] = {
-                        id: `ingredient-item-${m.index}`,
+                        id: `ingredient-item-${ m.index }`,
                         name: ParserHTML,
                         jsonName: stripHTML( renderToString( trim( match ) ) ),
-                        isGroup
-                    }
+                        isGroup,
+                    };
                     index++;
                 }
             } );
@@ -174,7 +176,7 @@ function ExtraOptionsModal(
     }
 
     function onBulkAddDirections() {
-        let steps = [];
+        const steps = [];
         const regex = /([^.\n\t\r\v\f][a-zA-Z0-9].*)/gmi;
         let m; let index = 0;
 
@@ -197,11 +199,11 @@ function ExtraOptionsModal(
                     const ParserHTML = ReactHtmlParser( match );
 
                     steps[ index ] = {
-                        id: `direction-step-${m.index}`,
+                        id: `direction-step-${ m.index }`,
                         text: ParserHTML,
                         jsonText: stripHTML( renderToString( trim( match ) ) ),
-                        isGroup
-                    }
+                        isGroup,
+                    };
                     index++;
                 }
             } );
@@ -214,17 +216,17 @@ function ExtraOptionsModal(
     if ( ! isDataSet ) {
         ingredients ?
             ingredients.map( ( item ) => {
-                const isGroup = !isUndefined( item.isGroup ) ? item.isGroup : false;
+                const isGroup = ! isUndefined( item.isGroup ) ? item.isGroup : false;
                 _ingredients += parseValue( item.name, isGroup );
-            } )
-            : null;
+            } ) :
+            null;
 
         steps ?
             steps.map( ( step ) => {
-                const isGroup = !isUndefined( step.isGroup ) ? step.isGroup : false;
+                const isGroup = ! isUndefined( step.isGroup ) ? step.isGroup : false;
                 _directions += parseValue( step.text, isGroup );
-            } )
-            : null;
+            } ) :
+            null;
 
         setState( { isDataSet: true, _ingredients, _directions } );
     }
@@ -237,31 +239,31 @@ function ExtraOptionsModal(
                     <IconButton
                         icon="edit"
                         className="wpzoom-recipe-card__extra-options"
-                        label={ __( "Recipe Card extra options", "wpzoom-recipe-card" ) }
+                        label={ __( 'Recipe Card extra options', 'wpzoom-recipe-card' ) }
                         isPrimary={ true }
                         isLarge={ true }
                         onClick={ ( event ) => {
                             event.stopPropagation();
-                            setState( { isOpen: true, isDataSet: false, _ingredients: "", _directions: "", hasBlocks: wpzoomBlocksFilter.length > 0 } )
+                            setState( { isOpen: true, isDataSet: false, _ingredients: '', _directions: '', hasBlocks: wpzoomBlocksFilter.length > 0 } );
                         } }
                     >
-                        { __( "Bulk Add", "wpzoom-recipe-card" ) }
+                        { __( 'Bulk Add', 'wpzoom-recipe-card' ) }
                     </IconButton>
                 </Toolbar>
             }
             {
                 isOpen &&
                 <Modal
-                    title={ __( "Recipe Card Bulk Add", "wpzoom-recipe-card" ) }
+                    title={ __( 'Recipe Card Bulk Add', 'wpzoom-recipe-card' ) }
                     onRequestClose={ () => setState( { isOpen: false } ) }>
-                    <div className="wpzoom-recipe-card-extra-options" style={ { maxWidth: 720+'px', maxHeight: 525+'px' } }>
+                    <div className="wpzoom-recipe-card-extra-options" style={ { maxWidth: 720 + 'px', maxHeight: 525 + 'px' } }>
                         <div className="form-group">
-                            <p className="bulk-add-danger-alert"><strong>{ __( "Known Problem", "wpzoom-recipe-card" ) }:</strong> { __( "There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the", "wpzoom-recipe-card" ) } <strong>{ __( "Top Toolbar", "wpzoom-recipe-card" ) }</strong> { __( "option in the editor options (click on the ⋮ three dots from right-top corner).", "wpzoom-recipe-card" ) } <br/> <a href="https://wp.md/toolbar" target="_blank" rel="noopener noreferrer">{ __( "View how to do this", "wpzoom-recipe-card" ) }</a></p>
-                            <br/>
+                            <p className="bulk-add-danger-alert"><strong>{ __( 'Known Problem', 'wpzoom-recipe-card' ) }:</strong> { __( 'There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the', 'wpzoom-recipe-card' ) } <strong>{ __( 'Top Toolbar', 'wpzoom-recipe-card' ) }</strong> { __( 'option in the editor options (click on the ⋮ three dots from right-top corner).', 'wpzoom-recipe-card' ) } <br /> <a href="https://wp.md/toolbar" target="_blank" rel="noopener noreferrer">{ __( 'View how to do this', 'wpzoom-recipe-card' ) }</a></p>
+                            <br />
                             <div className="wrap-content">
                                 <TextareaControl
-                                    label={ __( "Insert Ingredients", "wpzoom-recipe-card" ) }
-                                    help={ __( "Each line break is a new ingredient. Note: To add Ingredient Group Title just type **Group Title** on new line.", "wpzoom-recipe-card" ) }
+                                    label={ __( 'Insert Ingredients', 'wpzoom-recipe-card' ) }
+                                    help={ __( 'Each line break is a new ingredient. Note: To add Ingredient Group Title just type **Group Title** on new line.', 'wpzoom-recipe-card' ) }
                                     className="bulk-add-enter-ingredients"
                                     rows="5"
                                     value={ _ingredients }
@@ -269,8 +271,8 @@ function ExtraOptionsModal(
                                     onChange={ ( _ingredients ) => setState( { _ingredients } ) }
                                 />
                                 <TextareaControl
-                                    label={ __( "Insert Directions", "wpzoom-recipe-card" ) }
-                                    help={ __( "Each line break is a new direction. Note: To add Direction Group Title just type **Group Title** on new line.", "wpzoom-recipe-card" ) }
+                                    label={ __( 'Insert Directions', 'wpzoom-recipe-card' ) }
+                                    help={ __( 'Each line break is a new direction. Note: To add Direction Group Title just type **Group Title** on new line.', 'wpzoom-recipe-card' ) }
                                     className="bulk-add-enter-directions"
                                     rows="5"
                                     value={ _directions }
@@ -281,15 +283,17 @@ function ExtraOptionsModal(
                         </div>
                         <div className="form-group">
                             <Button isDefault onClick={ () => setState( { isOpen: false } ) }>
-                                { __( "Cancel", "wpzoom-recipe-card" ) }
+                                { __( 'Cancel', 'wpzoom-recipe-card' ) }
                             </Button>
                             {
-                                ( !isEmpty( _ingredients ) || !isEmpty( _directions ) ) &&
+                                ( ! isEmpty( _ingredients ) || ! isEmpty( _directions ) ) &&
                                 <Button
                                     isPrimary
-                                    onClick={ () => { onBulkAddIngredients(); onBulkAddDirections(); onBulkAdd(); } }
+                                    onClick={ () => {
+ onBulkAddIngredients(); onBulkAddDirections(); onBulkAdd();
+                                    } }
                                 >
-                                    { __( "Bulk Add", "wpzoom-recipe-card" ) }
+                                    { __( 'Bulk Add', 'wpzoom-recipe-card' ) }
                                 </Button>
                             }
                         </div>
@@ -305,6 +309,6 @@ export default withState( {
     isOpen: false,
     isDataSet: false,
     hasBlocks: false,
-    _ingredients: "",
-    _directions: "",
+    _ingredients: '',
+    _directions: '',
 } )( ExtraOptionsModal );

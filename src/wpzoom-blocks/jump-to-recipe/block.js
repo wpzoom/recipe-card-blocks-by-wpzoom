@@ -6,10 +6,10 @@
  */
 
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
 
 /* Internal dependencies */
-import icon from "./icon";
+import icon from './icon';
 
 /* WordPress dependencies */
 const { Fragment } = wp.element;
@@ -30,8 +30,8 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  */
 registerBlockType( 'wpzoom-recipe-card/block-jump-to-recipe', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( "Jump To Recipe", "wpzoom-recipe-card" ), // Block title.
-    description: __( "A button to jump to a WPZOOM Recipe Card on the same page.", "wpzoom-recipe-card" ),
+    title: __( 'Jump To Recipe', 'wpzoom-recipe-card' ), // Block title.
+    description: __( 'A button to jump to a WPZOOM Recipe Card on the same page.', 'wpzoom-recipe-card' ),
     icon: {
         // // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#2EA55F',
@@ -44,12 +44,12 @@ registerBlockType( 'wpzoom-recipe-card/block-jump-to-recipe', {
     // Allow only one Recipe Card Block per post.
     supports: {
         multiple: false,
-        html: false
+        html: false,
     },
     keywords: [
-        __( "Recipe Card", "wpzoom-recipe-card" ),
-        __( "Block Recipe Card", "wpzoom-recipe-card" ),
-        __( "WPZOOM", "wpzoom-recipe-card" ),
+        __( 'Recipe Card', 'wpzoom-recipe-card' ),
+        __( 'Block Recipe Card', 'wpzoom-recipe-card' ),
+        __( 'WPZOOM', 'wpzoom-recipe-card' ),
     ],
 
     /**
@@ -73,9 +73,7 @@ registerBlockType( 'wpzoom-recipe-card/block-jump-to-recipe', {
     save() {
         // Rendering in PHP
         return null;
-    }
+    },
 
 } );
-
-
 
