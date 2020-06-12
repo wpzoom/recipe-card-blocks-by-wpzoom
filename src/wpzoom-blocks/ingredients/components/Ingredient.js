@@ -1,14 +1,14 @@
 /* External dependencies */
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
-import { speak } from "@wordpress/a11y";
-import toNumber from "lodash/toNumber";
+import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
+import { speak } from '@wordpress/a11y';
+import toNumber from 'lodash/toNumber';
 
 /* Internal dependencies */
-import IngredientItem from "./IngredientItem";
-import Inspector from "./Inspector";
-import { stripHTML } from "../../../helpers/stringHelpers";
-import { generateId } from "../../../helpers/generateId";
+import IngredientItem from './IngredientItem';
+import Inspector from './Inspector';
+import { stripHTML } from '../../../helpers/stringHelpers';
+import { generateId } from '../../../helpers/generateId';
 
 /* WordPress dependencies */
 const { RichText } = wp.blockEditor;
@@ -24,7 +24,6 @@ import '../editor.scss';
  * A Ingredient item within a Ingredient block.
  */
 export default class Ingredient extends Component {
-
     /**
      * Constructs a Ingredient editor component.
      *
@@ -35,7 +34,7 @@ export default class Ingredient extends Component {
     constructor( props ) {
         super( props );
 
-        this.state = { focus: "" };
+        this.state = { focus: '' };
 
         this.changeItem = this.changeItem.bind( this );
         this.insertItem = this.insertItem.bind( this );
@@ -92,8 +91,8 @@ export default class Ingredient extends Component {
             ...ingredientsItems[ index ],
             name: newName,
             jsonName: stripHTML( renderToString( newName ) ),
-            isGroup: group
-        }
+            isGroup: group,
+        };
 
         this.props.setAttributes( { items: [ ...ingredientsItems ] } );
     }
@@ -122,10 +121,10 @@ export default class Ingredient extends Component {
         }
 
         ingredientsItems.splice( index + 1, 0, {
-            id: generateId( "ingredient-item" ),
+            id: generateId( 'ingredient-item' ),
             name,
-            jsonName: "",
-            isGroup: group
+            jsonName: '',
+            isGroup: group,
         } );
 
         this.props.setAttributes( { items: [ ...ingredientsItems ] } );
@@ -136,7 +135,7 @@ export default class Ingredient extends Component {
             return;
         }
 
-        speak( __( "New ingredient added", "wpzoom-recipe-card" ) );
+        speak( __( 'New ingredient added', 'wpzoom-recipe-card' ) );
     }
 
     /**
@@ -160,7 +159,7 @@ export default class Ingredient extends Component {
 
         this.props.setAttributes( { items: [ ...ingredientsItems ] } );
 
-        const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        const [ focusIndex, subElement ] = this.state.focus.split( ':' );
         if ( focusIndex === `${ index1 }` ) {
             this.setFocus( `${ index2 }:${ subElement }` );
         }
@@ -194,14 +193,14 @@ export default class Ingredient extends Component {
         const indexToRemove = ingredientsItems.length;
         delete this.editorRefs[ `${ indexToRemove }:name` ];
 
-        let fieldToFocus = "title";
+        let fieldToFocus = 'title';
         if ( this.editorRefs[ `${ index - 1 }:name` ] ) {
             fieldToFocus = `${ index - 1 }:name`;
         }
 
         this.setFocus( fieldToFocus );
 
-        speak( __( "Ingredient removed", "wpzoom-recipe-card" ) );
+        speak( __( 'Ingredient removed', 'wpzoom-recipe-card' ) );
     }
 
     /**
@@ -240,7 +239,7 @@ export default class Ingredient extends Component {
      * @returns {void}
      */
     onAddGroupButtonClick() {
-        const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        const [ focusIndex, subElement ] = this.state.focus.split( ':' );
         this.insertItem( toNumber( focusIndex ), [], true, true );
     }
 
@@ -265,7 +264,7 @@ export default class Ingredient extends Component {
      * @returns {void}
      */
     setFocusToTitle() {
-        this.setFocus( "title" );
+        this.setFocus( 'title' );
     }
 
     /**
@@ -324,7 +323,7 @@ export default class Ingredient extends Component {
     onChangeTitle( value ) {
         this.props.setAttributes( {
             title: value,
-            jsonTitle: stripHTML( renderToString( value ) )
+            jsonTitle: stripHTML( renderToString( value ) ),
         } );
     }
 
@@ -338,7 +337,7 @@ export default class Ingredient extends Component {
             return null;
         }
 
-        const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+        const [ focusIndex, subElement ] = this.state.focus.split( ':' );
 
         return this.props.attributes.items.map( ( item, index ) => {
             return (
@@ -375,14 +374,14 @@ export default class Ingredient extends Component {
                     onClick={ this.onAddIngredientButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( "Add ingredient", "wpzoom-recipe-card" ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add ingredient', 'wpzoom-recipe-card' ) }</span>
                 </IconButton>
                 <IconButton
                     icon="editor-insertmore"
                     onClick={ this.onAddGroupButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( "Add ingredient group", "wpzoom-recipe-card" ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add ingredient group', 'wpzoom-recipe-card' ) }</span>
                 </IconButton>
             </div>
         );
@@ -397,14 +396,14 @@ export default class Ingredient extends Component {
         const { attributes, setAttributes, className } = this.props;
         const { title, id, print_visibility } = attributes;
 
-        const classNames     = [ "", className ].filter( ( item ) => item ).join( " " );
-        const listClassNames = [ "ingredients-list" ].filter( ( item ) => item ).join( " " );
+        const classNames     = [ '', className ].filter( ( item ) => item ).join( ' ' );
+        const listClassNames = [ 'ingredients-list' ].filter( ( item ) => item ).join( ' ' );
 
         return (
             <div className={ classNames } id={ id }>
                 <div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
-                    <a className="btn-print-link no-print" href={ '#'+ id } title={ __( "Print ingredients...", "wpzoom-recipe-card" ) }>
-                        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( "Print", "wpzoom-recipe-card" ) }/>{ __( "Print", "wpzoom-recipe-card" ) }
+                    <a className="btn-print-link no-print" href={ '#' + id } title={ __( 'Print ingredients...', 'wpzoom-recipe-card' ) }>
+                        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( 'Print', 'wpzoom-recipe-card' ) } />{ __( 'Print', 'wpzoom-recipe-card' ) }
                     </a>
                 </div>
                 <RichText
@@ -416,7 +415,7 @@ export default class Ingredient extends Component {
                     setFocusedElement={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( "Write Ingredients title", "wpzoom-recipe-card" ) }
+                    placeholder={ __( 'Write Ingredients title', 'wpzoom-recipe-card' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <ul className={ listClassNames }>{ this.getItems() }</ul>
@@ -425,7 +424,6 @@ export default class Ingredient extends Component {
             </div>
         );
     }
-
 }
 
 Ingredient.propTypes = {
@@ -435,5 +433,5 @@ Ingredient.propTypes = {
 };
 
 Ingredient.defaultProps = {
-    className: "",
+    className: '',
 };

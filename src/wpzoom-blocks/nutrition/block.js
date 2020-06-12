@@ -6,7 +6,7 @@
  */
 
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
 
 /* Internal dependencies */
 import Nutrition from './components/Nutrition';
@@ -29,8 +29,8 @@ const { registerBlockType } = wp.blocks;
  */
 registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( "Nutrition", "wpzoom-recipe-card" ), // Block title.
-    description: __( "Display Nutrition Facts for your recipe.", "wpzoom-recipe-card" ),
+    title: __( 'Nutrition', 'wpzoom-recipe-card' ), // Block title.
+    description: __( 'Display Nutrition Facts for your recipe.', 'wpzoom-recipe-card' ),
     icon: {
         // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#FDA921',
@@ -45,9 +45,9 @@ registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
         multiple: false,
     },
     keywords: [
-        __( "Recipe Card", "wpzoom-recipe-card" ),
-        __( "Nutrition", "wpzoom-recipe-card" ),
-        __( "WPZOOM", "wpzoom-recipe-card" ),
+        __( 'Recipe Card', 'wpzoom-recipe-card' ),
+        __( 'Nutrition', 'wpzoom-recipe-card' ),
+        __( 'WPZOOM', 'wpzoom-recipe-card' ),
     ],
 
     /**
@@ -65,6 +65,6 @@ registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
     save() {
         // Rendering in PHP
         return null;
-    }
+    },
 
 } );

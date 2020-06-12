@@ -1,11 +1,11 @@
 /* External dependencies */
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
-import isShallowEqual from "@wordpress/is-shallow-equal/objects";
-import get from "lodash/get";
+import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
+import isShallowEqual from '@wordpress/is-shallow-equal/objects';
+import get from 'lodash/get';
 
 /* Internal dependencies */
-import IconsModal from "./IconsModal";
+import IconsModal from './IconsModal';
 
 /* WordPress dependencies */
 const { Component } = wp.element;
@@ -16,7 +16,6 @@ const { IconButton } = wp.components;
  * A Detail items within a Details block.
  */
 export default class DetailItem extends Component {
-
     /**
      * Constructs a DetailItem editor component.
      *
@@ -64,7 +63,7 @@ export default class DetailItem extends Component {
      * @returns {void}
      */
     setLabelRef( ref ) {
-        this.props.editorRef( this.props.index, "label", ref );
+        this.props.editorRef( this.props.index, 'label', ref );
     }
 
     /**
@@ -73,7 +72,7 @@ export default class DetailItem extends Component {
      * @returns {void}
      */
     onFocusLabel() {
-        this.props.onFocus( this.props.index, "label" );
+        this.props.onFocus( this.props.index, 'label' );
     }
 
     /**
@@ -84,7 +83,7 @@ export default class DetailItem extends Component {
      * @returns {void}
      */
     setValueRef( ref ) {
-        this.props.editorRef( this.props.index, "value", ref );
+        this.props.editorRef( this.props.index, 'value', ref );
     }
 
     /**
@@ -93,7 +92,7 @@ export default class DetailItem extends Component {
      * @returns {void}
      */
     onFocusValue() {
-        this.props.onFocus( this.props.index, "value" );
+        this.props.onFocus( this.props.index, 'value' );
     }
 
     /**
@@ -119,7 +118,7 @@ export default class DetailItem extends Component {
             item: {
                 icon,
                 label,
-                value
+                value,
             },
         } = this.props;
 
@@ -140,7 +139,7 @@ export default class DetailItem extends Component {
             item: {
                 icon,
                 label,
-                value
+                value,
             },
         } = this.props;
 
@@ -157,13 +156,13 @@ export default class DetailItem extends Component {
             <IconButton
                 className="detail-item-button detail-item-button-delete editor-inserter__toggle"
                 icon="trash"
-                label={ __( "Delete item", "wpzoom-recipe-card" ) }
+                label={ __( 'Delete item', 'wpzoom-recipe-card' ) }
                 onClick={ this.onRemoveDetail }
             />
             <IconButton
                 className="detail-item-button detail-item-button-add editor-inserter__toggle"
                 icon="editor-break"
-                label={ __( "Insert item", "wpzoom-recipe-card" ) }
+                label={ __( 'Insert item', 'wpzoom-recipe-card' ) }
                 onClick={ this.onInsertDetail }
             />
         </div>;
@@ -191,14 +190,14 @@ export default class DetailItem extends Component {
      * @returns {Component}
      */
     getPlaceholder( index, key ) {
-        let newIndex = index % 4;
+        const newIndex = index % 4;
 
         const placeholderText = {
-            0: { label: __( "Servings", "wpzoom-recipe-card" ), value: __( "4 servings", "wpzoom-recipe-card" ) },
-            1: { label: __( "Prep time", "wpzoom-recipe-card" ), value: __( "30 minutes", "wpzoom-recipe-card" ) },
-            2: { label: __( "Cooking time", "wpzoom-recipe-card" ), value: __( "40 minutes", "wpzoom-recipe-card" ) },
-            3: { label: __( "Calories", "wpzoom-recipe-card" ), value: __( "420 kcal", "wpzoom-recipe-card" ) },
-        }
+            0: { label: __( 'Servings', 'wpzoom-recipe-card' ), value: __( '4 servings', 'wpzoom-recipe-card' ) },
+            1: { label: __( 'Prep time', 'wpzoom-recipe-card' ), value: __( '30 minutes', 'wpzoom-recipe-card' ) },
+            2: { label: __( 'Cooking time', 'wpzoom-recipe-card' ), value: __( '40 minutes', 'wpzoom-recipe-card' ) },
+            3: { label: __( 'Calories', 'wpzoom-recipe-card' ), value: __( '420 kcal', 'wpzoom-recipe-card' ) },
+        };
 
         return get( placeholderText, [ newIndex, key ] );
     }
@@ -224,18 +223,18 @@ export default class DetailItem extends Component {
             index,
             item,
             isSelected,
-            subElement
+            subElement,
         } = this.props;
         const { id, icon, label, value } = item;
-        const isSelectedLabel = isSelected && subElement === "label";
-        const isSelectedValue = isSelected && subElement === "value";
+        const isSelectedLabel = isSelected && subElement === 'label';
+        const isSelectedValue = isSelected && subElement === 'value';
 
         return (
             <div className={ `detail-item detail-item-${ index }` } key={ id }>
                 {
                     icon ?
-                        <div className="detail-item-icon">{ this.getOpenModalButton( this.props ) }</div>
-                        : <div className="detail-open-modal">{ this.getOpenModalButton( this.props ) }</div>
+                        <div className="detail-item-icon">{ this.getOpenModalButton( this.props ) }</div> :
+                        <div className="detail-open-modal">{ this.getOpenModalButton( this.props ) }</div>
                 }
                 <RichText
                     className="detail-item-label"

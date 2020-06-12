@@ -6,14 +6,14 @@
  */
 
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
-import isUndefined from "lodash/isUndefined";
+import { __ } from '@wordpress/i18n';
+import isUndefined from 'lodash/isUndefined';
 
 /* Internal dependencies */
 import Direction from './components/Direction';
-import { generateId } from "../../helpers/generateId";
-import legacy from "./legacy";
-import icon from "./icon";
+import { generateId } from '../../helpers/generateId';
+import legacy from './legacy';
+import icon from './icon';
 
 /* WordPress dependencies */
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -23,27 +23,27 @@ const deprecatedAttr = {
         type: 'array',
         selector: '.directions-title',
         source: 'children',
-        default: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_steps_title
+        default: wpzoomRecipeCard.setting_options.wpzoom_rcb_settings_steps_title,
     },
     id: {
         type: 'string',
     },
     print_visibility: {
         type: 'string',
-        default: 'visible'
+        default: 'visible',
     },
     jsonTitle: {
-        type: "string",
+        type: 'string',
     },
     steps: {
-        type: "array",
+        type: 'array',
     },
     content: {
         type: 'array',
         selector: '.directions-list',
-        source: 'children'
-    }
-}
+        source: 'children',
+    },
+};
 
 /**
  * Register: Directions Gutenberg Block.
@@ -60,7 +60,7 @@ const deprecatedAttr = {
  */
 registerBlockType( 'wpzoom-recipe-card/block-directions', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( "Directions", "wpzoom-recipe-card" ), // Block title.
+    title: __( 'Directions', 'wpzoom-recipe-card' ), // Block title.
     icon: {
         // // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#2EA55F',
@@ -75,39 +75,39 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
         multiple: true,
     },
     keywords: [
-        __( "directions", "wpzoom-recipe-card" ),
-        __( "wpzoom", "wpzoom-recipe-card" ),
-        __( "recipe", "wpzoom-recipe-card" ),
+        __( 'directions', 'wpzoom-recipe-card' ),
+        __( 'wpzoom', 'wpzoom-recipe-card' ),
+        __( 'recipe', 'wpzoom-recipe-card' ),
     ],
     example: {
         attributes: {
             steps: [
                 {
-                    id: generateId( "direction-step" ),
+                    id: generateId( 'direction-step' ),
                     isGroup: false,
-                    text: [ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla nunc id nibh rutrum, tristique finibus quam interdum." ]
+                    text: [ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam fringilla nunc id nibh rutrum, tristique finibus quam interdum.' ],
                 },
                 {
-                    id: generateId( "direction-step" ),
+                    id: generateId( 'direction-step' ),
                     isGroup: false,
-                    text: [ "Praesent feugiat dui eu pretium eleifend. In non tempus est. Praesent ullamcorper sapien vitae viverra imperdiet." ]
+                    text: [ 'Praesent feugiat dui eu pretium eleifend. In non tempus est. Praesent ullamcorper sapien vitae viverra imperdiet.' ],
                 },
                 {
-                    id: generateId( "direction-step" ),
+                    id: generateId( 'direction-step' ),
                     isGroup: true,
-                    text: [ "Group Title here" ]
+                    text: [ 'Group Title here' ],
                 },
                 {
-                    id: generateId( "direction-step" ),
+                    id: generateId( 'direction-step' ),
                     isGroup: false,
-                    text: [ "Aenean nec diam a augue efficitur venenatis." ]
+                    text: [ 'Aenean nec diam a augue efficitur venenatis.' ],
                 },
                 {
-                    id: generateId( "direction-step" ),
+                    id: generateId( 'direction-step' ),
                     isGroup: false,
-                    text: [ "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas." ]
-                }
-            ]
+                    text: [ 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.' ],
+                },
+            ],
         },
     },
 
@@ -128,11 +128,11 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
             const content = attributes.content;
 
             if ( steps.length === 0 ) {
-                for ( var i = 0; i < content.length; i++ ) {
-                    if ( ! isUndefined( content[i].props ) ) {
+                for ( let i = 0; i < content.length; i++ ) {
+                    if ( ! isUndefined( content[ i ].props ) ) {
                         steps.push( {
-                            id: generateId( "direction-step" ),
-                            text: content[i].props.children
+                            id: generateId( 'direction-step' ),
+                            text: content[ i ].props.children,
                         } );
                     }
                 }
@@ -145,17 +145,17 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
         if ( ! steps || steps.length === 0 ) {
             attributes.steps = [
                 {
-                    id: generateId( "direction-step" ),
-                    text: []
+                    id: generateId( 'direction-step' ),
+                    text: [],
                 },
                 {
-                    id: generateId( "direction-step" ),
-                    text: []
+                    id: generateId( 'direction-step' ),
+                    text: [],
                 },
                 {
-                    id: generateId( "direction-step" ),
-                    text: []
-                }
+                    id: generateId( 'direction-step' ),
+                    text: [],
+                },
             ];
         }
 
@@ -175,5 +175,4 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
     ],
 
 } );
-
 

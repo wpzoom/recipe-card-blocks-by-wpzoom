@@ -29,7 +29,8 @@ final class WPZOOM_Plugin_Activator {
 		register_deactivation_hook( WPZOOM_RCB_PLUGIN_FILE, __CLASS__ . '::deactivate' );
 
 		// Filters
-		add_filter( 'plugin_action_links_' . $basename, __CLASS__ . '::render_plugin_action_links' );
+		add_filter( 'plugin_action_links_' . $basename, __CLASS__ . '::render_plugin_action_links', 10, 1 );
+		add_filter( 'plugin_row_meta' , __CLASS__ . '::add_plugin_meta_links', 10, 2 );
 	}
 
 	/**
@@ -87,6 +88,35 @@ final class WPZOOM_Plugin_Activator {
 		}
 
 		return $actions;
+	}
+
+	/**
+	 * Add extra meta field for plugin row in the admin dashboard
+	 * 
+	 * @since 2.6.5
+	 * @param array $meta_fields  The available meta fields
+	 * @param string $file        The plugin file name
+	 */
+	public static function add_plugin_meta_links( $meta_fields, $file ) {
+		if ( plugin_basename( WPZOOM_RCB_PLUGIN_FILE ) == $file ) {
+			$plugin_url = "https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/?rate=5#new-post";
+			$rating_stars = "<i class='wpzoom-rcb-plugin-row-meta-rate-stars'>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "</i>";
+
+			$meta_fields[] = sprintf(
+				'<a href="%s" target="_blank" title="%s">%s</a>',
+				esc_url( $plugin_url ),
+				esc_html__( 'Rate plugin', 'wpzoom-recipe-card' ),
+				$rating_stars
+			); 
+		}
+
+		return $meta_fields;
 	}
 
 	/**

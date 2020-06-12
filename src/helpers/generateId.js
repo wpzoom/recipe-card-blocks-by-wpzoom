@@ -1,4 +1,4 @@
-import uniqueId from "lodash/uniqueId";
+import uniqueId from 'lodash/uniqueId';
 
 /**
  * Generates a pseudo-unique id.

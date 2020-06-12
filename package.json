@@ -1,6 +1,6 @@
 {
   "name": "recipe-card-blocks-by-wpzoom-cgb-guten-block",
-  "version": "2.6.2",
+  "version": "2.7.0",
   "private": true,
   "description": "A set of Gutenberg Blocks (Recipe Card, details, ingredients, directions, nutrition ...) for recipe blogs.",
   "author": "WPZOOM",
@@ -13,14 +13,15 @@
   "scripts": {
     "start": "cgb-scripts start",
     "build": "cgb-scripts build",
-    "eject": "cgb-scripts eject"
+    "eject": "cgb-scripts eject",
+    "lint": "eslint --fix --ext .js,.jsx src"
   },
   "dependencies": {
     "@babel/core": "^7.4.3",
     "@wordpress/a11y": "^2.5.1",
     "@wordpress/api-fetch": "^3.11.0",
     "@wordpress/blob": "^2.7.0",
-    "@wordpress/icons": "^1.1.0",
+    "@wordpress/icons": "^1.4.0",
     "@wordpress/keycodes": "^2.9.0",
     "@wordpress/rich-text": "^3.2.2",
     "@wordpress/url": "^2.10.0",

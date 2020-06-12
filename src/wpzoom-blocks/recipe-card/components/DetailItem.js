@@ -1,12 +1,12 @@
 /* External dependencies */
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
-import isShallowEqual from "@wordpress/is-shallow-equal/objects";
-import isUndefined from "lodash/isUndefined";
-import get from "lodash/get";
+import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
+import isShallowEqual from '@wordpress/is-shallow-equal/objects';
+import isUndefined from 'lodash/isUndefined';
+import get from 'lodash/get';
 
 /* Internal dependencies */
-import IconsModal from "./IconsModal";
+import IconsModal from './IconsModal';
 
 /* WordPress dependencies */
 const { Component } = wp.element;
@@ -16,7 +16,6 @@ const { TextControl } = wp.components;
  * A Detail items within a Details block.
  */
 export default class DetailItem extends Component {
-
     /**
      * Constructs a DetailItem editor component.
      *
@@ -43,7 +42,7 @@ export default class DetailItem extends Component {
      * @returns {void}
      */
     setLabelRef( ref ) {
-        this.props.editorRef( this.props.index, "label", ref );
+        this.props.editorRef( this.props.index, 'label', ref );
     }
 
     /**
@@ -52,7 +51,7 @@ export default class DetailItem extends Component {
      * @returns {void}
      */
     onFocusLabel() {
-        this.props.onFocus( this.props.index, "label" );
+        this.props.onFocus( this.props.index, 'label' );
     }
 
     /**
@@ -63,7 +62,7 @@ export default class DetailItem extends Component {
      * @returns {void}
      */
     setValueRef( ref ) {
-        this.props.editorRef( this.props.index, "value", ref );
+        this.props.editorRef( this.props.index, 'value', ref );
     }
 
     /**
@@ -72,7 +71,7 @@ export default class DetailItem extends Component {
      * @returns {void}
      */
     onFocusValue() {
-        this.props.onFocus( this.props.index, "value" );
+        this.props.onFocus( this.props.index, 'value' );
     }
 
     /**
@@ -90,7 +89,7 @@ export default class DetailItem extends Component {
                 icon,
                 label,
                 value,
-                unit
+                unit,
             },
         } = this.props;
 
@@ -112,7 +111,7 @@ export default class DetailItem extends Component {
                 icon,
                 label,
                 value,
-                unit
+                unit,
             },
         } = this.props;
 
@@ -145,18 +144,17 @@ export default class DetailItem extends Component {
         const itemValue = get( item, key );
 
         const placeholderText = {
-            0: { label: __( "Servings", "wpzoom-recipe-card" ), value: 4, unit: __( "servings", "wpzoom-recipe-card" ) },
-            1: { label: __( "Prep time", "wpzoom-recipe-card" ), value: 30, unit: __( "minutes", "wpzoom-recipe-card" ) },
-            2: { label: __( "Cooking time", "wpzoom-recipe-card" ), value: 40, unit: __( "minutes", "wpzoom-recipe-card" ) },
-            3: { label: __( "Calories", "wpzoom-recipe-card" ), value: 300, unit: __( "kcal", "wpzoom-recipe-card" ) },
-            8: { label: __( "Total time", "wpzoom-recipe-card" ), value: 0, unit: __( "minutes", "wpzoom-recipe-card" ) },
-        }
+            0: { label: __( 'Servings', 'wpzoom-recipe-card' ), value: 4, unit: __( 'servings', 'wpzoom-recipe-card' ) },
+            1: { label: __( 'Prep time', 'wpzoom-recipe-card' ), value: 30, unit: __( 'minutes', 'wpzoom-recipe-card' ) },
+            2: { label: __( 'Cooking time', 'wpzoom-recipe-card' ), value: 40, unit: __( 'minutes', 'wpzoom-recipe-card' ) },
+            3: { label: __( 'Calories', 'wpzoom-recipe-card' ), value: 300, unit: __( 'kcal', 'wpzoom-recipe-card' ) },
+            8: { label: __( 'Total time', 'wpzoom-recipe-card' ), value: 0, unit: __( 'minutes', 'wpzoom-recipe-card' ) },
+        };
 
         if ( isUndefined( itemValue ) ) {
             return get( placeholderText, [ index, key ] ) || get( placeholderText, index ) || '';
-        } else {
-            return itemValue;
         }
+        return itemValue;
     }
 
     /**
@@ -178,21 +176,21 @@ export default class DetailItem extends Component {
     render() {
         const {
             index,
-            item
+            item,
         } = this.props;
 
         const {
             id,
             icon,
-            value
+            value,
         } = item;
 
         return (
             <div className={ `detail-item detail-item-${ index }` } key={ id }>
                 {
                     icon ?
-                        <div className="detail-item-icon">{ this.getOpenModalButton( this.props ) }</div>
-                        : <div className="detail-open-modal">{ this.getOpenModalButton( this.props ) }</div>
+                        <div className="detail-item-icon">{ this.getOpenModalButton( this.props ) }</div> :
+                        <div className="detail-open-modal">{ this.getOpenModalButton( this.props ) }</div>
                 }
                 <p className="detail-item-label">{ this.getPlaceholder( index, 'label' ) }</p>
                 <TextControl

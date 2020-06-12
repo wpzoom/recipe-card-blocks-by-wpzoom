@@ -1,0 +1,17 @@
+html[amp] {
+    
+    @include box-sizing;
+
+    .wp-block-wpzoom-recipe-card-block-recipe-card {
+        .wpzoom-recipe-card-print-link,
+        .recipe-card-image .wpzoom-recipe-card-print-link {
+            display: none;
+        }
+        .recipe-card-image .wpzoom-recipe-card-pinit {
+            right: 20px;
+        }
+        .wpzoom-recipe-card-pinit {
+            margin-right: 0;
+        }
+    }
+}

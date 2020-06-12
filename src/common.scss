@@ -5,50 +5,30 @@
  * that are used across the project.
 */
 
-// Colors
-$white: #ffffff;
-$dark-gray: #222222;
-$coffee: #736458;
-$coconut-cream: #FBF9E7;
-$silver-sand: #B6BABB;
-$de-york: #9AD093;
-$pale-sky: #6d767f;
-$mid-gray: #5b5d61;
+@import './colors';
+@import "~@wordpress/base-styles/variables";
+@import "~@wordpress/base-styles/mixins";
+@import "~@wordpress/base-styles/breakpoints";
+@import "~@wordpress/base-styles/animations";
+@import "~@wordpress/base-styles/z-index";
 
-// Typography
+/**
+ * Fonts & basic variables.
+ */
 $google-font-family: "Roboto Condensed", sans-serif;
+$ultra-small-font-size: 12px;
+$small-font-size: 14px;
+$main-font-size: 16px;
+$ultra-font-size: 18px;
+$big-font-size: 24px;
+$ultra-big-font-size: 32px;
 
 /**
- * @style: Default
-*/
-$default-primary-color: $dark-gray;
-$default-primary-text-color: $white;
-$default-tick-color: #DEDAB6;
-$default-ticked-color: $de-york;
-$default-detail-icon-color: $pale-sky;
-$default-meta-color: $mid-gray;
-$default-heading-color: $dark-gray;
+ * Border radius.
+ */
+$radius-round-rectangle-x1: 10px;
+$radius-round-rectangle-x2: 20px;
+$radius-round-rectangle-x4: 40px;
 
-/**
- * @style: Newdesign
-*/
-$newdesign-primary-color: #FFA921;
-$newdesign-primary-text-color: $white;
-$newdesign-tick-color: $newdesign-primary-color;
-$newdesign-ticked-color: $de-york;
-$newdesign-detail-icon-color: $pale-sky;
-$newdesign-meta-color: $mid-gray;
-$newdesign-heading-color: $dark-gray;
-
-/**
- * @style: Simple
-*/
-$simple-primary-color: $dark-gray;
-$simple-primary-text-color: $white;
-$simple-tick-color: #d0d0d0;
-$simple-ticked-color: $de-york;
-$simple-detail-icon-color: $pale-sky;
-$simple-meta-color: $mid-gray;
-$simple-heading-color: $dark-gray;
-
-@import './__mixins.scss';
+@import './__mixins';
+@import './amp';

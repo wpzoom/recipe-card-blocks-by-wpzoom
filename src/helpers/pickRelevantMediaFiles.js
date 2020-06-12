@@ -1,15 +1,15 @@
-import get from "lodash/get";
-import pick from "lodash/pick";
+import get from 'lodash/get';
+import pick from 'lodash/pick';
 
 export const pickRelevantMediaFiles = ( image, target ) => {
     const defaults = {
-        'id': null,
-        'link': '',
-        'url': null,
-        'caption': '',
-        'sizes': null,
-        'alt': '',
-        'title': ''
+        id: null,
+        link: '',
+        url: null,
+        caption: '',
+        sizes: null,
+        alt: '',
+        title: '',
     };
     let imageProps;
 
@@ -25,11 +25,9 @@ export const pickRelevantMediaFiles = ( image, target ) => {
 
         if ( 'step' === target ) {
             imageProps.url = wpzoom_rcb_block_step_image || large || image.url || image.source_url;
-        }
-        else if ( 'ingredient' === target ) {
+        } else if ( 'ingredient' === target ) {
             imageProps.url = medium || thumbnail || image.url || image.source_url;
-        }
-        else if ( 'header' === target ) {
+        } else if ( 'header' === target ) {
             imageProps.url = wpzoom_rcb_block_header || large || image.url || image.source_url;
         }
     }

@@ -33,7 +33,6 @@
                 bottom: -26px;
                 z-index: 2;
                 line-height: 1.8;
-
                 .btn-print-link {
                     display: block;
                     width: 52px;
@@ -48,16 +47,22 @@
                     background-color: $newdesign-primary-color;
                     box-shadow: 0 5px 40px $newdesign-primary-color;
                     border: none;
-
-                    .icon-print-link {
+                    .wpzoom-rcb-icon-print-link {
                         margin: auto;
+                        margin-bottom: 5px;
                         display: block;
-                        font-size: 18px;
+                        width: 16px;
+                        height: 16px;
+                        fill: $newdesign-primary-text-color;
                     }
-                    .icon-print-link + span {
-                        text-transform: uppercase;
-                        font-size: 8px;
-                        letter-spacing: 1.5px;
+                    .wpzoom-rcb-print-icon {
+                        font-size: $ultra-font-size;
+                        margin-right: calc(#{ $grid-unit-15 / 2 });
+                        vertical-align: middle;
+                    }
+                    .wpzoom-rcb-print-icon + span {
+                        font-size: $small-font-size;
+                        vertical-align: middle;
                     }
                 }
             }
@@ -67,7 +72,6 @@
                 bottom: -26px;
                 z-index: 2;
                 line-height: 1.8;
-
                 .btn-pinit-link {
                     cursor: pointer;
                     display: block;
@@ -83,16 +87,22 @@
                     background-color: #C62122;
                     box-shadow: 0 5px 40px #C62122;
                     outline: 0;
-
-                    .icon-pinit-link {
+                    .wpzoom-rcb-icon-pinit-link {
                         margin: auto;
+                        margin-bottom: 5px;
                         display: block;
-                        font-size: 18px;
+                        width: 16px;
+                        height: 16px;
+                        fill: #fff;
                     }
-                    .icon-pinit-link + span {
-                        text-transform: uppercase;
-                        font-size: 8px;
-                        letter-spacing: 1.5px;
+                    .wpzoom-rcb-pinit-icon {
+                        font-size: $ultra-font-size;
+                        margin-right: calc(#{ $grid-unit-15 / 2 });
+                        vertical-align: middle;
+                    }
+                    .wpzoom-rcb-pinit-icon + span {
+                        font-size: $small-font-size;
+                        vertical-align: middle;
                     }
                 }
             }
@@ -221,9 +231,8 @@
                 position: relative;
                 line-height: 1.8;
                 list-style: none;
-                min-height: 44px;
                 padding-left: 40px;
-                margin: 0 0 30px;
+                margin: 0 0 15px;
 
                 &::before {
                     @include direction-counter;

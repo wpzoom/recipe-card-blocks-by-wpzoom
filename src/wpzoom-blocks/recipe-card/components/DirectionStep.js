@@ -1,15 +1,15 @@
 /* External dependencies */
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
-import isShallowEqual from "@wordpress/is-shallow-equal/objects";
-import isObject from "lodash/isObject";
-import isString from "lodash/isString";
-import isUndefined from "lodash/isUndefined";
-import ReactHtmlParser from "react-html-parser";
+import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
+import isShallowEqual from '@wordpress/is-shallow-equal/objects';
+import isObject from 'lodash/isObject';
+import isString from 'lodash/isString';
+import isUndefined from 'lodash/isUndefined';
+import ReactHtmlParser from 'react-html-parser';
 
 /* Internal dependencies */
-import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
-import { matchIMGsrc } from "../../../helpers/stringHelpers";
+import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
+import { matchIMGsrc } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
 const { Component, Fragment } = wp.element;
@@ -24,7 +24,6 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
  * A Direction step within a Direction block.
  */
 export default class DirectionStep extends Component {
-
     /**
      * Constructs a DirectionStep editor component.
      *
@@ -96,7 +95,7 @@ export default class DirectionStep extends Component {
      * @returns {void}
      */
     setTextRef( ref ) {
-        this.props.editorRef( this.props.index, "text", ref );
+        this.props.editorRef( this.props.index, 'text', ref );
     }
 
     /**
@@ -105,7 +104,7 @@ export default class DirectionStep extends Component {
      * @returns {void}
      */
     onFocusText() {
-        this.props.onFocus( this.props.index, "text" );
+        this.props.onFocus( this.props.index, 'text' );
     }
 
     /**
@@ -120,7 +119,7 @@ export default class DirectionStep extends Component {
             onChange,
             index,
             step: {
-                text
+                text,
             },
         } = this.props;
 
@@ -139,7 +138,7 @@ export default class DirectionStep extends Component {
             onChange,
             index,
             step: {
-                text
+                text,
             },
         } = this.props;
 
@@ -156,7 +155,7 @@ export default class DirectionStep extends Component {
             step: {
                 id,
                 isGroup,
-            }
+            },
         } = this.props;
 
         return <div className="direction-step-button-container">
@@ -178,13 +177,13 @@ export default class DirectionStep extends Component {
             <IconButton
                 className="direction-step-button direction-step-button-delete editor-inserter__toggle"
                 icon="trash"
-                label={ __( "Delete step", "wpzoom-recipe-card" ) }
+                label={ __( 'Delete step', 'wpzoom-recipe-card' ) }
                 onClick={ this.onRemoveStep }
             />
             <IconButton
                 className="direction-step-button direction-step-button-add editor-inserter__toggle"
                 icon="editor-break"
-                label={ __( "Insert step", "wpzoom-recipe-card" ) }
+                label={ __( 'Insert step', 'wpzoom-recipe-card' ) }
                 onClick={ this.onInsertStep }
             />
         </div>;
@@ -201,14 +200,14 @@ export default class DirectionStep extends Component {
                 className="editor-block-mover__control"
                 onClick={ this.onMoveStepUp }
                 icon="arrow-up-alt2"
-                label={ __( "Move step up", "wpzoom-recipe-card" ) }
+                label={ __( 'Move step up', 'wpzoom-recipe-card' ) }
                 aria-disabled={ this.props.isFirst }
             />
             <IconButton
                 className="editor-block-mover__control"
                 onClick={ this.onMoveStepDown }
                 icon="arrow-down-alt2"
-                label={ __( "Move step down", "wpzoom-recipe-card" ) }
+                label={ __( 'Move step down', 'wpzoom-recipe-card' ) }
                 aria-disabled={ this.props.isLast }
             />
         </Fragment>;
@@ -226,8 +225,8 @@ export default class DirectionStep extends Component {
             onChange,
             index,
             step: {
-                text
-            }
+                text,
+            },
         } = this.props;
 
         let newText = text.slice();
@@ -265,7 +264,7 @@ export default class DirectionStep extends Component {
             image = matchIMGsrc( contents );
         }
         if ( isObject( contents ) ) {
-            image = contents.filter( ( node ) => node && node.type && node.type === "img" );
+            image = contents.filter( ( node ) => node && node.type && node.type === 'img' );
         }
 
         if ( ! image || ! image[ index ] ) {
@@ -274,9 +273,8 @@ export default class DirectionStep extends Component {
 
         if ( ! isUndefined( image[ index ].props ) ) {
             return image[ index ].props.src;
-        } else {
-            return image[ index ];
         }
+        return image[ index ];
     }
 
     /**
@@ -302,12 +300,12 @@ export default class DirectionStep extends Component {
             step: {
                 id,
                 text,
-                isGroup
-            }
+                isGroup,
+            },
         } = this.props;
 
-        const isSelectedText = isSelected && subElement === "text";
-        const stepClassName = !isGroup ? "direction-step" : "direction-step direction-step-group";
+        const isSelectedText = isSelected && subElement === 'text';
+        const stepClassName = ! isGroup ? 'direction-step' : 'direction-step direction-step-group';
 
         let textContent = text;
         if ( isString( textContent ) ) {
@@ -318,7 +316,7 @@ export default class DirectionStep extends Component {
         return (
             <li className={ stepClassName } key={ id }>
                 {
-                    !isGroup &&
+                    ! isGroup &&
                     <RichText
                         className="direction-step-text"
                         tagName="p"
@@ -326,7 +324,7 @@ export default class DirectionStep extends Component {
                         key={ `${ id }-text` }
                         value={ textContent }
                         onChange={ this.onChangeText }
-                        placeholder={ __( "Enter step description", "wpzoom-recipe-card" ) }
+                        placeholder={ __( 'Enter step description', 'wpzoom-recipe-card' ) }
                         unstableOnFocus={ this.onFocusText }
                         keepPlaceholderOnFocus={ true }
                     />
@@ -340,7 +338,7 @@ export default class DirectionStep extends Component {
                         key={ `${ id }-group-title` }
                         value={ textContent }
                         onChange={ this.onChangeGroupTitle }
-                        placeholder={ __( "Enter group title", "wpzoom-recipe-card" ) }
+                        placeholder={ __( 'Enter group title', 'wpzoom-recipe-card' ) }
                         unstableOnFocus={ this.onFocusText }
                         keepPlaceholderOnFocus={ true }
                     />

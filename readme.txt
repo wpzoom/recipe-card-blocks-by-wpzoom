@@ -126,6 +126,12 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.7.0 =
+* Added AMP support
+* Added Block Alignment
+* When changing block alignment, the Header content alignment is changed too
+* For Simple Design added option to change Header alignment and now you can set image to left or right depend on Block alignment or Header content alignment
+
 = 2.6.4 =
 * Fixed issue with Jump to Recipe and Print Recipe that are showing up on homepage as part of the excerpt
 * Fixed error: "$this" can no longer be used in a plain function or method
