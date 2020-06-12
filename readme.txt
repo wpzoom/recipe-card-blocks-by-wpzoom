@@ -126,6 +126,9 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.7.1 =
+* Minor bug fix in the Directions block
+
 = 2.7.0 =
 * Added AMP support
 * Added Block Alignment
