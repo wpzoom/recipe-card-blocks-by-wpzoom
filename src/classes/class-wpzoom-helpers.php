@@ -163,11 +163,11 @@ class WPZOOM_Helpers {
 		}
 
 		if ( $hours ) {
-			$output = $hours + ' ' + _n( "hour", "hours", (int)$hours, "wpzoom-recipe-card" );
+			$output = $hours .' '. _n( "hour", "hours", (int)$hours, "wpzoom-recipe-card" );
 		}
 
 		if ( $mins ) {
-			$output .= ' ' + $mins . ' ' + _n( "minute", "minutes", (int)$mins, "wpzoom-recipe-card" );
+			$output .= ' ' . $mins .' '. _n( "minute", "minutes", (int)$mins, "wpzoom-recipe-card" );
 		}
 
 		return $output;
