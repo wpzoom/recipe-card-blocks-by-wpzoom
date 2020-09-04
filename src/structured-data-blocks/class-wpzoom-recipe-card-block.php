@@ -511,6 +511,13 @@ class WPZOOM_Recipe_Card_Block {
 	    	$details_content 		= $details_content .'</div></div><!-- /.recipe-card-header-wrap -->';
 	    }
 
+	    $json_ld = self::get_json_ld( $attributes );
+	    $structured_data_json = '';
+
+	    if ( ! empty( $json_ld ) ) {
+	    	$structured_data_json = '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>';
+	    }
+
 		$block_content = sprintf(
 			'<div class="%1$s" id="%2$s">%3$s</div>',
 			esc_attr( trim($RecipeCardClassName) ),
@@ -523,12 +530,11 @@ class WPZOOM_Recipe_Card_Block {
 			$steps_content .
 			$recipe_card_video .
 			$notes_content .
-			$footer_copyright
+			$footer_copyright .
+			$structured_data_json
 		);
 
-		$json_ld = self::get_json_ld( $attributes );
-
-		return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $block_content;
+		return $block_content;
 	}
 
 	/**

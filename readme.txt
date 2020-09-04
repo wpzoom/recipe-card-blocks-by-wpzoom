@@ -126,6 +126,9 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.7.2 =
+* Fixed issue with Recipe Card block which doesn't display on front-end after Gutenberg update
+
 = 2.7.1 =
 * Minor bug fix in the Directions block
 
