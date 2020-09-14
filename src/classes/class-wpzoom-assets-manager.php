@@ -10,126 +10,165 @@
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
-	/**
-	 * Main WPZOOM_Assets_Manager Class.
-	 *
-	 * @since 1.1.0
-	 */
-	class WPZOOM_Assets_Manager {
-		/**
-		 * This plugin's instance.
-		 *
-		 * @var WPZOOM_Assets_Manager
-		 * @since 1.1.0
-		 */
-		private static $instance;
+    /**
+     * Main WPZOOM_Assets_Manager Class.
+     *
+     * @since 1.1.0
+     */
+    class WPZOOM_Assets_Manager {
+        /**
+         * This plugin's instance.
+         *
+         * @var WPZOOM_Assets_Manager
+         * @since 1.1.0
+         */
+        private static $instance;
 
-		/**
-		 * Provides singleton instance.
-		 *
-		 * @since 1.1.0
-		 * @return self instance
-		 */
-		public static function instance() {
-			if ( null === self::$instance ) {
-				self::$instance = new WPZOOM_Assets_Manager();
-			}
+        /**
+         * Provides singleton instance.
+         *
+         * @since 1.1.0
+         * @return self instance
+         */
+        public static function instance() {
+            if ( null === self::$instance ) {
+                self::$instance = new WPZOOM_Assets_Manager();
+            }
 
-			return self::$instance;
-		}
+            return self::$instance;
+        }
 
-		/**
-		 * The base directory path.
-		 *
-		 * @var string $_dir
-		 */
-		private $_dir;
+        /**
+         * The base directory path.
+         *
+         * @var string $_dir
+         */
+        private $_dir;
 
-		/**
-		 * The base URL path.
-		 *
-		 * @var string $_url
-		 */
-		private $_url;
+        /**
+         * The base URL path.
+         *
+         * @var string $_url
+         */
+        private $_url;
 
-		/**
-		 * The Plugin version.
-		 *
-		 * @var string $_slug
-		 */
-		public $_slug;
+        /**
+         * The Plugin version.
+         *
+         * @var string $_slug
+         */
+        public static $_slug = 'wpzoom-rcb-block';
 
-		/**
-		 * The Constructor.
-		 */
-		private function __construct() {
-			$this->_slug = 'wpzoom-rcb-block';
-			$this->_url  = untrailingslashit( WPZOOM_RCB_PLUGIN_URL );
+        /**
+         * The Constructor.
+         */
+        private function __construct() {
+            $this->_url  = untrailingslashit( WPZOOM_RCB_PLUGIN_URL );
 
-			add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
-			add_action( 'enqueue_block_assets', array( $this, 'load_icon_fonts' ) );
-			add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
+            add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
+            add_action( 'enqueue_block_assets', array( $this, 'load_icon_fonts' ) );
+            add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 
-			// Include admin scripts & styles
+            // Include admin scripts & styles
             add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
             add_action( 'amp_post_template_css', array( $this, 'amp_for_wp_include_css_template' ) );
-		}
+        }
 
-		/**
-		 * Get array of dependencies.
-		 *
-		 * @param string|string $handle The handle slug.
-		 *
-		 * @since 1.1.0
-		 */
-		public function get_dependencies( $handle ) {
-			$dependencies = array();
+        /**
+         * Check the post content has reusable block
+         * 
+         * @since  2.7.2
+         * @param  string  $block_name      The block name
+         * @param  boolean|int $post_ID     The post ID
+         * @return boolean                  Return true if post content has provided block name as reusable block, else return false
+         */
+        public static function has_reusable_block( $block_name, $post_ID = false ){
+            $post_ID = !$post_ID ? get_the_ID() : $post_ID;
 
-			if ( $this->_slug . '-js' === $handle ) {
-				$dependencies = array( 'wp-editor', 'wp-components', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-compose' );
-			}
-			elseif ( $this->_slug . '-editor-css' === $handle ) {
-				$dependencies = array( 'wp-edit-blocks' );
-			}
-			elseif ( $this->_slug . '-script' === $handle ) {
-				$dependencies = array( 'jquery' );
-			}
-			elseif ( $this->_slug . '-icon-fonts-css' === $handle ) {
-				$dependencies = array( 'wp-edit-blocks' );
-			}
-			elseif ( 'wpzoom-rating-stars-script' === $handle ) {
-				$dependencies = array( 'jquery' );
-			}
+            if( $post_ID ){
+                if ( has_block( 'block', $post_ID ) ){
+                    // Check reusable blocks
+                    $content = get_post_field( 'post_content', $post_ID );
+                    $blocks = parse_blocks( $content );
 
-			return $dependencies;
-		}
+                    if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+                        return false;
+                    }
 
-		/**
-		 * Enqueue Gutenberg block assets for both frontend + backend.
-		 *
-		 * `wp-blocks`: includes block type registration and related functions.
-		 *
-		 * @since 1.1.0
-		 */
-		public function block_assets() {
+                    foreach ( $blocks as $block ) {
+                        if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+                            if( has_block( $block_name, $block['attrs']['ref'] ) ){
+                               return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * Get array of dependencies.
+         *
+         * @param string|string $handle The handle slug.
+         *
+         * @since 1.1.0
+         */
+        public function get_dependencies( $handle ) {
+            $dependencies = array();
+
+            if ( self::$_slug . '-js' === $handle ) {
+                $dependencies = array( 'wp-editor', 'wp-components', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-compose' );
+            }
+            elseif ( self::$_slug . '-editor-css' === $handle ) {
+                $dependencies = array( 'wp-edit-blocks' );
+            }
+            elseif ( self::$_slug . '-script' === $handle ) {
+                $dependencies = array( 'jquery' );
+            }
+            elseif ( self::$_slug . '-icon-fonts-css' === $handle ) {
+                $dependencies = array();
+            }
+            elseif ( 'wpzoom-rating-stars-script' === $handle ) {
+                $dependencies = array( 'jquery' );
+            }
+            elseif ( 'wpzoom-comment-rating-script' === $handle ) {
+                $dependencies = array( 'jquery' );
+            }
+            elseif ( self::$_slug . '-masonry-gallery' === $handle ) {
+                $dependencies = array( 'jquery-masonry', 'imagesloaded' );
+            }
+
+            return $dependencies;
+        }
+
+        /**
+         * Enqueue Gutenberg block assets for both frontend + backend.
+         *
+         * `wp-blocks`: includes block type registration and related functions.
+         *
+         * @since 1.1.0
+         */
+        public function block_assets() {
             if ( is_admin() ) {
                 
                 wp_enqueue_style(
-                    $this->_slug . '-style-css', // Handle.
+                    self::$_slug . '-style-css', // Handle.
                     $this->asset_source( '', 'blocks.style.build.css' ), // Block style CSS.
-                    $this->get_dependencies( $this->_slug . '-style-css' ), // Dependency to include the CSS after it.
+                    $this->get_dependencies( self::$_slug . '-style-css' ), // Dependency to include the CSS after it.
                     WPZOOM_RCB_VERSION
                 );
 
                 // Enable Google Fonts
                 if ( '1' === WPZOOM_Settings::get('wpzoom_rcb_settings_enable_google_fonts') ) {
                     wp_enqueue_style(
-                        $this->_slug . '-google-font',
+                        self::$_slug . '-google-font',
                         'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
                         false
                     );
@@ -137,26 +176,39 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
             } else {
 
-                if ( has_block( 'wpzoom-recipe-card/block-details' ) || 
-                     has_block( 'wpzoom-recipe-card/block-ingredients' ) || 
-                     has_block( 'wpzoom-recipe-card/block-directions' ) || 
-                     has_block( 'wpzoom-recipe-card/block-print-recipe' ) || 
-                     has_block( 'wpzoom-recipe-card/block-jump-to-recipe' ) || 
-                     has_block( 'wpzoom-recipe-card/block-recipe-card' ) ||
-                     has_block( 'wpzoom-recipe-card/block-nutrition' )
-                ) {
+                $should_enqueue = 
+                    has_block( 'wpzoom-recipe-card/block-details' ) || 
+                    has_block( 'wpzoom-recipe-card/block-ingredients' ) || 
+                    has_block( 'wpzoom-recipe-card/block-directions' ) || 
+                    has_block( 'wpzoom-recipe-card/block-print-recipe' ) || 
+                    has_block( 'wpzoom-recipe-card/block-jump-to-recipe' ) || 
+                    has_block( 'wpzoom-recipe-card/block-recipe-card' ) || 
+                    has_block( 'wpzoom-recipe-card/block-nutrition' );
+
+                $has_reusable_block = 
+                    self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || 
+                    self::has_reusable_block( 'wpzoom-recipe-card/block-ingredients' ) || 
+                    self::has_reusable_block( 'wpzoom-recipe-card/block-directions' ) || 
+                    self::has_reusable_block( 'wpzoom-recipe-card/block-print-recipe' ) || 
+                    self::has_reusable_block( 'wpzoom-recipe-card/block-jump-to-recipe' ) || 
+                    self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) || 
+                    self::has_reusable_block( 'wpzoom-recipe-card/block-nutrition' );
+
+                $posts_loop_page = is_home() || is_archive() || is_search();
+
+                if ( $should_enqueue || $has_reusable_block || $posts_loop_page ) {
 
                     // Scripts.
                     wp_enqueue_script(
-                        $this->_slug . '-script',
+                        self::$_slug . '-script',
                         $this->asset_source( 'js', 'script.js' ),
-                        $this->get_dependencies( $this->_slug . '-script' ),
+                        $this->get_dependencies( self::$_slug . '-script' ),
                         WPZOOM_RCB_VERSION,
                         true
                     );
 
                     wp_enqueue_script(
-                        $this->_slug . '-pinit',
+                        self::$_slug . '-pinit',
                         'https://assets.pinterest.com/js/pinit.js',
                         array(),
                         false,
@@ -165,16 +217,16 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
                     // Styles.
                     wp_enqueue_style(
-                        $this->_slug . '-style-css', // Handle.
+                        self::$_slug . '-style-css', // Handle.
                         $this->asset_source( '', 'blocks.style.build.css' ), // Block style CSS.
-                        $this->get_dependencies( $this->_slug . '-style-css' ), // Dependency to include the CSS after it.
+                        $this->get_dependencies( self::$_slug . '-style-css' ), // Dependency to include the CSS after it.
                         WPZOOM_RCB_VERSION
                     );
 
                     // Enable Google Fonts
                     if ( '1' === WPZOOM_Settings::get('wpzoom_rcb_settings_enable_google_fonts') ) {
                         wp_enqueue_style(
-                            $this->_slug . '-google-font',
+                            self::$_slug . '-google-font',
                             'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
                             false
                         );
@@ -184,7 +236,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                      * Localize script data.
                      */
                     $this->localize_script(
-                        $this->_slug . '-script',
+                        self::$_slug . '-script',
                         'wpzoomRecipeCard',
                         array(
                             'pluginURL' => WPZOOM_RCB_PLUGIN_URL,
@@ -194,32 +246,32 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                             'nonce' => wp_create_nonce( 'wpzoom_rcb' ),
                             'api_nonce' => wp_create_nonce( 'wp_rest' ),
                         )
-                    );                    
+                    );
                 }
 
             }
             
-		}
+        }
 
-		/**
-		 * Enqueue Gutenberg block assets for backend editor.
-		 *
-		 * `wp-blocks`: includes block type registration and related functions.
-		 * `wp-element`: includes the WordPress Element abstraction for describing the structure of your blocks.
-		 * `wp-i18n`: To internationalize the block's text.
-		 *
-		 * @since 1.1.0
-		 */
+        /**
+         * Enqueue Gutenberg block assets for backend editor.
+         *
+         * `wp-blocks`: includes block type registration and related functions.
+         * `wp-element`: includes the WordPress Element abstraction for describing the structure of your blocks.
+         * `wp-i18n`: To internationalize the block's text.
+         *
+         * @since 1.1.0
+         */
         public function editor_assets() {
             global $post;
 
-        	$options = WPZOOM_Settings::get_settings();
+            $options = WPZOOM_Settings::get_settings();
 
             // Scripts.
             wp_enqueue_script(
-                $this->_slug . '-js', // Handle.
+                self::$_slug . '-js', // Handle.
                 $this->asset_source( '', 'blocks.build.js' ), // Block.build.js: We register the block here. Built with Webpack.
-                $this->get_dependencies( $this->_slug . '-js' ), // Dependencies, defined above.
+                $this->get_dependencies( self::$_slug . '-js' ), // Dependencies, defined above.
                 WPZOOM_RCB_VERSION,
                 true // Enqueue the script in the footer.
             );
@@ -227,14 +279,14 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
             // Tell to WordPress that our script contains translations
             // this function was added in 5.0 version
             if ( function_exists( 'wp_set_script_translations' ) ) {
-	            wp_set_script_translations( $this->_slug .'-js', WPZOOM_RCB_TEXT_DOMAIN, WPZOOM_RCB_PLUGIN_DIR . 'languages' );
+                wp_set_script_translations( self::$_slug .'-js', WPZOOM_RCB_TEXT_DOMAIN, WPZOOM_RCB_PLUGIN_DIR . 'languages' );
             }
 
             // Styles.
             wp_enqueue_style(
-                $this->_slug . '-editor-css', // Handle.
+                self::$_slug . '-editor-css', // Handle.
                 $this->asset_source( '', 'blocks.editor.build.css' ), // Block editor CSS.
-                $this->get_dependencies( $this->_slug . '-editor-css' ), // Dependency to include the CSS after it.
+                $this->get_dependencies( self::$_slug . '-editor-css' ), // Dependency to include the CSS after it.
                 WPZOOM_RCB_VERSION
             );
 
@@ -242,7 +294,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
              * Localize script data.
              */
             $this->localize_script(
-                $this->_slug . '-js',
+                self::$_slug . '-js',
                 'wpzoomRecipeCard',
                 array(
                     'version' => WPZOOM_RCB_VERSION,
@@ -266,47 +318,59 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
          * @since 2.2.0
          */
         public function admin_scripts() {
-        	wp_enqueue_style(
-        		'wpzoom-rcb-admin-css',
-        		$this->asset_source( '', 'assets/admin/css/admin.css' ),
-        		$this->get_dependencies( 'wpzoom-rcb-admin-css' ),
-        		WPZOOM_RCB_VERSION
-        	);
+            wp_enqueue_style(
+                'wpzoom-rcb-admin-css',
+                $this->asset_source( '', 'assets/admin/css/admin.css' ),
+                $this->get_dependencies( 'wpzoom-rcb-admin-css' ),
+                WPZOOM_RCB_VERSION
+            );
         }
 
 
-		/**
-		 * Load icon fonts.
-		 *
-		 * To make backward compatibility we include icons from version 1.1.0
-		 * That's why we named it 'oldicon'
-		 *
-		 * @since 1.1.0
-		 */
-		public function load_icon_fonts() {
+        /**
+         * Load icon fonts.
+         *
+         * To make backward compatibility we include icons from version 1.1.0
+         * That's why we named it 'oldicon'
+         *
+         * @since 1.1.0
+         */
+        public function load_icon_fonts() {
             // enqueue all icon fonts only in admin panel
             if ( is_admin() ) {
 
                 wp_enqueue_style(
-                    $this->_slug . '-icon-fonts-css', // Handle.
+                    self::$_slug . '-icon-fonts-css', // Handle.
                     $this->asset_source( 'css', 'icon-fonts.build.css' ), // Block editor CSS.
-                    $this->get_dependencies( $this->_slug . '-icon-fonts-css' ), // Dependency to include the CSS after it.
+                    $this->get_dependencies( self::$_slug . '-icon-fonts-css' ), // Dependency to include the CSS after it.
                     WPZOOM_RCB_VERSION
                 );
 
             }
 
-            if ( ! is_admin() && ( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) ) ) {
+            if (
+                ! is_admin() && 
+                ( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) )
+            ) {
 
                 wp_enqueue_style(
-                    $this->_slug . '-icon-fonts-css', // Handle.
+                    self::$_slug . '-icon-fonts-css', // Handle.
                     $this->asset_source( 'css', 'icon-fonts.build.css' ), // Block editor CSS.
-                    $this->get_dependencies( $this->_slug . '-icon-fonts-css' ), // Dependency to include the CSS after it.
+                    $this->get_dependencies( self::$_slug . '-icon-fonts-css' ), // Dependency to include the CSS after it.
                     WPZOOM_RCB_VERSION
                 );
 
             }
-		}
+
+            if ( is_home() || is_archive() || is_search() ) {
+                wp_enqueue_style(
+                    self::$_slug . '-icon-fonts-css', // Handle.
+                    $this->asset_source( 'css', 'icon-fonts.build.css' ), // Block editor CSS.
+                    $this->get_dependencies( self::$_slug . '-icon-fonts-css' ), // Dependency to include the CSS after it.
+                    WPZOOM_RCB_VERSION
+                );
+            }
+        }
 
         /**
          * Include block CSS to AMP for WP template
@@ -421,30 +485,30 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
             echo $inline_CSS;
         }
 
-		/**
-		 * Source assets.
-		 *
-		 * @since 1.1.0
-		 * @param string|string $type The type of resource.
-		 * @param string|string $directory Any extra directories needed.
-		 */
-		public function asset_source( $type = 'js', $directory = null ) {
-			if ( 'js' === $type || 'css' === $type || 'webfonts' === $type || 'images' === $type ) {
-				return $this->_url . '/dist/assets/' . $type . '/' . $directory;
-			} else {
-				return $this->_url . '/dist/' . $directory;
-			}
-		}
+        /**
+         * Source assets.
+         *
+         * @since 1.1.0
+         * @param string|string $type The type of resource.
+         * @param string|string $directory Any extra directories needed.
+         */
+        public function asset_source( $type = 'js', $directory = null ) {
+            if ( 'js' === $type || 'css' === $type || 'webfonts' === $type || 'images' === $type ) {
+                return $this->_url . '/dist/assets/' . $type . '/' . $directory;
+            } else {
+                return $this->_url . '/dist/' . $directory;
+            }
+        }
 
-		/**
-		 * Enqueue localization data.
-		 *
-		 * @since 1.1.0
-		 * @access public
-		 */
-		public function localize_script( $handle, $name, $data ) {
-			wp_localize_script( $handle, $name, $data );
-		}
+        /**
+         * Enqueue localization data.
+         *
+         * @since 1.1.0
+         * @access public
+         */
+        public function localize_script( $handle, $name, $data ) {
+            wp_localize_script( $handle, $name, $data );
+        }
 
         /**
          * Compatibility with multilingual plugins for home URL.
@@ -466,7 +530,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
             return $home_url;
         }
-	}
+    }
 }
 
 WPZOOM_Assets_Manager::instance();
