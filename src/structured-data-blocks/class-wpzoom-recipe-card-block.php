@@ -498,11 +498,15 @@ class WPZOOM_Recipe_Card_Block {
 				@$notes
 			) : '';
 
-		$footer_copyright = '<div class="footer-copyright">
-	        	<p>'. __( "Recipe Card plugin by ", "wpzoom-recipe-card" ) .'
-	        		<a href="https://www.wpzoom.com/plugins/recipe-card-blocks/" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
-	        	</p>
-	        </div>';
+		$footer_copyright = '';
+
+		if ( '1' !== WPZOOM_Settings::get('wpzoom_rcb_settings_footer_copyright') ) {
+			$footer_copyright = '<div class="footer-copyright">
+		        	<p>'. __( "Recipe Card plugin by ", "wpzoom-recipe-card" ) .'
+		        		<a href="https://www.wpzoom.com/plugins/recipe-card-blocks/" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
+		        	</p>
+		        </div>';
+		}
 
 	    if ( 'simple' === self::$style ) {
 	    	// Wrap recipe card heading and details content into one div

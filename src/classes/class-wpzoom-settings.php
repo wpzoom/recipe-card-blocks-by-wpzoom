@@ -444,8 +444,8 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_footer_copyright',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Support this plugin by displaying footer credit.', 'wpzoom-recipe-card' ),
-									'default'		=> false,
+									'description' 	=> esc_html__( 'Hide footer copyright text.', 'wpzoom-recipe-card' ),
+									'default'		=> true,
 									'preview'       => true,
                                     'preview_pos'	=> 'bottom',
 								)
