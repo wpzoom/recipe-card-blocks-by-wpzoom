@@ -176,6 +176,15 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
             } else {
 
+                /**
+                 * Load Assets only on single page if option is unchecked
+                 * 
+                 * @since 2.7.3
+                 */
+                if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_load_assets_on_all_pages' ) && ! is_single() ) {
+                    return false;
+                }
+
                 $should_enqueue = 
                     has_block( 'wpzoom-recipe-card/block-details' ) || 
                     has_block( 'wpzoom-recipe-card/block-ingredients' ) || 
@@ -346,6 +355,15 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                     WPZOOM_RCB_VERSION
                 );
 
+            }
+
+            /**
+             * Load Assets only on single page if option is unchecked
+             * 
+             * @since 2.7.3
+             */
+            if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_load_assets_on_all_pages' ) && ! is_single() ) {
+                return false;
             }
 
             if (

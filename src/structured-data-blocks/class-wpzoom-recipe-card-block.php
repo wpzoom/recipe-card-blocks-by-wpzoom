@@ -638,7 +638,9 @@ class WPZOOM_Recipe_Card_Block {
 				$json_ld['video']['description'] = esc_html( $video['caption'] );
 			}
 			if ( isset( $video['description'] ) && !empty( $video['description'] ) ) {
-				$json_ld['video']['description'] = esc_html( $video['description'] );
+				if ( is_string( $video['description'] ) ) {
+					$json_ld['video']['description'] = esc_html( $video['description'] );
+				}
 			}
 			if ( isset( $video['poster']['url'] ) ) {
 				$json_ld['video']['thumbnailUrl'] = esc_url( $video['poster']['url'] );
@@ -1021,10 +1023,8 @@ class WPZOOM_Recipe_Card_Block {
 				$iconStyles = self::$helpers->render_styles_attributes( $styles );
 
 				$icon = sprintf(
-					'<span class="%s" icon-name="%s" iconset="%s" style="%s"></span>',
+					'<span class="%s" style="%s"></span>',
 					$itemIconClasses,
-					$icon,
-					$iconSet,
 					$iconStyles
 				);
 			}

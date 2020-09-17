@@ -194,7 +194,6 @@ function IconsModal(
                                 return (
                                     <span
                                         className={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
-                                        iconset={ iconSet }
                                         onClick={ ( e ) => onChangeIcon( e, iconSet, icon, iconPrefix ) }>
                                     </span>
                                 );
@@ -203,7 +202,6 @@ function IconsModal(
                             return (
                                 <span
                                     className={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
-                                    iconset={ iconSet }
                                     onClick={ ( e ) => onChangeIcon( e, iconSet, icon ) }>
                                 </span>
                             );
