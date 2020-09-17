@@ -126,6 +126,11 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.7.3 =
+* Added option in Recipe Card -> Performance to load assets when needed (only on single page or on all pages)
+* Footer Copyright is now available to disable from Recipe Card -> General
+* Removed unneeded attributes "icon-name" & "iconset" from HTML markup to prevent AMP errors
+
 = 2.7.2 =
 * Fixed issue with Recipe Card block which doesn't display on front-end after Gutenberg update
 
