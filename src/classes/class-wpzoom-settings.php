@@ -29,7 +29,7 @@ class WPZOOM_Settings {
 
 	/**
 	 * Store all settings options.
-	 * 
+	 *
 	 * @static
 	 */
 	public static $settings = array();
@@ -439,12 +439,12 @@ class WPZOOM_Settings {
 							),
 							array(
 								'id' 		=> 'wpzoom_rcb_settings_footer_copyright',
-								'title' 	=> __( 'Footer Copyright', 'wpzoom-recipe-card' ),
+								'title' 	=> __( 'Footer Credit', 'wpzoom-recipe-card' ),
 								'type'		=> 'checkbox',
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_footer_copyright',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Hide footer copyright text.', 'wpzoom-recipe-card' ),
+									'description' 	=> esc_html__( 'Disable Footer Credit. Uncheck this option if you want to show your support for this plugin.', 'wpzoom-recipe-card' ),
 									'default'		=> true,
 									'preview'       => true,
                                     'preview_pos'	=> 'bottom',
@@ -845,7 +845,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_load_assets_on_all_pages',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> sprintf( '%s </br><strong>%s</strong>', esc_html__( 'Load JS and CSS files on all pages in case you display the Recipe Card Block on Homepage, Archive, Category or Search.', 'wpzoom-recipe-card' ), esc_html__( 'NOTE: Disable this option to load assets only on single page.', 'wpzoom-recipe-card' )),
+									'description' 	=> sprintf( '%s </br><strong>%s</strong>', esc_html__( 'Enabling this option will load JavaScript and CSS files on archive pages that include posts with recipe cards.', 'wpzoom-recipe-card' ), esc_html__( 'NOTE: Disable this option to load assets only on the single post pages.', 'wpzoom-recipe-card' )),
 									'default'		=> true,
 								)
 							),
@@ -1039,7 +1039,7 @@ class WPZOOM_Settings {
 	        return;
 	    }
 
-	    // Add the color picker css file       
+	    // Add the color picker css file
         wp_enqueue_style( 'wp-color-picker' );
 
 	    wp_enqueue_style(
@@ -1133,7 +1133,7 @@ class WPZOOM_Settings {
 			 	'status' => '200',
 			 	'message' => 'OK',
 			);
-			
+
 			wp_send_json_success( $response );
 		}
 		else {
@@ -1141,7 +1141,7 @@ class WPZOOM_Settings {
 			 	'status' => '304',
 			 	'message' => 'NOT',
 			);
-			
+
 			wp_send_json_error( $response );
 		}
 	}
