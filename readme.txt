@@ -126,6 +126,9 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 == Changelog ==
 
+= 2.7.4 =
+* Fixed issue with disallowed attribute `classname` present in HTML tag
+
 = 2.7.3 =
 * Added option in Recipe Card -> Performance to load assets when needed (only on single pages or on all pages)
 * Plugin Credit in the footer is now optional and can be enabled or disabled from Recipe Card -> General. You can enable it if you want to show your support for the plugin.

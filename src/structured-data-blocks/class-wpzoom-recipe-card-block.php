@@ -1577,8 +1577,8 @@ class WPZOOM_Recipe_Card_Block {
  	            	        <Path class="wpzoom-rcb-print-icon" d="M28,25H25a1,1,0,0,1,0-2h3a1,1,0,0,0,1-1V10a1,1,0,0,0-1-1H4a1,1,0,0,0-1,1V22a1,1,0,0,0,1,1H7a1,1,0,0,1,0,2H4a3,3,0,0,1-3-3V10A3,3,0,0,1,4,7H28a3,3,0,0,1,3,3V22A3,3,0,0,1,28,25Z" />
  	            	        <Path class="wpzoom-rcb-print-icon" d="M25,31H7a1,1,0,0,1-1-1V20a1,1,0,0,1,1-1H25a1,1,0,0,1,1,1V30A1,1,0,0,1,25,31ZM8,29H24V21H8Z" />
  	            	        <Path class="wpzoom-rcb-print-icon" d="M25,9a1,1,0,0,1-1-1V3H8V8A1,1,0,0,1,6,8V2A1,1,0,0,1,7,1H25a1,1,0,0,1,1,1V8A1,1,0,0,1,25,9Z" />
- 	            	        <rect className="wpzoom-rcb-print-icon" height="2" width="2" x="24" y="11" />
- 	            	        <rect className="wpzoom-rcb-print-icon" height="2" width="4" x="18" y="11" />
+ 	            	        <rect class="wpzoom-rcb-print-icon" height="2" width="2" x="24" y="11" />
+ 	            	        <rect class="wpzoom-rcb-print-icon" height="2" width="4" x="18" y="11" />
  	            	    </g>
  	            	</SVG>
 	                <span>%s</span>
