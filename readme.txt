@@ -29,20 +29,30 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 = 📌 INCLUDED BLOCKS =
 
-* **Recipe Card (with Schema Markup) - 🆕**
+* **Recipe Card (with Schema.org Markup)**
 * **Recipe Details**
 * **Ingredients**
 * **Directions**
 * **Nutrition Facts**
 
+= 📌 FEATURES =
+
+* **AMP Support**
+* **Multiple Designs**
+* Gutenberg-ready
+* Works with any theme
+* Video integration
+* GDPR-compliant
+* Bulk Add Ingredients and Directions
+
 
 = ⭐️ PRO FEATURES ⭐️ =
 * **Star Rating**
+* **Comments Rating - 🆕**
 * **Gallery in Directions**
 * Adjustable servings
 * Ingredients quantity
 * Custom Pinterest image and description for Pin
-* Credit Removal
 * Color Schemes
 * Food Labels
 * Social Call-to-action (Facebook, Instagram, Pinterest)
@@ -111,6 +121,10 @@ Make sure you haven't disabled the new block editor using the Classic Editor plu
 Yes, you can find a documentation for this plugin with more instructions on our website.
 
 [Go to Documentation](https://www.wpzoom.com/documentation/recipe-card-blocks/)
+
+= Is it possible to migrate recipes from another plugin? =
+
+Currently, it's not possible to import recipes created using a different plugin, but we're working on adding such an option available. The plugin will soon allow you to import easily recipes from other plugins like WP Recipe Maker or WP Tasty Recipes.
 
 
 == Screenshots ==
