@@ -16,3 +16,5 @@
 
 #Ignore PRO Blocks
 /src/pro-version
+languages/.DS_Store
+.DS_Store
