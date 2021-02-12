@@ -3,7 +3,7 @@
  * Structured Data Helpers functions
  *
  * @since   1.1.0
- * @package WPZOOM Recipe Card Block
+ * @package WPZOOM_Recipe_Card_Blocks
  */
 
 // Exit if accessed directly.
@@ -24,14 +24,17 @@ class WPZOOM_Structured_Data_Helpers {
 	 */
 	public function get_ingredient_json_ld( array $ingredient ) {
 		$ingredient_json_ld = '';
+		$name = '';
 
 		if ( ! empty( $ingredient['jsonName'] ) ) {
-			$ingredient_json_ld = $ingredient['jsonName'];
+			$name = trim( $ingredient['jsonName'] );
 		} else {
-			$ingredient_json_ld = $this->ingredient_name_to_JSON( $ingredient['name'] );
+			$name = trim( $this->ingredient_name_to_JSON( $ingredient['name'] ) );
 		}
 
-		return $ingredient_json_ld;
+		$ingredient_json_ld = wp_strip_all_tags( $name );
+
+		return trim( $ingredient_json_ld );
 	}
 
 	/**
@@ -66,15 +69,51 @@ class WPZOOM_Structured_Data_Helpers {
 	 *
 	 * @return array The JSON-LD representation of the step's description.
 	 */
-	public function get_step_json_ld( array $step ) {
+	public function get_step_json_ld( array $step, $parent_permalink = '' ) {
 		$step_json_ld = array(
 			'@type' => 'HowToStep',
+			'name' => '',
+			'text' => '',
+			'url' => '',
+			'image' => ''
 		);
+		$name = $text = '';
+		$url = $parent_permalink;
+		$image = self::get_step_image( $step );
 
 		if ( ! empty( $step['jsonText'] ) ) {
-			$step_json_ld['text'] = $step['jsonText'];
+			$text = $step['jsonText'];
+			$name = $step['jsonText'];
+			$step_json_ld['name'] = wp_strip_all_tags( $name );
+			$step_json_ld['text'] = wp_strip_all_tags( $text );
 		} else {
-			$step_json_ld['text'] = $this->step_text_to_JSON( $step['text'] );
+			$text = $this->step_text_to_JSON( $step['text'] );
+			$name = $this->step_text_to_JSON( $step['text'] );
+			$step_json_ld['name'] = wp_strip_all_tags( $name );
+			$step_json_ld['text'] = wp_strip_all_tags( $text );
+		}
+
+		if ( isset( $step['id'] ) ) {
+			$url .= '#wpzoom-rcb-'. $step['id'];
+			$step_json_ld['url'] = $url;
+		}
+
+		if ( ! empty( $image ) ) {
+			$step_json_ld['image'] = $image;
+		}
+
+		if ( isset( $step['gallery'] ) && isset( $step['gallery']['images'] ) ) {
+			if ( ! empty( $step['gallery']['images'] ) ) {
+				$images = array();
+				foreach ( $step['gallery']['images'] as $image ) {
+					$images[] = $image['url'];
+				}
+				if ( count( $images ) === 1 ) {
+					$step_json_ld['image'] = $images[0];
+				} else {
+					$step_json_ld['image'] = $images;
+				}
+			}
 		}
 
 		return $step_json_ld;
@@ -105,6 +144,24 @@ class WPZOOM_Structured_Data_Helpers {
 		return $jsonText;
 	}
 
+	public static function get_step_image( $step_text ) {
+		$step_image = '';
+
+		if ( is_array( $step_text ) ) {
+			foreach ( $step_text as $text ) {
+				if ( is_array( $text ) && ! empty( $text ) ) {
+					foreach ( $text as $node ) {
+						if ( isset( $node['type'] ) && $node['type'] === 'img' ) {
+							$step_image = $node['props']['src'];
+						}
+					}
+				}
+			}
+		}
+
+		return $step_image;
+	}
+
 	/**
 	 * Returns the date value in ISO 8601 date format.
 	 *
@@ -114,23 +171,29 @@ class WPZOOM_Structured_Data_Helpers {
 	 */
 	public function get_period_time( $value ) {
 		$time = $this->get_number_from_string( $value );
-		$hours = floor( $time / 60 );
-		$days = round( $hours / 24 );
-		$minutes = ( $time % 60 );
-		$period = 'PT';
+		$days = floor ($time / 1440);
+		$hours = floor (($time - $days * 1440) / 60);
+		$minutes = $time - ($days * 1440) - ($hours * 60);
+		$period = '';
 
-		if ( $days ) {
+		if ( $days > 0 ) {
 			$hours = ( $hours % 24 );
 			$period .= $days . 'D';
 		}
 
-		if ( $hours ) {
-			$period .= $hours . 'H';
+		if ( $hours > 0 ) {
+			$period .= 'T' . $hours . 'H';
 		}
 
-		if ( $minutes ) {
-			$period .= $minutes . 'M';
+		if ( $minutes > 0 ) {
+			if ( intval($hours) === 0 ) {
+				$period .= 'T' . $minutes . 'M';
+			} else {
+				$period .= $minutes . 'M';
+			}
 		}
+
+		$period = 'P' . $period;
 
 		return $period;
 	}

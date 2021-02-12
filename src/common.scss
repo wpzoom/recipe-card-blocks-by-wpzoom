@@ -1,0 +1,34 @@
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+
+@import './colors';
+@import "~@wordpress/base-styles/variables";
+@import "~@wordpress/base-styles/mixins";
+@import "~@wordpress/base-styles/breakpoints";
+@import "~@wordpress/base-styles/animations";
+@import "~@wordpress/base-styles/z-index";
+
+/**
+ * Fonts & basic variables.
+ */
+$google-font-family: "Roboto Condensed", sans-serif;
+$ultra-small-font-size: 12px;
+$small-font-size: 14px;
+$main-font-size: 16px;
+$ultra-font-size: 18px;
+$big-font-size: 24px;
+$ultra-big-font-size: 32px;
+
+/**
+ * Border radius.
+ */
+$radius-round-rectangle-x1: 10px;
+$radius-round-rectangle-x2: 20px;
+$radius-round-rectangle-x4: 40px;
+
+@import './__mixins';
+@import './amp';

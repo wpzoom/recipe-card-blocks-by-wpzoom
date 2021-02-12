@@ -24,19 +24,10 @@ class WPZOOM_Details_Block {
 	private static $helpers;
 
 	/**
-	 * Class instance Structured Data Helpers.
-	 *
-	 * @var WPZOOM_Structured_Data_Helpers
-	 * @since 1.2.0
-	 */
-	private $structured_data_helpers;
-
-	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
 		self::$helpers = new WPZOOM_Helpers();
-		$this->structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
 	}
 
 	/**
@@ -137,7 +128,7 @@ class WPZOOM_Details_Block {
 	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) || ! is_singular() ) {
+		if ( ! is_array( $attributes ) ) {
 			return $content;
 		}
 
@@ -152,8 +143,11 @@ class WPZOOM_Details_Block {
 		$class = 'wp-block-wpzoom-recipe-card-block-details';
 		$class .= ' col-' . $columns;
 
+		$className = isset( $className ) ? $className : '';
 		$details = isset( $details ) ? $details : array();
 		$details_content = $this->get_details_content( $details );
+
+		$blockClassNames = implode( ' ', array( $class, $className ) );
 
 		$block_content = sprintf(
 			'<div id="%1$s" class="%2$s">
@@ -161,7 +155,7 @@ class WPZOOM_Details_Block {
 				%4$s
 			</div>',
 			esc_attr( $id ),
-			esc_attr( $class ),
+			esc_attr( $blockClassNames ),
 			esc_html( $title ),
 			$details_content
 		);
@@ -219,13 +213,14 @@ class WPZOOM_Details_Block {
 			$icon = $label = $value = $unit = '';
 
 			if ( ! empty( $detail[ 'icon' ] ) ) {
-				$detail['iconSet'] = ! isset( $detail['iconSet'] ) ? 'oldicon' : $detail['iconSet'];
-				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $detail['iconSet'], $detail['iconSet'] . '-' . $detail['icon'] ) );
+				$icon 	 			= $detail['icon'];
+ 				$iconSet 			= isset( $detail['iconSet'] ) ? $detail['iconSet'] : 'oldicon';
+ 				$_prefix 			= isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? $detail['_prefix'] : $iconSet;
+ 				$itemIconClasses 	= implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $detail['icon'] ) );
+
 				$icon = sprintf(
-					'<span class="%s" icon-name="%s" iconset="%s"></span>',
-					$itemIconClasses,
-					$detail['icon'],
-					$detail['iconSet']
+					'<span class="%s"></span>',
+					$itemIconClasses
 				);
 			}
 

@@ -21,9 +21,12 @@
 			display: inline-block;
 			width: 93%;
 		}
+		.ingredient-item-group-title {
+			font-weight: bold;
+		}
 	}
 	.ingredients-list > li {
-		cursor: initial !important;
+		cursor: text !important;
 
 		.ingredient-item-name {
 			&:hover {
@@ -36,11 +39,6 @@
 		button {
 			display: inline-flex;
 		}
-	}
-	.ingredient-item-mover {
-		position: absolute;
-		top: 0;
-		left: -29px;
 	}
 	.ingredient-buttons {
 		text-align: center;

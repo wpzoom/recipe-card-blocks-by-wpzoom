@@ -1,10 +1,10 @@
 === Recipe Card Blocks by WPZOOM ===
 Contributors: WPZOOM, ciorici, vicolaspetru
 Donate link: https://www.wpzoom.com/
-Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card
+Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card, recipe maker, foodie, cook, snippet, block, pinterest, rating, nutrition, nutrition label, nutrition facts, schema, structured data, cooking, chef, seo, culinary, food blog, drink, drinks recipes, baking, crafts, steps, meal
 Requires at least: 5.0
 Requires PHP: 5.6
-Tested up to: 5.2
+Tested up to: 5.5
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,7 @@ Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup (JSON-LD) for 
 
 == Description ==
 
-⭐️ **[Recipe Card Blocks PRO](https://www.wpzoom.com/plugins/recipe-card-blocks)** *Coming Soon* ⭐️
+⭐️ **[Recipe Card Blocks PRO](https://www.wpzoom.com/plugins/recipe-card-blocks)** *NOW AVAILABLE!* ⭐️
 
 📩 [Subscribe to our newsletter](https://www.wpzoom.com/plugins/recipe-card-blocks) for updates
 
@@ -29,11 +29,43 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 = 📌 INCLUDED BLOCKS =
 
-* **Recipe Card (with Schema Markup) - 🆕**
+* **Recipe Card (with Schema.org Markup)**
 * **Recipe Details**
 * **Ingredients**
 * **Directions**
+* **Nutrition Facts**
 
+= 📌 FEATURES =
+
+* **AMP Support**
+* **Multiple Designs**
+* Gutenberg-ready
+* Works with any theme
+* Video integration
+* GDPR-compliant
+* Bulk Add Ingredients and Directions
+
+
+= ⭐️ PRO FEATURES ⭐️ =
+* **Star Rating**
+* **Comments Rating - 🆕**
+* **Gallery in Directions**
+* Adjustable servings
+* Ingredients quantity
+* Custom Pinterest image and description for Pin
+* Color Schemes
+* Food Labels
+* Social Call-to-action (Facebook, Instagram, Pinterest)
+* Premium Support
+* and many new features coming soon!
+
+⭐️ **[Get the PRO version!](https://www.wpzoom.com/plugins/recipe-card-blocks)** ⭐️
+
+
+
+= 📌 WHAT'S NEW IN 2.3? =
+* Added **Video Recipe** feature in the block
+* Numerous changes and improvements; new admin menu
 
 = 📌 WHAT'S NEW IN 2.1? =
 * New Feature: Ingredients and Directions **Groups**: you can now organize in **sub-sections** ingredients and directions
@@ -54,12 +86,6 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 You can view the Recipe Card Block live [here](http://demo.wpzoom.com/recipe-card-blocks/).
 
-= 📌 Coming Soon in future updates... =
-
-* Nutrition
-* Rating
-
-
 = 🙌 CREDITS & THANKS =
 
 *  *Big thanks to Danny Cooper and his project [Editor Blocks](https://editorblockswp.com/) for providing help in developing this plugin.*
@@ -71,13 +97,17 @@ You can view the Recipe Card Block live [here](http://demo.wpzoom.com/recipe-car
 * 📘 [Facebook](https://facebook.com/wpzoom)
 * 🌄 [Instagram](https://instagram.com/wpzoom)
 
+= GDPR COMPLIANCE =
+
+In order to make the plugin **100% GDPR compliant**, you will have to disable **Google Fonts** in **Settings > Appearance**.
+Recipe Card Blocks by WPZOOM does not collect any information outside your WordPress installation, therefore it’s **100% GDPR compliant**.
+
 
 == Installation ==
 
 Simply search for the plugin name via the **Plugins -> Add New** dialog and click install, or download and extract the plugin, and copy the plugin folder into your wp-content/plugins directory and activate.
 
 After installation create a new post or edit an existing one using Gutenberg editor, and when adding a new block, look under  **WPZOOM - Recipe Card** section to find these 2 blocks.
-
 
 
 == Frequently Asked Questions ==
@@ -92,6 +122,9 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 [Go to Documentation](https://www.wpzoom.com/documentation/recipe-card-blocks/)
 
+= Is it possible to migrate recipes from another plugin? =
+
+Currently, it's not possible to import recipes created using a different plugin, but we're working on adding such an option available. The plugin will soon allow you to import easily recipes from other plugins like WP Recipe Maker or WP Tasty Recipes.
 
 
 == Screenshots ==
@@ -106,6 +139,72 @@ Yes, you can find a documentation for this plugin with more instructions on our 
 
 
 == Changelog ==
+
+= 2.7.4 =
+* Fixed issue with disallowed attribute `classname` present in HTML tag
+
+= 2.7.3 =
+* Added option in Recipe Card -> Performance to load assets when needed (only on single pages or on all pages)
+* Plugin Credit in the footer is now optional and can be enabled or disabled from Recipe Card -> General. You can enable it if you want to show your support for the plugin.
+* Removed unneeded attributes "icon-name" & "iconset" from HTML markup to prevent AMP errors
+
+= 2.7.2 =
+* Fixed issue with Recipe Card block which doesn't display on front-end after Gutenberg update
+
+= 2.7.1 =
+* Minor bug fix in the Directions block
+
+= 2.7.0 =
+* Added AMP support
+* Added Block Alignment
+* When changing block alignment, the Header content alignment is changed too
+* For Simple Design added option to change Header alignment and now you can set image to left or right depend on Block alignment or Header content alignment
+
+= 2.6.4 =
+* Fixed issue with Jump to Recipe and Print Recipe that are showing up on homepage as part of the excerpt
+* Fixed error: "$this" can no longer be used in a plain function or method
+
+= 2.6.3 =
+* Added support for the new "Guided Recipes" in Structured Data
+* Printing functionality was re-written and works differently now. This ensures printing will work from all devices and browsers without any problems
+* Added option in Settings for Ingredients Strikethrough
+* Fixed issue with blocks not showing in archive pages and RSS feeds
+
+= 2.6.2 =
+* Fixed issue with conversion of minutes to Schema.org duration format
+* Fixed issue with Additional CSS Class for blocks
+
+= 2.6.1 =
+* Added Toggle option to set Resting Time field in custom details
+
+= 2.6.0 =
+* Changed step image size from 500px to 750px
+* Fixed issue when display detail is off and it appear on rich snippets
+* Fixed issue that causes to display wrong data (default value) for details in Recipe Card on Front-End
+* Fixed issue to convert total time minutes to hours
+* Fixed issue when click Calculate Total Time and value is not null
+* Fixed issue with ingredients & steps value when open Bulk Add modal
+* Multiple fixes and improvements to Block Settings
+* Added button Calculate Total Time in Block Settings
+* Added Resting Time value to Calculate Total Time
+* Added className "text-color-green" for details that have value and are displayed in Structured Data Testing Tool
+* Added state preloader to Recipe Card on events (fetchCategories, calculateTotalTime, setFeaturedImage, UploadVideo)
+* Added fetchTags for keywords
+
+= 2.5.0 =
+* Multiple fixes and improvements
+
+= 2.4.0 =
+* 🔥 Added Nutrition Block with two Layouts (Vertical / Horizontal)
+* Added possibility to edit details labels from Block Settings, and also edit unit for Servings
+* Added possibility to add additional custom details from Block Settings
+* Numerous changes and improvements
+* Fixed issue to not include video attribute in Schema Markup if it's not added to the block
+
+= 2.3.0 =
+* Added Video Recipe feature in the block
+* Numerous changes and improvements; new admin menu
+* Fixed a conflict with Tasty Pins plugin
 
 = 2.2.0 =
 * New Block Style: Simple Design

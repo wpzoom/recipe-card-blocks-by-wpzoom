@@ -24,19 +24,10 @@ class WPZOOM_Steps_Block {
 	private static $helpers;
 
 	/**
-	 * Class instance Structured Data Helpers.
-	 *
-	 * @var WPZOOM_Structured_Data_Helpers
-	 * @since 1.2.0
-	 */
-	private $structured_data_helpers;
-
-	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
 		self::$helpers = new WPZOOM_Helpers();
-		$this->structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
 	}
 
 	/**
@@ -95,7 +86,9 @@ class WPZOOM_Steps_Block {
 	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) || ! is_singular() ) {
+		global $post;
+		
+		if ( ! is_array( $attributes ) ) {
 			return $content;
 		}
 
@@ -110,12 +103,22 @@ class WPZOOM_Steps_Block {
 		$class = 'wp-block-wpzoom-recipe-card-block-directions';
 
 		$steps = isset( $steps ) ? $steps : array();
-		$steps_content = $this->get_steps_content( $steps );
+		$steps_content = self::get_steps_content( $steps );
+
+		$btn_attributes = array(
+			'title' => __( 'Print directions...', 'wpzoom-recipe-card' )
+		);
+
+		if ( $post ) {
+			$btn_attributes = array_merge( $btn_attributes, array( 'data-recipe-id' => $post->ID ) );
+		}
+
+		$atts = self::$helpers->render_attributes( $btn_attributes );
 
 		$block_content = sprintf(
 			'<div id="%1$s" class="%2$s">
 				<div class="wpzoom-recipe-card-print-link %3$s">
-					<a class="btn-print-link no-print" href="#%1$s" title="%4$s">
+					<a class="btn-print-link no-print" href="#%1$s" %4$s>
 						<img class="icon-print-link" src="%5$s" alt="%6$s"/>%6$s
 					</a>
 				</div>
@@ -125,8 +128,8 @@ class WPZOOM_Steps_Block {
 			esc_attr( $id ),
 			esc_attr( $class ),
 			esc_attr( $print_visibility ),
-			__( 'Print directions...', 'wpzoom-recipe-card' ),
-			esc_url( WPZOOM_RCB_PLUGIN_URL . 'src/assets/images/printer.svg' ),
+			$atts,
+			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),
 			__( 'Print', 'wpzoom-recipe-card' ),
 			esc_html( $title ),
 			$steps_content
@@ -152,8 +155,8 @@ class WPZOOM_Steps_Block {
 		);
 	}
 
-	protected function get_steps_content( array $steps ) {
-		$direction_items = $this->get_direction_items( $steps );
+	public static function get_steps_content( array $steps ) {
+		$direction_items = self::get_direction_items( $steps );
 
 		$listClassNames = implode( ' ', array( 'directions-list' ) );
 
@@ -164,7 +167,7 @@ class WPZOOM_Steps_Block {
 		);
 	}
 
-	protected function get_direction_items( array $steps ) {
+	public static function get_direction_items( array $steps ) {
 		$output = '';
 
 		foreach ( $steps as $index => $step ) {
@@ -173,7 +176,7 @@ class WPZOOM_Steps_Block {
 
 			if ( !$isGroup ) {
 				if ( ! empty( $step['text'] ) ) {
-					$text = $this->wrap_direction_text( $step['text'] );
+					$text = self::wrap_direction_text( $step['text'] );
 					$output .= sprintf(
 						'<li class="direction-step">%s</li>',
 						$text
@@ -183,7 +186,7 @@ class WPZOOM_Steps_Block {
 				if ( ! empty( $step['text'] ) ) {
 					$text = sprintf(
 						'<strong class="direction-step-group-title">%s</strong>',
-						$this->wrap_direction_text( $step['text'] )
+						self::wrap_direction_text( $step['text'] )
 					);
 					$output .= sprintf(
 						'<li class="direction-step direction-step-group">%s</li>',
@@ -196,7 +199,7 @@ class WPZOOM_Steps_Block {
 		return force_balance_tags( $output );
 	}
 
-	protected function wrap_direction_text( $nodes, $type = '' ) {
+	public static function wrap_direction_text( $nodes, $type = '' ) {
 		if ( ! is_array( $nodes ) ) {
 			return $nodes;
 		}
@@ -216,11 +219,12 @@ class WPZOOM_Steps_Block {
 					$src = isset( $node['props']['src'] ) ? $node['props']['src'] : false;
 					if ( $src ) {
 						$alt = isset( $node['props']['alt'] ) ? $node['props']['alt'] : '';
+						$title = isset( $node['props']['title'] ) ? $node['props']['title'] : '';
 						$class = '0' == WPZOOM_Settings::get('wpzoom_rcb_settings_print_show_steps_image') ? 'no-print' : '';
 						$class .= ' direction-step-image';
 						$img_style = isset($node['props']['style']) ? $node['props']['style'] : '';
 
-						$start_tag = sprintf( '<%s src="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $alt, trim($class), trim($img_style) );
+						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, trim($class), trim($img_style) );
 					} else {
 						$start_tag = "";
 					}
@@ -238,7 +242,7 @@ class WPZOOM_Steps_Block {
 					$end_tag = "";
 				}
 
-				$output .= $start_tag . $this->wrap_direction_text( $children, $type ) . $end_tag;
+				$output .= $start_tag . self::wrap_direction_text( $children, $type ) . $end_tag;
 			}
 		}
 

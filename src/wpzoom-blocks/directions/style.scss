@@ -5,10 +5,10 @@
  */
 .wp-block-wpzoom-recipe-card-block-directions {
     position: relative;
-    // margin: 40px 0;
     margin: 0 0 20px;
     padding: 30px 0 15px;
     text-align: left;
+    max-width: 750px;
 
     .wpzoom-recipe-card-print-link {
         position: absolute;
@@ -38,13 +38,7 @@
         }
     }
 
-    .directions-title  {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: "Roboto Condensed", sans-serif;
-        text-transform: uppercase;
-        margin: 0 0 20px;
-    }
+    @include recipe-sections-title( inherit, uppercase, 'directions-title' );
 
     .directions-list {
         counter-reset: count;
@@ -58,27 +52,10 @@
             list-style: none;
             min-height: 44px;
             padding-left: 40px;
-            margin: 0 0 30px;
+            margin: 0 0 15px;
 
             &::before {
-                counter-increment: count;
-                content: counter(count);
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                font-size: 24px;
-                font-weight: bold;
-                font-family: "Roboto Condensed", sans-serif;
-                text-transform: uppercase;
-                line-height: 1.4;
-                width: 35px;
-                vertical-align: middle;
-                padding: 0;
-                -webkit-border-radius: 50%;
-                -moz-border-radius: 50%;
-                border-radius: 50%;
-                margin-right: 20px;
+                @include direction-counter;
             }
 
             &:last-child {

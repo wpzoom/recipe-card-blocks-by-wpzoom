@@ -1,36 +1,144 @@
-(function($){
-	'use scrict';
+( function( $, wpzoomRecipeCard ) {
+    'use scrict';
 
-	$(document).ready(function () {
+    function wpzoom_set_servings_size_to_print_button() {
+        const servings_size = $( document ).find( '.wpzoom-recipe-card-print-link .btn-print-link' ).data( 'servings-size' );
 
-		$(".wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list li, .wp-block-wpzoom-recipe-card-block-premium-recipe-card .ingredients-list li, .wp-block-wpzoom-recipe-card-block-recipe-card .ingredients-list li").click(function(){
-		    $(this).toggleClass("ticked");
-		});
+        if ( servings_size ) {
+            $( document ).find( '.wp-block-wpzoom-recipe-card-block-print-recipe' ).data( 'servings-size', servings_size );
+        }
+    }
 
-		$(".wpzoom-recipe-card-print-link .btn-print-link, .wp-block-wpzoom-recipe-card-block-print-recipe").click(function(e){
-			var block = $(this).attr('href'),
-				id = $(block).attr('id');
+    function wpzoom_print_recipe( recipeID, servings, blockType, blockId ) {
+        servings = servings || 0;
+        blockType = blockType || 'recipe-card';
+        blockId = blockId || 'wpzoom-premium-recipe-card';
 
-			$(block).print({
-				globalStyles: true,
-	        	mediaPrint: false,
-	        	noPrintSelector: ".no-print",
-	        	stylesheet: wpzoomRecipeCard.pluginURL + '/dist/assets/css/recipe-print.css',
-	        	iframe: true,
-	        	doctype: '<!doctype html>'
-			});
+        const urlParts = wpzoomRecipeCard.homeURL.split( /\?(.+)/ );
+        let printUrl = urlParts[ 0 ];
 
-			return false;
-		});
+        if ( wpzoomRecipeCard.permalinks ) {
+            printUrl += 'wpzoom_rcb_print/' + recipeID + '/';
 
-	});
+            if ( urlParts[ 1 ] ) {
+                printUrl += '?' + urlParts[ 1 ];
+                printUrl += '&block-type=' + blockType;
+                printUrl += '&block-id=' + blockId;
 
-})(jQuery);
+                if ( servings ) {
+                    printUrl += '&servings=' + servings;
+                }
+            } else {
+                printUrl += '?block-type=' + blockType;
+                printUrl += '&block-id=' + blockId;
 
+                if ( servings ) {
+                    printUrl += '&servings=' + servings;
+                }
+            }
+        } else {
+            printUrl += '?wpzoom_rcb_print=' + recipeID;
+            printUrl += '&block-type=' + blockType;
+            printUrl += '&block-id=' + blockId;
 
-/* @license 
- * jQuery.print, version 1.5.1
- *  (c) Sathvik Ponangi, Doers' Guild
- * Licence: CC-By (http://creativecommons.org/licenses/by/3.0/)
- *--------------------------------------------------------------------------*/
-!function(e){"use strict";function t(t){var n=e("");try{n=e(t).clone()}catch(r){n=e("<span />").html(t)}return n}function n(t,n,r){var o=e.Deferred();try{var i=(t=t.contentWindow||t.contentDocument||t).document||t.contentDocument||t;r.doctype&&i.write(r.doctype),i.write(n),i.close();var a=!1,c=function(){if(!a){t.focus();try{t.document.execCommand("print",!1,null)||t.print(),e("body").focus()}catch(e){t.print()}t.close(),a=!0,o.resolve()}};e(t).on("load",c),setTimeout(c,r.timeout)}catch(e){o.reject(e)}return o}function r(e,t){return n(window.open(),e,t).always(function(){try{t.deferred.resolve()}catch(e){console.warn("Error notifying deferred",e)}})}function o(e){return!!("object"==typeof Node?e instanceof Node:e&&"object"==typeof e&&"number"==typeof e.nodeType&&"string"==typeof e.nodeName)}e.print=e.fn.print=function(){var i,a,c=this;c instanceof e&&(c=c.get(0)),o(c)?(a=e(c),arguments.length>0&&(i=arguments[0])):arguments.length>0?o((a=e(arguments[0]))[0])?arguments.length>1&&(i=arguments[1]):(i=arguments[0],a=e("html")):a=e("html");var l={globalStyles:!0,mediaPrint:!1,stylesheet:null,noPrintSelector:".no-print",iframe:!0,append:null,prepend:null,manuallyCopyFormValues:!0,deferred:e.Deferred(),timeout:750,title:null,doctype:"<!doctype html>"};i=e.extend({},l,i||{});var d=e("");i.globalStyles?d=e("style, link, meta, base, title"):i.mediaPrint&&(d=e("link[media=print]")),i.stylesheet&&(d=e.merge(d,e('<link rel="stylesheet" href="'+i.stylesheet+'">')));var f=a.clone();if((f=e("<span/>").append(f)).find(i.noPrintSelector).remove(),f.append(d.clone()),i.title){var s=e("title",f);0===s.length&&(s=e("<title />"),f.append(s)),s.text(i.title)}f.append(t(i.append)),f.prepend(t(i.prepend)),i.manuallyCopyFormValues&&(f.find("input").each(function(){var t=e(this);t.is("[type='radio']")||t.is("[type='checkbox']")?t.prop("checked")&&t.attr("checked","checked"):t.attr("value",t.val())}),f.find("select").each(function(){e(this).find(":selected").attr("selected","selected")}),f.find("textarea").each(function(){var t=e(this);t.text(t.val())}));var p,u,m,y,h=f.html();try{i.deferred.notify("generated_markup",h,f)}catch(e){console.warn("Error notifying deferred",e)}if(f.remove(),i.iframe)try{p=h,m=e((u=i).iframe+""),0===(y=m.length)&&(m=e('<iframe height="0" width="0" border="0" wmode="Opaque"/>').prependTo("body").css({position:"absolute",top:-999,left:-999})),n(m.get(0),p,u).done(function(){setTimeout(function(){0===y&&m.remove()},1e3)}).fail(function(e){console.error("Failed to print from iframe",e),r(p,u)}).always(function(){try{u.deferred.resolve()}catch(e){console.warn("Error notifying deferred",e)}})}catch(e){console.error("Failed to print from iframe",e.stack,e.message),r(h,i)}else r(h,i);return this}}(jQuery);
+            if ( servings ) {
+                printUrl += '&servings=' + servings;
+            }
+
+            if ( urlParts[ 1 ] ) {
+                printUrl += '&' + urlParts[ 1 ];
+            }
+        }
+
+        const print_window = window.open( printUrl, '_blank' );
+        print_window.wpzoomRecipeCard = wpzoomRecipeCard;
+        print_window.onload = function() {
+            print_window.focus();
+            print_window.document.title = document.title;
+            print_window.history.pushState( '', 'Print Recipe', location.href.replace( location.hash, '' ) );
+
+            setTimeout( function() {
+                print_window.print();
+            }, 500 );
+
+            print_window.onfocus = function() {
+                setTimeout( function() {
+                    print_window.close();
+                }, 500 );
+            };
+        };
+    }
+
+    $( document ).ready( function() {
+        wpzoom_set_servings_size_to_print_button();
+
+        $( '.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list li, .wp-block-wpzoom-recipe-card-block-recipe-card .ingredients-list li' ).click( function( e ) {
+            // Don't do any actions if clicked on link
+            if ( e.target.nodeName === 'A' ) {
+                return;
+            }
+            $( this ).toggleClass( 'ticked' );
+        } );
+
+        let instances = 0;
+
+        $( '.wp-block-wpzoom-recipe-card-block-ingredients .ingredients-list li, .wp-block-wpzoom-recipe-card-block-recipe-card .ingredients-list li' ).on( 'mouseover', function( e ) {
+            const $ingredientName = $( this ).find( '.ingredient-item-name' );
+            const hasStrikeThrough = $ingredientName.hasClass( 'is-strikethrough-active' );
+
+            // Check if strikethrough is disabled
+            if ( instances === 0 && ! hasStrikeThrough ) {
+                instances = 0;
+                return;
+            }
+
+            // Remove strike through if hover on link
+            if ( e.target.nodeName === 'A' ) {
+                $ingredientName.removeClass( 'is-strikethrough-active' );
+            } else {
+                if ( ! hasStrikeThrough ) {
+                    $ingredientName.addClass( 'is-strikethrough-active' );
+                }
+            }
+
+            instances++;
+        } );
+
+        $( '.wpzoom-recipe-card-print-link .btn-print-link, .wp-block-wpzoom-recipe-card-block-print-recipe' ).each( function() {
+            const $printBtn = $( this );
+
+            $printBtn.on( 'click', function( e ) {
+                const $this = $( this );
+                const recipeID = $this.data( 'recipe-id' );
+                const servings = $this.data( 'servings-size' );
+
+                const isRecipeCardBlock = $this.parents( '.wp-block-wpzoom-recipe-card-block-recipe-card' ).length;
+                const isIngredientsBlock = $this.parents( '.wp-block-wpzoom-recipe-card-block-ingredients' ).length;
+                const isDirectionsBlock = $this.parents( '.wp-block-wpzoom-recipe-card-block-directions' ).length;
+                const isSnippetButton = $this.hasClass( 'wp-block-wpzoom-recipe-card-block-print-recipe' );
+
+                let blockType;
+                let blockId;
+
+                if ( isRecipeCardBlock ) {
+                    blockType = 'recipe-card';
+                    blockId = $this.parents( '.wp-block-wpzoom-recipe-card-block-recipe-card' ).attr( 'id' );
+                } else if ( isIngredientsBlock ) {
+                    blockType = 'ingredients-block';
+                    blockId = $this.parents( '.wp-block-wpzoom-recipe-card-block-ingredients' ).attr( 'id' );
+                } else if ( isDirectionsBlock ) {
+                    blockType = 'directions-block';
+                    blockId = $this.parents( '.wp-block-wpzoom-recipe-card-block-directions' ).attr( 'id' );
+                } else if ( isSnippetButton ) {
+                    blockType = 'recipe-card';
+                    blockId = $this.attr( 'href' ).substr( 1, $this.attr( 'href' ).length );
+                }
+
+                if ( recipeID ) {
+                    e.preventDefault();
+                    wpzoom_print_recipe( recipeID, servings, blockType, blockId );
+                }
+            } );
+        } );
+    } );
+}( jQuery, wpzoomRecipeCard ) );

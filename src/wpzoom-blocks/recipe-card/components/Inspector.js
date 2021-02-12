@@ -1,704 +1,1196 @@
 /* External dependencies */
-import get from "lodash/get";
-import map from "lodash/map";
-import compact from "lodash/compact";
-import isEmpty from "lodash/isEmpty";
-import isNull from "lodash/isNull";
-import isUndefined from "lodash/isUndefined";
+import { __ } from '@wordpress/i18n';
+import isShallowEqual from '@wordpress/is-shallow-equal/objects';
+import get from 'lodash/get';
+import map from 'lodash/map';
+import compact from 'lodash/compact';
+import isEmpty from 'lodash/isEmpty';
+import isNull from 'lodash/isNull';
+import toString from 'lodash/toString';
+import uniqueId from 'lodash/uniqueId';
+import isUndefined from 'lodash/isUndefined';
 
 /* Internal dependencies */
-import { stripHTML } from "../../../helpers/stringHelpers";
-import { humanize } from "../../../helpers/stringHelpers";
-import { pickRelevantMediaFiles } from "../../../helpers/pickRelevantMediaFiles";
-import { getBlockStyle } from "../../../helpers/getBlockStyle";
+import VideoUpload from './VideoUpload';
+import { stripHTML } from '../../../helpers/stringHelpers';
+import { getNumberFromString, convertMinutesToHours } from '../../../helpers/convertMinutesToHours';
+import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
+import { getBlockStyle } from '../../../helpers/getBlockStyle';
 
 /* WordPress dependencies */
-const { __, _n } = wp.i18n;
 const { Component, renderToString, Fragment } = wp.element;
 const { RichText, InspectorControls, MediaUpload } = wp.blockEditor;
-const { 
-	BaseControl,
-	PanelBody,
-	PanelRow,
-	ToggleControl,
-	TextControl,
-	TextareaControl,
-	Button,
-	IconButton,
-	FormTokenField,
-	ColorIndicator,
-	SelectControl
+const {
+    BaseControl,
+    PanelBody,
+    PanelRow,
+    ToggleControl,
+    TextControl,
+    Button,
+    ButtonGroup,
+    FormTokenField,
+    SelectControl,
+    Notice,
+    Icon,
 } = wp.components;
-const { withSelect } = wp.data;
-const { compose } = wp.compose;
+import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
 
-/* Module constants */
+/**
+ * Module Constants
+ */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
+const NOT_ADDED = __( 'Not added', 'wpzoom-recipe-card' );
+const NOT_DISPLAYED = <Icon icon="hidden" title={ __( 'Not displayed', 'wpzoom-recipe-card' ) } />;
+
+const coursesToken = [
+    __( 'Appetizers', 'wpzoom-recipe-card' ),
+    __( 'Snacks', 'wpzoom-recipe-card' ),
+    __( 'Breakfast', 'wpzoom-recipe-card' ),
+    __( 'Brunch', 'wpzoom-recipe-card' ),
+    __( 'Dessert', 'wpzoom-recipe-card' ),
+    __( 'Drinks', 'wpzoom-recipe-card' ),
+    __( 'Dinner', 'wpzoom-recipe-card' ),
+    __( 'Main', 'wpzoom-recipe-card' ),
+    __( 'Lunch', 'wpzoom-recipe-card' ),
+    __( 'Salads', 'wpzoom-recipe-card' ),
+    __( 'Sides', 'wpzoom-recipe-card' ),
+    __( 'Soups', 'wpzoom-recipe-card' ),
+];
+
+const cuisinesToken = [
+    __( 'American', 'wpzoom-recipe-card' ),
+    __( 'Chinese', 'wpzoom-recipe-card' ),
+    __( 'French', 'wpzoom-recipe-card' ),
+    __( 'Indian', 'wpzoom-recipe-card' ),
+    __( 'Italian', 'wpzoom-recipe-card' ),
+    __( 'Japanese', 'wpzoom-recipe-card' ),
+    __( 'Mediterranean', 'wpzoom-recipe-card' ),
+    __( 'Mexican', 'wpzoom-recipe-card' ),
+    __( 'Southern', 'wpzoom-recipe-card' ),
+    __( 'Thai', 'wpzoom-recipe-card' ),
+    __( 'Other world cuisine', 'wpzoom-recipe-card' ),
+];
+
+const difficultyToken = [
+    __( 'Easy', 'wpzoom-recipe-card' ),
+    __( 'Medium', 'wpzoom-recipe-card' ),
+    __( 'Difficult', 'wpzoom-recipe-card' ),
+];
+
+const keywordsToken = [];
 
 /**
  * Inspector controls
  */
-class Inspector extends Component {
+export default class Inspector extends Component {
+    /**
+     * Constructs a Inspector editor component.
+     *
+     * @param {Object} props This component's properties.
+     *
+     * @returns {void}
+     */
+    constructor( props ) {
+        super( props );
 
-	/**
-	 * Constructs a Inspector editor component.
-	 *
-	 * @param {Object} props This component's properties.
-	 *
-	 * @returns {void}
-	 */
-	constructor( props ) {
-		super( ...arguments );
-		this.onSelectImage 		= this.onSelectImage.bind( this );
-		this.onSetFeaturedImage = this.onSetFeaturedImage.bind( this );
-		this.updateURL 			= this.updateURL.bind( this );
-	}
+        this.onSelectImage = this.onSelectImage.bind( this );
+        this.onRemoveRecipeImage = this.onRemoveRecipeImage.bind( this );
+        this.onChangeDetail = this.onChangeDetail.bind( this );
+        this.onChangeSettings = this.onChangeSettings.bind( this );
+        this.onUpdateURL = this.onUpdateURL.bind( this );
 
-	onSetFeaturedImage() {
-		const {
-			media,
-			attributes: {
-				hasImage
-			},
-			setAttributes
-		} = this.props;
+        this.state = {
+            updateIngredients: false,
+            updateInstructions: false,
+            isCalculatedTotalTime: false,
+            isCalculateBtnClick: false,
+            structuredDataNotice: {
+                errors: [],
+                warnings: [],
+                not_display: [],
+            },
+            structuredDataTable: {
+                recipeIngredients: 0,
+                recipeInstructions: 0,
+            },
+        };
+    }
 
-		if ( hasImage || ! media ) {
-			return false;
-		}
+    componentDidMount() {
+        this.setFeaturedImage();
+        this.structuredDataTable();
+        this.calculateTotalTime();
+    }
 
-		const relevantMedia = pickRelevantMediaFiles( media );
+    componentDidUpdate( prevProps ) {
+        const { attributes } = this.props;
+        const prevAttributes = prevProps.attributes;
 
-		setAttributes( {
-			hasImage: !isNull( relevantMedia.id ),
-			image: {
-				id: relevantMedia.id,
-				url: relevantMedia.url,
-				alt: relevantMedia.alt,
-				sizes: get( media, [ 'sizes' ] ) || get( media, [ 'media_details', 'sizes' ] )
-			}
-		} );
-	}
+        if ( ! attributes.hasImage && this.props.media !== prevProps.media ) {
+            this.setFeaturedImage();
+        }
 
-	onSelectImage( media ) {
-		const {
-			setAttributes
-		} = this.props;
-		const relevantMedia = pickRelevantMediaFiles( media );
+        if ( attributes.ingredients !== prevAttributes.ingredients || attributes.steps !== prevAttributes.steps ) {
+            this.structuredDataTable();
+        }
 
-		setAttributes( {
-			hasImage: !isNull( relevantMedia.id ),
-			image: {
-				id: relevantMedia.id,
-				url: relevantMedia.url,
-				alt: relevantMedia.alt,
-				sizes: media.sizes
-			}
-		} );
-	}
+        if ( ! isShallowEqual( attributes, prevAttributes ) ) {
+            this.structuredDataNotice();
+        }
 
-	updateURL( url ) {
-		const {
-			attributes: {
-				image: {
-					id,
-					alt,
-					sizes
-				}
-			}
-		} = this.props;
-		
-		this.props.setAttributes( {
-			hasImage: true,
-			image: {
-				id: id,
-				url: url,
-				alt: alt,
-				sizes: sizes
-			}
-		} );
-	}
+        if ( ! this.state.isCalculatedTotalTime ) {
+            this.calculateTotalTime();
+        }
+    }
 
-	getImageSizeOptions() {
-		const { imageSizes, media } = this.props;
-		return compact( map( imageSizes, ( { name, slug } ) => {
-			const sizeUrl = get( media, [ 'media_details', 'sizes', slug, 'source_url' ] );
-			if ( ! sizeUrl ) {
-				return null;
-			}
-			return {
-				value: sizeUrl,
-				label: name,
-			};
-		} ) );
-	}
+    /*
+     * Set featured image if Recipe Card image aren't uploaded
+     */
+    setFeaturedImage() {
+        const {
+            media,
+            attributes: {
+                hasImage,
+            },
+            setAttributes,
+        } = this.props;
 
-	/**
-	 * Renders this component.
-	 *
-	 * @returns {Component} The Ingredient items block settings.
-	 */
-	render() {
+        if ( hasImage || ! media ) {
+            return;
+        }
 
-		// Set featured image if Recipe Card image aren't uploaded
-		this.onSetFeaturedImage();
+        const relevantMedia = pickRelevantMediaFiles( media, 'header' );
 
-		const {
-			clientId,
-			media,
-			attributes,
-			className,
-			setAttributes
-		} = this.props;
+        setAttributes( {
+            hasImage: ! isNull( relevantMedia.id ),
+            image: {
+                id: relevantMedia.id,
+                url: relevantMedia.url,
+                alt: relevantMedia.alt,
+                title: relevantMedia.title,
+                sizes: get( media, [ 'sizes' ] ) || get( media, [ 'media_details', 'sizes' ] ),
+            },
+        } );
+    }
 
-		const {
-			id,
-			hasImage,
-			image,
-			hasVideo,
-			video,
-			recipeTitle,
-			summary,
-			jsonSummary,
-			course,
-			cuisine,
-			difficulty,
-			keywords,
-			ingredients,
-			steps,
-			details,
-			settings: {
-				0: {
-					primary_color,
-					icon_details_color,
-					print_btn,
-					pin_btn,
-					custom_author_name,
-					displayCourse,
-					displayCuisine,
-					displayDifficulty,
-					displayAuthor,
-					displayServings,
-					displayPrepTime,
-					displayCookingTime,
-					displayCalories,
-					headerAlign,
-					ingredientsLayout
-				}
-			},
-		} = attributes;
+    onSelectImage( media ) {
+        const { setAttributes } = this.props;
+        const relevantMedia = pickRelevantMediaFiles( media, 'header' );
 
-		let style = getBlockStyle( className );
-		const imageSizeOptions = this.getImageSizeOptions();
+        setAttributes( {
+            hasImage: ! isNull( relevantMedia.id ),
+            image: {
+                id: relevantMedia.id,
+                url: relevantMedia.url,
+                alt: relevantMedia.alt,
+                title: relevantMedia.title,
+                sizes: media.sizes,
+            },
+        } );
+    }
 
-		const coursesToken = [
-			__( "Appetizers", "wpzoom-recipe-card" ),
-            __( "Snacks", "wpzoom-recipe-card" ),
-            __( "Breakfast", "wpzoom-recipe-card" ),
-            __( "Brunch", "wpzoom-recipe-card" ),
-            __( "Dessert", "wpzoom-recipe-card" ),
-            __( "Drinks", "wpzoom-recipe-card" ),
-            __( "Dinner", "wpzoom-recipe-card" ),
-            __( "Main", "wpzoom-recipe-card" ),
-            __( "Lunch", "wpzoom-recipe-card" ),
-            __( "Salads", "wpzoom-recipe-card" ),
-            __( "Sides", "wpzoom-recipe-card" ),
-            __( "Soups", "wpzoom-recipe-card" ),
-		];
+    onChangeSettings( newValue, param, index = 0 ) {
+        const {
+            setAttributes,
+            attributes: {
+                settings,
+            },
+        } = this.props;
+        const newSettings = settings ? settings.slice() : [];
 
-		const cuisinesToken = [
-			__( "American", "wpzoom-recipe-card" ),
-			__( "Chinese", "wpzoom-recipe-card" ),
-			__( "French", "wpzoom-recipe-card" ),
-			__( "Indian", "wpzoom-recipe-card" ),
-			__( "Italian", "wpzoom-recipe-card" ),
-			__( "Japanese", "wpzoom-recipe-card" ),
-			__( "Mediterranean", "wpzoom-recipe-card" ),
-			__( "Mexican", "wpzoom-recipe-card" ),
-			__( "Southern", "wpzoom-recipe-card" ),
-			__( "Thai", "wpzoom-recipe-card" ),
-			__( "Other world cuisine", "wpzoom-recipe-card" ),
-		];
+        if ( ! get( newSettings, index ) ) {
+            newSettings[ index ] = {};
+        }
 
-		const difficultyToken = [
-			__( "Easy", "wpzoom-recipe-card" ),
-			__( "Medium", "wpzoom-recipe-card" ),
-			__( "Difficult", "wpzoom-recipe-card" ),
-		];
+        newSettings[ index ][ param ] = newValue;
 
-		const keywordsToken = [];
+        setAttributes( { settings: newSettings } );
+    }
 
-		const onChangeSettings = ( newValue, index, param ) => {
-			const settings = this.props.attributes.settings ? this.props.attributes.settings.slice() : [];
+    onChangeDetail( newValue, index, field ) {
+        const {
+            setAttributes,
+            attributes: {
+                details,
+            },
+        } = this.props;
+        const newDetails = details ? details.slice() : [];
 
-			settings[ index ][ param ] = newValue;
+        const id        = get( newDetails, [ index, 'id' ] );
+        const icon      = get( newDetails, [ index, 'icon' ] );
+        const iconSet   = get( newDetails, [ index, 'iconSet' ] );
 
-			setAttributes( { settings } );
-		}
+        if ( ! get( newDetails, index ) ) {
+            newDetails[ index ] = {};
+        }
 
-		const onChangeDetail = ( newValue, index ) => {
-			const details = this.props.attributes.details ? this.props.attributes.details.slice() : [];
+        if ( ! id ) {
+            newDetails[ index ].id = uniqueId( `detail-item-${ new Date().getTime() }` );
+        }
 
-			details[ index ][ 'value' ] = newValue;
-			details[ index ][ 'jsonValue' ] = stripHTML( renderToString( newValue ) );
-			details[ index ][ 'jsonUnit' ] = stripHTML( renderToString( details[ index ][ 'unit' ] ) );
+        if ( 'icon' === field ) {
+            newDetails[ index ].icon = newValue;
+        } else if ( ! icon ) {
+            newDetails[ index ].icon = 'restaurant-utensils';
+        }
 
-			setAttributes( { details } );
-		}
+        if ( 'iconSet' === field ) {
+            newDetails[ index ].iconSet = newValue;
+        } else if ( ! iconSet ) {
+            newDetails[ index ].iconSet = 'foodicons';
+        }
 
-		const onRemoveRecipeImage = () => {
-			setAttributes( { hasImage: false, image: null } )
-		}
+        if ( 'label' === field ) {
+            newDetails[ index ][ field ] = newValue;
+            newDetails[ index ].jsonLabel = stripHTML( renderToString( newValue ) );
+        }
+        if ( 'value' === field ) {
+            newDetails[ index ][ field ] = newValue;
+            newDetails[ index ].jsonValue = stripHTML( renderToString( newValue ) );
+        }
+        if ( 'unit' === field ) {
+            newDetails[ index ][ field ] = newValue;
+            newDetails[ index ].jsonUnit = stripHTML( renderToString( newValue ) );
+        }
+        if ( 'isRestingTimeField' === field ) {
+            newDetails[ index ][ field ] = newValue;
+        }
 
-		function structuredDataTestingTool() {
-			let dataTable = {
-				ingredients: [],
-				steps: [],
-			};
+        setAttributes( { details: newDetails } );
+    }
 
-			let check = {
-				warnings: [],
-				errors: []
-			}
+    onRemoveRecipeImage() {
+        const { setAttributes } = this.props;
 
-			for (var i = 0; i < ingredients.length; i++) {
-				if ( ingredients[i].name.length !== 0 ) {
-					dataTable.ingredients.push(<PanelRow><strong>recipeIngredient</strong><span>{ ingredients[i].name }</span></PanelRow>);
-				}
-			}
+        setAttributes( { hasImage: false, image: null } );
+    }
 
-			for (var i = 0; i < steps.length; i++) {
-				if ( steps[i].text.length !== 0 ) {
-					dataTable.steps.push(<PanelRow><strong>recipeInstructions</strong><span>{ steps[i].text }</span></PanelRow>);
-				}
-			}
+    onUpdateURL( url ) {
+        const {
+            setAttributes,
+            attributes: {
+                image: {
+                    id,
+                    alt,
+                    sizes,
+                },
+            },
+        } = this.props;
 
-			RichText.isEmpty( summary ) ? check.warnings.push("summary") : '';
-			! hasImage ? check.errors.push("image") : '';
-			// ! hasVideo ? check.warnings.push("video") : '';
-			! dataTable.ingredients.length ? check.errors.push("ingredients") : '';
-			! dataTable.steps.length ? check.errors.push("steps") : '';
-			! get( details, [ 1 ,'value' ] ) ? check.warnings.push("prepTime") : '';
-			! get( details, [ 2 ,'value' ] ) ? check.warnings.push("cookTime") : '';
-			! get( details, [ 3 ,'value' ] ) ? check.warnings.push("calories") : '';
+        setAttributes( {
+            hasImage: true,
+            image: {
+                id: id,
+                url: url,
+                alt: alt,
+                sizes: sizes,
+            },
+        } );
+    }
 
-			return (
-		    	<BaseControl
-					id={ `${ id }-counters` }
-					help={ __( "Automatically check Structured Data errors and warnings.", "wpzoom-recipe-card" ) }
-				>
-					<PanelRow>
-						<span>{ __( "Legend:", "wpzoom-recipe-card" ) }</span>
-					</PanelRow>
-					<PanelRow className="text-color-red">
-						<ColorIndicator aria-label={ __( "Required fields", "wpzoom-recipe-card" ) } colorValue="#ff2725" />
-						<strong>{ `${ check.errors.length } ` + _n( "error", "errors", `${ check.errors.length }`, "wpzoom-recipe-card" ) }</strong>
-					</PanelRow>
-					<PanelRow className="text-color-orange">
-						<ColorIndicator aria-label={ __( "Recommended fields", "wpzoom-recipe-card" ) } colorValue="#ef6c00" />
-						<strong>{ `${ check.warnings.length } ` + _n( "warning", "warnings", `${ check.warnings.length }`, "wpzoom-recipe-card" ) }</strong>
-					</PanelRow>
-					<PanelRow>
-						<span>{ __( "Recipe:", "wpzoom-recipe-card" ) }</span>
-					</PanelRow>
-            		<PanelRow>
-            			<span>recipeTitle</span>
-            			<strong>{ ! RichText.isEmpty( recipeTitle ) ? recipeTitle : wpzoomRecipeCard.post_title }</strong>
-            		</PanelRow>
-            		<PanelRow className={ RichText.isEmpty( summary ) ? "text-color-orange": "" }>
-            			<span>description</span>
-            			<strong>{ stripHTML( jsonSummary ) }</strong>
-            		</PanelRow>
-            		<PanelRow className={ ! hasImage ? "text-color-red": "" }>
-            			<span>image</span>
-            			<strong>{ hasImage ? get( image, ['url'] ) : '' }</strong>
-            		</PanelRow>
-            		<PanelRow>
-            			<span>recipeYield</span>
-            			<strong>{ get( details, [ 0, 'value' ] ) ? get( details, [ 0, 'value' ] ) + ' ' + get( details, [ 0, 'unit' ] ) : '0 ' + get( details, [ 0, 'unit' ] ) }</strong>
-            		</PanelRow>
-            		<PanelRow className={ ! get( details, [ 1, 'value' ] ) ? "text-color-orange": "" }>
-            			<span>prepTime</span>
-            			<strong><strong>{ get( details, [ 1, 'value' ] ) ? get( details, [ 1, 'value' ] ) + ' ' + get( details, [ 1, 'unit' ] ) : '0 ' + get( details, [ 1, 'unit' ] ) }</strong></strong>
-            		</PanelRow>
-            		<PanelRow className={ ! get( details, [ 2, 'value' ] ) ? "text-color-orange": "" }>
-            			<span>cookTime</span>
-            			<strong>{ get( details, [ 2, 'value' ] ) ? get( details, [ 2, 'value' ] ) + ' ' + get( details, [ 2, 'unit' ] ) : '0 ' + get( details, [ 2, 'unit' ] ) }</strong>
-            		</PanelRow>
-            		<PanelRow className={ ! get( details, [ 3, 'value' ] ) ? "text-color-orange": "" }>
-            			<span>calories</span>
-            			<strong>{ get( details, [ 3, 'value' ] ) ? get( details, [ 3, 'value' ] ) + ' ' + get( details, [ 3, 'unit' ] ) : '0 ' + get( details, [ 3, 'unit' ] ) }</strong>
-            		</PanelRow>
-            		<PanelRow className={ ! dataTable.ingredients.length ? "text-color-red": "" }>
-            			<span>{ __( "Ingredients", "wpzoom-recipe-card" ) }</span>
-            			<strong>{ dataTable.ingredients.length }</strong>
-            		</PanelRow>
-            		<PanelRow className={ ! dataTable.steps.length ? "text-color-red" : "" }>
-            			<span>{ __( "Steps", "wpzoom-recipe-card" ) }</span>
-            			<strong>{ dataTable.steps.length }</strong>
-            		</PanelRow>
-            	</BaseControl>
-			);
-		}
+    getImageSizeOptions() {
+        const { imageSizes, media } = this.props;
 
-		return (
-			<InspectorControls>
-                <PanelBody className="wpzoom-recipe-card-settings" initialOpen={ true } title={ __( "Recipe Card Settings", "wpzoom-recipe-card" ) }>
-	            	<BaseControl
-	        			id={ `${ id }-image` }
-	        			className="editor-post-featured-image"
-	        			label={ __( "Recipe Card Image (required)", "wpzoom-recipe-card" ) }
-	        			help={ __( "Upload image for Recipe Card.", "wpzoom-recipe-card" ) }
-	        		>
-        				{
-        					hasImage &&
-		                	<MediaUpload
-		                		onSelect={ this.onSelectImage }
-		                		allowedTypes={ ALLOWED_MEDIA_TYPES }
-		                		value={ get( image, ['id'] ) }
-		                		render={ ( { open } ) => (
-		                			<Button
-		                				className="editor-post-featured-image__preview"
-		                				onClick={ open }
-		                			>
-    									<img
-    				                        className={ `${ id }-image` }
-    				                        src={ get( image, ['sizes', 'full', 'url'] ) || get( image, ['sizes', 'full', 'source_url'] ) || get( image, ['url'] ) || get( image, ['source_url'] ) }
-    				                        alt={ get( image, ['alt'] ) || recipeTitle }
-    				                    />
-		                			</Button>
-		                		) }
-		                	/>
-        				}
-        				{
-		            		! hasImage &&
-		            		<MediaUpload
-		            			onSelect={ this.onSelectImage }
-		            			allowedTypes={ ALLOWED_MEDIA_TYPES }
-		            			value={ get( image, ['id'] ) }
-		            			render={ ( { open } ) => (
-		            				<Button
-			            				className="editor-post-featured-image__toggle"
-			            				onClick={ open }
-			            			>
-			            				{ __( "Add Recipe Image", "wpzoom-recipe-card" ) }
-			            			</Button>
-		            			) }
-		            		/>
-		            	}
-		                {
-		                	hasImage &&
-		                	<MediaUpload
-		                		onSelect={ this.onSelectImage }
-		                		allowedTypes={ ALLOWED_MEDIA_TYPES }
-		                		value={ get( image, ['id'] ) }
-		                		render={ ( { open } ) => (
-		                			<Button
-		                				isDefault
-		                				isLarge
-		                				onClick={ open }
-		                			>
-		                				{__( "Replace Image", "wpzoom-recipe-card" ) }
-		                			</Button>
-		                		) }
-		                	/>
-		                }
-	                	{ 
-	                		hasImage && 
-	                		<Button isLink="true" isDestructive="true" onClick={ onRemoveRecipeImage }>{ __( "Remove Recipe Image", "wpzoom-recipe-card" ) }</Button>
-	                	}
-	        		</BaseControl>
-	        		{
-	        			hasImage &&
-	        			! isEmpty( imageSizeOptions ) &&
-		                <SelectControl
-	                		label={ __( "Image Size", "wpzoom-recipe-card" ) }
-	                		value={ get( image, ['url'] ) }
-	                		options={ imageSizeOptions }
-	                		onChange={ this.updateURL }
-	                	/>
-	        		}
-			    	<BaseControl
-						id={ `${ id }-print-btn` }
-						label={ __( "Print Button", "wpzoom-recipe-card" ) }
-					>
-		                <ToggleControl
-		                    label={ __( "Display Print Button", "wpzoom-recipe-card" ) }
-		                    checked={ print_btn }
-		                    onChange={ display => onChangeSettings( display, 0, 'print_btn' ) }
-		                />
-	        		</BaseControl>
-			    	<BaseControl
-						id={ `${ id }-pinit-btn` }
-						label={ __( "Pinterest Button", "wpzoom-recipe-card" ) }
-					>
-		                <ToggleControl
-		                    label={ __( "Display Pinterest Button", "wpzoom-recipe-card" ) }
-		                    checked={ pin_btn }
-		                    onChange={ display => onChangeSettings( display, 0, 'pin_btn' ) }
-		                />
-	        		</BaseControl>
-	        		{
-	        			'simple' !== style &&
-				    	<BaseControl
-							id={ `${ id }-heading-align` }
-							label={ __( "Header Content Align", "wpzoom-recipe-card" ) }
-						>
-			                <SelectControl
-		                		label={ __( "Select Alignment", "wpzoom-recipe-card" ) }
-		                		value={ headerAlign }
-		                		options={ [
-		                			{ label: __( "Left" ), value: "left" },
-		                			{ label: __( "Center" ), value: "center" },
-		                			{ label: __( "Right" ), value: "right" },
-		                		] }
-		                		onChange={ alignment => onChangeSettings( alignment, 0, 'headerAlign' ) }
-		                	/>
-		        		</BaseControl>
-	        		}
-    		    	<BaseControl
-    					id={ `${ id }-author` }
-    					label={ __( "Author", "wpzoom-recipe-card" ) }
-    				>
-		                <ToggleControl
-		                    label={ __( "Display Author", "wpzoom-recipe-card" ) }
-		                    checked={ displayAuthor }
-		                    onChange={ display => onChangeSettings( display, 0, 'displayAuthor' ) }
-		                />
-		                {
-		                	displayAuthor &&
-			                <TextControl
-			                	id={ `${ id }-custom-author-name` }
-			                	instanceId={ `${ id }-custom-author-name` }
-			                	type="text"
-			                	label={ __( "Custom author name", "wpzoom-recipe-card" ) }
-			                	help={ __( "Default: Post author name", "wpzoom-recipe-card" ) }
-			                	value={ custom_author_name }
-			                	onChange={ authorName => onChangeSettings( authorName, 0, 'custom_author_name' ) }
-			                />
-			            }
-		           	</BaseControl>
-   	        		{
-   	        			style === 'newdesign' &&
-   					    	<BaseControl
-   								id={ `${ id }-ingredients-layout` }
-   								label={ __( "Ingredients Layout", "wpzoom-recipe-card" ) }
-   							>
-   				                <SelectControl
-   			                		label={ __( "Select Layout", "wpzoom-recipe-card" ) }
-   			                		help={ __( "This setting is visible only on Front-End. In Editor still appears in one column to prevent floating elements on editing.", "wpzoom-recipe-card" ) }
-   			                		value={ ingredientsLayout }
-   			                		options={ [
-   			                			{ label: __( "1 column" ), value: "1-column" },
-   			                			{ label: __( "2 columns" ), value: "2-columns" },
-   			                		] }
-   			                		onChange={ size => onChangeSettings( size, 0, 'ingredientsLayout' ) }
-   			                	/>
-   			        		</BaseControl>
-   	        		}
-	            </PanelBody>
-                <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ true } title={ __( "Recipe Card SEO Settings", "wpzoom-recipe-card" ) }>
-			    	<BaseControl
-						id={ `${ id }-course` }
-						label={ __( "Course (required)", "wpzoom-recipe-card" ) }
-					>
-						<ToggleControl
-						    label={ __( "Display Course", "wpzoom-recipe-card" ) }
-						    checked={ displayCourse }
-						    onChange={ display => onChangeSettings( display, 0, 'displayCourse' ) }
-						/>
-						{
-							displayCourse &&
-		            		<FormTokenField 
-		            			label={ __( "Add course", "wpzoom-recipe-card" ) }
-		        				value={ course } 
-		        				suggestions={ coursesToken } 
-		        				onChange={ newCourse => setAttributes( { course: newCourse } ) }
-		        				placeholder={ __( "Type course and press Enter", "wpzoom-recipe-card" ) }
-		        			/>
-						}
-	        		</BaseControl>
-			    	<BaseControl
-						id={ `${ id }-cuisine` }
-						label={ __( "Cuisine (required)", "wpzoom-recipe-card" ) }
-					>
-						<ToggleControl
-						    label={ __( "Display Cuisine", "wpzoom-recipe-card" ) }
-						    checked={ displayCuisine }
-						    onChange={ display => onChangeSettings( display, 0, 'displayCuisine' ) }
-						/>
-						{
-							displayCuisine &&
-		            		<FormTokenField 
-		            			label={ __( "Add cuisine", "wpzoom-recipe-card" ) }
-		        				value={ cuisine } 
-		        				suggestions={ cuisinesToken } 
-		        				onChange={ newCuisine => setAttributes( { cuisine: newCuisine } ) }
-		        				placeholder={ __( "Type cuisine and press Enter", "wpzoom-recipe-card" ) }
-		        			/>
-						}
-	        		</BaseControl>
-			    	<BaseControl
-						id={ `${ id }-difficulty` }
-						label={ __( "Difficulty", "wpzoom-recipe-card" ) }
-					>
-						<ToggleControl
-						    label={ __( "Display Difficulty", "wpzoom-recipe-card" ) }
-						    checked={ displayDifficulty }
-						    onChange={ display => onChangeSettings( display, 0, 'displayDifficulty' ) }
-						/>
-						{
-							displayDifficulty &&
-		            		<FormTokenField 
-		            			label={ __( "Add difficulty level", "wpzoom-recipe-card" ) }
-		        				value={ difficulty } 
-		        				suggestions={ difficultyToken } 
-		        				onChange={ newDifficulty => setAttributes( { difficulty: newDifficulty } ) }
-		        				placeholder={ __( "Type difficulty level and press Enter", "wpzoom-recipe-card" ) }
-		        			/>
-						}
-	        		</BaseControl>
-			    	<BaseControl
-						id={ `${ id }-keywords` }
-						label={ __( "Keywords (recommended)", "wpzoom-recipe-card" ) }
-						help={ __( "For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword).", "wpzoom-recipe-card" ) }
-					>
-	            		<FormTokenField
-	            			label={ __( "Add keywords", "wpzoom-recipe-card" ) } 
-	        				value={ keywords } 
-	        				suggestions={ keywordsToken } 
-	        				onChange={ newKeyword => setAttributes( { keywords: newKeyword } ) }
-	        				placeholder={ __( "Type recipe keywords", "wpzoom-recipe-card" ) }
-	        			/>
-	        		</BaseControl>
-	            </PanelBody>
-	            <PanelBody className="wpzoom-recipe-card-details" initialOpen={ true } title={ __( "Recipe Card Details", "wpzoom-recipe-card" ) }>
-    				<ToggleControl
-    				    label={ __( "Display Servings", "wpzoom-recipe-card" ) }
-    				    checked={ displayServings }
-    				    onChange={ display => onChangeSettings( display, 0, 'displayServings' ) }
-    				/>
-        			<PanelRow>
-        				{
-        					displayServings &&
-        					<Fragment>
-		        	    		<TextControl
-		        	    			id={ `${ id }-yield` }
-		        	    			instanceId={ `${ id }-yield` }
-		        	    			type="number"
-		        	    			label={ __( "Servings", "wpzoom-recipe-card" ) }
-		        	    			value={ get( details, [ 0, 'value' ] ) }
-		        	    			onChange={ newYield => onChangeDetail(newYield, 0) }
-		        	    		/>
-		        				<span>{ get( details, [ 0, 'unit' ] ) }</span>
-		        			</Fragment>
-        				}
-        			</PanelRow>
-    				<ToggleControl
-    				    label={ __( "Display Preparation Time", "wpzoom-recipe-card" ) }
-    				    checked={ displayPrepTime }
-    				    onChange={ display => onChangeSettings( display, 0, 'displayPrepTime' ) }
-    				/>
-        			<PanelRow>
-        				{
-        					displayPrepTime &&
-        					<Fragment>
-		        	    		<TextControl
-		        	    			id={ `${ id }-preptime` }
-		        	    			instanceId={ `${ id }-preptime` }
-		        	    			type="number"
-		        	    			label={ __( "Preparation time", "wpzoom-recipe-card" ) }
-		        	    			value={ get( details, [ 1, 'value' ] ) }
-		        	    			onChange={ newPrepTime => onChangeDetail(newPrepTime, 1) }
-		        	    		/>
-		        				<span>{ get( details, [ 1, 'unit' ] ) }</span>
-		        			</Fragment>
-        				}
-        			</PanelRow>
-    				<ToggleControl
-    				    label={ __( "Display Cooking Time", "wpzoom-recipe-card" ) }
-    				    checked={ displayCookingTime }
-    				    onChange={ display => onChangeSettings( display, 0, 'displayCookingTime' ) }
-    				/>
-        			<PanelRow>
-        				{
-        					displayCookingTime &&
-        					<Fragment>
-		        	    		<TextControl
-		        	    			id={ `${ id }-cookingtime` }
-		        	    			instanceId={ `${ id }-cookingtime` }
-		        	    			type="number"
-		        	    			label={ __( "Cooking time", "wpzoom-recipe-card" ) }
-		        	    			value={ get( details, [ 2, 'value' ] ) }
-		        	    			onChange={ newCookingTime => onChangeDetail(newCookingTime, 2) }
-		        	    		/>
-		        				<span>{ get( details, [ 2, 'unit' ] ) }</span>
-		        			</Fragment>
-        				}
-        			</PanelRow>
-    				<ToggleControl
-    				    label={ __( "Display Calories", "wpzoom-recipe-card" ) }
-    				    checked={ displayCalories }
-    				    onChange={ display => onChangeSettings( display, 0, 'displayCalories' ) }
-    				/>
-        			<PanelRow>
-        				{
-        					displayCalories &&
-        					<Fragment>
-		        	    		<TextControl
-		        	    			id={ `${ id }-calories` }
-		        	    			instanceId={ `${ id }-calories` }
-		        	    			type="number"
-		        	    			label={ __( "Calories", "wpzoom-recipe-card" ) }
-		        	    			value={ get( details, [ 3, 'value' ] ) }
-		        	    			onChange={ newCalories => onChangeDetail(newCalories, 3) }
-		        	    		/>
-		        				<span>{ get( details, [ 3, 'unit' ] ) }</span>
-		        			</Fragment>
-        				}
-        			</PanelRow>
-	            </PanelBody>
-	            <PanelBody className="wpzoom-recipe-card-structured-data-testing" initialOpen={ false } title={ __( "Structured Data Testing", "wpzoom-recipe-card" ) }>
-	            	{ structuredDataTestingTool() }
-	            </PanelBody>
+        return compact( map( imageSizes, ( { name, slug } ) => {
+            const sizeUrl = get( media, [ 'media_details', 'sizes', slug, 'source_url' ] );
+            if ( ! sizeUrl ) {
+                return null;
+            }
+            return {
+                value: sizeUrl,
+                label: name,
+            };
+        } ) );
+    }
+
+    errorDetails() {
+        const string = toString( this.state.structuredDataNotice.errors );
+        return string.replace( /,/g, ', ' );
+    }
+
+    warningDetails() {
+        const string = toString( this.state.structuredDataNotice.warnings );
+        return string.replace( /,/g, ', ' );
+    }
+
+    notDisplayDetails() {
+        const string = toString( this.state.structuredDataNotice.not_display );
+        return string.replace( /,/g, ', ' );
+    }
+
+    structuredDataTable() {
+        const {
+            ingredients,
+            steps,
+        } = this.props.attributes;
+
+        let recipeIngredients = 0;
+        let recipeInstructions = 0;
+
+        ingredients.forEach( ( ingredient ) => {
+            const jsonName = get( ingredient, 'jsonName' );
+
+            if ( ! isEmpty( jsonName ) ) {
+                recipeIngredients++;
+            }
+        } );
+
+        steps.forEach( ( step ) => {
+            const jsonText = get( step, 'jsonText' );
+
+            if ( ! isEmpty( jsonText ) ) {
+                recipeInstructions++;
+            }
+        } );
+
+        this.setState( { structuredDataTable: { recipeIngredients, recipeInstructions } }, this.structuredDataNotice );
+    }
+
+    structuredDataNotice() {
+        const { structuredDataTable } = this.state;
+        const {
+            hasImage,
+            details,
+            course,
+            cuisine,
+            keywords,
+            summary,
+            hasVideo,
+            settings: {
+                0: {
+                    displayPrepTime,
+                    displayCookingTime,
+                    displayCourse,
+                    displayCuisine,
+                    displayCalories,
+                },
+            },
+        } = this.props.attributes;
+
+        const not_display = [];
+        const warnings = [];
+        const errors = [];
+
+        // Push warnings
+        RichText.isEmpty( summary ) && warnings.push( 'summary' );
+        ! hasVideo && warnings.push( 'video' );
+        ! get( details, [ 1, 'value' ] ) && warnings.push( 'prepTime' );
+        ! get( details, [ 2, 'value' ] ) && warnings.push( 'cookTime' );
+        ! get( details, [ 3, 'value' ] ) && warnings.push( 'calories' );
+        isEmpty( course ) && warnings.push( 'course' );
+        isEmpty( cuisine ) && warnings.push( 'cuisine' );
+        isEmpty( keywords ) && warnings.push( 'keywords' );
+
+        // Push not displayed
+        ! displayCookingTime && not_display.push( 'cookTime' );
+        ! displayPrepTime && not_display.push( 'prepTime' );
+        ! displayCalories && not_display.push( 'calories' );
+        ! displayCuisine && not_display.push( 'cuisine' );
+        ! displayCourse && not_display.push( 'course' );
+
+        // Push errors
+        ! hasImage && errors.push( 'image' );
+        ! get( structuredDataTable, 'recipeIngredients' ) && errors.push( 'ingredients' );
+        ! get( structuredDataTable, 'recipeInstructions' ) && errors.push( 'steps' );
+
+        this.setState( { structuredDataNotice: { warnings, errors, not_display } } );
+    }
+
+    calculateTotalTime() {
+        // We already have value for total time, in this case we don't need to recalculate them
+        if ( this.state.isCalculatedTotalTime ) {
+            return;
+        }
+
+        const { details }   = this.props.attributes;
+        const index         = 8; // Total Time index in details object array
+        const prepTime      = getNumberFromString( get( details, [ 1, 'value' ] ) );
+        const cookTime      = getNumberFromString( get( details, [ 2, 'value' ] ) );
+        const restingTime   = getNumberFromString( get( details, [ 4, 'value' ] ) );
+        const isRestingTimeField = get( details, [ 4, 'isRestingTimeField' ] ) || false;
+
+        let totalTime = prepTime + cookTime;
+
+        // Add resting time value to sum
+        if ( isRestingTimeField ) {
+            totalTime = prepTime + cookTime + restingTime;
+        }
+
+        const totalTimeValue = get( details, [ index, 'value' ] );
+
+        if ( ! this.state.isCalculateBtnClick && ! isUndefined( totalTimeValue ) && ! isEmpty( totalTimeValue ) && 0 != totalTimeValue ) {
+            this.setState( { isCalculatedTotalTime: true, isCalculateBtnClick: false } );
+            return;
+        }
+
+        if ( '' != prepTime && '' != cookTime && totalTime > 0 ) {
+            this.onChangeDetail( toString( totalTime ), index, 'value' );
+            this.setState( { isCalculatedTotalTime: true, isCalculateBtnClick: false } );
+        }
+    }
+
+    /**
+     * Renders this component.
+     *
+     * @returns {Component} The Ingredient items block settings.
+     */
+    render() {
+        const {
+            className,
+            attributes,
+            setAttributes,
+        } = this.props;
+
+        const {
+            structuredDataNotice,
+            structuredDataTable,
+        } = this.state;
+
+        const {
+            id,
+            hasImage,
+            image,
+            hasVideo,
+            video,
+            recipeTitle,
+            summary,
+            jsonSummary,
+            course,
+            cuisine,
+            difficulty,
+            keywords,
+            details,
+            settings: {
+                0: {
+                    hide_header_image,
+                    print_btn,
+                    pin_btn,
+                    custom_author_name,
+                    displayCourse,
+                    displayCuisine,
+                    displayDifficulty,
+                    displayAuthor,
+                    displayServings,
+                    displayPrepTime,
+                    displayCookingTime,
+                    displayTotalTime,
+                    displayCalories,
+                    headerAlign,
+                    ingredientsLayout,
+                },
+            },
+        } = attributes;
+
+        const style = getBlockStyle( className );
+        const imageSizeOptions = this.getImageSizeOptions();
+
+        return (
+            <InspectorControls>
+                <PanelBody className="wpzoom-recipe-card-settings" initialOpen={ true } title={ __( 'Recipe Card Settings', 'wpzoom-recipe-card' ) }>
+                    <BaseControl
+                        id={ `${ id }-image` }
+                        className="editor-post-featured-image"
+                        label={ __( 'Recipe Card Image (required)', 'wpzoom-recipe-card' ) }
+                        help={ __( 'Upload image for Recipe Card.', 'wpzoom-recipe-card' ) }
+                    >
+                        {
+                            ! hasImage &&
+                            <MediaUpload
+                                onSelect={ this.onSelectImage }
+                                allowedTypes={ ALLOWED_MEDIA_TYPES }
+                                value={ get( image, [ 'id' ] ) }
+                                render={ ( { open } ) => (
+                                    <Button
+                                        className="editor-post-featured-image__toggle"
+                                        onClick={ open }
+                                    >
+                                        { __( 'Add Recipe Image', 'wpzoom-recipe-card' ) }
+                                    </Button>
+                                ) }
+                            />
+                        }
+                        {
+                            hasImage &&
+                            <Fragment>
+                                <MediaUpload
+                                    onSelect={ this.onSelectImage }
+                                    allowedTypes={ ALLOWED_MEDIA_TYPES }
+                                    value={ get( image, [ 'id' ] ) }
+                                    render={ ( { open } ) => (
+                                        <Button
+                                            className="editor-post-featured-image__preview"
+                                            onClick={ open }
+                                        >
+                                            <img
+                                                className={ `${ id }-image` }
+                                                src={ get( image, [ 'sizes', 'full', 'url' ] ) || get( image, [ 'sizes', 'full', 'source_url' ] ) || get( image, [ 'url' ] ) || get( image, [ 'source_url' ] ) }
+                                                alt={ get( image, [ 'alt' ] ) || recipeTitle }
+                                            />
+                                        </Button>
+                                    ) }
+                                />
+                                <MediaUpload
+                                    onSelect={ this.onSelectImage }
+                                    allowedTypes={ ALLOWED_MEDIA_TYPES }
+                                    value={ get( image, [ 'id' ] ) }
+                                    render={ ( { open } ) => (
+                                        <Button
+                                            isDefault
+                                            isLarge
+                                            onClick={ open }
+                                        >
+                                            { __( 'Replace Image', 'wpzoom-recipe-card' ) }
+                                        </Button>
+                                    ) }
+                                />
+                                <Button isLink="true" isDestructive="true" onClick={ this.onRemoveRecipeImage }>{ __( 'Remove Recipe Image', 'wpzoom-recipe-card' ) }</Button>
+                            </Fragment>
+                        }
+                    </BaseControl>
+                    {
+                        hasImage &&
+                        ! isEmpty( imageSizeOptions ) &&
+                        <SelectControl
+                            label={ __( 'Image Size', 'wpzoom-recipe-card' ) }
+                            value={ get( image, [ 'url' ] ) }
+                            options={ imageSizeOptions }
+                            onChange={ this.onUpdateURL }
+                        />
+                    }
+                    <BaseControl
+                        id={ `${ id }-hide-header-image` }
+                        label={ __( 'Hide Recipe Image on Front-End', 'wpzoom-recipe-card' ) }
+                    >
+                        <ToggleControl
+                            label={ __( 'Hide Image', 'wpzoom-recipe-card' ) }
+                            checked={ hide_header_image }
+                            onChange={ display => this.onChangeSettings( display, 'hide_header_image' ) }
+                        />
+                    </BaseControl>
+                    {
+                        ! hide_header_image &&
+                        <Fragment>
+                            <BaseControl
+                                id={ `${ id }-print-btn` }
+                                label={ __( 'Print Button', 'wpzoom-recipe-card' ) }
+                            >
+                                <ToggleControl
+                                    label={ __( 'Display Print Button', 'wpzoom-recipe-card' ) }
+                                    checked={ print_btn }
+                                    onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
+                                />
+                            </BaseControl>
+                            <BaseControl
+                                id={ `${ id }-pinit-btn` }
+                                label={ __( 'Pinterest Button', 'wpzoom-recipe-card' ) }
+                            >
+                                <ToggleControl
+                                    label={ __( 'Display Pinterest Button', 'wpzoom-recipe-card' ) }
+                                    checked={ pin_btn }
+                                    onChange={ display => this.onChangeSettings( display, 'pin_btn' ) }
+                                />
+                            </BaseControl>
+                        </Fragment>
+                    }
+                    {
+                        'simple' === style &&
+                        <BaseControl
+                            id={ `${ id }-heading-align` }
+                            label={ __( 'Header Content Align', 'wpzoom-recipe-card' ) }
+                        >
+                            <ButtonGroup>
+                                <Button
+                                    isPrimary={ 'left' === headerAlign }
+                                    isSecondary={ 'left' !== headerAlign }
+                                    icon={ alignLeft }
+                                    title={ __( 'Left', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'left', 'headerAlign' ) }
+                                />
+                                <Button
+                                    isPrimary={ 'right' === headerAlign }
+                                    isSecondary={ 'right' !== headerAlign }
+                                    icon={ alignRight }
+                                    title={ __( 'Right', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'right', 'headerAlign' ) }
+                                />
+                            </ButtonGroup>
+                        </BaseControl>
+                     }
+                    {
+                        'simple' !== style &&
+                        <BaseControl
+                            id={ `${ id }-heading-align` }
+                            label={ __( 'Header Content Align', 'wpzoom-recipe-card' ) }
+                        >
+                            <ButtonGroup>
+                                <Button
+                                    isPrimary={ 'left' === headerAlign }
+                                    isSecondary={ 'left' !== headerAlign }
+                                    icon={ alignLeft }
+                                    title={ __( 'Left', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'left', 'headerAlign' ) }
+                                />
+                                <Button
+                                    isPrimary={ 'center' === headerAlign }
+                                    isSecondary={ 'center' !== headerAlign }
+                                    icon={ alignCenter }
+                                    title={ __( 'Center', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'center', 'headerAlign' ) }
+                                />
+                                <Button
+                                    isPrimary={ 'right' === headerAlign }
+                                    isSecondary={ 'right' !== headerAlign }
+                                    icon={ alignRight }
+                                    title={ __( 'Right', 'wpzoom-recipe-card' ) }
+                                    onClick={ () => this.onChangeSettings( 'right', 'headerAlign' ) }
+                                />
+                            </ButtonGroup>
+                        </BaseControl>
+                    }
+                    <BaseControl
+                        id={ `${ id }-author` }
+                        label={ __( 'Author', 'wpzoom-recipe-card' ) }
+                    >
+                        <ToggleControl
+                            label={ __( 'Display Author', 'wpzoom-recipe-card' ) }
+                            checked={ displayAuthor }
+                            onChange={ display => this.onChangeSettings( display, 'displayAuthor' ) }
+                        />
+                        {
+                            displayAuthor &&
+                            <TextControl
+                                id={ `${ id }-custom-author-name` }
+                                instanceId={ `${ id }-custom-author-name` }
+                                type="text"
+                                label={ __( 'Custom author name', 'wpzoom-recipe-card' ) }
+                                help={ __( 'Default: Post author name', 'wpzoom-recipe-card' ) }
+                                value={ custom_author_name }
+                                onChange={ authorName => this.onChangeSettings( authorName, 'custom_author_name' ) }
+                            />
+                        }
+                    </BaseControl>
+                    {
+                        style === 'newdesign' &&
+                            <BaseControl
+                                id={ `${ id }-ingredients-layout` }
+                                label={ __( 'Ingredients Layout', 'wpzoom-recipe-card' ) }
+                            >
+                                <SelectControl
+                                    label={ __( 'Select Layout', 'wpzoom-recipe-card' ) }
+                                    help={ __( 'This setting is visible only on Front-End. In Editor still appears in one column to prevent floating elements on editing.', 'wpzoom-recipe-card' ) }
+                                    value={ ingredientsLayout }
+                                    options={ [
+                                        { label: __( '1 column' ), value: '1-column' },
+                                        { label: __( '2 columns' ), value: '2-columns' },
+                                    ] }
+                                    onChange={ size => this.onChangeSettings( size, 'ingredientsLayout' ) }
+                                />
+                            </BaseControl>
+                    }
+                </PanelBody>
+                <VideoUpload
+                    { ...{ attributes, setAttributes, className } }
+                />
+                <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ true } title={ __( 'Recipe Card SEO Settings', 'wpzoom-recipe-card' ) }>
+                    <BaseControl
+                        id={ `${ id }-course` }
+                        label={ __( 'Course (required)', 'wpzoom-recipe-card' ) }
+                        help={ __( 'The post category is added by default.', 'wpzoom-recipe-card' ) }
+                    >
+                        <ToggleControl
+                            label={ __( 'Display Course', 'wpzoom-recipe-card' ) }
+                            checked={ displayCourse }
+                            onChange={ display => this.onChangeSettings( display, 'displayCourse' ) }
+                        />
+                        {
+                            displayCourse &&
+                            <FormTokenField
+                                label={ __( 'Add course', 'wpzoom-recipe-card' ) }
+                                value={ course }
+                                suggestions={ coursesToken }
+                                onChange={ newCourse => setAttributes( { course: newCourse } ) }
+                                placeholder={ __( 'Type course and press Enter', 'wpzoom-recipe-card' ) }
+                            />
+                        }
+                    </BaseControl>
+                    <BaseControl
+                        id={ `${ id }-cuisine` }
+                        label={ __( 'Cuisine (required)', 'wpzoom-recipe-card' ) }
+                    >
+                        <ToggleControl
+                            label={ __( 'Display Cuisine', 'wpzoom-recipe-card' ) }
+                            checked={ displayCuisine }
+                            onChange={ display => this.onChangeSettings( display, 'displayCuisine' ) }
+                        />
+                        {
+                            displayCuisine &&
+                            <FormTokenField
+                                label={ __( 'Add cuisine', 'wpzoom-recipe-card' ) }
+                                value={ cuisine }
+                                suggestions={ cuisinesToken }
+                                onChange={ newCuisine => setAttributes( { cuisine: newCuisine } ) }
+                                placeholder={ __( 'Type cuisine and press Enter', 'wpzoom-recipe-card' ) }
+                            />
+                        }
+                    </BaseControl>
+                    <BaseControl
+                        id={ `${ id }-difficulty` }
+                        label={ __( 'Difficulty', 'wpzoom-recipe-card' ) }
+                    >
+                        <ToggleControl
+                            label={ __( 'Display Difficulty', 'wpzoom-recipe-card' ) }
+                            checked={ displayDifficulty }
+                            onChange={ display => this.onChangeSettings( display, 'displayDifficulty' ) }
+                        />
+                        {
+                            displayDifficulty &&
+                            <FormTokenField
+                                label={ __( 'Add difficulty level', 'wpzoom-recipe-card' ) }
+                                value={ difficulty }
+                                suggestions={ difficultyToken }
+                                onChange={ newDifficulty => setAttributes( { difficulty: newDifficulty } ) }
+                                placeholder={ __( 'Type difficulty level and press Enter', 'wpzoom-recipe-card' ) }
+                            />
+                        }
+                    </BaseControl>
+                    <BaseControl
+                        id={ `${ id }-keywords` }
+                        label={ __( 'Keywords (recommended)', 'wpzoom-recipe-card' ) }
+                        help={ __( 'For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword). Note: The post tags is added by default.', 'wpzoom-recipe-card' ) }
+                    >
+                        <FormTokenField
+                            label={ __( 'Add keywords', 'wpzoom-recipe-card' ) }
+                            value={ keywords }
+                            suggestions={ keywordsToken }
+                            onChange={ newKeyword => setAttributes( { keywords: newKeyword } ) }
+                            placeholder={ __( 'Type recipe keywords', 'wpzoom-recipe-card' ) }
+                        />
+                    </BaseControl>
+                </PanelBody>
+                <PanelBody className="wpzoom-recipe-card-details" initialOpen={ true } title={ __( 'Recipe Card Details', 'wpzoom-recipe-card' ) }>
+                    {
+                        ! get( attributes, [ 'settings', 1, 'isNoticeDismiss' ] ) &&
+                        <Notice
+                            status="info"
+                            onRemove={ () => this.onChangeSettings( true, 'isNoticeDismiss', 1 ) }
+                        >
+                            <p>{ __( 'The following details are used for Schema Markup (Rich Snippets). If you want to hide some details in the post, just turn them off below.', 'wpzoom-recipe-card' ) }</p>
+                            <p><strong>{ __( 'NEW: you can also add custom details (see next panel below).', 'wpzoom-recipe-card' ) }</strong></p>
+                        </Notice>
+                    }
+                    <ToggleControl
+                        label={ __( 'Display Servings', 'wpzoom-recipe-card' ) }
+                        checked={ displayServings }
+                        onChange={ display => this.onChangeSettings( display, 'displayServings' ) }
+                    />
+                    <PanelRow>
+                        {
+                            displayServings &&
+                            <Fragment>
+                                <TextControl
+                                    id={ `${ id }-yield-label` }
+                                    instanceId={ `${ id }-yield-label` }
+                                    type="text"
+                                    label={ __( 'Servings Label', 'wpzoom-recipe-card' ) }
+                                    placeholder={ __( 'Servings', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 0, 'label' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 0, 'label' ) }
+                                />
+                                <TextControl
+                                    id={ `${ id }-yield-value` }
+                                    instanceId={ `${ id }-yield-value` }
+                                    type="number"
+                                    label={ __( 'Servings Value', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 0, 'value' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 0, 'value' ) }
+                                />
+                                <TextControl
+                                    id={ `${ id }-yield-unit` }
+                                    instanceId={ `${ id }-yield-unit` }
+                                    type="text"
+                                    label={ __( 'Servings Unit', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 0, 'unit' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 0, 'unit' ) }
+                                />
+                            </Fragment>
+                        }
+                    </PanelRow>
+                    <ToggleControl
+                        label={ __( 'Display Preparation Time', 'wpzoom-recipe-card' ) }
+                        checked={ displayPrepTime }
+                        onChange={ display => this.onChangeSettings( display, 'displayPrepTime' ) }
+                    />
+                    <PanelRow>
+                        {
+                            displayPrepTime &&
+                            <Fragment>
+                                <TextControl
+                                    id={ `${ id }-preptime-label` }
+                                    instanceId={ `${ id }-preptime-label` }
+                                    type="text"
+                                    label={ __( 'Prep Time Label', 'wpzoom-recipe-card' ) }
+                                    placeholder={ __( 'Prep Time', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 1, 'label' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 1, 'label' ) }
+                                />
+                                <TextControl
+                                    id={ `${ id }-preptime-value` }
+                                    instanceId={ `${ id }-preptime-value` }
+                                    type="number"
+                                    label={ __( 'Prep Time Value', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 1, 'value' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 1, 'value' ) }
+                                />
+                                <span>{ get( details, [ 1, 'unit' ] ) }</span>
+                            </Fragment>
+                        }
+                    </PanelRow>
+                    <ToggleControl
+                        label={ __( 'Display Cooking Time', 'wpzoom-recipe-card' ) }
+                        checked={ displayCookingTime }
+                        onChange={ display => this.onChangeSettings( display, 'displayCookingTime' ) }
+                    />
+                    <PanelRow>
+                        {
+                            displayCookingTime &&
+                            <Fragment>
+                                <TextControl
+                                    id={ `${ id }-cookingtime-label` }
+                                    instanceId={ `${ id }-cookingtime-label` }
+                                    type="text"
+                                    label={ __( 'Cook Time Label', 'wpzoom-recipe-card' ) }
+                                    placeholder={ __( 'Cooking Time', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 2, 'label' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 2, 'label' ) }
+                                />
+                                <TextControl
+                                    id={ `${ id }-cookingtime-value` }
+                                    instanceId={ `${ id }-cookingtime-value` }
+                                    type="number"
+                                    label={ __( 'Cook Time Value', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 2, 'value' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 2, 'value' ) }
+                                />
+                                <span>{ get( details, [ 2, 'unit' ] ) }</span>
+                            </Fragment>
+                        }
+                    </PanelRow>
+                    <ToggleControl
+                        label={ __( 'Display Total Time', 'wpzoom-recipe-card' ) }
+                        checked={ displayTotalTime }
+                        onChange={ display => this.onChangeSettings( display, 'displayTotalTime' ) }
+                    />
+                    <PanelRow>
+                        {
+                            displayTotalTime &&
+                            <Fragment>
+                                <TextControl
+                                    id={ `${ id }-totaltime-label` }
+                                    instanceId={ `${ id }-totaltime-label` }
+                                    type="text"
+                                    label={ __( 'Total Time Label', 'wpzoom-recipe-card' ) }
+                                    placeholder={ __( 'Total Time', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 8, 'label' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 8, 'label' ) }
+                                />
+                                <TextControl
+                                    id={ `${ id }-totaltime-value` }
+                                    instanceId={ `${ id }-totaltime-value` }
+                                    type="number"
+                                    label={ __( 'Total Time Value', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 8, 'value' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 8, 'value' ) }
+                                />
+                                <span>{ get( details, [ 8, 'unit' ] ) }</span>
+                                <Button
+                                    isDefault
+                                    className="editor-calculate-total-time"
+                                    onClick={ () => this.setState( { isCalculatedTotalTime: false, isCalculateBtnClick: true } ) }
+                                >
+                                    { __( 'Calculate Total Time', 'wpzoom-recipe-card' ) }
+                                </Button>
+                                <p className="description">{ __( 'Default value: prepTime + cookTime', 'wpzoom-recipe-card' ) }</p>
+                            </Fragment>
+                        }
+                    </PanelRow>
+                    <ToggleControl
+                        label={ __( 'Display Calories', 'wpzoom-recipe-card' ) }
+                        checked={ displayCalories }
+                        onChange={ display => this.onChangeSettings( display, 'displayCalories' ) }
+                    />
+                    <PanelRow>
+                        {
+                            displayCalories &&
+                            <Fragment>
+                                <TextControl
+                                    id={ `${ id }-calories-label` }
+                                    instanceId={ `${ id }-calories-label` }
+                                    type="text"
+                                    label={ __( 'Calories Label', 'wpzoom-recipe-card' ) }
+                                    placeholder={ __( 'Calories', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 3, 'label' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 3, 'label' ) }
+                                />
+                                <TextControl
+                                    id={ `${ id }-calories-value` }
+                                    instanceId={ `${ id }-calories-value` }
+                                    type="number"
+                                    label={ __( 'Calories Value', 'wpzoom-recipe-card' ) }
+                                    value={ get( details, [ 3, 'value' ] ) }
+                                    onChange={ newValue => this.onChangeDetail( newValue, 3, 'value' ) }
+                                />
+                                <span>{ get( details, [ 3, 'unit' ] ) }</span>
+                            </Fragment>
+                        }
+                    </PanelRow>
+                </PanelBody>
+                <PanelBody className="wpzoom-recipe-card-custom-details" initialOpen={ true } title={ __( 'Add Custom Details', 'wpzoom-recipe-card' ) }>
+                    <PanelRow>
+                        <TextControl
+                            id={ `${ id }-custom-detail-1-label` }
+                            instanceId={ `${ id }-custom-detail-1-label` }
+                            type="text"
+                            label={ __( 'Custom Label 1', 'wpzoom-recipe-card' ) }
+                            placeholder={ __( 'Resting Time', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 4, 'label' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 4, 'label' ) }
+                        />
+                        <TextControl
+                            id={ `${ id }-custom-detail-1-value` }
+                            instanceId={ `${ id }-custom-detail-1-value` }
+                            type="text"
+                            label={ __( 'Custom Value 1', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 4, 'value' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 4, 'value' ) }
+                        />
+                        <TextControl
+                            id={ `${ id }-custom-detail-1-unit` }
+                            instanceId={ `${ id }-custom-detail-1-unit` }
+                            type="text"
+                            label={ __( 'Custom Unit 1', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 4, 'unit' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 4, 'unit' ) }
+                        />
+                        <ToggleControl
+                            label={ __( 'Is Resting Time field?', 'wpzoom-recipe-card' ) }
+                            help={ __( 'If option is enabled, this means that the value is used to calculate the Total Time. And unit will be converted from minutes to hours if it\'s needed.', 'wpzoom-recipe-card' ) }
+                            checked={ get( details, [ 4, 'isRestingTimeField' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 4, 'isRestingTimeField' ) }
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <TextControl
+                            id={ `${ id }-custom-detail-2-label` }
+                            instanceId={ `${ id }-custom-detail-2-label` }
+                            type="text"
+                            label={ __( 'Custom Label 2', 'wpzoom-recipe-card' ) }
+                            placeholder={ __( 'Baking Time', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 5, 'label' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 5, 'label' ) }
+                        />
+                        <TextControl
+                            id={ `${ id }-custom-detail-2-value` }
+                            instanceId={ `${ id }-custom-detail-2-value` }
+                            type="text"
+                            label={ __( 'Custom Value 2', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 5, 'value' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 5, 'value' ) }
+                        />
+                        <TextControl
+                            id={ `${ id }-custom-detail-2-unit` }
+                            instanceId={ `${ id }-custom-detail-2-unit` }
+                            type="text"
+                            label={ __( 'Custom Unit 2', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 5, 'unit' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 5, 'unit' ) }
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <TextControl
+                            id={ `${ id }-custom-detail-3-label` }
+                            instanceId={ `${ id }-custom-detail-3-label` }
+                            type="text"
+                            label={ __( 'Custom Label 3', 'wpzoom-recipe-card' ) }
+                            placeholder={ __( 'Serving Size', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 6, 'label' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 6, 'label' ) }
+                        />
+                        <TextControl
+                            id={ `${ id }-custom-detail-3-value` }
+                            instanceId={ `${ id }-custom-detail-3-value` }
+                            type="text"
+                            label={ __( 'Custom Value 3', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 6, 'value' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 6, 'value' ) }
+                        />
+                        <TextControl
+                            id={ `${ id }-custom-detail-3-unit` }
+                            instanceId={ `${ id }-custom-detail-3-unit` }
+                            type="text"
+                            label={ __( 'Custom Unit 3', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 6, 'unit' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 6, 'unit' ) }
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <TextControl
+                            id={ `${ id }-custom-detail-4-label` }
+                            instanceId={ `${ id }-custom-detail-4-label` }
+                            type="text"
+                            label={ __( 'Custom Label 4', 'wpzoom-recipe-card' ) }
+                            placeholder={ __( 'Net Carbs', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 7, 'label' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 7, 'label' ) }
+                        />
+                        <TextControl
+                            id={ `${ id }-custom-detail-4-value` }
+                            instanceId={ `${ id }-custom-detail-4-value` }
+                            type="text"
+                            label={ __( 'Custom Value 4', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 7, 'value' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 7, 'value' ) }
+                        />
+                        <TextControl
+                            id={ `${ id }-custom-detail-4-unit` }
+                            instanceId={ `${ id }-custom-detail-4-unit` }
+                            type="text"
+                            label={ __( 'Custom Unit 4', 'wpzoom-recipe-card' ) }
+                            value={ get( details, [ 7, 'unit' ] ) }
+                            onChange={ newValue => this.onChangeDetail( newValue, 7, 'unit' ) }
+                        />
+                    </PanelRow>
+                </PanelBody>
+                <PanelBody className="wpzoom-recipe-card-structured-data-testing" initialOpen={ true } title={ __( 'Structured Data Testing', 'wpzoom-recipe-card' ) }>
+                    <BaseControl
+                        id={ `${ id }-counters` }
+                        help={ __( 'Automatically check Structured Data errors and warnings.', 'wpzoom-recipe-card' ) }
+                    >
+                        {
+                            get( structuredDataNotice, 'errors' ).length > 0 &&
+                            <Notice status="error" isDismissible={ false }>
+                                <p>{ __( 'Please enter value for required fields: ', 'wpzoom-recipe-card' ) } <strong>{ this.errorDetails() }</strong>.</p>
+                            </Notice>
+                        }
+                        {
+                            get( structuredDataNotice, 'warnings' ).length > 0 &&
+                            <Notice status="warning" isDismissible={ false }>
+                                <p>{ __( 'We recommend to add value for following fields: ', 'wpzoom-recipe-card' ) } <strong>{ this.warningDetails() }</strong>.</p>
+                            </Notice>
+                        }
+                        {
+                            get( structuredDataNotice, 'not_display' ).length > 0 &&
+                            <Notice status="warning" isDismissible={ false }>
+                                <p>{ __( 'We recommend to display following fields: ', 'wpzoom-recipe-card' ) } <strong>{ this.notDisplayDetails() }</strong>.</p>
+                            </Notice>
+                        }
+                        <PanelRow className={ recipeTitle ? 'text-color-green' : 'text-color-red' }>
+                            <span>recipeTitle</span>
+                            <strong>{ recipeTitle }</strong>
+                        </PanelRow>
+                        <PanelRow className={ RichText.isEmpty( summary ) ? 'text-color-orange' : 'text-color-green' }>
+                            <span>description</span>
+                            <strong>{ ! isUndefined( jsonSummary ) ? stripHTML( jsonSummary ) : NOT_ADDED }</strong>
+                        </PanelRow>
+                        <PanelRow className={ ! hasImage ? 'text-color-red' : 'text-color-green' }>
+                            <span>image</span>
+                            <strong>{ hasImage ? get( image, 'url' ) : NOT_ADDED }</strong>
+                        </PanelRow>
+                        <PanelRow className={ ! hasVideo ? 'text-color-orange' : 'text-color-green' }>
+                            <span>video</span>
+                            <strong>{ hasVideo ? get( video, 'url' ) : NOT_ADDED }</strong>
+                        </PanelRow>
+                        <PanelRow className={ isEmpty( keywords ) ? 'text-color-orange' : 'text-color-green' }>
+                            <span>keywords</span>
+                            <strong>{ ! isEmpty( keywords ) ? keywords.filter( ( item ) => item ).join( ', ' ) : NOT_ADDED }</strong>
+                        </PanelRow>
+                        <PanelRow className={ ! displayCourse || isEmpty( course ) ? 'text-color-orange' : 'text-color-green' }>
+                            <span>recipeCategory</span>
+                            {
+                                displayCourse &&
+                                <strong>{ ! isEmpty( course ) ? course.filter( ( item ) => item ).join( ', ' ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayCourse &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
+                        </PanelRow>
+                        <PanelRow className={ ! displayCuisine || isEmpty( cuisine ) ? 'text-color-orange' : 'text-color-green' }>
+                            <span>recipeCuisine</span>
+                            {
+                                displayCuisine &&
+                                <strong>{ ! isEmpty( cuisine ) ? cuisine.filter( ( item ) => item ).join( ', ' ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayCuisine &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
+                        </PanelRow>
+                        <PanelRow className={ displayServings && get( details, [ 0, 'value' ] ) && 'text-color-green' }>
+                            <span>recipeYield</span>
+                            {
+                                displayServings &&
+                                <strong>{ get( details, [ 0, 'value' ] ) ? get( details, [ 0, 'value' ] ) + ' ' + get( details, [ 0, 'unit' ] ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayServings &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
+                        </PanelRow>
+                        <PanelRow className={ ! displayPrepTime || ! get( details, [ 1, 'value' ] ) ? 'text-color-orange' : 'text-color-green' }>
+                            <span>prepTime</span>
+                            {
+                                displayPrepTime &&
+                                <strong>{ get( details, [ 1, 'value' ] ) ? convertMinutesToHours( get( details, [ 1, 'value' ] ) ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayPrepTime &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
+                        </PanelRow>
+                        <PanelRow className={ ! displayCookingTime || ! get( details, [ 2, 'value' ] ) ? 'text-color-orange' : 'text-color-green' }>
+                            <span>cookTime</span>
+                            {
+                                displayCookingTime &&
+                                <strong>{ get( details, [ 2, 'value' ] ) ? convertMinutesToHours( get( details, [ 2, 'value' ] ) ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayCookingTime &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
+                        </PanelRow>
+                        <PanelRow className={ displayTotalTime && get( details, [ 8, 'value' ] ) && 'text-color-green' }>
+                            <span>totalTime</span>
+                            {
+                                displayTotalTime &&
+                                <strong>{ get( details, [ 8, 'value' ] ) ? convertMinutesToHours( get( details, [ 8, 'value' ] ) ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayTotalTime &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
+                        </PanelRow>
+                        <PanelRow className={ ! displayCalories || ! get( details, [ 3, 'value' ] ) ? 'text-color-orange' : 'text-color-green' }>
+                            <span>calories</span>
+                            {
+                                displayCalories &&
+                                <strong>{ get( details, [ 3, 'value' ] ) ? get( details, [ 3, 'value' ] ) + ' ' + get( details, [ 3, 'unit' ] ) : NOT_ADDED }</strong>
+                            }
+                            {
+                                ! displayCalories &&
+                                <strong>{ NOT_DISPLAYED }</strong>
+                            }
+                        </PanelRow>
+                        <PanelRow className={ ! get( structuredDataTable, 'recipeIngredients' ) ? 'text-color-red' : 'text-color-green' }>
+                            <span>{ __( 'Ingredients', 'wpzoom-recipe-card' ) }</span>
+                            <strong>{ get( structuredDataTable, 'recipeIngredients' ) ? get( structuredDataTable, 'recipeIngredients' ) : NOT_ADDED }</strong>
+                        </PanelRow>
+                        <PanelRow className={ ! get( structuredDataTable, 'recipeInstructions' ) ? 'text-color-red' : 'text-color-green' }>
+                            <span>{ __( 'Steps', 'wpzoom-recipe-card' ) }</span>
+                            <strong>{ get( structuredDataTable, 'recipeInstructions' ) ? get( structuredDataTable, 'recipeInstructions' ) : NOT_ADDED }</strong>
+                        </PanelRow>
+                    </BaseControl>
+                </PanelBody>
             </InspectorControls>
-		);
-	}
+        );
+    }
 }
-
-export default compose( [
-	withSelect( ( select, props ) => {
-		const {
-			attributes: {
-				image,
-				hasImage
-			}
-		} = props;
-		const { getMedia } = select( 'core' );
-		const { 
-			getEditorSettings,
-			getEditedPostAttribute
-		} = select( 'core/editor' );
-		const { 
-			maxWidth,
-			isRTL,
-			imageSizes
-		} = getEditorSettings();
-		const featuredImageId = getEditedPostAttribute( 'featured_media' );
-
-		let id = 0;
-
-		if ( hasImage ) {
-			id = get( image, ['id'] ) || 0;
-		} else {
-			id = featuredImageId;
-	 	}
-
-		return {
-			media: id ? getMedia( id ) : false,
-			imageSizes,
-			maxWidth,
-			isRTL
-		};
-	} )
-] )( Inspector );

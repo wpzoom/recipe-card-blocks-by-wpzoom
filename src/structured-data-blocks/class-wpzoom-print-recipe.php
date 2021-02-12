@@ -72,10 +72,13 @@ class WPZOOM_Print_Recipe_Block {
 	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
+		global $post;
+
 		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
 
+		$recipe_ID = $post ? $post->ID : 0;
 		$attributes = self::$helpers->omit( $attributes, array() );
 		// Import variables into the current symbol table from an array
 		extract( $attributes );
@@ -83,9 +86,10 @@ class WPZOOM_Print_Recipe_Block {
 		$class = 'wpzoom-recipe-snippet-button wp-block-wpzoom-recipe-card-block-print-recipe';
 
 		$block_content = sprintf(
-			'<a href="#%s" rel="nofollow" class="%s">%s</a>',
+			'<a href="#%s" rel="nofollow" class="%s" data-recipe-id="%s">%s</a>',
 			esc_attr( $id ),
 			esc_attr( $class ),
+			$recipe_ID,
 			esc_html( $text )
 		);
 
