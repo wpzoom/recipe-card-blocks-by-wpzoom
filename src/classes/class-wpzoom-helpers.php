@@ -22,7 +22,7 @@ class WPZOOM_Helpers {
 	/**
 	 * Fix tasty links conflict when convert '<' & '>' to unicode.
 	 *
-	 * @since 2.7.4
+	 * @since 2.7.5
 	 * 
 	 * @param string $content The content which should parse.
 	 * @return string

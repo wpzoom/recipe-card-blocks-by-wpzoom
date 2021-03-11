@@ -1474,7 +1474,7 @@ class WPZOOM_Recipe_Card_Block {
 		/**
 		 * Don't append snippets buttons to content if page is built with Elementor
 		 *
-		 * @since 2.7.4
+		 * @since 2.7.5
 		 */
 		$elemntor_is_active      = class_exists( '\Elementor\Plugin' );
 		$is_built_with_elementor = $elemntor_is_active && \Elementor\Plugin::$instance->db->is_built_with_elementor( get_the_ID() );

@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.7.5 =
+* Added compatibility with Elementor. View how to do this here - https://www.wpzoom.com/documentation/recipe-card-blocks/how-to-add-recipe-card-blocks-in-elementor/
+
 = 2.7.4 =
 * Fixed issue with disallowed attribute `classname` present in HTML tag
 
