@@ -1,6 +1,6 @@
 /* External dependencies */
 import { __ } from '@wordpress/i18n';
-import isShallowEqual from '@wordpress/is-shallow-equal/objects';
+import isShallowEqual from '@wordpress/is-shallow-equal';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import compact from 'lodash/compact';
