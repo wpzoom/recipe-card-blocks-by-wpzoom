@@ -276,7 +276,7 @@ class WPZOOM_Recipe_Card_Block {
 		}
 
 		if ( is_singular() ) {
-			add_filter( 'the_content', array( $this, 'filter_the_content' ) );
+			add_filter( 'the_content', array( __CLASS__, 'filter_the_content' ) );
 		}
 
 		$attributes = self::$helpers->omit( $attributes, array( 'toInsert', 'activeIconSet', 'showModal', 'searchIcon', 'icons' ) );
@@ -1468,50 +1468,67 @@ class WPZOOM_Recipe_Card_Block {
 	 * @param string $content Main post content
 	 * @return string HTML of post content
 	 */
-	public function filter_the_content( $content ) {
+	public static function filter_the_content( $content ) {
+		$content = WPZOOM_Helpers::fix_content_tasty_links_conflict( $content );
+
+		/**
+		 * Don't append snippets buttons to content if page is built with Elementor
+		 *
+		 * @since 2.7.4
+		 */
+		$elemntor_is_active      = class_exists( '\Elementor\Plugin' );
+		$is_built_with_elementor = $elemntor_is_active && \Elementor\Plugin::$instance->db->is_built_with_elementor( get_the_ID() );
+
+		if ( $is_built_with_elementor ) {
+			return $content;
+		}
+
 		if ( ! in_the_loop() ) {
 			return $content;
 		}
 
 		$output = '';
 
-		// Automatically display snippets at the top of post content
-		if ( '1' === WPZOOM_Settings::get('wpzoom_rcb_settings_display_snippets') ) {
+		// Automatically display snippets at the top of post content.
+		if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_snippets' ) ) {
 			$custom_blocks = array(
 				'wpzoom-recipe-card/block-jump-to-recipe',
-				'wpzoom-recipe-card/block-print-recipe'
+				'wpzoom-recipe-card/block-print-recipe',
 			);
+
 			$output .= '<div class="wpzoom-recipe-card-buttons">';
+
 			foreach ( $custom_blocks as $block_name ) {
-				if ( $block_name == 'wpzoom-recipe-card/block-jump-to-recipe' ) {
-		    		$attrs = array(
-		    			'id' => self::$recipeBlockID,
-		    			'text' => WPZOOM_Settings::get('wpzoom_rcb_settings_jump_to_recipe_text')
-		    		);
-		    		$block = array(
-		    			'blockName' => $block_name,
-		    			'attrs' => $attrs,
-		    			'innerBlocks' => array(),
-		    			'innerHTML' => '',
-		    			'innerContent' => array()
-		    		);
-		    		$output .= render_block( $block );
+				if ( 'wpzoom-recipe-card/block-jump-to-recipe' === $block_name ) {
+					$attrs   = array(
+						'id'   => self::$recipeBlockID,
+						'text' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_jump_to_recipe_text' ),
+					);
+					$block   = array(
+						'blockName'    => $block_name,
+						'attrs'        => $attrs,
+						'innerBlocks'  => array(),
+						'innerHTML'    => '',
+						'innerContent' => array(),
+					);
+					$output .= render_block( $block );
 				}
-				if ( $block_name == 'wpzoom-recipe-card/block-print-recipe' ) {
-		    		$attrs = array(
-		    			'id' => self::$recipeBlockID,
-		    			'text' => WPZOOM_Settings::get('wpzoom_rcb_settings_print_recipe_text')
-		    		);
-		    		$block = array(
-		    			'blockName' => $block_name,
-		    			'attrs' => $attrs,
-		    			'innerBlocks' => array(),
-		    			'innerHTML' => '',
-		    			'innerContent' => array()
-		    		);
-		    		$output .= render_block( $block );
+				if ( 'wpzoom-recipe-card/block-print-recipe' === $block_name ) {
+					$attrs   = array(
+						'id'   => self::$recipeBlockID,
+						'text' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_recipe_text' ),
+					);
+					$block   = array(
+						'blockName'    => $block_name,
+						'attrs'        => $attrs,
+						'innerBlocks'  => array(),
+						'innerHTML'    => '',
+						'innerContent' => array(),
+					);
+					$output .= render_block( $block );
 				}
 			}
+
 			$output .= '</div>';
 		}
 

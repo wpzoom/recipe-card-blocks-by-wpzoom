@@ -91,9 +91,10 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
             $post_ID = !$post_ID ? get_the_ID() : $post_ID;
 
             if( $post_ID ){
+                $content = get_post_field( 'post_content', $post_ID );
+
                 if ( has_block( 'block', $post_ID ) ){
                     // Check reusable blocks
-                    $content = get_post_field( 'post_content', $post_ID );
                     $blocks = parse_blocks( $content );
 
                     if ( ! is_array( $blocks ) || empty( $blocks ) ) {
@@ -107,6 +108,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
                             }
                         }
                     }
+                } elseif ( has_shortcode( $content, 'reblex' ) ) {
+                    return true;
                 }
             }
 
