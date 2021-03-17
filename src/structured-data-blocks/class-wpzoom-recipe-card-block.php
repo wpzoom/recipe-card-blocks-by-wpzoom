@@ -1478,6 +1478,11 @@ class WPZOOM_Recipe_Card_Block {
 		 */
 		$elemntor_is_active      = class_exists( '\Elementor\Plugin' );
 		$is_built_with_elementor = $elemntor_is_active && \Elementor\Plugin::$instance->db->is_built_with_elementor( get_the_ID() );
+		$is_preview_elementor    = $elemntor_is_active && \Elementor\Plugin::$instance->preview->is_preview_mode();
+
+		if ( $is_preview_elementor ) {
+			return;
+		}
 
 		if ( $is_built_with_elementor ) {
 			return $content;
