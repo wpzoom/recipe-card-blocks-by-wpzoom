@@ -72,6 +72,25 @@ class WPZOOM_Recipe_Card_Block {
 	public function __construct() {
 		self::$structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
 		self::$helpers = new WPZOOM_Helpers();
+
+		add_action( 'the_content', array( $this, 'filter_the_content' ), 9 );
+	}
+
+	public function filter_the_content( $content ) {
+		$content = WPZOOM_Helpers::fix_content_tasty_links_conflict( $content );
+
+		if ( self::is_built_with_elementor() ) {
+			return $content;
+		}
+
+		$content = self::prepend_content_recipe_buttons( $content );
+
+		return $content;
+	}
+
+	public static function is_built_with_elementor( $post_id = false ) {
+		$post_id = ! $post_id ? get_the_ID() : $post_id;
+		return class_exists( '\Elementor\Plugin' ) && \Elementor\Plugin::$instance->db->is_built_with_elementor( $post_id );
 	}
 
 	/**
@@ -273,10 +292,6 @@ class WPZOOM_Recipe_Card_Block {
 	public function render( $attributes, $content ) {
 		if ( ! is_array( $attributes ) ) {
 			return $content;
-		}
-
-		if ( is_singular() ) {
-			add_filter( 'the_content', array( __CLASS__, 'filter_the_content' ) );
 		}
 
 		$attributes = self::$helpers->omit( $attributes, array( 'toInsert', 'activeIconSet', 'showModal', 'searchIcon', 'icons' ) );
@@ -1461,37 +1476,13 @@ class WPZOOM_Recipe_Card_Block {
 	}
 
 	/**
-	 * Filter content when rendering recipe card block
 	 * Add snippets at the top of post content
 	 *
 	 * @since 1.2.0
 	 * @param string $content Main post content
 	 * @return string HTML of post content
 	 */
-	public static function filter_the_content( $content ) {
-		$content = WPZOOM_Helpers::fix_content_tasty_links_conflict( $content );
-
-		/**
-		 * Don't append snippets buttons to content if page is built with Elementor
-		 *
-		 * @since 2.7.5
-		 */
-		$elemntor_is_active      = class_exists( '\Elementor\Plugin' );
-		$is_built_with_elementor = $elemntor_is_active && \Elementor\Plugin::$instance->db->is_built_with_elementor( get_the_ID() );
-		$is_preview_elementor    = $elemntor_is_active && \Elementor\Plugin::$instance->preview->is_preview_mode();
-
-		if ( $is_preview_elementor ) {
-			return;
-		}
-
-		if ( $is_built_with_elementor ) {
-			return $content;
-		}
-
-		if ( ! in_the_loop() ) {
-			return $content;
-		}
-
+	public static function prepend_content_recipe_buttons( $content ) {
 		$output = '';
 
 		// Automatically display snippets at the top of post content.
@@ -1537,7 +1528,9 @@ class WPZOOM_Recipe_Card_Block {
 			$output .= '</div>';
 		}
 
-		return $output . $content;
+		$content = $output . $content;
+
+		return $content;
 	}
 
 	/**

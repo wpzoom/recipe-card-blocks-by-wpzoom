@@ -74,6 +74,9 @@ class WPZOOM_Settings {
 		    add_action( 'admin_init', array( $this, 'settings_init' ) );
 		    add_action( 'admin_init', array( $this, 'set_defaults' ) );
 
+		    // Include admin scripts & styles
+		    add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+
 		    // Do ajax request
 			add_action( 'wp_ajax_wpzoom_reset_settings', array( $this, 'reset_settings') );
 			add_action( 'wp_ajax_wpzoom_welcome_banner_close', array( $this, 'welcome_banner_close') );
@@ -81,9 +84,6 @@ class WPZOOM_Settings {
 			// Only load if we are actually on the settings page.
 		    if ( WPZOOM_RCB_SETTINGS_PAGE === $page ) {
 			    add_action( 'wpzoom_rcb_admin_page', array( $this, 'settings_page' ) );
-
-			    // Include admin scripts & styles
-			    add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 
 			    // Action for welcome banner
 			    add_action( 'wpzoom_rcb_welcome_banner', array( $this, 'welcome' ) );
@@ -1035,31 +1035,36 @@ class WPZOOM_Settings {
 	public function scripts( $hook ) {
 	    $pos = strpos( $hook, WPZOOM_RCB_SETTINGS_PAGE );
 
-	    if ( $pos === false ) {
-	        return;
-	    }
-
-	    // Add the color picker css file
-        wp_enqueue_style( 'wp-color-picker' );
-
 	    wp_enqueue_style(
-	    	'wpzoom-rcb-admin-style',
-	    	untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/admin/css/style.css',
-	    	array(),
-	    	WPZOOM_RCB_VERSION
-	    );
+            'wpzoom-rcb-admin-css',
+            untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/admin/css/admin.css',
+            array(),
+            WPZOOM_RCB_VERSION
+        );
 
-	    wp_enqueue_script(
-	    	'wpzoom-rcb-admin-script',
-	    	untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/admin/js/script.js',
-	    	array( 'jquery', 'wp-color-picker' ),
-	    	WPZOOM_RCB_VERSION
-	    );
+	    if ( $pos !== false ) {
+	        // Add the color picker css file
+	        wp_enqueue_style( 'wp-color-picker' );
 
-	    wp_localize_script( 'wpzoom-rcb-admin-script', 'WPZOOM_Settings', array(
-	    	'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-	    	'ajax_nonce' => wp_create_nonce( "wpzoom-reset-settings-nonce" ),
-	    ) );
+		    wp_enqueue_style(
+		    	'wpzoom-rcb-admin-style',
+		    	untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/admin/css/style.css',
+		    	array(),
+		    	WPZOOM_RCB_VERSION
+		    );
+
+		    wp_enqueue_script(
+		    	'wpzoom-rcb-admin-script',
+		    	untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/admin/js/script.js',
+		    	array( 'jquery', 'wp-color-picker' ),
+		    	WPZOOM_RCB_VERSION
+		    );
+
+		    wp_localize_script( 'wpzoom-rcb-admin-script', 'WPZOOM_Settings', array(
+		    	'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+		    	'ajax_nonce' => wp_create_nonce( "wpzoom-reset-settings-nonce" ),
+		    ) );
+	    }
 	}
 
 	/**
