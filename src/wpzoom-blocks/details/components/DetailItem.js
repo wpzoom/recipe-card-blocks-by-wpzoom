@@ -1,7 +1,7 @@
 /* External dependencies */
 import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
-import isShallowEqual from '@wordpress/is-shallow-equal/objects';
+import isShallowEqual from '@wordpress/is-shallow-equal';
 import get from 'lodash/get';
 
 /* Internal dependencies */

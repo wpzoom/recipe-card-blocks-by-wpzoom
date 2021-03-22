@@ -19,6 +19,30 @@ class WPZOOM_Helpers {
 		return $prefix !== '' ? uniqid( $prefix . '-' ) : uniqid();
 	}
 
+	/**
+	 * Fix tasty links conflict when convert '<' & '>' to unicode.
+	 *
+	 * @since 2.7.5
+	 * 
+	 * @param string $content The content which should parse.
+	 * @return string
+	 */
+	public static function fix_content_tasty_links_conflict( $content ) {
+		$content = preg_replace_callback(
+			'#(?<!\\\\)(u003c|u003e)#',
+			function( $matches ) {
+				if ( 'u003c' === $matches[1] ) {
+					return '<';
+				} else {
+					return '>';
+				}
+			},
+			$content
+		);
+
+		return $content;
+	}
+
 	public function render_attributes( $attributes ) {
 		if ( empty( $attributes ) )
 			return '';
