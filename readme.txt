@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.7.6 =
+* Fixed issue with Jump and Print buttons showing on pages where recipe block is not included
+
 = 2.7.5 =
 * Added compatibility with Elementor. View how to do this here - https://www.wpzoom.com/documentation/recipe-card-blocks/how-to-add-recipe-card-blocks-in-elementor/
 
