@@ -83,7 +83,11 @@ class WPZOOM_Recipe_Card_Block {
 			return $content;
 		}
 
-		$content = self::prepend_content_recipe_buttons( $content );
+		$has_recipe_card_block = strpos( $content, 'wp-block-wpzoom-recipe-card-block-recipe-card' );
+
+		if ( false !== $has_recipe_card_block ) {
+			$content = self::prepend_content_recipe_buttons( $content );
+		}
 
 		return $content;
 	}
