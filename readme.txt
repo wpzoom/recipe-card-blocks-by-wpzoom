@@ -139,6 +139,8 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+= 2.7.7 =
+* Added option to Recipe Settings page to enter the id of the section before which you want to display the Jump and Print buttons in a post/page built with Elementor. If the id is not provided, the buttons will display at the top of `the_content` filter.
 
 = 2.7.6 =
 * Fixed issue with Jump and Print buttons showing on pages where recipe block is not included
