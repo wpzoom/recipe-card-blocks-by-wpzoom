@@ -1486,7 +1486,7 @@ class WPZOOM_Recipe_Card_Block {
 	 * @param string $content Main post content
 	 * @return string HTML of post content
 	 */
-	public static function prepend_content_recipe_buttons( $content ) {
+	public static function prepend_content_recipe_buttons( $content = '' ) {
 		$output = '';
 
 		// Automatically display snippets at the top of post content.
