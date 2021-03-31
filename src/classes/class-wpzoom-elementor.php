@@ -22,7 +22,6 @@ class WPZOOM_Elementor {
      */
     public function __construct() {
         // Elementor compatibility using Reusable Blocks Extended
-        add_action( 'elementor/frontend/the_content',          array( $this, 'render_content' ) );
         add_action( 'elementor/preview/enqueue_styles',        array( $this, 'preview_enqueue_styles' ), 0 );
         add_action( 'elementor/frontend/widget/before_render', array( $this, 'before_render_widget' ) );
     }
@@ -54,17 +53,6 @@ class WPZOOM_Elementor {
             $this->reusable_block_id = $block_id;
             $this->load_block_assets();
         }
-    }
-
-    public function render_content( $content ) {
-        $block_content = WPZOOM_Assets_Manager::get_reusable_block( $this->reusable_block_id );
-        $has_reusable_block = WPZOOM_Assets_Manager::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card', $block_content );
-
-        if ( $has_reusable_block ) {
-            $content = WPZOOM_Recipe_Card_Block::prepend_content_recipe_buttons( $content );
-        }
-
-        return $content;
     }
 }
 
