@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.7.7 =
+* Fixed a bug with buttons appearing in Elementor pages
+
 = 2.7.6 =
 * Fixed issue with Jump and Print buttons showing on pages where recipe block is not included
 
