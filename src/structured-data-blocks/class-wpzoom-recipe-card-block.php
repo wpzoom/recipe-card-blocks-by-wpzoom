@@ -72,6 +72,29 @@ class WPZOOM_Recipe_Card_Block {
 	public function __construct() {
 		self::$structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
 		self::$helpers = new WPZOOM_Helpers();
+
+		add_action( 'the_content', array( $this, 'filter_the_content' ), 9 );
+	}
+
+	public function filter_the_content( $content ) {
+		$content = WPZOOM_Helpers::fix_content_tasty_links_conflict( $content );
+
+		if ( self::is_built_with_elementor() ) {
+			return $content;
+		}
+
+		$has_recipe_card_block = strpos( $content, 'wp-block-wpzoom-recipe-card-block-recipe-card' );
+
+		if ( false !== $has_recipe_card_block ) {
+			$content = self::prepend_content_recipe_buttons( $content );
+		}
+
+		return $content;
+	}
+
+	public static function is_built_with_elementor( $post_id = false ) {
+		$post_id = ! $post_id ? get_the_ID() : $post_id;
+		return class_exists( '\Elementor\Plugin' ) && \Elementor\Plugin::$instance->db->is_built_with_elementor( $post_id );
 	}
 
 	/**
@@ -273,10 +296,6 @@ class WPZOOM_Recipe_Card_Block {
 	public function render( $attributes, $content ) {
 		if ( ! is_array( $attributes ) ) {
 			return $content;
-		}
-
-		if ( is_singular() ) {
-			add_filter( 'the_content', array( $this, 'filter_the_content' ) );
 		}
 
 		$attributes = self::$helpers->omit( $attributes, array( 'toInsert', 'activeIconSet', 'showModal', 'searchIcon', 'icons' ) );
@@ -1461,61 +1480,61 @@ class WPZOOM_Recipe_Card_Block {
 	}
 
 	/**
-	 * Filter content when rendering recipe card block
 	 * Add snippets at the top of post content
 	 *
 	 * @since 1.2.0
 	 * @param string $content Main post content
 	 * @return string HTML of post content
 	 */
-	public function filter_the_content( $content ) {
-		if ( ! in_the_loop() ) {
-			return $content;
-		}
-
+	public static function prepend_content_recipe_buttons( $content ) {
 		$output = '';
 
-		// Automatically display snippets at the top of post content
-		if ( '1' === WPZOOM_Settings::get('wpzoom_rcb_settings_display_snippets') ) {
+		// Automatically display snippets at the top of post content.
+		if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_snippets' ) ) {
 			$custom_blocks = array(
 				'wpzoom-recipe-card/block-jump-to-recipe',
-				'wpzoom-recipe-card/block-print-recipe'
+				'wpzoom-recipe-card/block-print-recipe',
 			);
+
 			$output .= '<div class="wpzoom-recipe-card-buttons">';
+
 			foreach ( $custom_blocks as $block_name ) {
-				if ( $block_name == 'wpzoom-recipe-card/block-jump-to-recipe' ) {
-		    		$attrs = array(
-		    			'id' => self::$recipeBlockID,
-		    			'text' => WPZOOM_Settings::get('wpzoom_rcb_settings_jump_to_recipe_text')
-		    		);
-		    		$block = array(
-		    			'blockName' => $block_name,
-		    			'attrs' => $attrs,
-		    			'innerBlocks' => array(),
-		    			'innerHTML' => '',
-		    			'innerContent' => array()
-		    		);
-		    		$output .= render_block( $block );
+				if ( 'wpzoom-recipe-card/block-jump-to-recipe' === $block_name ) {
+					$attrs   = array(
+						'id'   => self::$recipeBlockID,
+						'text' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_jump_to_recipe_text' ),
+					);
+					$block   = array(
+						'blockName'    => $block_name,
+						'attrs'        => $attrs,
+						'innerBlocks'  => array(),
+						'innerHTML'    => '',
+						'innerContent' => array(),
+					);
+					$output .= render_block( $block );
 				}
-				if ( $block_name == 'wpzoom-recipe-card/block-print-recipe' ) {
-		    		$attrs = array(
-		    			'id' => self::$recipeBlockID,
-		    			'text' => WPZOOM_Settings::get('wpzoom_rcb_settings_print_recipe_text')
-		    		);
-		    		$block = array(
-		    			'blockName' => $block_name,
-		    			'attrs' => $attrs,
-		    			'innerBlocks' => array(),
-		    			'innerHTML' => '',
-		    			'innerContent' => array()
-		    		);
-		    		$output .= render_block( $block );
+				if ( 'wpzoom-recipe-card/block-print-recipe' === $block_name ) {
+					$attrs   = array(
+						'id'   => self::$recipeBlockID,
+						'text' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_recipe_text' ),
+					);
+					$block   = array(
+						'blockName'    => $block_name,
+						'attrs'        => $attrs,
+						'innerBlocks'  => array(),
+						'innerHTML'    => '',
+						'innerContent' => array(),
+					);
+					$output .= render_block( $block );
 				}
 			}
+
 			$output .= '</div>';
 		}
 
-		return $output . $content;
+		$content = $output . $content;
+
+		return $content;
 	}
 
 	/**

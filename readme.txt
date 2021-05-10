@@ -4,7 +4,7 @@ Donate link: https://www.wpzoom.com/
 Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card, recipe maker, foodie, cook, snippet, block, pinterest, rating, nutrition, nutrition label, nutrition facts, schema, structured data, cooking, chef, seo, culinary, food blog, drink, drinks recipes, baking, crafts, steps, meal
 Requires at least: 5.0
 Requires PHP: 5.6
-Tested up to: 5.5
+Tested up to: 5.7
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -139,6 +139,15 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 2.7.7 =
+* Fixed a bug with buttons appearing in Elementor pages
+
+= 2.7.6 =
+* Fixed issue with Jump and Print buttons showing on pages where recipe block is not included
+
+= 2.7.5 =
+* Added compatibility with Elementor. View how to do this here - https://www.wpzoom.com/documentation/recipe-card-blocks/how-to-add-recipe-card-blocks-in-elementor/
 
 = 2.7.4 =
 * Fixed issue with disallowed attribute `classname` present in HTML tag
