@@ -45,78 +45,80 @@ class WPZOOM_Details_Block {
 		}
 
 		$attributes = array(
-			'id' => array(
-			    'type' => 'string',
+			'id'            => array(
+				'type' => 'string',
 			),
-			'title' => array(
-			    'type' => 'string',
-			    'selector' => '.details-title',
-			    'default' => WPZOOM_Settings::get('wpzoom_rcb_settings_details_title'),
+			'title'         => array(
+				'type'     => 'string',
+				'selector' => '.details-title',
+				'default'  => WPZOOM_Settings::get( 'wpzoom_rcb_settings_details_title' ),
 			),
-			'jsonTitle' => array(
-			    'type' => 'string',
+			'jsonTitle'     => array(
+				'type' => 'string',
 			),
-			'course' => array(
-			    'type' => 'array',
-			    'items' => array(
-			    	'type' => 'string'
-			    )
+			'course'        => array(
+				'type'  => 'array',
+				'items' => array(
+					'type' => 'string',
+				),
 			),
-			'cuisine' => array(
-			    'type' => 'array',
-			    'items' => array(
-			    	'type' => 'string'
-			    )
+			'cuisine'       => array(
+				'type'  => 'array',
+				'items' => array(
+					'type' => 'string',
+				),
 			),
-			'difficulty' => array(
-			    'type' => 'array',
-			    'items' => array(
-			    	'type' => 'string'
-			    )
+			'difficulty'    => array(
+				'type'  => 'array',
+				'items' => array(
+					'type' => 'string',
+				),
 			),
-			'keywords' => array(
-			    'type' => 'array',
-			    'items' => array(
-			    	'type' => 'string'
-			    )
+			'keywords'      => array(
+				'type'  => 'array',
+				'items' => array(
+					'type' => 'string',
+				),
 			),
-			'details' => array(
-			    'type' => 'array',
-			    // 'default' => self::get_details_default(),
-			    'items' => array(
-			    	'type' => 'object'
-			    )
+			'details'       => array(
+				'type'  => 'array',
+				// 'default' => self::get_details_default(),
+				'items' => array(
+					'type' => 'object',
+				),
 			),
-			'columns' => array(
-			    'type' => 'integer',
-			    'default' => 4
+			'columns'       => array(
+				'type'    => 'integer',
+				'default' => 4,
 			),
-			'toInsert' => array(
-			    'type' => 'integer',
+			'toInsert'      => array(
+				'type' => 'integer',
 			),
-			'showModal' => array(
-			    'type' => 'boolean',
-			    'default' => false
+			'showModal'     => array(
+				'type'    => 'boolean',
+				'default' => false,
 			),
-			'icons' => array(
-		        'type' => 'object',
-		    ),
+			'icons'         => array(
+				'type' => 'object',
+			),
 			'activeIconSet' => array(
-			    'type' => 'string',
-			    'default' => 'foodicons'
+				'type'    => 'string',
+				'default' => 'foodicons',
 			),
-			'searchIcon' => array(
-			    'type' => 'string',
-			    'default' => ''
+			'searchIcon'    => array(
+				'type'    => 'string',
+				'default' => '',
 			),
 		);
 
 		// Hook server side rendering into render callback
 		register_block_type(
-			'wpzoom-recipe-card/block-details', array(
-				'attributes' => $attributes,
+			'wpzoom-recipe-card/block-details',
+			array(
+				'attributes'      => $attributes,
 				'render_callback' => array( $this, 'render' ),
-		) );
+			)
+		);
 	}
 
 	/**
@@ -132,7 +134,7 @@ class WPZOOM_Details_Block {
 			return $content;
 		}
 
-		if ( ! isset($attributes['details']) ) {
+		if ( ! isset( $attributes['details'] ) ) {
 			return $content;
 		}
 
@@ -140,11 +142,11 @@ class WPZOOM_Details_Block {
 		// Import variables into the current symbol table from an array
 		extract( $attributes );
 
-		$class = 'wp-block-wpzoom-recipe-card-block-details';
+		$class  = 'wp-block-wpzoom-recipe-card-block-details';
 		$class .= ' col-' . $columns;
 
-		$className = isset( $className ) ? $className : '';
-		$details = isset( $details ) ? $details : array();
+		$className       = isset( $className ) ? $className : '';
+		$details         = isset( $details ) ? $details : array();
 		$details_content = $this->get_details_content( $details );
 
 		$blockClassNames = implode( ' ', array( $class, $className ) );
@@ -166,33 +168,33 @@ class WPZOOM_Details_Block {
 	public static function get_details_default() {
 		return array(
 			array(
-				'id' 		=> self::$helpers->generateId( "detail-item" ), 
-				'iconSet' 	=> 'oldicon', 
-				'icon' 		=> 'food', 
-				'label' 	=> __( "Servings", "wpzoom-recipe-card" ), 
-				'unit' 		=> __( "servings", "wpzoom-recipe-card" ) 
+				'id'      => self::$helpers->generateId( 'detail-item' ),
+				'iconSet' => 'oldicon',
+				'icon'    => 'food',
+				'label'   => __( 'Servings', 'wpzoom-recipe-card' ),
+				'unit'    => __( 'servings', 'wpzoom-recipe-card' ),
 			),
-		    array(
-		    	'id' 		=> self::$helpers->generateId( "detail-item" ), 
-		    	'iconSet' 	=> 'oldicon', 
-		    	'icon' 		=> 'room-service', 
-		    	'label' 	=> __( "Prep time", "wpzoom-recipe-card" ), 
-		    	'unit' 		=> __( "minutes", "wpzoom-recipe-card" ) 
-		    ),
-		    array(
-		        'id' 		=> self::$helpers->generateId( "detail-item" ), 
-		        'iconSet' 	=> 'oldicon', 
-		        'icon' 		=> 'cook',
-		        'label' 	=> __( "Cooking time", "wpzoom-recipe-card" ), 
-		        'unit' 		=> __( "minutes", "wpzoom-recipe-card" ) 
-		    ),
-		    array(
-		        'id' 		=> self::$helpers->generateId( "detail-item" ), 
-		        'iconSet' 	=> 'oldicon', 
-		        'icon' 		=> 'shopping-basket',
-		        'label' 	=> __( "Calories", "wpzoom-recipe-card" ), 
-		        'unit' 		=> __( "kcal", "wpzoom-recipe-card" )
-		    )
+			array(
+				'id'      => self::$helpers->generateId( 'detail-item' ),
+				'iconSet' => 'oldicon',
+				'icon'    => 'room-service',
+				'label'   => __( 'Prep time', 'wpzoom-recipe-card' ),
+				'unit'    => __( 'minutes', 'wpzoom-recipe-card' ),
+			),
+			array(
+				'id'      => self::$helpers->generateId( 'detail-item' ),
+				'iconSet' => 'oldicon',
+				'icon'    => 'cook',
+				'label'   => __( 'Cooking time', 'wpzoom-recipe-card' ),
+				'unit'    => __( 'minutes', 'wpzoom-recipe-card' ),
+			),
+			array(
+				'id'      => self::$helpers->generateId( 'detail-item' ),
+				'iconSet' => 'oldicon',
+				'icon'    => 'shopping-basket',
+				'label'   => __( 'Calories', 'wpzoom-recipe-card' ),
+				'unit'    => __( 'kcal', 'wpzoom-recipe-card' ),
+			),
 		);
 	}
 
@@ -206,17 +208,17 @@ class WPZOOM_Details_Block {
 	}
 
 	protected function get_detail_items( array $details ) {
-		$output = '';
+		$output   = '';
 		$defaults = self::get_details_default();
 
 		foreach ( $details as $index => $detail ) {
 			$icon = $label = $value = $unit = '';
 
-			if ( ! empty( $detail[ 'icon' ] ) ) {
-				$icon 	 			= $detail['icon'];
- 				$iconSet 			= isset( $detail['iconSet'] ) ? $detail['iconSet'] : 'oldicon';
- 				$_prefix 			= isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? $detail['_prefix'] : $iconSet;
- 				$itemIconClasses 	= implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $detail['icon'] ) );
+			if ( ! empty( $detail['icon'] ) ) {
+				$icon            = $detail['icon'];
+				$iconSet         = isset( $detail['iconSet'] ) ? $detail['iconSet'] : 'oldicon';
+				$_prefix         = isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? $detail['_prefix'] : $iconSet;
+				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $detail['icon'] ) );
 
 				$icon = sprintf(
 					'<span class="%s"></span>',
@@ -224,13 +226,13 @@ class WPZOOM_Details_Block {
 				);
 			}
 
-			if ( ! empty( $detail[ 'label' ] ) ) {
-				if ( !is_array( $detail['label'] ) ) {
+			if ( ! empty( $detail['label'] ) ) {
+				if ( ! is_array( $detail['label'] ) ) {
 					$label = sprintf(
 						'<span class="detail-item-label">%s</span>',
 						$detail['label']
 					);
-				} elseif( isset( $detail['jsonLabel'] ) ) {
+				} elseif ( isset( $detail['jsonLabel'] ) ) {
 					$label = sprintf(
 						'<span class="detail-item-label">%s</span>',
 						$detail['jsonLabel']
@@ -238,8 +240,8 @@ class WPZOOM_Details_Block {
 				}
 			}
 
-			if ( ! empty( $detail[ 'value' ] ) ) {
-				if ( !is_array( $detail['value'] ) ) {
+			if ( ! empty( $detail['value'] ) ) {
+				if ( ! is_array( $detail['value'] ) ) {
 					$value = sprintf(
 						'<p class="detail-item-value">%s</p>',
 						$detail['value']
@@ -251,7 +253,7 @@ class WPZOOM_Details_Block {
 					);
 				}
 			}
-			if ( ! empty( $detail[ 'unit' ] ) ) {
+			if ( ! empty( $detail['unit'] ) ) {
 				$unit = sprintf(
 					'<span class="detail-item-unit">%s</span>',
 					$detail['unit']

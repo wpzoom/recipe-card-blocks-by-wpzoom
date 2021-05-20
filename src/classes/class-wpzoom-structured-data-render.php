@@ -76,37 +76,37 @@ class WPZOOM_Structured_Data_Render {
 
 	/**
 	 * Render Structured Data (Schema.org) for blocks Details, Ingredients, Directions.
-	 * 
+	 *
 	 * @since 1.2.0
-	 * @param string $content 
+	 * @param string $content
 	 * @return string Rendered JSON-LD string and post content
 	 */
 	public function filter_content_blocks( $content ) {
-		$post = get_post();
+		$post       = get_post();
 		$attributes = array(); // store all attributes of parsed blocks from post content
 
 		// check if we are in the main loop
 		if ( in_the_loop() ) {
 			if ( has_blocks( $post->post_content ) ) {
-			    $blocks = parse_blocks( $post->post_content );
-			    $blocks_needed = array( 'wpzoom-recipe-card/block-details', 'wpzoom-recipe-card/block-ingredients', 'wpzoom-recipe-card/block-directions' );
+				$blocks        = parse_blocks( $post->post_content );
+				$blocks_needed = array( 'wpzoom-recipe-card/block-details', 'wpzoom-recipe-card/block-ingredients', 'wpzoom-recipe-card/block-directions' );
 
-			    foreach ( $blocks as $key => $block ) {
-			    	// I we have recipe card block in post content then Schema.org already exists for this block
-			    	// so we need to exit from this loop and return post content
-			    	if ( $block['blockName'] === 'wpzoom-recipe-card/block-recipe-card' ) {
-			    		return $content;
-			    	}
+				foreach ( $blocks as $key => $block ) {
+					// I we have recipe card block in post content then Schema.org already exists for this block
+					// so we need to exit from this loop and return post content
+					if ( $block['blockName'] === 'wpzoom-recipe-card/block-recipe-card' ) {
+						return $content;
+					}
 
-			    	if ( in_array( $block['blockName'], $blocks_needed ) ) {
-			    		$attributes = array_merge( $attributes, $block['attrs'] );
-			    	}
-			    }
+					if ( in_array( $block['blockName'], $blocks_needed ) ) {
+						$attributes = array_merge( $attributes, $block['attrs'] );
+					}
+				}
 
-			    if ( ! empty( $attributes ) ) {
-			    	$json_ld = $this->get_json_ld( $post, $attributes );
-			    	return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
-			    }
+				if ( ! empty( $attributes ) ) {
+					$json_ld = $this->get_json_ld( $post, $attributes );
+					return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
+				}
 			}
 		}
 
@@ -125,23 +125,23 @@ class WPZOOM_Structured_Data_Render {
 		$cat_list = wp_get_post_terms( $post->ID, 'category', array( 'fields' => 'names' ) );
 
 		$json_ld = array(
-			'@context' 		=> 'https://schema.org',
-			'@type'    		=> 'Recipe',
-			'author' 		=> array(
-				'@type'		=> 'Person',
-				'name'		=> get_the_author()
+			'@context'           => 'https://schema.org',
+			'@type'              => 'Recipe',
+			'author'             => array(
+				'@type' => 'Person',
+				'name'  => get_the_author(),
 			),
-			'name'			=> $post->post_title,
-			'description' 	=> $post->post_excerpt,
-			'image'			=> get_the_post_thumbnail_url( $post ),
-			'recipeCategory' => $cat_list,
-			'recipeCuisine'  => array(),
-			'keywords'  	=> $tag_list,
-			'datePublished' => get_the_time( 'c', $post ),
-			'nutrition' 	=> array(
-				'@type' 	=> 'NutritionInformation'
+			'name'               => $post->post_title,
+			'description'        => $post->post_excerpt,
+			'image'              => get_the_post_thumbnail_url( $post ),
+			'recipeCategory'     => $cat_list,
+			'recipeCuisine'      => array(),
+			'keywords'           => $tag_list,
+			'datePublished'      => get_the_time( 'c', $post ),
+			'nutrition'          => array(
+				'@type' => 'NutritionInformation',
 			),
-			'recipeIngredient'	 => array(),
+			'recipeIngredient'   => array(),
 			'recipeInstructions' => array(),
 		);
 
@@ -165,22 +165,19 @@ class WPZOOM_Structured_Data_Render {
 					if ( ! empty( $detail['jsonValue'] ) ) {
 						$json_ld['nutrition']['servingSize'] = $detail['jsonValue'];
 					}
-				}
-				elseif ( $key === 3 ) {
+				} elseif ( $key === 3 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
 						$json_ld['nutrition']['calories'] = $detail['jsonValue'];
 					}
-				}
-				elseif ( $key === 1 ) {
+				} elseif ( $key === 1 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$prepTime = self::$structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['prepTime'] = self::$structured_data_helpers->get_period_time( $detail['jsonValue'] );
+						$prepTime            = self::$structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+						$json_ld['prepTime'] = self::$structured_data_helpers->get_period_time( $detail['jsonValue'] );
 					}
-				}
-				elseif ( $key === 2 ) {
+				} elseif ( $key === 2 ) {
 					if ( ! empty( $detail['jsonValue'] ) ) {
-						$cookTime = self::$structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
-					    $json_ld['cookTime'] = self::$structured_data_helpers->get_period_time( $detail['jsonValue'] );
+						$cookTime            = self::$structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+						$json_ld['cookTime'] = self::$structured_data_helpers->get_period_time( $detail['jsonValue'] );
 					}
 				}
 			}

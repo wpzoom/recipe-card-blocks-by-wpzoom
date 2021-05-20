@@ -24,7 +24,7 @@ class WPZOOM_Structured_Data_Helpers {
 	 */
 	public function get_ingredient_json_ld( array $ingredient ) {
 		$ingredient_json_ld = '';
-		$name = '';
+		$name               = '';
 
 		if ( ! empty( $ingredient['jsonName'] ) ) {
 			$name = trim( $ingredient['jsonName'] );
@@ -72,29 +72,29 @@ class WPZOOM_Structured_Data_Helpers {
 	public function get_step_json_ld( array $step, $parent_permalink = '' ) {
 		$step_json_ld = array(
 			'@type' => 'HowToStep',
-			'name' => '',
-			'text' => '',
-			'url' => '',
-			'image' => ''
+			'name'  => '',
+			'text'  => '',
+			'url'   => '',
+			'image' => '',
 		);
-		$name = $text = '';
-		$url = $parent_permalink;
-		$image = self::get_step_image( $step );
+		$name         = $text = '';
+		$url          = $parent_permalink;
+		$image        = self::get_step_image( $step );
 
 		if ( ! empty( $step['jsonText'] ) ) {
-			$text = $step['jsonText'];
-			$name = $step['jsonText'];
+			$text                 = $step['jsonText'];
+			$name                 = $step['jsonText'];
 			$step_json_ld['name'] = wp_strip_all_tags( $name );
 			$step_json_ld['text'] = wp_strip_all_tags( $text );
 		} else {
-			$text = $this->step_text_to_JSON( $step['text'] );
-			$name = $this->step_text_to_JSON( $step['text'] );
+			$text                 = $this->step_text_to_JSON( $step['text'] );
+			$name                 = $this->step_text_to_JSON( $step['text'] );
 			$step_json_ld['name'] = wp_strip_all_tags( $name );
 			$step_json_ld['text'] = wp_strip_all_tags( $text );
 		}
 
 		if ( isset( $step['id'] ) ) {
-			$url .= '#wpzoom-rcb-'. $step['id'];
+			$url                .= '#wpzoom-rcb-' . $step['id'];
 			$step_json_ld['url'] = $url;
 		}
 
@@ -170,14 +170,14 @@ class WPZOOM_Structured_Data_Helpers {
 	 * @return string A textual string indicating a time period in ISO 8601 time interval format.
 	 */
 	public function get_period_time( $value ) {
-		$time = $this->get_number_from_string( $value );
-		$days = floor ($time / 1440);
-		$hours = floor (($time - $days * 1440) / 60);
-		$minutes = $time - ($days * 1440) - ($hours * 60);
-		$period = '';
+		$time    = $this->get_number_from_string( $value );
+		$days    = floor( $time / 1440 );
+		$hours   = floor( ( $time - $days * 1440 ) / 60 );
+		$minutes = $time - ( $days * 1440 ) - ( $hours * 60 );
+		$period  = '';
 
 		if ( $days > 0 ) {
-			$hours = ( $hours % 24 );
+			$hours   = ( $hours % 24 );
 			$period .= $days . 'D';
 		}
 
@@ -186,7 +186,7 @@ class WPZOOM_Structured_Data_Helpers {
 		}
 
 		if ( $minutes > 0 ) {
-			if ( intval($hours) === 0 ) {
+			if ( intval( $hours ) === 0 ) {
 				$period .= 'T' . $minutes . 'M';
 			} else {
 				$period .= $minutes . 'M';
@@ -211,8 +211,8 @@ class WPZOOM_Structured_Data_Helpers {
 		}
 
 		$re = '/\d+/s';
-		preg_match($re, $string, $matches);
+		preg_match( $re, $string, $matches );
 
-		return isset($matches[0]) ? (int)$matches[0] : 0;
+		return isset( $matches[0] ) ? (int) $matches[0] : 0;
 	}
 }
