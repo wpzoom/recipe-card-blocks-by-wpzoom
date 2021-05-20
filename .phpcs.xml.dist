@@ -32,7 +32,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<!-- Value: replace the text domain used. -->
-			<property name="text_domain" type="array" value="recipe-card-blocks-by-wpzoom"/>
+			<property name="text_domain" type="array" value="wpzoom-recipe-card"/>
 		</properties>
 	</rule>
 	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
