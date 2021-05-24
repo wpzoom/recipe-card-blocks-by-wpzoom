@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.7.8 =
+* Add script to make video embeds responsive so they don't overflow recipe card container
+
 = 2.7.7 =
 * Fixed a bug with buttons appearing in Elementor pages
 

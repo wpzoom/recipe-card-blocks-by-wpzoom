@@ -45,36 +45,38 @@ class WPZOOM_Ingredients_Block {
 		}
 
 		$attributes = array(
-			'id' => array(
-			    'type' => 'string',
+			'id'               => array(
+				'type' => 'string',
 			),
-			'title' => array(
-			    'type' => 'string',
-			    'selector' => '.ingredients-title',
-			    'default' => WPZOOM_Settings::get('wpzoom_rcb_settings_ingredients_title'),
+			'title'            => array(
+				'type'     => 'string',
+				'selector' => '.ingredients-title',
+				'default'  => WPZOOM_Settings::get( 'wpzoom_rcb_settings_ingredients_title' ),
 			),
 			'print_visibility' => array(
-			    'type' => 'string',
-			    'default' => 'visible'
+				'type'    => 'string',
+				'default' => 'visible',
 			),
-			'jsonTitle' => array(
-			    'type' => 'string',
+			'jsonTitle'        => array(
+				'type' => 'string',
 			),
-			'items' => array(
-			    'type' => 'array',
-			    // 'default' => self::get_ingredients_default(),
-			    'items' => array(
-			    	'type' => 'object'
-			    )
-			)
+			'items'            => array(
+				'type'  => 'array',
+				// 'default' => self::get_ingredients_default(),
+				'items' => array(
+					'type' => 'object',
+				),
+			),
 		);
 
 		// Hook server side rendering into render callback
 		register_block_type(
-			'wpzoom-recipe-card/block-ingredients', array(
-				'attributes' => $attributes,
+			'wpzoom-recipe-card/block-ingredients',
+			array(
+				'attributes'      => $attributes,
 				'render_callback' => array( $this, 'render' ),
-		) );
+			)
+		);
 	}
 
 	/**
@@ -92,7 +94,7 @@ class WPZOOM_Ingredients_Block {
 			return $content;
 		}
 
-		if ( ! isset($attributes['items']) ) {
+		if ( ! isset( $attributes['items'] ) ) {
 			return $content;
 		}
 
@@ -102,11 +104,11 @@ class WPZOOM_Ingredients_Block {
 
 		$class = 'wp-block-wpzoom-recipe-card-block-ingredients';
 
-		$items = isset( $items ) ? $items : array();
+		$items               = isset( $items ) ? $items : array();
 		$ingredients_content = self::get_ingredients_content( $items );
 
 		$btn_attributes = array(
-			'title' => __( 'Print ingredients...', 'wpzoom-recipe-card' )
+			'title' => __( 'Print ingredients...', 'wpzoom-recipe-card' ),
 		);
 
 		if ( $post ) {
@@ -141,21 +143,21 @@ class WPZOOM_Ingredients_Block {
 	public static function get_ingredients_default() {
 		return array(
 			array(
-				'id' 		=> self::$helpers->generateId( "ingredient-item" ), 
-				'name' 		=> array(), 
+				'id'   => self::$helpers->generateId( 'ingredient-item' ),
+				'name' => array(),
 			),
-		    array(
-		    	'id' 		=> self::$helpers->generateId( "ingredient-item" ), 
-		    	'name' 		=> array(), 
-		    ),
-		    array(
-		        'id' 		=> self::$helpers->generateId( "ingredient-item" ), 
-		        'name' 		=> array(), 
-		    ),
-		    array(
-		        'id' 		=> self::$helpers->generateId( "ingredient-item" ), 
-		        'name' 		=> array(), 
-		    )
+			array(
+				'id'   => self::$helpers->generateId( 'ingredient-item' ),
+				'name' => array(),
+			),
+			array(
+				'id'   => self::$helpers->generateId( 'ingredient-item' ),
+				'name' => array(),
+			),
+			array(
+				'id'   => self::$helpers->generateId( 'ingredient-item' ),
+				'name' => array(),
+			),
 		);
 	}
 
@@ -172,16 +174,16 @@ class WPZOOM_Ingredients_Block {
 	}
 
 	public static function get_ingredient_items( array $ingredients ) {
-		$output = '';
+		$output        = '';
 		$strikethrough = WPZOOM_Settings::get( 'wpzoom_rcb_settings_ingredients_strikethrough' ) === '1' ? ' is-strikethrough-active' : '';
 
 		foreach ( $ingredients as $index => $ingredient ) {
-			$name = '';
-			$isGroup = isset($ingredient['isGroup']) ? $ingredient['isGroup'] : false;
+			$name    = '';
+			$isGroup = isset( $ingredient['isGroup'] ) ? $ingredient['isGroup'] : false;
 
-			if ( !$isGroup ) {
-				if ( ! empty( $ingredient[ 'name' ] ) ) {
-					$name = sprintf(
+			if ( ! $isGroup ) {
+				if ( ! empty( $ingredient['name'] ) ) {
+					$name    = sprintf(
 						'<p class="ingredient-item-name%s">%s</p>',
 						$strikethrough,
 						self::wrap_ingredient_name( $ingredient['name'] )
@@ -193,8 +195,8 @@ class WPZOOM_Ingredients_Block {
 					);
 				}
 			} else {
-				if ( ! empty( $ingredient[ 'name' ] ) ) {
-					$name = sprintf(
+				if ( ! empty( $ingredient['name'] ) ) {
+					$name    = sprintf(
 						'<strong class="ingredient-item-group-title">%s</strong>',
 						self::wrap_ingredient_name( $ingredient['name'] )
 					);
@@ -219,22 +221,21 @@ class WPZOOM_Ingredients_Block {
 			if ( ! is_array( $node ) ) {
 				$output .= $node;
 			} else {
-				$type = isset( $node['type'] ) ? $node['type'] : null;
+				$type     = isset( $node['type'] ) ? $node['type'] : null;
 				$children = isset( $node['props']['children'] ) ? $node['props']['children'] : null;
 
-				$start_tag = $type ? "<$type>" : "";
-				$end_tag = $type ? "</$type>" : "";
+				$start_tag = $type ? "<$type>" : '';
+				$end_tag   = $type ? "</$type>" : '';
 
 				if ( 'a' === $type ) {
-					$rel 		= isset( $node['props']['rel'] ) ? $node['props']['rel'] : '';
+					$rel        = isset( $node['props']['rel'] ) ? $node['props']['rel'] : '';
 					$aria_label = isset( $node['props']['aria-label'] ) ? $node['props']['aria-label'] : '';
-					$href 		= isset( $node['props']['href'] ) ? $node['props']['href'] : '#';
-					$target 	= isset( $node['props']['target'] ) ? $node['props']['target'] : '_blank';
+					$href       = isset( $node['props']['href'] ) ? $node['props']['href'] : '#';
+					$target     = isset( $node['props']['target'] ) ? $node['props']['target'] : '_blank';
 
 					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
-				}
-				elseif ( 'br' === $type ) {
-					$end_tag = "";
+				} elseif ( 'br' === $type ) {
+					$end_tag = '';
 				}
 
 				$output .= $start_tag . self::wrap_ingredient_name( $children, $type ) . $end_tag;

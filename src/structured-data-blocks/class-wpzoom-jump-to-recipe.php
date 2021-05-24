@@ -45,22 +45,24 @@ class WPZOOM_Jump_To_Recipe_Block {
 		}
 
 		$attributes = array(
-			'id' => array(
-			    'type' => 'string',
-			    'default' => 'wpzoom-recipe-card'
+			'id'   => array(
+				'type'    => 'string',
+				'default' => 'wpzoom-recipe-card',
 			),
 			'text' => array(
-				'type' => 'string',
-				'default' => WPZOOM_Settings::get('wpzoom_rcb_settings_jump_to_recipe_text')
-			)
+				'type'    => 'string',
+				'default' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_jump_to_recipe_text' ),
+			),
 		);
 
 		// Hook server side rendering into render callback
 		register_block_type(
-			'wpzoom-recipe-card/block-jump-to-recipe', array(
-				'attributes' => $attributes,
+			'wpzoom-recipe-card/block-jump-to-recipe',
+			array(
+				'attributes'      => $attributes,
 				'render_callback' => array( $this, 'render' ),
-		) );
+			)
+		);
 	}
 
 	/**
@@ -80,7 +82,7 @@ class WPZOOM_Jump_To_Recipe_Block {
 		// Import variables into the current symbol table from an array
 		extract( $attributes );
 
-		$class = 'wpzoom-recipe-snippet-button wp-block-wpzoom-recipe-card-block-jump-to-recipe';
+		$class     = 'wpzoom-recipe-snippet-button wp-block-wpzoom-recipe-card-block-jump-to-recipe';
 		$className = isset( $className ) ? $className : '';
 
 		$blockClassNames = implode( ' ', array( $class, $className ) );

@@ -45,22 +45,24 @@ class WPZOOM_Print_Recipe_Block {
 		}
 
 		$attributes = array(
-			'id' => array(
-			    'type' => 'string',
-			    'default' => 'wpzoom-recipe-card'
+			'id'   => array(
+				'type'    => 'string',
+				'default' => 'wpzoom-recipe-card',
 			),
 			'text' => array(
-				'type' => 'string',
-				'default' => WPZOOM_Settings::get('wpzoom_rcb_settings_print_recipe_text')
-			)
+				'type'    => 'string',
+				'default' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_recipe_text' ),
+			),
 		);
 
 		// Hook server side rendering into render callback
 		register_block_type(
-			'wpzoom-recipe-card/block-print-recipe', array(
-				'attributes' => $attributes,
+			'wpzoom-recipe-card/block-print-recipe',
+			array(
+				'attributes'      => $attributes,
 				'render_callback' => array( $this, 'render' ),
-		) );
+			)
+		);
 	}
 
 	/**
@@ -78,7 +80,7 @@ class WPZOOM_Print_Recipe_Block {
 			return $content;
 		}
 
-		$recipe_ID = $post ? $post->ID : 0;
+		$recipe_ID  = $post ? $post->ID : 0;
 		$attributes = self::$helpers->omit( $attributes, array() );
 		// Import variables into the current symbol table from an array
 		extract( $attributes );

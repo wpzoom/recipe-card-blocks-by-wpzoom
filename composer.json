@@ -1,0 +1,22 @@
+{
+    "name": "wpzoom/recipe-card-blocks-by-wpzoom",
+    "description": "Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).",
+    "type": "wordpress-plugin",
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+        "wp-coding-standards/wpcs": "^2.3",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "squizlabs/php_codesniffer": "^3.6"
+    },
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "WPZOOM",
+            "email": "support@wpzoom.com"
+        }
+    ],
+    "scripts": {
+        "phpcbf": "@php ./vendor/bin/phpcbf",
+        "phpcs": "@php ./vendor/bin/phpcs"
+    }
+}
