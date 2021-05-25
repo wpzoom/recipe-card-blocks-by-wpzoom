@@ -141,7 +141,7 @@ Currently, it's not possible to import recipes created using a different plugin,
 == Changelog ==
 
 = 2.7.9 =
-* Fixed Schema.org json to escape as \uXXXX unicode characters
+* Fixed issue with recipe Rich Snippets json escaping as \uXXXX unicode characters
 
 = 2.7.8 =
 * Add script to make video embeds responsive so they don't overflow recipe card container
