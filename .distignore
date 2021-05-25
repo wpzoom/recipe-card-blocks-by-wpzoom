@@ -42,3 +42,12 @@ webpack.config.js
 wp-cli.local.yml
 vendor
 yarn.lock
+src/wpzoom-blocks
+src/helpers
+src/utils
+src/blocks.js
+src/icon.js
+src/common.scss
+src/amp.scss
+src/colors.scss
+src/__mixins.scss

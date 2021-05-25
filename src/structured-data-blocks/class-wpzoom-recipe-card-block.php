@@ -549,7 +549,7 @@ class WPZOOM_Recipe_Card_Block {
 		$structured_data_json = '';
 
 		if ( ! empty( $json_ld ) ) {
-			$structured_data_json = '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>';
+			$structured_data_json = '<script type="application/ld+json">' . wp_json_encode( $json_ld, JSON_UNESCAPED_UNICODE ) . '</script>';
 		}
 
 		$block_content = sprintf(
