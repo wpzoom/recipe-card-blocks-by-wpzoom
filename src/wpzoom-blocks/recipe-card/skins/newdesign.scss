@@ -2,7 +2,8 @@
 
     &.is-style-newdesign {
         padding: 20px 30px 35px;
-        margin: 50px 0;
+        margin-top: 50px;
+		margin-bottom: 50px;
         background: #ffffff;
         border: 1px solid rgba(0,0,0,.1);
         box-shadow: 0 0px 15px rgba(0,0,0,0.1);
@@ -209,12 +210,12 @@
                 }
 
                 @include clear-after;
-                
+
                 @include ingredient-tick( $newdesign-tick-color, $newdesign-ticked-color );
             }
             &.layout-2-columns {
                 columns: 2;
-                
+
                 .ingredient-item-group {
                     column-span: all;
                 }

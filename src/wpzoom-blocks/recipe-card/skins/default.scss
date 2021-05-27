@@ -2,7 +2,8 @@
 
     &.is-style-default {
         padding: 20px 25px 30px;
-        margin: 50px 0;
+		margin-top: 50px;
+		margin-bottom: 50px;
         background: #ffffff;
         border: 1px solid rgba(0,0,0,.1);
         box-shadow: 0 0px 15px rgba(0,0,0,0.1);
@@ -18,7 +19,7 @@
                 position: relative;
                 margin: 0;
                 line-height: 0;
-                
+
                 img {
                     max-width: 100%;
                     width: 100%;

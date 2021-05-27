@@ -2,13 +2,14 @@
 
     &.is-style-simple {
         padding: 20px;
-        margin: 50px 0;
+        margin-top: 50px;
+		margin-bottom: 50px;
         background: #ffffff;
         border: 1px solid rgba(0,0,0,.1);
 
         .recipe-card-header-wrap {
             @include clear-after;
-            
+
             margin: -20px -20px 10px -20px;
             padding: 20px;
             background-color: $coconut-cream;

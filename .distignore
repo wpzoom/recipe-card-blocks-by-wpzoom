@@ -8,6 +8,7 @@
 .editorconfig
 .eslintignore
 .eslintrc
+.eslintrc.json
 .git
 .github
 .gitignore

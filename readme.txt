@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.7.10 =
+* Fixed Recipe Card block margins
+
 = 2.7.9 =
 * Fixed issue with recipe Rich Snippets json escaping as \uXXXX unicode characters
 
