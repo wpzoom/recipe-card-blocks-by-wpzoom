@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.7.11 =
+* Fix to display footer credit on print page only if "Disable Footer Credit" option is unchecked
+
 = 2.7.10 =
 * Fixed Recipe Card block margins
 
