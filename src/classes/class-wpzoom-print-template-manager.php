@@ -243,11 +243,14 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 					$notes
 				) : '';
 
-			$footer_copyright = '<div class="footer-copyright">
-                <p>' . __( 'Recipe Card plugin by ', 'wpzoom-recipe-card' ) . '
-                    <a href="https://www.wpzoom.com/plugins/recipe-card-blocks/" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
-                </p>
-            </div>';
+			$footer_copyright = '';
+			if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_footer_copyright' ) ) {
+				$footer_copyright = '<div class="footer-copyright">
+					<p>' . __( 'Recipe Card plugin by ', 'wpzoom-recipe-card' ) . '
+						<a href="https://www.wpzoom.com/plugins/recipe-card-blocks/" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
+					</p>
+				</div>';
+			}
 
 			// Wrap recipe card heading and details content into one div
 			$recipe_card_image   = '<div class="recipe-card-header-wrap">' . $recipe_card_image;
