@@ -22,53 +22,13 @@
 			"block-id": "wpzoom-recipe-card",
 		};
 
-		atts = { ...defaults, ...atts };
+		atts = {
+			...defaults,
+			...atts,
+		};
 
 		const urlParts = wpzoomRecipeCard.homeURL.split(/\?(.+)/);
-		let printUrl = urlParts[0];
-
-		if (wpzoomRecipeCard.permalinks) {
-			printUrl += "wpzoom_rcb_print/" + atts["recipe-id"] + "/";
-
-			if (urlParts[1]) {
-				printUrl += "?" + urlParts[1];
-				printUrl += "&block-type=" + atts["block-type"];
-				printUrl += "&block-id=" + atts["block-id"];
-
-				if (atts["servings"]) {
-					printUrl += "&servings=" + atts["servings"];
-				}
-				if (atts["reusable-block-id"]) {
-					printUrl +=
-						"&reusable-block-id=" + atts["reusable-block-id"];
-				}
-			} else {
-				printUrl += "?block-type=" + atts["block-type"];
-				printUrl += "&block-id=" + atts["block-id"];
-
-				if (atts["servings"]) {
-					printUrl += "&servings=" + atts["servings"];
-				}
-				if (atts["reusable-block-id"]) {
-					printUrl +=
-						"&reusable-block-id=" + atts["reusable-block-id"];
-				}
-			}
-		} else {
-			printUrl += "?wpzoom_rcb_print=" + recipeID;
-			printUrl += "&block-type=" + atts["block-type"];
-			printUrl += "&block-id=" + atts["block-id"];
-
-			if (atts["servings"]) {
-				printUrl += "&servings=" + atts["servings"];
-			}
-			if (atts["reusable-block-id"]) {
-				printUrl += "&reusable-block-id=" + atts["reusable-block-id"];
-			}
-			if (urlParts[1]) {
-				printUrl += "&" + urlParts[1];
-			}
-		}
+		let printUrl = wpzoom_print_add_url_args(atts, urlParts[0], urlParts);
 
 		const print_window = window.open(printUrl, "_blank");
 		print_window.wpzoomRecipeCard = wpzoomRecipeCard;
@@ -91,6 +51,43 @@
 				}, 500);
 			};
 		};
+	}
+
+	function wpzoom_print_add_url_args(atts, url, urlParts) {
+		if (!atts["recipe-id"]) {
+			return url;
+		}
+		if (wpzoomRecipeCard.permalinks) {
+			url += `wpzoom_rcb_print/${atts["recipe-id"]}/`;
+
+			if (urlParts[1]) {
+				url += `?${urlParts[1]}`;
+				for (const property in atts) {
+					url += `&${property}=${atts[property]}`;
+				}
+			} else {
+				for (const property in atts) {
+					if (!url.match(/\?./)) {
+						url += `?${property}=${atts[property]}`;
+					} else {
+						url += `&${property}=${atts[property]}`;
+					}
+				}
+			}
+		} else {
+			for (const property in atts) {
+				if (!url.match(/\?./)) {
+					url += `?${property}=${atts[property]}`;
+				} else {
+					url += `&${property}=${atts[property]}`;
+				}
+			}
+			if (urlParts[1]) {
+				url += `&${urlParts[1]}`;
+			}
+		}
+
+		return url;
 	}
 
 	$(document).ready(function () {
@@ -189,15 +186,27 @@
 						.substr(1, $this.attr("href").length);
 				}
 
+				// Print attributes.
+				const atts = {};
+				if (recipeID) {
+					atts["recipe-id"] = recipeID;
+				}
+				if (reusableBlockID) {
+					atts["reusable-block-id"] = reusableBlockID;
+				}
+				if (servings) {
+					atts["servings"] = servings;
+				}
+				if (blockType) {
+					atts["block-type"] = blockType;
+				}
+				if (blockId) {
+					atts["block-id"] = blockId;
+				}
+
 				if (recipeID) {
 					e.preventDefault();
-					wpzoom_print_recipe({
-						"recipe-id": recipeID,
-						"reusable-block-id": reusableBlockID,
-						servings,
-						"block-type": blockType,
-						"block-id": blockId,
-					});
+					wpzoom_print_recipe(atts);
 				}
 			});
 		});
