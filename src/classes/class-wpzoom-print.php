@@ -20,6 +20,11 @@ class WPZOOM_Print {
 			'recipe-id' => isset( $print_url[1] ) ? $print_url[1] : 0,
 		);
 
+		// Exit early if we don't have post.
+		if ( ! $print_atts['recipe-id'] ) {
+			return;
+		}
+
 		// We have some params, let's check
 		// extract params (e.g. /?servings=4&prep-time=15)
 		if ( isset( $print_url[2] ) && is_string( $print_url[2] ) ) {
@@ -40,7 +45,7 @@ class WPZOOM_Print {
 			}
 		}
 
-		if ( $print_atts['recipe-id'] && isset( $print_atts['block-type'] ) ) {
+		if ( isset( $print_atts['block-type'] ) ) {
 			// Prevent WP Rocket lazy image loading on print page.
 			add_filter( 'do_rocket_lazyload', '__return_false' );
 
@@ -64,8 +69,21 @@ class WPZOOM_Print {
 				'directions-block'  => 'wpzoom-recipe-card/block-directions',
 			);
 
-			if ( isset( $print_atts['reusable-block-id'] ) ) {
-				$recipe = get_post( intval($print_atts['reusable-block-id']) );
+			if ( 0 === intval( $print_atts['reusable-block-id'] ) ) {
+				// Try to find the reusable block id from core/block.
+				if ( has_blocks( $recipe->post_content ) ) {
+					$blocks = parse_blocks( $recipe->post_content );
+					foreach ( $blocks as $key => $block ) {
+						if ( 'core/block' === $block['blockName'] ) {
+							$print_atts['reusable-block-id'] = isset( $block['attrs']['ref'] ) ? $block['attrs']['ref'] : 0;
+						}
+					}
+				}
+			}
+
+			// Get reusable block post.
+			if ( intval( $print_atts['reusable-block-id'] ) > 0 ) {
+				$recipe = get_post( intval( $print_atts['reusable-block-id'] ) );
 			}
 
 			if ( has_blocks( $recipe->post_content ) ) {

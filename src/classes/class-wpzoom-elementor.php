@@ -12,7 +12,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WPZOOM_Elementor {
-	public static $reusable_block_id = 0;
+	/**
+	 * The post|page ID where reusable block is added.
+	 *
+	 * @since 2.7.12
+	 *
+	 * @var integer
+	 */
+	public $post_id = 0;
+
+	/**
+	 * Reusable post ID.
+	 *
+	 * @since 2.7.12
+	 *
+	 * @var integer
+	 */
+	public $reusable_block_id = 0;
 
 	/**
 	 * Elementor load assets constructor.
@@ -47,11 +63,20 @@ class WPZOOM_Elementor {
 	}
 
 	public function before_render_widget( $widget ) {
+		global $post;
+
 		if ( 'wp-widget-reblex-widget' === $widget->get_name() || 'shortcode' === $widget->get_name() ) {
 			$settings           = $widget->get_settings();
 			$reusable_block_id  = 0;
 			$has_reusable_block = false;
 			$whitelist_blocks   = array( 'wpzoom-recipe-card/block-recipe-card', 'wpzoom-recipe-card/block-ingredients', 'wpzoom-recipe-card/block-directions' );
+
+			/**
+			 * Store post ID before `WP_Query` instance.
+			 *
+			 * @see WPZOOM_Assets_Manager::has_reusable_block()
+			 */
+			$this->post_id = $post->ID;
 
 			if ( 'wp-widget-reblex-widget' === $widget->get_name() ) {
 				$reusable_block_id = isset( $settings['wp']['block_id'] ) ? absint( $settings['wp']['block_id'] ) : 0;
@@ -70,7 +95,7 @@ class WPZOOM_Elementor {
 			}
 
 			if ( $has_reusable_block ) {
-				self::$reusable_block_id = $reusable_block_id;
+				$this->reusable_block_id = $reusable_block_id;
 				$this->load_block_assets();
 			}
 		}
@@ -86,8 +111,11 @@ class WPZOOM_Elementor {
 	 * @return array
 	 */
 	public function print_button_attributes( $attributes ) {
-		if ( self::$reusable_block_id > 0 ) {
-			$attributes['data-reusable-block-id'] = self::$reusable_block_id;
+		if ( $this->reusable_block_id > 0 ) {
+			$attributes['data-reusable-block-id'] = $this->reusable_block_id;
+		}
+		if ( $this->post_id > 0 ) {
+			$attributes['data-recipe-id'] = $this->post_id;
 		}
 		return $attributes;
 	}

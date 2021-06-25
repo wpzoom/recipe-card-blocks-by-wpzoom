@@ -1580,7 +1580,7 @@ class WPZOOM_Recipe_Card_Block {
 			return '';
 		}
 
-		$PrintClasses = implode( ' ', array( 'wpzoom-recipe-card-print-link' ) );
+		$print_classes = implode( ' ', array( 'wpzoom-recipe-card-print-link' ) );
 
 		/**
 		 * Add additional attributes to print button
@@ -1613,7 +1613,7 @@ class WPZOOM_Recipe_Card_Block {
 	                <span>%s</span>
 	            </a>
 	        </div>',
-			esc_attr( $PrintClasses ),
+			esc_attr( $print_classes ),
 			esc_attr( $content_id ),
 			$atts,
 			__( 'Print', 'wpzoom-recipe-card' )
