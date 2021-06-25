@@ -76,8 +76,19 @@ class WPZOOM_Elementor {
 		}
 	}
 
+	/**
+	 * Pass reusable block id attribute to print button
+	 *
+	 * @since 2.7.12
+	 * @see filter hook `wpzoom/recipe_card/print_button/attributes`
+	 *
+	 * @param array $attributes The print button attributes.
+	 * @return array
+	 */
 	public function print_button_attributes( $attributes ) {
-		$attributes['data-reusable-block-id'] = self::$reusable_block_id;
+		if ( self::$reusable_block_id > 0 ) {
+			$attributes['data-reusable-block-id'] = self::$reusable_block_id;
+		}
 		return $attributes;
 	}
 }
