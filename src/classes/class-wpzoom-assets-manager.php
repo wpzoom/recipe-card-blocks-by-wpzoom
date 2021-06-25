@@ -170,7 +170,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 *
 		 * @since  2.7.2
 		 * @param  string      $block_name The block name.
-		 * @param int          $reusable_block_id The reusable block post ID.
+		 * @param  int         $reusable_block_id The reusable block post ID.
 		 * @param  boolean|int $content The post content.
 		 * @return boolean     Return true if post content has provided block name as reusable block, else return false.
 		 */
@@ -186,6 +186,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				$args  = array(
 					'post_type'      => 'wp_block',
 					'posts_per_page' => -1,
+					'post_status'    => 'publish',
 				);
 				$query = new WP_Query( $args );
 
@@ -212,7 +213,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 			if ( $content ) {
 				if ( has_block( 'block', $content ) ) {
-					// Check reusable blocks
+					// Check reusable blocks.
 					$blocks = parse_blocks( $content );
 
 					if ( ! is_array( $blocks ) || empty( $blocks ) ) {
