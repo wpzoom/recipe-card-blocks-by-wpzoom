@@ -170,20 +170,13 @@ body.wpzoom-rcb-print {
 	margin-top: 0;
 	line-height: 1.4em;
 	padding-left: 16px;
-	display: flex;
-	flex-wrap: wrap;
 }
-.wpzoom-print-recipe-card-block .recipe-card-ingredients .ingredients-list .ingredient-item:not(.ingredient-item-group) {
-	flex: 0 0 50%;
+.wpzoom-print-recipe-card-block .recipe-card-ingredients .ingredients-list .ingredient-item {
 	margin-bottom: 7.5px;
 	border-bottom: 1px solid rgba(0,0,0,0.15);
 }
 .wpzoom-print-recipe-card-block .recipe-card-ingredients .ingredients-list .ingredient-item-group {
 	list-style-type: none;
-	padding-top: 7.5px;
-	margin-bottom: 15px;
-	clear: both;
-	flex: 0 0 100%;
 }
 .wpzoom-print-recipe-card-block .recipe-card-ingredients .ingredients-list .ingredient-item p {
 	margin: 0;
@@ -220,7 +213,6 @@ body.wpzoom-rcb-print {
 	line-height: 1.4;
 	color: #000;
 	width: 20px;
-	vertical-align: middle;
 	padding: 0;
 	margin-right: 20px;
 }
@@ -447,7 +439,6 @@ body.wpzoom-rcb-print {
 	line-height: 1.4;
 	color: #000;
 	width: 20px;
-	vertical-align: middle;
 	padding: 0;
 	margin-right: 20px;
 }
