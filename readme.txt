@@ -140,6 +140,11 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.7.12 =
+* Fix error 404 when print reusable Recipe Card Block
+* Fix Recipe Card Block print error in Elementor
+* Remove two columns display for ingredients in print sheet
+
 = 2.7.11 =
 * Fix to display footer credit on print page only if "Disable Footer Credit" option is unchecked
 
