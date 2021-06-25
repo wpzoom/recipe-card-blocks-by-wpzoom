@@ -18,12 +18,12 @@
 		<?php wp_site_icon(); ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo WPZOOM_RCB_PLUGIN_URL . 'dist/assets/css/recipe-print.css?ver=' . WPZOOM_RCB_VERSION; ?>"/>
 	</head>
-	<body class="wpzoom-rcb-print" data-recipe-id="<?php echo esc_attr( $recipe_id ); ?>">
+	<body class="wpzoom-rcb-print" data-recipe-id="<?php echo esc_attr( $recipe->ID ); ?>">
 		<?php
 		if ( ! is_array( $attributes ) ) {
 			echo $content;
 		} else {
-			echo WPZOOM_Print_Template_Manager::get_template( $attributes, $recipe, $blockType );
+			echo WPZOOM_Print_Template_Manager::get_template( $attributes, $recipe, $print_atts['block-type'] );
 		}
 		?>
 	</body>

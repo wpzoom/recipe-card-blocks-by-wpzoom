@@ -169,11 +169,43 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * Check the post content has reusable block
 		 *
 		 * @since  2.7.2
-		 * @param  string      $block_name      The block name
-		 * @param  boolean|int $content     The post content
-		 * @return boolean                  Return true if post content has provided block name as reusable block, else return false
+		 * @param  string      $block_name The block name.
+		 * @param int          $reusable_block_id The reusable block post ID.
+		 * @param  boolean|int $content The post content.
+		 * @return boolean     Return true if post content has provided block name as reusable block, else return false.
 		 */
-		public static function has_reusable_block( $block_name, $content = '' ) {
+		public static function has_reusable_block( $block_name, $reusable_block_id = 0, $content = '' ) {
+			$has_reusable_block = false;
+
+			/**
+			 * Loop reusable blocks to get needed block
+			 *
+			 * @since 2.7.12
+			 */
+			if ( ! empty( self::get_reusable_block( absint( $reusable_block_id ) ) ) ) {
+				$args  = array(
+					'post_type'      => 'wp_block',
+					'posts_per_page' => -1,
+				);
+				$query = new WP_Query( $args );
+
+				while ( $query->have_posts() ) {
+					$query->the_post();
+					if ( absint( $reusable_block_id ) === get_the_ID() ) {
+						$content = get_post_field( 'post_content', get_the_ID() );
+						if ( has_block( $block_name, $content ) ) {
+							$has_reusable_block = true;
+							return $has_reusable_block;
+						}
+					}
+				}
+			}
+
+			// Early return if $has_reusable_block is true.
+			if ( true === $has_reusable_block ) {
+				return;
+			}
+
 			if ( empty( $content ) ) {
 				$content = get_post_field( 'post_content', get_the_ID() );
 			}

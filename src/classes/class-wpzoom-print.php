@@ -16,7 +16,9 @@ class WPZOOM_Print {
 
 	public static function print_page() {
 		preg_match( '/[\/\?]wpzoom_rcb_print[\/=](\d+)([\/\?\&].*)?$/', $_SERVER['REQUEST_URI'], $print_url );
-		$recipe_id = isset( $print_url[1] ) ? $print_url[1] : false;
+		$print_atts = array(
+			'recipe-id' => isset( $print_url[1] ) ? $print_url[1] : 0,
+		);
 
 		// We have some params, let's check
 		// extract params (e.g. /?servings=4&prep-time=15)
@@ -26,17 +28,19 @@ class WPZOOM_Print {
 			if ( isset( $params[1] ) ) {
 				foreach ( $params[1] as $key => $value ) {
 					if ( 'block-type' === $value ) {
-						$blockType = isset( $params[2][ $key ] ) ? $params[2][ $key ] : 'recipe-card';
+						$print_atts['block-type'] = isset( $params[2][ $key ] ) ? $params[2][ $key ] : 'recipe-card';
 					} elseif ( 'servings' === $value ) {
-						$servings = isset( $params[2][ $key ] ) ? $params[2][ $key ] : 0;
+						$print_atts['servings'] = isset( $params[2][ $key ] ) ? $params[2][ $key ] : 0;
 					} elseif ( 'block-id' === $value ) {
-						$blockId = isset( $params[2][ $key ] ) ? $params[2][ $key ] : '';
+						$print_atts['block-id'] = isset( $params[2][ $key ] ) ? $params[2][ $key ] : '';
+					} elseif ( 'reusable-block-id' === $value ) {
+						$print_atts['reusable-block-id'] = isset( $params[2][ $key ] ) ? $params[2][ $key ] : 0;
 					}
 				}
 			}
 		}
 
-		if ( $recipe_id && isset( $blockType ) ) {
+		if ( $print_atts['recipe-id'] && isset( $print_atts['block-type'] ) ) {
 			// Prevent WP Rocket lazy image loading on print page.
 			add_filter( 'do_rocket_lazyload', '__return_false' );
 
@@ -45,32 +49,33 @@ class WPZOOM_Print {
 				Fusion_Images::$lazy_load = false;
 			}
 
-			$recipe_id = intval( $recipe_id );
-			$recipe    = get_post( $recipe_id );
-
 			$has_WPZOOM_block = false;
 			$attributes       = array();
-			$content          = $recipe->post_content;
-
-			$whitelistBlocks = array(
-				'recipe-card'       => 'wpzoom-recipe-card/block-recipe-card',
-				'ingredients-block' => 'wpzoom-recipe-card/block-ingredients',
-				'directions-block'  => 'wpzoom-recipe-card/block-directions',
-			);
+			$recipe           = get_post( intval( $print_atts['recipe-id'] ) );
 
 			if ( 'publish' !== $recipe->post_status && '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_only_published_posts' ) ) {
 				wp_redirect( home_url() );
 				exit();
 			}
 
+			$whitelist_blocks = array(
+				'recipe-card'       => 'wpzoom-recipe-card/block-recipe-card',
+				'ingredients-block' => 'wpzoom-recipe-card/block-ingredients',
+				'directions-block'  => 'wpzoom-recipe-card/block-directions',
+			);
+
+			if ( isset( $print_atts['reusable-block-id'] ) ) {
+				$recipe = get_post( intval($print_atts['reusable-block-id']) );
+			}
+
 			if ( has_blocks( $recipe->post_content ) ) {
 				$blocks = parse_blocks( $recipe->post_content );
 
 				foreach ( $blocks as $key => $block ) {
-					$is_block_in_list = isset( $whitelistBlocks[ $blockType ] );
+					$is_block_in_list = isset( $whitelist_blocks[ $print_atts['block-type'] ] );
 					$needle_block_id  = isset( $block['attrs']['id'] ) ? $block['attrs']['id'] : 'wpzoom-recipe-card';
-					$needle_block     = $is_block_in_list && $block['blockName'] === $whitelistBlocks[ $blockType ];
-					$block_needed     = $blockId == $needle_block_id && $needle_block;
+					$needle_block     = $is_block_in_list && $block['blockName'] === $whitelist_blocks[ $print_atts['block-type'] ];
+					$block_needed     = $print_atts['block-id'] === $needle_block_id && $needle_block;
 
 					if ( $block_needed ) {
 						$has_WPZOOM_block = true;
@@ -83,7 +88,7 @@ class WPZOOM_Print {
 				header( 'HTTP/1.1 200 OK' );
 				require WPZOOM_RCB_PLUGIN_DIR . 'templates/public/print.php';
 				flush();
-				exit;
+				exit();
 			}
 		}
 	}

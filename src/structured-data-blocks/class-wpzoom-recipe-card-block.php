@@ -1595,7 +1595,8 @@ class WPZOOM_Recipe_Card_Block {
 			$attributes = array_merge( $attributes, array( 'data-recipe-id' => self::$recipe->ID ) );
 		}
 
-		$atts = self::$helpers->render_attributes( $attributes );
+		$attributes = apply_filters( 'wpzoom/recipe_card/print_button/attributes', $attributes );
+		$atts       = self::$helpers->render_attributes( $attributes );
 
 		$output = sprintf(
 			'<div class="%s">
