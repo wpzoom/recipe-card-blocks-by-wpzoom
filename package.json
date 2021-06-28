@@ -30,7 +30,6 @@
     "cgb-scripts": "^1.23.1",
     "classnames": "^2.2.6",
     "html-react-parser": "^0.9.1",
-    "ingredients-parser": "^1.4.0",
     "react-html-parser": "^2.0.2",
     "react-player": "^1.11.1"
   },
