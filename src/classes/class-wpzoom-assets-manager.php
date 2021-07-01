@@ -200,6 +200,9 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 						}
 					}
 				}
+
+				// Reset global post variable. After this point, we are back to the Main Query object.
+				wp_reset_postdata();
 			}
 
 			// Early return if $has_reusable_block is true.

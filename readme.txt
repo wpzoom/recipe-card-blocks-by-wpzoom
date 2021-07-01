@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.7.13 =
+* Fixed the issue with icons not loading on the Recipe Card front-end. Reset global post variable after reusable blocks query loop.
+
 = 2.7.12 =
 * Fix error 404 when print reusable Recipe Card Block
 * Fix Recipe Card Block print error in Elementor
