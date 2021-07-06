@@ -44,7 +44,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 	 * @return void
 	 */
 	private static function action_hooks() {
-		add_filter( 'block_categories', __CLASS__ . '::add_custom_category', 10, 2 );
+		add_filter( 'block_categories_all', __CLASS__ . '::add_custom_category', 10, 2 );
 		add_filter( 'image_size_names_choose', __CLASS__ . '::custom_image_sizes_choose' );
 
 		add_action( 'after_setup_theme', __CLASS__ . '::register_custom_image_sizes' );
