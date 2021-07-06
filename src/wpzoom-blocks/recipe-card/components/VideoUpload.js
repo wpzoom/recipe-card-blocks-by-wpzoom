@@ -7,12 +7,9 @@ import ReactPlayer from 'react-player';
 import { excludeClassNames } from '../../../helpers/parseClassName';
 
 /* WordPress dependencies */
-const { Component, Fragment, createRef } = wp.element;
-const {
-    mediaUpload,
-    URLInput,
-} = wp.editor;
-const {
+import { Component, Fragment, createRef } from '@wordpress/element';
+import { mediaUpload, URLInput } from '@wordpress/editor';
+import {
     BaseControl,
     PanelBody,
     ToggleControl,
@@ -20,13 +17,13 @@ const {
     Disabled,
     IconButton,
     withNotices,
-} = wp.components;
-const {
+} from '@wordpress/components';
+import {
     URLPopover,
     MediaPlaceholder,
     MediaUpload,
-} = wp.blockEditor;
-const { getBlobByURL, isBlobURL } = wp.blob;
+} from '@wordpress/block-editor';
+import { getBlobByURL, isBlobURL } from '@wordpress/blob';
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'video' ];
@@ -82,7 +79,7 @@ class VideoUpload extends Component {
         }
     }
 
-    componentDidUpdate( prevProps, prevState ) {
+    componentDidUpdate( prevProps ) {
         const { hasVideo, video } = this.props.attributes;
 
         const posterURL = get( video, 'poster.url' );

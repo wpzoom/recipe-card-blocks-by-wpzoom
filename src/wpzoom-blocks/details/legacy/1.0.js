@@ -12,7 +12,7 @@ import times from 'lodash/times';
 
 /* External dependencies */
 import { __ } from '@wordpress/i18n';
-const { RichText } = wp.blockEditor;
+import { RichText } from '@wordpress/block-editor';
 
 /**
  * Returns the component to be used to render

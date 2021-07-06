@@ -10,15 +10,15 @@ import replace from 'lodash/replace';
 import Icons from '../../../utils/IconsArray';
 
 /* WordPress dependencies */
-const {
+import {
     IconButton,
     Modal,
     TabPanel,
     SelectControl,
     TextControl,
-} = wp.components;
-const { Fragment } = wp.element;
-const { withState } = wp.compose;
+} from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
+import { withState } from '@wordpress/compose';
 
 /**
  * A Icons Modal within a Details block.

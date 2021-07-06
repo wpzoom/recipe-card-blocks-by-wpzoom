@@ -7,7 +7,7 @@
 
 /* External dependencies */
 import { __ } from '@wordpress/i18n';
-const { RichText } = wp.blockEditor;
+import { RichText } from '@wordpress/block-editor';
 const { pluginURL } = window.wpzoomRecipeCard; // Import pluginURL from window.wpzoomRecipeCard
 
 /**

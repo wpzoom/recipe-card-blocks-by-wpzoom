@@ -9,8 +9,8 @@ import get from 'lodash/get';
 import IconsModal from './IconsModal';
 
 /* WordPress dependencies */
-const { Component } = wp.element;
-const { TextControl } = wp.components;
+import { Component } from '@wordpress/element';
+import { TextControl } from '@wordpress/components';
 
 /**
  * A Detail items within a Details block.

@@ -12,9 +12,9 @@ import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles'
 import { matchIMGsrc } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
-const { Component, Fragment } = wp.element;
-const { RichText, MediaUpload } = wp.blockEditor;
-const { IconButton } = wp.components;
+import { Component, Fragment } from '@wordpress/element';
+import { RichText, MediaUpload } from '@wordpress/block-editor';
+import { IconButton } from '@wordpress/components';
 const { setting_options } = wpzoomRecipeCard;
 
 /* Module constants */

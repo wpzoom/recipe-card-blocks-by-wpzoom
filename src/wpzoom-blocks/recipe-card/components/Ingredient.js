@@ -9,9 +9,9 @@ import IngredientItem from './IngredientItem';
 import { stripHTML } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
-const { RichText } = wp.blockEditor;
-const { IconButton } = wp.components;
-const { Component, renderToString } = wp.element;
+import { RichText } from '@wordpress/block-editor';
+import { IconButton } from '@wordpress/components';
+import { Component, renderToString } from '@wordpress/element';
 
 /**
  * A Ingredient item within a Ingredient block.

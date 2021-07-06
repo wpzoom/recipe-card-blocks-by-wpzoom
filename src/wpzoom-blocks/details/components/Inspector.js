@@ -7,15 +7,15 @@ import isUndefined from 'lodash/isUndefined';
 import { stripHTML } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
-const { Component, renderToString } = wp.element;
-const { InspectorControls } = wp.blockEditor;
-const {
+import { Component, renderToString } from '@wordpress/element';
+import { InspectorControls } from '@wordpress/block-editor';
+import {
     BaseControl,
     PanelBody,
     RangeControl,
     TextControl,
     FormTokenField,
-} = wp.components;
+} from '@wordpress/components';
 
 /**
  * Inspector controls

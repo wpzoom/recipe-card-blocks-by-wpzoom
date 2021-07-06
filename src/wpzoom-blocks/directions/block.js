@@ -16,7 +16,7 @@ import legacy from './legacy';
 import icon from './icon';
 
 /* WordPress dependencies */
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+import { registerBlockType } from '@wordpress/blocks';
 
 const deprecatedAttr = {
     title: {

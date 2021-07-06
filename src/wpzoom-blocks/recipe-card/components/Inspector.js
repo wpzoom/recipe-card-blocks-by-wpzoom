@@ -18,9 +18,9 @@ import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles'
 import { getBlockStyle } from '../../../helpers/getBlockStyle';
 
 /* WordPress dependencies */
-const { Component, renderToString, Fragment } = wp.element;
-const { RichText, InspectorControls, MediaUpload } = wp.blockEditor;
-const {
+import { Component, renderToString, Fragment } from '@wordpress/element';
+import { RichText, InspectorControls, MediaUpload } from '@wordpress/block-editor';
+import {
     BaseControl,
     PanelBody,
     PanelRow,
@@ -32,7 +32,7 @@ const {
     SelectControl,
     Notice,
     Icon,
-} = wp.components;
+} from '@wordpress/components';
 import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
 
 /**

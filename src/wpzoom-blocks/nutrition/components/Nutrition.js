@@ -9,16 +9,16 @@ import findKey from 'lodash/findKey';
 import { parseClassName } from '../../../helpers/getBlockStyle';
 
 /* WordPress dependencies */
-const { Component, Fragment } = wp.element;
-const { withSelect } = wp.data;
-const { compose } = wp.compose;
-const {
+import { Component, Fragment } from '@wordpress/element';
+import { withSelect } from '@wordpress/data';
+import { compose } from '@wordpress/compose';
+import {
     TextControl,
     PanelBody,
     Button,
     SelectControl,
-} = wp.components;
-const { InspectorControls } = wp.blockEditor;
+} from '@wordpress/components';
+import { InspectorControls } from '@wordpress/block-editor';
 
 /* Import CSS. */
 import '../style.scss';

@@ -7,7 +7,7 @@ import DetailItem from './DetailItem';
 import { stripHTML } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
-const { Component, renderToString } = wp.element;
+import { Component, renderToString } from '@wordpress/element';
 
 /**
  * A Detail item within a Detail block.

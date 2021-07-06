@@ -9,9 +9,9 @@ import DirectionStep from './DirectionStep';
 import { stripHTML } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
-const { RichText } = wp.blockEditor;
-const { IconButton } = wp.components;
-const { Component, renderToString } = wp.element;
+import { RichText } from '@wordpress/block-editor';
+import { IconButton } from '@wordpress/components';
+import { Component, renderToString } from '@wordpress/element';
 
 /**
  * A Direction step within a Direction block.
