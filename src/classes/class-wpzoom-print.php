@@ -46,6 +46,13 @@ class WPZOOM_Print {
 		}
 
 		if ( isset( $print_atts['block-type'] ) ) {
+			$whitelist_blocks = array(
+				'recipe-card'       => 'wpzoom-recipe-card/block-recipe-card',
+				'ingredients-block' => 'wpzoom-recipe-card/block-ingredients',
+				'directions-block'  => 'wpzoom-recipe-card/block-directions',
+			);
+			$block_name       = isset( $whitelist_blocks[ $print_atts['block-type'] ] ) ? $whitelist_blocks[ $print_atts['block-type'] ] : '';
+
 			// Prevent WP Rocket lazy image loading on print page.
 			add_filter( 'do_rocket_lazyload', '__return_false' );
 
@@ -63,19 +70,15 @@ class WPZOOM_Print {
 				exit();
 			}
 
-			$whitelist_blocks = array(
-				'recipe-card'       => 'wpzoom-recipe-card/block-recipe-card',
-				'ingredients-block' => 'wpzoom-recipe-card/block-ingredients',
-				'directions-block'  => 'wpzoom-recipe-card/block-directions',
-			);
-
-			if ( 0 === intval( $print_atts['reusable-block-id'] ) ) {
-				// Try to find the reusable block id from core/block.
-				if ( has_blocks( $recipe->post_content ) ) {
-					$blocks = parse_blocks( $recipe->post_content );
-					foreach ( $blocks as $key => $block ) {
-						if ( 'core/block' === $block['blockName'] ) {
-							$print_atts['reusable-block-id'] = isset( $block['attrs']['ref'] ) ? $block['attrs']['ref'] : 0;
+			if ( ! empty( $block_name ) && ! has_block( $block_name, $recipe ) ) {
+				if ( 0 === intval( $print_atts['reusable-block-id'] ) ) {
+					// Try to find the reusable block id from core/block.
+					if ( has_blocks( $recipe->post_content ) ) {
+						$blocks = parse_blocks( $recipe->post_content );
+						foreach ( $blocks as $key => $block ) {
+							if ( 'core/block' === $block['blockName'] ) {
+								$print_atts['reusable-block-id'] = isset( $block['attrs']['ref'] ) ? $block['attrs']['ref'] : 0;
+							}
 						}
 					}
 				}
@@ -90,10 +93,9 @@ class WPZOOM_Print {
 				$blocks = parse_blocks( $recipe->post_content );
 
 				foreach ( $blocks as $key => $block ) {
-					$is_block_in_list = isset( $whitelist_blocks[ $print_atts['block-type'] ] );
-					$needle_block_id  = isset( $block['attrs']['id'] ) ? $block['attrs']['id'] : 'wpzoom-recipe-card';
-					$needle_block     = $is_block_in_list && $block['blockName'] === $whitelist_blocks[ $print_atts['block-type'] ];
-					$block_needed     = $print_atts['block-id'] === $needle_block_id && $needle_block;
+					$needle_block_id = isset( $block['attrs']['id'] ) ? $block['attrs']['id'] : 'wpzoom-recipe-card';
+					$needle_block    = ! empty( $block_name ) && $block['blockName'] === $block_name;
+					$block_needed    = $print_atts['block-id'] === $needle_block_id && $needle_block;
 
 					if ( $block_needed ) {
 						$has_WPZOOM_block = true;

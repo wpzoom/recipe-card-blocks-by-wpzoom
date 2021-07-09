@@ -249,7 +249,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		public static function get_reusable_block( $id ) {
 			$post = '';
 
-			if ( ! is_string( $id ) ) {
+			if ( ! is_string( $id ) && $id > 0 ) {
 				$wp_post = get_post( $id );
 				if ( $wp_post instanceof WP_Post ) {
 					$post = $wp_post->post_content;
