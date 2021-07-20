@@ -17,16 +17,16 @@ import ReactHtmlParser from 'react-html-parser';
 import { stripHTML } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
-const { renderToString, Fragment } = wp.element;
-const {
+import { renderToString, Fragment } from '@wordpress/element';
+import {
     Button,
     IconButton,
     Modal,
     Toolbar,
     TextareaControl,
-} = wp.components;
-const { withState } = wp.compose;
-const { select } = wp.data;
+} from '@wordpress/components';
+import { withState } from '@wordpress/compose';
+import { select } from '@wordpress/data';
 
 /**
  * We need to stop the keypress event here, because block.js is firing

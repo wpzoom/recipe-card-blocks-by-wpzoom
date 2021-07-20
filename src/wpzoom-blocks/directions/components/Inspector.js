@@ -2,9 +2,9 @@
 import { __ } from '@wordpress/i18n';
 
 /* WordPress dependencies */
-const { Component } = wp.element;
-const { InspectorControls } = wp.blockEditor;
-const { PanelBody, ToggleControl } = wp.components;
+import { Component } from '@wordpress/element';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 
 /**
  * Inspector controls

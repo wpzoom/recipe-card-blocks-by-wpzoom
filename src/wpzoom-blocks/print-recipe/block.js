@@ -12,8 +12,8 @@ import { __ } from '@wordpress/i18n';
 import icon from './icon';
 
 /* WordPress dependencies */
-const { Fragment } = wp.element;
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+import { Fragment } from '@wordpress/element';
+import { registerBlockType } from '@wordpress/blocks';
 
 /**
  * Register: Ingredients Gutenberg Block.

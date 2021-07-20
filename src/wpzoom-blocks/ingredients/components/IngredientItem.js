@@ -4,9 +4,9 @@ import { __ } from '@wordpress/i18n';
 import isShallowEqual from '@wordpress/is-shallow-equal';
 
 /* WordPress dependencies */
-const { Component, Fragment } = wp.element;
-const { RichText } = wp.blockEditor;
-const { IconButton } = wp.components;
+import { Component, Fragment } from '@wordpress/element';
+import { RichText } from '@wordpress/block-editor';
+import { IconButton } from '@wordpress/components';
 
 /**
  * A Ingredient item within a Ingredient block.

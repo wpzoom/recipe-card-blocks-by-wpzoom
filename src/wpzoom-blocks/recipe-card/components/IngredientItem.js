@@ -6,9 +6,9 @@ import isString from 'lodash/isString';
 import ReactHtmlParser from 'react-html-parser';
 
 /* WordPress dependencies */
-const { Component, Fragment } = wp.element;
-const { RichText, MediaUpload } = wp.blockEditor;
-const { IconButton } = wp.components;
+import { Component, Fragment } from '@wordpress/element';
+import { RichText, MediaUpload } from '@wordpress/block-editor';
+import { IconButton } from '@wordpress/components';
 
 /* Internal dependencies */
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';

@@ -9,9 +9,9 @@ import { stripHTML } from '../../../helpers/stringHelpers';
 import { generateId } from '../../../helpers/generateId';
 
 /* WordPress dependencies */
-const { RichText } = wp.blockEditor;
-const { IconButton } = wp.components;
-const { Component, renderToString } = wp.element;
+import { RichText } from '@wordpress/block-editor';
+import { IconButton } from '@wordpress/components';
+import { Component, renderToString } from '@wordpress/element';
 
 /* Import CSS. */
 import '../style.scss';

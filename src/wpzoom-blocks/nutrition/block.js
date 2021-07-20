@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
 import Nutrition from './components/Nutrition';
 
 /* WordPress dependencies */
-const { registerBlockType } = wp.blocks;
+import { registerBlockType } from '@wordpress/blocks';
 
 /**
  * Register: Nutrition Gutenberg Block.

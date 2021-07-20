@@ -8,9 +8,9 @@ import get from 'lodash/get';
 import IconsModal from './IconsModal';
 
 /* WordPress dependencies */
-const { Component } = wp.element;
-const { RichText } = wp.blockEditor;
-const { IconButton } = wp.components;
+import { Component } from '@wordpress/element';
+import { RichText } from '@wordpress/block-editor';
+import { IconButton } from '@wordpress/components';
 
 /**
  * A Detail items within a Details block.

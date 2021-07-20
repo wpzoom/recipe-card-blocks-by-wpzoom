@@ -270,7 +270,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$dependencies = array();
 
 			if ( self::$_slug . '-js' === $handle ) {
-				$dependencies = array( 'wp-editor', 'wp-components', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-compose' );
+				$dependencies = array( 'wp-components', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-compose' );
 			} elseif ( self::$_slug . '-editor-css' === $handle ) {
 				$dependencies = array( 'wp-edit-blocks' );
 			} elseif ( self::$_slug . '-script' === $handle ) {
@@ -374,8 +374,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function editor_assets() {
-			global $post;
-
 			$options = WPZOOM_Settings::get_settings();
 
 			wp_enqueue_script( self::$_slug . '-js' );
@@ -402,11 +400,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 					'version'             => WPZOOM_RCB_VERSION,
 					'textdomain'          => WPZOOM_RCB_TEXT_DOMAIN,
 					'pluginURL'           => WPZOOM_RCB_PLUGIN_URL,
-					'post_permalink'      => str_replace( '?p=', '', get_the_permalink( $post->ID ) ),
-					'post_thumbnail_url'  => get_the_post_thumbnail_url( $post->ID ),
-					'post_thumbnail_id'   => get_post_thumbnail_id( $post->ID ),
-					'post_title'          => $post->post_title,
-					'post_author_name'    => get_the_author_meta( 'display_name', $post->post_author ),
 					'is_pro'              => WPZOOM_Recipe_Card_Block_Gutenberg::is_pro(),
 					'setting_options'     => ( ! empty( $options ) ? $options : WPZOOM_Settings::get_defaults() ),
 					'nutritionFactsLabel' => WPZOOM_Nutrition_Block::$labels,
