@@ -46,7 +46,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 	private static function action_hooks() {
 		global $wp_version;
 
-		if ( version_compare( $wp_version, '5.8.0', '<' ) ) {
+		if ( version_compare( $wp_version, '5.8', '<' ) ) {
 			add_filter( 'block_categories', __CLASS__ . '::add_custom_category', 10, 2 );
 		} else {
 			add_filter( 'block_categories_all', __CLASS__ . '::add_custom_category', 10, 2 );
