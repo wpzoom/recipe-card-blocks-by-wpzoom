@@ -322,6 +322,7 @@ export default class DirectionStep extends Component {
                         tagName="p"
                         unstableOnSetup={ this.setTextRef }
                         key={ `${ id }-text` }
+						tabIndex="0"
                         value={ textContent }
                         onChange={ this.onChangeText }
                         placeholder={ __( 'Enter step description', 'wpzoom-recipe-card' ) }
@@ -336,6 +337,7 @@ export default class DirectionStep extends Component {
                         tagName="p"
                         unstableOnSetup={ this.setTextRef }
                         key={ `${ id }-group-title` }
+						tabIndex="0"
                         value={ textContent }
                         onChange={ this.onChangeGroupTitle }
                         placeholder={ __( 'Enter group title', 'wpzoom-recipe-card' ) }
