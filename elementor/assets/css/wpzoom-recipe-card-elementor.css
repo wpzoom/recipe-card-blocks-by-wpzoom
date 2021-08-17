@@ -1,0 +1,14 @@
+
+
+#elementor-panel-categories {
+    display: flex;
+    flex-direction: column;
+}
+#elementor-panel-category-wpzoom-elementor-recipe-card {
+    order: -1;
+}
+.elementor-control-recipe_details_list .elementor-repeater-tool-duplicate,
+.elementor-control-recipe_details_list .elementor-repeater-tool-remove,
+.elementor-control-recipe_details_list .elementor-repeater-add {
+	display: none !important;
+}
