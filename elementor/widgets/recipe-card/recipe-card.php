@@ -268,7 +268,7 @@ class Recipe_Card extends Widget_Base {
 			Group_Control_Image_Size::get_type(),
 			[
 				'name'      => 'thumbnail', // Usage: `{name}_size` and `{name}_custom_dimension`, in this case `thumbnail_size` and `thumbnail_custom_dimension`.
-				'default'   => 'full',
+				'default'   => 'wpzoom-rcb-block-header',
 				'separator' => 'none',
 			]
 		);
@@ -2016,7 +2016,7 @@ class Recipe_Card extends Widget_Base {
 				$video_url = wp_get_attachment_url( $video_id );
 
 				$image_id = get_post_thumbnail_id( $video_id );
-				$thumb = wp_get_attachment_image_src( $image_id, 'full' );
+				$thumb = wp_get_attachment_image_src( $image_id, 'wpzoom-rcb-block-header' );
 				$thumbnail_url = $thumb && isset( $thumb[0] ) ? $thumb[0] : '';
 
 				$json_ld['video'] = array_merge(
