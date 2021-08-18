@@ -134,7 +134,7 @@ class Recipe_Card extends Widget_Base {
 	 * @return string Widget icon.
 	 */
 	public function get_icon() {
-		return 'eicon-edit';
+		return 'eicon-menu-card';
 	}
 
 	/**
