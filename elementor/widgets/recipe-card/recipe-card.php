@@ -1566,7 +1566,7 @@ class Recipe_Card extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$id = 'wpzoom-premium-recipe-card';
+		$id = 'wpzoom-recipe-card';
 
 		$this->add_render_attribute( '_wrapper_recipe_card', 'id', $id );
 		$this->add_render_attribute( '_wrapper_recipe_card', 'class', 'wp-block-wpzoom-recipe-card-block-recipe-card' );
@@ -1629,7 +1629,7 @@ class Recipe_Card extends Widget_Base {
 			$html .= $image_html;
 			$html .= '<figcaption>';
 			if ( 'yes' !== $settings['hide_pintereset'] ) {
-				$html .= \WPZOOM_Premium_Recipe_Card_Block::get_pinterest_button( array( 'url' => $settings['image']['url'] ), get_the_permalink(), wp_kses_post( $settings['recipe_card_summary'] ) ); 
+				$html .= \WPZOOM_Recipe_Card_Block::get_pinterest_button( array( 'url' => $settings['image']['url'] ), get_the_permalink(), wp_kses_post( $settings['recipe_card_summary'] ) ); 
 			}
 			if ( 'yes' !== $settings['hide_print'] ) {
 				$html .= $this->get_print_button();

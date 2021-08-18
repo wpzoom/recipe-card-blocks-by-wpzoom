@@ -3,7 +3,7 @@ jQuery(document).ready(function ($) {
 
 	$('.elementor-rcb-print-button').on( 'click', function(e) {
 		e.preventDefault();
-		$('#wpzoom-premium-recipe-card').print({
+		$('#wpzoom-recipe-card').print({
 			globalStyles: true,
 			iframe: true,
 			stylesheet: wpzoomRecipeCardPrint.stylesheetPrintURL,
