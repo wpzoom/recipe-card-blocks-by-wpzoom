@@ -121,7 +121,7 @@ class Recipe_Card extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return esc_html__( 'Recipe Card', 'wpzoom-recipe-card' );
+		return esc_html__( 'Recipe Card Block', 'wpzoom-recipe-card' );
 	}
 
 	/**
