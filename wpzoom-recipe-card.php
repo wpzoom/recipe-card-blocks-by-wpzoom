@@ -48,3 +48,10 @@ if ( ! function_exists( 'wpzoom_rcb_block_is_registered' ) ) {
 		return $WP_Block_Type_Registry->is_registered( $name );
 	}
 }
+
+/**
+ * Check if the Elementor Page Builder is enabled load the widget
+ */
+if ( defined( 'ELEMENTOR_VERSION' ) && is_callable( 'Elementor\Plugin::instance' ) ) {
+	require_once 'elementor/wpzoom-elementor-recipe-card.php';
+}
