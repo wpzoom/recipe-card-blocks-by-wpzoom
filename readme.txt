@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.8.0 =
+* Recipe Card Block is now available in Elementor!
+
 = 2.7.14 =
 * Fixed 404 error on print
 * Fixed issues after update to WP 5.8
