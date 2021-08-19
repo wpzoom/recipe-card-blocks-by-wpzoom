@@ -273,33 +273,36 @@ class Recipe_Card extends Widget_Base {
 			]
 		);
 		$this->add_control(
-			'hide_image',
+			'show_image',
 			[
-				'label' => __( 'Hide Image', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Hide Recipe Image on Front-End',  ),
-				'type' => Controls_Manager::SWITCHER,
-				'label_on' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
-				'label_off' => esc_html__( 'Show', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Show Image', 'wpzoom-recipe-card' ),
+				'description' => esc_html__( 'Show Recipe Image on Front-End',  ),
+				'type'        => Controls_Manager::SWITCHER,
+				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-card' ),
+				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'default'     => 'yes'
 			]
 		);
 		$this->add_control(
-			'hide_print',
+			'show_print',
 			[
 				'label'       => esc_html__( 'Print Button', 'wpzoom-recipe-card' ),
 				'description' => esc_html__( 'Display Print Button', 'wpzoom-recipe-card' ),
-				'type' => Controls_Manager::SWITCHER,
-				'label_on' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
-				'label_off' => esc_html__( 'Show', 'wpzoom-recipe-card' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-card' ),
+				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'default'     => 'yes'
 			]
 		);
 		$this->add_control(
-			'hide_pintereset',
+			'show_pintereset',
 			[
 				'label'       => __( 'Pinterest Button', 'wpzoom-recipe-card' ),
 				'description' => esc_html__( 'Display Pinterest Button', 'wpzoom-recipe-card' ),
 				'type'        => Controls_Manager::SWITCHER,
-				'label_on' => esc_html__( 'Hide', 'wpzoom-recipe-cards' ),
-				'label_off' => esc_html__( 'Show', 'wpzoom-recipe-card' ),
+				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
+				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'default'     => 'yes'
 			]
 		);
 
@@ -636,7 +639,7 @@ class Recipe_Card extends Widget_Base {
 			'ingredient_item_label',
 			array(
 				'label'   => esc_html__( 'Ingredient Name', 'wpzoom-recipe-card' ),
-				'type'    => Controls_Manager::TEXT,
+				'type'    => Controls_Manager::WYSIWYG,
 				'label_block' => true,
 			)
 		);
@@ -698,7 +701,7 @@ class Recipe_Card extends Widget_Base {
 			'directions_step_text',
 			array(
 				'label'       => esc_html__( 'Step description', 'wpzoom-recipe-card' ),
-				'type'        => Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXTAREA,
 				'label_block' => true,
 			)
 		);
@@ -1628,10 +1631,10 @@ class Recipe_Card extends Widget_Base {
 			$html .= '<figure>';
 			$html .= $image_html;
 			$html .= '<figcaption>';
-			if ( 'yes' !== $settings['hide_pintereset'] ) {
+			if ( 'yes' === $settings['show_pintereset'] ) {
 				$html .= \WPZOOM_Recipe_Card_Block::get_pinterest_button( array( 'url' => $settings['image']['url'] ), get_the_permalink(), wp_kses_post( $settings['recipe_card_summary'] ) ); 
 			}
-			if ( 'yes' !== $settings['hide_print'] ) {
+			if ( 'yes' === $settings['show_print'] ) {
 				$html .= $this->get_print_button();
 			}
 			$html .= '</figcaption>';
@@ -1737,7 +1740,7 @@ class Recipe_Card extends Widget_Base {
 			foreach ( $settings['recipe_ingredients_list'] as $index => $item ) :
 				$id = self::$helpers->generateId( 'ingredient-item' );
 				$html .= '<li id="wpzoom-rcb-' . $id . '" class="ingredient-item"><span class="tick-circle"></span>';
-					$html .= '<p class="ingredient-item-name is-strikethrough-active">';
+					$html .= '<div class="ingredient-item-name is-strikethrough-active">';
 						if( ! empty( $item['ingredient_item_amount'] ) ) {
 							$html .= '<span class="wpzoom-rcb-ingredient-amount">' . esc_html( $item['ingredient_item_amount'] ) . '</span> ';
 						}
@@ -1745,9 +1748,9 @@ class Recipe_Card extends Widget_Base {
 							$html .= '<span class="wpzoom-rcb-ingredient-unit">' . esc_html( $item['ingredient_item_unit'] ) . '</span> ';
 						}
 						if( ! empty( $item['ingredient_item_label'] ) ) {
-							$html .= '<span class="wpzoom-rcb-ingredient-name">' . esc_html( $item['ingredient_item_label'] ) . '</span>';
+							$html .= '<span class="wpzoom-rcb-ingredient-name">' . wp_kses_post( $item['ingredient_item_label'] ) . '</span>';
 						}
-					$html .= '</p>';
+					$html .= '</div>';
 				$html .= '</li>';
 			endforeach;
 			$html .= '</ul>';
