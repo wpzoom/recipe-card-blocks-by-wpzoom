@@ -56,6 +56,7 @@ class Recipe_Card extends Widget_Base {
 		self::$recipe = get_post();
 
 		wp_register_style( 'wpzoom-rcb-block-style-css', WPZOOM_RCB_PLUGIN_URL . '/dist/blocks.style.build.css', null, WPZOOM_RCB_VERSION );
+		wp_register_style( 'wpzoom-rcb-elementor-css-frontend', plugins_url( 'frontend.css', __FILE__ ), null, WPZOOM_RCB_VERSION );
 
 		//Register custom icons css
 		wp_register_style( 'wpzoom-rcb-block-icons-css', WPZOOM_RCB_PLUGIN_URL . '/dist/assets/css/icon-fonts.build.css', null, WPZOOM_RCB_VERSION );
@@ -165,7 +166,8 @@ class Recipe_Card extends Widget_Base {
 			'wpzoom-rcb-block-oldicon-css',
 			'wpzoom-rcb-block-foodicons-css',
 			'wpzoom-rcb-block-genericons-css',
-			'wpzoom-rcb-block-style-css'
+			'wpzoom-rcb-block-style-css',
+			'wpzoom-rcb-elementor-css-frontend'
 		];
 	}
 
@@ -701,7 +703,7 @@ class Recipe_Card extends Widget_Base {
 			'directions_step_text',
 			array(
 				'label'       => esc_html__( 'Step description', 'wpzoom-recipe-card' ),
-				'type'        => Controls_Manager::TEXTAREA,
+				'type'        => Controls_Manager::WYSIWYG,
 				'label_block' => true,
 			)
 		);
@@ -1772,7 +1774,7 @@ class Recipe_Card extends Widget_Base {
 				$id = self::$helpers->generateId( 'direction-step' );
 				$html .= '<li id="wpzoom-rcb-' . $id . '" class="direction-step">';
 				if( ! empty( $item['directions_step_text'] ) ) {
-					$html .= esc_html( $item['directions_step_text'] );
+					$html .= wp_kses_post( $item['directions_step_text'] );
 				}
 				if( ! empty( $item['image']['url'] ) ) {
 					$image_html = wp_get_attachment_image(
