@@ -1,3 +1,7 @@
 .ingredients-list .ingredient-item-name p {
 	display: inline;
 }
+.ingredients-list .ingredient-item-name img,
+.ingredients-list .ingredient-item-name p img {
+	display: block;
+}
