@@ -517,8 +517,8 @@ class WPZOOM_Recipe_Card_Block {
 		$recipe_card_video   = self::get_video_content();
 
 		$esc_html_notes = isset( $notes ) ? esc_html( $notes ) : '';
-		$notes            = str_replace( '<li></li>', '', $notes ); // remove empty list item
-		$notes_content    = ! empty( $esc_html_notes ) ?
+		$notes          = str_replace( '<li></li>', '', $notes ); // remove empty list item
+		$notes_content  = ! empty( $esc_html_notes ) ?
 			sprintf(
 				'<div class="recipe-card-notes">
 					<h3 class="notes-title">%s</h3>
@@ -1357,7 +1357,7 @@ class WPZOOM_Recipe_Card_Block {
 							);
 						}
 
-						if ( isset($attachment) && $attachment ) {
+						if ( isset( $attachment ) && $attachment ) {
 							$start_tag = $attachment;
 						} else {
 							$start_tag = sprintf(
