@@ -88,7 +88,7 @@ class Recipe_Card extends Widget_Base {
 				'nonce'      => wp_create_nonce( 'wpzoom_rcb' ),
 				'api_nonce'  => wp_create_nonce( 'wp_rest' ),
 				'strings'    => array(
-					'loading-gallery-media' => __( 'Loading gallery media', 'wpzoom-recipe-card' )
+					'loading-gallery-media' => esc_html__( 'Loading gallery media', 'wpzoom-recipe-card' )
 				)
 			)
 		);	
@@ -299,7 +299,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'show_pintereset',
 			[
-				'label'       => __( 'Pinterest Button', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Pinterest Button', 'wpzoom-recipe-card' ),
 				'description' => esc_html__( 'Display Pinterest Button', 'wpzoom-recipe-card' ),
 				'type'        => Controls_Manager::SWITCHER,
 				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
@@ -311,19 +311,19 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'header_align',
 			[
-				'label' => esc_html__( 'Header Content Align', 'elementor' ),
+				'label' => esc_html__( 'Header Content Align', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Left', 'elementor' ),
+						'title' => esc_html__( 'Left', 'wpzoom-recipe-card' ),
 						'icon' => 'eicon-text-align-left',
 					],
 					'center' => [
-						'title' => __( 'Center', 'elementor' ),
+						'title' => esc_html__( 'Center', 'wpzoom-recipe-card' ),
 						'icon' => 'eicon-text-align-center',
 					],
 					'right' => [
-						'title' => __( 'Right', 'elementor' ),
+						'title' => esc_html__( 'Right', 'wpzoom-recipe-card' ),
 						'icon' => 'eicon-text-align-right',
 					],
 				],
@@ -333,11 +333,11 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'show_author',
 			[
-				'label'       => __( 'Author', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Author', 'wpzoom-recipe-card' ),
 				'description' => esc_html__( 'Display Author', 'wpzoom-recipe-card' ),
 				'type'        => Controls_Manager::SWITCHER,
-				'label_on' => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
-				'label_off' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
+				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
 			]
 		);
 
@@ -402,12 +402,12 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_cuisine',
 			array(
-				'label'   => esc_html__( 'Cuisine', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Cuisine', 'wpzoom-recipe-card' ),
 				'description' => esc_html__( 'Separate with commas or the Enter key.', 'wpzoom-recipe-card' ),
 				'type'        => 'wpzoom_tagfield',
 				'label_block' => true,
 				'placeholder' => esc_html__( 'Cuisine', 'wpzoom-recipe-card' ),
-				'condition' => array(
+				'condition'   => array(
 					'show_cuisine' => 'yes'
 				)
 			)
@@ -416,8 +416,8 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'show_difficulty',
 			array(
-				'label'       => esc_html__( 'Display Difficulty', 'wpzoom-recipe-card' ),
-				'type'        => Controls_Manager::SWITCHER,
+				'label'     => esc_html__( 'Display Difficulty', 'wpzoom-recipe-card' ),
+				'type'      => Controls_Manager::SWITCHER,
 				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
 				'label_off' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
 			)
@@ -425,11 +425,11 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_difficulty',
 			array(
-				'label'   => esc_html__( 'Add difficulty level', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Add difficulty level', 'wpzoom-recipe-card' ),
 				'description' => esc_html__( 'Separate with commas or the Enter key.', 'wpzoom-recipe-card' ),
 				'type'        => 'wpzoom_tagfield',
 				'label_block' => true,
-				'condition' => array(
+				'condition'   => array(
 					'show_difficulty' => 'yes'
 				)
 			)
@@ -438,7 +438,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_keywords',
 			array(
-				'label'   => esc_html__( 'Keywords (recommended)', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Keywords (recommended)', 'wpzoom-recipe-card' ),
 				'description' => esc_html__( 'Separate with commas or the Enter key.', 'wpzoom-recipe-card' ),
 				'type'        => 'wpzoom_tagfield',
 				'label_block' => true,
@@ -460,8 +460,8 @@ class Recipe_Card extends Widget_Base {
 		$details_repeater->add_control(
 			'show_detail_item',
 			array(
-				'label'       => esc_html__( 'Display Detail Item', 'wpzoom-recipe-card' ),
-				'type'        => Controls_Manager::SWITCHER,
+				'label'      => esc_html__( 'Display Detail Item', 'wpzoom-recipe-card' ),
+				'type'       => Controls_Manager::SWITCHER,
 				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
 				'label_off' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
 			)
@@ -480,7 +480,7 @@ class Recipe_Card extends Widget_Base {
 			'detail_item_icon',
 			array(
 				'label' => esc_html__( 'Icon', 'wpzoom-recipe-card' ),
-				'type' => Controls_Manager::ICONS,
+				'type'  => Controls_Manager::ICONS,
 				'fa4compatibility' => 'icon',
 				'default' => [
 					'value' => 'fas fa-check',
@@ -790,12 +790,12 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_type',
 			[
-				'label' => esc_html__( 'Source', 'elementor' ),
+				'label' => esc_html__( 'Source', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'embed',
 				'options' => [
-					'embed'  => esc_html__( 'Embed', 'elementor' ),
-					'hosted' => esc_html__( 'Self Hosted', 'elementor' ),
+					'embed'  => esc_html__( 'Embed', 'wpzoom-recipe-card' ),
+					'hosted' => esc_html__( 'Self Hosted', 'wpzoom-recipe-card' ),
 				],
 				'frontend_available' => true,
 			]
@@ -804,7 +804,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_url',
 			[
-				'label' => __( 'Link', 'elementor' ),
+				'label' => esc_html__( 'Link', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
@@ -813,7 +813,7 @@ class Recipe_Card extends Widget_Base {
 						TagsModule::URL_CATEGORY,
 					],
 				],
-				'placeholder' => __( 'Enter your URL', 'elementor' ),
+				'placeholder' => esc_html__( 'Enter your URL', 'wpzoom-recipe-card' ),
 				'default' => 'https://www.youtube.com/watch?v=TehuLXQXNi8',
 				'label_block' => true,
 				'condition' => [
@@ -826,7 +826,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'hosted_url',
 			[
-				'label' => __( 'Choose File', 'elementor' ),
+				'label' => esc_html__( 'Choose File', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => true,
@@ -844,7 +844,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_title',
 			[
-				'label' => __( 'Video Title', 'elementor' ),
+				'label' => esc_html__( 'Video Title', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true
@@ -858,7 +858,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_description',
 			[
-				'label' => esc_html__( 'Video Description', 'elementor' ),
+				'label' => esc_html__( 'Video Description', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::TEXTAREA,
 				'dynamic' => [
 					'active' => true
@@ -871,7 +871,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_options',
 			[
-				'label' => __( 'Video Options', 'elementor' ),
+				'label' => esc_html__( 'Video Options', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
@@ -883,7 +883,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'autoplay',
 			[
-				'label' => __( 'Autoplay', 'elementor' ),
+				'label' => esc_html__( 'Autoplay', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::SWITCHER,
 				'frontend_available' => true,
 				'condition' => [
@@ -895,7 +895,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'mute',
 			[
-				'label' => __( 'Mute', 'elementor' ),
+				'label' => esc_html__( 'Mute', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::SWITCHER,
 				'frontend_available' => true,
 				'condition' => [
@@ -907,7 +907,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'loop',
 			[
-				'label' => __( 'Loop', 'elementor' ),
+				'label' => esc_html__( 'Loop', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::SWITCHER,
 				'condition' => [
 					'video_type' => 'hosted',
@@ -919,10 +919,10 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'controls',
 			[
-				'label' => __( 'Player Controls', 'elementor' ),
-				'type' => Controls_Manager::SWITCHER,
-				'label_off' => __( 'Hide', 'elementor' ),
-				'label_on' => __( 'Show', 'elementor' ),
+				'label'     => esc_html__( 'Player Controls', 'wpzoom-recipe-card' ),
+				'type'      => Controls_Manager::SWITCHER,
+				'label_off' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-card' ),
 				'condition' => [
 					'video_type' => 'hosted',
 				],
@@ -934,7 +934,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'poster',
 			[
-				'label' => __( 'Poster', 'elementor' ),
+				'label' => esc_html__( 'Poster', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => true,
@@ -948,7 +948,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'view',
 			[
-				'label' => __( 'View', 'elementor' ),
+				'label' => esc_html__( 'View', 'wpzoom-recipe-card' ),
 				'type' => Controls_Manager::HIDDEN,
 				'default' => 'youtube',
 			]
@@ -1640,9 +1640,7 @@ class Recipe_Card extends Widget_Base {
 				$html .= $this->get_print_button();
 			}
 			$html .= '</figcaption>';
-
 			$html .= '</figure>';
-			
 			$html .= '</div><!-- /.recipe-card-image -->';
 
 		}
@@ -1731,13 +1729,11 @@ class Recipe_Card extends Widget_Base {
 		if ( is_array( $settings[ 'recipe_ingredients_list' ] ) ) :
 			
 			$html .= '<div class="recipe-card-ingredients">';
-			
 			if( !empty( $settings['ingredients_title'] ) ) {
 				$this->add_render_attribute( 'ingredients_title', 'class', 'ingredients-title' );
 				$this->add_inline_editing_attributes( 'ingredients_title' );
 				$html .= sprintf( '<h3 %s>%s</h3>', $this->get_render_attribute_string( 'ingredients_title' ), esc_html( $settings['ingredients_title'] ) );
 			}
-			
 			$html .= '<ul class="ingredients-list layout-1-column">';
 			foreach ( $settings['recipe_ingredients_list'] as $index => $item ) :
 				$id = self::$helpers->generateId( 'ingredient-item' );
@@ -1756,7 +1752,6 @@ class Recipe_Card extends Widget_Base {
 				$html .= '</li>';
 			endforeach;
 			$html .= '</ul>';
-			
 			$html .= '</div><!-- /.recipe-card-ingredients -->';
 		
 		endif;
@@ -1846,10 +1841,9 @@ class Recipe_Card extends Widget_Base {
 		endif;
 		
 		$html .= '<script type="application/ld+json">'.  wp_json_encode( $this->get_json_ld() ) . '</script>';
-
 		$html .= '</div><!-- /.wp-block-wpzoom-recipe-card-block-recipe-card -->';
 
-		echo $html;
+		echo apply_filters( 'wpzoom_recipe_card_output', $html );
 	}
 
 	public function get_video() {
