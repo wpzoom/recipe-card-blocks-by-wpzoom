@@ -140,6 +140,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.8.1 =
+* Fixing escaping issues
+
 = 2.8.0 =
 * Recipe Card Block is now available in Elementor!
 
