@@ -108,7 +108,7 @@ class WPZOOM_Steps_Block {
 		$steps_content = self::get_steps_content( $steps );
 
 		$btn_attributes = array(
-			'title' => __( 'Print directions...', 'wpzoom-recipe-card' ),
+			'title' => esc_html__( 'Print directions...', 'wpzoom-recipe-card' ),
 		);
 
 		if ( $post ) {
@@ -132,7 +132,7 @@ class WPZOOM_Steps_Block {
 			esc_attr( $print_visibility ),
 			$atts,
 			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),
-			__( 'Print', 'wpzoom-recipe-card' ),
+			esc_html__( 'Print', 'wpzoom-recipe-card' ),
 			esc_html( $title ),
 			$steps_content
 		);
@@ -178,7 +178,7 @@ class WPZOOM_Steps_Block {
 
 			if ( ! $isGroup ) {
 				if ( ! empty( $step['text'] ) ) {
-					$text    = self::wrap_direction_text( $step['text'] );
+					$text    = WPZOOM_Recipe_Card_Block::wrap_direction_text( $step['text'] );
 					$output .= sprintf(
 						'<li class="direction-step">%s</li>',
 						$text
@@ -188,7 +188,7 @@ class WPZOOM_Steps_Block {
 				if ( ! empty( $step['text'] ) ) {
 					$text    = sprintf(
 						'<strong class="direction-step-group-title">%s</strong>',
-						self::wrap_direction_text( $step['text'] )
+						WPZOOM_Recipe_Card_Block::wrap_direction_text( $step['text'] )
 					);
 					$output .= sprintf(
 						'<li class="direction-step direction-step-group">%s</li>',
@@ -199,53 +199,5 @@ class WPZOOM_Steps_Block {
 		}
 
 		return force_balance_tags( $output );
-	}
-
-	public static function wrap_direction_text( $nodes, $type = '' ) {
-		if ( ! is_array( $nodes ) ) {
-			return $nodes;
-		}
-
-		$output = '';
-		foreach ( $nodes as $node ) {
-			if ( ! is_array( $node ) ) {
-				$output .= $node;
-			} else {
-				$type     = isset( $node['type'] ) ? $node['type'] : null;
-				$children = isset( $node['props']['children'] ) ? $node['props']['children'] : null;
-
-				$start_tag = $type ? "<$type>" : '';
-				$end_tag   = $type ? "</$type>" : '';
-
-				if ( 'img' === $type ) {
-					$src = isset( $node['props']['src'] ) ? $node['props']['src'] : false;
-					if ( $src ) {
-						$alt       = isset( $node['props']['alt'] ) ? $node['props']['alt'] : '';
-						$title     = isset( $node['props']['title'] ) ? $node['props']['title'] : '';
-						$class     = '0' == WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_show_steps_image' ) ? 'no-print' : '';
-						$class    .= ' direction-step-image';
-						$img_style = isset( $node['props']['style'] ) ? $node['props']['style'] : '';
-
-						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, trim( $class ), trim( $img_style ) );
-					} else {
-						$start_tag = '';
-					}
-					$end_tag = '';
-				} elseif ( 'a' === $type ) {
-					$rel        = isset( $node['props']['rel'] ) ? $node['props']['rel'] : '';
-					$aria_label = isset( $node['props']['aria-label'] ) ? $node['props']['aria-label'] : '';
-					$href       = isset( $node['props']['href'] ) ? $node['props']['href'] : '#';
-					$target     = isset( $node['props']['target'] ) ? $node['props']['target'] : '_blank';
-
-					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
-				} elseif ( 'br' === $type ) {
-					$end_tag = '';
-				}
-
-				$output .= $start_tag . self::wrap_direction_text( $children, $type ) . $end_tag;
-			}
-		}
-
-		return $output;
 	}
 }

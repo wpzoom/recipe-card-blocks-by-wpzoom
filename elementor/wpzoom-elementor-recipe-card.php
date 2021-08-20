@@ -9,7 +9,6 @@ WPZOOM_Elementor_Recipe_Card::instance();
 
 /**
  * Class WPZOOM_Elementor_Recipe_Card
- *
  */
 
 class WPZOOM_Elementor_Recipe_Card {
@@ -47,9 +46,7 @@ class WPZOOM_Elementor_Recipe_Card {
 	 * @access public
 	 */
 	public function __construct() {
-	
 		add_action( 'elementor/init', array( $this, 'init' ) );
-	
 	}
 
 	/**
@@ -66,22 +63,20 @@ class WPZOOM_Elementor_Recipe_Card {
 	public function init() {
 
 		// Add Plugin actions
-		add_action( 'elementor/elements/categories_registered', [ $this, 'add_widget_categories' ] );
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'init_widgets' ] );
-		add_action( 'elementor/controls/controls_registered'   , array( $this, 'register_controls' ) );
-		
+		add_action( 'elementor/elements/categories_registered', array( $this, 'add_widget_categories' ) );
+		add_action( 'elementor/widgets/widgets_registered', array( $this, 'init_widgets' ) );
+		add_action( 'elementor/controls/controls_registered', array( $this, 'register_controls' ) );
+
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'plugin_css' ) );
 
-		//Load Custom icons
+		// Load Custom icons
 		add_filter( 'elementor/icons_manager/additional_tabs', array( $this, 'add_custom_icons' ) );
-		
-
 	}
 
 	/**
 	 * Enqueue plugin styles.
 	 */
-	public function plugin_css() {	
+	public function plugin_css() {
 		wp_enqueue_style( 'wpzoom-recipe-card-elementor', WPZOOM_RCB_PLUGIN_URL . 'elementor/assets/css/wpzoom-recipe-card-elementor.css', WPZOOM_RCB_VERSION );
 	}
 
@@ -96,16 +91,14 @@ class WPZOOM_Elementor_Recipe_Card {
 	public function init_widgets() {
 
 		// Include Widget files
-		$widgets = glob( __DIR__ . '/widgets/*', GLOB_ONLYDIR | GLOB_NOSORT ); 
-		foreach( $widgets as $path ) {
-
-			$slug = str_replace( __DIR__ . '/widgets/', '', $path );
+		$widgets = glob( __DIR__ . '/widgets/*', GLOB_ONLYDIR | GLOB_NOSORT );
+		foreach ( $widgets as $path ) {
+			$slug  = str_replace( __DIR__ . '/widgets/', '', $path );
 			$slug_ = str_replace( '-', '_', $slug );
-			$file = trailingslashit( $path ) . $slug . '.php';
+			$file  = trailingslashit( $path ) . $slug . '.php';
 
 			if ( file_exists( $file ) ) {
-
-				require_once( $file );
+				require_once $file;
 				$class_name = '\WPZOOMElementorRecipeCard\\' . ucwords( $slug_, '_' );
 				if ( class_exists( $class_name ) ) {
 					// Register widget
@@ -126,41 +119,40 @@ class WPZOOM_Elementor_Recipe_Card {
 	function add_widget_categories( $elements_manager ) {
 		$elements_manager->add_category(
 			'wpzoom-elementor-recipe-card',
-			[
+			array(
 				'title' => esc_html__( 'WPZOOM - Recipe Card', 'wpzoom-recipe-card' ),
-				'icon' => 'fa fa-plug'
-			]
+				'icon'  => 'fa fa-plug',
+			)
 		);
 	}
 
-   /**
-     * Register controls
-     *
-     * @since 1.0.0
-     *
-     * @access public
-     */
-    public function register_controls( $controls_manager ) {
-
-        $controls = array(
+	/**
+	 * Register controls
+	 *
+	 * @since 1.0.0
+	 *
+	 * @access public
+	 */
+	public function register_controls( $controls_manager ) {
+		$controls = array(
 			'wpzoom_tagfield' => array(
-                'file'  => __DIR__ . '/controls/tagfield.php',
-                'class' => 'Controls\WPZOOM_Tagfield'
-            ),
-        );
+				'file'  => __DIR__ . '/controls/tagfield.php',
+				'class' => 'Controls\WPZOOM_Tagfield',
+			),
+		);
 
-        foreach ( $controls as $control_type => $control_info ) {
-            if( ! empty( $control_info['file'] ) && ! empty( $control_info['class'] ) ){
-                include_once( $control_info['file'] );
-                if( class_exists( $control_info['class'] ) ){
-                    $class_name = $control_info['class'];
-                } elseif( class_exists( __NAMESPACE__ . '\\' . $control_info['class'] ) ){
-                    $class_name = __NAMESPACE__ . '\\' . $control_info['class'];
-                }
-                $controls_manager->register_control( $control_type, new $class_name() );
-            }
-        }
-    }
+		foreach ( $controls as $control_type => $control_info ) {
+			if ( ! empty( $control_info['file'] ) && ! empty( $control_info['class'] ) ) {
+				include_once $control_info['file'];
+				if ( class_exists( $control_info['class'] ) ) {
+					$class_name = $control_info['class'];
+				} elseif ( class_exists( __NAMESPACE__ . '\\' . $control_info['class'] ) ) {
+					$class_name = __NAMESPACE__ . '\\' . $control_info['class'];
+				}
+				$controls_manager->register_control( $control_type, new $class_name() );
+			}
+		}
+	}
 
 	/**
 	 * Add custom icons to Elementor registry
@@ -169,21 +161,19 @@ class WPZOOM_Elementor_Recipe_Card {
 	 * @return void
 	 */
 	public function icons_filters( $controls_registry ) {
-	
+
 		// Get existing icons
 		$icons = $controls_registry->get_control( 'icon' )->get_settings( 'options' );
 
 		$wpzoomIcons = array(
 			'food',
-			'room-service'
+			'room-service',
 		);
 
 		$icons = array_merge( $wpzoomIcons, $icons );
 
 		// send back new array
 		$controls_registry->get_control( 'icon' )->set_settings( 'options', $icons );
-	
-	
 	}
 
 	/**
@@ -193,9 +183,8 @@ class WPZOOM_Elementor_Recipe_Card {
 	 * @return array $tabs
 	 */
 	public function add_custom_icons( $tabs = array() ) {
-
 		$wpzoomIcons = array(
-			'dashicons' => array(
+			'dashicons'  => array(
 				'name'          => 'dashicons',
 				'label'         => 'Dashicons',
 				'url'           => '',
@@ -206,7 +195,7 @@ class WPZOOM_Elementor_Recipe_Card {
 				'ver'           => WPZOOM_RCB_VERSION,
 				'fetchJson'     => WPZOOM_RCB_PLUGIN_URL . 'elementor/controls/assets/js/icons/dashicons.json',
 			),
-			'foodicons' => array(
+			'foodicons'  => array(
 				'name'          => 'foodicons',
 				'label'         => 'Foodicons',
 				'url'           => WPZOOM_RCB_PLUGIN_URL . 'dist/assets/css/foodicons.min.css',
@@ -228,7 +217,7 @@ class WPZOOM_Elementor_Recipe_Card {
 				'ver'           => WPZOOM_RCB_VERSION,
 				'fetchJson'     => WPZOOM_RCB_PLUGIN_URL . 'elementor/controls/assets/js/icons/genericons.json',
 			),
-			'oldicon' => array(
+			'oldicon'    => array(
 				'name'          => 'oldicon',
 				'label'         => 'Old Food icons',
 				'url'           => WPZOOM_RCB_PLUGIN_URL . 'dist/assets/css/oldicon.min.css',
@@ -239,11 +228,10 @@ class WPZOOM_Elementor_Recipe_Card {
 				'ver'           => WPZOOM_RCB_VERSION,
 				'fetchJson'     => WPZOOM_RCB_PLUGIN_URL . 'elementor/controls/assets/js/icons/oldicon.json',
 
-			)
+			),
 		);
 
-		return  array_merge( $tabs, $wpzoomIcons );
-	
+		return array_merge( $tabs, $wpzoomIcons );
 	}
 
 

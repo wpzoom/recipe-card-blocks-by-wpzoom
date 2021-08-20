@@ -406,7 +406,7 @@ class WPZOOM_Recipe_Card_Block {
 					'<img src="%s" alt="%s" class="%s"/>',
 					$src,
 					$alt,
-					trim( $img_class )
+					esc_attr( trim( $img_class ) )
 				);
 			} else {
 				$attachment = wp_get_attachment_image(
@@ -457,7 +457,7 @@ class WPZOOM_Recipe_Card_Block {
 					'<img src="%s" alt="%s" class="%s"/>',
 					$src,
 					$alt,
-					trim( $img_class )
+					esc_attr( trim( $img_class ) )
 				);
 			} else {
 				$attachment = wp_get_attachment_image(
@@ -474,7 +474,7 @@ class WPZOOM_Recipe_Card_Block {
 
 			$recipe_card_image = '<div class="recipe-card-image">
 				<figure>
-					' . sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $img_id, $src, $alt, trim( $img_class ) ) . '
+					' . sprintf( '<img id="%s" src="%s" alt="%s" class="%s"/>', $img_id, $src, $alt, esc_attr( trim( $img_class ) ) ) . '
 					<figcaption>
 						' .
 							( self::$settings['pin_btn'] ? self::get_pinterest_button( array( 'url' => $recipe_thumbnail_url ), $recipe_permalink, $pin_description ) : '' ) .
@@ -1049,7 +1049,7 @@ class WPZOOM_Recipe_Card_Block {
 
 				$icon = sprintf(
 					'<span class="%s" style="%s"></span>',
-					$itemIconClasses,
+					esc_attr( $itemIconClasses ),
 					$iconStyles
 				);
 			}
@@ -1130,7 +1130,7 @@ class WPZOOM_Recipe_Card_Block {
 		return sprintf(
 			'<div class="recipe-card-ingredients"><h3 class="ingredients-title">%s</h3><ul class="%s">%s</ul></div>',
 			self::$attributes['ingredientsTitle'],
-			$listClassNames,
+			esc_attr( $listClassNames ),
 			$ingredient_items
 		);
 	}
@@ -1203,7 +1203,7 @@ class WPZOOM_Recipe_Card_Block {
 		return sprintf(
 			'<div class="recipe-card-directions"><h3 class="directions-title">%s</h3><ul class="%s">%s</ul></div>',
 			self::$attributes['directionsTitle'],
-			$listClassNames,
+			esc_attr( $listClassNames ),
 			$direction_items
 		);
 	}
@@ -1279,7 +1279,7 @@ class WPZOOM_Recipe_Card_Block {
 		}
 
 		if ( $render ) {
-			$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', $className, $label, implode( ', ', $terms ) );
+			$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', esc_attr( $className ), $label, implode( ', ', $terms ) );
 		}
 
 		return $terms_output;
@@ -1308,10 +1308,20 @@ class WPZOOM_Recipe_Card_Block {
 					if ( $src ) {
 						$attachment_id = isset( $node['key'] ) ? esc_attr( $node['key'] ) : 0;
 						$alt           = isset( $node['props']['alt'] ) ? esc_attr( $node['props']['alt'] ) : '';
-						$title         = isset( $node['props']['title'] ) ? esc_attr( $node['props']['title'] ) : ( isset( $attributes['recipeTitle'] ) ? esc_html( $attributes['recipeTitle'] ) : self::$recipe->post_title );
+						$title         = isset( $node['props']['title'] ) ? esc_attr( $node['props']['title'] ) : '';
 						$class         = '0' == WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_show_steps_image' ) ? 'no-print' : '';
 						$class        .= ' direction-step-image';
 						$img_style     = isset( $node['props']['style'] ) ? $node['props']['style'] : '';
+
+						if ( empty( $title ) ) {
+							if ( isset( $attributes['recipeTitle'] ) ) {
+								$title = esc_html( wp_strip_all_tags( $attributes['recipeTitle'] ) );
+							} elseif ( ! is_null( self::$recipe ) ) {
+								$title = esc_html( wp_strip_all_tags( self::$recipe->post_title ) );
+							} else {
+								$title = '';
+							}
+						}
 
 						// Try to get attachment ID by image url if attribute `key` is not found in $node array
 						if ( ! $attachment_id ) {
@@ -1338,7 +1348,7 @@ class WPZOOM_Recipe_Card_Block {
 									array(
 										'title' => $title,
 										'alt'   => $alt,
-										'class' => trim( $class ),
+										'class' => esc_attr( trim( $class ) ),
 										'style' => self::parseTagStyle( $img_style ),
 									)
 								);
@@ -1351,7 +1361,7 @@ class WPZOOM_Recipe_Card_Block {
 								array(
 									'title' => $title,
 									'alt'   => $alt,
-									'class' => trim( $class ),
+									'class' => esc_attr( trim( $class ) ),
 									'style' => self::parseTagStyle( $img_style ),
 								)
 							);
@@ -1366,7 +1376,7 @@ class WPZOOM_Recipe_Card_Block {
 								$src,
 								$title,
 								$alt,
-								trim( $class ),
+								esc_attr( trim( $class ) ),
 								self::parseTagStyle( $img_style )
 							);
 						}
@@ -1414,12 +1424,22 @@ class WPZOOM_Recipe_Card_Block {
 					$src = isset( $node['props']['src'] ) ? esc_url( $node['props']['src'] ) : false;
 					if ( $src ) {
 						$alt       = isset( $node['props']['alt'] ) ? esc_ttr( $node['props']['alt'] ) : '';
-						$title     = isset( $node['props']['title'] ) ? esc_ttr( $node['props']['title'] ) : ( isset( $attributes['recipeTitle'] ) ? esc_html( $attributes['recipeTitle'] ) : self::$recipe->post_title );
+						$title     = isset( $node['props']['title'] ) ? esc_ttr( $node['props']['title'] ) : '';
 						$class     = '0' == WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_show_steps_image' ) ? 'no-print' : '';
 						$class    .= ' direction-step-image';
 						$img_style = isset( $node['props']['style'] ) ? $node['props']['style'] : '';
 
-						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, trim( $class ), self::parseTagStyle( $img_style ) );
+						if ( empty( $title ) ) {
+							if ( isset( $attributes['recipeTitle'] ) ) {
+								$title = esc_html( wp_strip_all_tags( $attributes['recipeTitle'] ) );
+							} elseif ( ! is_null( self::$recipe ) ) {
+								$title = esc_html( wp_strip_all_tags( self::$recipe->post_title ) );
+							} else {
+								$title = '';
+							}
+						}
+
+						$start_tag = sprintf( '<%s src="%s" title="%s" alt="%s" class="%s" style="%s"/>', $type, $src, $title, $alt, esc_attr( trim( $class ) ), self::parseTagStyle( $img_style ) );
 					} else {
 						$start_tag = '';
 					}
@@ -1619,7 +1639,7 @@ class WPZOOM_Recipe_Card_Block {
 			esc_attr( $print_classes ),
 			esc_attr( $content_id ),
 			$atts,
-			__( 'Print', 'wpzoom-recipe-card' )
+			esc_html__( 'Print', 'wpzoom-recipe-card' )
 		);
 
 		return $output;
@@ -1659,7 +1679,7 @@ class WPZOOM_Recipe_Card_Block {
 			esc_attr( $PinterestClasses ),
 			esc_url( $pinitURL ),
 			$atts,
-			__( 'Pin', 'wpzoom-recipe-card' )
+			esc_html__( 'Pin', 'wpzoom-recipe-card' )
 		);
 
 		return $output;

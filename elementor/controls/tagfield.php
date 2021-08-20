@@ -1,5 +1,5 @@
 <?php
-namespace WPZOOMElementorRecipeCard\Controls;	
+namespace WPZOOMElementorRecipeCard\Controls;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -34,30 +34,28 @@ class WPZOOM_Tagfield extends Base_Data_Control {
 	}
 
 	public function enqueue() {
-		
-		
+
 		// Styles
 		wp_register_style( 'wpzoom-tagfield', plugins_url( 'assets/css/tagsinput.css', __FILE__ ), array(), WPZOOM_RCB_VERSION );
 		wp_register_script( 'wpzoom-tagfield', plugins_url( 'assets/js/tagsinput.js', __FILE__ ), array( 'jquery' ), WPZOOM_RCB_VERSION, true );
 		wp_register_script( 'wpzoom-tagsinput-control', plugins_url( 'assets/js/tagsinput-control.js', __FILE__ ), array( 'jquery' ), WPZOOM_RCB_VERSION, true );
-		
+
 		wp_enqueue_style( 'wpzoom-tagfield' );
 		wp_enqueue_style( 'elementor-editor' );
 		wp_enqueue_script( 'wpzoom-tagfield' );
 		wp_enqueue_script( 'wpzoom-tagsinput-control' );
-		
 	}
 
 		/**
-	 * Render text control output in the editor.
-	 *
-	 * Used to generate the control HTML in the editor using Underscore JS
-	 * template. The variables for the class are available using `data` JS
-	 * object.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 */
+		 * Render text control output in the editor.
+		 *
+		 * Used to generate the control HTML in the editor using Underscore JS
+		 * template. The variables for the class are available using `data` JS
+		 * object.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
 	public function content_template() {
 		$control_uid = $this->get_control_uid();
 		?>
@@ -87,10 +85,10 @@ class WPZOOM_Tagfield extends Base_Data_Control {
 	 * @return array Control default settings.
 	 */
 	protected function get_default_settings() {
-		return [
-			'input_type' => 'text',
+		return array(
+			'input_type'  => 'text',
 			'placeholder' => '',
-			'title' => '',
-		];
+			'title'       => '',
+		);
 	}
 }
