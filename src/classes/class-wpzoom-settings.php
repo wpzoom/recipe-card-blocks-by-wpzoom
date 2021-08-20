@@ -89,11 +89,6 @@ class WPZOOM_Settings {
 				add_action( 'wpzoom_rcb_welcome_banner', array( $this, 'welcome' ) );
 			}
 
-			if ( $pagenow !== 'admin.php' ) {
-				// Display admin notices
-				add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-			}
-
 			$this->_fields = new WPZOOM_Settings_Fields();
 		}
 	}
@@ -1070,31 +1065,6 @@ class WPZOOM_Settings {
 					'ajax_nonce' => wp_create_nonce( 'wpzoom-reset-settings-nonce' ),
 				)
 			);
-		}
-	}
-
-	/**
-	 * This is a means of catching errors from the activation method above and displaying it to the customer
-	 *
-	 * @since 1.1.0
-	 */
-	public function admin_notices() {
-		if ( isset( $_GET['sl_activation'] ) && ! empty( $_GET['message'] ) ) {
-			switch ( $_GET['sl_activation'] ) {
-				case 'false':
-					$message = urldecode( $_GET['message'] );
-					?>
-					<div class="error">
-						<p><?php echo $message; ?></p>
-					</div>
-					<?php
-					break;
-
-				case 'true':
-				default:
-					// Developers can put a custom success message here for when activation is successful if they way.
-					break;
-			}
 		}
 	}
 
