@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html <?php echo get_language_attributes(); ?>>
 	<head>
-		<title><?php echo $recipe->post_title; ?></title>
+		<title><?php echo esc_html( $recipe->post_title ); ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_bloginfo( 'charset' ); ?>" />
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<meta name="robots" content="noindex">
@@ -21,7 +21,7 @@
 	<body class="wpzoom-rcb-print" data-recipe-id="<?php echo esc_attr( $recipe->ID ); ?>">
 		<?php
 		if ( ! is_array( $attributes ) ) {
-			echo $content;
+			echo wp_kses_post( $content );
 		} else {
 			echo WPZOOM_Print_Template_Manager::get_template( $attributes, $recipe, $print_atts['block-type'] );
 		}
