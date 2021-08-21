@@ -258,7 +258,7 @@ class WPZOOM_Settings {
 		$output = ob_get_contents();
 		ob_end_clean();
 
-		echo $output;
+		echo wp_kses_post( $output );
 	}
 
 	/**
@@ -996,9 +996,9 @@ class WPZOOM_Settings {
 				<ul class="wp-tab-bar">
 					<?php foreach ( self::$settings as $setting ) : ?>
 						<?php if ( self::$active_tab === $setting['tab_id'] ) : ?>
-							<li class="wp-tab-active"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo $setting['tab_id']; ?>"><?php echo $setting['tab_title']; ?></a></li>
+							<li class="wp-tab-active"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?></a></li>
 						<?php else : ?>
-							<li><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo $setting['tab_id']; ?>"><?php echo $setting['tab_title']; ?></a></li>
+							<li><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?></a></li>
 						<?php endif ?>
 					<?php endforeach ?>
 					<li id="wpzoom_rcb_settings_save"><?php submit_button( 'Save Settings', 'primary', 'wpzoom_rcb_settings_save', false ); ?></li>
@@ -1006,14 +1006,14 @@ class WPZOOM_Settings {
 				</ul>
 				<?php foreach ( self::$settings as $setting ) : ?>
 					<?php if ( self::$active_tab === $setting['tab_id'] ) : ?>
-						<div class="wp-tab-panel" id="<?php echo $setting['tab_id']; ?>">
+						<div class="wp-tab-panel" id="<?php echo esc_attr( $setting['tab_id'] ); ?>">
 							<?php
 								settings_fields( $setting['option_group'] );
 								do_settings_sections( $setting['option_group'] );
 							?>
 						</div>
 					<?php else : ?>
-						<div class="wp-tab-panel" id="<?php echo $setting['tab_id']; ?>" style="display: none;">
+						<div class="wp-tab-panel" id="<?php echo esc_attr( $setting['tab_id'] ); ?>" style="display: none;">
 							<?php
 								settings_fields( $setting['option_group'] );
 								do_settings_sections( $setting['option_group'] );
