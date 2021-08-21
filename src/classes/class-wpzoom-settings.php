@@ -68,7 +68,7 @@ class WPZOOM_Settings {
 		self::$options = get_option( self::$option );
 
 		// Check what page we are on.
-		$page = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
 
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( $this, 'settings_init' ) );
@@ -98,7 +98,7 @@ class WPZOOM_Settings {
 	 */
 	public function set_defaults() {
 		// Set active tab
-		self::$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'tab-general';
+		self::$active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'tab-general';
 
 		self::$defaults = self::get_defaults();
 
@@ -976,6 +976,8 @@ class WPZOOM_Settings {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
+		$reset_settings = isset( $_GET['wpzoom_reset_settings'] ) ? sanitize_text_field( $_GET['wpzoom_reset_settings'] ) : false;
+		$settings_updated = isset( $_GET['settings-updated'] ) ? sanitize_text_field( $_GET['settings-updated'] ) : false;
 		?>
 		<div class="wrap">
 			<?php do_action( 'wpzoom_rcb_welcome_banner' ); ?>
@@ -984,7 +986,7 @@ class WPZOOM_Settings {
 
 			<?php settings_errors(); ?>
 
-			<?php if ( isset( $_GET['wpzoom_reset_settings'] ) && ! isset( $_GET['settings-updated'] ) ) : ?>
+			<?php if ( $reset_settings && ! $settings_updated ) : ?>
 				<div class="updated settings-error notice is-dismissible">
 					<p><strong>Settings have been successfully reset.</strong></p>
 				</div>

@@ -19,7 +19,7 @@ class WPZOOM_Reusable_Blocks_Extended {
 	 * @access public
 	 */
 	public function __construct() {
-		if ( isset( $_GET['post_type'] ) && 'wp_block' === esc_attr( $_GET['post_type'] ) ) {
+		if ( isset( $_GET['post_type'] ) && 'wp_block' === sanitize_text_field( $_GET['post_type'] ) ) {
 			add_action( 'admin_init', array( $this, 'reblex_merge_stylesheets' ) );
 		}
 	}
