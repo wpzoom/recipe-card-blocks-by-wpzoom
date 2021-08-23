@@ -143,8 +143,8 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 				return;
 			}
 
-			echo '<div class="' . $type . '">';
-			echo '<p>' . $message . '</p>';
+			echo '<div class="' . esc_attr( $type ) . '">';
+			echo '<p>' . wp_kses_post( $message ) . '</p>';
 			echo '</div>';
 		}
 	}

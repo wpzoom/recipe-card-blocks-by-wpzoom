@@ -753,11 +753,11 @@ class WPZOOM_Recipe_Card_Block {
 					if ( ! empty( $detail['value'] ) && self::$settings['displayServings'] ) {
 						if ( ! is_array( $detail['value'] ) ) {
 							$yield = array(
-								$detail['value'],
+								esc_html( $detail['value'] ),
 							);
 
 							if ( isset( $detail['unit'] ) && ! empty( $detail['unit'] ) ) {
-								$yield[] = $detail['value'] . ' ' . $detail['unit'];
+								$yield[] = esc_html( $detail['value'] ) . ' ' . esc_html( $detail['unit'] );
 							}
 						} elseif ( isset( $detail['jsonValue'] ) ) {
 							$yield = array(
@@ -765,7 +765,7 @@ class WPZOOM_Recipe_Card_Block {
 							);
 
 							if ( isset( $detail['unit'] ) && ! empty( $detail['unit'] ) ) {
-								$yield[] = $detail['value'] . ' ' . $detail['unit'];
+								$yield[] = esc_html( $detail['value'] ) . ' ' . esc_html( $detail['unit'] );
 							}
 						}
 
