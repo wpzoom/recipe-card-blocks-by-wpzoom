@@ -1423,8 +1423,8 @@ class WPZOOM_Recipe_Card_Block {
 				if ( 'img' === $type ) {
 					$src = isset( $node['props']['src'] ) ? esc_url( $node['props']['src'] ) : false;
 					if ( $src ) {
-						$alt       = isset( $node['props']['alt'] ) ? esc_ttr( $node['props']['alt'] ) : '';
-						$title     = isset( $node['props']['title'] ) ? esc_ttr( $node['props']['title'] ) : '';
+						$alt       = isset( $node['props']['alt'] ) ? esc_attr( $node['props']['alt'] ) : '';
+						$title     = isset( $node['props']['title'] ) ? esc_attr( $node['props']['title'] ) : '';
 						$class     = '0' == WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_show_steps_image' ) ? 'no-print' : '';
 						$class    .= ' direction-step-image';
 						$img_style = isset( $node['props']['style'] ) ? $node['props']['style'] : '';
