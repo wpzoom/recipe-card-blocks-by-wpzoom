@@ -91,7 +91,7 @@ class WPZOOM_Print_Recipe_Block {
 			'<a href="#%s" rel="nofollow" class="%s" data-recipe-id="%s">%s</a>',
 			esc_attr( $id ),
 			esc_attr( $class ),
-			$recipe_ID,
+			absint( $recipe_ID ),
 			esc_html( $text )
 		);
 

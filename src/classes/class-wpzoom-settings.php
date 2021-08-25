@@ -68,7 +68,7 @@ class WPZOOM_Settings {
 		self::$options = get_option( self::$option );
 
 		// Check what page we are on.
-		$page = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
 
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( $this, 'settings_init' ) );
@@ -89,11 +89,6 @@ class WPZOOM_Settings {
 				add_action( 'wpzoom_rcb_welcome_banner', array( $this, 'welcome' ) );
 			}
 
-			if ( $pagenow !== 'admin.php' ) {
-				// Display admin notices
-				add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-			}
-
 			$this->_fields = new WPZOOM_Settings_Fields();
 		}
 	}
@@ -103,7 +98,7 @@ class WPZOOM_Settings {
 	 */
 	public function set_defaults() {
 		// Set active tab
-		self::$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'tab-general';
+		self::$active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'tab-general';
 
 		self::$defaults = self::get_defaults();
 
@@ -263,7 +258,7 @@ class WPZOOM_Settings {
 		$output = ob_get_contents();
 		ob_end_clean();
 
-		echo $output;
+		echo wp_kses_post( $output );
 	}
 
 	/**
@@ -981,6 +976,8 @@ class WPZOOM_Settings {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
+		$reset_settings = isset( $_GET['wpzoom_reset_settings'] ) ? sanitize_text_field( $_GET['wpzoom_reset_settings'] ) : false;
+		$settings_updated = isset( $_GET['settings-updated'] ) ? sanitize_text_field( $_GET['settings-updated'] ) : false;
 		?>
 		<div class="wrap">
 			<?php do_action( 'wpzoom_rcb_welcome_banner' ); ?>
@@ -989,7 +986,7 @@ class WPZOOM_Settings {
 
 			<?php settings_errors(); ?>
 
-			<?php if ( isset( $_GET['wpzoom_reset_settings'] ) && ! isset( $_GET['settings-updated'] ) ) : ?>
+			<?php if ( $reset_settings && ! $settings_updated ) : ?>
 				<div class="updated settings-error notice is-dismissible">
 					<p><strong>Settings have been successfully reset.</strong></p>
 				</div>
@@ -999,9 +996,9 @@ class WPZOOM_Settings {
 				<ul class="wp-tab-bar">
 					<?php foreach ( self::$settings as $setting ) : ?>
 						<?php if ( self::$active_tab === $setting['tab_id'] ) : ?>
-							<li class="wp-tab-active"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo $setting['tab_id']; ?>"><?php echo $setting['tab_title']; ?></a></li>
+							<li class="wp-tab-active"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?></a></li>
 						<?php else : ?>
-							<li><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo $setting['tab_id']; ?>"><?php echo $setting['tab_title']; ?></a></li>
+							<li><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?></a></li>
 						<?php endif ?>
 					<?php endforeach ?>
 					<li id="wpzoom_rcb_settings_save"><?php submit_button( 'Save Settings', 'primary', 'wpzoom_rcb_settings_save', false ); ?></li>
@@ -1009,14 +1006,14 @@ class WPZOOM_Settings {
 				</ul>
 				<?php foreach ( self::$settings as $setting ) : ?>
 					<?php if ( self::$active_tab === $setting['tab_id'] ) : ?>
-						<div class="wp-tab-panel" id="<?php echo $setting['tab_id']; ?>">
+						<div class="wp-tab-panel" id="<?php echo esc_attr( $setting['tab_id'] ); ?>">
 							<?php
 								settings_fields( $setting['option_group'] );
 								do_settings_sections( $setting['option_group'] );
 							?>
 						</div>
 					<?php else : ?>
-						<div class="wp-tab-panel" id="<?php echo $setting['tab_id']; ?>" style="display: none;">
+						<div class="wp-tab-panel" id="<?php echo esc_attr( $setting['tab_id'] ); ?>" style="display: none;">
 							<?php
 								settings_fields( $setting['option_group'] );
 								do_settings_sections( $setting['option_group'] );
@@ -1070,31 +1067,6 @@ class WPZOOM_Settings {
 					'ajax_nonce' => wp_create_nonce( 'wpzoom-reset-settings-nonce' ),
 				)
 			);
-		}
-	}
-
-	/**
-	 * This is a means of catching errors from the activation method above and displaying it to the customer
-	 *
-	 * @since 1.1.0
-	 */
-	public function admin_notices() {
-		if ( isset( $_GET['sl_activation'] ) && ! empty( $_GET['message'] ) ) {
-			switch ( $_GET['sl_activation'] ) {
-				case 'false':
-					$message = urldecode( $_GET['message'] );
-					?>
-					<div class="error">
-						<p><?php echo $message; ?></p>
-					</div>
-					<?php
-					break;
-
-				case 'true':
-				default:
-					// Developers can put a custom success message here for when activation is successful if they way.
-					break;
-			}
 		}
 	}
 

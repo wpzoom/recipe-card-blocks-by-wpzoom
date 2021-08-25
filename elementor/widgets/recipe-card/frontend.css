@@ -1,0 +1,11 @@
+.ingredients-list .ingredient-item-name p {
+	display: inline;
+}
+.ingredients-list .ingredient-item-name img,
+.ingredients-list .ingredient-item-name p img {
+	display: block;
+}
+
+.elementor-widget-container .wp-block-wpzoom-recipe-card-block-recipe-card {
+    max-width: none;
+}

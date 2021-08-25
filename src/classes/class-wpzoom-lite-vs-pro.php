@@ -22,7 +22,7 @@ class WPZOOM_Lite_vs_PRO {
 	public function __construct() {
 
 		// Check what page we are on.
-		$page = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
 
 		// Only load if we are actually on the settings page.
 		if ( 'wpzoom-recipe-card-vs-pro' === $page ) {

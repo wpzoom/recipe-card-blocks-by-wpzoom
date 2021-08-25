@@ -169,7 +169,8 @@ body.wpzoom-rcb-print {
 .wpzoom-print-recipe-card-block .recipe-card-ingredients .ingredients-list {
 	margin-top: 0;
 	line-height: 1.4em;
-	padding-left: 16px;
+	padding-left: 0px;
+	list-style-type: none;
 }
 .wpzoom-print-recipe-card-block .recipe-card-ingredients .ingredients-list .ingredient-item {
 	margin-bottom: 7.5px;
