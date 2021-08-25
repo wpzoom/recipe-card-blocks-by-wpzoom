@@ -1506,8 +1506,35 @@ class WPZOOM_Recipe_Card_Block {
 				$video_poster
 			);
 		}
+		$allowed_html = array(
+			'a' => array(
+				'href' => array(),
+				'title' => array()
+			),
+			'br' => array(),
+			'em' => array(),
+			'strong' => array(),
+			'iframe' => array(
+				'src' => array(),
+				'id' => array(),
+				'loading' => array(),
+				'title' => array(),
+				'allow' => array(),
+				'allowfullscreen' => array(),
+				'style' => array(),
+				'frameborder' => array()
+			),
+			'video' => array(
+				'src' => array(),
+				'poster' => array(),
+				'autoplay' => true,
+				'muted' => true,
+				'loop' => true,
+				'controls' => true,
+			)
+		);
 
-		return sprintf( '<div class="recipe-card-video no-print"><h3 class="video-title">%s</h3>%s</div>', $attributes['videoTitle'], wp_kses_post( $output ) );
+		return sprintf( '<div class="recipe-card-video no-print"><h3 class="video-title">%s</h3>%s</div>', $attributes['videoTitle'], wp_kses( $output, $allowed_html ) );
 	}
 
 	/**

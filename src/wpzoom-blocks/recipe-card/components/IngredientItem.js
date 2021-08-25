@@ -294,6 +294,7 @@ export default class IngredientItem extends Component {
                             tagName="p"
                             unstableOnSetup={ this.setNameRef }
                             key={ `${ id }-name` }
+							tabIndex="0"
                             value={ nameContent }
                             onChange={ this.onChangeName }
                             placeholder={ __( 'Enter ingredient name', 'wpzoom-recipe-card' ) }
@@ -309,6 +310,7 @@ export default class IngredientItem extends Component {
                         tagName="p"
                         unstableOnSetup={ this.setNameRef }
                         key={ `${ id }-group-title` }
+						tabIndex="0"
                         value={ nameContent }
                         onChange={ this.onChangeGroupTitle }
                         placeholder={ __( 'Enter group title', 'wpzoom-recipe-card' ) }

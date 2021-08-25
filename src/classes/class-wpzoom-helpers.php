@@ -98,6 +98,18 @@ class WPZOOM_Helpers {
 		if ( ! isset( $settings['custom_author_name'] ) ) {
 			$settings['custom_author_name'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_author_custom_name' );
 		}
+		if ( ! isset( $settings['displayAuthor'] ) ) {
+			$settings['displayAuthor'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_author' );
+		}
+		if ( ! isset( $settings['displayCourse'] ) ) {
+			$settings['displayCourse'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_course' );
+		}
+		if ( ! isset( $settings['displayCuisine'] ) ) {
+			$settings['displayCuisine'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_cuisine' );
+		}
+		if ( ! isset( $settings['displayDifficulty'] ) ) {
+			$settings['displayDifficulty'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_difficulty' );
+		}
 		if ( ! isset( $settings['displayServings'] ) ) {
 			$settings['displayServings'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_servings' );
 		}
@@ -139,6 +151,30 @@ class WPZOOM_Helpers {
 		}
 		if ( ! isset( $settings['hide_header_image'] ) ) {
 			$settings['hide_header_image'] = false;
+		}
+		if ( ! isset( $settings['foodLabels'] ) ) {
+			$settings['foodLabels'] = array();
+		}
+		if ( ! isset( $settings['displayFoodLabels'] ) ) {
+			$settings['displayFoodLabels'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_food_labels' );
+		}
+		if ( ! isset( $settings['locationToShowFoodLabels'] ) ) {
+			$settings['locationToShowFoodLabels'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_location_to_show_food_labels' );
+		}
+		if ( ! isset( $settings['pinterest_bg_color'] ) ) {
+			$settings['pinterest_bg_color'] = '#C62122';
+		}
+		if ( ! isset( $settings['pinterest_text_color'] ) ) {
+			$settings['pinterest_text_color'] = '#FFFFFF';
+		}
+		if ( ! isset( $settings['print_bg_color'] ) ) {
+			$settings['print_bg_color'] = '#222222';
+		}
+		if ( ! isset( $settings['print_text_color'] ) ) {
+			$settings['print_text_color'] = '#FFFFFF';
+		}
+		if ( ! isset( $settings['icon_details_color'] ) ) {
+			$settings['icon_details_color'] = '#6d767f';
 		}
 
 		return $settings;
