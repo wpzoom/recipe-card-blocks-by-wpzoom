@@ -136,12 +136,12 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 1. Adding a block to the editor
 2. Recipe Card widget in Elementor
-2. WPZOOM Blocks Section
-3. Preview of Recipe Card Block
-4. Additional Design for Block
-5. Block Editor
-6. Settings Page
-7. Mobile Design
+3. WPZOOM Blocks Section
+4. Preview of Recipe Card Block
+5. Additional Design for Block
+6. Block Editor
+7. Settings Page
+8. Mobile Design
 
 
 == Changelog ==
