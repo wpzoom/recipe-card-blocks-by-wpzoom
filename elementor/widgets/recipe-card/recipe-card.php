@@ -276,7 +276,7 @@ class Recipe_Card extends Widget_Base {
 			'show_image',
 			array(
 				'label'       => esc_html__( 'Show Image', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Show Recipe Image on Front-End', ),
+				'description' => esc_html__( 'Show Recipe Image on Front-End', 'wpzoom-recipe-card' ),
 				'type'        => Controls_Manager::SWITCHER,
 				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-card' ),
 				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
@@ -1839,7 +1839,7 @@ class Recipe_Card extends Widget_Base {
 			$output = sprintf(
 				'<video %s src="%s"></video>',
 				Utils::render_html_attributes( $video_params ),
-				$hosted_url,
+				$hosted_url
 			);
 		}
 
