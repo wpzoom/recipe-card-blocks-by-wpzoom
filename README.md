@@ -1,6 +1,6 @@
 # [Recipe Card Blocks by WPZOOM](https://www.wpzoom.com/plugins/recipe-card-blocks/) #
 
-![Plugin Version](https://img.shields.io/wordpress/plugin/v/recipe-card-blocks-by-wpzoom.svg) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/recipe-card-blocks-by-wpzoom.svg?maxAge=2592000) ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/recipe-card-blocks-by-wpzoom.svg?maxAge=2592000) ![WordPress Compatibility](https://img.shields.io/wordpress/v/recipe-card-blocks-by-wpzoom.svg?maxAge=2592000) [![Build Status](https://img.shields.io/travis/wpzoom/recipe-card-blocks-by-wpzoom/master.svg?maxAge=2592000)](https://travis-ci.org/wpzoom/recipe-card-blocks-by-wpzoom) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/wpzoom/recipe-card-blocks-by-wpzoom/blob/master/license.txt)
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/recipe-card-blocks-by-wpzoom.svg) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/recipe-card-blocks-by-wpzoom.svg) ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/recipe-card-blocks-by-wpzoom.svg) ![WordPress Compatibility](https://img.shields.io/wordpress/v/recipe-card-blocks-by-wpzoom.svg) [![Build Status](https://img.shields.io/travis/wpzoom/recipe-card-blocks-by-wpzoom/master.svg)](https://travis-ci.org/wpzoom/recipe-card-blocks-by-wpzoom) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/wpzoom/recipe-card-blocks-by-wpzoom/blob/master/license.txt)
 
 ### Welcome to our GitHub Repository
 
