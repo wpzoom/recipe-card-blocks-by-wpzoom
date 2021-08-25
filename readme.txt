@@ -1,4 +1,4 @@
-=== Recipe Card Blocks by WPZOOM ===
+=== Recipe Card Blocks for Gutenberg & Elementor ===
 Contributors: WPZOOM, ciorici, vicolaspetru
 Donate link: https://www.wpzoom.com/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card

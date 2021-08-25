@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Recipe Card Blocks by WPZOOM
+ * Plugin Name: Recipe Card Blocks for Gutenberg & Elementor
  * Plugin URI: https://www.wpzoom.com/plugins/recipe-card-blocks/
  * Description: Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
  * Author: WPZOOM
