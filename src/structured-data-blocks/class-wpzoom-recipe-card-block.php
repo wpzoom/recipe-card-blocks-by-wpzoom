@@ -1522,7 +1522,15 @@ class WPZOOM_Recipe_Card_Block {
 				'allow' => array(),
 				'allowfullscreen' => array(),
 				'style' => array(),
-				'frameborder' => array() 
+				'frameborder' => array()
+			),
+			'video' => array(
+				'src' => array(),
+				'poster' => array(),
+				'autoplay' => true,
+				'muted' => true,
+				'loop' => true,
+				'controls' => true,
 			)
 		);
 
