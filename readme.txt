@@ -5,7 +5,7 @@ Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredient
 Requires at least: 5.0
 Requires PHP: 5.6
 Tested up to: 5.8
-Stable tag: 2.8.4
+Stable tag: 2.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 2.8.5 =
+* Fixing video not displayed in recipe card block
 
 = 2.8.4 =
 * Fixing compatibility issues with PHP 7.0 (old version)
