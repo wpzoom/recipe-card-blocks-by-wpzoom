@@ -1501,7 +1501,7 @@ class WPZOOM_Recipe_Card_Block {
 
 			$output = sprintf(
 				'<video %s src="%s" poster="%s"></video>',
-				esc_attr( $attrs ),
+				$attrs,
 				$video_url,
 				$video_poster
 			);
@@ -1522,7 +1522,11 @@ class WPZOOM_Recipe_Card_Block {
 				'allow' => array(),
 				'allowfullscreen' => array(),
 				'style' => array(),
-				'frameborder' => array()
+				'frameborder' => array(),
+				'width' => true,
+				'height' => true,
+				'name' => true,
+				'sandbox' => true
 			),
 			'video' => array(
 				'src' => array(),
