@@ -1393,6 +1393,14 @@ class WPZOOM_Recipe_Card_Block {
 					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
 				} elseif ( 'br' === $type ) {
 					$end_tag = '';
+				} elseif ( 'li' === $type ) {
+					/**
+					 * Remove '<li>' tag added from Bulk Add
+					 *
+					 * @since 2.8.7
+					 */
+					$start_tag = '';
+					$end_tag = '';
 				}
 
 				$output .= $start_tag . self::wrap_direction_text( $children, $type ) . $end_tag;
@@ -1452,6 +1460,14 @@ class WPZOOM_Recipe_Card_Block {
 
 					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
 				} elseif ( 'br' === $type ) {
+					$end_tag = '';
+				} elseif ( 'li' === $type ) {
+					/**
+					 * Remove '<li>' tag added from Bulk Add
+					 *
+					 * @since 2.8.7
+					 */
+					$start_tag = '';
 					$end_tag = '';
 				}
 
