@@ -142,12 +142,17 @@ class WPZOOM_Elementor_Recipe_Card {
      */
     public function register_controls( $controls_manager ) {
 
-        $controls = array(
+		$controls = array(
 			'wpzoom_tagfield' => array(
-                'file'  => __DIR__ . '/controls/tagfield.php',
-                'class' => 'Controls\WPZOOM_Tagfield'
-            ),
-        );
+				'file'  => __DIR__ . '/controls/tagfield.php',
+				'class' => 'Controls\WPZOOM_Tagfield'
+			),
+			'wpzoom_image_picker' => array(
+				'file'  => __DIR__ . '/controls/image-picker.php',
+				'class' => 'Controls\WPZOOM_Image_Picker'
+			)
+		);
+
 
         foreach ( $controls as $control_type => $control_info ) {
             if( ! empty( $control_info['file'] ) && ! empty( $control_info['class'] ) ){
