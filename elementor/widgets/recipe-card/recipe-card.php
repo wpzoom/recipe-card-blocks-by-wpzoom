@@ -55,14 +55,14 @@ class Recipe_Card extends Widget_Base {
 
 		self::$recipe = get_post();
 
-		wp_register_style( 'wpzoom-rcb-block-style-css', WPZOOM_RCB_PLUGIN_URL . '/dist/blocks.style.build.css', null, WPZOOM_RCB_VERSION );
+		wp_register_style( 'wpzoom-rcb-block-style-css', WPZOOM_RCB_PLUGIN_URL . 'dist/blocks.style.build.css', null, WPZOOM_RCB_VERSION );
 		wp_register_style( 'wpzoom-rcb-elementor-css-frontend', plugins_url( 'frontend.css', __FILE__ ), null, WPZOOM_RCB_VERSION );
 
 		//Register custom icons css
-		wp_register_style( 'wpzoom-rcb-block-icons-css', WPZOOM_RCB_PLUGIN_URL . '/dist/assets/css/icon-fonts.build.css', null, WPZOOM_RCB_VERSION );
-		wp_register_style( 'wpzoom-rcb-block-oldicon-css', WPZOOM_RCB_PLUGIN_URL . '/dist/assets/css/oldicon.min.css', null, WPZOOM_RCB_VERSION );
-		wp_register_style( 'wpzoom-rcb-block-foodicons-css', WPZOOM_RCB_PLUGIN_URL . '/dist/assets/css/foodicons.min.css', null, WPZOOM_RCB_VERSION );
-		wp_register_style( 'wpzoom-rcb-block-genericons-css', WPZOOM_RCB_PLUGIN_URL . '/dist/assets/css/genericons.min.css', null, WPZOOM_RCB_VERSION );
+		wp_register_style( 'wpzoom-rcb-block-icons-css', WPZOOM_RCB_PLUGIN_URL . 'dist/assets/css/icon-fonts.build.css', null, WPZOOM_RCB_VERSION );
+		wp_register_style( 'wpzoom-rcb-block-oldicon-css', WPZOOM_RCB_PLUGIN_URL . 'dist/assets/css/oldicon.min.css', null, WPZOOM_RCB_VERSION );
+		wp_register_style( 'wpzoom-rcb-block-foodicons-css', WPZOOM_RCB_PLUGIN_URL . 'dist/assets/css/foodicons.min.css', null, WPZOOM_RCB_VERSION );
+		wp_register_style( 'wpzoom-rcb-block-genericons-css', WPZOOM_RCB_PLUGIN_URL . 'dist/assets/css/genericons.min.css', null, WPZOOM_RCB_VERSION );
 
 		wp_register_script( 'wpzoom-rcb-elementor-print-js', WPZOOM_RCB_PLUGIN_URL . 'elementor/assets/js/jQuery.print.min.js', [ 'jquery' ], WPZOOM_RCB_VERSION, true );
 		wp_register_script( 'wpzoom-rcb-elementor-js-frontend', plugins_url( 'frontend.js', __FILE__ ), array( 'jquery' ), WPZOOM_RCB_VERSION, true );
