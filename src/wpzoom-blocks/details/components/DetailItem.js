@@ -156,13 +156,13 @@ export default class DetailItem extends Component {
             <IconButton
                 className="detail-item-button detail-item-button-delete editor-inserter__toggle"
                 icon="trash"
-                label={ __( 'Delete item', 'wpzoom-recipe-card' ) }
+                label={ __( 'Delete item', 'recipe-card-blocks-by-wpzoom' ) }
                 onClick={ this.onRemoveDetail }
             />
             <IconButton
                 className="detail-item-button detail-item-button-add editor-inserter__toggle"
                 icon="editor-break"
-                label={ __( 'Insert item', 'wpzoom-recipe-card' ) }
+                label={ __( 'Insert item', 'recipe-card-blocks-by-wpzoom' ) }
                 onClick={ this.onInsertDetail }
             />
         </div>;
@@ -193,10 +193,10 @@ export default class DetailItem extends Component {
         const newIndex = index % 4;
 
         const placeholderText = {
-            0: { label: __( 'Servings', 'wpzoom-recipe-card' ), value: __( '4 servings', 'wpzoom-recipe-card' ) },
-            1: { label: __( 'Prep time', 'wpzoom-recipe-card' ), value: __( '30 minutes', 'wpzoom-recipe-card' ) },
-            2: { label: __( 'Cooking time', 'wpzoom-recipe-card' ), value: __( '40 minutes', 'wpzoom-recipe-card' ) },
-            3: { label: __( 'Calories', 'wpzoom-recipe-card' ), value: __( '420 kcal', 'wpzoom-recipe-card' ) },
+            0: { label: __( 'Servings', 'recipe-card-blocks-by-wpzoom' ), value: __( '4 servings', 'recipe-card-blocks-by-wpzoom' ) },
+            1: { label: __( 'Prep time', 'recipe-card-blocks-by-wpzoom' ), value: __( '30 minutes', 'recipe-card-blocks-by-wpzoom' ) },
+            2: { label: __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ), value: __( '40 minutes', 'recipe-card-blocks-by-wpzoom' ) },
+            3: { label: __( 'Calories', 'recipe-card-blocks-by-wpzoom' ), value: __( '420 kcal', 'recipe-card-blocks-by-wpzoom' ) },
         };
 
         return get( placeholderText, [ newIndex, key ] );

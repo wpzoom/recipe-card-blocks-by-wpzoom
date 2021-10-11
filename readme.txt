@@ -146,6 +146,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 2.8.8 =
+* Change textdomain to match with plugin slug
+
 = 2.8.7 =
 * Bug fix with video not showing in the recipe block
 

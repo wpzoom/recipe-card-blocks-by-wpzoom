@@ -30,8 +30,8 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( 'Print Recipe', 'wpzoom-recipe-card' ), // Block title.
-    description: __( 'A button to print WPZOOM Recipe Card.', 'wpzoom-recipe-card' ),
+    title: __( 'Print Recipe', 'recipe-card-blocks-by-wpzoom' ), // Block title.
+    description: __( 'A button to print WPZOOM Recipe Card.', 'recipe-card-blocks-by-wpzoom' ),
     icon: {
         // // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#2EA55F',
@@ -47,9 +47,9 @@ registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
         html: false,
     },
     keywords: [
-        __( 'Recipe Card', 'wpzoom-recipe-card' ),
-        __( 'Block Recipe Card', 'wpzoom-recipe-card' ),
-        __( 'WPZOOM', 'wpzoom-recipe-card' ),
+        __( 'Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
+        __( 'Block Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
+        __( 'WPZOOM', 'recipe-card-blocks-by-wpzoom' ),
     ],
 
     /**

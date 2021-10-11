@@ -310,7 +310,7 @@ export default class Detail extends Component {
                 onClick={ this.onAddDetailButtonClick }
                 className="editor-inserter__toggle"
             >
-                <span className="components-icon-button-text">{ __( 'Add item', 'wpzoom-recipe-card' ) }</span>
+                <span className="components-icon-button-text">{ __( 'Add item', 'recipe-card-blocks-by-wpzoom' ) }</span>
             </IconButton>
         );
     }
@@ -332,7 +332,7 @@ export default class Detail extends Component {
                     setFocusedElement={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( 'Write Details title', 'wpzoom-recipe-card' ) }
+                    placeholder={ __( 'Write Details title', 'recipe-card-blocks-by-wpzoom' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <div className={ detailClasses }>{ this.getDetailItems() }</div>

@@ -177,13 +177,13 @@ export default class DirectionStep extends Component {
             <IconButton
                 className="direction-step-button direction-step-button-delete editor-inserter__toggle"
                 icon="trash"
-                label={ __( 'Delete step', 'wpzoom-recipe-card' ) }
+                label={ __( 'Delete step', 'recipe-card-blocks-by-wpzoom' ) }
                 onClick={ this.onRemoveStep }
             />
             <IconButton
                 className="direction-step-button direction-step-button-add editor-inserter__toggle"
                 icon="editor-break"
-                label={ __( 'Insert step', 'wpzoom-recipe-card' ) }
+                label={ __( 'Insert step', 'recipe-card-blocks-by-wpzoom' ) }
                 onClick={ this.onInsertStep }
             />
         </div>;
@@ -200,14 +200,14 @@ export default class DirectionStep extends Component {
                 className="editor-block-mover__control"
                 onClick={ this.onMoveStepUp }
                 icon="arrow-up-alt2"
-                label={ __( 'Move step up', 'wpzoom-recipe-card' ) }
+                label={ __( 'Move step up', 'recipe-card-blocks-by-wpzoom' ) }
                 aria-disabled={ this.props.isFirst }
             />
             <IconButton
                 className="editor-block-mover__control"
                 onClick={ this.onMoveStepDown }
                 icon="arrow-down-alt2"
-                label={ __( 'Move step down', 'wpzoom-recipe-card' ) }
+                label={ __( 'Move step down', 'recipe-card-blocks-by-wpzoom' ) }
                 aria-disabled={ this.props.isLast }
             />
         </Fragment>;
@@ -325,7 +325,7 @@ export default class DirectionStep extends Component {
 						tabIndex="0"
                         value={ textContent }
                         onChange={ this.onChangeText }
-                        placeholder={ __( 'Enter step description', 'wpzoom-recipe-card' ) }
+                        placeholder={ __( 'Enter step description', 'recipe-card-blocks-by-wpzoom' ) }
                         unstableOnFocus={ this.onFocusText }
                         keepPlaceholderOnFocus={ true }
                     />
@@ -340,7 +340,7 @@ export default class DirectionStep extends Component {
 						tabIndex="0"
                         value={ textContent }
                         onChange={ this.onChangeGroupTitle }
-                        placeholder={ __( 'Enter group title', 'wpzoom-recipe-card' ) }
+                        placeholder={ __( 'Enter group title', 'recipe-card-blocks-by-wpzoom' ) }
                         unstableOnFocus={ this.onFocusText }
                         keepPlaceholderOnFocus={ true }
                     />

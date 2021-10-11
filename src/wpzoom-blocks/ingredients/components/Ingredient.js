@@ -135,7 +135,7 @@ export default class Ingredient extends Component {
             return;
         }
 
-        speak( __( 'New ingredient added', 'wpzoom-recipe-card' ) );
+        speak( __( 'New ingredient added', 'recipe-card-blocks-by-wpzoom' ) );
     }
 
     /**
@@ -200,7 +200,7 @@ export default class Ingredient extends Component {
 
         this.setFocus( fieldToFocus );
 
-        speak( __( 'Ingredient removed', 'wpzoom-recipe-card' ) );
+        speak( __( 'Ingredient removed', 'recipe-card-blocks-by-wpzoom' ) );
     }
 
     /**
@@ -374,14 +374,14 @@ export default class Ingredient extends Component {
                     onClick={ this.onAddIngredientButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( 'Add ingredient', 'wpzoom-recipe-card' ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add ingredient', 'recipe-card-blocks-by-wpzoom' ) }</span>
                 </IconButton>
                 <IconButton
                     icon="editor-insertmore"
                     onClick={ this.onAddGroupButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( 'Add ingredient group', 'wpzoom-recipe-card' ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add ingredient group', 'recipe-card-blocks-by-wpzoom' ) }</span>
                 </IconButton>
             </div>
         );
@@ -402,8 +402,8 @@ export default class Ingredient extends Component {
         return (
             <div className={ classNames } id={ id }>
                 <div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
-                    <a className="btn-print-link no-print" href={ '#' + id } title={ __( 'Print ingredients...', 'wpzoom-recipe-card' ) }>
-                        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( 'Print', 'wpzoom-recipe-card' ) } />{ __( 'Print', 'wpzoom-recipe-card' ) }
+                    <a className="btn-print-link no-print" href={ '#' + id } title={ __( 'Print ingredients...', 'recipe-card-blocks-by-wpzoom' ) }>
+                        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( 'Print', 'recipe-card-blocks-by-wpzoom' ) } />{ __( 'Print', 'recipe-card-blocks-by-wpzoom' ) }
                     </a>
                 </div>
                 <RichText
@@ -415,7 +415,7 @@ export default class Ingredient extends Component {
                     setFocusedElement={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( 'Write Ingredients title', 'wpzoom-recipe-card' ) }
+                    placeholder={ __( 'Write Ingredients title', 'recipe-card-blocks-by-wpzoom' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <ul className={ listClassNames }>{ this.getItems() }</ul>

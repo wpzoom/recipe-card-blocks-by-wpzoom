@@ -44,9 +44,9 @@ export default class Inspector extends Component {
 
         return (
             <InspectorControls>
-                <PanelBody initialOpen={ true } title={ __( 'Ingredients Settings', 'wpzoom-recipe-card' ) }>
+                <PanelBody initialOpen={ true } title={ __( 'Ingredients Settings', 'recipe-card-blocks-by-wpzoom' ) }>
                     <ToggleControl
-                        label={ __( 'Print Button Visibility', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Print Button Visibility', 'recipe-card-blocks-by-wpzoom' ) }
                         checked={ print_visibility === 'visible' ? true : false }
                         onChange={ onChangePrint }
                     />

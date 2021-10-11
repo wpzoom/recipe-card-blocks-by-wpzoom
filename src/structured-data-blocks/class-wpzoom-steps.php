@@ -108,7 +108,7 @@ class WPZOOM_Steps_Block {
 		$steps_content = self::get_steps_content( $steps );
 
 		$btn_attributes = array(
-			'title' => esc_html__( 'Print directions...', 'wpzoom-recipe-card' ),
+			'title' => esc_html__( 'Print directions...', 'recipe-card-blocks-by-wpzoom' ),
 		);
 
 		if ( $post ) {
@@ -132,7 +132,7 @@ class WPZOOM_Steps_Block {
 			esc_attr( $print_visibility ),
 			$atts,
 			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),
-			esc_html__( 'Print', 'wpzoom-recipe-card' ),
+			esc_html__( 'Print', 'recipe-card-blocks-by-wpzoom' ),
 			esc_html( $title ),
 			$steps_content
 		);

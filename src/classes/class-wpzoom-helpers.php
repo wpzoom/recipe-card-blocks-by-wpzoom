@@ -212,22 +212,22 @@ class WPZOOM_Helpers {
 		if ( $returnArray ) {
 			if ( $hours ) {
 				$array['hours']['value'] = $hours;
-				$array['hours']['unit']  = _n( 'hour', 'hours', (int) $hours, 'wpzoom-recipe-card' );
+				$array['hours']['unit']  = _n( 'hour', 'hours', (int) $hours, 'recipe-card-blocks-by-wpzoom' );
 			}
 			if ( $mins ) {
 				$array['minutes']['value'] = $mins;
-				$array['minutes']['unit']  = _n( 'minute', 'minutes', (int) $mins, 'wpzoom-recipe-card' );
+				$array['minutes']['unit']  = _n( 'minute', 'minutes', (int) $mins, 'recipe-card-blocks-by-wpzoom' );
 			}
 
 			return $array;
 		}
 
 		if ( $hours ) {
-			$output = $hours . ' ' . _n( 'hour', 'hours', (int) $hours, 'wpzoom-recipe-card' );
+			$output = $hours . ' ' . _n( 'hour', 'hours', (int) $hours, 'recipe-card-blocks-by-wpzoom' );
 		}
 
 		if ( $mins ) {
-			$output .= ' ' . $mins . ' ' . _n( 'minute', 'minutes', (int) $mins, 'wpzoom-recipe-card' );
+			$output .= ' ' . $mins . ' ' . _n( 'minute', 'minutes', (int) $mins, 'recipe-card-blocks-by-wpzoom' );
 		}
 
 		return $output;

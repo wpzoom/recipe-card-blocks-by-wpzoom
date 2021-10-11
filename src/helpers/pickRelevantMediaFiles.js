@@ -29,6 +29,8 @@ export const pickRelevantMediaFiles = ( image, target ) => {
             imageProps.url = medium || thumbnail || image.url || image.source_url;
         } else if ( 'header' === target ) {
             imageProps.url = wpzoom_rcb_block_header || large || image.url || image.source_url;
+        } else {
+            imageProps.url = original;
         }
     }
 
