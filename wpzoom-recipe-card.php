@@ -9,7 +9,7 @@
  * Copyright: (c) 2021 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: wpzoom-recipe-card
+ * Text Domain: recipe-card-blocks-by-wpzoom
  * Domain Path: /languages
  *
  * @package   WPZOOM_Recipe_Card_Blocks

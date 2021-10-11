@@ -120,7 +120,7 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 		 */
 		public static function double_install_admin_notice() {
 			/* translators: %s: plugins page link */
-			$message = __( 'You currently have two versions of Recipe Card Blocks active on this site. Please <a href="%s">deactivate one</a> before continuing.', 'wpzoom-recipe-card' );
+			$message = __( 'You currently have two versions of Recipe Card Blocks active on this site. Please <a href="%s">deactivate one</a> before continuing.', 'recipe-card-blocks-by-wpzoom' );
 
 			self::render_admin_notice( sprintf( $message, admin_url( 'plugins.php' ) ), 'error' );
 		}

@@ -108,7 +108,7 @@ class WPZOOM_Ingredients_Block {
 		$ingredients_content = self::get_ingredients_content( $items );
 
 		$btn_attributes = array(
-			'title' => esc_html__( 'Print ingredients...', 'wpzoom-recipe-card' ),
+			'title' => esc_html__( 'Print ingredients...', 'recipe-card-blocks-by-wpzoom' ),
 		);
 
 		if ( $post ) {
@@ -132,7 +132,7 @@ class WPZOOM_Ingredients_Block {
 			esc_attr( $print_visibility ),
 			$atts,
 			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),
-			esc_html__( 'Print', 'wpzoom-recipe-card' ),
+			esc_html__( 'Print', 'recipe-card-blocks-by-wpzoom' ),
 			esc_html( $title ),
 			$ingredients_content
 		);

@@ -1,3 +1,5 @@
+/* global wpzoomRecipeCard */
+
 import split from 'lodash/split';
 
 /**

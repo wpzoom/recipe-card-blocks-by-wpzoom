@@ -106,9 +106,9 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 	 */
 	public static function custom_image_sizes_choose( $size_names ) {
 		$new_sizes = array(
-			'wpzoom-rcb-block-header'        => __( 'Recipe Card Block', 'wpzoom-recipe-card' ),
-			'wpzoom-rcb-block-header-square' => __( 'Recipe Card Block Square', 'wpzoom-recipe-card' ),
-			'wpzoom-rcb-block-step-image'    => __( 'Recipe Card Step Image', 'wpzoom-recipe-card' ),
+			'wpzoom-rcb-block-header'        => __( 'Recipe Card Block', 'recipe-card-blocks-by-wpzoom' ),
+			'wpzoom-rcb-block-header-square' => __( 'Recipe Card Block Square', 'recipe-card-blocks-by-wpzoom' ),
+			'wpzoom-rcb-block-step-image'    => __( 'Recipe Card Step Image', 'recipe-card-blocks-by-wpzoom' ),
 		);
 		return array_merge( $size_names, $new_sizes );
 	}
@@ -124,7 +124,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 			array(
 				array(
 					'slug'  => 'wpzoom-recipe-card',
-					'title' => __( 'WPZOOM - Recipe Card', 'wpzoom-recipe-card' ),
+					'title' => __( 'WPZOOM - Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
 				),
 			)
 		);
@@ -178,7 +178,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 	 */
 	public static function load_textdomain() {
 		load_plugin_textdomain(
-			'wpzoom-recipe-card',
+			'recipe-card-blocks-by-wpzoom',
 			false,
 			dirname( plugin_basename( WPZOOM_RCB_PLUGIN_DIR ) ) . '/languages/'
 		);

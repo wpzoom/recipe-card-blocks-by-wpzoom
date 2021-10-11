@@ -86,7 +86,7 @@ final class WPZOOM_Plugin_Activator {
 		// Is Lite version?
 		if ( WPZOOM_RCB_HAS_PRO === false ) {
 			$url       = self::get_upgrade_url();
-			$actions[] = '<a href="' . $url . '" style="color:#FFA921;font-weight:bold;" target="_blank">' . _x( 'Go Premium', 'Plugin action link label.', 'wpzoom-recipe-card' ) . '</a>';
+			$actions[] = '<a href="' . $url . '" style="color:#FFA921;font-weight:bold;" target="_blank">' . _x( 'Go Premium', 'Plugin action link label.', 'recipe-card-blocks-by-wpzoom' ) . '</a>';
 		}
 
 		return $actions;
@@ -113,7 +113,7 @@ final class WPZOOM_Plugin_Activator {
 			$meta_fields[] = sprintf(
 				'<a href="%s" target="_blank" title="%s">%s</a>',
 				esc_url( $plugin_url ),
-				esc_html__( 'Rate plugin', 'wpzoom-recipe-card' ),
+				esc_html__( 'Rate plugin', 'recipe-card-blocks-by-wpzoom' ),
 				$rating_stars
 			);
 		}

@@ -126,7 +126,7 @@ export default class Ingredient extends Component {
             return;
         }
 
-        speak( __( 'New ingredient added', 'wpzoom-recipe-card' ) );
+        speak( __( 'New ingredient added', 'recipe-card-blocks-by-wpzoom' ) );
     }
 
     /**
@@ -191,7 +191,7 @@ export default class Ingredient extends Component {
 
         this.setFocus( fieldToFocus );
 
-        speak( __( 'Ingredient removed', 'wpzoom-recipe-card' ) );
+        speak( __( 'Ingredient removed', 'recipe-card-blocks-by-wpzoom' ) );
     }
 
     /**
@@ -367,14 +367,14 @@ export default class Ingredient extends Component {
                     onClick={ this.onAddIngredientButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( 'Add ingredient', 'wpzoom-recipe-card' ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add ingredient', 'recipe-card-blocks-by-wpzoom' ) }</span>
                 </IconButton>
                 <IconButton
                     icon="editor-insertmore"
                     onClick={ this.onAddGroupButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( 'Add ingredient group', 'wpzoom-recipe-card' ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add ingredient group', 'recipe-card-blocks-by-wpzoom' ) }</span>
                 </IconButton>
             </div>
         );
@@ -410,7 +410,7 @@ export default class Ingredient extends Component {
                     unstableOnFocus={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( 'Write Ingredients title', 'wpzoom-recipe-card' ) }
+                    placeholder={ __( 'Write Ingredients title', 'recipe-card-blocks-by-wpzoom' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <ul className={ listClassNames }>{ this.getItems() }</ul>

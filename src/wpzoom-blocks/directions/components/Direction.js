@@ -141,7 +141,7 @@ export default class Direction extends Component {
             return;
         }
 
-        speak( __( 'New step added', 'wpzoom-recipe-card' ) );
+        speak( __( 'New step added', 'recipe-card-blocks-by-wpzoom' ) );
     }
 
     /**
@@ -206,7 +206,7 @@ export default class Direction extends Component {
 
         this.setFocus( fieldToFocus );
 
-        speak( __( 'Step removed', 'wpzoom-recipe-card' ) );
+        speak( __( 'Step removed', 'recipe-card-blocks-by-wpzoom' ) );
     }
 
     /**
@@ -381,14 +381,14 @@ export default class Direction extends Component {
                     onClick={ this.onAddStepButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( 'Add step', 'wpzoom-recipe-card' ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add step', 'recipe-card-blocks-by-wpzoom' ) }</span>
                 </IconButton>
                 <IconButton
                     icon="editor-insertmore"
                     onClick={ this.onAddGroupButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( 'Add direction group', 'wpzoom-recipe-card' ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add direction group', 'recipe-card-blocks-by-wpzoom' ) }</span>
                 </IconButton>
             </div>
         );
@@ -409,8 +409,8 @@ export default class Direction extends Component {
         return (
             <div className={ classNames } id={ id }>
                 <div className={ 'wpzoom-recipe-card-print-link' + ' ' + print_visibility }>
-                    <a className="btn-print-link no-print" href={ '#' + id } title={ __( 'Print directions...', 'wpzoom-recipe-card' ) }>
-                        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( 'Print', 'wpzoom-recipe-card' ) } />{ __( 'Print', 'wpzoom-recipe-card' ) }
+                    <a className="btn-print-link no-print" href={ '#' + id } title={ __( 'Print directions...', 'recipe-card-blocks-by-wpzoom' ) }>
+                        <img className="icon-print-link" src={ pluginURL + 'dist/assets/images/printer.svg' } alt={ __( 'Print', 'recipe-card-blocks-by-wpzoom' ) } />{ __( 'Print', 'recipe-card-blocks-by-wpzoom' ) }
                     </a>
                 </div>
                 <RichText
@@ -422,7 +422,7 @@ export default class Direction extends Component {
                     setFocusedElement={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( 'Write Directions title', 'wpzoom-recipe-card' ) }
+                    placeholder={ __( 'Write Directions title', 'recipe-card-blocks-by-wpzoom' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <ul className={ listClassNames }>{ this.getSteps() }</ul>

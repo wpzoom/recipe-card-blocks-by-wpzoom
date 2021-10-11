@@ -11,7 +11,7 @@ import includes from 'lodash/includes';
  */
 export function excludeClassNames( className, exclude ) {
     let classname = className;
-    exclude.map( ( item, index ) => {
+    exclude.map( ( item ) => {
         if ( includes( classname, item ) ) {
             classname = trim( classname, item );
         }
