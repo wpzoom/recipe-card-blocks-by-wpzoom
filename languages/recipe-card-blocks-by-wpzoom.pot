@@ -1,0 +1,1418 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2021-10-11 15:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Vicolas Petru\n"
+"Language-Team: WPZOOM\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: node_modules\n"
+"\n"
+"Language: "
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:196 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:316
+#, php-format
+msgid "%s servings per container"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:119
+msgid "1"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:656
+msgid "1 Ingredient"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:661
+msgid "2 Ingredient"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:124
+msgid "3"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:125
+msgid "3 + More Coming Soon"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:666
+msgid "3 Ingredient"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:120
+msgid "4 + Unlimited Colors"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:671
+msgid "4 Ingredient"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:635
+msgid "Add custom text for Jump to Recipe button."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:647
+msgid "Add custom text for Print Recipe button."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:426
+msgid "Add difficulty level"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:355
+msgid "Add your custom Details title for new or existing Recipe Cards."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:379
+msgid "Add your custom Directions title for new or existing Recipe Cards."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:367
+msgid "Add your custom Ingredients title for new or existing Recipe Cards."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:403
+msgid "Add your custom Notes title for new or existing Recipe Cards."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:391
+msgid "Add your custom Recipe video title for new or existing Recipe Cards."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:451
+msgid "Additional Details"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:163
+msgid "Advanced Pinterest Settings"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:538
+msgid "Allow visitors to vote your recipes."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:626
+msgid "Amount"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:207 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:333 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:383
+msgid "Amount Per Serving"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:581
+msgid "Appearance"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:834
+msgid "Assets"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:334
+msgid "Author"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:173
+msgid "Automatic Recipe Archives"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:617
+msgid "Automatically add Buttons"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:622
+msgid "Automatically display buttons above the post content."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:884
+msgid "Autoplay"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:574
+msgid "Baking Time"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the "
+"new WordPress editor (Gutenberg)."
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:552
+msgid "Biotin"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1104
+msgid "Bottom Spacing"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:138
+msgid "Bulk Add Ingredients & Directions"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:508
+msgid "Calcium"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:904 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:448 
+#: src/structured-data-blocks/class-wpzoom-details.php:195 
+#: elementor/widgets/recipe-card/recipe-card.php:556
+msgid "Calories"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:418 
+#: elementor/widgets/recipe-card/recipe-card.php:320
+msgid "Center"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:570
+msgid "Change rating stars color of Recipe Card."
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:596
+msgid "Chloride"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:466
+msgid "Cholesterol"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:827
+msgid "Choose File"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:588
+msgid "Chromium"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:254
+msgid "Close"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1028 
+#: elementor/widgets/recipe-card/recipe-card.php:1061 
+#: elementor/widgets/recipe-card/recipe-card.php:1137 
+#: elementor/widgets/recipe-card/recipe-card.php:1181 
+#: elementor/widgets/recipe-card/recipe-card.php:1214 
+#: elementor/widgets/recipe-card/recipe-card.php:1255 
+#: elementor/widgets/recipe-card/recipe-card.php:1286 
+#: elementor/widgets/recipe-card/recipe-card.php:1352 
+#: elementor/widgets/recipe-card/recipe-card.php:1383 
+#: elementor/widgets/recipe-card/recipe-card.php:1449 
+#: elementor/widgets/recipe-card/recipe-card.php:1480
+msgid "Color"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:118
+msgid "Color Schemes"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:175 
+#: src/classes/class-wpzoom-settings.php:269
+msgid "Coming Soon"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:179
+msgid "Community Forum"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:896 
+#: src/structured-data-blocks/class-wpzoom-details.php:188 
+#: elementor/widgets/recipe-card/recipe-card.php:545
+msgid "Cooking time"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:580
+msgid "Copper"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:867 
+#: elementor/widgets/recipe-card/recipe-card.php:380 
+#: elementor/widgets/recipe-card/recipe-card.php:384
+msgid "Course"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:371
+msgid "Course (required)"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:1264 
+#: elementor/widgets/recipe-card/recipe-card.php:1536
+msgid "Course:"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:880 
+#: elementor/widgets/recipe-card/recipe-card.php:403 
+#: elementor/widgets/recipe-card/recipe-card.php:407
+msgid "Cuisine"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:394
+msgid "Cuisine (required)"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:1271 
+#: elementor/widgets/recipe-card/recipe-card.php:1539
+msgid "Cuisine:"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:345 
+#: elementor/widgets/recipe-card/recipe-card.php:351
+msgid "Custom author name"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:760
+msgid "Custom Image per Recipe (Premium Only)"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:776
+msgid "Custom Text (Premium Only)"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:213 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:333 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:383
+msgid "Daily Value"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:601
+msgid "Default"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:338
+msgid "Default Author Name"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:1134
+msgid "Default configurations for new Recipe Card blocks."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:350
+msgid "Default Details Title"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:374
+msgid "Default Directions Title"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:362
+msgid "Default Ingredients Title"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:795
+msgid "Default layout to use for all Nutrition block."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:398
+msgid "Default Notes Title"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:593
+msgid "Default Template"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:598
+msgid "Default template to use for all Recipe Cards."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:346
+msgid "Default: Post author name"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:280
+msgid "Defaults"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:356 
+#: elementor/widgets/recipe-card/recipe-card.php:1041
+msgid "Details"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:486
+msgid "Dietary Fiber"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:893
+msgid "Difficulty"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:1278 
+#: elementor/widgets/recipe-card/recipe-card.php:1542
+msgid "Difficulty:"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:380 
+#: elementor/widgets/recipe-card/recipe-card.php:683 
+#: elementor/widgets/recipe-card/recipe-card.php:693 
+#: elementor/widgets/recipe-card/recipe-card.php:1324
+msgid "Directions"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:761 
+#: elementor/widgets/recipe-card/recipe-card.php:764 
+#: elementor/widgets/recipe-card/recipe-card.php:767 
+#: elementor/widgets/recipe-card/recipe-card.php:770
+msgid "Directions Step"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:444
+msgid ""
+"Disable Footer Credit. Uncheck this option if you want to show your support "
+"for this plugin."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:325 
+#: elementor/widgets/recipe-card/recipe-card.php:335
+msgid "Display Author"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:512
+msgid "Display Calories"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:486
+msgid "Display Cooking Time"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:286
+msgid "Display Course"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:299
+msgid "Display Cuisine"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:461
+msgid "Display Detail Item"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:312 
+#: elementor/widgets/recipe-card/recipe-card.php:417
+msgid "Display Difficulty"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:1152
+msgid "Display Jump to Recipe and Print Recipe buttons."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:738
+msgid "Display Pin Button"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:301
+msgid "Display Pinterest Button"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:473
+msgid "Display Preparation Time"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:662 
+#: elementor/widgets/recipe-card/recipe-card.php:290
+msgid "Display Print Button"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:460
+msgid "Display Servings"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:499
+msgid "Display Total Time"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:60 
+#: src/classes/class-wpzoom-settings.php:248
+msgid "Documentation"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:180
+msgid "Email Support"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:795
+msgid "Embed"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:813
+msgid "Enable Google Fonts"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:430
+msgid "Enable strikethrough for ingredients on hover or when selected."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:845
+msgid ""
+"Enabling this option will load JavaScript and CSS files on archive pages "
+"that include posts with recipe cards."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:248
+msgid "Enter your recipe card summary here"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:814
+msgid "Enter your URL"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:557
+msgid "Everyone can rate recipes"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:111
+msgid "Features"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:548
+msgid "Folate"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:439
+msgid "Footer Credit"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:112
+msgid "Free"
+msgstr ""
+
+#: src/classes/class-wpzoom-admin-menu.php:55
+msgid "Free vs. PRO"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:189 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:307
+msgid "g"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:735
+msgid "Gallery"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:274
+msgid "General"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:46
+msgid "Get Started with Recipe Card Blocks"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:807
+msgid "Google Fonts"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:312
+msgid "Header Content Align"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:282 
+#: elementor/widgets/recipe-card/recipe-card.php:293 
+#: elementor/widgets/recipe-card/recipe-card.php:304 
+#: elementor/widgets/recipe-card/recipe-card.php:338 
+#: elementor/widgets/recipe-card/recipe-card.php:374 
+#: elementor/widgets/recipe-card/recipe-card.php:397 
+#: elementor/widgets/recipe-card/recipe-card.php:420 
+#: elementor/widgets/recipe-card/recipe-card.php:464 
+#: elementor/widgets/recipe-card/recipe-card.php:922
+msgid "Hide"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:153
+msgid "Hide Footer Credit"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:799
+msgid "Horizontal"
+msgstr ""
+
+#: src/classes/class-wpzoom-helpers.php:215 
+#: src/classes/class-wpzoom-helpers.php:226
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Author URI of the plugin
+msgid "https://www.wpzoom.com/"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:59
+msgid "https://www.wpzoom.com/documentation/recipe-card-blocks/"
+msgstr ""
+
+#. URI of the plugin
+#: src/classes/class-wpzoom-lite-vs-pro.php:86
+msgid "https://www.wpzoom.com/plugins/recipe-card-blocks/"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:480 
+#: elementor/widgets/recipe-card/recipe-card.php:1072
+msgid "Icon"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1093
+msgid "Icon Color"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1081
+msgid "Icon Size"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:818
+msgid ""
+"If you check this field, then it means that plugin will load Google Fonts to "
+"use them into blocks."
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:83
+msgid ""
+"If you like the free version of this plugin, you will LOVE the PRO version "
+"which includes features like Recipe Ratings, Color Schemes and other useful "
+"features to take your food blog to the next level!"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:246
+msgid ""
+"If you need help getting started with Recipe Card Blocks, please click on "
+"the links below."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:713
+msgid "Image"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:756
+msgid "Image to use for Pin Recipe."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:641
+msgid "Ingredient Name"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:368 
+#: elementor/widgets/recipe-card/recipe-card.php:606 
+#: elementor/widgets/recipe-card/recipe-card.php:616 
+#: elementor/widgets/recipe-card/recipe-card.php:1227
+msgid "Ingredients"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:425
+msgid "Ingredients Strikethrough"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:143
+msgid "Inline Structured Data Validator"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:564
+msgid "Iodine"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:512
+msgid "Iron"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1266
+msgid "Item"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:636
+msgid "Jump to Recipe"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:630
+msgid "Jump to Recipe Text"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:905 
+#: src/structured-data-blocks/class-wpzoom-details.php:196
+msgid "kcal"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:439
+msgid "Keywords (recommended)"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:471
+msgid "Label"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:790
+msgid "Layout Orientation"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:417 
+#: elementor/widgets/recipe-card/recipe-card.php:316
+msgid "Left"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:805
+msgid "Link"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:840
+msgid "Load Assets on all pages?"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:91
+msgid "Loading gallery media"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:908
+msgid "Loop"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:568
+msgid "Magnesium"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:872
+msgid "Make Course as taxonomy."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:885
+msgid "Make Cuisine as taxonomy."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:898
+msgid "Make Difficulty as taxonomy."
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:584
+msgid "Manganese"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1297 
+#: elementor/widgets/recipe-card/recipe-card.php:1394 
+#: elementor/widgets/recipe-card/recipe-card.php:1491
+msgid "Margin"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:855
+msgid "Metadata"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:190 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:308
+msgid "mg"
+msgstr ""
+
+#: src/classes/class-wpzoom-helpers.php:219 
+#: src/classes/class-wpzoom-helpers.php:230
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:889 
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:897 
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:936 
+#: src/structured-data-blocks/class-wpzoom-details.php:182 
+#: src/structured-data-blocks/class-wpzoom-details.php:189
+msgid "minutes"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:592
+msgid "Molybdenum"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:896
+msgid "Mute"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:56
+msgid ""
+"Need help configuring the plugin? In the documentation you can find all the "
+"information that is needed to get started adding recipes in your blog."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:590
+msgid "Net Carbs"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:602
+msgid "New Design"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:536
+msgid "Niacin"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1460
+msgid "Note"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:980
+msgid "Note text"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:845
+msgid "NOTE: Disable this option to load assets only on the single post pages."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:404 
+#: elementor/widgets/recipe-card/recipe-card.php:961 
+#: elementor/widgets/recipe-card/recipe-card.php:1421
+msgid "Notes"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:784
+msgid "Nutrition"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:193 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:313
+msgid "Nutrition Facts"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:168
+msgid "Nutrition Info"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:556
+msgid "Only logged in users can rate recipes"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1309 
+#: elementor/widgets/recipe-card/recipe-card.php:1406 
+#: elementor/widgets/recipe-card/recipe-card.php:1503
+msgid "Padding"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:556
+msgid "Pantothenic Acid"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:828
+msgid "Performance"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:560
+msgid "Phosphorus"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:720
+msgid "Photo"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:1729
+msgid "Pin"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:766
+msgid "Pin Description"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:751
+msgid "Pin Image"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:732
+msgid "Pinterest"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:300
+msgid "Pinterest Button"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:920
+msgid "Player Controls"
+msgstr ""
+
+#: src/classes/class-wpzoom-plugin-activator.php:89
+msgctxt "Plugin action link label."
+msgid "Go Premium"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:53
+msgid "Plugin Documentation"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:935
+msgid "Poster"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:476
+msgid "Potassium"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:268
+msgid "Premium"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:158 
+#: src/classes/class-wpzoom-settings.php:250
+msgid "Premium Support"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:888 
+#: src/structured-data-blocks/class-wpzoom-details.php:181 
+#: elementor/widgets/recipe-card/recipe-card.php:535
+msgid "Prep time"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings-fields.php:111
+msgid "Preview"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:656 
+#: src/structured-data-blocks/class-wpzoom-steps.php:135 
+#: src/structured-data-blocks/class-wpzoom-ingredients.php:135 
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:1689 
+#: elementor/widgets/recipe-card/recipe-card.php:2147
+msgid "Print"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:289
+msgid "Print Button"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-steps.php:111 
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:433 
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:484
+msgid "Print directions..."
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-ingredients.php:111
+msgid "Print ingredients..."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:675
+msgid "Print only Published Posts"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:648
+msgid "Print Recipe"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:642
+msgid "Print Recipe Text"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:113
+msgid "PRO"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:495
+msgid "Protein"
+msgstr ""
+
+#: src/classes/class-wpzoom-plugin-activator.php:116
+msgid "Rate plugin"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:527
+msgid "Rating Feature"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:565
+msgid "Rating Stars Color"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:611
+msgid "Recipe Buttons"
+msgstr ""
+
+#: src/classes/class-wpzoom-print-template-manager.php:208 
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:497 
+#: elementor/widgets/recipe-card/recipe-card.php:1647
+msgid "Recipe by"
+msgstr ""
+
+#: src/classes/class-wpzoom-admin-menu.php:34
+msgid "Recipe Card"
+msgstr ""
+
+#: src/classes/class-wpzoom-recipe-card-block-gutenberg.php:109 
+#: elementor/widgets/recipe-card/recipe-card.php:125
+msgid "Recipe Card Block"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:99
+msgid "Recipe Card Block Free vs. PRO"
+msgstr ""
+
+#: src/classes/class-wpzoom-recipe-card-block-gutenberg.php:110
+msgid "Recipe Card Block Square"
+msgstr ""
+
+#. Name of the plugin
+msgid "Recipe Card Blocks for Gutenberg & Elementor"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:80
+msgid "Recipe Card Blocks PRO"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:255
+msgid "Recipe Card Image (required)"
+msgstr ""
+
+#: src/classes/class-wpzoom-print-template-manager.php:249 
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:535
+msgid "Recipe Card plugin by "
+msgstr ""
+
+#: src/classes/class-wpzoom-recipe-card-block-gutenberg.php:111
+msgid "Recipe Card Step Image"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:123
+msgid "Recipe Card Styles"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:454 
+#: src/classes/class-wpzoom-settings.php:697 
+#: elementor/widgets/recipe-card/recipe-card.php:223
+msgid "Recipe Details"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:686 
+#: src/classes/class-wpzoom-settings.php:759
+msgid "Recipe Image"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:774
+msgid "Recipe Name"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:1140
+msgid "Recipe Rating shown in the Recipe Card and Recipe Metadata."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:363
+msgid "Recipe Schema Markup"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:775 
+#: elementor/widgets/recipe-card/recipe-card.php:243
+msgid "Recipe Summary"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:587
+msgid "Recipe Template"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:231 
+#: elementor/widgets/recipe-card/recipe-card.php:237
+msgid "Recipe Title"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:410
+msgid "Recipe Title Alignment"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:392
+msgid "Recipe Video"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:386
+msgid "Recipe Video Title"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:680
+msgid ""
+"Redirect visitors to the homepage when trying to print a recipe that has not "
+"been published yet."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:566
+msgid "Resting Time"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:532
+msgid "Riboflavin"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:419 
+#: elementor/widgets/recipe-card/recipe-card.php:324
+msgid "Right"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:457
+msgid "Saturated Fat"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings-fields.php:160
+msgid "Save Changes"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:128
+msgid "Schema Markup"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:553
+msgid "Select who can rate your recipes."
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:576
+msgid "Selenium"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:796
+msgid "Self Hosted"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:381 
+#: elementor/widgets/recipe-card/recipe-card.php:404 
+#: elementor/widgets/recipe-card/recipe-card.php:427 
+#: elementor/widgets/recipe-card/recipe-card.php:440
+msgid "Separate with commas or the Enter key."
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:440 
+#: elementor/widgets/recipe-card/recipe-card.php:582
+msgid "Serving Size"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:880 
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:444 
+#: src/structured-data-blocks/class-wpzoom-details.php:174 
+#: elementor/widgets/recipe-card/recipe-card.php:525
+msgid "Servings"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:881 
+#: src/structured-data-blocks/class-wpzoom-details.php:175
+msgid "servings"
+msgstr ""
+
+#: src/classes/class-wpzoom-admin-menu.php:46
+msgid "Settings"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:281 
+#: elementor/widgets/recipe-card/recipe-card.php:292 
+#: elementor/widgets/recipe-card/recipe-card.php:923
+msgid "Show"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:330
+msgid "Show author by default"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:517
+msgid "Show calories by default"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:491
+msgid "Show cooking time by default"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:291
+msgid "Show course by default"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:304
+msgid "Show cuisine by default"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:317
+msgid "Show difficulty by default"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:278
+msgid "Show Image"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:743
+msgid "Show Pinterest button in recipe card"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:478
+msgid "Show preparation time by default"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:667
+msgid "Show Print button in recipe card"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:702
+msgid ""
+"Show Recipe Details (servings, preparation time, cooking time, calories) on "
+"print sheet."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:279
+msgid "Show Recipe Image on Front-End"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:691
+msgid "Show Recipe Image on print sheet."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:713
+msgid "Show Recipe Summary text on print sheet."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:465
+msgid "Show servings by default"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:724
+msgid "Show Steps Image on print sheet."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:504
+msgid "Show total time by default"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1148
+msgid "Side Spacing"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:603
+msgid "Simple Design"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:471
+msgid "Sodium"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:791
+msgid "Source"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:148
+msgid "Star Rating"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1363
+msgid "Step"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:703
+msgid "Step description"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:719
+msgid "Steps Image"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:491
+msgid "Sugars"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:1194
+msgid "Summary"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:708
+msgid "Summary Text"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:178
+msgid "Support"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:249
+msgid "Support Forum"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:102
+msgid "Take your recipes to the next level with Recipe Card Blocks PRO!"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:861
+msgid "Taxonomies"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:771
+msgid "Text description to use for Pin Recipe."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:245
+msgid "Thank you for installing Recipe Card Blocks!"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:143
+msgid ""
+"The % Daily Value tells you how much a nutrient in a serving of food "
+"contributes to a daily diet. 2,000 calories a day is used for general "
+"nutrition advice."
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:528
+msgid "Thiamin"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:614 
+#: elementor/widgets/recipe-card/recipe-card.php:691 
+#: elementor/widgets/recipe-card/recipe-card.php:969 
+#: elementor/widgets/recipe-card/recipe-card.php:1008 
+#: elementor/widgets/recipe-card/recipe-card.php:1235 
+#: elementor/widgets/recipe-card/recipe-card.php:1332 
+#: elementor/widgets/recipe-card/recipe-card.php:1429
+msgid "Title"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:481
+msgid "Total Carbohydrate"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:452
+msgid "Total Fat"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:935
+msgid "Total time"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:462
+msgid "Trans Fat"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:511 
+#: elementor/widgets/recipe-card/recipe-card.php:633 
+#: elementor/widgets/recipe-card/recipe-card.php:1160
+msgid "Unit"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:105
+msgid ""
+"Unlock premium features and extend the functionalities & look of your food "
+"blog."
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:187 
+#: src/classes/class-wpzoom-settings.php:251
+msgid "Upgrade to PRO"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:87
+msgid "Upgrade to Recipe Card Blocks PRO"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:72
+msgid ""
+"Upgrading to Recipe Card Blocks PRO plugin you will unlock a dozen of new "
+"features that will take your food blog to the next level. See in the table "
+"below just a few of the features included in the PRO version."
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:256
+msgid "Upload image for Recipe Card."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:533
+msgid "User Rating"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:502 
+#: elementor/widgets/recipe-card/recipe-card.php:1116
+msgid "Value"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:798
+msgid "Vertical"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:783
+msgid "Video"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:859
+msgid "Video Description"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:872
+msgid "Video Options"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:133
+msgid "Video Support"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:845
+msgid "Video Title"
+msgstr ""
+
+#: elementor/widgets/recipe-card/recipe-card.php:949
+msgid "View"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:500
+msgid "Vitamin A"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:544
+msgid "Vitamin B12"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:540
+msgid "Vitamin B6"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:504
+msgid "Vitamin C"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:516
+msgid "Vitamin D"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:520
+msgid "Vitamin E"
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:524
+msgid "Vitamin K"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:548
+msgid "Who can rate?"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:69
+msgid "Why Upgrade?"
+msgstr ""
+
+#. Author of the plugin
+msgid "WPZOOM"
+msgstr ""
+
+#: elementor/wpzoom-elementor-recipe-card.php:123 
+#: src/classes/class-wpzoom-recipe-card-block-gutenberg.php:127
+msgid "WPZOOM - Recipe Card"
+msgstr ""
+
+#: src/classes/class-wpzoom-admin-menu.php:54
+msgid "WPZOOM Recipe Card Free vs. PRO"
+msgstr ""
+
+#: src/classes/class-wpzoom-admin-menu.php:33 
+#: src/classes/class-wpzoom-admin-menu.php:45
+msgid "WPZOOM Recipe Card Settings"
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:343
+msgid ""
+"You can add a custom author name for all new Recipe Cards. By default, the "
+"post author name is shown."
+msgstr ""
+
+#. %s: plugins page link
+#: src/classes/class-wpzoom-plugin-loader.php:123
+#, php-format
+msgid ""
+"You currently have two versions of Recipe Card Blocks active on this site. "
+"Please <a href=\"%s\">deactivate one</a> before continuing."
+msgstr ""
+
+#: src/classes/class-wpzoom-settings.php:1146
+msgid "You will get access to more Recipe Templates with the Premium version."
+msgstr ""
+
+#: src/structured-data-blocks/class-wpzoom-nutrition.php:572
+msgid "Zinc"
+msgstr ""

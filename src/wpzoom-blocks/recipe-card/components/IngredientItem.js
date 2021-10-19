@@ -173,13 +173,13 @@ export default class IngredientItem extends Component {
             <IconButton
                 className="ingredient-item-button ingredient-item-button-delete editor-inserter__toggle"
                 icon="trash"
-                label={ __( 'Delete ingredient', 'wpzoom-recipe-card' ) }
+                label={ __( 'Delete ingredient', 'recipe-card-blocks-by-wpzoom' ) }
                 onClick={ this.onRemoveIngredient }
             />
             <IconButton
                 className="ingredient-item-button ingredient-item-button-add editor-inserter__toggle"
                 icon="editor-break"
-                label={ __( 'Insert ingredient', 'wpzoom-recipe-card' ) }
+                label={ __( 'Insert ingredient', 'recipe-card-blocks-by-wpzoom' ) }
                 onClick={ this.onInsertIngredient }
             />
         </div>;
@@ -196,14 +196,14 @@ export default class IngredientItem extends Component {
                 className="editor-block-mover__control"
                 onClick={ this.onMoveIngredientUp }
                 icon="arrow-up-alt2"
-                label={ __( 'Move item up', 'wpzoom-recipe-card' ) }
+                label={ __( 'Move item up', 'recipe-card-blocks-by-wpzoom' ) }
                 aria-disabled={ this.props.isFirst }
             />
             <IconButton
                 className="editor-block-mover__control"
                 onClick={ this.onMoveIngredientDown }
                 icon="arrow-down-alt2"
-                label={ __( 'Move item down', 'wpzoom-recipe-card' ) }
+                label={ __( 'Move item down', 'recipe-card-blocks-by-wpzoom' ) }
                 aria-disabled={ this.props.isLast }
             />
         </Fragment>;
@@ -297,7 +297,7 @@ export default class IngredientItem extends Component {
 							tabIndex="0"
                             value={ nameContent }
                             onChange={ this.onChangeName }
-                            placeholder={ __( 'Enter ingredient name', 'wpzoom-recipe-card' ) }
+                            placeholder={ __( 'Enter ingredient name', 'recipe-card-blocks-by-wpzoom' ) }
                             unstableOnFocus={ this.onFocusName }
                             keepPlaceholderOnFocus={ true }
                         />
@@ -313,7 +313,7 @@ export default class IngredientItem extends Component {
 						tabIndex="0"
                         value={ nameContent }
                         onChange={ this.onChangeGroupTitle }
-                        placeholder={ __( 'Enter group title', 'wpzoom-recipe-card' ) }
+                        placeholder={ __( 'Enter group title', 'recipe-card-blocks-by-wpzoom' ) }
                         unstableOnFocus={ this.onFocusName }
                         keepPlaceholderOnFocus={ true }
                     />

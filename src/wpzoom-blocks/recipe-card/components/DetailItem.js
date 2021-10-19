@@ -144,11 +144,11 @@ export default class DetailItem extends Component {
         const itemValue = get( item, key );
 
         const placeholderText = {
-            0: { label: __( 'Servings', 'wpzoom-recipe-card' ), value: 4, unit: __( 'servings', 'wpzoom-recipe-card' ) },
-            1: { label: __( 'Prep time', 'wpzoom-recipe-card' ), value: 30, unit: __( 'minutes', 'wpzoom-recipe-card' ) },
-            2: { label: __( 'Cooking time', 'wpzoom-recipe-card' ), value: 40, unit: __( 'minutes', 'wpzoom-recipe-card' ) },
-            3: { label: __( 'Calories', 'wpzoom-recipe-card' ), value: 300, unit: __( 'kcal', 'wpzoom-recipe-card' ) },
-            8: { label: __( 'Total time', 'wpzoom-recipe-card' ), value: 0, unit: __( 'minutes', 'wpzoom-recipe-card' ) },
+            0: { label: __( 'Servings', 'recipe-card-blocks-by-wpzoom' ), value: 4, unit: __( 'servings', 'recipe-card-blocks-by-wpzoom' ) },
+            1: { label: __( 'Prep time', 'recipe-card-blocks-by-wpzoom' ), value: 30, unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ) },
+            2: { label: __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ), value: 40, unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ) },
+            3: { label: __( 'Calories', 'recipe-card-blocks-by-wpzoom' ), value: 300, unit: __( 'kcal', 'recipe-card-blocks-by-wpzoom' ) },
+            8: { label: __( 'Total time', 'recipe-card-blocks-by-wpzoom' ), value: 0, unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ) },
         };
 
         if ( isUndefined( itemValue ) ) {

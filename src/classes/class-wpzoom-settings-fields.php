@@ -108,7 +108,7 @@ class WPZOOM_Settings_Fields {
 						'<span class="wpzoom-rcb-field-preview dashicons dashicons-visibility" data-preview-position="%s" data-preview-thumbnail="%s" title="%s"></span>',
 						$preview_position,
 						$preview_thumbnail_url,
-						esc_html__( 'Preview', 'wpzoom-recipe-card' )
+						esc_html__( 'Preview', 'recipe-card-blocks-by-wpzoom' )
 					);
 				}
 				?>
@@ -157,7 +157,7 @@ class WPZOOM_Settings_Fields {
 	 * @return void
 	 */
 	public function button( $args ) {
-		$text        = isset( $args['text'] ) ? $args['text'] : __( 'Save Changes', 'wpzoom-recipe-card' );
+		$text        = isset( $args['text'] ) ? $args['text'] : __( 'Save Changes', 'recipe-card-blocks-by-wpzoom' );
 		$type        = isset( $args['type'] ) ? $args['type'] : 'submit';
 		$button_type = isset( $args['button_type'] ) ? $args['button_type'] : 'primary large';
 		$name        = isset( $args['label_for'] ) ? $args['label_for'] : 'wpzoom_rcb_button_field_submit';

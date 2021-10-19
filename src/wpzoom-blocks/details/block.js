@@ -23,7 +23,7 @@ const deprecatedAttr = {
         type: 'array',
         selector: '.details-title',
         source: 'children',
-        default: __( 'Details', 'wpzoom-recipe-card' ),
+        default: __( 'Details', 'recipe-card-blocks-by-wpzoom' ),
     },
     id: {
         type: 'string',
@@ -32,10 +32,10 @@ const deprecatedAttr = {
         type: 'array',
         selector: '.details-items',
         default: [
-            { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'food', label: __( 'Servings', 'wpzoom-recipe-card' ) },
-            { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'room-service', label: __( 'Prep time', 'wpzoom-recipe-card' ) },
-            { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'cook', label: __( 'Cooking time', 'wpzoom-recipe-card' ) },
-            { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( 'Calories', 'wpzoom-recipe-card' ) },
+            { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'food', label: __( 'Servings', 'recipe-card-blocks-by-wpzoom' ) },
+            { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'room-service', label: __( 'Prep time', 'recipe-card-blocks-by-wpzoom' ) },
+            { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'cook', label: __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ) },
+            { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( 'Calories', 'recipe-card-blocks-by-wpzoom' ) },
         ],
     },
     columns: {
@@ -94,7 +94,7 @@ const deprecatedAttr = {
 
 registerBlockType( 'wpzoom-recipe-card/block-details', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( 'Details', 'wpzoom-recipe-card' ), // Block title.
+    title: __( 'Details', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     icon: {
         // // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#2EA55F',
@@ -109,20 +109,20 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
         multiple: false,
     },
     keywords: [
-        __( 'details', 'wpzoom-recipe-card' ),
-        __( 'wpzoom', 'wpzoom-recipe-card' ),
-        __( 'recipe', 'wpzoom-recipe-card' ),
+        __( 'details', 'recipe-card-blocks-by-wpzoom' ),
+        __( 'wpzoom', 'recipe-card-blocks-by-wpzoom' ),
+        __( 'recipe', 'recipe-card-blocks-by-wpzoom' ),
     ],
     example: {
         attributes: {
-            course: [ __( 'Main', 'wpzoom-recipe-card' ) ],
-            cuisine: [ __( 'Italian', 'wpzoom-recipe-card' ) ],
-            difficulty: [ __( 'Medium', 'wpzoom-recipe-card' ) ],
+            course: [ __( 'Main', 'recipe-card-blocks-by-wpzoom' ) ],
+            cuisine: [ __( 'Italian', 'recipe-card-blocks-by-wpzoom' ) ],
+            difficulty: [ __( 'Medium', 'recipe-card-blocks-by-wpzoom' ) ],
             details: [
-                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'food', label: __( 'Servings', 'wpzoom-recipe-card' ) },
-                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'room-service', label: __( 'Prep time', 'wpzoom-recipe-card' ) },
-                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'cook', label: __( 'Cooking time', 'wpzoom-recipe-card' ) },
-                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( 'Calories', 'wpzoom-recipe-card' ) },
+                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'food', label: __( 'Servings', 'recipe-card-blocks-by-wpzoom' ) },
+                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'room-service', label: __( 'Prep time', 'recipe-card-blocks-by-wpzoom' ) },
+                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'cook', label: __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ) },
+                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( 'Calories', 'recipe-card-blocks-by-wpzoom' ) },
             ],
         },
     },
@@ -140,10 +140,10 @@ registerBlockType( 'wpzoom-recipe-card/block-details', {
         // Because setAttributes is quite slow right after a block has been added we fake having a single detail.
         if ( ! attributes.details || attributes.details.length === 0 ) {
             attributes.details = [
-                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'food', label: __( 'Servings', 'wpzoom-recipe-card' ) },
-                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'room-service', label: __( 'Prep time', 'wpzoom-recipe-card' ) },
-                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'cook', label: __( 'Cooking time', 'wpzoom-recipe-card' ) },
-                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( 'Calories', 'wpzoom-recipe-card' ) },
+                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'food', label: __( 'Servings', 'recipe-card-blocks-by-wpzoom' ) },
+                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'room-service', label: __( 'Prep time', 'recipe-card-blocks-by-wpzoom' ) },
+                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'cook', label: __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ) },
+                { id: generateId( 'detail-item' ), iconSet: 'oldicon', icon: 'shopping-basket', label: __( 'Calories', 'recipe-card-blocks-by-wpzoom' ) },
             ];
         }
 

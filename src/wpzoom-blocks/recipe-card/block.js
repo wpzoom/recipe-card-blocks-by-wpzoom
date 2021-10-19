@@ -35,8 +35,8 @@ const { setting_options, pluginURL } = wpzoomRecipeCard;
  */
 registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( 'Recipe Card Block (Schema.org)', 'wpzoom-recipe-card' ), // Block title.
-    description: __( 'Display a Recipe Card box with recipe metadata.', 'wpzoom-recipe-card' ),
+    title: __( 'Recipe Card Block (Schema.org)', 'recipe-card-blocks-by-wpzoom' ), // Block title.
+    description: __( 'Display a Recipe Card box with recipe metadata.', 'recipe-card-blocks-by-wpzoom' ),
     icon: {
         // // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#2EA55F',
@@ -51,38 +51,38 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         multiple: false,
     },
     keywords: [
-        __( 'Recipe Card', 'wpzoom-recipe-card' ),
-        __( 'Block Recipe Card', 'wpzoom-recipe-card' ),
-        __( 'WPZOOM', 'wpzoom-recipe-card' ),
+        __( 'Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
+        __( 'Block Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
+        __( 'WPZOOM', 'recipe-card-blocks-by-wpzoom' ),
     ],
     example: {
         attributes: {
-            recipeTitle: __( 'Your recipe title goes here', 'wpzoom-recipe-card' ),
+            recipeTitle: __( 'Your recipe title goes here', 'recipe-card-blocks-by-wpzoom' ),
             hasImage: true,
             image: {
                 id: 0,
                 url: pluginURL + 'dist/assets/images/examples/recipe-card-image-example-1.jpg',
             },
-            course: [ __( 'Main', 'wpzoom-recipe-card' ) ],
-            cuisine: [ __( 'Italian', 'wpzoom-recipe-card' ) ],
-            difficulty: [ __( 'Medium', 'wpzoom-recipe-card' ) ],
+            course: [ __( 'Main', 'recipe-card-blocks-by-wpzoom' ) ],
+            cuisine: [ __( 'Italian', 'recipe-card-blocks-by-wpzoom' ) ],
+            difficulty: [ __( 'Medium', 'recipe-card-blocks-by-wpzoom' ) ],
         },
     },
     styles: [
         // Mark style as default.
         {
             name: 'default',
-            label: __( 'Default', 'wpzoom-recipe-card' ),
+            label: __( 'Default', 'recipe-card-blocks-by-wpzoom' ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'default',
         },
         {
             name: 'newdesign',
-            label: __( 'New Design', 'wpzoom-recipe-card' ),
+            label: __( 'New Design', 'recipe-card-blocks-by-wpzoom' ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'newdesign',
         },
         {
             name: 'simple',
-            label: __( 'Simple Design', 'wpzoom-recipe-card' ),
+            label: __( 'Simple Design', 'recipe-card-blocks-by-wpzoom' ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'simple',
         },
     ],

@@ -50,17 +50,17 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
 const BLOCK_ALIGNMENT_CONTROLS = [
     {
         icon: positionLeft,
-        title: __( 'Align block left', 'wpzoom-recipe-card' ),
+        title: __( 'Align block left', 'recipe-card-blocks-by-wpzoom' ),
         align: 'left',
     },
     {
         icon: positionCenter,
-        title: __( 'Align block center', 'wpzoom-recipe-card' ),
+        title: __( 'Align block center', 'recipe-card-blocks-by-wpzoom' ),
         align: 'center',
     },
     {
         icon: positionRight,
-        title: __( 'Align block right', 'wpzoom-recipe-card' ),
+        title: __( 'Align block right', 'recipe-card-blocks-by-wpzoom' ),
         align: 'right',
     },
 ];
@@ -395,7 +395,7 @@ class RecipeCard extends Component {
                     this.state.isLoading &&
                     <Placeholder
                         className="wpzoom-recipe-card-loading-spinner"
-                        label={ __( 'Loading...', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Loading...', 'recipe-card-blocks-by-wpzoom' ) }
                     >
                         <Spinner />
                     </Placeholder>
@@ -410,8 +410,8 @@ class RecipeCard extends Component {
                                 <Placeholder
                                     icon="format-image"
                                     className="recipe-card-image-placeholder"
-                                    label={ __( 'Recipe Image', 'wpzoom-recipe-card' ) }
-                                    instructions={ __( 'Select an image file from your library.', 'wpzoom-recipe-card' ) }
+                                    label={ __( 'Recipe Image', 'recipe-card-blocks-by-wpzoom' ) }
+                                    instructions={ __( 'Select an image file from your library.', 'recipe-card-blocks-by-wpzoom' ) }
                                 >
                                     <MediaUpload
                                         onSelect={ this.onSelectImage }
@@ -424,7 +424,7 @@ class RecipeCard extends Component {
                                                 isDefault="true"
                                                 isLarge="true"
                                             >
-                                                { __( 'Media Library', 'wpzoom-recipe-card' ) }
+                                                { __( 'Media Library', 'recipe-card-blocks-by-wpzoom' ) }
                                             </Button>
                                         ) }
                                     />
@@ -468,14 +468,14 @@ class RecipeCard extends Component {
                                 onSetup={ ( ref ) => {
                                     this.editorRefs.recipeTitle = ref;
                                 } }
-                                placeholder={ __( 'Enter the title of your recipe', 'wpzoom-recipe-card' ) }
+                                placeholder={ __( 'Enter the title of your recipe', 'recipe-card-blocks-by-wpzoom' ) }
                                 keepPlaceholderOnFocus={ true }
                             />
-                            { displayAuthor && <span className="recipe-card-author">{ __( 'Recipe by', 'wpzoom-recipe-card' ) } { customAuthorName }</span> }
-                            { displayCourse && <span className="recipe-card-course">{ __( 'Course', 'wpzoom-recipe-card' ) }: <mark>{ ! RichText.isEmpty( course ) ? course.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'wpzoom-recipe-card' ) }</mark></span> }
-                            { displayCuisine && <span className="recipe-card-cuisine">{ __( 'Cuisine', 'wpzoom-recipe-card' ) }: <mark>{ ! RichText.isEmpty( cuisine ) ? cuisine.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'wpzoom-recipe-card' ) }</mark></span> }
-                            { displayDifficulty && <span className="recipe-card-difficulty">{ __( 'Difficulty', 'wpzoom-recipe-card' ) }: <mark>{ ! RichText.isEmpty( difficulty ) ? difficulty.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'wpzoom-recipe-card' ) }</mark></span> }
-                            <p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
+                            { displayAuthor && <span className="recipe-card-author">{ __( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) } { customAuthorName }</span> }
+                            { displayCourse && <span className="recipe-card-course">{ __( 'Course', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( course ) ? course.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
+                            { displayCuisine && <span className="recipe-card-cuisine">{ __( 'Cuisine', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( cuisine ) ? cuisine.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
+                            { displayDifficulty && <span className="recipe-card-difficulty">{ __( 'Difficulty', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( difficulty ) ? difficulty.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
+                            <p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'recipe-card-blocks-by-wpzoom' ) }</p>
                         </div>
                         <Detail
                             generateId={ generateId }
@@ -494,8 +494,8 @@ class RecipeCard extends Component {
                                 <Placeholder
                                     icon="format-image"
                                     className="recipe-card-image-placeholder"
-                                    label={ __( 'Recipe Image', 'wpzoom-recipe-card' ) }
-                                    instructions={ __( 'Select an image file from your library.', 'wpzoom-recipe-card' ) }
+                                    label={ __( 'Recipe Image', 'recipe-card-blocks-by-wpzoom' ) }
+                                    instructions={ __( 'Select an image file from your library.', 'recipe-card-blocks-by-wpzoom' ) }
                                 >
                                     <MediaUpload
                                         onSelect={ this.onSelectImage }
@@ -508,7 +508,7 @@ class RecipeCard extends Component {
                                                 isDefault="true"
                                                 isLarge="true"
                                             >
-                                                { __( 'Media Library', 'wpzoom-recipe-card' ) }
+                                                { __( 'Media Library', 'recipe-card-blocks-by-wpzoom' ) }
                                             </Button>
                                         ) }
                                     />
@@ -555,14 +555,14 @@ class RecipeCard extends Component {
                                     onSetup={ ( ref ) => {
                                         this.editorRefs.recipeTitle = ref;
                                     } }
-                                    placeholder={ __( 'Enter the title of your recipe.', 'wpzoom-recipe-card' ) }
+                                    placeholder={ __( 'Enter the title of your recipe.', 'recipe-card-blocks-by-wpzoom' ) }
                                     keepPlaceholderOnFocus={ true }
                                 />
-                                { displayAuthor && <span className="recipe-card-author">{ __( 'Recipe by', 'wpzoom-recipe-card' ) } { customAuthorName }</span> }
-                                { displayCourse && <span className="recipe-card-course">{ __( 'Course', 'wpzoom-recipe-card' ) }: <mark>{ ! RichText.isEmpty( course ) ? course.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'wpzoom-recipe-card' ) }</mark></span> }
-                                { displayCuisine && <span className="recipe-card-cuisine">{ __( 'Cuisine', 'wpzoom-recipe-card' ) }: <mark>{ ! RichText.isEmpty( cuisine ) ? cuisine.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'wpzoom-recipe-card' ) }</mark></span> }
-                                { displayDifficulty && <span className="recipe-card-difficulty">{ __( 'Difficulty', 'wpzoom-recipe-card' ) }: <mark>{ ! RichText.isEmpty( difficulty ) ? difficulty.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'wpzoom-recipe-card' ) }</mark></span> }
-                                <p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'wpzoom-recipe-card' ) }</p>
+                                { displayAuthor && <span className="recipe-card-author">{ __( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) } { customAuthorName }</span> }
+                                { displayCourse && <span className="recipe-card-course">{ __( 'Course', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( course ) ? course.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
+                                { displayCuisine && <span className="recipe-card-cuisine">{ __( 'Cuisine', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( cuisine ) ? cuisine.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
+                                { displayDifficulty && <span className="recipe-card-difficulty">{ __( 'Difficulty', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( difficulty ) ? difficulty.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
+                                <p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'recipe-card-blocks-by-wpzoom' ) }</p>
                             </div>
                             <Detail
                                 generateId={ generateId }
@@ -583,7 +583,7 @@ class RecipeCard extends Component {
                     onSetup={ ( ref ) => {
                         this.editorRefs.summary = ref;
                     } }
-                    placeholder={ __( 'Enter a short recipe description.', 'wpzoom-recipe-card' ) }
+                    placeholder={ __( 'Enter a short recipe description.', 'recipe-card-blocks-by-wpzoom' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <Ingredient
@@ -605,7 +605,7 @@ class RecipeCard extends Component {
                         onSetup={ ( ref ) => {
                             this.editorRefs.videoTitle = ref;
                         } }
-                        placeholder={ __( 'Write Recipe Video title', 'wpzoom-recipe-card' ) }
+                        placeholder={ __( 'Write Recipe Video title', 'recipe-card-blocks-by-wpzoom' ) }
                         keepPlaceholderOnFocus={ true }
                     />
                     {
@@ -613,8 +613,8 @@ class RecipeCard extends Component {
                         <Placeholder
                             icon="video-alt3"
                             className="wpzoom-recipe-card-video-placeholder"
-                            instructions={ __( 'You can add a video here from Recipe Card Video Settings in the right sidebar', 'wpzoom-recipe-card' ) }
-                            label={ __( 'Recipe Card Video', 'wpzoom-recipe-card' ) }
+                            instructions={ __( 'You can add a video here from Recipe Card Video Settings in the right sidebar', 'recipe-card-blocks-by-wpzoom' ) }
+                            label={ __( 'Recipe Card Video', 'recipe-card-blocks-by-wpzoom' ) }
                         />
                     }
                     {
@@ -651,7 +651,7 @@ class RecipeCard extends Component {
                         onSetup={ ( ref ) => {
                             this.editorRefs.notesTitle = ref;
                         } }
-                        placeholder={ __( 'Write Notes title', 'wpzoom-recipe-card' ) }
+                        placeholder={ __( 'Write Notes title', 'recipe-card-blocks-by-wpzoom' ) }
                         keepPlaceholderOnFocus={ true }
                     />
                     <RichText
@@ -664,10 +664,10 @@ class RecipeCard extends Component {
                         onSetup={ ( ref ) => {
                             this.editorRefs.notes = ref;
                         } }
-                        placeholder={ __( 'Enter Note text for your recipe.', 'wpzoom-recipe-card' ) }
+                        placeholder={ __( 'Enter Note text for your recipe.', 'recipe-card-blocks-by-wpzoom' ) }
                         keepPlaceholderOnFocus={ true }
                     />
-                    <p className="description">{ __( 'Press Enter to add new note.', 'wpzoom-recipe-card' ) }</p>
+                    <p className="description">{ __( 'Press Enter to add new note.', 'recipe-card-blocks-by-wpzoom' ) }</p>
                 </div>
                 <Inspector
                     media={ this.props.media }
@@ -684,7 +684,7 @@ class RecipeCard extends Component {
                     <AlignmentToolbar
                         isRTL={ this.props.isRTL }
                         alignmentControls={ BLOCK_ALIGNMENT_CONTROLS }
-                        label={ __( 'Change Block Alignment', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Change Block Alignment', 'recipe-card-blocks-by-wpzoom' ) }
                         value={ blockAlignment }
                         onChange={ this.onChangeAlignment }
                     />

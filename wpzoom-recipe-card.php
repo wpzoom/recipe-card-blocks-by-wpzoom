@@ -5,11 +5,11 @@
  * Description: Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
  * Author: WPZOOM
  * Author URI: https://www.wpzoom.com/
- * Version: 2.8.7
+ * Version: 2.8.8
  * Copyright: (c) 2021 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: wpzoom-recipe-card
+ * Text Domain: recipe-card-blocks-by-wpzoom
  * Domain Path: /languages
  *
  * @package   WPZOOM_Recipe_Card_Blocks

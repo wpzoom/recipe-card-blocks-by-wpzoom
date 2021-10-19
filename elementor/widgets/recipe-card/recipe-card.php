@@ -88,7 +88,7 @@ class Recipe_Card extends Widget_Base {
 				'nonce'      => wp_create_nonce( 'wpzoom_rcb' ),
 				'api_nonce'  => wp_create_nonce( 'wp_rest' ),
 				'strings'    => array(
-					'loading-gallery-media' => esc_html__( 'Loading gallery media', 'wpzoom-recipe-card' ),
+					'loading-gallery-media' => esc_html__( 'Loading gallery media', 'recipe-card-blocks-by-wpzoom' ),
 				),
 			)
 		);
@@ -122,7 +122,7 @@ class Recipe_Card extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return esc_html__( 'Recipe Card Block', 'wpzoom-recipe-card' );
+		return esc_html__( 'Recipe Card Block', 'recipe-card-blocks-by-wpzoom' );
 	}
 
 	/**
@@ -220,7 +220,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_recipe_card',
 			array(
-				'label' => esc_html__( 'Recipe Details', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Recipe Details', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -228,32 +228,32 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'title',
 			array(
-				'label'       => esc_html__( 'Recipe Title', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Recipe Title', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
 					'active' => true,
 				),
 				'label_block' => true,
-				'placeholder' => esc_html__( 'Recipe Title', 'wpzoom-recipe-card' ),
+				'placeholder' => esc_html__( 'Recipe Title', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 		$this->add_control(
 			'recipe_card_summary',
 			array(
-				'label'       => esc_html__( 'Recipe Summary', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Recipe Summary', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'placeholder' => esc_html__( 'Enter your recipe card summary here', 'wpzoom-recipe-card' ),
+				'placeholder' => esc_html__( 'Enter your recipe card summary here', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 
 		$this->add_control(
 			'image',
 			array(
-				'label'       => esc_html__( 'Recipe Card Image (required)', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Upload image for Recipe Card.', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Recipe Card Image (required)', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Upload image for Recipe Card.', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::MEDIA,
 				'dynamic'     => array(
 					'active' => true,
@@ -275,33 +275,33 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'show_image',
 			array(
-				'label'       => esc_html__( 'Show Image', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Show Recipe Image on Front-End', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Show Image', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Show Recipe Image on Front-End', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::SWITCHER,
-				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-card' ),
-				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_on'    => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
+				'label_off'   => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 				'default'     => 'yes',
 			)
 		);
 		$this->add_control(
 			'show_print',
 			array(
-				'label'       => esc_html__( 'Print Button', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Display Print Button', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Print Button', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Display Print Button', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::SWITCHER,
-				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-card' ),
-				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_on'    => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
+				'label_off'   => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 				'default'     => 'yes',
 			)
 		);
 		$this->add_control(
 			'show_pintereset',
 			array(
-				'label'       => esc_html__( 'Pinterest Button', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Display Pinterest Button', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Pinterest Button', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Display Pinterest Button', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::SWITCHER,
 				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
-				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_off'   => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 				'default'     => 'yes',
 			)
 		);
@@ -309,19 +309,19 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'header_align',
 			array(
-				'label'   => esc_html__( 'Header Content Align', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Header Content Align', 'recipe-card-blocks-by-wpzoom' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'left'   => array(
-						'title' => esc_html__( 'Left', 'wpzoom-recipe-card' ),
+						'title' => esc_html__( 'Left', 'recipe-card-blocks-by-wpzoom' ),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
-						'title' => esc_html__( 'Center', 'wpzoom-recipe-card' ),
+						'title' => esc_html__( 'Center', 'recipe-card-blocks-by-wpzoom' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
-						'title' => esc_html__( 'Right', 'wpzoom-recipe-card' ),
+						'title' => esc_html__( 'Right', 'recipe-card-blocks-by-wpzoom' ),
 						'icon'  => 'eicon-text-align-right',
 					),
 				),
@@ -331,24 +331,24 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'show_author',
 			array(
-				'label'       => esc_html__( 'Author', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Display Author', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Author', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Display Author', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::SWITCHER,
 				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
-				'label_off'   => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_off'   => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 
 		$this->add_control(
 			'custom_author',
 			array(
-				'label'       => esc_html__( 'Custom author name', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Default: Post author name', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Custom author name', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Default: Post author name', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'placeholder' => esc_html__( 'Custom author name', 'wpzoom-recipe-card' ),
+				'placeholder' => esc_html__( 'Custom author name', 'recipe-card-blocks-by-wpzoom' ),
 				'condition'   => array(
 					'show_author' => 'yes',
 				),
@@ -360,7 +360,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_recipe_card_seo',
 			array(
-				'label' => esc_html__( 'Recipe Schema Markup', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Recipe Schema Markup', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -368,20 +368,20 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'show_course',
 			array(
-				'label'     => esc_html__( 'Course (required)', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Course (required)', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::SWITCHER,
 				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
-				'label_off' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_off' => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 		$this->add_control(
 			'recipe_course',
 			array(
-				'label'       => esc_html__( 'Course', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Separate with commas or the Enter key.', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Course', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Separate with commas or the Enter key.', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => 'wpzoom_tagfield',
 				'label_block' => true,
-				'placeholder' => esc_html__( 'Course', 'wpzoom-recipe-card' ),
+				'placeholder' => esc_html__( 'Course', 'recipe-card-blocks-by-wpzoom' ),
 				'condition'   => array(
 					'show_course' => 'yes',
 				),
@@ -391,20 +391,20 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'show_cuisine',
 			array(
-				'label'     => esc_html__( 'Cuisine (required)', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Cuisine (required)', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::SWITCHER,
 				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
-				'label_off' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_off' => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 		$this->add_control(
 			'recipe_cuisine',
 			array(
-				'label'       => esc_html__( 'Cuisine', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Separate with commas or the Enter key.', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Cuisine', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Separate with commas or the Enter key.', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => 'wpzoom_tagfield',
 				'label_block' => true,
-				'placeholder' => esc_html__( 'Cuisine', 'wpzoom-recipe-card' ),
+				'placeholder' => esc_html__( 'Cuisine', 'recipe-card-blocks-by-wpzoom' ),
 				'condition'   => array(
 					'show_cuisine' => 'yes',
 				),
@@ -414,17 +414,17 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'show_difficulty',
 			array(
-				'label'     => esc_html__( 'Display Difficulty', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Display Difficulty', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::SWITCHER,
 				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
-				'label_off' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_off' => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 		$this->add_control(
 			'recipe_difficulty',
 			array(
-				'label'       => esc_html__( 'Add difficulty level', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Separate with commas or the Enter key.', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Add difficulty level', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Separate with commas or the Enter key.', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => 'wpzoom_tagfield',
 				'label_block' => true,
 				'condition'   => array(
@@ -436,8 +436,8 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_keywords',
 			array(
-				'label'       => esc_html__( 'Keywords (recommended)', 'wpzoom-recipe-card' ),
-				'description' => esc_html__( 'Separate with commas or the Enter key.', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Keywords (recommended)', 'recipe-card-blocks-by-wpzoom' ),
+				'description' => esc_html__( 'Separate with commas or the Enter key.', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => 'wpzoom_tagfield',
 				'label_block' => true,
 			)
@@ -448,7 +448,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_recipe_card_details',
 			array(
-				'label' => esc_html__( 'Additional Details', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Additional Details', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -458,17 +458,17 @@ class Recipe_Card extends Widget_Base {
 		$details_repeater->add_control(
 			'show_detail_item',
 			array(
-				'label'     => esc_html__( 'Display Detail Item', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Display Detail Item', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::SWITCHER,
 				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
-				'label_off' => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
+				'label_off' => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 
 		$details_repeater->add_control(
 			'detail_item_label',
 			array(
-				'label'       => esc_html__( 'Label', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Label', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 			)
@@ -477,7 +477,7 @@ class Recipe_Card extends Widget_Base {
 		$details_repeater->add_control(
 			'detail_item_icon',
 			array(
-				'label'            => esc_html__( 'Icon', 'wpzoom-recipe-card' ),
+				'label'            => esc_html__( 'Icon', 'recipe-card-blocks-by-wpzoom' ),
 				'type'             => Controls_Manager::ICONS,
 				'fa4compatibility' => 'icon',
 				'default'          => array(
@@ -499,7 +499,7 @@ class Recipe_Card extends Widget_Base {
 		$details_repeater->add_control(
 			'detail_item_value',
 			array(
-				'label'       => esc_html__( 'Value', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Value', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 			)
@@ -508,7 +508,7 @@ class Recipe_Card extends Widget_Base {
 		$details_repeater->add_control(
 			'detail_item_unit',
 			array(
-				'label'       => esc_html__( 'Unit', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Unit', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 			)
@@ -522,7 +522,7 @@ class Recipe_Card extends Widget_Base {
 				'default'     => array(
 					array(
 						'show_detail_item'  => 'yes',
-						'detail_item_label' => esc_html__( 'Servings', 'wpzoom-recipe-card' ),
+						'detail_item_label' => esc_html__( 'Servings', 'recipe-card-blocks-by-wpzoom' ),
 						'detail_item_icon'  => array(
 							'value'   => 'oldicon-food',
 							'library' => 'oldicon',
@@ -532,7 +532,7 @@ class Recipe_Card extends Widget_Base {
 					),
 					array(
 						'show_detail_item'  => 'yes',
-						'detail_item_label' => esc_html__( 'Prep time', 'wpzoom-recipe-card' ),
+						'detail_item_label' => esc_html__( 'Prep time', 'recipe-card-blocks-by-wpzoom' ),
 						'detail_item_icon'  => array(
 							'value'   => 'oldicon-clock',
 							'library' => 'oldicon',
@@ -542,7 +542,7 @@ class Recipe_Card extends Widget_Base {
 					),
 					array(
 						'show_detail_item'  => 'yes',
-						'detail_item_label' => esc_html__( 'Cooking time', 'wpzoom-recipe-card' ),
+						'detail_item_label' => esc_html__( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ),
 						'detail_item_icon'  => array(
 							'value'   => 'foodicons-cooking-food-in-a-hot-casserole',
 							'library' => 'foodicons',
@@ -553,7 +553,7 @@ class Recipe_Card extends Widget_Base {
 					),
 					array(
 						'show_detail_item'  => 'yes',
-						'detail_item_label' => esc_html__( 'Calories', 'wpzoom-recipe-card' ),
+						'detail_item_label' => esc_html__( 'Calories', 'recipe-card-blocks-by-wpzoom' ),
 						'detail_item_icon'  => array(
 							'value'   => 'foodicons-fire-flames',
 							'library' => 'foodicons',
@@ -563,7 +563,7 @@ class Recipe_Card extends Widget_Base {
 					),
 					array(
 						'show_detail_item'  => '',
-						'detail_item_label' => esc_html__( 'Resting Time', 'wpzoom-recipe-card' ),
+						'detail_item_label' => esc_html__( 'Resting Time', 'recipe-card-blocks-by-wpzoom' ),
 						'detail_item_icon'  => array(
 							'value'   => 'far fa-clock',
 							'library' => 'fa-regular',
@@ -571,7 +571,7 @@ class Recipe_Card extends Widget_Base {
 					),
 					array(
 						'show_detail_item'  => '',
-						'detail_item_label' => esc_html__( 'Baking Time', 'wpzoom-recipe-card' ),
+						'detail_item_label' => esc_html__( 'Baking Time', 'recipe-card-blocks-by-wpzoom' ),
 						'detail_item_icon'  => array(
 							'value'   => 'oldicon-chef-cooking',
 							'library' => 'oldicon',
@@ -579,7 +579,7 @@ class Recipe_Card extends Widget_Base {
 					),
 					array(
 						'show_detail_item'  => '',
-						'detail_item_label' => esc_html__( 'Serving Size', 'wpzoom-recipe-card' ),
+						'detail_item_label' => esc_html__( 'Serving Size', 'recipe-card-blocks-by-wpzoom' ),
 						'detail_item_icon'  => array(
 							'value'   => 'oldicon-food-1',
 							'library' => 'oldicon',
@@ -587,7 +587,7 @@ class Recipe_Card extends Widget_Base {
 					),
 					array(
 						'show_detail_item'  => '',
-						'detail_item_label' => esc_html__( 'Net Carbs', 'wpzoom-recipe-card' ),
+						'detail_item_label' => esc_html__( 'Net Carbs', 'recipe-card-blocks-by-wpzoom' ),
 						'detail_item_icon'  => array(
 							'value'   => 'fas fa-sort-amount-down',
 							'library' => 'fa-solid',
@@ -603,7 +603,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_recipe_card_ingredients',
 			array(
-				'label' => esc_html__( 'Ingredients', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Ingredients', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -611,9 +611,9 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'ingredients_title',
 			array(
-				'label'       => esc_html__( 'Title', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Title', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => esc_html__( 'Ingredients', 'wpzoom-recipe-card' ),
+				'default'     => esc_html__( 'Ingredients', 'recipe-card-blocks-by-wpzoom' ),
 				'label_block' => true,
 			)
 		);
@@ -623,14 +623,14 @@ class Recipe_Card extends Widget_Base {
 		$ingredient_repeater->add_control(
 			'ingredient_item_amount',
 			array(
-				'label' => esc_html__( 'Amount', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Amount', 'recipe-card-blocks-by-wpzoom' ),
 				'type'  => Controls_Manager::TEXT,
 			)
 		);
 		$ingredient_repeater->add_control(
 			'ingredient_item_unit',
 			array(
-				'label' => esc_html__( 'Unit', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Unit', 'recipe-card-blocks-by-wpzoom' ),
 				'type'  => Controls_Manager::TEXT,
 			)
 		);
@@ -638,7 +638,7 @@ class Recipe_Card extends Widget_Base {
 		$ingredient_repeater->add_control(
 			'ingredient_item_label',
 			array(
-				'label'       => esc_html__( 'Ingredient Name', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Ingredient Name', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::WYSIWYG,
 				'label_block' => true,
 			)
@@ -653,22 +653,22 @@ class Recipe_Card extends Widget_Base {
 					array(
 						'ingredient_item_amount' => '',
 						'ingredient_item_unit'   => '',
-						'ingredient_item_label'  => esc_html__( '1 Ingredient', 'wpzoom-recipe-card' ),
+						'ingredient_item_label'  => esc_html__( '1 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
 						'ingredient_item_amount' => '',
 						'ingredient_item_unit'   => '',
-						'ingredient_item_label'  => esc_html__( '2 Ingredient', 'wpzoom-recipe-card' ),
+						'ingredient_item_label'  => esc_html__( '2 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
 						'ingredient_item_amount' => '',
 						'ingredient_item_unit'   => '',
-						'ingredient_item_label'  => esc_html__( '3 Ingredient', 'wpzoom-recipe-card' ),
+						'ingredient_item_label'  => esc_html__( '3 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
 						'ingredient_item_amount' => '',
 						'ingredient_item_unit'   => '',
-						'ingredient_item_label'  => esc_html__( '4 Ingredient', 'wpzoom-recipe-card' ),
+						'ingredient_item_label'  => esc_html__( '4 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 				),
 				'title_field' => '{{{ ingredient_item_label }}}',
@@ -680,7 +680,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_recipe_card_directions',
 			array(
-				'label' => esc_html__( 'Directions', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Directions', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -688,9 +688,9 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'directions_title',
 			array(
-				'label'       => esc_html__( 'Title', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Title', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => esc_html__( 'Directions', 'wpzoom-recipe-card' ),
+				'default'     => esc_html__( 'Directions', 'recipe-card-blocks-by-wpzoom' ),
 				'label_block' => true,
 			)
 		);
@@ -700,7 +700,7 @@ class Recipe_Card extends Widget_Base {
 		$directions_repeater->add_control(
 			'directions_step_text',
 			array(
-				'label'       => esc_html__( 'Step description', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Step description', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::WYSIWYG,
 				'label_block' => true,
 			)
@@ -710,14 +710,14 @@ class Recipe_Card extends Widget_Base {
 		$directions_repeater->start_controls_tab(
 			'_tab_direction_step_image',
 			array(
-				'label' => esc_html__( 'Image', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Image', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 
 		$directions_repeater->add_control(
 			'image',
 			array(
-				'label'   => esc_html__( 'Photo', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Photo', 'recipe-card-blocks-by-wpzoom' ),
 				'type'    => Controls_Manager::MEDIA,
 				'default' => array(
 					'url' => Utils::get_placeholder_image_src(),
@@ -732,7 +732,7 @@ class Recipe_Card extends Widget_Base {
 		$directions_repeater->start_controls_tab(
 			'_tab_direction_step_image_gallery',
 			array(
-				'label' => esc_html__( 'Gallery', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Gallery', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
 
@@ -758,16 +758,16 @@ class Recipe_Card extends Widget_Base {
 				'fields'      => $directions_repeater->get_controls(),
 				'default'     => array(
 					array(
-						'directions_step_text' => esc_html__( 'Directions Step', 'wpzoom-recipe-card' ),
+						'directions_step_text' => esc_html__( 'Directions Step', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
-						'directions_step_text' => esc_html__( 'Directions Step', 'wpzoom-recipe-card' ),
+						'directions_step_text' => esc_html__( 'Directions Step', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
-						'directions_step_text' => esc_html__( 'Directions Step', 'wpzoom-recipe-card' ),
+						'directions_step_text' => esc_html__( 'Directions Step', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
-						'directions_step_text' => esc_html__( 'Directions Step', 'wpzoom-recipe-card' ),
+						'directions_step_text' => esc_html__( 'Directions Step', 'recipe-card-blocks-by-wpzoom' ),
 					),
 				),
 				'title_field' => '{{{ directions_step_text }}}',
@@ -780,7 +780,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_recipe_card_video',
 			array(
-				'label' => esc_html__( 'Video', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Video', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -788,12 +788,12 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_type',
 			array(
-				'label'              => esc_html__( 'Source', 'wpzoom-recipe-card' ),
+				'label'              => esc_html__( 'Source', 'recipe-card-blocks-by-wpzoom' ),
 				'type'               => Controls_Manager::SELECT,
 				'default'            => 'embed',
 				'options'            => array(
-					'embed'  => esc_html__( 'Embed', 'wpzoom-recipe-card' ),
-					'hosted' => esc_html__( 'Self Hosted', 'wpzoom-recipe-card' ),
+					'embed'  => esc_html__( 'Embed', 'recipe-card-blocks-by-wpzoom' ),
+					'hosted' => esc_html__( 'Self Hosted', 'recipe-card-blocks-by-wpzoom' ),
 				),
 				'frontend_available' => true,
 			)
@@ -802,7 +802,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_url',
 			array(
-				'label'              => esc_html__( 'Link', 'wpzoom-recipe-card' ),
+				'label'              => esc_html__( 'Link', 'recipe-card-blocks-by-wpzoom' ),
 				'type'               => Controls_Manager::TEXT,
 				'dynamic'            => array(
 					'active'     => true,
@@ -811,7 +811,7 @@ class Recipe_Card extends Widget_Base {
 						TagsModule::URL_CATEGORY,
 					),
 				),
-				'placeholder'        => esc_html__( 'Enter your URL', 'wpzoom-recipe-card' ),
+				'placeholder'        => esc_html__( 'Enter your URL', 'recipe-card-blocks-by-wpzoom' ),
 				'default'            => 'https://www.youtube.com/watch?v=TehuLXQXNi8',
 				'label_block'        => true,
 				'condition'          => array(
@@ -824,7 +824,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'hosted_url',
 			array(
-				'label'      => esc_html__( 'Choose File', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Choose File', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::MEDIA,
 				'dynamic'    => array(
 					'active'     => true,
@@ -842,7 +842,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_title',
 			array(
-				'label'              => esc_html__( 'Video Title', 'wpzoom-recipe-card' ),
+				'label'              => esc_html__( 'Video Title', 'recipe-card-blocks-by-wpzoom' ),
 				'type'               => Controls_Manager::TEXT,
 				'dynamic'            => array(
 					'active' => true,
@@ -856,7 +856,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_description',
 			array(
-				'label'              => esc_html__( 'Video Description', 'wpzoom-recipe-card' ),
+				'label'              => esc_html__( 'Video Description', 'recipe-card-blocks-by-wpzoom' ),
 				'type'               => Controls_Manager::TEXTAREA,
 				'dynamic'            => array(
 					'active' => true,
@@ -869,7 +869,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'video_options',
 			array(
-				'label'     => esc_html__( 'Video Options', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Video Options', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => array(
@@ -881,7 +881,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'autoplay',
 			array(
-				'label'              => esc_html__( 'Autoplay', 'wpzoom-recipe-card' ),
+				'label'              => esc_html__( 'Autoplay', 'recipe-card-blocks-by-wpzoom' ),
 				'type'               => Controls_Manager::SWITCHER,
 				'frontend_available' => true,
 				'condition'          => array(
@@ -893,7 +893,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'mute',
 			array(
-				'label'              => esc_html__( 'Mute', 'wpzoom-recipe-card' ),
+				'label'              => esc_html__( 'Mute', 'recipe-card-blocks-by-wpzoom' ),
 				'type'               => Controls_Manager::SWITCHER,
 				'frontend_available' => true,
 				'condition'          => array(
@@ -905,7 +905,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'loop',
 			array(
-				'label'              => esc_html__( 'Loop', 'wpzoom-recipe-card' ),
+				'label'              => esc_html__( 'Loop', 'recipe-card-blocks-by-wpzoom' ),
 				'type'               => Controls_Manager::SWITCHER,
 				'condition'          => array(
 					'video_type' => 'hosted',
@@ -917,10 +917,10 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'controls',
 			array(
-				'label'              => esc_html__( 'Player Controls', 'wpzoom-recipe-card' ),
+				'label'              => esc_html__( 'Player Controls', 'recipe-card-blocks-by-wpzoom' ),
 				'type'               => Controls_Manager::SWITCHER,
-				'label_off'          => esc_html__( 'Hide', 'wpzoom-recipe-card' ),
-				'label_on'           => esc_html__( 'Show', 'wpzoom-recipe-card' ),
+				'label_off'          => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
+				'label_on'           => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
 				'condition'          => array(
 					'video_type' => 'hosted',
 				),
@@ -932,7 +932,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'poster',
 			array(
-				'label'     => esc_html__( 'Poster', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Poster', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::MEDIA,
 				'dynamic'   => array(
 					'active' => true,
@@ -946,7 +946,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'view',
 			array(
-				'label'   => esc_html__( 'View', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'View', 'recipe-card-blocks-by-wpzoom' ),
 				'type'    => Controls_Manager::HIDDEN,
 				'default' => 'youtube',
 			)
@@ -958,7 +958,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_recipe_card_note',
 			array(
-				'label' => esc_html__( 'Notes', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Notes', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -966,7 +966,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'notes_title',
 			array(
-				'label'       => esc_html__( 'Title', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Title', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 			)
@@ -977,7 +977,7 @@ class Recipe_Card extends Widget_Base {
 		$note_repeater->add_control(
 			'note_text',
 			array(
-				'label'       => esc_html__( 'Note text', 'wpzoom-recipe-card' ),
+				'label'       => esc_html__( 'Note text', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'label_block' => true,
 			)
@@ -1005,7 +1005,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_style_recipe_card',
 			array(
-				'label' => esc_html__( 'Title', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Title', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1025,7 +1025,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_title_style_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-title' => 'color: {{VALUE}};',
@@ -1038,7 +1038,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_style_recipe_card_details',
 			array(
-				'label' => esc_html__( 'Details', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Details', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1058,7 +1058,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_detail_label_style_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-title' => 'color: {{VALUE}};',
@@ -1069,7 +1069,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_detail_icon_heading',
 			array(
-				'label'     => esc_html__( 'Icon', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Icon', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1078,7 +1078,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'lrecipe_card_detail_icon_icon_size',
 			array(
-				'label'      => esc_html__( 'Icon Size', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Icon Size', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'selectors'  => array(
@@ -1090,7 +1090,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_detail_icon_color',
 			array(
-				'label'     => esc_html__( 'Icon Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Icon Color', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-details .detail-item-icon' => 'color: {{VALUE}};',
@@ -1101,7 +1101,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'recipe_card_detail_icon_spacing',
 			array(
-				'label'      => esc_html__( 'Bottom Spacing', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Bottom Spacing', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'selectors'  => array(
@@ -1113,7 +1113,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_detail_value_heading',
 			array(
-				'label'     => esc_html__( 'Value', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Value', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1134,7 +1134,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_detail_value_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-details p.detail-item-value' => 'color: {{VALUE}} !important;',
@@ -1145,7 +1145,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'recipe_card_detail_value_spacing',
 			array(
-				'label'      => esc_html__( 'Side Spacing', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Side Spacing', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'selectors'  => array(
@@ -1157,7 +1157,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_detail_unit_heading',
 			array(
-				'label'     => esc_html__( 'Unit', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Unit', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1178,7 +1178,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_detail_unit_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-details .detail-item-unit' => 'color: {{VALUE}} !important;',
@@ -1191,7 +1191,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_style_recipe_card_summary',
 			array(
-				'label' => esc_html__( 'Summary', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Summary', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1211,7 +1211,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_summary_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-summary' => 'color: {{VALUE}};',
@@ -1224,7 +1224,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_style_recipe_card_ingredients',
 			array(
-				'label' => esc_html__( 'Ingredients', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Ingredients', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1232,7 +1232,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_ingredients_title_heading',
 			array(
-				'label'     => esc_html__( 'Title', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Title', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1252,7 +1252,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_ingredient_title_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-ingredients .ingredients-title' => 'color: {{VALUE}};',
@@ -1263,7 +1263,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_ingredients_item_heading',
 			array(
-				'label'     => esc_html__( 'Item', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Item', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1283,7 +1283,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_ingredient_item_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-ingredients .wpzoom-rcb-ingredient-name' => 'color: {{VALUE}};',
@@ -1294,7 +1294,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'recipe_card_ingredient_item_margin',
 			array(
-				'label'      => esc_html__( 'Margin', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Margin', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -1306,7 +1306,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'recipe_card_ingredient_item_padding',
 			array(
-				'label'      => esc_html__( 'Padding', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Padding', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -1321,7 +1321,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_style_recipe_card_directions',
 			array(
-				'label' => esc_html__( 'Directions', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Directions', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1329,7 +1329,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_directions_title_heading',
 			array(
-				'label'     => esc_html__( 'Title', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Title', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1349,7 +1349,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_direction_title_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-directions .directions-title' => 'color: {{VALUE}};',
@@ -1360,7 +1360,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_directions_item_heading',
 			array(
-				'label'     => esc_html__( 'Step', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Step', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1380,7 +1380,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_directions_step_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .directions-list .direction-step' => 'color: {{VALUE}};',
@@ -1391,7 +1391,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'recipe_card_directions_step_margin',
 			array(
-				'label'      => esc_html__( 'Margin', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Margin', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -1403,7 +1403,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'recipe_card_directions_step_padding',
 			array(
-				'label'      => esc_html__( 'Padding', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Padding', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -1418,7 +1418,7 @@ class Recipe_Card extends Widget_Base {
 		$this->start_controls_section(
 			'_section_style_recipe_card_note',
 			array(
-				'label' => esc_html__( 'Notes', 'wpzoom-recipe-card' ),
+				'label' => esc_html__( 'Notes', 'recipe-card-blocks-by-wpzoom' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1426,7 +1426,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_note_title_heading',
 			array(
-				'label'     => esc_html__( 'Title', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Title', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1446,7 +1446,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_note_title_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-notes .notes-title' => 'color: {{VALUE}};',
@@ -1457,7 +1457,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_control(
 			'recipe_card_note_item_heading',
 			array(
-				'label'     => esc_html__( 'Note', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Note', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1477,7 +1477,7 @@ class Recipe_Card extends Widget_Base {
 			'recipe_card_note_item_color',
 			array(
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Color', 'wpzoom-recipe-card' ),
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-notes-list li' => 'color: {{VALUE}};',
@@ -1488,7 +1488,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'recipe_card_note_item_margin',
 			array(
-				'label'      => esc_html__( 'Margin', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Margin', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -1500,7 +1500,7 @@ class Recipe_Card extends Widget_Base {
 		$this->add_responsive_control(
 			'recipe_card_note_item_padding',
 			array(
-				'label'      => esc_html__( 'Padding', 'wpzoom-recipe-card' ),
+				'label'      => esc_html__( 'Padding', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -1533,13 +1533,13 @@ class Recipe_Card extends Widget_Base {
 
 		if ( 'courses' === $type ) {
 			$className = 'recipe-card-course';
-			$label     = esc_html__( 'Course:', 'wpzoom-recipe-card' );
+			$label     = esc_html__( 'Course:', 'recipe-card-blocks-by-wpzoom' );
 		} elseif ( 'cuisines' === $type ) {
 			$className = 'recipe-card-cuisine';
-			$label     = esc_html__( 'Cuisine:', 'wpzoom-recipe-card' );
+			$label     = esc_html__( 'Cuisine:', 'recipe-card-blocks-by-wpzoom' );
 		} elseif ( 'difficulties' === $type ) {
 			$className = 'recipe-card-difficulty';
-			$label     = esc_html__( 'Difficulty:', 'wpzoom-recipe-card' );
+			$label     = esc_html__( 'Difficulty:', 'recipe-card-blocks-by-wpzoom' );
 		}
 		$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', $className, $label, $termsValues );
 
@@ -1644,7 +1644,7 @@ class Recipe_Card extends Widget_Base {
 
 		if ( 'yes' === $settings['show_author'] ) {
 			$recipe_author = ! empty( $settings['custom_author'] ) ? esc_html( $settings['custom_author'] ) : get_the_author_meta( 'display_name' );
-			$html         .= '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'wpzoom-recipe-card' ) . ' ' . $recipe_author . '</span>';
+			$html         .= '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . $recipe_author . '</span>';
 		}
 
 		if ( ! empty( $settings['recipe_course'] ) && $settings['show_course'] ) {
@@ -2144,7 +2144,7 @@ class Recipe_Card extends Widget_Base {
 	                <span>%s</span>
 	            </a>
 	        </div>',
-			esc_html__( 'Print', 'wpzoom-recipe-card' )
+			esc_html__( 'Print', 'recipe-card-blocks-by-wpzoom' )
 		);
 
 		return $output;

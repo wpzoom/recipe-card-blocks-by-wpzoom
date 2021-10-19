@@ -60,7 +60,7 @@ const deprecatedAttr = {
  */
 registerBlockType( 'wpzoom-recipe-card/block-directions', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( 'Directions', 'wpzoom-recipe-card' ), // Block title.
+    title: __( 'Directions', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     icon: {
         // // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#2EA55F',
@@ -75,9 +75,9 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
         multiple: true,
     },
     keywords: [
-        __( 'directions', 'wpzoom-recipe-card' ),
-        __( 'wpzoom', 'wpzoom-recipe-card' ),
-        __( 'recipe', 'wpzoom-recipe-card' ),
+        __( 'directions', 'recipe-card-blocks-by-wpzoom' ),
+        __( 'wpzoom', 'recipe-card-blocks-by-wpzoom' ),
+        __( 'recipe', 'recipe-card-blocks-by-wpzoom' ),
     ],
     example: {
         attributes: {

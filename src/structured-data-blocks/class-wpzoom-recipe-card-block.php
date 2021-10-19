@@ -430,7 +430,7 @@ class WPZOOM_Recipe_Card_Block {
 							( self::$settings['print_btn'] ? self::get_print_button(
 								$id,
 								array(
-									'title' => esc_html__( 'Print directions...', 'wpzoom-recipe-card' ),
+									'title' => esc_html__( 'Print directions...', 'recipe-card-blocks-by-wpzoom' ),
 									'style' => $printStyles,
 								)
 							) : '' )
@@ -481,7 +481,7 @@ class WPZOOM_Recipe_Card_Block {
 							( self::$settings['print_btn'] ? self::get_print_button(
 								$id,
 								array(
-									'title' => esc_html__( 'Print directions...', 'wpzoom-recipe-card' ),
+									'title' => esc_html__( 'Print directions...', 'recipe-card-blocks-by-wpzoom' ),
 									'style' => $printStyles,
 								)
 							) : '' )
@@ -494,7 +494,7 @@ class WPZOOM_Recipe_Card_Block {
 		$recipe_card_heading = '
 			<div class="recipe-card-heading">
 				' . sprintf( '<h2 class="%s">%s</h2>', 'recipe-card-title', ( $recipeTitle ? $recipeTitle : esc_html( $recipe_title ) ) ) .
-				( self::$settings['displayAuthor'] ? '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'wpzoom-recipe-card' ) . ' ' . esc_html( $custom_author_name ) . '</span>' : '' ) .
+				( self::$settings['displayAuthor'] ? '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . esc_html( $custom_author_name ) . '</span>' : '' ) .
 				( self::$settings['displayCourse'] ? self::get_recipe_terms( 'wpzoom_rcb_courses' ) : '' ) .
 				( self::$settings['displayCuisine'] ? self::get_recipe_terms( 'wpzoom_rcb_cuisines' ) : '' ) .
 				( self::$settings['displayDifficulty'] ? self::get_recipe_terms( 'wpzoom_rcb_difficulties' ) : '' ) .
@@ -532,7 +532,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_footer_copyright' ) ) {
 			$footer_copyright = '<div class="footer-copyright">
-		        	<p>' . esc_html__( 'Recipe Card plugin by ', 'wpzoom-recipe-card' ) . '
+		        	<p>' . esc_html__( 'Recipe Card plugin by ', 'recipe-card-blocks-by-wpzoom' ) . '
 		        		<a href="https://www.wpzoom.com/plugins/recipe-card-blocks/" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
 		        	</p>
 		        </div>';
@@ -877,32 +877,32 @@ class WPZOOM_Recipe_Card_Block {
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'oldicon',
 				'icon'    => 'food',
-				'label'   => esc_html__( 'Servings', 'wpzoom-recipe-card' ),
-				'unit'    => esc_html__( 'servings', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Servings', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'servings', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '4',
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'oldicon',
 				'icon'    => 'clock',
-				'label'   => esc_html__( 'Prep time', 'wpzoom-recipe-card' ),
-				'unit'    => esc_html__( 'minutes', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Prep time', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '30',
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'foodicons',
 				'icon'    => 'cooking-food-in-a-hot-casserole',
-				'label'   => esc_html__( 'Cooking time', 'wpzoom-recipe-card' ),
-				'unit'    => esc_html__( 'minutes', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '40',
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'foodicons',
 				'icon'    => 'fire-flames',
-				'label'   => esc_html__( 'Calories', 'wpzoom-recipe-card' ),
-				'unit'    => esc_html__( 'kcal', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Calories', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'kcal', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '300',
 			),
 			array(
@@ -932,8 +932,8 @@ class WPZOOM_Recipe_Card_Block {
 				'iconSet' => 'fa',
 				'_prefix' => 'far',
 				'icon'    => 'clock',
-				'label'   => esc_html__( 'Total time', 'wpzoom-recipe-card' ),
-				'unit'    => esc_html__( 'minutes', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Total time', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '0',
 			),
 		);
@@ -1261,21 +1261,21 @@ class WPZOOM_Recipe_Card_Block {
 			}
 			$terms     = $course;
 			$className = 'recipe-card-course';
-			$label     = esc_html__( 'Course:', 'wpzoom-recipe-card' );
+			$label     = esc_html__( 'Course:', 'recipe-card-blocks-by-wpzoom' );
 		} elseif ( 'wpzoom_rcb_cuisines' === $taxonomy ) {
 			if ( empty( $cuisine ) ) {
 				$render = false;
 			}
 			$terms     = $cuisine;
 			$className = 'recipe-card-cuisine';
-			$label     = esc_html__( 'Cuisine:', 'wpzoom-recipe-card' );
+			$label     = esc_html__( 'Cuisine:', 'recipe-card-blocks-by-wpzoom' );
 		} elseif ( 'wpzoom_rcb_difficulties' === $taxonomy ) {
 			if ( empty( $difficulty ) ) {
 				$render = false;
 			}
 			$terms     = $difficulty;
 			$className = 'recipe-card-difficulty';
-			$label     = esc_html__( 'Difficulty:', 'wpzoom-recipe-card' );
+			$label     = esc_html__( 'Difficulty:', 'recipe-card-blocks-by-wpzoom' );
 		}
 
 		if ( $render ) {
@@ -1400,7 +1400,7 @@ class WPZOOM_Recipe_Card_Block {
 					 * @since 2.8.7
 					 */
 					$start_tag = '';
-					$end_tag = '';
+					$end_tag   = '';
 				}
 
 				$output .= $start_tag . self::wrap_direction_text( $children, $type ) . $end_tag;
@@ -1468,7 +1468,7 @@ class WPZOOM_Recipe_Card_Block {
 					 * @since 2.8.7
 					 */
 					$start_tag = '';
-					$end_tag = '';
+					$end_tag   = '';
 				}
 
 				$output .= $start_tag . self::wrap_ingredient_name( $children, $type ) . $end_tag;
@@ -1523,35 +1523,35 @@ class WPZOOM_Recipe_Card_Block {
 			);
 		}
 		$allowed_html = array(
-			'a' => array(
-				'href' => array(),
-				'title' => array()
+			'a'      => array(
+				'href'  => array(),
+				'title' => array(),
 			),
-			'br' => array(),
-			'em' => array(),
+			'br'     => array(),
+			'em'     => array(),
 			'strong' => array(),
 			'iframe' => array(
-				'src' => array(),
-				'id' => array(),
-				'loading' => array(),
-				'title' => array(),
-				'allow' => array(),
+				'src'             => array(),
+				'id'              => array(),
+				'loading'         => array(),
+				'title'           => array(),
+				'allow'           => array(),
 				'allowfullscreen' => array(),
-				'style' => array(),
-				'frameborder' => array(),
-				'width' => true,
-				'height' => true,
-				'name' => true,
-				'sandbox' => true
+				'style'           => array(),
+				'frameborder'     => array(),
+				'width'           => true,
+				'height'          => true,
+				'name'            => true,
+				'sandbox'         => true,
 			),
-			'video' => array(
-				'src' => array(),
-				'poster' => array(),
+			'video'  => array(
+				'src'      => array(),
+				'poster'   => array(),
 				'autoplay' => true,
-				'muted' => true,
-				'loop' => true,
+				'muted'    => true,
+				'loop'     => true,
 				'controls' => true,
-			)
+			),
 		);
 
 		return sprintf( '<div class="recipe-card-video no-print"><h3 class="video-title">%s</h3>%s</div>', $attributes['videoTitle'], wp_kses( $output, $allowed_html ) );
@@ -1686,7 +1686,7 @@ class WPZOOM_Recipe_Card_Block {
 			esc_attr( $print_classes ),
 			esc_attr( $content_id ),
 			$atts,
-			esc_html__( 'Print', 'wpzoom-recipe-card' )
+			esc_html__( 'Print', 'recipe-card-blocks-by-wpzoom' )
 		);
 
 		return $output;
@@ -1726,7 +1726,7 @@ class WPZOOM_Recipe_Card_Block {
 			esc_attr( $PinterestClasses ),
 			esc_url( $pinitURL ),
 			$atts,
-			esc_html__( 'Pin', 'wpzoom-recipe-card' )
+			esc_html__( 'Pin', 'recipe-card-blocks-by-wpzoom' )
 		);
 
 		return $output;
