@@ -94,7 +94,11 @@ class WPZOOM_Recipe_Card_Block {
 
 	public static function is_built_with_elementor( $post_id = false ) {
 		$post_id = ! $post_id ? get_the_ID() : $post_id;
-		return class_exists( '\Elementor\Plugin' ) && \Elementor\Plugin::$instance->db->is_built_with_elementor( $post_id );
+		$document = class_exists( '\Elementor\Plugin' ) ? \Elementor\Plugin::$instance->documents->get( $post_id ) : false;
+		if ( $document && $document->is_built_with_elementor() ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
