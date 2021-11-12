@@ -625,6 +625,9 @@ class Recipe_Card extends Widget_Base {
 			array(
 				'label' => esc_html__( 'Amount', 'recipe-card-blocks-by-wpzoom' ),
 				'type'  => Controls_Manager::TEXT,
+				'condition' => array(
+					'ingredient_group!' => 'yes'
+				)
 			)
 		);
 		$ingredient_repeater->add_control(
@@ -632,6 +635,9 @@ class Recipe_Card extends Widget_Base {
 			array(
 				'label' => esc_html__( 'Unit', 'recipe-card-blocks-by-wpzoom' ),
 				'type'  => Controls_Manager::TEXT,
+				'condition' => array(
+					'ingredient_group!' => 'yes'
+				)
 			)
 		);
 
@@ -641,6 +647,34 @@ class Recipe_Card extends Widget_Base {
 				'label'       => esc_html__( 'Ingredient Name', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::WYSIWYG,
 				'label_block' => true,
+				'condition' => array(
+					'ingredient_group!' => 'yes'
+				)
+			)
+		);
+
+		$ingredient_repeater->add_control(
+			'ingredient_group',
+			array(
+				'label'     => esc_html__( 'Ingredient Group?', 'recipe-card-blocks-by-wpzoom' ),
+				'type'      => Controls_Manager::SWITCHER,
+				'label_on'  => esc_html__( 'Yes', 'recipe-card-blocks-by-wpzoom' ),
+				'label_off' => esc_html__( 'No', 'recipe-card-blocks-by-wpzoom' ),
+				'default'   => 'no'
+			),
+		);
+
+		$ingredient_repeater->add_control(
+			'ingredient_group_title',
+			array(
+				'label'       => esc_html__( 'Group Title', 'recipe-card-blocks-by-wpzoom' ),
+				'type'        => Controls_Manager::TEXT,
+				'label_block' => true,
+				'default'     => esc_html__( 'Ingredients Group', 'recipe-card-blocks-by-wpzoom' ),
+				'placeholder' => esc_html__( 'Enter Ingredients Group Title', 'recipe-card-blocks-by-wpzoom' ),
+				'condition' => array(
+					'ingredient_group' => 'yes'
+				)
 			)
 		);
 
@@ -671,7 +705,7 @@ class Recipe_Card extends Widget_Base {
 						'ingredient_item_label'  => esc_html__( '4 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 				),
-				'title_field' => '{{{ ingredient_item_label }}}',
+				'title_field' => '<# var ingredient_title = ( "yes" == ingredient_group ) ? \'<strong>\' + ingredient_group_title + \'</strong>\' : ingredient_item_label; #>{{{ ingredient_title }}}'
 			)
 		);
 
@@ -703,10 +737,20 @@ class Recipe_Card extends Widget_Base {
 				'label'       => esc_html__( 'Step description', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::WYSIWYG,
 				'label_block' => true,
+				'condition' => array(
+					'directions_group!' => 'yes'
+				)
 			)
 		);
 
-		$directions_repeater->start_controls_tabs( '_tab_directions_step_image_gallery' );
+		$directions_repeater->start_controls_tabs( 
+			'_tab_directions_step_image_gallery',
+			array(
+				'condition' => array(
+					'directions_group!' => 'yes'
+				)
+			)
+		);
 		$directions_repeater->start_controls_tab(
 			'_tab_direction_step_image',
 			array(
@@ -739,7 +783,7 @@ class Recipe_Card extends Widget_Base {
 		$directions_repeater->add_control(
 			'wp_gallery',
 			array(
-				'label'      => __( 'Add Images', 'elementor' ),
+				'label'      => esc_html__( 'Add Images', 'recipe-card-blocks-by-wpzoom' ),
 				'type'       => Controls_Manager::GALLERY,
 				'show_label' => false,
 				'dynamic'    => array(
@@ -750,6 +794,31 @@ class Recipe_Card extends Widget_Base {
 
 		$directions_repeater->end_controls_tab();
 		$directions_repeater->end_controls_tabs();
+
+		$directions_repeater->add_control(
+			'directions_group',
+			array(
+				'label'     => esc_html__( 'Directions Group?', 'recipe-card-blocks-by-wpzoom' ),
+				'type'      => Controls_Manager::SWITCHER,
+				'label_on'  => esc_html__( 'Yes', 'recipe-card-blocks-by-wpzoom' ),
+				'label_off' => esc_html__( 'No', 'recipe-card-blocks-by-wpzoom' ),
+				'default'   => 'no'
+			),
+		);
+
+		$directions_repeater->add_control(
+			'directions_group_title',
+			array(
+				'label'       => esc_html__( 'Group Title', 'recipe-card-blocks-by-wpzoom' ),
+				'type'        => Controls_Manager::TEXT,
+				'label_block' => true,
+				'default'     => esc_html__( 'Direction Group Title', 'recipe-card-blocks-by-wpzoom' ),
+				'placeholder' => esc_html__( 'Enter Directions Group Title', 'recipe-card-blocks-by-wpzoom' ),
+				'condition' => array(
+					'directions_group' => 'yes'
+				)
+			)
+		);
 
 		$this->add_control(
 			'recipe_directions_list',
@@ -770,7 +839,7 @@ class Recipe_Card extends Widget_Base {
 						'directions_step_text' => esc_html__( 'Directions Step', 'recipe-card-blocks-by-wpzoom' ),
 					),
 				),
-				'title_field' => '{{{ directions_step_text }}}',
+				'title_field' => '<# var direction_title = ( "yes" == directions_group ) ? \'<strong>\' + directions_group_title + \'</strong>\' : directions_step_text; #>{{{ direction_title }}}'
 			)
 		);
 
@@ -1261,6 +1330,37 @@ class Recipe_Card extends Widget_Base {
 		);
 
 		$this->add_control(
+			'recipe_card_ingredients_group_title_heading',
+			[
+				'label' => esc_html__( 'Group Title', 'recipe-card-blocks-by-wpzoom' ),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		// Ingredients group title typography.
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'recipe_card_ingredients_group_title_typography',
+				'selector' => '{{WRAPPER}} .recipe-card-ingredients .ingredient-item-group-title'
+			)
+		);
+
+		// Ingredients group title color.
+		$this->add_control(
+			'recipe_card_ingredient_group_title_color',
+			array(
+				'type'      => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
+				'default'   => '',
+				'selectors' => array(
+					'{{WRAPPER}} .recipe-card-ingredients .ingredient-item-group-title' => 'color: {{VALUE}};'
+				)
+			)
+		);
+
+		$this->add_control(
 			'recipe_card_ingredients_item_heading',
 			array(
 				'label'     => esc_html__( 'Item', 'recipe-card-blocks-by-wpzoom' ),
@@ -1354,6 +1454,37 @@ class Recipe_Card extends Widget_Base {
 				'selectors' => array(
 					'{{WRAPPER}} .recipe-card-directions .directions-title' => 'color: {{VALUE}};',
 				),
+			)
+		);
+
+		$this->add_control(
+			'recipe_card_directions_group_title_heading',
+			array(
+				'label' => esc_html__( 'Group Title', 'recipe-card-blocks-by-wpzoom' ),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+
+		//Directions group title typography.
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'recipe_card_directions_group_title_typography',
+				'selector' => '{{WRAPPER}} .recipe-card-directions .direction-step-group-title'
+			)
+		);
+
+		//Directions group title color.
+		$this->add_control(
+			'recipe_card_direction_group_title_color',
+			array(
+				'type'      => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
+				'default'   => '',
+				'selectors' => array(
+					'{{WRAPPER}} .recipe-card-directions .direction-step-group-title' => 'color: {{VALUE}};'
+				)
 			)
 		);
 
@@ -1717,19 +1848,27 @@ class Recipe_Card extends Widget_Base {
 			$html .= '<ul class="ingredients-list layout-1-column">';
 			foreach ( $settings['recipe_ingredients_list'] as $index => $item ) :
 				$id        = self::$helpers->generateId( 'ingredient-item' );
-				$html     .= '<li id="wpzoom-rcb-' . $id . '" class="ingredient-item"><span class="tick-circle"></span>';
-					$html .= '<div class="ingredient-item-name is-strikethrough-active">';
-				if ( ! empty( $item['ingredient_item_amount'] ) ) {
-					$html .= '<span class="wpzoom-rcb-ingredient-amount">' . esc_html( $item['ingredient_item_amount'] ) . '</span> ';
+				if( 'yes' == $item['ingredient_group'] && !empty( $item['ingredient_group_title'] ) ) {
+					$html .= '<li id="wpzoom-rcb-' . $id . '" class="ingredient-item ingredient-item-group">';
+						$html .= '<strong class="ingredient-item-group-title">';
+						$html .= esc_html( $item['ingredient_group_title'] );
+						$html .= '</strong>';
+					$html .= '</li>';
+				} else {
+					$html     .= '<li id="wpzoom-rcb-' . $id . '" class="ingredient-item"><span class="tick-circle"></span>';
+						$html .= '<div class="ingredient-item-name is-strikethrough-active">';
+					if ( ! empty( $item['ingredient_item_amount'] ) ) {
+						$html .= '<span class="wpzoom-rcb-ingredient-amount">' . esc_html( $item['ingredient_item_amount'] ) . '</span> ';
+					}
+					if ( ! empty( $item['ingredient_item_unit'] ) ) {
+						$html .= '<span class="wpzoom-rcb-ingredient-unit">' . esc_html( $item['ingredient_item_unit'] ) . '</span> ';
+					}
+					if ( ! empty( $item['ingredient_item_label'] ) ) {
+						$html .= '<span class="wpzoom-rcb-ingredient-name">' . wp_kses_post( $item['ingredient_item_label'] ) . '</span>';
+					}
+						$html .= '</div>';
+					$html     .= '</li>';
 				}
-				if ( ! empty( $item['ingredient_item_unit'] ) ) {
-					$html .= '<span class="wpzoom-rcb-ingredient-unit">' . esc_html( $item['ingredient_item_unit'] ) . '</span> ';
-				}
-				if ( ! empty( $item['ingredient_item_label'] ) ) {
-					$html .= '<span class="wpzoom-rcb-ingredient-name">' . wp_kses_post( $item['ingredient_item_label'] ) . '</span>';
-				}
-					$html .= '</div>';
-				$html     .= '</li>';
 			endforeach;
 			$html .= '</ul>';
 			$html .= '</div><!-- /.recipe-card-ingredients -->';
@@ -1746,46 +1885,56 @@ class Recipe_Card extends Widget_Base {
 			$html .= '<ul class="directions-list">';
 			foreach ( $settings['recipe_directions_list'] as $index => $item ) :
 				$id    = self::$helpers->generateId( 'direction-step' );
-				$html .= '<li id="wpzoom-rcb-' . $id . '" class="direction-step">';
-				if ( ! empty( $item['directions_step_text'] ) ) {
-					$html .= wp_kses_post( $item['directions_step_text'] );
-				}
-				if ( ! empty( $item['image']['url'] ) ) {
-					$image_html = wp_get_attachment_image(
-						$item['image']['id'],
-						'medium_large',
-						false,
-						array(
-							'alt'   => Control_Media::get_image_alt( $item['image'] ),
-							'id'    => $item['image']['id'],
-							'class' => 'direction-step-image',
-						)
-					);
-					$html      .= $image_html;
-				}
+				if( 'yes' == $item['directions_group'] && !empty( $item['directions_group_title'] ) ) :
 
-				if ( $item['wp_gallery'] ) {
-					$html     .= '<div class="direction-step-gallery columns-2" data-grid-columns="2">';
-						$html .= '<ul class="direction-step-gallery-grid" data-gallery-masonry-grid="true">';
-					foreach ( $item['wp_gallery'] as $key => $image ) {
-						$html .= '<li class="direction-step-gallery-item">';
-						$html .= '<figure>';
-						$html .= wp_get_attachment_image(
-							$image['id'],
+					$html .= '<li id="wpzoom-rcb-' . $id . '" class="direction-step direction-step-group">';
+					$html .= '<strong class="direction-step-group-title">';
+					$html .= esc_html( $item['directions_group_title'] );
+					$html .= '</strong>';
+					$html .= '</li>';
+				
+				else :
+					$html .= '<li id="wpzoom-rcb-' . $id . '" class="direction-step">';
+					if ( ! empty( $item['directions_step_text'] ) ) {
+						$html .= wp_kses_post( $item['directions_step_text'] );
+					}
+					if ( ! empty( $item['image']['url'] ) ) {
+						$image_html = wp_get_attachment_image(
+							$item['image']['id'],
 							'medium_large',
 							false,
 							array(
-								'alt' => Control_Media::get_image_alt( $image ),
-								'id'  => 'direction-step-gallery-image-' . $item['image']['id'],
+								'alt'   => Control_Media::get_image_alt( $item['image'] ),
+								'id'    => $item['image']['id'],
+								'class' => 'direction-step-image',
 							)
 						);
-						$html .= '</figure>';
-						$html .= '</li>';
-					};
-						$html .= '</ul>';
-					$html     .= '</div>';
-				}
-				$html .= '</li>';
+						$html      .= $image_html;
+					}
+
+					if ( $item['wp_gallery'] ) {
+						$html     .= '<div class="direction-step-gallery columns-2" data-grid-columns="2">';
+							$html .= '<ul class="direction-step-gallery-grid" data-gallery-masonry-grid="true">';
+						foreach ( $item['wp_gallery'] as $key => $image ) {
+							$html .= '<li class="direction-step-gallery-item">';
+							$html .= '<figure>';
+							$html .= wp_get_attachment_image(
+								$image['id'],
+								'medium_large',
+								false,
+								array(
+									'alt' => Control_Media::get_image_alt( $image ),
+									'id'  => 'direction-step-gallery-image-' . $item['image']['id'],
+								)
+							);
+							$html .= '</figure>';
+							$html .= '</li>';
+						};
+							$html .= '</ul>';
+						$html     .= '</div>';
+					}
+					$html .= '</li>';
+				endif;	
 			endforeach;
 			$html .= '</ul>';
 			$html .= '</div><!-- /.recipe-card-directions -->';

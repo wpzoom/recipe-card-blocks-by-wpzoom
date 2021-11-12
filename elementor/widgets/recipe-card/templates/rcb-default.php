@@ -169,13 +169,22 @@ if ( is_array( $settings[ 'recipe_ingredients_list' ] ) ) :
 	$html .= '<ul class="ingredients-list layout-1-column">';
 	foreach ( $settings['recipe_ingredients_list'] as $index => $item ) :
 		$id = self::$helpers->generateId( 'ingredient-item' );
-		$html .= '<li id="wpzoom-rcb-' . $id . '" class="ingredient-item"><span class="tick-circle"></span>';
-			$html .= '<div class="ingredient-item-name is-strikethrough-active">';
-				if( ! empty( $item['ingredient_item_label'] ) ) {
-					$html .= '<span class="wpzoom-rcb-ingredient-name">' . wp_kses_post( $item['ingredient_item_label'] ) . '</span>';
-				}
-			$html .= '</div>';
-		$html .= '</li>';
+		if( 'yes' == $item['ingredient_group'] && !empty( $item['ingredient_group_title'] ) ) {
+			$html .= '<li id="wpzoom-rcb-' . $id . '" class="ingredient-item ingredient-item-group">';
+				$html .= '<strong class="ingredient-item-group-title">';
+				$html .= esc_html( $item['ingredient_group_title'] );
+				$html .= '</strong>';
+			$html .= '</li>';
+		}
+		else {
+			$html .= '<li id="wpzoom-rcb-' . $id . '" class="ingredient-item"><span class="tick-circle"></span>';
+				$html .= '<div class="ingredient-item-name is-strikethrough-active">';
+					if( ! empty( $item['ingredient_item_label'] ) ) {
+						$html .= '<span class="wpzoom-rcb-ingredient-name">' . wp_kses_post( $item['ingredient_item_label'] ) . '</span>';
+					}
+				$html .= '</div>';
+			$html .= '</li>';
+		}
 	endforeach;
 	$html .= '</ul>';
 	$html .= '</div><!-- /.recipe-card-ingredients -->';
@@ -193,46 +202,56 @@ if ( is_array( $settings[ 'recipe_directions_list' ] ) ) :
 	$html .= '<ul class="directions-list">';
 	foreach ( $settings['recipe_directions_list'] as $index => $item ) :
 		$id = self::$helpers->generateId( 'direction-step' );
-		$html .= '<li id="wpzoom-rcb-' . $id . '" class="direction-step">';
-		if( ! empty( $item['directions_step_text'] ) ) {
-			$html .= wp_kses_post( $item['directions_step_text'] );
-		}
-		if( ! empty( $item['image']['url'] ) ) {
-			$image_html = wp_get_attachment_image(
-				$item['image']['id'],
-				'medium_large',
-				false,
-				array(
-					'alt'   => Control_Media::get_image_alt( $item['image'] ),
-					'id'    => $item['image']['id'],
-					'class' => 'direction-step-image'
-				)
-			);
-			$html .= $image_html;
-		}
+		if( 'yes' == $item['directions_group'] && !empty( $item['directions_group_title'] ) ) :
+
+			$html .= '<li id="wpzoom-rcb-' . $id . '" class="direction-step direction-step-group">';
+			$html .= '<strong class="direction-step-group-title">';
+			$html .= esc_html( $item['directions_group_title'] );
+			$html .= '</strong>';
+			$html .= '</li>';
 		
-		if( $item['wp_gallery'] ) {
-			$html .= '<div class="direction-step-gallery columns-2" data-grid-columns="2">';
-				$html .= '<ul class="direction-step-gallery-grid" data-gallery-masonry-grid="true">';
-				foreach( $item['wp_gallery'] as $key => $image ) {
-					$html .= '<li class="direction-step-gallery-item">';
-					$html .= '<figure>';
-					$html .= wp_get_attachment_image(
-						$image['id'],
-						'medium_large',
-						false,
-						array(
-							'alt'   => Control_Media::get_image_alt( $image ),
-							'id'    => 'direction-step-gallery-image-' . $item['image']['id']
-						)
-					);
-					$html .= '</figure>';
-					$html .= '</li>';
-				};
-				$html .= '</ul>';	
-			$html .= '</div>';
-		}
-		$html .= '</li>';
+		else :
+			$html .= '<li id="wpzoom-rcb-' . $id . '" class="direction-step">';
+			if( ! empty( $item['directions_step_text'] ) ) {
+				$html .= wp_kses_post( $item['directions_step_text'] );
+			}
+			if( ! empty( $item['image']['url'] ) ) {
+				$image_html = wp_get_attachment_image(
+					$item['image']['id'],
+					'medium_large',
+					false,
+					array(
+						'alt'   => Control_Media::get_image_alt( $item['image'] ),
+						'id'    => $item['image']['id'],
+						'class' => 'direction-step-image'
+					)
+				);
+				$html .= $image_html;
+			}
+			
+			if( $item['wp_gallery'] ) {
+				$html .= '<div class="direction-step-gallery columns-2" data-grid-columns="2">';
+					$html .= '<ul class="direction-step-gallery-grid" data-gallery-masonry-grid="true">';
+					foreach( $item['wp_gallery'] as $key => $image ) {
+						$html .= '<li class="direction-step-gallery-item">';
+						$html .= '<figure>';
+						$html .= wp_get_attachment_image(
+							$image['id'],
+							'medium_large',
+							false,
+							array(
+								'alt'   => Control_Media::get_image_alt( $image ),
+								'id'    => 'direction-step-gallery-image-' . $item['image']['id']
+							)
+						);
+						$html .= '</figure>';
+						$html .= '</li>';
+					};
+					$html .= '</ul>';	
+				$html .= '</div>';
+			}
+			$html .= '</li>';
+		endif;
 	endforeach;
 	$html .= '</ul>';
 	$html .= '</div><!-- /.recipe-card-directions -->';
