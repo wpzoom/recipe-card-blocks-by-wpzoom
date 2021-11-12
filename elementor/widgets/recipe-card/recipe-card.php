@@ -1061,7 +1061,7 @@ class Recipe_Card extends Widget_Base {
 				'label'     => esc_html__( 'Color', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-title' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .wp-block-wpzoom-recipe-card-block-recipe-card .detail-item-label' => 'color: {{VALUE}};',
 				),
 			)
 		);
