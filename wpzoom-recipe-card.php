@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: Recipe Card Blocks by WPZOOM
+ * Plugin Name: Recipe Card Blocks for Gutenberg & Elementor
  * Plugin URI: https://www.wpzoom.com/plugins/recipe-card-blocks/
  * Description: Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
  * Author: WPZOOM
  * Author URI: https://www.wpzoom.com/
- * Version: 2.8.0
+ * Version: 2.8.8
  * Copyright: (c) 2021 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: wpzoom-recipe-card
+ * Text Domain: recipe-card-blocks-by-wpzoom
  * Domain Path: /languages
  *
  * @package   WPZOOM_Recipe_Card_Blocks
@@ -28,7 +28,8 @@ if ( ! function_exists( 'recipe_card_block_plugin_activation_redirect' ) ) {
 	function recipe_card_block_plugin_activation_redirect() {
 		if ( get_option( 'wpzoom_rcb_do_activation_redirect', false ) ) {
 			delete_option( 'wpzoom_rcb_do_activation_redirect' );
-			if ( ! isset( $_GET['activate-multi'] ) ) {
+			$escaping_data = isset( $_GET['activate-multi'] ) ? sanitize_text_field( $_GET['activate-multi'] ) : '';
+			if ( '' === $escaping_data ) {
 				wp_redirect( 'admin.php?page=wpzoom-recipe-card-settings' );
 			}
 		}

@@ -108,7 +108,7 @@ class WPZOOM_Ingredients_Block {
 		$ingredients_content = self::get_ingredients_content( $items );
 
 		$btn_attributes = array(
-			'title' => __( 'Print ingredients...', 'wpzoom-recipe-card' ),
+			'title' => esc_html__( 'Print ingredients...', 'recipe-card-blocks-by-wpzoom' ),
 		);
 
 		if ( $post ) {
@@ -132,7 +132,7 @@ class WPZOOM_Ingredients_Block {
 			esc_attr( $print_visibility ),
 			$atts,
 			esc_url( WPZOOM_RCB_PLUGIN_URL . 'dist/assets/images/printer.svg' ),
-			__( 'Print', 'wpzoom-recipe-card' ),
+			esc_html__( 'Print', 'recipe-card-blocks-by-wpzoom' ),
 			esc_html( $title ),
 			$ingredients_content
 		);
@@ -168,7 +168,7 @@ class WPZOOM_Ingredients_Block {
 
 		return sprintf(
 			'<ul class="%s">%s</ul>',
-			$listClassNames,
+			esc_attr( $listClassNames ),
 			$ingredient_items
 		);
 	}
@@ -186,11 +186,11 @@ class WPZOOM_Ingredients_Block {
 					$name    = sprintf(
 						'<p class="ingredient-item-name%s">%s</p>',
 						$strikethrough,
-						self::wrap_ingredient_name( $ingredient['name'] )
+						WPZOOM_Recipe_Card_Block::wrap_ingredient_name( $ingredient['name'] )
 					);
 					$output .= sprintf(
 						'<li id="%s" class="ingredient-item">%s</li>',
-						$ingredient['id'],
+						esc_attr( $ingredient['id'] ),
 						$name
 					);
 				}
@@ -198,7 +198,7 @@ class WPZOOM_Ingredients_Block {
 				if ( ! empty( $ingredient['name'] ) ) {
 					$name    = sprintf(
 						'<strong class="ingredient-item-group-title">%s</strong>',
-						self::wrap_ingredient_name( $ingredient['name'] )
+						WPZOOM_Recipe_Card_Block::wrap_ingredient_name( $ingredient['name'] )
 					);
 					$output .= sprintf(
 						'<li class="ingredient-item ingredient-item-group">%s</li>',
@@ -209,39 +209,5 @@ class WPZOOM_Ingredients_Block {
 		}
 
 		return force_balance_tags( $output );
-	}
-
-	public static function wrap_ingredient_name( $nodes, $type = '' ) {
-		if ( ! is_array( $nodes ) ) {
-			return $nodes;
-		}
-
-		$output = '';
-		foreach ( $nodes as $node ) {
-			if ( ! is_array( $node ) ) {
-				$output .= $node;
-			} else {
-				$type     = isset( $node['type'] ) ? $node['type'] : null;
-				$children = isset( $node['props']['children'] ) ? $node['props']['children'] : null;
-
-				$start_tag = $type ? "<$type>" : '';
-				$end_tag   = $type ? "</$type>" : '';
-
-				if ( 'a' === $type ) {
-					$rel        = isset( $node['props']['rel'] ) ? $node['props']['rel'] : '';
-					$aria_label = isset( $node['props']['aria-label'] ) ? $node['props']['aria-label'] : '';
-					$href       = isset( $node['props']['href'] ) ? $node['props']['href'] : '#';
-					$target     = isset( $node['props']['target'] ) ? $node['props']['target'] : '_blank';
-
-					$start_tag = sprintf( '<%s rel="%s" aria-label="%s" href="%s" target="%s">', $type, $rel, $aria_label, $href, $target );
-				} elseif ( 'br' === $type ) {
-					$end_tag = '';
-				}
-
-				$output .= $start_tag . self::wrap_ingredient_name( $children, $type ) . $end_tag;
-			}
-		}
-
-		return $output;
 	}
 }

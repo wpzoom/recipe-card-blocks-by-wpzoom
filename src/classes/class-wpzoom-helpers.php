@@ -98,6 +98,18 @@ class WPZOOM_Helpers {
 		if ( ! isset( $settings['custom_author_name'] ) ) {
 			$settings['custom_author_name'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_author_custom_name' );
 		}
+		if ( ! isset( $settings['displayAuthor'] ) ) {
+			$settings['displayAuthor'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_author' );
+		}
+		if ( ! isset( $settings['displayCourse'] ) ) {
+			$settings['displayCourse'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_course' );
+		}
+		if ( ! isset( $settings['displayCuisine'] ) ) {
+			$settings['displayCuisine'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_cuisine' );
+		}
+		if ( ! isset( $settings['displayDifficulty'] ) ) {
+			$settings['displayDifficulty'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_difficulty' );
+		}
 		if ( ! isset( $settings['displayServings'] ) ) {
 			$settings['displayServings'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_servings' );
 		}
@@ -140,6 +152,30 @@ class WPZOOM_Helpers {
 		if ( ! isset( $settings['hide_header_image'] ) ) {
 			$settings['hide_header_image'] = false;
 		}
+		if ( ! isset( $settings['foodLabels'] ) ) {
+			$settings['foodLabels'] = array();
+		}
+		if ( ! isset( $settings['displayFoodLabels'] ) ) {
+			$settings['displayFoodLabels'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_food_labels' );
+		}
+		if ( ! isset( $settings['locationToShowFoodLabels'] ) ) {
+			$settings['locationToShowFoodLabels'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_location_to_show_food_labels' );
+		}
+		if ( ! isset( $settings['pinterest_bg_color'] ) ) {
+			$settings['pinterest_bg_color'] = '#C62122';
+		}
+		if ( ! isset( $settings['pinterest_text_color'] ) ) {
+			$settings['pinterest_text_color'] = '#FFFFFF';
+		}
+		if ( ! isset( $settings['print_bg_color'] ) ) {
+			$settings['print_bg_color'] = '#222222';
+		}
+		if ( ! isset( $settings['print_text_color'] ) ) {
+			$settings['print_text_color'] = '#FFFFFF';
+		}
+		if ( ! isset( $settings['icon_details_color'] ) ) {
+			$settings['icon_details_color'] = '#6d767f';
+		}
 
 		return $settings;
 	}
@@ -176,22 +212,22 @@ class WPZOOM_Helpers {
 		if ( $returnArray ) {
 			if ( $hours ) {
 				$array['hours']['value'] = $hours;
-				$array['hours']['unit']  = _n( 'hour', 'hours', (int) $hours, 'wpzoom-recipe-card' );
+				$array['hours']['unit']  = _n( 'hour', 'hours', (int) $hours, 'recipe-card-blocks-by-wpzoom' );
 			}
 			if ( $mins ) {
 				$array['minutes']['value'] = $mins;
-				$array['minutes']['unit']  = _n( 'minute', 'minutes', (int) $mins, 'wpzoom-recipe-card' );
+				$array['minutes']['unit']  = _n( 'minute', 'minutes', (int) $mins, 'recipe-card-blocks-by-wpzoom' );
 			}
 
 			return $array;
 		}
 
 		if ( $hours ) {
-			$output = $hours . ' ' . _n( 'hour', 'hours', (int) $hours, 'wpzoom-recipe-card' );
+			$output = $hours . ' ' . _n( 'hour', 'hours', (int) $hours, 'recipe-card-blocks-by-wpzoom' );
 		}
 
 		if ( $mins ) {
-			$output .= ' ' . $mins . ' ' . _n( 'minute', 'minutes', (int) $mins, 'wpzoom-recipe-card' );
+			$output .= ' ' . $mins . ' ' . _n( 'minute', 'minutes', (int) $mins, 'recipe-card-blocks-by-wpzoom' );
 		}
 
 		return $output;

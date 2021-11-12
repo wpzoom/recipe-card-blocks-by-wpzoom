@@ -53,9 +53,9 @@ function IconsModal(
     const activeIcon = get( details, [ toInsert, 'icon' ] );
 
     const iconsSets = [
-        { label: __( 'Foodicons', 'wpzoom-recipe-card' ), value: 'foodicons' },
-        { label: __( 'Dashicons', 'wpzoom-recipe-card' ), value: 'dashicons' },
-        { label: __( 'Old Food icons', 'wpzoom-recipe-card' ), value: 'oldicon' },
+        { label: __( 'Foodicons', 'recipe-card-blocks-by-wpzoom' ), value: 'foodicons' },
+        { label: __( 'Dashicons', 'recipe-card-blocks-by-wpzoom' ), value: 'dashicons' },
+        { label: __( 'Old Food icons', 'recipe-card-blocks-by-wpzoom' ), value: 'oldicon' },
     ];
 
     /**
@@ -205,7 +205,7 @@ function IconsModal(
                 icon={ ! icon && 'insert' }
                 onClick={ onOpenModal }
                 className="editor-inserter__toggle"
-                label={ __( 'Add icon', 'wpzoom-recipe-card' ) }
+                label={ __( 'Add icon', 'recipe-card-blocks-by-wpzoom' ) }
             >
                 {
                     icon &&
@@ -215,18 +215,18 @@ function IconsModal(
             {
                 isOpen &&
                 <Modal
-                    title={ __( 'Modal with Icons library', 'wpzoom-recipe-card' ) }
+                    title={ __( 'Modal with Icons library', 'recipe-card-blocks-by-wpzoom' ) }
                     onRequestClose={ () => setState( { isOpen: false } ) }
                 >
                     <div className="wpzoom-recipe-card-modal-form" style={ { width: 720 + 'px', maxHeight: 525 + 'px' } }>
                         <div className="form-group">
                             <TextControl
-                                label={ __( 'Enter icon name', 'wpzoom-recipe-card' ) }
+                                label={ __( 'Enter icon name', 'recipe-card-blocks-by-wpzoom' ) }
                                 value={ searchIcon }
                                 onChange={ ( iconName ) => setState( { searchIcon: iconName } ) }
                             />
                             <SelectControl
-                                label={ __( 'Select Icon Kit', 'wpzoom-recipe-card' ) }
+                                label={ __( 'Select Icon Kit', 'recipe-card-blocks-by-wpzoom' ) }
                                 value={ activeIconSet }
                                 options={ iconsSets }
                                 onChange={ onChangeIconSet }
@@ -243,19 +243,19 @@ function IconsModal(
                                     tabs={ [
                                         {
                                             name: 'regular',
-                                            title: __( 'Regular', 'wpzoom-recipe-card' ),
+                                            title: __( 'Regular', 'recipe-card-blocks-by-wpzoom' ),
                                             className: 'tab-regular',
                                             content: iconsGrid( 'regular' ),
                                         },
                                         {
                                             name: 'solid',
-                                            title: __( 'Solid', 'wpzoom-recipe-card' ),
+                                            title: __( 'Solid', 'recipe-card-blocks-by-wpzoom' ),
                                             className: 'tab-solid',
                                             content: iconsGrid( 'solid' ),
                                         },
                                         {
                                             name: 'brands',
-                                            title: __( 'Brands', 'wpzoom-recipe-card' ),
+                                            title: __( 'Brands', 'recipe-card-blocks-by-wpzoom' ),
                                             className: 'tab-brands',
                                             content: iconsGrid( 'brands' ),
                                         },
@@ -278,7 +278,7 @@ function IconsModal(
                                     tabs={ [
                                         {
                                             name: 'regular',
-                                            title: __( 'All Icons', 'wpzoom-recipe-card' ),
+                                            title: __( 'All Icons', 'recipe-card-blocks-by-wpzoom' ),
                                             className: 'tab-regular',
                                             content: iconsGrid( 'regular' ),
                                         },

@@ -63,27 +63,27 @@ export default class Inspector extends Component {
         } = attributes;
 
         const coursesToken = [
-            __( 'Appetizer & Snaks', 'wpzoom-recipe-card' ),
-            __( 'Breakfast & Brunch', 'wpzoom-recipe-card' ),
-            __( 'Dessert', 'wpzoom-recipe-card' ),
-            __( 'Drinks', 'wpzoom-recipe-card' ),
-            __( 'Main Course', 'wpzoom-recipe-card' ),
-            __( 'Salad', 'wpzoom-recipe-card' ),
-            __( 'Soup', 'wpzoom-recipe-card' ),
+            __( 'Appetizer & Snaks', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Breakfast & Brunch', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Dessert', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Drinks', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Main Course', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Salad', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Soup', 'recipe-card-blocks-by-wpzoom' ),
         ];
 
         const cuisinesToken = [
-            __( 'American', 'wpzoom-recipe-card' ),
-            __( 'Chinese', 'wpzoom-recipe-card' ),
-            __( 'French', 'wpzoom-recipe-card' ),
-            __( 'Indian', 'wpzoom-recipe-card' ),
-            __( 'Italian', 'wpzoom-recipe-card' ),
-            __( 'Japanese', 'wpzoom-recipe-card' ),
-            __( 'Mediterranean', 'wpzoom-recipe-card' ),
-            __( 'Mexican', 'wpzoom-recipe-card' ),
-            __( 'Southern', 'wpzoom-recipe-card' ),
-            __( 'Thai', 'wpzoom-recipe-card' ),
-            __( 'Other world cuisine', 'wpzoom-recipe-card' ),
+            __( 'American', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Chinese', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'French', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Indian', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Italian', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Japanese', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Mediterranean', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Mexican', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Southern', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Thai', 'recipe-card-blocks-by-wpzoom' ),
+            __( 'Other world cuisine', 'recipe-card-blocks-by-wpzoom' ),
         ];
 
         const keywordsToken = [];
@@ -101,10 +101,10 @@ export default class Inspector extends Component {
 
         return (
             <InspectorControls key="inspector">
-                <PanelBody initialOpen={ true } title={ __( 'Details Settings', 'wpzoom-recipe-card' ) }>
+                <PanelBody initialOpen={ true } title={ __( 'Details Settings', 'recipe-card-blocks-by-wpzoom' ) }>
                     <RangeControl
-                        label={ __( 'Number of Columns', 'wpzoom-recipe-card' ) }
-                        help={ __( 'Default', 'wpzoom-recipe-card' ) + ': 4' }
+                        label={ __( 'Number of Columns', 'recipe-card-blocks-by-wpzoom' ) }
+                        help={ __( 'Default', 'recipe-card-blocks-by-wpzoom' ) + ': 4' }
                         value={ columns }
                         onChange={ ( columns ) => setAttributes( { columns } ) }
                         min={ 2 }
@@ -112,68 +112,68 @@ export default class Inspector extends Component {
                     />
                     <BaseControl
                         id={ `${ id }-course` }
-                        label={ __( 'Course', 'wpzoom-recipe-card' ) }
-                        help={ __( 'Type course and press Enter.', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Course', 'recipe-card-blocks-by-wpzoom' ) }
+                        help={ __( 'Type course and press Enter.', 'recipe-card-blocks-by-wpzoom' ) }
                     >
                         <FormTokenField
-                            label={ __( 'Add course', 'wpzoom-recipe-card' ) }
+                            label={ __( 'Add course', 'recipe-card-blocks-by-wpzoom' ) }
                             value={ course }
                             suggestions={ coursesToken }
                             onChange={ newCourse => setAttributes( { course: newCourse } ) }
-                            placeholder={ __( 'Type recipe course', 'wpzoom-recipe-card' ) }
+                            placeholder={ __( 'Type recipe course', 'recipe-card-blocks-by-wpzoom' ) }
                         />
                     </BaseControl>
                     <BaseControl
                         id={ `${ id }-cuisine` }
-                        label={ __( 'Cuisine', 'wpzoom-recipe-card' ) }
-                        help={ __( 'Type cuisine and press Enter.', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Cuisine', 'recipe-card-blocks-by-wpzoom' ) }
+                        help={ __( 'Type cuisine and press Enter.', 'recipe-card-blocks-by-wpzoom' ) }
                     >
                         <FormTokenField
-                            label={ __( 'Add cuisine', 'wpzoom-recipe-card' ) }
+                            label={ __( 'Add cuisine', 'recipe-card-blocks-by-wpzoom' ) }
                             value={ cuisine }
                             suggestions={ cuisinesToken }
                             onChange={ newCuisine => setAttributes( { cuisine: newCuisine } ) }
-                            placeholder={ __( 'Type recipe cuisine', 'wpzoom-recipe-card' ) }
+                            placeholder={ __( 'Type recipe cuisine', 'recipe-card-blocks-by-wpzoom' ) }
                         />
                     </BaseControl>
                     <BaseControl
                         id={ `${ id }-keywords` }
-                        label={ __( 'Keywords', 'wpzoom-recipe-card' ) }
-                        help={ __( 'Hint: For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword).', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Keywords', 'recipe-card-blocks-by-wpzoom' ) }
+                        help={ __( 'Hint: For multiple keywords add `,` after each keyword (ex: keyword, keyword, keyword).', 'recipe-card-blocks-by-wpzoom' ) }
                     >
                         <FormTokenField
-                            label={ __( 'Add keywords', 'wpzoom-recipe-card' ) }
+                            label={ __( 'Add keywords', 'recipe-card-blocks-by-wpzoom' ) }
                             value={ keywords }
                             suggestions={ keywordsToken }
                             onChange={ newKeyword => setAttributes( { keywords: newKeyword } ) }
-                            placeholder={ __( 'Type recipe keywords', 'wpzoom-recipe-card' ) }
+                            placeholder={ __( 'Type recipe keywords', 'recipe-card-blocks-by-wpzoom' ) }
                         />
                     </BaseControl>
                     <TextControl
                         id={ `${ id }-yield` }
                         type="text"
-                        label={ __( 'Servings', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Servings', 'recipe-card-blocks-by-wpzoom' ) }
                         value={ get( details, [ 0, 'value' ] ) }
                         onChange={ newYield => onChangeDetail( newYield, 0 ) }
                     />
                     <TextControl
                         id={ `${ id }-preptime` }
                         type="text"
-                        label={ __( 'Preparation time', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Preparation time', 'recipe-card-blocks-by-wpzoom' ) }
                         value={ get( details, [ 1, 'value' ] ) }
                         onChange={ newPrepTime => onChangeDetail( newPrepTime, 1 ) }
                     />
                     <TextControl
                         id={ `${ id }-cookingtime` }
                         type="text"
-                        label={ __( 'Cooking time', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ) }
                         value={ get( details, [ 2, 'value' ] ) }
                         onChange={ newCookingTime => onChangeDetail( newCookingTime, 2 ) }
                     />
                     <TextControl
                         id={ `${ id }-calories` }
                         type="text"
-                        label={ __( 'Calories', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Calories', 'recipe-card-blocks-by-wpzoom' ) }
                         value={ get( details, [ 3, 'value' ] ) }
                         onChange={ newCalories => onChangeDetail( newCalories, 3 ) }
                     />

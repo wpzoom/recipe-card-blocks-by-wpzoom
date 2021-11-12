@@ -35,24 +35,24 @@ export function convertMinutesToHours( minutes, returnObject = false ) {
     if ( returnObject ) {
         if ( hours ) {
             object.hours.value = hours;
-            object.hours.unit = _n( 'hour', 'hours', toNumber( hours ), 'wpzoom-recipe-card' );
+            object.hours.unit = _n( 'hour', 'hours', toNumber( hours ), 'recipe-card-blocks-by-wpzoom' );
         }
 
         if ( mins ) {
             object.minutes.value = mins;
-            object.minutes.unit = _n( 'minute', 'minutes', toNumber( mins ), 'wpzoom-recipe-card' );
+            object.minutes.unit = _n( 'minute', 'minutes', toNumber( mins ), 'recipe-card-blocks-by-wpzoom' );
         }
 
         return object;
     }
 
     if ( hours ) {
-        output += hours + ' ' + _n( 'hour', 'hours', toNumber( hours ), 'wpzoom-recipe-card' );
+        output += hours + ' ' + _n( 'hour', 'hours', toNumber( hours ), 'recipe-card-blocks-by-wpzoom' );
     }
 
     if ( mins ) {
         output += ' ' + mins;
-        output += ' ' + _n( 'minute', 'minutes', toNumber( mins ), 'wpzoom-recipe-card' );
+        output += ' ' + _n( 'minute', 'minutes', toNumber( mins ), 'recipe-card-blocks-by-wpzoom' );
     }
 
     return output;

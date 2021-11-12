@@ -1,11 +1,11 @@
-=== Recipe Card Blocks by WPZOOM ===
+=== Recipe Card Blocks for Gutenberg & Elementor ===
 Contributors: WPZOOM, ciorici, vicolaspetru
 Donate link: https://www.wpzoom.com/
-Tags: gutenberg, food recipe, blocks, recipe, card, food, directions, ingredients, recipe card, recipe maker, foodie, cook, snippet, block, pinterest, rating, nutrition, nutrition label, nutrition facts, schema, structured data, cooking, chef, seo, culinary, food blog, drink, drinks recipes, baking, crafts, steps, meal
+Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
 Requires at least: 5.0
 Requires PHP: 5.6
 Tested up to: 5.8
-Stable tag: trunk
+Stable tag: 2.8.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,7 @@ Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup (JSON-LD) for 
 
 [youtube https://www.youtube.com/watch?v=TehuLXQXNi8]
 
-🥑 **[View Demo](http://demo.wpzoom.com/recipe-card-blocks/)** 🥑
+🥑 **[View Demo](https://demo.wpzoom.com/recipe-card-blocks/)** 🥑
 
 
 > Did you find this plugin helpful? Please consider [leaving a 5-star review](https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/).
@@ -34,9 +34,12 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Ingredients**
 * **Directions**
 * **Nutrition Facts**
+* **Recipe Card Widget for Elementor**
+
 
 = 📌 FEATURES =
 
+* **Elementor Support**
 * **AMP Support**
 * **Multiple Designs**
 * Gutenberg-ready
@@ -47,9 +50,11 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 
 = ⭐️ PRO FEATURES ⭐️ =
+* **Recipe Card Widget for Elementor**
 * **Star Rating**
 * **Comments Rating - 🆕**
 * **Gallery in Directions**
+* **Multiple Styles**
 * Adjustable servings
 * Ingredients quantity
 * Custom Pinterest image and description for Pin
@@ -129,16 +134,41 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Screenshots ==
 
-1. Adding a block to editor
-2. WPZOOM Blocks Section
-3. Preview of Recipe Card Block
-4. Additional Design for Block
-5. Block Editor
-6. Settings Page
-7. Mobile Design
+1. Adding a block to the editor
+2. Recipe Card widget in Elementor
+3. WPZOOM Blocks Section
+4. Preview of Recipe Card Block
+5. Additional Design for Block
+6. Block Editor
+7. Settings Page
+8. Mobile Design
 
 
 == Changelog ==
+
+= 2.8.8 =
+* Change textdomain to match with plugin slug
+
+= 2.8.7 =
+* Bug fix with video not showing in the recipe block
+
+= 2.8.6 =
+* Minor bug fix
+
+= 2.8.5 =
+* Fixing video not displayed in recipe card block
+
+= 2.8.4 =
+* Fixing compatibility issues with PHP 7.0 (old version)
+
+= 2.8.3 =
+* Fixing escaping issues
+
+= 2.8.2 =
+* Fixing escaping issues
+
+= 2.8.1 =
+* Fixing escaping issues
 
 = 2.8.0 =
 * Recipe Card Block is now available in Elementor!

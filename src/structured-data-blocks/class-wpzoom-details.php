@@ -143,9 +143,9 @@ class WPZOOM_Details_Block {
 		extract( $attributes );
 
 		$class  = 'wp-block-wpzoom-recipe-card-block-details';
-		$class .= ' col-' . $columns;
+		$class .= ' col-' . absint( $columns );
 
-		$className       = isset( $className ) ? $className : '';
+		$className       = isset( $className ) ? esc_attr( $className ) : '';
 		$details         = isset( $details ) ? $details : array();
 		$details_content = $this->get_details_content( $details );
 
@@ -171,29 +171,29 @@ class WPZOOM_Details_Block {
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'oldicon',
 				'icon'    => 'food',
-				'label'   => __( 'Servings', 'wpzoom-recipe-card' ),
-				'unit'    => __( 'servings', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Servings', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'servings', 'recipe-card-blocks-by-wpzoom' ),
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'oldicon',
 				'icon'    => 'room-service',
-				'label'   => __( 'Prep time', 'wpzoom-recipe-card' ),
-				'unit'    => __( 'minutes', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Prep time', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'oldicon',
 				'icon'    => 'cook',
-				'label'   => __( 'Cooking time', 'wpzoom-recipe-card' ),
-				'unit'    => __( 'minutes', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'oldicon',
 				'icon'    => 'shopping-basket',
-				'label'   => __( 'Calories', 'wpzoom-recipe-card' ),
-				'unit'    => __( 'kcal', 'wpzoom-recipe-card' ),
+				'label'   => esc_html__( 'Calories', 'recipe-card-blocks-by-wpzoom' ),
+				'unit'    => esc_html__( 'kcal', 'recipe-card-blocks-by-wpzoom' ),
 			),
 		);
 	}
@@ -215,14 +215,14 @@ class WPZOOM_Details_Block {
 			$icon = $label = $value = $unit = '';
 
 			if ( ! empty( $detail['icon'] ) ) {
-				$icon            = $detail['icon'];
-				$iconSet         = isset( $detail['iconSet'] ) ? $detail['iconSet'] : 'oldicon';
-				$_prefix         = isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? $detail['_prefix'] : $iconSet;
-				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $detail['icon'] ) );
+				$icon            = esc_attr( $detail['icon'] );
+				$iconSet         = isset( $detail['iconSet'] ) ? esc_attr( $detail['iconSet'] ) : 'oldicon';
+				$_prefix         = isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? esc_attr( $detail['_prefix'] ) : $iconSet;
+				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $icon ) );
 
 				$icon = sprintf(
 					'<span class="%s"></span>',
-					$itemIconClasses
+					esc_attr( $itemIconClasses )
 				);
 			}
 
@@ -230,12 +230,12 @@ class WPZOOM_Details_Block {
 				if ( ! is_array( $detail['label'] ) ) {
 					$label = sprintf(
 						'<span class="detail-item-label">%s</span>',
-						$detail['label']
+						esc_html( $detail['label'] )
 					);
 				} elseif ( isset( $detail['jsonLabel'] ) ) {
 					$label = sprintf(
 						'<span class="detail-item-label">%s</span>',
-						$detail['jsonLabel']
+						esc_html( $detail['jsonLabel'] )
 					);
 				}
 			}
@@ -244,19 +244,19 @@ class WPZOOM_Details_Block {
 				if ( ! is_array( $detail['value'] ) ) {
 					$value = sprintf(
 						'<p class="detail-item-value">%s</p>',
-						$detail['value']
+						esc_html( $detail['value'] )
 					);
 				} elseif ( isset( $detail['jsonValue'] ) ) {
 					$value = sprintf(
 						'<p class="detail-item-value">%s</p>',
-						$detail['jsonValue']
+						esc_html( $detail['jsonValue'] )
 					);
 				}
 			}
 			if ( ! empty( $detail['unit'] ) ) {
 				$unit = sprintf(
 					'<span class="detail-item-unit">%s</span>',
-					$detail['unit']
+					esc_html( $detail['unit'] )
 				);
 			}
 

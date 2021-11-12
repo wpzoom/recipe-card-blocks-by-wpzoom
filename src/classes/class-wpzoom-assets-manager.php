@@ -553,7 +553,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				}
 			}
 
-			echo $inline_CSS;
+			printf( '/* WPZOOM Recipe Card Inline styles */ %s', $inline_CSS );
 		}
 
 		/**

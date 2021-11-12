@@ -126,7 +126,7 @@ export default class Direction extends Component {
             return;
         }
 
-        speak( __( 'New step added', 'wpzoom-recipe-card' ) );
+        speak( __( 'New step added', 'recipe-card-blocks-by-wpzoom' ) );
     }
 
     /**
@@ -364,14 +364,14 @@ export default class Direction extends Component {
                     onClick={ this.onAddStepButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( 'Add step', 'wpzoom-recipe-card' ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add step', 'recipe-card-blocks-by-wpzoom' ) }</span>
                 </IconButton>
                 <IconButton
                     icon="editor-insertmore"
                     onClick={ this.onAddGroupButtonClick }
                     className="editor-inserter__toggle"
                 >
-                    <span className="components-icon-button-text">{ __( 'Add direction group', 'wpzoom-recipe-card' ) }</span>
+                    <span className="components-icon-button-text">{ __( 'Add direction group', 'recipe-card-blocks-by-wpzoom' ) }</span>
                 </IconButton>
             </div>
         );
@@ -399,7 +399,7 @@ export default class Direction extends Component {
                     unstableOnFocus={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( 'Write Directions title', 'wpzoom-recipe-card' ) }
+                    placeholder={ __( 'Write Directions title', 'recipe-card-blocks-by-wpzoom' ) }
                     keepPlaceholderOnFocus={ true }
                 />
                 <ul className={ listClassNames }>{ this.getSteps() }</ul>

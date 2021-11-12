@@ -1,0 +1,41 @@
+<wpml-config>
+	<gutenberg-blocks>
+		<gutenberg-block type="wpzoom-recipe-card/block-recipe-card" translate="1">
+			<key name="recipeTitle" />
+			<key name="summary" />
+			<key name="course">
+			</key>
+			<key name="cuisine">
+			</key>
+			<key name="difficulty">
+			</key>
+			<key name="details">
+				<key name="*">
+					<key name="label" />
+					<key name="unit" />
+				</key>
+			</key>
+			<key name="ingredientsTitle" />
+			<key name="ingredients">
+				<key name="*">
+					<key name="name">
+					</key>
+					<key name="parse">
+						<key name="unit" />
+					</key>
+				</key>
+			</key>
+			<key name="videoTitle" />
+			<key name="directionsTitle" />
+			<key name="steps">
+				<key name="*">
+					<key name="text">
+					</key>
+				</key>
+			</key>
+			<key name="notesTitle" />
+			<key name="notes">
+			</key>
+		</gutenberg-block>
+	</gutenberg-blocks>
+</wpml-config>

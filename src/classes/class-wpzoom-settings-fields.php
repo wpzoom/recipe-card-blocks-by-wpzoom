@@ -55,15 +55,15 @@ class WPZOOM_Settings_Fields {
 		<fieldset class="wpzoom-rcb-field-input">
 			<?php
 			if ( isset( $args['badge'] ) ) {
-				echo $args['badge']; }
+				echo wp_kses_post( $args['badge'] ); }
 				$this->create_nonce_field( $args );
 			?>
 
-			<input name="wpzoom-recipe-card-settings[<?php echo esc_attr( $args['label_for'] ); ?>]" type="<?php echo esc_attr( $type ); ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="<?php echo $value; ?>" class="regular-text" <?php echo ( self::is_disabled( $args ) ? 'disabled' : '' ); ?>/>
+			<input name="wpzoom-recipe-card-settings[<?php echo esc_attr( $args['label_for'] ); ?>]" type="<?php echo esc_attr( $type ); ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="<?php echo esc_attr( $value ); ?>" class="regular-text" <?php echo ( self::is_disabled( $args ) ? 'disabled' : '' ); ?>/>
 
 			<?php if ( isset( $args['description'] ) ) : ?>
 				<p class="description">
-					<?php echo $args['description']; ?>
+					<?php echo wp_kses_post( $args['description'] ); ?>
 				</p>
 			<?php endif ?>
 		</fieldset>
@@ -83,7 +83,7 @@ class WPZOOM_Settings_Fields {
 		<fieldset class="wpzoom-rcb-field-checkbox">
 			<?php
 			if ( isset( $args['badge'] ) ) {
-				echo $args['badge']; }
+				echo wp_kses_post( $args['badge'] ); }
 				$this->create_nonce_field( $args );
 			?>
 
@@ -92,7 +92,7 @@ class WPZOOM_Settings_Fields {
 				<input name="wpzoom-recipe-card-settings[<?php echo esc_attr( $args['label_for'] ); ?>]" type="checkbox" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="1" <?php checked( '1', $checked ); ?> <?php echo ( self::is_disabled( $args ) ? 'disabled' : '' ); ?>/>
 
 				<?php if ( isset( $args['description'] ) ) : ?>
-					<?php echo $args['description']; ?>
+					<?php echo wp_kses_post( $args['description'] ); ?>
 				<?php endif ?>
 			</label>
 
@@ -108,13 +108,13 @@ class WPZOOM_Settings_Fields {
 						'<span class="wpzoom-rcb-field-preview dashicons dashicons-visibility" data-preview-position="%s" data-preview-thumbnail="%s" title="%s"></span>',
 						$preview_position,
 						$preview_thumbnail_url,
-						esc_html__( 'Preview', 'wpzoom-recipe-card' )
+						esc_html__( 'Preview', 'recipe-card-blocks-by-wpzoom' )
 					);
 				}
 				?>
 
 			<?php endif ?>
-			
+
 		</fieldset>
 		<?php
 	}
@@ -136,14 +136,14 @@ class WPZOOM_Settings_Fields {
 			 >
 				<?php foreach ( $args['options'] as $value => $text ) : ?>
 					 <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, $selected ); ?>>
-						<?php echo $text; ?>
+						<?php echo esc_html( $text ); ?>
 					 </option>
 				<?php endforeach ?>
 			 </select>
 
 			<?php if ( isset( $args['description'] ) ) : ?>
 				 <p class="description">
-					<?php echo $args['description']; ?>
+					<?php echo wp_kses_post( $args['description'] ); ?>
 				 </p>
 			<?php endif ?>
 		</fieldset>
@@ -157,7 +157,7 @@ class WPZOOM_Settings_Fields {
 	 * @return void
 	 */
 	public function button( $args ) {
-		$text        = isset( $args['text'] ) ? $args['text'] : __( 'Save Changes', 'wpzoom-recipe-card' );
+		$text        = isset( $args['text'] ) ? $args['text'] : __( 'Save Changes', 'recipe-card-blocks-by-wpzoom' );
 		$type        = isset( $args['type'] ) ? $args['type'] : 'submit';
 		$button_type = isset( $args['button_type'] ) ? $args['button_type'] : 'primary large';
 		$name        = isset( $args['label_for'] ) ? $args['label_for'] : 'wpzoom_rcb_button_field_submit';
@@ -182,7 +182,7 @@ class WPZOOM_Settings_Fields {
 		$id = $name;
 
 		if ( isset( $args['badge'] ) ) {
-			echo $args['badge']; }
+			echo wp_kses_post( $args['badge'] ); }
 
 		$this->create_nonce_field( $args );
 
@@ -200,7 +200,7 @@ class WPZOOM_Settings_Fields {
 
 		<?php if ( isset( $args['description'] ) ) : ?>
 			<p class="description">
-				<?php echo $args['description']; ?>
+				<?php echo wp_kses_post( $args['description'] ); ?>
 			</p>
 		<?php endif ?>
 
@@ -221,7 +221,7 @@ class WPZOOM_Settings_Fields {
 		<fieldset class="wpzoom-rcb-field-color-picker">
 			<?php
 			if ( isset( $args['badge'] ) ) {
-				echo $args['badge']; }
+				echo wp_kses_post( $args['badge'] ); }
 				$this->create_nonce_field( $args );
 			?>
 
@@ -229,7 +229,7 @@ class WPZOOM_Settings_Fields {
 
 			<?php if ( isset( $args['description'] ) ) : ?>
 				<p class="description">
-					<?php echo $args['description']; ?>
+					<?php echo wp_kses_post( $args['description'] ); ?>
 				</p>
 			<?php endif ?>
 		</fieldset>

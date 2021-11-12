@@ -239,7 +239,7 @@ function ExtraOptionsModal(
                     <IconButton
                         icon="edit"
                         className="wpzoom-recipe-card__extra-options"
-                        label={ __( 'Recipe Card extra options', 'wpzoom-recipe-card' ) }
+                        label={ __( 'Recipe Card extra options', 'recipe-card-blocks-by-wpzoom' ) }
                         isPrimary={ true }
                         isLarge={ true }
                         onClick={ ( event ) => {
@@ -247,23 +247,23 @@ function ExtraOptionsModal(
                             setState( { isOpen: true, isDataSet: false, _ingredients: '', _directions: '', hasBlocks: wpzoomBlocksFilter.length > 0 } );
                         } }
                     >
-                        { __( 'Bulk Add', 'wpzoom-recipe-card' ) }
+                        { __( 'Bulk Add', 'recipe-card-blocks-by-wpzoom' ) }
                     </IconButton>
                 </Toolbar>
             }
             {
                 isOpen &&
                 <Modal
-                    title={ __( 'Recipe Card Bulk Add', 'wpzoom-recipe-card' ) }
+                    title={ __( 'Recipe Card Bulk Add', 'recipe-card-blocks-by-wpzoom' ) }
                     onRequestClose={ () => setState( { isOpen: false } ) }>
                     <div className="wpzoom-recipe-card-extra-options" style={ { maxWidth: 720 + 'px', maxHeight: 525 + 'px' } }>
                         <div className="form-group">
-                            <p className="bulk-add-danger-alert"><strong>{ __( 'Known Problem', 'wpzoom-recipe-card' ) }:</strong> { __( 'There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the', 'wpzoom-recipe-card' ) } <strong>{ __( 'Top Toolbar', 'wpzoom-recipe-card' ) }</strong> { __( 'option in the editor options (click on the ⋮ three dots from right-top corner).', 'wpzoom-recipe-card' ) } <br /> <a href="https://wp.md/toolbar" target="_blank" rel="noopener noreferrer">{ __( 'View how to do this', 'wpzoom-recipe-card' ) }</a></p>
+                            <p className="bulk-add-danger-alert"><strong>{ __( 'Known Problem', 'recipe-card-blocks-by-wpzoom' ) }:</strong> { __( 'There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the', 'recipe-card-blocks-by-wpzoom' ) } <strong>{ __( 'Top Toolbar', 'recipe-card-blocks-by-wpzoom' ) }</strong> { __( 'option in the editor options (click on the ⋮ three dots from right-top corner).', 'recipe-card-blocks-by-wpzoom' ) } <br /> <a href="https://wp.md/toolbar" target="_blank" rel="noopener noreferrer">{ __( 'View how to do this', 'recipe-card-blocks-by-wpzoom' ) }</a></p>
                             <br />
                             <div className="wrap-content">
                                 <TextareaControl
-                                    label={ __( 'Insert Ingredients', 'wpzoom-recipe-card' ) }
-                                    help={ __( 'Each line break is a new ingredient. Note: To add Ingredient Group Title just type **Group Title** on new line.', 'wpzoom-recipe-card' ) }
+                                    label={ __( 'Insert Ingredients', 'recipe-card-blocks-by-wpzoom' ) }
+                                    help={ __( 'Each line break is a new ingredient. Note: To add Ingredient Group Title just type **Group Title** on new line.', 'recipe-card-blocks-by-wpzoom' ) }
                                     className="bulk-add-enter-ingredients"
                                     rows="5"
                                     value={ _ingredients }
@@ -271,8 +271,8 @@ function ExtraOptionsModal(
                                     onChange={ ( _ingredients ) => setState( { _ingredients } ) }
                                 />
                                 <TextareaControl
-                                    label={ __( 'Insert Directions', 'wpzoom-recipe-card' ) }
-                                    help={ __( 'Each line break is a new direction. Note: To add Direction Group Title just type **Group Title** on new line.', 'wpzoom-recipe-card' ) }
+                                    label={ __( 'Insert Directions', 'recipe-card-blocks-by-wpzoom' ) }
+                                    help={ __( 'Each line break is a new direction. Note: To add Direction Group Title just type **Group Title** on new line.', 'recipe-card-blocks-by-wpzoom' ) }
                                     className="bulk-add-enter-directions"
                                     rows="5"
                                     value={ _directions }
@@ -283,7 +283,7 @@ function ExtraOptionsModal(
                         </div>
                         <div className="form-group">
                             <Button isDefault onClick={ () => setState( { isOpen: false } ) }>
-                                { __( 'Cancel', 'wpzoom-recipe-card' ) }
+                                { __( 'Cancel', 'recipe-card-blocks-by-wpzoom' ) }
                             </Button>
                             {
                                 ( ! isEmpty( _ingredients ) || ! isEmpty( _directions ) ) &&
@@ -293,7 +293,7 @@ function ExtraOptionsModal(
  onBulkAddIngredients(); onBulkAddDirections(); onBulkAdd();
                                     } }
                                 >
-                                    { __( 'Bulk Add', 'wpzoom-recipe-card' ) }
+                                    { __( 'Bulk Add', 'recipe-card-blocks-by-wpzoom' ) }
                                 </Button>
                             }
                         </div>

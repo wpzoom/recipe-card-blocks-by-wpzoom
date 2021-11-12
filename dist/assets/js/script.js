@@ -75,6 +75,7 @@
 				}
 			}
 		} else {
+			url += `?wpzoom_rcb_print=${atts["recipe-id"]}`;
 			for (const property in atts) {
 				if (!url.match(/\?./)) {
 					url += `?${property}=${atts[property]}`;

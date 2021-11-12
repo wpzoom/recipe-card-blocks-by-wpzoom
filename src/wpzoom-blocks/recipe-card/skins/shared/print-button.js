@@ -17,9 +17,9 @@ const PrintButton = ( props ) => {
 
     return (
         <div className={ printClasses }>
-            <a className="btn-print-link no-print" href={ `#${ id }` } title={ __( 'Print directions...', 'wpzoom-recipe-card' ) }>
+            <a className="btn-print-link no-print" href={ `#${ id }` } title={ __( 'Print directions...', 'recipe-card-blocks-by-wpzoom' ) }>
                 { icon }
-                <span>{ __( 'Print', 'wpzoom-recipe-card' ) }</span>
+                <span>{ __( 'Print', 'recipe-card-blocks-by-wpzoom' ) }</span>
             </a>
         </div>
     );
