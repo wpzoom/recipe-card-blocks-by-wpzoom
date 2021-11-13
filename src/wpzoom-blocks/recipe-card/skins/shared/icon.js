@@ -7,7 +7,7 @@ import { SVG, Path } from '@wordpress/components';
 
 export const imageIcon = <BlockIcon icon={ image } />;
 
-export const printIcon = <SVG className="wpzoom-rcb-icon-print-link" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+export const printIcon = <SVG className="wpzoom-rcb-icon-print-link" viewBox="0 0 32 32" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
     <g data-name="Layer 55" id="Layer_55">
         <Path className="wpzoom-rcb-print-icon" d="M28,25H25a1,1,0,0,1,0-2h3a1,1,0,0,0,1-1V10a1,1,0,0,0-1-1H4a1,1,0,0,0-1,1V22a1,1,0,0,0,1,1H7a1,1,0,0,1,0,2H4a3,3,0,0,1-3-3V10A3,3,0,0,1,4,7H28a3,3,0,0,1,3,3V22A3,3,0,0,1,28,25Z" />
         <Path className="wpzoom-rcb-print-icon" d="M25,31H7a1,1,0,0,1-1-1V20a1,1,0,0,1,1-1H25a1,1,0,0,1,1,1V30A1,1,0,0,1,25,31ZM8,29H24V21H8Z" />
