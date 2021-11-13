@@ -1,11 +1,11 @@
 === Recipe Card Blocks for Gutenberg & Elementor ===
-Contributors: WPZOOM, ciorici, vicolaspetru
+Contributors: WPZOOM
 Donate link: https://www.wpzoom.com/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
 Requires at least: 5.0
 Requires PHP: 5.6
 Tested up to: 5.8
-Stable tag: 2.8.8
+Stable tag: 2.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * Video integration
 * GDPR-compliant
 * Bulk Add Ingredients and Directions
+* WPML Support
 
 
 = ⭐️ PRO FEATURES ⭐️ =
@@ -145,6 +146,11 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 2.9.0 =
+* Added support for WPML's Advanced Translation Editor (wpml-config.xml file)
+* Added Ingredients and Directions groups in Elementor widget
+* Multiple bug fixes and improvements
 
 = 2.8.8 =
 * Change textdomain to match with plugin slug
