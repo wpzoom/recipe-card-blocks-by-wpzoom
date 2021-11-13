@@ -139,6 +139,10 @@ class WPZOOM_Elementor_Recipe_Card {
 				'file'  => __DIR__ . '/controls/tagfield.php',
 				'class' => 'Controls\WPZOOM_Tagfield',
 			),
+			'wpzoom_image_picker' => array(
+				'file'  => __DIR__ . '/controls/image-picker.php',
+				'class' => 'Controls\WPZOOM_Image_Picker'
+			)
 		);
 
 		foreach ( $controls as $control_type => $control_info ) {
