@@ -1,40 +1,46 @@
 ul.thumbnails.image_picker_selector {
-	overflow: auto;
-	list-style-image: none;
-	list-style-position: outside;
-	list-style-type: none;
-	padding: 0px;
-	margin: 0px; 
+    overflow: auto;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
 }
 ul.thumbnails.image_picker_selector ul {
-	overflow: auto;
-	list-style-image: none;
-	list-style-position: outside;
-	list-style-type: none;
-	padding: 0px;
-	margin: 0px;
+    overflow: auto;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
 }
 ul.thumbnails.image_picker_selector li.group {
-	width:100%;
-} 
+    width:100%;
+}
 ul.thumbnails.image_picker_selector li.group_title {
-	float: none; 
+    float: none;
 }
 ul.thumbnails.image_picker_selector li {
-	margin: 0px 12px 12px 0px;
-	float: left; 
-	width:45%;
+    margin: 0px 12px 12px 0px;
+    float: left;
+    width:45%;
 }
 ul.thumbnails.image_picker_selector li .thumbnail {
-	padding: 6px;
-	border: 1px solid #dddddd;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none; 
+    padding: 6px;
+    border: 1px solid #dddddd;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 ul.thumbnails.image_picker_selector li .thumbnail img {
-	-webkit-user-drag: none; 
+    -webkit-user-drag: none;
+    border: 2px solid #eee;
+    margin: 0 0 5px;
+}
+ul.thumbnails.image_picker_selector li .thumbnail.selected img {
+    border-color: #fff;
 }
 ul.thumbnails.image_picker_selector li .thumbnail.selected {
-	background: #0088cc; 
+    background: #0088cc;
+    color: #fff;
 }
