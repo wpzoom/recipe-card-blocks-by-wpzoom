@@ -1732,7 +1732,13 @@ class Recipe_Card extends Widget_Base {
 
 		$this->add_render_attribute( '_wrapper_recipe_card', 'id', $id );
 		$this->add_render_attribute( '_wrapper_recipe_card', 'class', 'wp-block-wpzoom-recipe-card-block-recipe-card' );
+
+		if( !isset( $settings['recipe_card_styles'] ) ) {
+			$settings['recipe_card_styles'] = 'is-style-default';
+		}
+
 		$this->add_render_attribute( '_wrapper_recipe_card', 'class', $settings['recipe_card_styles'] );
+		
 		$this->add_render_attribute( '_wrapper_recipe_card', 'class', 'header-content-align-' . $settings['header_align'] );
 
 		$this->add_render_attribute( 'title', 'class', 'recipe-card-title' );
