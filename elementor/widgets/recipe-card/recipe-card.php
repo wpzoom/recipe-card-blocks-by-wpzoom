@@ -661,7 +661,7 @@ class Recipe_Card extends Widget_Base {
 				'label_on'  => esc_html__( 'Yes', 'recipe-card-blocks-by-wpzoom' ),
 				'label_off' => esc_html__( 'No', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => 'no'
-			),
+			)
 		);
 
 		$ingredient_repeater->add_control(
@@ -803,7 +803,7 @@ class Recipe_Card extends Widget_Base {
 				'label_on'  => esc_html__( 'Yes', 'recipe-card-blocks-by-wpzoom' ),
 				'label_off' => esc_html__( 'No', 'recipe-card-blocks-by-wpzoom' ),
 				'default'   => 'no'
-			),
+			)
 		);
 
 		$directions_repeater->add_control(
