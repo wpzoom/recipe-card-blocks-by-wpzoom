@@ -149,6 +149,7 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 = 2.9.0 =
 * Added support for WPML's Advanced Translation Editor (wpml-config.xml file)
+* Elementor Widget now includes 3 Recipe Card Styles.
 * Added Ingredients and Directions groups in Elementor widget
 * Multiple bug fixes and improvements
 
