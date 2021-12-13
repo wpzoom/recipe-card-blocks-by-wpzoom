@@ -621,27 +621,6 @@ class Recipe_Card extends Widget_Base {
 		$ingredient_repeater = new Repeater();
 
 		$ingredient_repeater->add_control(
-			'ingredient_item_amount',
-			array(
-				'label' => esc_html__( 'Amount', 'recipe-card-blocks-by-wpzoom' ),
-				'type'  => Controls_Manager::TEXT,
-				'condition' => array(
-					'ingredient_group!' => 'yes'
-				)
-			)
-		);
-		$ingredient_repeater->add_control(
-			'ingredient_item_unit',
-			array(
-				'label' => esc_html__( 'Unit', 'recipe-card-blocks-by-wpzoom' ),
-				'type'  => Controls_Manager::TEXT,
-				'condition' => array(
-					'ingredient_group!' => 'yes'
-				)
-			)
-		);
-
-		$ingredient_repeater->add_control(
 			'ingredient_item_label',
 			array(
 				'label'       => esc_html__( 'Ingredient Name', 'recipe-card-blocks-by-wpzoom' ),
@@ -685,23 +664,15 @@ class Recipe_Card extends Widget_Base {
 				'fields'      => $ingredient_repeater->get_controls(),
 				'default'     => array(
 					array(
-						'ingredient_item_amount' => '',
-						'ingredient_item_unit'   => '',
 						'ingredient_item_label'  => esc_html__( '1 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
-						'ingredient_item_amount' => '',
-						'ingredient_item_unit'   => '',
 						'ingredient_item_label'  => esc_html__( '2 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
-						'ingredient_item_amount' => '',
-						'ingredient_item_unit'   => '',
 						'ingredient_item_label'  => esc_html__( '3 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 					array(
-						'ingredient_item_amount' => '',
-						'ingredient_item_unit'   => '',
 						'ingredient_item_label'  => esc_html__( '4 Ingredient', 'recipe-card-blocks-by-wpzoom' ),
 					),
 				),
