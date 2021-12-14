@@ -124,7 +124,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 			array(
 				array(
 					'slug'  => 'wpzoom-recipe-card',
-					'title' => __( 'WPZOOM - Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
+					'title' => __( 'Recipe Card Blocks', 'recipe-card-blocks-by-wpzoom' ),
 				),
 			)
 		);

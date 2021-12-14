@@ -1,6 +1,6 @@
 === Recipe Card Blocks for Gutenberg & Elementor ===
 Contributors: WPZOOM
-Donate link: https://www.wpzoom.com/
+Donate link: https://recipecard.io/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
 Requires at least: 5.0
 Requires PHP: 5.6
@@ -13,19 +13,21 @@ Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup (JSON-LD) for 
 
 == Description ==
 
-⭐️ **[Recipe Card Blocks PRO](https://www.wpzoom.com/plugins/recipe-card-blocks)** *NOW AVAILABLE!* ⭐️
+👉 **New Website → [recipecard.io](https://recipecard.io)** *NEW!* 👈
 
-📩 [Subscribe to our newsletter](https://www.wpzoom.com/plugins/recipe-card-blocks) for updates
+⭐️ **[Recipe Card Blocks PRO](https://recipecard.io)** *NOW AVAILABLE!* ⭐️
+
+📩 [Subscribe to our newsletter](https://recipecard.io/newsletter/) for updates
 
 [youtube https://www.youtube.com/watch?v=TehuLXQXNi8]
 
-🥑 **[View Demo](https://demo.wpzoom.com/recipe-card-blocks/)** 🥑
+🥑 **[View Demo](https://demo.recipecard.io/)** 🥑
 
 
 > Did you find this plugin helpful? Please consider [leaving a 5-star review](https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/).
 
 
-Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/foodica/), **[Recipe Card Blocks by WPZOOM](https://www.wpzoom.com/plugins/recipe-card-blocks)** is our newest plugin that adds beautiful blocks to the new **Gutenberg editor** to help you create recipe cards easily in your posts.
+Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/foodica/), **[Recipe Card Blocks](https://recipecard.io)** is a powerful recipe plugin that adds beautiful recipe cards to the new **WordPress editor & Elementor** to help you create recipes easily on your food blog.
 
 = 📌 INCLUDED BLOCKS =
 
@@ -65,7 +67,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * Premium Support
 * and many new features coming soon!
 
-⭐️ **[Get the PRO version!](https://www.wpzoom.com/plugins/recipe-card-blocks)** ⭐️
+⭐️ **[Get the PRO version!](https://recipecard.io)** ⭐️
 
 
 
@@ -90,7 +92,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 = 📌 Where I can view a Demo? =
 
-You can view the Recipe Card Block live [here](http://demo.wpzoom.com/recipe-card-blocks/).
+You can view the Recipe Card Block live [here](http://demo.recipecard.io/).
 
 = 🙌 CREDITS & THANKS =
 
@@ -99,21 +101,21 @@ You can view the Recipe Card Block live [here](http://demo.wpzoom.com/recipe-car
 
 = 🙌 FOLLOW US =
 
-* 🐦 [Twitter](https://twitter.com/wpzoom)
-* 📘 [Facebook](https://facebook.com/wpzoom)
-* 🌄 [Instagram](https://instagram.com/wpzoom)
+* 🐦 [Twitter](https://twitter.com/recipeblock)
+* 📘 [Facebook](https://facebook.com/recipeblock)
+* 🌄 [Instagram](https://instagram.com/recipecardblocks)
 
 = GDPR COMPLIANCE =
 
 In order to make the plugin **100% GDPR compliant**, you will have to disable **Google Fonts** in **Settings > Appearance**.
-Recipe Card Blocks by WPZOOM does not collect any information outside your WordPress installation, therefore it’s **100% GDPR compliant**.
+Recipe Card Blocks does not collect any information outside your WordPress installation, therefore it’s **100% GDPR compliant**.
 
 
 == Installation ==
 
 Simply search for the plugin name via the **Plugins -> Add New** dialog and click install, or download and extract the plugin, and copy the plugin folder into your wp-content/plugins directory and activate.
 
-After installation create a new post or edit an existing one using Gutenberg editor, and when adding a new block, look under  **WPZOOM - Recipe Card** section to find these 2 blocks.
+After installation create a new post or edit an existing one using the block editor (Gutenberg), and when adding a new block, look under  **WPZOOM - Recipe Card** section to find these 2 blocks.
 
 
 == Frequently Asked Questions ==
@@ -126,7 +128,7 @@ Make sure you haven't disabled the new block editor using the Classic Editor plu
 
 Yes, you can find a documentation for this plugin with more instructions on our website.
 
-[Go to Documentation](https://www.wpzoom.com/documentation/recipe-card-blocks/)
+[Go to Documentation](https://recipecard.io/documentation/)
 
 = Is it possible to migrate recipes from another plugin? =
 
@@ -146,6 +148,10 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 2.9.1 =
+* Minor bug fix in the Elementor widget
+* Updating links to the new website: https://recipecard.io
 
 = 2.9.0 =
 * Added support for WPML's Advanced Translation Editor (wpml-config.xml file)

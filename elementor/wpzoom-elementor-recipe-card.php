@@ -120,7 +120,7 @@ class WPZOOM_Elementor_Recipe_Card {
 		$elements_manager->add_category(
 			'wpzoom-elementor-recipe-card',
 			array(
-				'title' => esc_html__( 'WPZOOM - Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
+				'title' => esc_html__( 'Recipe Card Blocks', 'recipe-card-blocks-by-wpzoom' ),
 				'icon'  => 'fa fa-plug',
 			)
 		);

@@ -56,7 +56,7 @@ class WPZOOM_Lite_vs_PRO {
 								<?php esc_html_e( 'Need help configuring the plugin? In the documentation you can find all the information that is needed to get started adding recipes in your blog.', 'recipe-card-blocks-by-wpzoom' ); ?>
 							</p>
 							<p><br/>
-								<a href="<?php echo esc_url( __( 'https://www.wpzoom.com/documentation/recipe-card-blocks/', 'recipe-card-blocks-by-wpzoom' ) ); ?>" target="_blank" class="button button-primary">
+								<a href="<?php echo esc_url( __( 'https://recipecard.io/documentation/', 'recipe-card-blocks-by-wpzoom' ) ); ?>" target="_blank" class="button button-primary">
 									<?php esc_html_e( 'Documentation', 'recipe-card-blocks-by-wpzoom' ); ?>
 								</a>
 							</p>
@@ -83,8 +83,8 @@ class WPZOOM_Lite_vs_PRO {
 								<?php esc_html_e( 'If you like the free version of this plugin, you will LOVE the PRO version which includes features like Recipe Ratings, Color Schemes and other useful features to take your food blog to the next level!', 'recipe-card-blocks-by-wpzoom' ); ?>
 							</p>
 							<p>
-								<a href="<?php echo esc_url( __( 'https://www.wpzoom.com/plugins/recipe-card-blocks/', 'recipe-card-blocks-by-wpzoom' ) ); ?>" target="_blank" class="button button-primary">
-									<?php esc_html_e( 'Upgrade to Recipe Card Blocks PRO', 'recipe-card-blocks-by-wpzoom' ); ?>
+								<a href="<?php echo esc_url( __( 'https://recipecard.io/', 'recipe-card-blocks-by-wpzoom' ) ); ?>" target="_blank" class="button button-primary">
+									<?php esc_html_e( 'Get the PRO version &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?>
 								</a>
 							</p>
 						</div><hr /><br/>
@@ -149,6 +149,31 @@ class WPZOOM_Lite_vs_PRO {
 						<td><span class="dashicons dashicons-no"></span></td>
 						<td><span class="dashicons dashicons-yes"></span></td>
 					</tr>
+                    <tr>
+                        <td class="table-index"><h3><?php esc_html_e( 'Comments Rating', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td><span class="dashicons dashicons-no"></span></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="table-index"><h3><?php esc_html_e( 'Social Call-to-actions', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td><span class="dashicons dashicons-no"></span></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="table-index"><h3><?php esc_html_e( 'Adjustable Servings', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td><span class="dashicons dashicons-no"></span></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="table-index"><h3><?php esc_html_e( 'Food Labels', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td><span class="dashicons dashicons-no"></span></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="table-index"><h3><?php esc_html_e( 'Image Gallery & Lightbox', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td><span class="dashicons dashicons-no"></span></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
+                    </tr>
 					<tr>
 						<td class="table-index"><h3><?php esc_html_e( 'Hide Footer Credit', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
 						<td><span class="dashicons dashicons-no"></span></td>

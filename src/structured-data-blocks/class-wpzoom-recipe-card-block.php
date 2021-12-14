@@ -536,8 +536,8 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_footer_copyright' ) ) {
 			$footer_copyright = '<div class="footer-copyright">
-		        	<p>' . esc_html__( 'Recipe Card plugin by ', 'recipe-card-blocks-by-wpzoom' ) . '
-		        		<a href="https://www.wpzoom.com/plugins/recipe-card-blocks/" target="_blank" rel="nofollow noopener noreferrer">WPZOOM</a>
+		        	<p><a href="https://recipecard.io/" target="_blank" rel="nofollow noopener noreferrer">WordPress Recipe Plugin</a>
+                        ' . esc_html__( 'by WPZOOM', 'recipe-card-blocks-by-wpzoom' ) . '
 		        	</p>
 		        </div>';
 		}
