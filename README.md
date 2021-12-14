@@ -1,4 +1,4 @@
-# [Recipe Card Blocks by WPZOOM](https://www.wpzoom.com/plugins/recipe-card-blocks/) #
+# [Recipe Card Blocks for WordPress & Elementor](https://recipecard.io/) #
 
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/recipe-card-blocks-by-wpzoom.svg) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/recipe-card-blocks-by-wpzoom.svg) ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/recipe-card-blocks-by-wpzoom.svg) ![WordPress Compatibility](https://img.shields.io/wordpress/v/recipe-card-blocks-by-wpzoom.svg) [![Build Status](https://img.shields.io/travis/wpzoom/recipe-card-blocks-by-wpzoom/master.svg)](https://travis-ci.org/wpzoom/recipe-card-blocks-by-wpzoom) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/wpzoom/recipe-card-blocks-by-wpzoom/blob/master/license.txt)
 
@@ -6,10 +6,10 @@
 
 **Beautiful Recipe Card Blocks** for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
 
-⭐️ **[Recipe Card Blocks PRO](https://www.wpzoom.com/plugins/recipe-card-blocks)** *NOW AVAILABLE!* ⭐️
+⭐️ **[Recipe Card Blocks PRO](https://recipecard.io)** *NOW AVAILABLE!* ⭐️
 
 
-[View Demo](https://demo.wpzoom.com/recipe-card-blocks/)
+[View Demo](https://demo.recipecard.io/)
 
 Did you find this plugin helpful? Please consider leaving a [5-star review](https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/).
 
@@ -46,7 +46,7 @@ Did you find this plugin helpful? Please consider leaving a [5-star review](http
 * Premium Support
 * and many new features coming soon!
 
-⭐️ **[Get the PRO version!](https://www.wpzoom.com/plugins/recipe-card-blocks)** ⭐️
+⭐️ **[Get the PRO version!](https://recipecard.io)** ⭐️
 
 = 🙌 CREDITS & THANKS =
 
@@ -75,7 +75,7 @@ After installation create a new post or edit an existing one using Gutenberg edi
 
 Yes, you can find a documentation for this plugin with more instructions on our website.
 
-[Go to Documentation](https://www.wpzoom.com/documentation/recipe-card-blocks/)
+[Go to Documentation](https://recipecard.io/documentation/)
 
 
 ## Bugs ##
