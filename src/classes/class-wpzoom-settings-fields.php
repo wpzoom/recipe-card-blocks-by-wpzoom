@@ -23,7 +23,7 @@ class WPZOOM_Settings_Fields {
 	/**
 	 * @var array $fields_type
 	 */
-	private $fields_type = array( 'checkbox', 'select', 'multiselect', 'input', 'textarea', 'button' );
+	private $fields_type = array( 'checkbox', 'select', 'multiselect', 'input', 'textarea', 'button', 'scan_button' );
 
 	/**
 	 * The Constructor.
@@ -205,6 +205,73 @@ class WPZOOM_Settings_Fields {
 		<?php endif ?>
 
 		<?php
+	}
+
+	/**
+	 * HTML for Search Recipe Cards Button field type
+	 * 
+	 * @param array $args 
+	 * @return void
+	 */
+	public function scan_button( $args ) {
+		$text 			= isset( $args['text'] ) ? $args['text'] : __( 'Recipe Search', 'recipe-card-blocks-by-wpzoom' );
+		$type 			= isset( $args['type'] ) ? $args['type'] : 'submit';
+		$button_type 	= isset( $args['button_type'] ) ? $args['button_type'] : 'primary large';
+		$name 			= isset( $args['label_for'] ) ? $args['label_for'] : 'wpzoom_rcb_button_field_submit';
+		$wrap 			= isset( $args['wrap'] ) ? $args['wrap'] : false;
+
+		if ( ! is_array( $button_type ) ) {
+			$button_type = explode( ' ', $button_type );
+		}
+
+		$button_shorthand = array( 'primary', 'small', 'large' );
+		$classes          = array( 'button', 'button-secondary' );
+
+		foreach ( $button_type as $t ) {
+			if ( 'secondary' === $t || 'button-secondary' === $t ) {
+				continue;
+			}
+			$classes[] = in_array( $t, $button_shorthand ) ? 'button-' . $t : $t;
+		}
+		// Remove empty items, remove duplicate items, and finally build a string.
+		$class = implode( ' ', array_unique( array_filter( $classes ) ) );
+
+		$id = $name;
+
+		if ( isset( $args['badge'] ) ) { echo $args['badge']; }
+
+		$this->create_nonce_field( $args );
+
+
+		echo sprintf(
+			'<input type="%s" name="%s" id="%s" class="%s" value="%s">',
+			esc_attr( $type ),
+			esc_attr( $name ),
+			esc_attr( $id ),
+			esc_attr( $class ),
+			esc_attr( $text )
+		);
+
+		$search_time = !empty( get_option( 'wpzoom_search_recipes_cards_time' ) ) ? get_option( 'wpzoom_search_recipes_cards_time' ) : '';
+		$style_display = !empty( $search_time ) ? 'block' : 'none';
+		?>
+		<span class="wpzoom-recipe-card-search-note" style="line-height:30px;margin-left:10px;display:none;">
+			<strong id="wpzoom_recipe_cards_result_amount">0</strong>
+			<?php esc_html_e( 'Recipe Cards found! You can manage them', 'recipe-card-blocks-by-wpzoom' ) ?> 
+			<a href="<?php echo admin_url( 'edit.php?post_type=wpzoom_rcb' ) ?>"><?php esc_html_e( 'here', 'recipe-card-blocks-by-wpzoom' ) ?></a>
+		</span>
+		<p id="wpzoom_search_result" class="description" style="display:<?php echo $style_display ?>;margin-bottom:20px;">
+			<small><?php esc_html_e( 'Last Search: ', 'recipe-card-blocks-by-wpzoom' ); ?><span><?php echo $search_time; ?></span></small>
+		</p>
+
+
+		<?php if ( isset( $args['description'] ) ): ?>
+			<p class="description">
+				<?php echo $args['description']; ?>
+			</p>
+		<?php endif ?>
+
+	<?php
 	}
 
 	/**

@@ -16,6 +16,7 @@ import './wpzoom-blocks/jump-to-recipe/block.js';
 import './wpzoom-blocks/print-recipe/block.js';
 import './wpzoom-blocks/recipe-card/block.js';
 import './wpzoom-blocks/nutrition/block.js';
+import './wpzoom-blocks/recipe-block-from-posts/block.js';
 
 /* Internal dependencies */
 import icon from './icon';

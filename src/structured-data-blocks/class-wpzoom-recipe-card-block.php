@@ -313,6 +313,33 @@ class WPZOOM_Recipe_Card_Block {
 		// Recipe post variables
 		self::$recipe              = get_post();
 		$recipe_ID                 = get_the_ID( self::$recipe );
+
+		$atts = array();
+		if( has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) ) {
+			global $post;
+			$gutenberg_matches = array();
+			$gutenberg_patern = '/<!--\s+wp:(wpzoom\-recipe\-card\/recipe\-block\-from\-posts)(\s+(\{.*?\}))?\s+(\/)?-->/';
+			preg_match_all( $gutenberg_patern, $post->post_content, $matches );
+			if ( isset( $matches[3] ) ) {
+				foreach ( $matches[3] as $block_attributes_json ) {
+					if ( ! empty( $block_attributes_json ) ) {
+						$atts = json_decode( $block_attributes_json, true );
+					}
+				}
+			}
+			if( isset( $atts['postId'] ) ) {
+				$parentRecipe_ID = get_post_meta( $atts['postId'], '_wpzoom_rcb_parent_post_id', true );
+				if( !empty( $parentRecipe_ID ) ) {
+					$recipe_ID = $parentRecipe_ID;
+				}
+				else {
+					$recipe_ID = $atts['postId'];
+				}
+			}
+		}
+
+		self::$recipe->ID               = $recipe_ID;
+
 		$recipe_title              = get_the_title( self::$recipe );
 		$recipe_thumbnail_url      = get_the_post_thumbnail_url( self::$recipe );
 		$recipe_thumbnail_id       = get_post_thumbnail_id( self::$recipe );

@@ -103,6 +103,11 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-print-template-manager.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-print.php';
 
+			//Added January 2022
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-custom-post.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-scanner.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-post-saver.php';
+
 			if ( class_exists( '\Elementor\Plugin' ) ) {
 				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-elementor.php';
 			}

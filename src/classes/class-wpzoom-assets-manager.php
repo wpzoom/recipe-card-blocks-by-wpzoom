@@ -321,6 +321,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 					has_block( 'wpzoom-recipe-card/block-print-recipe' ) ||
 					has_block( 'wpzoom-recipe-card/block-jump-to-recipe' ) ||
 					has_block( 'wpzoom-recipe-card/block-recipe-card' ) ||
+					has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) ||
 					has_block( 'wpzoom-recipe-card/block-nutrition' );
 
 				$has_reusable_block =
@@ -330,6 +331,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 					self::has_reusable_block( 'wpzoom-recipe-card/block-print-recipe' ) ||
 					self::has_reusable_block( 'wpzoom-recipe-card/block-jump-to-recipe' ) ||
 					self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) ||
+					self::has_reusable_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) ||
 					self::has_reusable_block( 'wpzoom-recipe-card/block-nutrition' );
 
 				$posts_loop_page = is_home() || is_archive() || is_search();
@@ -433,7 +435,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 			if (
 				! is_admin() &&
-				( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) )
+				( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) || has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) )
 			) {
 				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
 			}

@@ -850,6 +850,68 @@ class WPZOOM_Settings {
 					),
 				),
 			),
+			//Added Tools - date: Januare 2022
+			'tools' => array(
+				'tab_id'        => 'tab-tools',
+				'tab_title'    => esc_html__( 'Tools', 'recipe-card-blocks-by-wpzoom' ),
+				'option_group' => 'wpzoom-recipe-card-settings-tools',
+				'option_name' 	=> self::$option,
+				'sections' 		=> array(
+					array(
+						'id' 		=> 'wpzoom_section_tools',
+						'title' 	=> esc_html__( 'Tools', 'recipe-card-blocks-by-wpzoom' ),
+						'page' 		=> 'wpzoom-recipe-card-settings-tools',
+						'callback' 	=> '__return_false',
+						'fields' 	=> array(
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_search_recipes',
+								'title' 	=> esc_html__( 'Search Recipes', 'recipe-card-blocks-by-wpzoom' ),
+								'type'		=> 'scan_button',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_search_recipes',
+									'type'			=> 'button',
+									'button_type'	=> 'secondary',
+									'text' 			=> esc_html__( 'Search Recipes', 'recipe-card-blocks-by-wpzoom' ),
+									'description' 	=> esc_html__( 'Go through all posts and pages on your website to find all recipe card blocks and create custom Recipe posts', 'recipe-card-blocks-by-wpzoom' ),
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_create_recipe_post',
+								'title' 	=> esc_html__( 'Create Recipe Post?', 'recipe-card-blocks-by-wpzoom' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_create_recipe_post',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Once Recipe Card Block is added to the page or post content will create the custom type post with the same recipe block', 'recipe-card-blocks-by-wpzoom' ),
+									'default'		=> true
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_update_recipe_post',
+								'title' 	=> esc_html__( 'Update Recipe Post?', 'recipe-card-blocks-by-wpzoom' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_update_recipe_post',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Once Recipe Card Block is updated in the parent page or parent post content will update the recipe block in the custom Recipe post', 'recipe-card-blocks-by-wpzoom' ),
+									'default'		=> true
+								)
+							),
+							array(
+								'id' 		=> 'wpzoom_rcb_settings_synchronize_recipe_post',
+								'title' 	=> esc_html__( 'Synchronize Recipe Post?', 'recipe-card-blocks-by-wpzoom' ),
+								'type'		=> 'checkbox',
+								'args' 		=> array(
+									'label_for' 	=> 'wpzoom_rcb_settings_synchronize_recipe_post',
+									'class' 		=> 'wpzoom-rcb-field',
+									'description' 	=> esc_html__( 'Synchronize the content of the Recipe Card Block in CPT and Parent page/post. ', 'recipe-card-blocks-by-wpzoom' ),
+									'default'		=> true
+								)
+							),
+						)
+					)
+				)	
+			),
 			'metadata'    => array(
 				'tab_id'       => 'tab-metadata',
 				'tab_title'    => __( 'Metadata', 'recipe-card-blocks-by-wpzoom' ),
