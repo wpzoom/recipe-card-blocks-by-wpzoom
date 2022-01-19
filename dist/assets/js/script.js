@@ -1,6 +1,16 @@
 (function ($, wpzoomRecipeCard) {
 	"use scrict";
 
+	function wpzoom_set_correct_ids_to_recipe_shortcode() {
+		$('.wpzoom-rcb-post-shortcode').each(function( index ) {
+			var parent_id = $(this).data('parent-id');
+
+			$(this).find('.btn-print-link').attr( 'data-recipe-id', parent_id );
+			$(this).find('.wpzoom-rating-stars-container').attr( 'data-recipe-id', parent_id );
+
+		});
+	}
+
 	function wpzoom_set_servings_size_to_print_button() {
 		const servings_size = $(document)
 			.find(".wpzoom-recipe-card-print-link .btn-print-link")
@@ -211,6 +221,7 @@
 				}
 			});
 		});
+		wpzoom_set_correct_ids_to_recipe_shortcode();
 	});
 })(jQuery, wpzoomRecipeCard);
 

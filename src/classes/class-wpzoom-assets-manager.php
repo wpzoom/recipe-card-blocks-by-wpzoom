@@ -322,7 +322,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 					has_block( 'wpzoom-recipe-card/block-jump-to-recipe' ) ||
 					has_block( 'wpzoom-recipe-card/block-recipe-card' ) ||
 					has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) ||
-					has_block( 'wpzoom-recipe-card/block-nutrition' );
+					has_block( 'wpzoom-recipe-card/block-nutrition' ) ||
+					self::has_cpt_rcb_elementor_widget();
 
 				$has_reusable_block =
 					self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) ||
@@ -435,7 +436,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 			if (
 				! is_admin() &&
-				( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) || has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) )
+				( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) || has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) || self::has_cpt_rcb_elementor_widget() )
 			) {
 				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
 			}
@@ -443,6 +444,40 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			if ( is_home() || is_archive() || is_search() ) {
 				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
 			}
+		}
+
+		/**
+		 * Check the content has cpt rcb elementor widget
+		 *
+		 * @since  2.9.1
+		 * @param  int         $post_id The post ID.
+		 * @param  boolean|int $content The post content.
+		 * @return boolean     Return true if post content has cpt rcb elementor widget, else return false.
+		 */
+		public static function has_cpt_rcb_elementor_widget( $post_id = 0, $content = '' ) {
+
+			if ( !defined( 'ELEMENTOR_VERSION' ) && !is_callable( 'Elementor\Plugin::instance' ) ) {
+				return false;
+			}
+
+			$post_id = $post_id > 0 ? $post_id : get_the_ID();
+			
+			$elementor_data = get_post_meta( $post_id, '_elementor_data' );	
+
+			if ( isset( $elementor_data[0] ) ) {
+
+				$regExp = '/"widgetType":"([^"]*)/i';
+				$outputArray = array();
+		
+				if ( preg_match_all( $regExp, $elementor_data[0], $outputArray, PREG_SET_ORDER) ) {}
+				foreach( $outputArray as $found ) {
+					if( in_array( 'wpzoom-elementor-recipe-card-widget-cpt', $found ) ) {
+						return true;
+					}
+				}	
+			}
+			
+			return false;
 		}
 
 		/**
