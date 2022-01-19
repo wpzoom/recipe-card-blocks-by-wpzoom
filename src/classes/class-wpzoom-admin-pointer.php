@@ -58,7 +58,9 @@ class WPZOOM_Admin_Menu_Pointer {
 								'wp-pointer arrow-left',
 
 							pointerWidth: 380,
-							
+							show: function(event, t){
+								t.pointer.css({'position':'fixed'});
+							},
 							close: function() {
 								jQuery.post(
 									ajaxurl,
