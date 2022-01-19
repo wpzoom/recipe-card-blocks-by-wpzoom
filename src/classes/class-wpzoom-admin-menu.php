@@ -31,7 +31,7 @@ class WPZOOM_Admin_Menu {
 	public function register_menus() {
 		add_menu_page(
 			esc_html__( 'Recipe Card Settings', 'recipe-card-blocks-by-wpzoom' ),
-			esc_html__( 'Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html__( 'Recipe Cards', 'recipe-card-blocks-by-wpzoom' ),
 			'manage_options',
 			WPZOOM_RCB_SETTINGS_PAGE,
 			array( $this, 'admin_page' ),
