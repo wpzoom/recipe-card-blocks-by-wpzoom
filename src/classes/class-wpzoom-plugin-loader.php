@@ -108,6 +108,8 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-scanner.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-post-saver.php';
 
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-admin-pointer.php';
+
 			if ( class_exists( '\Elementor\Plugin' ) ) {
 				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-elementor.php';
 			}
