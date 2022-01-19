@@ -30,7 +30,7 @@ class WPZOOM_Admin_Menu {
 	 */
 	public function register_menus() {
 		add_menu_page(
-			esc_html__( 'WPZOOM Recipe Card Settings', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html__( 'Recipe Card Settings', 'recipe-card-blocks-by-wpzoom' ),
 			esc_html__( 'Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
 			'manage_options',
 			WPZOOM_RCB_SETTINGS_PAGE,
@@ -42,7 +42,7 @@ class WPZOOM_Admin_Menu {
 		// WPZOOM Recipe Card sub menu item.
 		add_submenu_page(
 			WPZOOM_RCB_SETTINGS_PAGE,
-			esc_html__( 'WPZOOM Recipe Card Settings', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html__( 'Recipe Card Settings', 'recipe-card-blocks-by-wpzoom' ),
 			esc_html__( 'Settings', 'recipe-card-blocks-by-wpzoom' ),
 			'manage_options',
 			WPZOOM_RCB_SETTINGS_PAGE,
@@ -51,7 +51,7 @@ class WPZOOM_Admin_Menu {
 
 		add_submenu_page(
 			WPZOOM_RCB_SETTINGS_PAGE,
-			esc_html__( 'WPZOOM Recipe Card Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html__( 'Recipe Card Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ),
 			'<span style="color:#FFA921">' . esc_html__( 'Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ) . '</span>',
 			'manage_options',
 			'wpzoom-recipe-card-vs-pro',

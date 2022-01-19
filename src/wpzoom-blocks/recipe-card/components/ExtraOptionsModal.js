@@ -258,8 +258,6 @@ function ExtraOptionsModal(
                     onRequestClose={ () => setState( { isOpen: false } ) }>
                     <div className="wpzoom-recipe-card-extra-options" style={ { maxWidth: 720 + 'px', maxHeight: 525 + 'px' } }>
                         <div className="form-group">
-                            <p className="bulk-add-danger-alert"><strong>{ __( 'Known Problem', 'recipe-card-blocks-by-wpzoom' ) }:</strong> { __( 'There is a conflict with specific keyboard keys and this feature. To fix the conflict, simply enable the', 'recipe-card-blocks-by-wpzoom' ) } <strong>{ __( 'Top Toolbar', 'recipe-card-blocks-by-wpzoom' ) }</strong> { __( 'option in the editor options (click on the ⋮ three dots from right-top corner).', 'recipe-card-blocks-by-wpzoom' ) } <br /> <a href="https://wp.md/toolbar" target="_blank" rel="noopener noreferrer">{ __( 'View how to do this', 'recipe-card-blocks-by-wpzoom' ) }</a></p>
-                            <br />
                             <div className="wrap-content">
                                 <TextareaControl
                                     label={ __( 'Insert Ingredients', 'recipe-card-blocks-by-wpzoom' ) }
