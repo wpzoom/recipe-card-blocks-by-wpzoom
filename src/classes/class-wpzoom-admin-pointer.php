@@ -38,6 +38,8 @@ class WPZOOM_Admin_Menu_Pointer {
         wp_enqueue_style( 'wp-pointer' );
         wp_enqueue_script( 'wp-pointer' );
 
+		$recipes_link = admin_url( 'edit.php?post_type=wpzoom_rcb' );
+
 		if ( !get_user_meta( get_current_user_id(), 'rcb-recipe-slug-dismissed', true ) ) :
 		?>
 			<script>
@@ -47,7 +49,7 @@ class WPZOOM_Admin_Menu_Pointer {
 						{
 							content:
 								"<h3>Recipe Cards Block update!<\/h3>" +
-								"<p>Great news! You can now view all your recipes created using <strong>Recipe Card Blocks</strong> on the <strong>All Recipes</strong> page. Managing your recipes or <stong>adding new ones</stong> has become much easier!</p>",
+								"<p>Great news! You can now view all your recipes created using <strong>Recipe Card Blocks</strong> on the <a href='<?php echo esc_url( $recipes_link ); ?>'><strong>All Recipes</strong></a> page. Managing your recipes or <stong>adding new ones</stong> has become much easier!</p>",
 							position:
 								{
 									edge:  'left',
