@@ -86,7 +86,7 @@ class WPZOOM_Custom_Post {
 				'cb'              => '<input type="checkbox" />',
 				'title'           => esc_html__( 'Recipe Title', 'recipe-card-blocks-by-wpzoom' ),
 				'parent_post'     => esc_html__( 'Parent', 'recipe-card-blocks-by-wpzoom' ),
-				'used_in'         => esc_html__( 'Posts contain the recipe', 'recipe-card-blocks-by-wpzoom' ),
+				'used_in'         => esc_html__( 'Posts containing this recipe', 'recipe-card-blocks-by-wpzoom' ),
 				'date'            => esc_html__( 'Date', 'recipe-card-blocks-by-wpzoom' )
 		);
 		//return $columns;
