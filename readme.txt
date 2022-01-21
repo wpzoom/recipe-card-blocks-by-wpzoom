@@ -146,8 +146,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 4. Preview of Recipe Card Block
 5. Additional Design for Block
 6. Block Editor
-7. Settings Page
+7. Recipes Page
 8. Mobile Design
+9. Settings page
 
 
 == Changelog ==
