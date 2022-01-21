@@ -70,6 +70,9 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 ⭐️ **[Get the PRO version!](https://recipecard.io)** ⭐️
 
 
+= 📌 WHAT'S NEW IN 3.0? =
+* You can now view all your recipes created using Recipe Card Blocks on the All Recipes page. Managing your recipes or adding new ones has become much easier!
+* Added a new tool to collect all recipes from all posts and organize them in the new Recipes section
 
 = 📌 WHAT'S NEW IN 2.3? =
 * Added **Video Recipe** feature in the block
