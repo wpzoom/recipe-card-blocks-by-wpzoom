@@ -882,7 +882,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_create_recipe_post',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Once Recipe Card Block is added to the page or post content will create the custom type post with the same recipe block', 'recipe-card-blocks-by-wpzoom' ),
+									'description' 	=> esc_html__( 'If a Recipe Card Block is added to a post, it will create a custom Recipe post type (CPT) in the All Recipes section', 'recipe-card-blocks-by-wpzoom' ),
 									'default'		=> true
 								)
 							),
@@ -893,7 +893,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_update_recipe_post',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Once Recipe Card Block is updated in the parent page or parent post content will update the recipe block in the custom Recipe post', 'recipe-card-blocks-by-wpzoom' ),
+									'description' 	=> esc_html__( 'If a Recipe is updated on a page or post, it will also update the Recipe post.', 'recipe-card-blocks-by-wpzoom' ),
 									'default'		=> true
 								)
 							),
@@ -904,7 +904,7 @@ class WPZOOM_Settings {
 								'args' 		=> array(
 									'label_for' 	=> 'wpzoom_rcb_settings_synchronize_recipe_post',
 									'class' 		=> 'wpzoom-rcb-field',
-									'description' 	=> esc_html__( 'Synchronize the content of the Recipe Card Block in CPT and Parent page/post. ', 'recipe-card-blocks-by-wpzoom' ),
+									'description' 	=> esc_html__( 'Synchronize the content of the Recipe post and parent post. ', 'recipe-card-blocks-by-wpzoom' ),
 									'default'		=> true
 								)
 							),
