@@ -158,7 +158,7 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 			
 			if( !empty( $recipes ) ) {
 				foreach( $recipes as $recipe ) {
-					WPZOOM_Recipe_Post_Saver::create_recipe_post( $recipe );
+					WPZOOM_Recipe_Post_Saver::create_recipe_post( $recipe, true );
 				}
 			}
 

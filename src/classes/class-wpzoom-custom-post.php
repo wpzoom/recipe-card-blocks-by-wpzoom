@@ -74,6 +74,50 @@ class WPZOOM_Custom_Post {
 		add_action( 'admin_footer', array( $this, 'add_cpt_message' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_js_notification' ) );
 
+		// Update the columns shown on the custom post type edit.php view - so we also have custom columns
+		add_filter( 'manage_wpzoom_rcb_posts_columns' , array( $this, 'recipe_post_type_columns' ) );
+		add_action( 'manage_wpzoom_rcb_posts_custom_column' , array( $this,'fill_custom_post_type_columns' ), 10, 2 );
+
+	}
+
+	public function recipe_post_type_columns( $columns ) {
+
+		return array(
+				'cb'              => '<input type="checkbox" />',
+				'title'           => esc_html__( 'Recipe Title', 'recipe-card-blocks-by-wpzoom' ),
+				'parent_post'     => esc_html__( 'Parent', 'recipe-card-blocks-by-wpzoom' ),
+				'used_in'         => esc_html__( 'Posts contain the recipe', 'recipe-card-blocks-by-wpzoom' ),
+				'date'            => esc_html__( 'Date', 'recipe-card-blocks-by-wpzoom' )
+		);
+		//return $columns;
+	}
+
+	public function fill_custom_post_type_columns( $column, $post_id ) {
+
+
+		$parent_id = get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
+		
+		// Fill in the columns with meta box info associated with each post
+		switch ( $column ) {
+
+			case 'parent_post' :
+				$parent_title = get_the_title( $parent_id ) . '<br/>';
+				$parent_edit  =  '<a href="' . get_edit_post_link( $parent_id ) . '">' . esc_html__( '(edit)','recipe-card-blocks-by-wpzoom' ) . '</a>';
+				$parent_view  = 'wpzoom_rcb' !== get_post_type( $parent_id ) ? '<a href="' . get_the_permalink( $parent_id ) . '" target="_blank">' . esc_html__( '(view) ', 'recipe-card-blocks-by-wpzoom' ) . '</a>' : '';
+
+				echo $parent_title . ' ' . $parent_edit . ' ' . $parent_view;
+			break;
+
+			case 'used_in' :
+				$used_in = get_post_meta( $post_id, '_wpzoom_rcb_used_in', true );
+				$used_in = explode( ",", $used_in );
+				foreach( $used_in as $p ) {
+					if( !empty( $p ) && 'publish' == get_post_status( $p ) ) {
+						echo '<a href="' . get_edit_post_link( $p ) . '">' . get_the_title( $p ) . '</a><br/>';
+					}
+				}
+			break;
+		}
 	}
 
 	public function add_cpt_message() {
@@ -85,6 +129,8 @@ class WPZOOM_Custom_Post {
 		if ( $box_transient ) {
 			return;
 		}
+
+		
 
 		if( 'post-new.php' !== $pagenow && isset( $_GET['post_type'] ) && $_GET['post_type'] == 'wpzoom_rcb' ) {
 
@@ -377,7 +423,9 @@ class WPZOOM_Custom_Post {
 
 	public function render_metabox( $post ) {
 
-		$value = get_post_meta( $post->ID, '_wpzoom_rcb_parent_post_id', true );
+		$value      = get_post_meta( $post->ID, '_wpzoom_rcb_parent_post_id', true );
+		$used_in    = get_post_meta( $post->ID, '_wpzoom_rcb_used_in', true );
+		$has_parent = get_post_meta( $post->ID, '_wpzoom_rcb_has_parent', true );
 
 		if( !empty( $value ) ) {
 			if( 'publish' !== get_post_status( $value ) ) {
@@ -393,7 +441,10 @@ class WPZOOM_Custom_Post {
 		else {
 			echo '<div style="margin-bottom:20px;" class="wpzoom-cpt-metabox">' . esc_html__( 'This Recipe Card Post is created by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . get_the_author_link() . '</div>';
 		}
+
 		echo '<input type="hidden" name="wpzoom_rcb_parent_post_id" value="' . esc_attr( $value )  . '"/>';
+		echo '<input type="hidden" name="wpzoom_rcb_has_parent" value="' . esc_attr( $has_parent ) . '"/>';
+		echo '<input type="hidden" name="wpzoom_rcb_used_in"    value="' . esc_attr( $used_in ) . '"/>';
 	
 	}
 
@@ -424,6 +475,15 @@ class WPZOOM_Custom_Post {
 		if( isset( $_POST['wpzoom_rcb_parent_post_id'] ) ) {
 			update_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', $_POST['wpzoom_rcb_parent_post_id'] );
 		}
+
+		if( isset( $_POST['wpzoom_rcb_has_parent'] ) ) {
+			update_post_meta( $post_id, '_wpzoom_rcb_has_parent', $_POST['wpzoom_rcb_has_parent'] );
+		}
+
+		if( isset( $_POST['wpzoom_rcb_used_in'] ) ) {
+			update_post_meta( $post_id, '_wpzoom_rcb_used_in', $_POST['wpzoom_rcb_used_in'] );
+		}
+
 	}
 
 }
