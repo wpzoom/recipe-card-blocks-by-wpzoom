@@ -2,10 +2,10 @@
 Contributors: WPZOOM
 Donate link: https://recipecard.io/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
-Requires at least: 5.0
+Requires at least: 5.7
 Requires PHP: 5.6
-Tested up to: 5.8
-Stable tag: 2.9.1
+Tested up to: 5.8.3
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
