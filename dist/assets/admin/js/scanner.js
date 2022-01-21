@@ -15,15 +15,18 @@ jQuery(document).ready(function(){
 			$.post( Scanner.ajaxUrl, data, function(response){
 				if ( response.success ) {
 					$this.val( response.data.process );
-					setTimeout(
-						function() { 
-							$this.val( originVal );
-						}, 5000
-					);
 					$('#wpzoom_search_result').fadeIn( "slow", function() {});
 					$('.wpzoom-recipe-card-search-note').fadeIn( "slow", function() {});
 					$('#wpzoom_search_result span').html( response.data.searchTime );
 					$('#wpzoom_recipe_cards_result_amount').html( response.data.recipes );
+					setTimeout(
+						function() { 
+							$this.val( originVal );
+							if( $('#wpzoom_cpt_empty_message') && 0 !== response.data.recipes ) {
+								location.reload();	
+							};
+						}, 3000
+					);
 					//console.log( response );
 				}
 			});
