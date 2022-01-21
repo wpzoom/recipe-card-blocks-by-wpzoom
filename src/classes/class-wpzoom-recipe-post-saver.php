@@ -49,7 +49,95 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 		
 			add_action( 'save_post', array( __CLASS__, 'duplicate_recipe_to_custom_post' ), 10, 2 );
 			add_action( 'save_post', array( __CLASS__, 'update_parent_recipe_card' ), 10, 2 );
+			add_action( 'save_post', array( __CLASS__, 'check_cpt_block' ), 10, 2 );
 			
+		}
+
+		/**
+		 * Check if the page/post content has the CPT block.
+		 *
+		 * @since    1.0.0
+		 * @param    array $post_id post ID with recipe card block in content.
+		 */
+		public static function check_cpt_block( $post_id, $post ) {
+
+			// If this is a revision, get real post
+			$revision_parent = wp_is_post_revision( $post );
+			if ( $revision_parent ) {
+				$post = get_post( $revision_parent );
+			}	
+
+			if( 'post' !== $post->post_type && 'page' !== $post->post_type ) {
+				return;
+			}
+
+			//Check it's not an auto save routine
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+			return;
+
+			//Perform permission checks! For example:
+			if ( ! current_user_can( 'edit_post', $post_id ) ) 
+			return;
+
+			//Don't do anything if there is no recipe card
+			if( ! has_block( 'wpzoom-recipe-card/recipe-block-from-posts', $post ) ) {
+				//return;
+			}
+
+			$existing_recipes = get_posts(
+				array(  
+					'post_type'   => 'wpzoom_rcb',
+					'numberposts' => -1
+				)
+			);
+
+			foreach( $existing_recipes as $key => $recipe ) {
+				$postsIds = get_post_meta( $recipe->ID, '_wpzoom_rcb_used_in', true );
+				if( !empty( $postsIds ) ) {
+					$postsIds = explode( ",", $postsIds );
+					if ( ( $searchedId = array_search( $post->ID, $postsIds ) ) !== false ) {
+						unset( $postsIds[ $searchedId ] );
+					}
+					$postsIds = implode( ',', $postsIds );
+				}
+				update_post_meta( $recipe->ID, '_wpzoom_rcb_used_in', $postsIds );
+			}
+
+			$gutenberg_matches = array();
+			$gutenberg_patern = '/<!--\s+wp:(wpzoom\-recipe\-card\/recipe\-block\-from\-posts)(\s+(\{.*?\}))?\s+(\/)?-->/';
+			preg_match_all( $gutenberg_patern, $post->post_content, $matches );
+
+			if( isset( $matches[0] ) ) {
+				$block = $matches[0];
+			}
+			if ( isset( $matches[3] ) ) {
+				foreach ( $matches[3] as $block_attributes_json ) {
+					if ( ! empty( $block_attributes_json ) ) {
+						$attributes = json_decode( $block_attributes_json, true );
+					}
+				}
+			}
+
+			if( isset( $attributes['postId'] ) ) {
+
+				$recipe_id = $attributes['postId'];
+
+				$used_in = get_post_meta( $recipe_id, '_wpzoom_rcb_used_in', true );
+				if( !empty( $used_in ) ) {
+					$postsArr = explode( ",", $used_in );
+				}
+				$postsArr[] = $post->ID;
+				$postsArr = array_unique( $postsArr );
+				$meta_value = implode( ',', $postsArr );
+
+				//print_r( array( $postsArr ) );
+				update_post_meta( $recipe_id, '_wpzoom_rcb_used_in', $meta_value );
+				
+			}
+			else {
+				return;
+			}
+		
 		}
 
 		/**
@@ -67,6 +155,11 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			}	
 
 			if( 'post' !== $post->post_type && 'page' !== $post->post_type ) {
+				return;
+			}
+			
+			//If moved to trash
+			if( 'trash' === get_post_status( $post_id ) ) {
 				return;
 			}
 
@@ -125,7 +218,6 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			else {
 				return;
 			}
-
 		}
 
 	
@@ -140,7 +232,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			// Don't create any post if option is off
 			if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_synchronize_recipe_post' ) ) {
 				return null;
-			}			
+			}
 
 			// If this is a revision, get real post
 			$revision_parent = wp_is_post_revision( $post );
@@ -149,6 +241,10 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			}	
 
 			if( 'wpzoom_rcb' !== $post->post_type ) {
+				return;
+			}
+			
+			if( 'trash' === get_post_status( $post_id ) ) {
 				return;
 			}
 
@@ -206,10 +302,10 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 		 * @since    1.0.0
 		 * @param		 array $recipe Recipe fields to save.
 		 */
-		public static function create_recipe_post( $recipe ) {
+		public static function create_recipe_post( $recipe, $scan = false ) {
 
-			// Don't create any post if option is off
-			if ( '1' !== WPZOOM_Settings::get('wpzoom_rcb_settings_create_recipe_post') ) {
+			// Don't create any post if option is off	
+			if ( !$scan && '1' !== WPZOOM_Settings::get('wpzoom_rcb_settings_create_recipe_post') ) {
 				return null;
 			}
 
@@ -228,6 +324,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			
 			$recipe_id = wp_insert_post( $post );
 			update_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', $recipe['parentId'] );
+			update_post_meta( $recipe_id, '_wpzoom_rcb_has_parent', true );
 
 			return $recipe_id;
 
@@ -274,6 +371,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			);
 			
 			$recipe_id = wp_update_post( $recipe_post );
+			update_post_meta( $recipe_id, '_wpzoom_rcb_has_parent', true );
 			//update_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', $recipe['parentId'] );
 
 			return $recipe_id;
@@ -285,7 +383,6 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			if( empty( $post_id ) ) {
 				return false;
 			}
-
 
 			$recipes_ids = array();
 			$existing_recipes = get_posts(
