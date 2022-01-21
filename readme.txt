@@ -149,6 +149,11 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Changelog ==
 
+= 3.0.0 =
+* You can now view all your recipes created using Recipe Card Blocks on the All Recipes page. Managing your recipes or adding new ones has become much easier!
+* Added a new tool to collect all recipes from all posts and organize them in the new Recipes section
+* New block: Insert Existing Recipe - new block to insert a full recipe card quickly anywhere you want (in pages, posts, or Elementor)
+
 = 2.9.1 =
 * Minor bug fix in the Elementor widget
 * Updating links to the new website: https://recipecard.io
