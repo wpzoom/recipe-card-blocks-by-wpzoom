@@ -78,6 +78,8 @@ class WPZOOM_Custom_Post {
 		add_filter( 'manage_wpzoom_rcb_posts_columns' , array( $this, 'recipe_post_type_columns' ) );
 		add_action( 'manage_wpzoom_rcb_posts_custom_column' , array( $this,'fill_custom_post_type_columns' ), 10, 2 );
 
+		add_action( 'template_redirect', array( $this, 'redirect_single_recipe_to_404' ) );
+
 	}
 
 	public function recipe_post_type_columns( $columns ) {
@@ -117,6 +119,19 @@ class WPZOOM_Custom_Post {
 					}
 				}
 			break;
+		}
+	}
+
+	//Force recipe card ctp singular to go to 404
+	public function redirect_single_recipe_to_404() {
+
+		if ( is_singular( 'wpzoom_rcb' ) ) {
+			global $wp_query;
+			$wp_query->posts = [];
+			$wp_query->post = null;
+			$wp_query->set_404();
+			status_header(404);
+			nocache_headers();
 		}
 	}
 
@@ -236,7 +251,7 @@ class WPZOOM_Custom_Post {
 			'show_in_nav_menus'     => true,
 			'can_export'            => true,
 			'has_archive'           => true,
-			'exclude_from_search'   => false,
+			'exclude_from_search'   => true,
 			'publicly_queryable'    => false,
 			'rewrite'               => $rewrite,
 			'show_in_rest'          => true,
