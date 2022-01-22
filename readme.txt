@@ -5,7 +5,7 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica,
 Requires at least: 5.7
 Requires PHP: 5.6
 Tested up to: 5.8.3
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -152,6 +152,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.0.1 =
+* Bug fix with the visibility of Recipe posts
 
 = 3.0.0 =
 * You can now view all your recipes created using Recipe Card Blocks on the All Recipes page. Managing your recipes or adding new ones has become much easier!
