@@ -7,6 +7,7 @@ import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 import isUndefined from 'lodash/isUndefined';
 import invoke from 'lodash/invoke';
+import { replace, includes } from 'lodash';
 import ReactPlayer from 'react-player';
 
 /* Internal dependencies */
@@ -42,6 +43,17 @@ import { compose } from '@wordpress/compose';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { positionLeft, positionRight, positionCenter } from '@wordpress/icons';
+
+const fixTastyLinksConflict = ( notes ) => {
+    if ( ! includes( notes, '\\u003c' ) && includes( notes, 'u003c' ) ) {
+        notes = replace( notes, /u003c/g, '<' );
+    }
+    if ( ! includes( notes, '\\u003e' ) && includes( notes, 'u003e' ) ) {
+        notes = replace( notes, /u003e/g, '>' );
+    }
+
+    return notes;
+};
 
 /**
  * Module Constants
@@ -328,6 +340,7 @@ class RecipeCard extends Component {
             postType,
             postTitle,
             postAuthor,
+			onFocus
         } = this.props;
 
         const {
@@ -360,6 +373,7 @@ class RecipeCard extends Component {
             },
         } = attributes;
 
+		const newNotesValue = fixTastyLinksConflict( notes );
         const style = getBlockStyle( className );
         const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
         const hideRecipeImgClass = hide_header_image ? 'recipe-card-noimage' : '';
@@ -646,11 +660,8 @@ class RecipeCard extends Component {
                         className="notes-title"
                         format="string"
                         value={ notesTitle }
-                        unstableOnFocus={ () => this.setFocus( 'notesTitle' ) }
+                        unstableOnFocus={ () => onFocus( 'notesTitle' ) }
                         onChange={ ( notesTitle ) => setAttributes( { notesTitle } ) }
-                        onSetup={ ( ref ) => {
-                            this.editorRefs.notesTitle = ref;
-                        } }
                         placeholder={ __( 'Write Notes title', 'recipe-card-blocks-by-wpzoom' ) }
                         keepPlaceholderOnFocus={ true }
                     />
@@ -658,12 +669,9 @@ class RecipeCard extends Component {
                         className="recipe-card-notes-list"
                         tagName="ul"
                         multiline="li"
-                        value={ notes }
-                        unstableOnFocus={ () => this.setFocus( 'notes' ) }
+                        value={ newNotesValue }
+                        unstableOnFocus={ () => onFocus( 'notes' ) }
                         onChange={ ( newNote ) => setAttributes( { notes: newNote } ) }
-                        onSetup={ ( ref ) => {
-                            this.editorRefs.notes = ref;
-                        } }
                         placeholder={ __( 'Enter Note text for your recipe.', 'recipe-card-blocks-by-wpzoom' ) }
                         keepPlaceholderOnFocus={ true }
                     />
