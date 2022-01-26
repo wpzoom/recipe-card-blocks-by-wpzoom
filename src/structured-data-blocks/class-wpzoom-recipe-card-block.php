@@ -548,6 +548,7 @@ class WPZOOM_Recipe_Card_Block {
 		$recipe_card_video   = self::get_video_content();
 
 		$esc_html_notes = isset( $notes ) ? esc_html( $notes ) : '';
+		$notes          = WPZOOM_Helpers::deserialize_block_attributes( $notes );
 		$notes          = str_replace( '<li></li>', '', $notes ); // remove empty list item
 		$notes_content  = ! empty( $esc_html_notes ) ?
 			sprintf(

@@ -51,6 +51,9 @@ const fixTastyLinksConflict = ( notes ) => {
     if ( ! includes( notes, '\\u003e' ) && includes( notes, 'u003e' ) ) {
         notes = replace( notes, /u003e/g, '>' );
     }
+    if ( ! includes( notes, '\\u0022' ) && includes( notes, 'u0022' ) ) {
+        notes = replace( notes, /u0022/g, '"' );
+    }
 
     return notes;
 };

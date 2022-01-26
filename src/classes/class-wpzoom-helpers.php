@@ -242,6 +242,18 @@ class WPZOOM_Helpers {
 		$embed_url = preg_replace( '/\s*[a-zA-Z\/\/:\.]*vimeo.com\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i', 'https://player.vimeo.com/video/$1', $url );
 		return $embed_url;
 	}
+
+	public static function deserialize_block_attributes( $encoded_attributes ) {
+		
+		$encoded_attributes = preg_replace( '/u002d/', '-', $encoded_attributes );
+		$encoded_attributes = preg_replace( '/u003c/', '<', $encoded_attributes );
+		$encoded_attributes = preg_replace( '/u003e/', '>', $encoded_attributes );
+		$encoded_attributes = preg_replace( '/u0026/', '&', $encoded_attributes );
+		// Regex: /\\"/
+		$encoded_attributes = preg_replace( '/u0022/', '"', $encoded_attributes );
+	 
+		return $encoded_attributes;
+	}
 }
 
 
