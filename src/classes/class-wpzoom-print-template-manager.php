@@ -221,7 +221,7 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 					$summary_text  = sprintf(
 						'<p class="%s">%s</p>',
 						esc_attr( $summary_class ),
-						$summary
+						WPZOOM_Helpers::deserialize_block_attributes( $summary ) 
 					);
 				}
 			}
@@ -231,6 +231,7 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 			$steps_content       = WPZOOM_Recipe_Card_Block::get_steps_content( $steps );
 
 			$strip_tags_notes = isset( $notes ) ? strip_tags( $notes ) : '';
+			$notes            = WPZOOM_Helpers::deserialize_block_attributes( $notes );
 			$notes            = isset( $notes ) ? str_replace( '<li></li>', '', $notes ) : ''; // remove empty list item
 			$notesTitle       = isset( $notesTitle ) ? $notesTitle : WPZOOM_Settings::get( 'wpzoom_rcb_settings_notes_title' );
 			$notes_content    = ! empty( $strip_tags_notes ) ?

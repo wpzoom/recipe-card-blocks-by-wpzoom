@@ -538,7 +538,7 @@ class WPZOOM_Recipe_Card_Block {
 			$summary_text   = sprintf(
 				'<p class="%s">%s</p>',
 				esc_attr( $summary_class ),
-				$summary
+				WPZOOM_Helpers::deserialize_block_attributes( $summary )
 			);
 		}
 
