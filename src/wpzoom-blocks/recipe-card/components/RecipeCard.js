@@ -596,7 +596,7 @@ class RecipeCard extends Component {
                     className="recipe-card-summary"
                     tagName="p"
                     value={ newSummaryValue }
-                    unstableOnFocus={ () => onFocus( 'summary' ) }
+                    unstableOnFocus={ () => this.setFocus( 'summary' ) }
                     onChange={ ( newSummary ) => setAttributes( { summary: newSummary, jsonSummary: stripHTML( renderToString( newSummary ) ) } ) }
                     onSetup={ ( ref ) => {
                         this.editorRefs.summary = ref;
@@ -664,7 +664,7 @@ class RecipeCard extends Component {
                         className="notes-title"
                         format="string"
                         value={ notesTitle }
-                        unstableOnFocus={ () => onFocus( 'notesTitle' ) }
+                        unstableOnFocus={ () => this.setFocus( 'notesTitle' ) }
                         onChange={ ( notesTitle ) => setAttributes( { notesTitle } ) }
                         placeholder={ __( 'Write Notes title', 'recipe-card-blocks-by-wpzoom' ) }
                         keepPlaceholderOnFocus={ true }
@@ -674,7 +674,7 @@ class RecipeCard extends Component {
                         tagName="ul"
                         multiline="li"
                         value={ newNotesValue }
-                        unstableOnFocus={ () => onFocus( 'notes' ) }
+                        unstableOnFocus={ () => this.setFocus( 'notes' ) }
                         onChange={ ( newNote ) => setAttributes( { notes: newNote } ) }
                         placeholder={ __( 'Enter Note text for your recipe.', 'recipe-card-blocks-by-wpzoom' ) }
                         keepPlaceholderOnFocus={ true }
