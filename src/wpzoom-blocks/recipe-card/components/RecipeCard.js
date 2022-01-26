@@ -377,6 +377,7 @@ class RecipeCard extends Component {
         } = attributes;
 
 		const newNotesValue = fixTastyLinksConflict( notes );
+		const newSummaryValue = fixTastyLinksConflict( summary );
         const style = getBlockStyle( className );
         const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
         const hideRecipeImgClass = hide_header_image ? 'recipe-card-noimage' : '';
@@ -594,8 +595,8 @@ class RecipeCard extends Component {
                 <RichText
                     className="recipe-card-summary"
                     tagName="p"
-                    value={ summary }
-                    unstableOnFocus={ () => this.setFocus( 'summary' ) }
+                    value={ newSummaryValue }
+                    unstableOnFocus={ () => onFocus( 'summary' ) }
                     onChange={ ( newSummary ) => setAttributes( { summary: newSummary, jsonSummary: stripHTML( renderToString( newSummary ) ) } ) }
                     onSetup={ ( ref ) => {
                         this.editorRefs.summary = ref;
