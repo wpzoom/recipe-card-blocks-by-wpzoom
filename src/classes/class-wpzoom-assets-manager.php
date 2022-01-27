@@ -464,7 +464,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			
 			$elementor_data = get_post_meta( $post_id, '_elementor_data' );	
 
-			if ( isset( $elementor_data[0] ) ) {
+			if ( isset( $elementor_data[0] ) && is_string( $elementor_data[0] ) ) {
 
 				$regExp = '/"widgetType":"([^"]*)/i';
 				$outputArray = array();
