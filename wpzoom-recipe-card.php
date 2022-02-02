@@ -50,6 +50,8 @@ if ( ! function_exists( 'wpzoom_rcb_block_is_registered' ) ) {
 	}
 }
 
+add_action( 'init', 'WPZOOM_Recipe_Card_Shortcode::instance' );
+
 /**
  * Check if the Elementor Page Builder is enabled load the widget
  */

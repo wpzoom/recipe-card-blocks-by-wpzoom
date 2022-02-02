@@ -110,6 +110,9 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-admin-pointer.php';
 
+			//Added February 2022
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-shortcode.php';
+
 			if ( class_exists( '\Elementor\Plugin' ) ) {
 				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-elementor.php';
 			}

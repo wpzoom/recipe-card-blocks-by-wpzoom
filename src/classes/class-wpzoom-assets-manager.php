@@ -323,6 +323,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 					has_block( 'wpzoom-recipe-card/block-recipe-card' ) ||
 					has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) ||
 					has_block( 'wpzoom-recipe-card/block-nutrition' ) ||
+					self::has_cpt_rcb_shortcode() ||
 					self::has_cpt_rcb_elementor_widget();
 
 				$has_reusable_block =
@@ -436,7 +437,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 			if (
 				! is_admin() &&
-				( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) || has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) || self::has_cpt_rcb_elementor_widget() )
+				( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) || has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) || self::has_cpt_rcb_elementor_widget() || self::has_cpt_rcb_shortcode() )
 			) {
 				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
 			}
@@ -444,6 +445,30 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			if ( is_home() || is_archive() || is_search() ) {
 				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
 			}
+		}
+
+		/**
+		 * Check the post content has cpt rcb shortcode
+		 *
+		 * @since  3.0.3
+		 * @param  int         $post_id The post ID.
+		 * @param  boolean|int $content The post content.
+		 * @return boolean     Return true if post content has cpt rcb shortcode, else return false.
+		 */
+		public static function has_cpt_rcb_shortcode( $post_id = 0, $content = '' ) {
+			
+			$post_id = $post_id > 0 ? $post_id : get_the_ID();
+			
+			if ( empty( $content ) ) {
+				$content = get_post_field( 'post_content', $post_id );
+			}
+
+			if ( $content ) {			
+				if ( has_shortcode( $content, 'wpzoom_rcb_post' ) ) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		/**
