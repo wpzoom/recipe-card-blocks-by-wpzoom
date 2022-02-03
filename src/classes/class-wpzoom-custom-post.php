@@ -87,6 +87,7 @@ class WPZOOM_Custom_Post {
 		return array(
 				'cb'              => '<input type="checkbox" />',
 				'title'           => esc_html__( 'Recipe Title', 'recipe-card-blocks-by-wpzoom' ),
+				'shortcode'       => esc_html__( 'Shortcode', 'recipe-card-blocks-by-wpzoom' ),
 				'parent_post'     => esc_html__( 'Parent', 'recipe-card-blocks-by-wpzoom' ),
 				'used_in'         => esc_html__( 'Posts containing this recipe', 'recipe-card-blocks-by-wpzoom' ),
 				'date'            => esc_html__( 'Date', 'recipe-card-blocks-by-wpzoom' )
@@ -101,6 +102,11 @@ class WPZOOM_Custom_Post {
 		
 		// Fill in the columns with meta box info associated with each post
 		switch ( $column ) {
+
+			case 'shortcode' :
+				$post = get_post();
+				echo '<input type="text" size="22" id="wpz-cpt-rcb-shortcode" onClick="this.select();" value="' . $this->display_shortcode_string( $post->ID ) .'">';
+			break;
 
 			case 'parent_post' :
 				$parent_title = get_the_title( $parent_id ) . '<br/>';
@@ -120,6 +126,18 @@ class WPZOOM_Custom_Post {
 				}
 			break;
 		}
+	}
+
+	/**
+	 * Display generated shortcode string
+	 *
+	 * @since 3.0.3
+	 *
+	 * @param int|string $post_id The post ID.
+	 * @return void
+	 */
+	public function display_shortcode_string( $post_id ) {
+		return esc_html( '[wpzoom_rcb_post id="' . $post_id . '"]' );
 	}
 
 	//Force recipe card ctp singular to go to 404
@@ -456,6 +474,10 @@ class WPZOOM_Custom_Post {
 		else {
 			echo '<div style="margin-bottom:20px;" class="wpzoom-cpt-metabox">' . esc_html__( 'This Recipe Card Post is created by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . get_the_author_link() . '</div>';
 		}
+		echo '<p>
+				<label><strong>' . esc_html__( 'Shortcode:', 'recipe-card-blocks-by-wpzoom' ) .'</strong></label>
+				<input type="text" id="wpz-cpt-rcb-shortcode" onClick="this.select();" value="' . $this->display_shortcode_string( $post->ID ) . '">
+			</p>';
 
 		echo '<input type="hidden" name="wpzoom_rcb_parent_post_id" value="' . esc_attr( $value )  . '"/>';
 		echo '<input type="hidden" name="wpzoom_rcb_has_parent" value="' . esc_attr( $has_parent ) . '"/>';
