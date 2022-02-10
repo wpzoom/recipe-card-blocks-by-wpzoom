@@ -225,6 +225,35 @@ class Recipe_Card extends Widget_Base {
 			)
 		);
 
+		$inline_style = 'style="
+				color:#856404;
+				font-size:12px;
+				line-height:22px;
+				margin-top:10px;
+				font-weight:300 !important; 
+				display:block; 
+				background:#fff3cd;
+				border:1px solid;
+				border-color:#ffeeba;
+				border-radius:5px;
+				padding:10px 15px;
+			"';
+		$cpt_link = admin_url( 'edit.php?post_type=wpzoom_rcb' );
+
+		$rec_note = sprintf(
+			'<span %s>For more flexibility we recommend to use <a href="%s">Recipe Custom Post Type</a> to create Recipe Cards and add them to the page/post content using the "Insert existing Recipe" Elementor widget.</span>',
+			$inline_style,
+			$cpt_link
+		);
+
+		$this->add_control(
+			'recomendation_note',
+			array(
+				'label'       => 'NOTE!' . $rec_note,
+				'type'        => Controls_Manager::HEADING,
+			)
+		);
+
 		$this->add_control(
 			'title',
 			array(
