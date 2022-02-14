@@ -6,7 +6,7 @@ import toNumber from 'lodash/toNumber';
 
 /* Internal dependencies */
 import DirectionStep from './DirectionStep';
-import { stripHTML } from '../../../helpers/stringHelpers';
+import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
 import { RichText } from '@wordpress/block-editor';
@@ -389,13 +389,15 @@ export default class Direction extends Component {
         const classNames     = [ 'recipe-card-directions' ].filter( ( item ) => item ).join( ' ' );
         const listClassNames = [ 'directions-list' ].filter( ( item ) => item ).join( ' ' );
 
+		const newDirectionsTitle = deserializeAttributes( directionsTitle );
+
         return (
             <div className={ classNames }>
                 <RichText
                     tagName="h3"
                     className="directions-title"
                     format="string"
-                    value={ directionsTitle }
+                    value={ newDirectionsTitle }
                     unstableOnFocus={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }

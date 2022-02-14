@@ -7,7 +7,6 @@ import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 import isUndefined from 'lodash/isUndefined';
 import invoke from 'lodash/invoke';
-import { replace, includes } from 'lodash';
 import ReactPlayer from 'react-player';
 
 /* Internal dependencies */
@@ -16,7 +15,7 @@ import Ingredient from './Ingredient';
 import Direction from './Direction';
 import Inspector from './Inspector';
 import ExtraOptionsModal from './ExtraOptionsModal';
-import { stripHTML } from '../../../helpers/stringHelpers';
+import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
 import { getBlockStyle } from '../../../helpers/getBlockStyle';
 import { generateId } from '../../../helpers/generateId';
@@ -43,20 +42,6 @@ import { compose } from '@wordpress/compose';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { positionLeft, positionRight, positionCenter } from '@wordpress/icons';
-
-const fixTastyLinksConflict = ( notes ) => {
-    if ( ! includes( notes, '\\u003c' ) && includes( notes, 'u003c' ) ) {
-        notes = replace( notes, /u003c/g, '<' );
-    }
-    if ( ! includes( notes, '\\u003e' ) && includes( notes, 'u003e' ) ) {
-        notes = replace( notes, /u003e/g, '>' );
-    }
-    if ( ! includes( notes, '\\u0022' ) && includes( notes, 'u0022' ) ) {
-        notes = replace( notes, /u0022/g, '"' );
-    }
-
-    return notes;
-};
 
 /**
  * Module Constants
@@ -376,8 +361,12 @@ class RecipeCard extends Component {
             },
         } = attributes;
 
-		const newNotesValue = fixTastyLinksConflict( notes );
-		const newSummaryValue = fixTastyLinksConflict( summary );
+		const newRecipeTitle  = deserializeAttributes( recipeTitle );
+		const newNotesValue   = deserializeAttributes( notes );
+		const newSummaryValue = deserializeAttributes( summary );
+		const newNotesTitle   = deserializeAttributes( notesTitle );
+		const newVideoTitle   = deserializeAttributes( videoTitle );
+
         const style = getBlockStyle( className );
         const loadingClass = this.state.isLoading ? 'is-loading-block' : '';
         const hideRecipeImgClass = hide_header_image ? 'recipe-card-noimage' : '';
@@ -480,7 +469,7 @@ class RecipeCard extends Component {
                                 className="recipe-card-title"
                                 tagName="h2"
                                 format="string"
-                                value={ recipeTitle }
+                                value={ newRecipeTitle }
                                 unstableOnFocus={ () => this.setFocus( 'recipeTitle' ) }
                                 onChange={ newTitle => setAttributes( { recipeTitle: newTitle } ) }
                                 onSetup={ ( ref ) => {
@@ -567,7 +556,7 @@ class RecipeCard extends Component {
                                     className="recipe-card-title"
                                     tagName="h2"
                                     format="string"
-                                    value={ recipeTitle }
+                                    value={ newRecipeTitle }
                                     unstableOnFocus={ () => this.setFocus( 'recipeTitle' ) }
                                     onChange={ newTitle => setAttributes( { recipeTitle: newTitle } ) }
                                     onSetup={ ( ref ) => {
@@ -617,7 +606,7 @@ class RecipeCard extends Component {
                         tagName="h3"
                         className="video-title"
                         format="string"
-                        value={ videoTitle }
+                        value={ newVideoTitle }
                         unstableOnFocus={ () => this.setFocus( 'videoTitle' ) }
                         onChange={ ( videoTitle ) => setAttributes( { videoTitle } ) }
                         onSetup={ ( ref ) => {
@@ -663,7 +652,7 @@ class RecipeCard extends Component {
                         tagName="h3"
                         className="notes-title"
                         format="string"
-                        value={ notesTitle }
+                        value={ newNotesTitle }
                         unstableOnFocus={ () => this.setFocus( 'notesTitle' ) }
                         onChange={ ( notesTitle ) => setAttributes( { notesTitle } ) }
                         placeholder={ __( 'Write Notes title', 'recipe-card-blocks-by-wpzoom' ) }

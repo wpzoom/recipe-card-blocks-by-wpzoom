@@ -6,7 +6,7 @@ import toNumber from 'lodash/toNumber';
 
 /* Internal dependencies */
 import IngredientItem from './IngredientItem';
-import { stripHTML } from '../../../helpers/stringHelpers';
+import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
 import { RichText } from '@wordpress/block-editor';
@@ -400,13 +400,15 @@ export default class Ingredient extends Component {
         const classNames     = [ 'recipe-card-ingredients' ].filter( ( item ) => item ).join( ' ' );
         const listClassNames = [ 'ingredients-list', `layout-${ ingredientsLayout }` ].filter( ( item ) => item ).join( ' ' );
 
+		const newIngredientsTitle = deserializeAttributes( ingredientsTitle );
+
         return (
             <div className={ classNames }>
                 <RichText
                     tagName="h3"
                     className="ingredients-title"
                     format="string"
-                    value={ ingredientsTitle }
+                    value={ newIngredientsTitle }
                     unstableOnFocus={ this.setFocusToTitle }
                     onChange={ this.onChangeTitle }
                     unstableOnSetup={ this.setTitleRef }

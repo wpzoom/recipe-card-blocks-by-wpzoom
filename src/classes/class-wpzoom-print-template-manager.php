@@ -90,7 +90,7 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 
 			// Variables from attributes
 			// add default value if not exists
-			$recipeTitle = isset( $recipeTitle ) ? $recipeTitle : '';
+			$recipeTitle = isset( $recipeTitle ) ? WPZOOM_Helpers::deserialize_block_attributes( $recipeTitle ) : '';
 			$summary     = isset( $summary ) ? $summary : '';
 			$className   = isset( $className ) ? $className : '';
 			$hasImage    = isset( $hasImage ) ? $hasImage : false;
@@ -109,9 +109,9 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 			WPZOOM_Recipe_Card_Block::$attributes    = $attributes;
 			WPZOOM_Recipe_Card_Block::$settings      = $settings;
 
-			WPZOOM_Recipe_Card_Block::$attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? $ingredientsTitle : WPZOOM_Settings::get( 'wpzoom_rcb_settings_ingredients_title' );
-			WPZOOM_Recipe_Card_Block::$attributes['directionsTitle']  = isset( $directionsTitle ) ? $directionsTitle : WPZOOM_Settings::get( 'wpzoom_rcb_settings_steps_title' );
-			WPZOOM_Recipe_Card_Block::$attributes['videoTitle']       = isset( $videoTitle ) ? $videoTitle : WPZOOM_Settings::get( 'wpzoom_rcb_settings_video_title' );
+			WPZOOM_Recipe_Card_Block::$attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? WPZOOM_Helpers::deserialize_block_attributes( $ingredientsTitle ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_ingredients_title' );
+			WPZOOM_Recipe_Card_Block::$attributes['directionsTitle']  = isset( $directionsTitle ) ? WPZOOM_Helpers::deserialize_block_attributes( $directionsTitle ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_steps_title' );
+			WPZOOM_Recipe_Card_Block::$attributes['videoTitle']       = isset( $videoTitle ) ? WPZOOM_Helpers::deserialize_block_attributes( $videoTitle ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_video_title' );
 
 			$class .= $hasImage && isset( $image['url'] ) ? '' : ' recipe-card-noimage';
 			$class .= $settings['hide_header_image'] ? ' recipe-card-noimage' : '';
@@ -233,7 +233,7 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 			$strip_tags_notes = isset( $notes ) ? strip_tags( $notes ) : '';
 			$notes            = WPZOOM_Helpers::deserialize_block_attributes( $notes );
 			$notes            = isset( $notes ) ? str_replace( '<li></li>', '', $notes ) : ''; // remove empty list item
-			$notesTitle       = isset( $notesTitle ) ? $notesTitle : WPZOOM_Settings::get( 'wpzoom_rcb_settings_notes_title' );
+			$notesTitle       = isset( $notesTitle ) ? WPZOOM_Helpers::deserialize_block_attributes( $notesTitle ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_notes_title' );
 			$notes_content    = ! empty( $strip_tags_notes ) ?
 				sprintf(
 					'<div class="recipe-card-notes">

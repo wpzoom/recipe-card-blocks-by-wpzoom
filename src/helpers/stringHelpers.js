@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import { replace, includes } from 'lodash';
+
+ /**
  * Capitalize the first letter of a string.
  *
  * @param   {string} string The string to capitalize.
@@ -71,4 +76,30 @@ export function matchIMGsrc( string ) {
     }
 
     return false;
+}
+
+/**
+ * Deserealize and convert the block attributes into the HTML
+ *
+ * @param {string} string  The string to deserialize from.
+ *
+ * @returns {string} The deseralized string.
+ */
+ export function deserializeAttributes( string ) {
+	if ( ! includes( string, '\\u003c' ) && includes( string, 'u003c' ) ) {
+        string = replace( string, /u003c/g, '<' );
+    }
+    if ( ! includes( string, '\\u003e' ) && includes( string, 'u003e' ) ) {
+        string = replace( string, /u003e/g, '>' );
+    }
+    if ( ! includes( string, '\\u0022' ) && includes( string, 'u0022' ) ) {
+        string = replace( string, /u0022/g, '"' );
+    }
+    if ( ! includes( string, '\\u002d' ) && includes( string, 'u002d' ) ) {
+        string = replace( string, /u002d/g, '--' );
+    }
+    if ( ! includes( string, '\\u0026' ) && includes( string, 'u0026' ) ) {
+        string = replace( string, /u0026/g, '&' );
+    }
+    return string;
 }

@@ -350,7 +350,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		// Variables from attributes
 		// add default value if not exists
-		$recipeTitle = isset( $recipeTitle ) ? wp_kses_post( $recipeTitle ) : '';
+		$recipeTitle = isset( $recipeTitle ) ? wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $recipeTitle ) ) : '';
 		$summary     = isset( $summary ) ? wp_kses_post( $summary ) : '';
 		$className   = isset( $className ) ? esc_attr( $className ) : '';
 		$hasImage    = isset( $hasImage ) ? $hasImage : false;
@@ -368,9 +368,9 @@ class WPZOOM_Recipe_Card_Block {
 		self::$style         = self::$helpers->get_block_style( $className );
 		self::$settings      = self::$helpers->parse_block_settings( $attributes );
 
-		self::$attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? wp_kses_post( $ingredientsTitle ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_ingredients_title' );
-		self::$attributes['directionsTitle']  = isset( $directionsTitle ) ? wp_kses_post( $directionsTitle ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_steps_title' );
-		self::$attributes['videoTitle']       = isset( $videoTitle ) ? wp_kses_post( $videoTitle ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_video_title' );
+		self::$attributes['ingredientsTitle'] = isset( $ingredientsTitle ) ? wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $ingredientsTitle ) ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_ingredients_title' );
+		self::$attributes['directionsTitle']  = isset( $directionsTitle ) ? wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $directionsTitle ) ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_steps_title' );
+		self::$attributes['videoTitle']       = isset( $videoTitle ) ? wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $videoTitle ) ) : WPZOOM_Settings::get( 'wpzoom_rcb_settings_video_title' );
 
 		$class .= strpos( $className, 'is-style' ) === false ? ' is-style-' . esc_attr( self::$style ) : '';
 		$class .= ' header-content-align-' . esc_attr( self::$settings['headerAlign'] );
@@ -556,7 +556,7 @@ class WPZOOM_Recipe_Card_Block {
 					<h3 class="notes-title">%s</h3>
 					<ul class="recipe-card-notes-list">%s</ul>
 				</div>',
-				@$notesTitle,
+				WPZOOM_Helpers::deserialize_block_attributes( @$notesTitle ),
 				@$notes
 			) : '';
 
