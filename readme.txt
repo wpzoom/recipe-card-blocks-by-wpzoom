@@ -5,7 +5,7 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica,
 Requires at least: 5.7
 Requires PHP: 5.6
 Tested up to: 5.9
-Stable tag: 3.0.3
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * GDPR-compliant
 * Bulk Add Ingredients and Directions
 * WPML Support
+* Recipe Shortcode
 
 
 = ⭐️ PRO FEATURES ⭐️ =
@@ -152,6 +153,11 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.1.0 =
+* Recipe Shortcode - insert a recipe anywhere you want using the new shortcodes.
+* Add option to unlink a recipe from its parent
+* Multiple bug fixes and improvements
 
 = 3.0.3 =
 * Fixed a bug with links in Notes and Description
