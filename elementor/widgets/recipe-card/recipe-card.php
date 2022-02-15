@@ -241,7 +241,7 @@ class Recipe_Card extends Widget_Base {
 		$cpt_link = admin_url( 'edit.php?post_type=wpzoom_rcb' );
 
 		$rec_note = sprintf(
-			'<span %s>For more flexibility we recommend to use <a href="%s">Recipe Custom Post Type</a> to create Recipe Cards and add them to the page/post content using the "Insert existing Recipe" Elementor widget.</span>',
+            '<span %s>We recommend creating recipes on the <a href="%s">All Recipes</a> page and adding them to Elementor using the <strong>Insert existing Recipe</strong> widget for more flexibility.</span>',
 			$inline_style,
 			$cpt_link
 		);
