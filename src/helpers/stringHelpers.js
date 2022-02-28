@@ -103,3 +103,21 @@ export function matchIMGsrc( string ) {
     }
     return string;
 }
+/**
+ * Deserealize and convert the block attributes into the HTML
+ *
+ * @param {array} value  The string to deserialize from.
+ *
+ * @returns {array} The deseralized array.
+ */
+export function deserializeArray( value ) {
+
+	const cleanArray = [];
+
+	for ( let i = 0; i < value.length; i++ ) {
+        cleanArray[ i ] = deserializeAttributes( value[ i ] );
+	}
+
+	return cleanArray;
+
+}

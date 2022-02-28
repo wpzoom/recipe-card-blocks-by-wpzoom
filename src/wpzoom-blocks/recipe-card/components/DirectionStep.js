@@ -9,7 +9,11 @@ import ReactHtmlParser from 'react-html-parser';
 
 /* Internal dependencies */
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
-import { matchIMGsrc } from '../../../helpers/stringHelpers';
+import { 
+    matchIMGsrc,
+    deserializeAttributes,
+    deserializeArray
+} from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
 import { Component, Fragment } from '@wordpress/element';
@@ -308,10 +312,15 @@ export default class DirectionStep extends Component {
         const stepClassName = ! isGroup ? 'direction-step' : 'direction-step direction-step-group';
 
         let textContent = text;
+
         if ( isString( textContent ) ) {
             // Converting HTML strings into React components
             textContent = ReactHtmlParser( text );
+            textContent = deserializeAttributes( text );
         }
+		else {
+            textContent = deserializeArray( textContent );
+		}
 
         return (
             <li className={ stepClassName } key={ id }>

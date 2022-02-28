@@ -12,6 +12,10 @@ import { IconButton } from '@wordpress/components';
 
 /* Internal dependencies */
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
+import {
+    deserializeAttributes, 
+    deserializeArray
+} from '../../../helpers/stringHelpers';
 
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
@@ -278,10 +282,15 @@ export default class IngredientItem extends Component {
         const itemClassName = ! isGroup ? 'ingredient-item' : 'ingredient-item ingredient-item-group';
 
         let nameContent = name;
+
         if ( isString( nameContent ) ) {
             // Converting HTML strings into React components
             nameContent = ReactHtmlParser( name );
+			nameContent = deserializeAttributes( name );
         }
+		else {
+			nameContent = deserializeArray( nameContent );
+		}
 
         return (
             <li className={ itemClassName } key={ id }>
