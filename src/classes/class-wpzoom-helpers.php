@@ -260,15 +260,15 @@ class WPZOOM_Helpers {
 		$converted_attributes = array(); 
 
 		if( is_string( $encoded_attributes ) ) {
+
 			$encoded_attributes = self::deserialize_block_attributes( $encoded_attributes );
 			return $encoded_attributes;
+		
 		}
 
-		foreach( $encoded_attributes as $attribute ) {
-			$converted_attributes[] = self::deserialize_block_attributes( $attribute );
-		}
+		$encoded_attributes = call_user_func_array( 'self::deserialize_block_attributes', $encoded_attributes );
 
-		return $converted_attributes;
+		return $encoded_attributes;
 	}
 }
 
