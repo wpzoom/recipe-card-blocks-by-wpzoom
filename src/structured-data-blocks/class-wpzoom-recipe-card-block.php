@@ -1196,7 +1196,7 @@ class WPZOOM_Recipe_Card_Block {
 				}
 
 				if ( ! empty( $ingredient['name'] ) ) {
-					$name = sprintf( '<span class="wpzoom-rcb-ingredient-name">%s</span>', self::wrap_ingredient_name( WPZOOM_Helpers::deserialize_block_attributes( $ingredient['name'] ) ) );
+					$name = sprintf( '<span class="wpzoom-rcb-ingredient-name">%s</span>', self::wrap_ingredient_name( WPZOOM_Helpers::deserialize_block_attributes_array( $ingredient['name'] ) ) );
 
 					$name    = sprintf(
 						'<p class="ingredient-item-name%s">%s</p>',
@@ -1213,7 +1213,7 @@ class WPZOOM_Recipe_Card_Block {
 				if ( ! empty( $ingredient['name'] ) ) {
 					$name    = sprintf(
 						'<strong class="ingredient-item-group-title">%s</strong>',
-						self::wrap_ingredient_name( WPZOOM_Helpers::deserialize_block_attributes( $ingredient['name'] ) )
+						self::wrap_ingredient_name( WPZOOM_Helpers::deserialize_block_attributes_array( $ingredient['name'] ) )
 					);
 					$output .= sprintf(
 						'<li id="%s" class="ingredient-item ingredient-item-group">%s</li>',
@@ -1250,7 +1250,7 @@ class WPZOOM_Recipe_Card_Block {
 
 			if ( ! $isGroup ) {
 				if ( ! empty( $step['text'] ) ) {
-					$text    = self::wrap_direction_text( WPZOOM_Helpers::deserialize_block_attributes( $step['text'] ) );
+					$text    = self::wrap_direction_text( WPZOOM_Helpers::deserialize_block_attributes_array( $step['text'] ) );
 					$output .= sprintf(
 						'<li id="%s" class="direction-step">%s</li>',
 						$step_id,
@@ -1261,7 +1261,7 @@ class WPZOOM_Recipe_Card_Block {
 				if ( ! empty( $step['text'] ) ) {
 					$text    = sprintf(
 						'<strong class="direction-step-group-title">%s</strong>',
-						self::wrap_direction_text( WPZOOM_Helpers::deserialize_block_attributes( $step['text'] ) )
+						self::wrap_direction_text( WPZOOM_Helpers::deserialize_block_attributes_array( $step['text'] ) )
 					);
 					$output .= sprintf(
 						'<li id="%s" class="direction-step direction-step-group">%s</li>',

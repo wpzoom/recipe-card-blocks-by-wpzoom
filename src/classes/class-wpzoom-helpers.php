@@ -254,6 +254,22 @@ class WPZOOM_Helpers {
 	 
 		return $encoded_attributes;
 	}
+
+	public static function deserialize_block_attributes_array( $encoded_attributes ) {
+
+		$converted_attributes = array(); 
+
+		if( is_string( $encoded_attributes ) ) {
+			$encoded_attributes = self::deserialize_block_attributes( $encoded_attributes );
+			return $encoded_attributes;
+		}
+
+		foreach( $encoded_attributes as $attribute ) {
+			$converted_attributes[] = self::deserialize_block_attributes( $attribute );
+		}
+
+		return $converted_attributes;
+	}
 }
 
 
