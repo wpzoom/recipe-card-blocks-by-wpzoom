@@ -684,11 +684,21 @@ class WPZOOM_Recipe_Card_Block {
 					$thumb         = wp_get_attachment_image_src( $image_id, 'full' );
 					$thumbnail_url = $thumb && isset( $thumb[0] ) ? esc_url( $thumb[0] ) : '';
 
+					if( isset( $video_attachment->post_content ) && !empty( $video_attachment->post_content ) ) {
+						$video_description = $video_attachment->post_content;
+					}
+					elseif( isset( $video_attachment->post_excerpt ) && !empty( $video_attachment->post_excerpt ) ) {
+						$video_description = $video_attachment->post_excerpt;
+					}
+					else {
+						$video_description = self::$recipe->post_title;
+					}
+
 					$json_ld['video'] = array_merge(
 						$json_ld['video'],
 						array(
 							'name'         => $video_attachment->post_title,
-							'description'  => $video_attachment->post_content,
+							'description'  => $video_description,
 							'thumbnailUrl' => $thumbnail_url,
 							'contentUrl'   => $video_url,
 							'uploadDate'   => date( 'c', strtotime( $video_attachment->post_date ) ),
