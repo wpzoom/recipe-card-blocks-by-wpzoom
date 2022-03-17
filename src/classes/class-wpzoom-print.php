@@ -90,12 +90,42 @@ class WPZOOM_Print {
 			}
 
 			if ( has_blocks( $recipe->post_content ) ) {
+				
 				$blocks = parse_blocks( $recipe->post_content );
-
 				foreach ( $blocks as $key => $block ) {
-					$needle_block_id = isset( $block['attrs']['id'] ) ? $block['attrs']['id'] : 'wpzoom-recipe-card';
-					$needle_block    = ! empty( $block_name ) && $block['blockName'] === $block_name;
-					$block_needed    = $print_atts['block-id'] === $needle_block_id && $needle_block;
+
+					if( isset( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) && !empty( $block['innerBlocks'] ) ) {
+						foreach( $block['innerBlocks'] as $innerBlock ) {
+							if( isset( $innerBlock['innerBlocks'] ) && is_array( $innerBlock['innerBlocks'] ) && !empty( $innerBlock['innerBlocks'] ) ) {
+								foreach( $innerBlock['innerBlocks'] as $innBlock ) {
+
+									$needle_block_id = isset( $innBlock['attrs']['id'] ) ? $innBlock['attrs']['id'] : 'wpzoom-recipe-card';
+									$needle_block    = ! empty( $block_name ) && $innBlock['blockName'] === $block_name;
+									$block_needed    = $print_atts['block-id'] === $needle_block_id && $needle_block;
+
+									if ( $block_needed ) {
+										$has_WPZOOM_block = true;
+										$attributes       = $innBlock['attrs'];
+									}
+
+								}
+							}
+							$needle_block_id = isset( $innerBlock['attrs']['id'] ) ? $innerBlock['attrs']['id'] : 'wpzoom-recipe-card';
+							$needle_block    = ! empty( $block_name ) && $innerBlock['blockName'] === $block_name;
+							$block_needed    = $print_atts['block-id'] === $needle_block_id && $needle_block;
+
+							if ( $block_needed ) {
+								$has_WPZOOM_block = true;
+								$attributes       = $innerBlock['attrs'];
+							}
+						}
+					}
+					else {
+						$needle_block_id = isset( $block['attrs']['id'] ) ? $block['attrs']['id'] : 'wpzoom-recipe-card';
+						$needle_block    = ! empty( $block_name ) && $block['blockName'] === $block_name;
+						$block_needed    = $print_atts['block-id'] === $needle_block_id && $needle_block;
+
+					}
 
 					if ( $block_needed ) {
 						$has_WPZOOM_block = true;
