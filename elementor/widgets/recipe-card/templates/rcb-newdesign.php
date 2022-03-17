@@ -236,7 +236,7 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 				
 				if( $item['wp_gallery'] ) {
 					$html .= '<div class="direction-step-gallery columns-2" data-grid-columns="2">';
-						$html .= '<ul class="direction-step-gallery-grid" data-gallery-masonry-grid="true">';
+						$html .= '<ul class="direction-step-gallery-grid">';
 						foreach( $item['wp_gallery'] as $key => $image ) {
 							$html .= '<li class="direction-step-gallery-item">';
 							$html .= '<figure>';
