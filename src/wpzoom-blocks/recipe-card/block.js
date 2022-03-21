@@ -72,7 +72,7 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         // Mark style as default.
         {
             name: 'default',
-            label: __( 'Default', 'recipe-card-blocks-by-wpzoom' ),
+            label: __( 'Defaults', 'recipe-card-blocks-by-wpzoom' ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'default',
         },
         {

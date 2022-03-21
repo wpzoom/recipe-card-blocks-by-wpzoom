@@ -494,3 +494,27 @@
 		display: block;
 	}
 }
+.wpzoom-recipe-card-styles,
+.wpzoom-recipe-card-color-scheme,
+.wpzoom-recipe-card-settings,
+.wpzoom-recipe-card-video-settings,
+.wpzoom-recipe-card-food-labels,
+.wpzoom-recipe-card-seo-settings,
+.wpzoom-recipe-card-details,
+.wpzoom-recipe-card-custom-details,
+.wpzoom-recipe-card-structured-data-testing {
+	.components-panel__body-toggle {
+		&.components-button {
+			display:flex;
+			flex-direction:row-reverse;
+			justify-content:flex-end;
+		}
+		svg.components-panel__icon {
+			width:20px;
+			height:20px;
+			margin:0 10px 0 0;
+			fill: rgb(46, 165, 95);
+		}
+	}
+	
+}

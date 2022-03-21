@@ -17,6 +17,14 @@ import { getNumberFromString, convertMinutesToHours } from '../../../helpers/con
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
 import { getBlockStyle } from '../../../helpers/getBlockStyle';
 
+import { 
+	settingsIcon,
+	detailsIcon,
+	seoIcon,
+	customDetailsIcon,
+	dataTestingIcon,
+} from '../skins/shared/icon';
+
 /* WordPress dependencies */
 import { Component, renderToString, Fragment } from '@wordpress/element';
 import { RichText, InspectorControls, MediaUpload } from '@wordpress/block-editor';
@@ -486,7 +494,7 @@ export default class Inspector extends Component {
 
         return (
             <InspectorControls>
-                <PanelBody className="wpzoom-recipe-card-settings" initialOpen={ true } title={ __( 'Recipe Card Settings', 'recipe-card-blocks-by-wpzoom' ) }>
+                <PanelBody icon={ settingsIcon } className="wpzoom-recipe-card-settings" initialOpen={ false } title={ __( 'Recipe Card Settings', 'recipe-card-blocks-by-wpzoom' ) }>
                     <BaseControl
                         id={ `${ id }-image` }
                         className="editor-post-featured-image"
@@ -691,7 +699,7 @@ export default class Inspector extends Component {
                 <VideoUpload
                     { ...{ attributes, setAttributes, className } }
                 />
-                <PanelBody className="wpzoom-recipe-card-seo-settings" initialOpen={ true } title={ __( 'Recipe Card SEO Settings', 'recipe-card-blocks-by-wpzoom' ) }>
+                <PanelBody icon={ seoIcon } className="wpzoom-recipe-card-seo-settings" initialOpen={ false } title={ __( 'Recipe Card SEO Settings', 'recipe-card-blocks-by-wpzoom' ) }>
                     <BaseControl
                         id={ `${ id }-course` }
                         label={ __( 'Course (required)', 'recipe-card-blocks-by-wpzoom' ) }
@@ -767,7 +775,7 @@ export default class Inspector extends Component {
                         />
                     </BaseControl>
                 </PanelBody>
-                <PanelBody className="wpzoom-recipe-card-details" initialOpen={ true } title={ __( 'Recipe Card Details', 'recipe-card-blocks-by-wpzoom' ) }>
+                <PanelBody icon={ detailsIcon } className="wpzoom-recipe-card-details" initialOpen={ false } title={ __( 'Recipe Card Details', 'recipe-card-blocks-by-wpzoom' ) }>
                     {
                         ! get( attributes, [ 'settings', 1, 'isNoticeDismiss' ] ) &&
                         <Notice
@@ -944,7 +952,7 @@ export default class Inspector extends Component {
                         }
                     </PanelRow>
                 </PanelBody>
-                <PanelBody className="wpzoom-recipe-card-custom-details" initialOpen={ true } title={ __( 'Add Custom Details', 'recipe-card-blocks-by-wpzoom' ) }>
+                <PanelBody icon={ customDetailsIcon } className="wpzoom-recipe-card-custom-details" initialOpen={ false } title={ __( 'Add Custom Details', 'recipe-card-blocks-by-wpzoom' ) }>
                     <PanelRow>
                         <TextControl
                             id={ `${ id }-custom-detail-1-label` }
@@ -1060,7 +1068,7 @@ export default class Inspector extends Component {
                         />
                     </PanelRow>
                 </PanelBody>
-                <PanelBody className="wpzoom-recipe-card-structured-data-testing" initialOpen={ true } title={ __( 'Structured Data Testing', 'recipe-card-blocks-by-wpzoom' ) }>
+                <PanelBody icon={ dataTestingIcon } className="wpzoom-recipe-card-structured-data-testing" initialOpen={ false } title={ __( 'Structured Data Testing', 'recipe-card-blocks-by-wpzoom' ) }>
                     <BaseControl
                         id={ `${ id }-counters` }
                         help={ __( 'Automatically check Structured Data errors and warnings.', 'recipe-card-blocks-by-wpzoom' ) }

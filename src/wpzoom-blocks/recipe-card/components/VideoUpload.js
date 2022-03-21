@@ -5,6 +5,7 @@ import ReactPlayer from 'react-player';
 
 /* Internal dependencies */
 import { excludeClassNames } from '../../../helpers/parseClassName';
+import { videoSettingsIcon } from '../skins/shared/icon';
 
 /* WordPress dependencies */
 import { Component, Fragment, createRef } from '@wordpress/element';
@@ -247,7 +248,7 @@ class VideoUpload extends Component {
         };
 
         return (
-            <PanelBody className="wpzoom-recipe-card-video-settings" initialOpen={ true } title={ __( 'Recipe Card Video Settings', 'recipe-card-blocks-by-wpzoom' ) }>
+            <PanelBody icon={ videoSettingsIcon } className="wpzoom-recipe-card-video-settings" initialOpen={ false } title={ __( 'Recipe Card Video Settings', 'recipe-card-blocks-by-wpzoom' ) }>
                 <BaseControl
                     id={ `${ id }-video` }
                     className="editor-video__recipe-card"
