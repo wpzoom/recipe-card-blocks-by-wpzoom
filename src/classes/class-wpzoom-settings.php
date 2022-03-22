@@ -802,25 +802,7 @@ class WPZOOM_Settings {
 							),
 						),
 					),
-					array(
-						'id'       => 'wpzoom_rcb_settings_google_fonts',
-						'title'    => __( 'Google Fonts', 'recipe-card-blocks-by-wpzoom' ),
-						'page'     => 'wpzoom-recipe-card-settings-appearance',
-						'callback' => '__return_false',
-						'fields'   => array(
-							array(
-								'id'    => 'wpzoom_rcb_settings_enable_google_fonts',
-								'title' => __( 'Enable Google Fonts', 'recipe-card-blocks-by-wpzoom' ),
-								'type'  => 'checkbox',
-								'args'  => array(
-									'label_for'   => 'wpzoom_rcb_settings_enable_google_fonts',
-									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'If you check this field, then it means that plugin will load Google Fonts to use them into blocks.', 'recipe-card-blocks-by-wpzoom' ),
-									'default'     => true,
-								),
-							),
-						),
-					),
+
 				),
 			),
 			'performance' => array(
@@ -829,6 +811,27 @@ class WPZOOM_Settings {
 				'option_group' => 'wpzoom-recipe-card-settings-performance',
 				'option_name'  => self::$option,
 				'sections'     => array(
+
+                    array(
+                        'id'       => 'wpzoom_rcb_settings_google_fonts',
+                        'title'    => __( 'Google Fonts', 'recipe-card-blocks-by-wpzoom' ),
+                        'page'     => 'wpzoom-recipe-card-settings-performance',
+                        'callback' => '__return_false',
+                        'fields'   => array(
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_enable_google_fonts',
+                                'title' => __( 'Enable Google Fonts', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_enable_google_fonts',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'If you check this field, the plugin will load Roboto Condensed font from Google Fonts to use it for headings.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => true,
+                                ),
+                            ),
+                        ),
+                    ),
+
 					array(
 						'id'       => 'wpzoom_section_load_assets',
 						'title'    => __( 'Assets', 'recipe-card-blocks-by-wpzoom' ),
@@ -1193,7 +1196,7 @@ class WPZOOM_Settings {
 	// the values are defined at the add_settings_section() function.
 	public function section_defaults_cb( $args ) {
 		?>
-		 <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Default configurations for new Recipe Card blocks.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+		 <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Default configurations for new recipes.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
 		<?php
 	}
 

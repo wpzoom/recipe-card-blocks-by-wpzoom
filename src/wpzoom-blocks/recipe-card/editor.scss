@@ -463,13 +463,14 @@
 
 .components-toolbar {
 	button.wpzoom-recipe-card__extra-options {
+        color: #fff !important;
 		&.is-large {
 			margin: 0 5px;
 		}
 		&.components-icon-button.is-primary:hover {
 			background: #007eb1;
 			border-color: #00435d;
-			color: #fff;
+			color: #fff !important;
 			box-shadow: inset 0 -1px 0 #00435d;
 		}
 	}

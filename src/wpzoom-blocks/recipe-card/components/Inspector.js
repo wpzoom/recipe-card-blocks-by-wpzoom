@@ -567,7 +567,7 @@ export default class Inspector extends Component {
                     }
                     <BaseControl
                         id={ `${ id }-hide-header-image` }
-                        label={ __( 'Hide Recipe Image on Front-End', 'recipe-card-blocks-by-wpzoom' ) }
+                        label={ __( 'Hide Recipe Image in Post', 'recipe-card-blocks-by-wpzoom' ) }
                     >
                         <ToggleControl
                             label={ __( 'Hide Image', 'recipe-card-blocks-by-wpzoom' ) }
@@ -671,7 +671,7 @@ export default class Inspector extends Component {
                                 instanceId={ `${ id }-custom-author-name` }
                                 type="text"
                                 label={ __( 'Custom author name', 'recipe-card-blocks-by-wpzoom' ) }
-                                help={ __( 'Default: Post author name', 'recipe-card-blocks-by-wpzoom' ) }
+                                help={ __( 'Default: Author of the post', 'recipe-card-blocks-by-wpzoom' ) }
                                 value={ custom_author_name }
                                 onChange={ authorName => this.onChangeSettings( authorName, 'custom_author_name' ) }
                             />
@@ -699,7 +699,7 @@ export default class Inspector extends Component {
                 <VideoUpload
                     { ...{ attributes, setAttributes, className } }
                 />
-                <PanelBody icon={ seoIcon } className="wpzoom-recipe-card-seo-settings" initialOpen={ false } title={ __( 'Recipe Card SEO Settings', 'recipe-card-blocks-by-wpzoom' ) }>
+                <PanelBody icon={ seoIcon } className="wpzoom-recipe-card-seo-settings" initialOpen={ false } title={ __( 'Recipe Details', 'recipe-card-blocks-by-wpzoom' ) }>
                     <BaseControl
                         id={ `${ id }-course` }
                         label={ __( 'Course (required)', 'recipe-card-blocks-by-wpzoom' ) }
@@ -775,7 +775,7 @@ export default class Inspector extends Component {
                         />
                     </BaseControl>
                 </PanelBody>
-                <PanelBody icon={ detailsIcon } className="wpzoom-recipe-card-details" initialOpen={ false } title={ __( 'Recipe Card Details', 'recipe-card-blocks-by-wpzoom' ) }>
+                <PanelBody icon={ detailsIcon } className="wpzoom-recipe-card-details" initialOpen={ false } title={ __( 'Cooking Details', 'recipe-card-blocks-by-wpzoom' ) }>
                     {
                         ! get( attributes, [ 'settings', 1, 'isNoticeDismiss' ] ) &&
                         <Notice
@@ -952,7 +952,7 @@ export default class Inspector extends Component {
                         }
                     </PanelRow>
                 </PanelBody>
-                <PanelBody icon={ customDetailsIcon } className="wpzoom-recipe-card-custom-details" initialOpen={ false } title={ __( 'Add Custom Details', 'recipe-card-blocks-by-wpzoom' ) }>
+                <PanelBody icon={ customDetailsIcon } className="wpzoom-recipe-card-custom-details" initialOpen={ false } title={ __( 'Custom Details', 'recipe-card-blocks-by-wpzoom' ) }>
                     <PanelRow>
                         <TextControl
                             id={ `${ id }-custom-detail-1-label` }

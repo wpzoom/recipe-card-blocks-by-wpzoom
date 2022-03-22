@@ -248,11 +248,11 @@ class VideoUpload extends Component {
         };
 
         return (
-            <PanelBody icon={ videoSettingsIcon } className="wpzoom-recipe-card-video-settings" initialOpen={ false } title={ __( 'Recipe Card Video Settings', 'recipe-card-blocks-by-wpzoom' ) }>
+            <PanelBody icon={ videoSettingsIcon } className="wpzoom-recipe-card-video-settings" initialOpen={ false } title={ __( 'Recipe Video', 'recipe-card-blocks-by-wpzoom' ) }>
                 <BaseControl
                     id={ `${ id }-video` }
                     className="editor-video__recipe-card"
-                    label={ __( 'Recipe Card Video', 'recipe-card-blocks-by-wpzoom' ) }
+                    label={ __( 'Recipe Video', 'recipe-card-blocks-by-wpzoom' ) }
                 >
                     {
                         editing &&
