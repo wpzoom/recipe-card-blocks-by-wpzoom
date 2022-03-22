@@ -523,6 +523,25 @@ class WPZOOM_Settings {
 						),
 					),
 					array(
+						'id'       => 'wpzoom_section_recipe_miscellaneous',
+						'title'    => __( 'Miscellaneous', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-general',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_sections_expanded',
+								'title' => __( 'Show Option\'s Sections Expanded?', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_sections_expanded',
+									'class'       => 'wpzoom-rcb-field',
+									'default'     => false,
+									'preview'     => false,
+								),
+							),
+						),
+					),
+					array(
 						'id'       => 'wpzoom_section_rating_features',
 						'title'    => __( 'Rating Feature', 'recipe-card-blocks-by-wpzoom' ),
 						'page'     => 'wpzoom-recipe-card-settings-general',

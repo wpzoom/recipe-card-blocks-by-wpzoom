@@ -30,6 +30,10 @@ import { getBlobByURL, isBlobURL } from '@wordpress/blob';
 const ALLOWED_MEDIA_TYPES = [ 'video' ];
 const VIDEO_POSTER_ALLOWED_MEDIA_TYPES = [ 'image' ];
 
+const {
+    setting_options,
+} = wpzoomRecipeCard;
+
 class VideoUpload extends Component {
     constructor( props ) {
         super( props );
@@ -247,8 +251,10 @@ class VideoUpload extends Component {
             this.setState( { hasVideo: true, editing: false, isLoading: true } );
         };
 
+		const sectionOpen = ( '1' === setting_options.wpzoom_rcb_settings_sections_expanded ? true : false );
+
         return (
-            <PanelBody icon={ videoSettingsIcon } className="wpzoom-recipe-card-video-settings" initialOpen={ false } title={ __( 'Recipe Video', 'recipe-card-blocks-by-wpzoom' ) }>
+            <PanelBody icon={ videoSettingsIcon } className="wpzoom-recipe-card-video-settings" initialOpen={ sectionOpen } title={ __( 'Recipe Video', 'recipe-card-blocks-by-wpzoom' ) }>
                 <BaseControl
                     id={ `${ id }-video` }
                     className="editor-video__recipe-card"
