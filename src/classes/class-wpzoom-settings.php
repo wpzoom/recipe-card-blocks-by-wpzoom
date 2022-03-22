@@ -535,6 +535,7 @@ class WPZOOM_Settings {
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_sections_expanded',
 									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Expand the block\'s settings on initial load', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => false,
 									'preview'     => false,
 								),
