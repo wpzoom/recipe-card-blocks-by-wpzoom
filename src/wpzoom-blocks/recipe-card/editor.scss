@@ -88,9 +88,11 @@
 	.ingredient-item {
 		position: relative;
 		list-style-type: none;
+        display: flex;
+
 		.block-editor-rich-text__editable {
 			display: inline-block;
-			width: 93%;
+			width: 75%;
 		}
         .ingredient-item-group-title {
             font-weight: bold;
@@ -107,6 +109,7 @@
 			}
 			.tick-circle {
 				cursor: default !important;
+                display: none !important;
 			}
 		}
 	}
@@ -139,10 +142,21 @@
 			margin-top: 0;
 		}
 	}
+
+    &.is-style-default {
+        .ingredients-list > li {
+            padding: 0 !important;
+            min-height: 37px;
+        }
+    }
+
 	.ingredient-item-button-container {
 		text-align: right;
 		button {
 			display: inline-flex;
+            padding: 2px !important;
+            min-width: 30px !important;
+            height: 30px;
 		}
 	}
 	.ingredient-buttons {
