@@ -1,9 +1,3 @@
-/**
- * The following styles get applied inside the editor only.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
- .wpzoom-select-cpt-recipe-cards {
-	min-width: 250px;
+.wpzoom-custom-recipe-card-post > .wpzoom-recipe-card-buttons {
+	display:none !important;
 }
