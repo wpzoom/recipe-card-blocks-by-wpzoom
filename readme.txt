@@ -3,9 +3,9 @@ Contributors: WPZOOM
 Donate link: https://recipecard.io/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
 Requires at least: 5.7
-Requires PHP: 5.6
+Requires PHP: 7.2
 Tested up to: 5.9
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,7 +86,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 = 📌 WHAT'S NEW IN 2.0? =
 * New Block with **Schema Markup**: **Recipe Card Block (schema.org)**
-* Now you can use a single block to create a recipe card. You don't have to add anymore blocks like Ingredients or Directions separately.
+* Now you can use a single block to create a recipe card. You don't have to add any more blocks like Ingredients or Directions separately.
 * **JSON-LD Schema Markup**
 * **2 Styles**
 * New Settings Page (Settings > WPZOOM Recipe Card)
@@ -128,9 +128,9 @@ After installation create a new post or edit an existing one using the block edi
 
 Make sure you haven't disabled the new block editor using the Classic Editor plugin, as these blocks work only with the new editor.
 
-= Is there a Documentation available? =
+= Is there Documentation available? =
 
-Yes, you can find a documentation for this plugin with more instructions on our website.
+Yes, you can find documentation for this plugin with more instructions on our website.
 
 [Go to Documentation](https://recipecard.io/documentation/)
 
@@ -153,6 +153,12 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.1.1 =
+* Multiple bug fixes and improvements
+* New option: Expand/Collapse block sections in the editor (Settings > General > Editing)
+* Minor UI improvements
+* Added icons to block sections in the editor
 
 = 3.1.0 =
 * Recipe Shortcode - insert a recipe anywhere you want using the new shortcodes.
