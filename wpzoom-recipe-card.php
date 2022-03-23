@@ -11,6 +11,8 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: recipe-card-blocks-by-wpzoom
  * Domain Path: /languages
+ * Elementor tested up to: 3.6
+ * Elementor Pro tested up to: 3.6
  *
  * @package   WPZOOM_Recipe_Card_Blocks
  * @author    WPZOOM
