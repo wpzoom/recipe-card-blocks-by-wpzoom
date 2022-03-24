@@ -743,10 +743,25 @@ class Recipe_Card extends Widget_Base {
 			)
 		);
 
+		$directions_repeater->start_controls_tabs( 
+			'_tab_directions_step_image_gallery',
+			array(
+				'condition' => array(
+					'directions_group!' => 'yes'
+				)
+			)
+		);
+		$directions_repeater->start_controls_tab(
+			'_tab_direction_step_image',
+			array(
+				'label' => esc_html__( 'Image', 'recipe-card-blocks-by-wpzoom' ),
+			)
+		);
+
 		$directions_repeater->add_control(
 			'image',
 			array(
-				'label'   => esc_html__( 'Image', 'recipe-card-blocks-by-wpzoom' ),
+				'label'   => esc_html__( 'Photo', 'recipe-card-blocks-by-wpzoom' ),
 				'type'    => Controls_Manager::MEDIA,
 				'default' => array(
 					'url' => Utils::get_placeholder_image_src(),
@@ -756,6 +771,29 @@ class Recipe_Card extends Widget_Base {
 				),
 			)
 		);
+
+		$directions_repeater->end_controls_tab();
+		$directions_repeater->start_controls_tab(
+			'_tab_direction_step_image_gallery',
+			array(
+				'label' => esc_html__( 'Gallery', 'recipe-card-blocks-by-wpzoom' ),
+			)
+		);
+
+		$directions_repeater->add_control(
+			'wp_gallery',
+			array(
+				'label'      => esc_html__( 'Add Images', 'recipe-card-blocks-by-wpzoom' ),
+				'type'       => Controls_Manager::GALLERY,
+				'show_label' => false,
+				'dynamic'    => array(
+					'active' => true,
+				),
+			)
+		);
+
+		$directions_repeater->end_controls_tab();
+		$directions_repeater->end_controls_tabs();
 
 		$directions_repeater->add_control(
 			'directions_group',

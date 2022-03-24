@@ -228,6 +228,28 @@ if ( is_array( $settings[ 'recipe_directions_list' ] ) ) :
 				);
 				$html .= $image_html;
 			}
+			
+			if( $item['wp_gallery'] ) {
+				$html .= '<div class="direction-step-gallery columns-2" data-grid-columns="2">';
+					$html .= '<ul class="direction-step-gallery-grid">';
+					foreach( $item['wp_gallery'] as $key => $image ) {
+						$html .= '<li class="direction-step-gallery-item">';
+						$html .= '<figure>';
+						$html .= wp_get_attachment_image(
+							$image['id'],
+							'medium_large',
+							false,
+							array(
+								'alt'   => Control_Media::get_image_alt( $image ),
+								'id'    => 'direction-step-gallery-image-' . $item['image']['id']
+							)
+						);
+						$html .= '</figure>';
+						$html .= '</li>';
+					};
+					$html .= '</ul>';	
+				$html .= '</div>';
+			}
 			$html .= '</li>';
 		endif;
 	endforeach;
