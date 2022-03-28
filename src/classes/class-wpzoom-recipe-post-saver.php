@@ -314,8 +314,8 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			}
 
 			$post = array(
-				'post_title'   => $recipe['name'],
-				'post_name'    => $recipe['name'],
+				'post_title'   => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
+				'post_name'    => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
 				'post_content' => $recipe['recipe'],
 				'post_type'    => 'wpzoom_rcb',
 				'post_status'  => 'publish',
@@ -365,8 +365,8 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 
 			$recipe_post = array(
 				'ID' => $posts[0]->ID,
-				'post_title'   => $recipe['name'],
-				'post_name'    => $recipe['name'],
+				'post_title'   => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
+				'post_name'    => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
 				'post_content' => $recipe['recipe'],
 			);
 			
