@@ -15,6 +15,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { Disabled, PanelBody, Placeholder } from '@wordpress/components';
 import { withSelect } from '@wordpress/data';
 import { Fragment } from '@wordpress/element';
+import { addQueryArgs } from '@wordpress/url';
 import { __ } from '@wordpress/i18n';
 const { ServerSideRender } = wp.components;
 
@@ -23,10 +24,12 @@ import ReactSelect from 'react-select';
 import './editor.scss';
 import './style.scss';
 
-/**
- * Internal dependencies
- */
-//import Edit from './edit';
+function getPostEditURL(postId) {
+	return addQueryArgs('post.php', {
+		post: postId,
+		action: 'edit'
+	});
+}
 
 /**
  * Every block starts by registering a new block type definition.
@@ -75,12 +78,17 @@ registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
 				clearable={true}
 			/>
         );
+
+		const getCPTEditURL = getPostEditURL( _postId );
+		const editCPT = <p class="wpzoom-edit-link-description">{ __( 'Edit the recipe post', 'recipe-card-blocks-by-wpzoom' ) } <a href={getCPTEditURL}>{__( 'here', 'recipe-card-blocks-by-wpzoom' ) }</a></p>;
+
         return (
             // eslint-disable-next-line react/jsx-no-undef
             <React.Fragment>
                 <InspectorControls>
                     <PanelBody title={ __( 'Options', 'recipe-card-blocks-by-wpzoom' ) }>
                         { recipeReactSelectPosts.length > 0 ? postReactSelect : <Disabled>{ postReactSelect }</Disabled> }
+						{ editCPT }
                     </PanelBody>
                 </InspectorControls>
                 <Fragment>
