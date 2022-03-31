@@ -524,18 +524,18 @@ class WPZOOM_Settings {
 					),
 					array(
 						'id'       => 'wpzoom_section_recipe_miscellaneous',
-						'title'    => __( 'Miscellaneous', 'recipe-card-blocks-by-wpzoom' ),
+						'title'    => __( 'Editing', 'recipe-card-blocks-by-wpzoom' ),
 						'page'     => 'wpzoom-recipe-card-settings-general',
 						'callback' => '__return_false',
 						'fields'   => array(
 							array(
 								'id'    => 'wpzoom_rcb_settings_sections_expanded',
-								'title' => __( 'Show Option\'s Sections Expanded?', 'recipe-card-blocks-by-wpzoom' ),
+								'title' => __( 'Expand all Block sections?', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'checkbox',
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_sections_expanded',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Expand the block\'s settings on initial load', 'recipe-card-blocks-by-wpzoom' ),
+									'description' => esc_html__( 'Enable if you want all sections from the block settings to be expanded', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => false,
 									'preview'     => false,
 								),
