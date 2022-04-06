@@ -147,6 +147,33 @@ class Recipe_Card_Cpt extends Widget_Base {
 			)
 		);
 
+		$inline_style = 'style="
+		color:#856404;
+		font-size:12px;
+		line-height:22px;
+		margin-top:10px;
+		font-weight:300 !important; 
+		display:block; 
+		background:#fff3cd;
+		border:1px solid;
+		border-color:#ffeeba;
+		border-radius:5px;
+		padding:10px 15px;
+	"';
+
+	$rec_note = sprintf(
+		'<span %s>Use only one instance of this widget per page/post</span>',
+		$inline_style
+	);
+
+	$this->add_control(
+		'recomendation_note',
+		array(
+			'label'       => 'IMPORTANT!' . $rec_note,
+			'type'        => Controls_Manager::HEADING,
+		)
+	);
+
 		$this->add_control(
 			'rcb_post_id',
 			array(
