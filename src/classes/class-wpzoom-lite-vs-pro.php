@@ -155,7 +155,7 @@ class WPZOOM_Lite_vs_PRO {
 						<td><span class="dashicons dashicons-yes"></span></td>
 					</tr>
                     <tr>
-                        <td class="table-index"><h3><?php esc_html_e( 'Cook Mode', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td class="table-index"><h3><?php esc_html_e( 'Cook Mode - NEW', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
                         <td><span class="dashicons dashicons-no"></span></td>
                         <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
@@ -210,9 +210,9 @@ class WPZOOM_Lite_vs_PRO {
                         <td><em><?php esc_html_e( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ); ?></em></td>
                     </tr>
                     <tr>
-                        <td class="table-index"><h3><?php esc_html_e( 'Equipment', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td class="table-index"><h3><?php esc_html_e( 'Equipment - NEW', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
                         <td><span class="dashicons dashicons-no"></span></td>
-                        <td><em><?php esc_html_e( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ); ?></em></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
 					<tr>
 						<td class="table-index"><h3><?php esc_html_e( 'Automatic Recipe Archives', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
