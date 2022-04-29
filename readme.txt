@@ -5,7 +5,7 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica,
 Requires at least: 5.7
 Requires PHP: 7.2
 Tested up to: 5.9
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,8 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Recipe Card Widget for Elementor**
 * **Star Rating**
 * **Comments Rating - 🆕**
+* **Equipment - 🆕**
+* **Cook Mode - 🆕**
 * **Gallery in Directions**
 * **Multiple Styles**
 * Adjustable servings
@@ -153,6 +155,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.1.4 =
+* UI improvements to the Settings page
 
 = 3.1.3 =
 * Fixed issue with deprecated functions in Elementor
