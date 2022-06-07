@@ -365,7 +365,6 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 
 			$recipe_post = array(
 				'ID' => $posts[0]->ID,
-				'post_title'   => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
 				'post_name'    => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
 				'post_content' => $recipe['recipe'],
 			);
