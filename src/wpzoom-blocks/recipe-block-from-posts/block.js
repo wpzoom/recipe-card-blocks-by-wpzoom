@@ -80,7 +80,7 @@ registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
         );
 
 		const getCPTEditURL = getPostEditURL( _postId );
-		const editCPT = <p class="wpzoom-edit-link-description">{ __( 'Edit the recipe post', 'recipe-card-blocks-by-wpzoom' ) } <a href={getCPTEditURL}>{__( 'here', 'recipe-card-blocks-by-wpzoom' ) }</a></p>;
+		const editCPT = <p className="wpzoom-edit-link-description">{ __( 'Edit the recipe post', 'recipe-card-blocks-by-wpzoom' ) } <a href={getCPTEditURL}>{__( 'here', 'recipe-card-blocks-by-wpzoom' ) }</a></p>;
 
         return (
             // eslint-disable-next-line react/jsx-no-undef
