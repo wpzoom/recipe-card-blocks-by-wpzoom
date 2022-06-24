@@ -9,6 +9,12 @@
 			$(this).find('.wpzoom-rating-stars-container').attr( 'data-recipe-id', parent_id );
 
 		});
+
+		$('.wpzoom-custom-recipe-card-post').each(function( index ) {
+			var recipe_id = $(this).data('recipe-post');
+			$('.wpzoom-recipe-snippet-button.wp-block-wpzoom-recipe-card-block-print-recipe').attr( 'data-recipe-id', recipe_id );
+		});
+
 	}
 
 	function wpzoom_set_servings_size_to_print_button() {
