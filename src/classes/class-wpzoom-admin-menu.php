@@ -32,7 +32,7 @@ class WPZOOM_Admin_Menu {
 		add_menu_page(
 			esc_html__( 'Recipe Card Settings', 'recipe-card-blocks-by-wpzoom' ),
 			esc_html__( 'Recipe Cards', 'recipe-card-blocks-by-wpzoom' ),
-			'manage_options',
+			'edit_posts',
 			WPZOOM_RCB_SETTINGS_PAGE,
 			array( $this, 'admin_page' ),
 			'none',
@@ -53,7 +53,7 @@ class WPZOOM_Admin_Menu {
 			WPZOOM_RCB_SETTINGS_PAGE,
 			esc_html__( 'Recipe Card Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ),
 			'<span style="color:#FFA921">' . esc_html__( 'Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ) . '</span>',
-			'manage_options',
+			'edit_posts',
 			'wpzoom-recipe-card-vs-pro',
 			array( $this, 'admin_page' )
 		);
