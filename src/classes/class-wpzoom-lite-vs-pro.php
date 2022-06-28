@@ -35,7 +35,7 @@ class WPZOOM_Lite_vs_PRO {
 
 	public function lite_vs_pro_page() {
 		// check user capabilities
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'edit_posts' ) ) {
 			return;
 		}
 		?>

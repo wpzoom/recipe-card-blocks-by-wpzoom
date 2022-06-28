@@ -291,7 +291,7 @@ class WPZOOM_Custom_Post {
 			WPZOOM_RCB_SETTINGS_PAGE, 
 			esc_html__( 'All Recipes', 'recipe-card-blocks-by-wpzoom' ),
 			esc_html__( 'All Recipes', 'recipe-card-blocks-by-wpzoom' ),
-			'edit_pages',
+			'edit_posts',
 			'edit.php?post_type=wpzoom_rcb'
 		);
 	
