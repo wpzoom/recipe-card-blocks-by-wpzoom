@@ -340,7 +340,12 @@ class WPZOOM_Recipe_Card_Block {
 			}
 		}
 
-		self::$recipe->ID               = $recipe_ID;
+		if( is_object( self::$recipe ) && isset( self::$recipe->ID ) ) {
+			self::$recipe->ID = $recipe_ID;
+		}
+		else {
+			self::$recipe = (object) array( 'ID' => $recipe_ID ); 
+		}
 
 		$recipe_title              = get_the_title( self::$recipe );
 		$recipe_thumbnail_url      = get_the_post_thumbnail_url( self::$recipe );
