@@ -5,7 +5,7 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica,
 Requires at least: 5.7
 Requires PHP: 7.2
 Tested up to: 6.0
-Stable tag: 3.1.6
+Stable tag: 3.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.1.7 =
+* Fixed a conflict with the RankMath plugin
 
 = 3.1.6 =
 * Adjustments to the access provided to the Recipes section for different User Roles. Contributors, Authors and Editors will have access to create new Recipes posts.
