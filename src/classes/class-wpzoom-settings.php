@@ -265,6 +265,7 @@ class WPZOOM_Settings {
 	 * Initilize all settings
 	 */
 	public function settings_init() {
+		$premium_extended_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Premium - Extended', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Premium', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 		$soon_badge    = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_coming_soon">' . __( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 
@@ -594,6 +595,49 @@ class WPZOOM_Settings {
                                     ),
                                 ),
                             ),
+                        ),
+                    ),
+
+					array(
+                        'id'       => 'wpzoom_section_unit_system',
+                        'title'    => __( 'Unit System', 'recipe-card-blocks-by-wpzoom' ),
+                        'page'     => 'wpzoom-recipe-card-settings-general',
+                        'callback' => '',
+                        'fields'   => array(
+
+							array(
+								'id'    => 'wpzoom_rcb_settings_display_unit_system',
+								'title' => __( 'Display Unit System', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_display_unit_system',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Show Unit System by default', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => true,
+									'disabled'    => true,
+									'preview'     => true,
+									'badge'       => $premium_extended_badge,
+									'preview_pos' => 'top',
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_default_unit_system',
+								'title' => __( 'Default Unit System', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'select',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_default_unit_system',
+									'class'       => 'wpzoom-rcb-field',
+									'default'     => 'select',
+									'disabled'    => true,
+									'preview'     => true,
+									'badge'       => $premium_extended_badge,
+									'options'   => array(
+										'select'   => __( 'Select unit system', 'recipe-card-blocks-by-wpzoom' ),
+										'us'   => __( 'US customary', 'recipe-card-blocks-by-wpzoom' ),
+										'metric' => __( 'Metric', 'recipe-card-blocks-by-wpzoom' ),
+									),
+								),
+							),
                         ),
                     ),
 
