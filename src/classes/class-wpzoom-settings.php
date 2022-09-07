@@ -265,8 +265,8 @@ class WPZOOM_Settings {
 	 * Initilize all settings
 	 */
 	public function settings_init() {
-		$premium_extended_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Premium - Extended', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
-		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Premium', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
+		$premium_extended_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Professional License Required', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
+		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'PRO Feature', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 		$soon_badge    = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_coming_soon">' . __( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 
 		self::$settings = array(
