@@ -340,7 +340,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 				if ( $should_enqueue || $has_reusable_block || $posts_loop_page ) {
 					wp_enqueue_script( self::$_slug . '-script' );
-					wp_enqueue_script( self::$_slug . '-pinit' );
+
+					// Load Pinterest script
+					if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_load_pinterest_script' ) ) {
+						wp_enqueue_script( self::$_slug . '-pinit' );
+					}
 
 					wp_enqueue_style( self::$_slug . '-style-css' );
 

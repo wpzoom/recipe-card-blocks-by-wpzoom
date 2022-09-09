@@ -1127,6 +1127,17 @@ class WPZOOM_Settings {
                                     'default'     => true,
                                 ),
                             ),
+							array(
+								'id'    => 'wpzoom_rcb_settings_load_pinterest_script',
+								'title' => __( 'Load Pinterest script', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_load_pinterest_script',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => __( 'Disable this option if you don\'t want to load Pinterest script on your website or you don\'t use the Pin It button in the Recipe Card block.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => true,
+								),
+							),
                         ),
                     ),
 
