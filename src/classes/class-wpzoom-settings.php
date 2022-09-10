@@ -1452,7 +1452,7 @@ class WPZOOM_Settings {
 
                     <div class="license-wrap">
                         <h2 class="headline"><?php _e( 'Follow us!', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
-                        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Frecipeblock&width=89&layout=button_count&action=like&size=large&show_faces=false&share=false&height=21&appId=610643215638351" width="89" height="30" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+                        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Frecipeblock&width=89&layout=button_count&action=like&size=large&show_faces=false&share=false&height=21&appId=610643215638351" width="129" height="30" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 
                         <br>
                         <br>
