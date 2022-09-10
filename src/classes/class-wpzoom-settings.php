@@ -265,7 +265,8 @@ class WPZOOM_Settings {
 	 * Initilize all settings
 	 */
 	public function settings_init() {
-		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Premium', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
+		$premium_extended_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Professional License Required', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
+		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'PRO Feature', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 		$soon_badge    = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_coming_soon">' . __( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 
 		self::$settings = array(
@@ -594,6 +595,49 @@ class WPZOOM_Settings {
                                     ),
                                 ),
                             ),
+                        ),
+                    ),
+
+					array(
+                        'id'       => 'wpzoom_section_unit_system',
+                        'title'    => __( 'Unit System', 'recipe-card-blocks-by-wpzoom' ),
+                        'page'     => 'wpzoom-recipe-card-settings-general',
+                        'callback' => '',
+                        'fields'   => array(
+
+							array(
+								'id'    => 'wpzoom_rcb_settings_display_unit_system',
+								'title' => __( 'Display Unit System', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_display_unit_system',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Show Unit System by default', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => true,
+									'disabled'    => true,
+									'preview'     => true,
+									'badge'       => $premium_extended_badge,
+									'preview_pos' => 'top',
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_default_unit_system',
+								'title' => __( 'Default Unit System', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'select',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_default_unit_system',
+									'class'       => 'wpzoom-rcb-field',
+									'default'     => 'select',
+									'disabled'    => true,
+									'preview'     => true,
+									'badge'       => $premium_extended_badge,
+									'options'   => array(
+										'select'   => __( 'Select unit system', 'recipe-card-blocks-by-wpzoom' ),
+										'us'   => __( 'US customary', 'recipe-card-blocks-by-wpzoom' ),
+										'metric' => __( 'Metric', 'recipe-card-blocks-by-wpzoom' ),
+									),
+								),
+							),
                         ),
                     ),
 
@@ -1083,6 +1127,17 @@ class WPZOOM_Settings {
                                     'default'     => true,
                                 ),
                             ),
+							array(
+								'id'    => 'wpzoom_rcb_settings_load_pinterest_script',
+								'title' => __( 'Load Pinterest script', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_load_pinterest_script',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => __( 'Disable this option if you don\'t want to load Pinterest script on your website or you don\'t use the Pin It button in the Recipe Card block.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => true,
+								),
+							),
                         ),
                     ),
 
@@ -1397,7 +1452,7 @@ class WPZOOM_Settings {
 
                     <div class="license-wrap">
                         <h2 class="headline"><?php _e( 'Follow us!', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
-                        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Frecipeblock&width=89&layout=button_count&action=like&size=large&show_faces=false&share=false&height=21&appId=610643215638351" width="89" height="30" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+                        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Frecipeblock&width=89&layout=button_count&action=like&size=large&show_faces=false&share=false&height=21&appId=610643215638351" width="129" height="30" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 
                         <br>
                         <br>
