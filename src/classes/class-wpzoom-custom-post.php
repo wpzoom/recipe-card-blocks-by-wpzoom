@@ -256,7 +256,7 @@ class WPZOOM_Custom_Post {
 			'label'                 => esc_html__( 'Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
 			'description'           => esc_html__( 'Custom Recipe Card post', 'recipe-card-blocks-by-wpzoom' ),
 			'labels'                => $labels,
-			'supports'              => array( 'title', 'editor', 'thumbnail' ),
+			'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'revisions' ),
 			'taxonomies'            => array( 'wpzoom_rcb_courses', 'wpzoom_rcb_cuisines', 'wpzoom_rcb_difficulties' ),
 			'hierarchical'          => false,
 			'public'                => false,
