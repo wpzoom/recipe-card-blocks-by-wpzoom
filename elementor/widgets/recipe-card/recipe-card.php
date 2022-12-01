@@ -1895,6 +1895,25 @@ class Recipe_Card extends Widget_Base {
 					$video_embed_url = self::$helpers->convert_vimeo_url_to_embed( $video_url );
 				}
 				$json_ld['video']['embedUrl'] = esc_url( $video_embed_url );
+				if ( ! empty( $settings['image']['url'] ) ) {
+					$image_id = isset( $settings['image']['id'] ) ? $settings['image']['id'] : 0;
+					if ( ! empty( $settings['thumbnail_size'] ) ) {
+						if ( 'custom' == $settings['thumbnail_size'] ) {
+							if ( ! empty( $settings['thumbnail_custom_dimension']['width'] ) ) {
+								$attachment_size[0] = (int) $settings['thumbnail_custom_dimension']['width'];
+							}
+							if ( ! empty( $settings['thumbnail_custom_dimension']['height'] ) ) {
+								$attachment_size[1] = (int) $settings['thumbnail_custom_dimension']['height'];
+							}
+							$imageSize = $attachment_size;
+						} else {
+							$imageSize = $settings['thumbnail_size'];
+						}
+					} else {
+						$imageSize = 'thumbnail';
+					}
+					$json_ld['video']['thumbnailUrl'] = wp_get_attachment_image_url( $settings['image']['id'], $imageSize, false );
+				}
 			} else {
 				// we have no video added
 				// removed video attribute from json_ld array
@@ -1932,6 +1951,25 @@ class Recipe_Card extends Widget_Base {
 				}
 				if ( isset( $settings['poster']['url'] ) ) {
 					$json_ld['video']['thumbnailUrl'] = esc_url( $settings['poster']['url'] );
+				}
+				elseif ( ! empty( $settings['image']['url'] ) ) {
+					$image_id = isset( $settings['image']['id'] ) ? $settings['image']['id'] : 0;
+					if ( ! empty( $settings['thumbnail_size'] ) ) {
+						if ( 'custom' == $settings['thumbnail_size'] ) {
+							if ( ! empty( $settings['thumbnail_custom_dimension']['width'] ) ) {
+								$attachment_size[0] = (int) $settings['thumbnail_custom_dimension']['width'];
+							}
+							if ( ! empty( $settings['thumbnail_custom_dimension']['height'] ) ) {
+								$attachment_size[1] = (int) $settings['thumbnail_custom_dimension']['height'];
+							}
+							$imageSize = $attachment_size;
+						} else {
+							$imageSize = $settings['thumbnail_size'];
+						}
+					} else {
+						$imageSize = 'thumbnail';
+					}
+					$json_ld['video']['thumbnailUrl'] = wp_get_attachment_image_url( $settings['image']['id'], $imageSize, false );
 				}
 			} else {
 				// we have no video added
