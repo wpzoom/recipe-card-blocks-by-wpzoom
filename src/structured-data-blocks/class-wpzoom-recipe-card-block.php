@@ -340,11 +340,13 @@ class WPZOOM_Recipe_Card_Block {
 			}
 		}
 
-		if( is_object( self::$recipe ) && isset( self::$recipe->ID ) ) {
-			self::$recipe->ID = $recipe_ID;
-		}
-		else {
-			self::$recipe = (object) array( 'ID' => $recipe_ID ); 
+		if( ! has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) ) {
+			if( is_object( self::$recipe ) && isset( self::$recipe->ID ) ) {
+				self::$recipe->ID = $recipe_ID;
+			}
+			else {
+				self::$recipe = (object) array( 'ID' => $recipe_ID ); 
+			}
 		}
 
 		$recipe_title              = get_the_title( self::$recipe );
