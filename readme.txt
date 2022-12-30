@@ -1,4 +1,4 @@
-=== Recipe Card Blocks for Gutenberg & Elementor ===
+=== Recipe Card Blocks for Gutenberg & Elementor - Best WordPress Recipe Plugin ===
 Contributors: WPZOOM
 Donate link: https://recipecard.io/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
@@ -26,8 +26,7 @@ Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup (JSON-LD) for 
 
 > Did you find this plugin helpful? Please consider [leaving a 5-star review](https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/).
 
-
-Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/foodica/), **[Recipe Card Blocks](https://recipecard.io)** is a powerful recipe plugin that adds beautiful recipe cards to the new **WordPress editor & Elementor** to help you create recipes easily on your food blog.
+Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/foodica/), **[Recipe Card Blocks](https://recipecard.io)** is a powerful WordPress recipe plugin that adds beautiful recipe cards to the new **block editor & Elementor** to help you create recipes easily on your food blog.
 
 = 📌 INCLUDED BLOCKS =
 
