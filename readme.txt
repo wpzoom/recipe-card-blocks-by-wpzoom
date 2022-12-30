@@ -5,7 +5,7 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica,
 Requires at least: 5.7
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 3.1.8
+Stable tag: 3.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,6 +156,10 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.1.9 =
+* Bug fix with Schema.org markup
+* Fixed an issue with Sticky posts
 
 = 3.1.8 =
 * Added a new option to disable the loading of the Pinterest script (Settings > Performance)

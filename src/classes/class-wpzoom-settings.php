@@ -1423,7 +1423,7 @@ class WPZOOM_Settings {
                                   <div class="ml-form-formContent">
                                     <div class="ml-form-fieldRow ml-last-item">
                                       <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                                        <input aria-label="email" aria-required="true" type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="Email" autocomplete="email">
+                                        <input aria-label="email" aria-required="true" type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="Enter your email address" autocomplete="email">
                                       </div>
                                     </div>
                                   </div>
