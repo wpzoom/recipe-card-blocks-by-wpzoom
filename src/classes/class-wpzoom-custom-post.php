@@ -99,6 +99,10 @@ class WPZOOM_Custom_Post {
 
 
 		$parent_id = get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
+
+		if( 'trash' === get_post_status( $parent_id ) ) {
+			$parent_id = $post_id;
+		};
 		
 		// Fill in the columns with meta box info associated with each post
 		switch ( $column ) {
