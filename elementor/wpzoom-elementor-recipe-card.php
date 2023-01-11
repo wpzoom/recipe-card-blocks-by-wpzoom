@@ -64,7 +64,7 @@ class WPZOOM_Elementor_Recipe_Card {
 
 		// Add Plugin actions
 		add_action( 'elementor/elements/categories_registered', array( $this, 'add_widget_categories' ) );
-		add_action( 'elementor/widgets/widgets_registered', array( $this, 'init_widgets' ) );
+		add_action( 'elementor/widgets/register', array( $this, 'init_widgets' ) );
 		add_action( 'elementor/controls/register', array( $this, 'register_controls' ) );
 
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'plugin_css' ) );
