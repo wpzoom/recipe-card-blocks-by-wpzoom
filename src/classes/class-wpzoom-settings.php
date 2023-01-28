@@ -1116,17 +1116,7 @@ class WPZOOM_Settings {
                         'page'     => 'wpzoom-recipe-card-settings-performance',
                         'callback' => '__return_false',
                         'fields'   => array(
-                            array(
-                                'id'    => 'wpzoom_rcb_settings_enable_google_fonts',
-                                'title' => __( 'Enable Google Fonts', 'recipe-card-blocks-by-wpzoom' ),
-                                'type'  => 'checkbox',
-                                'args'  => array(
-                                    'label_for'   => 'wpzoom_rcb_settings_enable_google_fonts',
-                                    'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'If you check this field, the plugin will load Roboto Condensed font from Google Fonts to use it for headings.', 'recipe-card-blocks-by-wpzoom' ),
-                                    'default'     => true,
-                                ),
-                            ),
+
 							array(
 								'id'    => 'wpzoom_rcb_settings_load_pinterest_script',
 								'title' => __( 'Load Pinterest script', 'recipe-card-blocks-by-wpzoom' ),
@@ -1134,7 +1124,7 @@ class WPZOOM_Settings {
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_load_pinterest_script',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => __( 'Disable this option if you don\'t want to load Pinterest script on your website or you don\'t use the Pin It button in the Recipe Card block.', 'recipe-card-blocks-by-wpzoom' ),
+									'description' => __( 'Uncheck this option if you don\'t want to load the Pinterest script on your website used for the Pin It button', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => true,
 								),
 							),

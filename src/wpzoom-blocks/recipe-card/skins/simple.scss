@@ -1,7 +1,8 @@
 .wp-block-wpzoom-recipe-card-block-recipe-card {
 
     &.is-style-simple {
-        padding: 20px;
+        padding: 25px;
+        border-radius: 10px;
         margin-top: 50px;
 		margin-bottom: 50px;
         background: #ffffff;
@@ -9,10 +10,10 @@
 
         .recipe-card-header-wrap {
             @include clear-after;
-
-            margin: -20px -20px 10px -20px;
-            padding: 20px;
-            background-color: $coconut-cream;
+            margin: -26px -26px 25px -26px;
+            padding: 25px;
+            background-color: #FFF3E0;
+            border-radius: 10px 10px 0 0;
         }
 
         &.header-content-align-right {
@@ -49,6 +50,7 @@
                     width: 100%;
                     height: auto;
                     margin: 0;
+                    border-radius: 8px;
                 }
                 figcaption {
                     margin-top: 10px;
@@ -64,7 +66,7 @@
                 margin-right: $grid-unit-15;
                 .btn-pinit-link {
                     display: block;
-                    border-radius: 3px;
+                    border-radius: 4px;
                     padding: $grid-unit $grid-unit-10;
                     font-style: normal;
                     text-decoration: none;
@@ -75,6 +77,11 @@
                     box-shadow: none;
                     cursor: pointer;
                     background-color: #C62122;
+                    transition: .2s ease opacity;
+
+                    &:hover {
+                        opacity:.8;
+                    }
                     .wpzoom-rcb-icon-pinit-link {
                         display: inline-block;
                         margin-right: $grid-unit;
@@ -97,7 +104,7 @@
             .wpzoom-recipe-card-print-link {
                 .btn-print-link {
                     display: block;
-                    border-radius: 3px;
+                    border-radius: 4px;
                     padding: $grid-unit $grid-unit-10;
                     font-style: normal;
                     text-decoration: none;
@@ -109,6 +116,11 @@
                     cursor: pointer;
                     color: $simple-primary-text-color;
                     background-color: $simple-primary-color;
+                    transition: .2s ease opacity;
+
+                    &:hover {
+                        opacity:.8;
+                    }
                     .wpzoom-rcb-icon-print-link {
                         display: inline-block;
                         margin-right: $grid-unit;
@@ -327,7 +339,7 @@
             margin-bottom: 30px;
 
             .recipe-card-notes-list {
-                @include recipe-notes-list( $coconut-cream, $coffee, $simple-primary-color, $simple-primary-text-color );
+                @include recipe-notes-list( #FFF3E0, $coffee, $simple-primary-color, $simple-primary-text-color );
             }
         }
 

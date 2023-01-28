@@ -125,11 +125,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				WPZOOM_RCB_VERSION
 			);
 
-			wp_register_style(
-				self::$_slug . '-google-font',
-				'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i',
-				array()
-			);
 		}
 
 		/**
@@ -299,10 +294,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			if ( is_admin() ) {
 				wp_enqueue_style( self::$_slug . '-style-css' );
 
-				// Enable Google Fonts
-				if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_enable_google_fonts' ) ) {
-					wp_enqueue_style( self::$_slug . '-google-font' );
-				}
 			} else {
 
 				/**
@@ -348,10 +339,6 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 					wp_enqueue_style( self::$_slug . '-style-css' );
 
-					// Enable Google Fonts
-					if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_enable_google_fonts' ) ) {
-						wp_enqueue_style( self::$_slug . '-google-font' );
-					}
 				}
 
 				/**
@@ -522,38 +509,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$block_class_name = ".wp-block-wpzoom-recipe-card-block-recipe-card.is-style-{$style}";
 			$primary_color    = $settings['primary_color'];
 
-			$fa_brands_400_eot   = $this->asset_source( 'webfonts', 'fa-brands-400.eot' );
-			$fa_brands_400_woff  = $this->asset_source( 'webfonts', 'fa-brands-400.woff' );
-			$fa_brands_400_woff2 = $this->asset_source( 'webfonts', 'fa-brands-400.woff2' );
-			$fa_brands_400_ttf   = $this->asset_source( 'webfonts', 'fa-brands-400.ttf' );
-			$fa_brands_400_svg   = $this->asset_source( 'webfonts', 'fa-brands-400.svg' );
-
-			$fa_regular_400_eot   = $this->asset_source( 'webfonts', 'fa-regular-400.eot' );
-			$fa_regular_400_woff  = $this->asset_source( 'webfonts', 'fa-regular-400.woff' );
 			$fa_regular_400_woff2 = $this->asset_source( 'webfonts', 'fa-regular-400.woff2' );
-			$fa_regular_400_ttf   = $this->asset_source( 'webfonts', 'fa-regular-400.ttf' );
-			$fa_regular_400_svg   = $this->asset_source( 'webfonts', 'fa-regular-400.svg' );
-
-			$fa_solid_900_eot   = $this->asset_source( 'webfonts', 'fa-solid-900.eot' );
-			$fa_solid_900_woff  = $this->asset_source( 'webfonts', 'fa-solid-900.woff' );
 			$fa_solid_900_woff2 = $this->asset_source( 'webfonts', 'fa-solid-900.woff2' );
-			$fa_solid_900_ttf   = $this->asset_source( 'webfonts', 'fa-solid-900.ttf' );
-			$fa_solid_900_svg   = $this->asset_source( 'webfonts', 'fa-solid-900.svg' );
-
-			$foodicons_eot  = $this->asset_source( 'webfonts', 'Foodicons.eot' );
 			$foodicons_woff = $this->asset_source( 'webfonts', 'Foodicons.woff' );
-			$foodicons_ttf  = $this->asset_source( 'webfonts', 'Foodicons.ttf' );
-			$foodicons_svg  = $this->asset_source( 'webfonts', 'Foodicons.svg' );
-
-			$genericons_eot  = $this->asset_source( 'webfonts', 'Genericons.eot' );
 			$genericons_woff = $this->asset_source( 'webfonts', 'Genericons.woff' );
-			$genericons_ttf  = $this->asset_source( 'webfonts', 'Genericons.ttf' );
-			$genericons_svg  = $this->asset_source( 'webfonts', 'Genericons.svg' );
-
-			$oldicon_eot  = $this->asset_source( 'webfonts', 'Oldicon.eot' );
 			$oldicon_woff = $this->asset_source( 'webfonts', 'Oldicon.woff' );
-			$oldicon_ttf  = $this->asset_source( 'webfonts', 'Oldicon.ttf' );
-			$oldicon_svg  = $this->asset_source( 'webfonts', 'Oldicon.svg' );
 
 			$inline_CSS  = file_get_contents( $this->asset_source( '', 'blocks.style.build.css' ) );
 			$inline_CSS .= file_get_contents( $this->asset_source( 'css', 'amp-icon-fonts.build.css' ) );
@@ -562,15 +522,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$inline_CSS .= "{$block_class_name} .recipe-card-notes .recipe-card-notes-list>li::before {
                 background-color: {$primary_color};
             }";
-			$inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Brands\";font-style:normal;font-weight:400;font-display:auto;src:url({$fa_brands_400_eot});src:url({$fa_brands_400_eot}?#iefix) format(\"embedded-opentype\"),url({$fa_brands_400_woff2}) format(\"woff2\"),url({$fa_brands_400_woff}) format(\"woff\"),url({$fa_brands_400_ttf}) format(\"truetype\"),url({$fa_brands_400_svg}#fontawesome) format(\"svg\")}.fab{font-family:\"Font Awesome 5 Brands\"}";
-			$inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Free\";font-style:normal;font-weight:400;font-display:auto;src:url({$fa_regular_400_eot});src:url({$fa_regular_400_eot}?#iefix) format(\"embedded-opentype\"),url({$fa_regular_400_woff2}) format(\"woff2\"),url({$fa_regular_400_woff}) format(\"woff\"),url({$fa_regular_400_ttf}) format(\"truetype\"),url({$fa_regular_400_svg}#fontawesome) format(\"svg\")}.far{font-weight:400}";
-			$inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Free\";font-style:normal;font-weight:900;font-display:auto;src:url({$fa_solid_900_eot});src:url({$fa_solid_900_eot}?#iefix) format(\"embedded-opentype\"),url({$fa_solid_900_woff2}) format(\"woff2\"),url({$fa_solid_900_woff}) format(\"woff\"),url({$fa_solid_900_ttf}) format(\"truetype\"),url({$fa_solid_900_svg}#fontawesome) format(\"svg\")}";
-			$inline_CSS .= "@font-face{font-family:FoodIcons;src:url({$foodicons_eot});src:url({$foodicons_eot}?#iefix) format(\"embedded-opentype\"),url({$foodicons_woff}) format(\"woff\"),url({$foodicons_ttf}) format(\"truetype\"),url({$foodicons_svg}#Flaticon) format(\"svg\");font-weight:400;font-style:normal}";
-			$inline_CSS .= "@media screen and (-webkit-min-device-pixel-ratio:0){@font-face{font-family:FoodIcons;src:url({$foodicons_svg}#Flaticon) format(\"svg\")}}";
-			$inline_CSS .= "@font-face{font-family:Genericons;src:url({$genericons_eot});src:url({$genericons_eot}?) format(\"embedded-opentype\"),url({$genericons_woff}) format(\"woff\"),url({$genericons_ttf}) format(\"truetype\"),url({$genericons_svg}#Genericons) format(\"svg\");font-weight:400;font-style:normal}";
-			$inline_CSS .= "@media screen and (-webkit-min-device-pixel-ratio:0){@font-face{font-family:Genericons;src:url({$genericons_svg}#Genericons) format(\"svg\")}}";
-			$inline_CSS .= "@font-face{font-family:Oldicon;src:url({$oldicon_eot});src:url({$oldicon_eot}?#iefix) format(\"embedded-opentype\"),url({$oldicon_woff}) format(\"woff\"),url({$oldicon_ttf}) format(\"truetype\"),url({$oldicon_svg}#Flaticon) format(\"svg\");font-weight:400;font-style:normal}";
-			$inline_CSS .= "@media screen and (-webkit-min-device-pixel-ratio:0){@font-face{font-family:Oldicon;src:url({$oldicon_svg}#Flaticon) format(\"svg\")}}";
+			$inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Free\";font-style:normal;font-weight:400;font-display:block;src:url({$fa_regular_400_woff2}) format(\"woff2\")}.far{font-weight:400}";
+			$inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Free\";font-style:normal;font-weight:900;font-display:block;src:url({$fa_solid_900_woff2}) format(\"woff2\")}";
+			$inline_CSS .= "@font-face{font-family:FoodIcons;src:url({$foodicons_woff}) format(\"woff\");font-weight:400;font-display:block;font-style:normal}";
+			$inline_CSS .= "@font-face{font-family:Genericons;src:url({$genericons_woff}) format(\"woff\");font-weight:400;font-display:block;font-style:normal}";
+			$inline_CSS .= "@font-face{font-family:Oldicon;src:url({$oldicon_woff}) format(\"woff\");font-weight:400;font-display:block;font-style:normal}";
 
 			if ( $style === 'default' ) {
 				if ( ! empty( $primary_color ) ) {

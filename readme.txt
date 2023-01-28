@@ -113,7 +113,7 @@ You can view the Recipe Card Block live [here](http://demo.recipecard.io/).
 
 = GDPR COMPLIANCE =
 
-In order to make the plugin **100% GDPR compliant**, you will have to disable **Google Fonts** in **Settings > Appearance**.
+This plugin is **100% GDPR compliant**. It doesn't integrate any Google Fonts.
 Recipe Card Blocks does not collect any information outside your WordPress installation, therefore it’s **100% GDPR compliant**.
 
 

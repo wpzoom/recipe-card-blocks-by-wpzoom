@@ -253,12 +253,6 @@ function IconsModal(
                                             className: 'tab-solid',
                                             content: iconsGrid( 'solid' ),
                                         },
-                                        {
-                                            name: 'brands',
-                                            title: __( 'Brands', 'recipe-card-blocks-by-wpzoom' ),
-                                            className: 'tab-brands',
-                                            content: iconsGrid( 'brands' ),
-                                        },
                                     ] }
                                 >
                                     {

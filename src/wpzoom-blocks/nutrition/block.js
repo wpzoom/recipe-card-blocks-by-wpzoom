@@ -5,6 +5,8 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
+import icon from './icon';
+
 /* External dependencies */
 import { __ } from '@wordpress/i18n';
 
@@ -29,7 +31,7 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( 'Nutrition', 'recipe-card-blocks-by-wpzoom' ), // Block title.
+    title: __( 'Nutrition Facts', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     description: __( 'Display Nutrition Facts for your recipe.', 'recipe-card-blocks-by-wpzoom' ),
     icon: {
         // Specifying a background color to appear with the icon e.g.: in the inserter.
@@ -37,7 +39,7 @@ registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
         // Specifying a color for the icon (optional: if not set, a readable color will be automatically defined)
         foreground: '#FDA921',
         // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-        src: 'analytics',
+        src: icon,
     },
     category: 'wpzoom-recipe-card', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
     // Allow only one Premium Recipe Card block per post.

@@ -50,7 +50,6 @@
     left: 0;
     font-size: $font-size;
     font-weight: bold;
-    font-family: $google-font-family;
     text-transform: uppercase;
     line-height: 1.4;
     color: $dark-gray;
@@ -79,14 +78,13 @@
 @mixin recipe-sections-title( $color, $text-transform, $selectors... ) {
     @for $i from 0 to length($selectors) {
         .#{nth($selectors, $i + 1)} {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 22px;
+            font-weight: 600;
             color: $color;
-            font-family: $google-font-family;
-            text-transform: $text-transform;
-            @include margin( 0 0 15px );
+            @include margin( 0 0 20px );
             padding: 0;
             background-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         }
     }
 }
@@ -142,8 +140,6 @@
         border: 2px solid $ticked-color !important;
         background: $ticked-color;
 
-        -webkit-box-shadow: inset 0px 0px 0px 2px #fff;
-        -moz-box-shadow: inset 0px 0px 0px 2px #fff;
         box-shadow: inset 0px 0px 0px 2px #fff;
     }
 }

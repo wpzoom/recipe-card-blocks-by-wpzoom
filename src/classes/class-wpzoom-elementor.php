@@ -52,10 +52,6 @@ class WPZOOM_Elementor {
 		// Styles.
 		wp_enqueue_style( $assets_slug . '-style-css' );
 
-		// Enable Google Fonts
-		if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_enable_google_fonts' ) ) {
-			wp_enqueue_style( $assets_slug . '-google-font' );
-		}
 	}
 
 	public function preview_enqueue_styles() {

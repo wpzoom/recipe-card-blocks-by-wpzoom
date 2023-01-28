@@ -35,7 +35,7 @@ const { setting_options, pluginURL } = wpzoomRecipeCard;
  */
 registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-    title: __( 'Recipe Card Block (Schema.org)', 'recipe-card-blocks-by-wpzoom' ), // Block title.
+    title: __( 'Recipe Card (Schema.org)', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     description: __( 'Display a Recipe Card with recipe metadata.', 'recipe-card-blocks-by-wpzoom' ),
     icon: {
         // // Specifying a background color to appear with the icon e.g.: in the inserter.

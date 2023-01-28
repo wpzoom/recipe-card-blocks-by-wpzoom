@@ -48,6 +48,12 @@
                     background-color: $newdesign-primary-color;
                     box-shadow: 0 5px 40px $newdesign-primary-color;
                     border: none;
+                    transition: .2s ease box-shadow;
+
+                    &:hover {
+                        opacity:.9;
+                        box-shadow: 0 15px 10px $newdesign-primary-color;
+                    }
                     .wpzoom-rcb-icon-print-link {
                         margin: auto;
                         margin-bottom: 5px;
@@ -88,6 +94,12 @@
                     background-color: #C62122;
                     box-shadow: 0 5px 40px #C62122;
                     outline: 0;
+                    transition: .2s ease box-shadow;
+
+                    &:hover {
+                        opacity:.8;
+                        box-shadow: 0 5px 30px #C62122;
+                    }
                     .wpzoom-rcb-icon-pinit-link {
                         margin: auto;
                         margin-bottom: 5px;

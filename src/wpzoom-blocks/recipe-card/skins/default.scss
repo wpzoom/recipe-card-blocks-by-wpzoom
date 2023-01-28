@@ -36,8 +36,6 @@
                     left: 0;
                     z-index: 1;
 
-                    background: -moz-linear-gradient(bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 35%);
-                    background: -webkit-linear-gradient(bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 35%);
                     background: linear-gradient(to top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 35%);
                 }
                 figcaption {
@@ -57,7 +55,7 @@
 
                 .btn-print-link {
                     display: block;
-                    border-radius: 3px;
+                    border-radius: 4px;
                     padding: 10px;
                     font-style: normal;
                     text-decoration: none;
@@ -67,6 +65,12 @@
                     background-color: $default-primary-color;
                     border: none;
                     box-shadow: none;
+                    transition: .2s ease opacity;
+
+                    &:hover {
+                        opacity:.8;
+                    }
+
                     .wpzoom-rcb-icon-print-link {
                         display: inline-block;
                         margin-right: $grid-unit;
@@ -93,7 +97,7 @@
                 .btn-pinit-link {
                     cursor: pointer;
                     display: block;
-                    border-radius: 3px;
+                    border-radius: 4px;
                     padding: 10px;
                     text-decoration: none;
                     font-size: 12px;
@@ -102,6 +106,11 @@
                     border: none;
                     box-shadow: none;
                     background-color: #C62122;
+                    transition: .2s ease opacity;
+
+                    &:hover {
+                        opacity:.8;
+                    }
                     .wpzoom-rcb-icon-pinit-link {
                         display: inline-block;
                         margin-right: $grid-unit;
