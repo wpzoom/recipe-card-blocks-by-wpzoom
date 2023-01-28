@@ -11,3 +11,19 @@
 /src/icon.js export-ignore
 /src/common.scss export-ignore
 /src/__mixins.scss export-ignore
+/src/amp.scss export-ignore
+/src/colors.scss export-ignore
+
+# Directories
+/.wordpress-org export-ignore
+/.github export-ignore
+
+# Files
+.eslintrc.json export-ignore
+.distignore export-ignore
+.eslintignore export-ignore
+.editorconfig export-ignore
+.phpcs.xml.dist export-ignore
+composer.json export-ignore
+composer.lock export-ignore
+phpstan.neon.dist export-ignore
