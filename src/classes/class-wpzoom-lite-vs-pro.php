@@ -150,12 +150,12 @@ class WPZOOM_Lite_vs_PRO {
                         <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
 					<tr>
-						<td class="table-index"><h3><?php esc_html_e( 'Star Rating', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+						<td class="table-index"><h3><?php esc_html_e( '⭐️ Star Rating ⭐️', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
 						<td><span class="dashicons dashicons-no"></span></td>
 						<td><span class="dashicons dashicons-yes"></span></td>
 					</tr>
                     <tr>
-                        <td class="table-index"><h3><?php esc_html_e( 'Cook Mode - NEW', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td class="table-index"><h3><?php esc_html_e( 'Cook Mode', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
                         <td><span class="dashicons dashicons-no"></span></td>
                         <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
@@ -185,11 +185,6 @@ class WPZOOM_Lite_vs_PRO {
                         <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
 					<tr>
-						<td class="table-index"><h3><?php esc_html_e( 'Hide Footer Credit', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
-						<td><span class="dashicons dashicons-no"></span></td>
-						<td><span class="dashicons dashicons-yes"></span></td>
-					</tr>
-					<tr>
 						<td class="table-index"><h3><?php esc_html_e( 'Premium Support', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
 						<td><span class="dashicons dashicons-no"></span></td>
 						<td><span class="dashicons dashicons-yes"></span></td>
@@ -205,12 +200,22 @@ class WPZOOM_Lite_vs_PRO {
 						<td><span class="dashicons dashicons-yes"></span></td>
 					</tr>
                     <tr>
-                        <td class="table-index"><h3><?php esc_html_e( 'Unit Conversion - NEW', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td class="table-index"><h3><?php esc_html_e( '⭐️ Unit Conversion ⭐️ ', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
                         <td><span class="dashicons dashicons-no"></span></td>
                         <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
                     <tr>
-                        <td class="table-index"><h3><?php esc_html_e( 'Equipment - NEW', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td class="table-index"><h3><?php esc_html_e( '⭐️ Equipment ⭐️ ', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td><span class="dashicons dashicons-no"></span></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="table-index"><h3><?php esc_html_e( '⭐️  Recipe Roundups ⭐️ ', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td><span class="dashicons dashicons-no"></span></td>
+                        <td><span class="dashicons dashicons-yes"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="table-index"><h3><?php esc_html_e( '⭐️  Recipe Submissions ⭐️ ', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
                         <td><span class="dashicons dashicons-no"></span></td>
                         <td><span class="dashicons dashicons-yes"></span></td>
                     </tr>
@@ -219,6 +224,11 @@ class WPZOOM_Lite_vs_PRO {
 						<td><span class="dashicons dashicons-no"></span></td>
 						<td><em><?php esc_html_e( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ); ?></em></td>
 					</tr>
+                    <tr>
+                        <td class="table-index"><h3><?php esc_html_e( 'WooCommerce Integration', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                        <td><span class="dashicons dashicons-no"></span></td>
+                        <td><em><?php esc_html_e( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ); ?></em></td>
+                    </tr>
 					<tr>
 						<td class="table-index"><h3><?php esc_html_e( 'Support', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
 						<td><?php esc_html_e( 'Community Forum', 'recipe-card-blocks-by-wpzoom' ); ?></td>

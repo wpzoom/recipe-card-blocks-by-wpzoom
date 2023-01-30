@@ -67,10 +67,11 @@
                 .btn-pinit-link {
                     display: block;
                     border-radius: 4px;
-                    padding: $grid-unit $grid-unit-10;
+                    padding: $grid-unit $grid-unit-20;
                     font-style: normal;
                     text-decoration: none;
-                    font-size: $ultra-small-font-size;
+                    font-size: 14px;
+                    font-weight: 600;
                     color: #fff;
                     line-height: $default-line-height;
                     border: none;
@@ -105,10 +106,11 @@
                 .btn-print-link {
                     display: block;
                     border-radius: 4px;
-                    padding: $grid-unit $grid-unit-10;
+                    padding: $grid-unit $grid-unit-20;
                     font-style: normal;
                     text-decoration: none;
-                    font-size: $ultra-small-font-size;
+                    font-size: 14px;
+                    font-weight: 600;
                     color: #fff;
                     line-height: $default-line-height;
                     border: none;

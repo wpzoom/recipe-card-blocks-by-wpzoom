@@ -5,13 +5,20 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, foodie, foodica,
 Requires at least: 5.7
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 3.1.9
+Stable tag: 3.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Beautiful Recipe Card Blocks for Food Bloggers with Schema Markup (JSON-LD) for the new WordPress editor (Gutenberg)
 
 == Description ==
+
+= The Ultimate WordPress Recipe Plugin for your Food Blog =
+
+Easily create and share mouthwatering recipes with Recipe Card Blocks. With its sleek design and intuitive features, it's never been easier to create professional-quality recipes on your website.
+
+10.000+ websites are getting more traffic from Google by adding food recipes using Recipe Card Blocks!
+
 
 👉 **New Website → [recipecard.io](https://recipecard.io)** *NEW!* 👈
 
@@ -41,6 +48,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 = 📌 FEATURES =
 
 * **Elementor Support**
+* **Structured Data Integration**
 * **AMP Support**
 * **Multiple Designs**
 * Gutenberg-ready
@@ -53,19 +61,20 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 
 = ⭐️ PRO FEATURES ⭐️ =
-* **Recipe Card Widget for Elementor**
 * **Star Rating**
 * **Unit Conversion (US - Metric) - 🆕**
 * **Comments Rating**
-* **Equipment - 🆕**
-* **Cook Mode - 🆕**
+* **Recipe Submissions - 🆕**
+* **Recipe Roundup - 🆕**
+* **Equipment**
+* **Cook Mode**
 * **Gallery in Directions**
 * **Multiple Styles**
 * Adjustable servings
 * Ingredients quantity
 * Custom Pinterest image and description for Pin
 * Color Schemes
-* Food Labels
+* Food Labels - 🆕
 * Social Call-to-action (Facebook, Instagram, Pinterest)
 * Premium Support
 * and many new features coming soon!
@@ -100,18 +109,14 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 You can view the Recipe Card Block live [here](http://demo.recipecard.io/).
 
-= 🙌 CREDITS & THANKS =
-
-*  *Big thanks to Danny Cooper and his project [Editor Blocks](https://editorblockswp.com/) for providing help in developing this plugin.*
-
-
 = 🙌 FOLLOW US =
 
 * 🐦 [Twitter](https://twitter.com/recipeblock)
 * 📘 [Facebook](https://facebook.com/recipeblock)
+* 📘 [Facebook Group for Food Bloggers](https://www.facebook.com/groups/recipeblock)
 * 🌄 [Instagram](https://instagram.com/recipecardblocks)
 
-= GDPR COMPLIANCE =
+= 100% GDPR COMPLIANT =
 
 This plugin is **100% GDPR compliant**. It doesn't integrate any Google Fonts.
 Recipe Card Blocks does not collect any information outside your WordPress installation, therefore it’s **100% GDPR compliant**.
@@ -119,9 +124,9 @@ Recipe Card Blocks does not collect any information outside your WordPress insta
 
 == Installation ==
 
-Simply search for the plugin name via the **Plugins -> Add New** dialog and click install, or download and extract the plugin, and copy the plugin folder into your wp-content/plugins directory and activate.
+Simply search for the plugin name "Recipe Card Blocks" via the **Plugins -> Add New** page in the Dashboard of your WordPress website and click the install button. Once installed, click on the blue Activate button.
 
-After installation create a new post or edit an existing one using the block editor (Gutenberg), and when adding a new block, look under  **WPZOOM - Recipe Card** section to find these 2 blocks.
+After installation, create a new post or edit an existing one using the block editor (Gutenberg), and when adding a new block, look under  **Recipe Card Blocks** section to find the "Recipe Card" block.
 
 
 == Frequently Asked Questions ==
@@ -143,10 +148,10 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 == Screenshots ==
 
-1. Adding a block to the editor
+1. Adding a recipe card to the editor
 2. Recipe Card widget in Elementor
-3. WPZOOM Blocks Section
-4. Preview of Recipe Card Block
+3. All blocks included
+4. Preview of the Recipe Card Block
 5. Additional Design for Block
 6. Block Editor
 7. Recipes Page
@@ -155,6 +160,11 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.2.0 =
+* Numerous optimizations for better performance (removed unused icon fonts to save ~3MB)
+* Removed the Roboto Condensed font from Google Fonts to make the plugin 100% GDPR compliant
+* Small visual improvements to the design of the recipe block
 
 = 3.1.9 =
 * Bug fix with Schema.org markup

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-01-28 16:49+0000\n"
+"POT-Creation-Date: 2023-01-30 10:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Vicolas Petru\n"
 "Language-Team: WPZOOM\n"
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Adjustable Servings"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:198
+#: src/classes/class-wpzoom-lite-vs-pro.php:193
 msgid "Advanced Pinterest Settings"
 msgstr ""
 
@@ -194,7 +194,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:218
+#: src/classes/class-wpzoom-lite-vs-pro.php:223
 msgid "Automatic Recipe Archives"
 msgstr ""
 
@@ -319,7 +319,8 @@ msgstr ""
 msgid "Color Schemes"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:220
+#: src/classes/class-wpzoom-lite-vs-pro.php:225
+#: src/classes/class-wpzoom-lite-vs-pro.php:230
 #: src/classes/class-wpzoom-settings.php:270
 msgid "Coming Soon"
 msgstr ""
@@ -332,17 +333,14 @@ msgstr ""
 msgid "Comments Rating"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:224
+#: src/classes/class-wpzoom-lite-vs-pro.php:234
 msgid "Community Forum"
 msgstr ""
 
+#: src/classes/class-wpzoom-lite-vs-pro.php:158
 #: src/classes/class-wpzoom-settings.php:980
 #: src/classes/class-wpzoom-settings.php:1004
 msgid "Cook Mode"
-msgstr ""
-
-#: src/classes/class-wpzoom-lite-vs-pro.php:158
-msgid "Cook Mode - NEW"
 msgstr ""
 
 #: src/classes/class-wpzoom-settings.php:986
@@ -537,12 +535,6 @@ msgid ""
 "for this plugin."
 msgstr ""
 
-#: src/classes/class-wpzoom-settings.php:1127
-msgid ""
-"Disable this option if you don't want to load Pinterest script on your "
-"website or you don't use the Pin It button in the Recipe Card block."
-msgstr ""
-
 #: src/classes/class-wpzoom-settings.php:1584
 msgid "Display a list of utensils needed to cook a specific recipe."
 msgstr ""
@@ -635,7 +627,7 @@ msgstr ""
 msgid "Elementor Support"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:225
+#: src/classes/class-wpzoom-lite-vs-pro.php:235
 msgid "Email Support"
 msgstr ""
 
@@ -684,10 +676,6 @@ msgstr ""
 #: src/classes/class-wpzoom-settings.php:540
 #: src/classes/class-wpzoom-settings.php:569
 msgid "Equipment"
-msgstr ""
-
-#: src/classes/class-wpzoom-lite-vs-pro.php:213
-msgid "Equipment - NEW"
 msgstr ""
 
 #: src/classes/class-wpzoom-settings.php:1083
@@ -797,10 +785,6 @@ msgstr ""
 #: elementor/widgets/recipe-card/recipe-card.php:493
 #: elementor/widgets/recipe-card/recipe-card.php:991
 msgid "Hide"
-msgstr ""
-
-#: src/classes/class-wpzoom-lite-vs-pro.php:188
-msgid "Hide Footer Credit"
 msgstr ""
 
 #: src/classes/class-wpzoom-settings.php:751
@@ -1130,7 +1114,7 @@ msgstr ""
 msgid "Nutrition Facts"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:203
+#: src/classes/class-wpzoom-lite-vs-pro.php:198
 msgid "Nutrition Info"
 msgstr ""
 
@@ -1238,7 +1222,7 @@ msgstr ""
 msgid "Potassium"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:193
+#: src/classes/class-wpzoom-lite-vs-pro.php:188
 #: src/classes/class-wpzoom-settings.php:250
 msgid "Premium Support"
 msgstr ""
@@ -1696,10 +1680,6 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:153
-msgid "Star Rating"
-msgstr ""
-
 #: elementor/widgets/recipe-card-cpt/recipe-card-cpt.php:619
 #: elementor/widgets/recipe-card/recipe-card.php:1530
 msgid "Step"
@@ -1738,7 +1718,7 @@ msgstr ""
 msgid "Summary Text"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:223
+#: src/classes/class-wpzoom-lite-vs-pro.php:233
 msgid "Support"
 msgstr ""
 
@@ -1836,14 +1816,16 @@ msgstr ""
 msgid "Trans Fat"
 msgstr ""
 
+#: src/classes/class-wpzoom-settings.php:1127
+msgid ""
+"Uncheck this option if you don't want to load the Pinterest script on your "
+"website used for the Pin It button"
+msgstr ""
+
 #: elementor/widgets/recipe-card-cpt/recipe-card-cpt.php:354
 #: elementor/widgets/recipe-card/recipe-card.php:540
 #: elementor/widgets/recipe-card/recipe-card.php:1265
 msgid "Unit"
-msgstr ""
-
-#: src/classes/class-wpzoom-lite-vs-pro.php:208
-msgid "Unit Conversion - NEW"
 msgstr ""
 
 #: src/classes/class-wpzoom-settings.php:603
@@ -1875,7 +1857,7 @@ msgid ""
 "find the link to the parent post below."
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:232
+#: src/classes/class-wpzoom-lite-vs-pro.php:242
 msgid "Upgrade to PRO"
 msgstr ""
 
@@ -1986,6 +1968,10 @@ msgid ""
 "the image opens in a lightbox popup."
 msgstr ""
 
+#: src/classes/class-wpzoom-lite-vs-pro.php:228
+msgid "WooCommerce Integration"
+msgstr ""
+
 #. Author of the plugin
 msgid "WPZOOM"
 msgstr ""
@@ -2019,4 +2005,24 @@ msgstr ""
 
 #: src/structured-data-blocks/class-wpzoom-nutrition.php:572
 msgid "Zinc"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:213
+msgid "⭐️  Recipe Roundups ⭐️ "
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:218
+msgid "⭐️  Recipe Submissions ⭐️ "
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:208
+msgid "⭐️ Equipment ⭐️ "
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:153
+msgid "⭐️ Star Rating ⭐️"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:203
+msgid "⭐️ Unit Conversion ⭐️ "
 msgstr ""

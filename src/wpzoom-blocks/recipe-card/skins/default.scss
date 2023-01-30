@@ -43,7 +43,7 @@
                     right: 20px;
                     left: 20px;
                     text-align: right;
-                    bottom: 0;
+                    bottom: 8px;
                     padding-bottom: 10px;
                     z-index: 2;
                     line-height: 1.8;
@@ -56,10 +56,11 @@
                 .btn-print-link {
                     display: block;
                     border-radius: 4px;
-                    padding: 10px;
+                    padding: 10px 20px;
                     font-style: normal;
                     text-decoration: none;
-                    font-size: 12px;
+                    font-size: 14px;
+                    font-weight: 600;
                     line-height: 1.2;
                     color: $default-primary-text-color;
                     background-color: $default-primary-color;
@@ -98,9 +99,10 @@
                     cursor: pointer;
                     display: block;
                     border-radius: 4px;
-                    padding: 10px;
+                    padding: 10px 20px;
                     text-decoration: none;
-                    font-size: 12px;
+                    font-size: 14px;
+                    font-weight: 600;
                     color: #fff;
                     line-height: 1.2;
                     border: none;
