@@ -429,7 +429,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( $hasImage && isset( $image['url'] ) ) {
 			$img_id     = isset( $image['id'] ) ? esc_attr( $image['id'] ) : '';
-			$src        = esc_url( $image['url'] );
+			$src        = esc_url( WPZOOM_Helpers::deserialize_block_attributes( $image['url'] ) );
 			$alt        = ( $recipeTitle ? esc_html( wp_strip_all_tags( $recipeTitle ) ) : esc_html( wp_strip_all_tags( $recipe_title ) ) );
 			$sizes      = isset( $image['sizes'] ) ? $image['sizes'] : array();
 			$size       = self::get_recipe_image_size( $sizes, $src );
