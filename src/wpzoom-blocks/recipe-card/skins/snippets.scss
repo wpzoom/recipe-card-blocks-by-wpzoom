@@ -2,22 +2,51 @@
     text-align: center;
 }
 
+.wpzoom-recipe-snippet-button.wp-block-wpzoom-recipe-card-block-print-recipe,
+.wpzoom-recipe-snippet-button.wp-block-wpzoom-recipe-card-block-jump-to-recipe,
 .wpzoom-recipe-card-buttons a.wpzoom-recipe-snippet-button {
     display: inline-block;
     border-radius: 3px;
-    padding: 10px;
+    padding: 10px 20px;
     font-style: normal;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 14px;
     color: #fff;
     line-height: 1.2;
-    background-color: #222222;
+    background-color: #041728;
     border: none;
     box-shadow: none;
     margin-right: 10px;
     margin-bottom: 15px;
+    font-weight: 600;
+
     &:hover {
         color: #fff;
-        background-color: #444;
+        background-color: #0e2e4b;
     }
+
+    svg {
+        display: inline-block;
+        margin-right: 6px;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        fill: #fff;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    .wpzoom-recipe-snippet-button.wp-block-wpzoom-recipe-card-block-print-recipe, .wpzoom-recipe-snippet-button.wp-block-wpzoom-recipe-card-block-jump-to-recipe, .wpzoom-recipe-card-buttons a.wpzoom-recipe-snippet-button {
+        padding: 10px 15px;
+    }
+
+}
+
+@media screen and (max-width: 360px) {
+
+    .wpzoom-recipe-snippet-button.wp-block-wpzoom-recipe-card-block-print-recipe, .wpzoom-recipe-snippet-button.wp-block-wpzoom-recipe-card-block-jump-to-recipe, .wpzoom-recipe-card-buttons a.wpzoom-recipe-snippet-button {
+        padding: 10px;
+    }
+
 }

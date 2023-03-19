@@ -4,8 +4,8 @@ Donate link: https://recipecard.io/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, block, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
 Requires at least: 5.7
 Requires PHP: 7.2
-Tested up to: 6.1
-Stable tag: 3.2.0
+Tested up to: 6.2
+Stable tag: 3.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -160,6 +160,10 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.2.1 =
+* Fixed a bug with cyrillic characters
+* Improvements to the buttons at the top
 
 = 3.2.0 =
 * Numerous optimizations for better performance (removed unused icon fonts to save ~3MB)
