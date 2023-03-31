@@ -17,7 +17,7 @@ import { withSelect } from '@wordpress/data';
 import { Fragment } from '@wordpress/element';
 import { addQueryArgs } from '@wordpress/url';
 import { __ } from '@wordpress/i18n';
-const { ServerSideRender } = wp.components;
+const { serverSideRender: ServerSideRender } = wp;
 
 import ReactSelect from 'react-select';
 
