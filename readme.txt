@@ -5,7 +5,7 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, block, foodie, f
 Requires at least: 5.7
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -160,6 +160,9 @@ Currently, it's not possible to import recipes created using a different plugin,
 
 
 == Changelog ==
+
+= 3.2.2 =
+* Minor bug fix in the Insert Existing Recipe block in WordPress 6.2
 
 = 3.2.1 =
 * Fixed a bug with cyrillic characters
