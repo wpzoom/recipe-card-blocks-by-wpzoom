@@ -79,8 +79,28 @@ class WPZOOM_Custom_Post {
 		add_action( 'manage_wpzoom_rcb_posts_custom_column' , array( $this,'fill_custom_post_type_columns' ), 10, 2 );
 
 		add_action( 'template_redirect', array( $this, 'redirect_single_recipe_to_404' ) );
+		add_filter( 'post_row_actions', array( $this, 'filter_admin_row_actions' ), 11, 2 );
 
 	}
+
+	//Add ID of the recipe to the row actions
+	public function filter_admin_row_actions( $actions, $post ) {
+
+		// Check for your post type.
+		if ( $post->post_type == 'wpzoom_rcb' ) {
+
+			$recipe_id_to_actions = array( 'recipe-id' => sprintf(
+				'<span class="recipe-id">#%1$d</span>',
+				$post->ID
+			) );
+
+			$actions = array_merge( $recipe_id_to_actions, $actions );
+
+		}
+
+		return $actions;
+	}
+
 
 	public function recipe_post_type_columns( $columns ) {
 
