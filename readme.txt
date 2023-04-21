@@ -143,7 +143,10 @@ Yes, you can find documentation for this plugin with more instructions on our we
 
 = Is it possible to migrate recipes from another plugin? =
 
-Currently, it's not possible to import recipes created using a different plugin, but we're working on adding such an option available. The plugin will soon allow you to import easily recipes from other plugins like WP Recipe Maker or WP Tasty Recipes.
+The **PRO** version includes an intuitive and easy-to-use tool that allows you to **import recipes** created using other plugins.
+
+[How to import recipes from other plugins](https://recipecard.io/features/importing-recipes-from-other-recipe-plugins/)
+
 
 
 == Screenshots ==
