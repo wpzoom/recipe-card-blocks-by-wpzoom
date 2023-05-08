@@ -1382,9 +1382,9 @@ class WPZOOM_Recipe_Card_Block {
 
 						if ( empty( $title ) ) {
 							if ( isset( $attributes['recipeTitle'] ) ) {
-								$title = esc_html( wp_strip_all_tags( $attributes['recipeTitle'] ) );
+								$title = esc_html( wp_strip_all_tags( WPZOOM_Helpers::deserialize_block_attributes( $attributes['recipeTitle'] ) ) );
 							} elseif ( ! is_null( self::$recipe ) ) {
-								$title = esc_html( wp_strip_all_tags( self::$recipe->post_title ) );
+								$title = esc_html( wp_strip_all_tags( WPZOOM_Helpers::deserialize_block_attributes( self::$recipe->post_title ) ) );
 							} else {
 								$title = '';
 							}
