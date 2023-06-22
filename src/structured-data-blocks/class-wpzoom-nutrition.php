@@ -202,7 +202,7 @@ class WPZOOM_Nutrition_Block {
 		$output .= '<hr class="nutrition-facts-hr"/>';
 		$output .= '<ul>';
 
-		if ( isset( self::$data['calories'] ) && ! empty( self::$data['calories'] ) ) {
+		if ( isset( self::$data['calories'] ) ) {
 			$output .= '<li>';
 			$output .= '<strong class="nutrition-facts-amount-per-serving">' . esc_html__( 'Amount Per Serving', 'recipe-card-blocks-by-wpzoom' ) . '</strong>';
 			$output .= '<strong class="nutrition-facts-calories">' . self::get_label_title( 'calories' ) . '</strong><strong class="nutrition-facts-label nutrition-facts-right">' . floatval( self::$data['calories'] ) . '</strong>';
@@ -212,7 +212,7 @@ class WPZOOM_Nutrition_Block {
 		$output .= '<li class="nutrition-facts-spacer"></li>';
 		$output .= '<li class="nutrition-facts-no-border"><strong class="nutrition-facts-right">% ' . esc_html__( 'Daily Value', 'recipe-card-blocks-by-wpzoom' ) . ' *</strong></li>';
 
-		if ( isset( self::$data['total-fat'] ) && ! empty( self::$data['total-fat'] ) ) {
+		if ( isset( self::$data['total-fat'] ) ) {
 			$output .= '<li>';
 			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'total-fat' ) . '</strong>
 		                <strong class="nutrition-facts-label">' . floatval( self::$data['total-fat'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>
@@ -220,14 +220,14 @@ class WPZOOM_Nutrition_Block {
 
 			$output .= '<ul>';
 
-			if ( isset( self::$data['saturated-fat'] ) && ! empty( self::$data['saturated-fat'] ) ) {
+			if ( isset( self::$data['saturated-fat'] ) ) {
 				$output .= '<li>';
 				$output .= '<strong class="nutrition-facts-label">' . self::get_label_title( 'saturated-fat' ) . '</strong>
 		                        <strong class="nutrition-facts-label">' . floatval( self::$data['saturated-fat'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>
 		                        <strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['saturated-fat'] ) / self::get_label_pdv( 'saturated-fat' ) ) * 100 ) . '</span>%</strong>';
 				$output .= '</li>';
 			}
-			if ( isset( self::$data['trans-fat'] ) && ! empty( self::$data['trans-fat'] ) ) {
+			if ( isset( self::$data['trans-fat'] ) ) {
 				$output .= '<li>';
 				$output .= '<strong class="nutrition-facts-label">' . self::get_label_title( 'trans-fat' ) . '</strong>
 		                        <strong class="nutrition-facts-label">' . floatval( self::$data['trans-fat'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>';
@@ -237,21 +237,21 @@ class WPZOOM_Nutrition_Block {
 			$output .= '</ul></li>';
 		}
 
-		if ( isset( self::$data['cholesterol'] ) && ! empty( self::$data['cholesterol'] ) ) {
+		if ( isset( self::$data['cholesterol'] ) ) {
 			$output .= '<li>';
 			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'cholesterol' ) . '</strong>
 		                <strong class="nutrition-facts-label">' . floatval( self::$data['cholesterol'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['mg'] . '</strong>
 		                <strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['cholesterol'] ) / self::get_label_pdv( 'cholesterol' ) ) * 100 ) . '</span>%</strong>';
 			$output .= '</li>';
 		}
-		if ( isset( self::$data['sodium'] ) && ! empty( self::$data['sodium'] ) ) {
+		if ( isset( self::$data['sodium'] ) ) {
 			$output .= '<li>';
 			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'sodium' ) . '</strong>
 		                <strong class="nutrition-facts-label">' . floatval( self::$data['sodium'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['mg'] . '</strong>
 		                <strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['sodium'] ) / self::get_label_pdv( 'sodium' ) ) * 100 ) . '</span>%</strong>';
 			$output .= '</li>';
 		}
-		if ( isset( self::$data['potassium'] ) && ! empty( self::$data['potassium'] ) ) {
+		if ( isset( self::$data['potassium'] ) ) {
 			$output .= '<li>';
 			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'potassium' ) . '</strong>
 		                <strong class="nutrition-facts-label">' . floatval( self::$data['potassium'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['mg'] . '</strong>
@@ -259,7 +259,7 @@ class WPZOOM_Nutrition_Block {
 			$output .= '</li>';
 		}
 
-		if ( isset( self::$data['total-carbohydrate'] ) && ! empty( self::$data['total-carbohydrate'] ) ) {
+		if ( isset( self::$data['total-carbohydrate'] ) ) {
 			$output .= '<li>';
 			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'total-carbohydrate' ) . '</strong>
 		                <strong class="nutrition-facts-label">' . floatval( self::$data['total-carbohydrate'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>
@@ -267,14 +267,14 @@ class WPZOOM_Nutrition_Block {
 
 			$output .= '<ul>';
 
-			if ( isset( self::$data['dietary-fiber'] ) && ! empty( self::$data['dietary-fiber'] ) ) {
+			if ( isset( self::$data['dietary-fiber'] ) ) {
 				$output .= '<li>';
 				$output .= '<strong class="nutrition-facts-label">' . self::get_label_title( 'dietary-fiber' ) . '</strong>
 		                    <strong class="nutrition-facts-label">' . floatval( self::$data['dietary-fiber'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>
 		                    <strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['dietary-fiber'] ) / self::get_label_pdv( 'dietary-fiber' ) ) * 100 ) . '</span>%</strong>';
 				$output .= '</li>';
 			}
-			if ( isset( self::$data['sugars'] ) && ! empty( self::$data['sugars'] ) ) {
+			if ( isset( self::$data['sugars'] ) ) {
 				$output .= '<li>';
 				$output .= '<strong class="nutrition-facts-label">' . self::get_label_title( 'sugars' ) . '</strong>
 		                    <strong class="nutrition-facts-label">' . floatval( self::$data['sugars'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>';
@@ -284,7 +284,7 @@ class WPZOOM_Nutrition_Block {
 			$output .= '</ul></li>';
 		}
 
-		if ( isset( self::$data['protein'] ) && ! empty( self::$data['protein'] ) ) {
+		if ( isset( self::$data['protein'] ) ) {
 			$output .= '<li>';
 			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'protein' ) . '</strong>
 		                <strong class="nutrition-facts-label">' . floatval( self::$data['protein'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>
