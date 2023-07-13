@@ -2,10 +2,10 @@
 Contributors: WPZOOM
 Donate link: https://recipecard.io/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, block, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
-Requires at least: 5.7
+Requires at least: 6.0
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 3.2.2
+Stable tag: 3.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -163,6 +163,10 @@ The **PRO** version includes an intuitive and easy-to-use tool that allows you t
 
 
 == Changelog ==
+
+= 3.2.3 =
+* Fixed issue with title attribute for directions images
+* Show zero values in nutrition list
 
 = 3.2.2 =
 * Minor bug fix in the Insert Existing Recipe block in WordPress 6.2
