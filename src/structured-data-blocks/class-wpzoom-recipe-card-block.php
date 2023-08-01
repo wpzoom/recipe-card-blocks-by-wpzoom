@@ -785,7 +785,7 @@ class WPZOOM_Recipe_Card_Block {
 						$video_embed_url = self::$helpers->convert_youtube_url_to_embed( $video['url'] );
 					} elseif ( strpos( $video['url'], 'vimeo' ) ) {
 						$video_embed_url = self::$helpers->convert_vimeo_url_to_embed( $video['url'] );
-					}
+                    }
 
 					$json_ld['video']['embedUrl'] = esc_url( $video_embed_url );
 				}
@@ -1592,11 +1592,14 @@ class WPZOOM_Recipe_Card_Block {
 		$allowed_html = array(
 			'a'      => array(
 				'href'  => array(),
-				'title' => array(),
+				'rel' => array(),
+                'data-e2e' => array(),
+                'title' => array(),
 			),
 			'br'     => array(),
 			'em'     => array(),
-			'strong' => array(),
+			'blockquote' => array(),
+            'strong' => array(),
 			'iframe' => array(
 				'src'             => array(),
 				'id'              => array(),
@@ -1605,11 +1608,11 @@ class WPZOOM_Recipe_Card_Block {
 				'allow'           => array(),
 				'allowfullscreen' => array(),
 				'style'           => array(),
+                'sandbox'           => array(),
+                'name'           => array(),
 				'frameborder'     => array(),
 				'width'           => true,
 				'height'          => true,
-				'name'            => true,
-				'sandbox'         => true,
 			),
 			'video'  => array(
 				'src'      => array(),
@@ -1619,6 +1622,14 @@ class WPZOOM_Recipe_Card_Block {
 				'loop'     => true,
 				'controls' => true,
 			),
+            'blockquote'  => array(
+                'class'      => array(),
+                'cite'   => array(),
+                'data-video-id' => array(),
+                'data-embed-from' => array(),
+                'style' => array(),
+                'id' => array(),
+            ),
 		);
 
 		return sprintf( '<div class="recipe-card-video no-print"><h3 class="video-title">%s</h3>%s</div>', $attributes['videoTitle'], wp_kses( $output, $allowed_html ) );

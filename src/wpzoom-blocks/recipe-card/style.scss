@@ -163,6 +163,17 @@
         video {
             max-width: 100%;
         }
+        blockquote {
+            border: none;
+            font-size: 0;
+            * {
+                display: none;
+            }
+
+            iframe {
+                display: block;
+            }
+        }
         [poster] {
             object-fit: cover;
         }
