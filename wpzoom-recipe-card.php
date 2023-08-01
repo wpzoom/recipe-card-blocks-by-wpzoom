@@ -5,14 +5,14 @@
  * Description: Beautiful Recipe Plugin for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
  * Author: WPZOOM
  * Author URI: https://recipecard.io/
- * Version: 3.2.3
+ * Version: 3.2.4
  * Copyright: (c) 2021 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: recipe-card-blocks-by-wpzoom
  * Domain Path: /languages
- * Elementor tested up to: 3.14.1
- * Elementor Pro tested up to: 3.14.1
+ * Elementor tested up to: 3.15.9
+ * Elementor Pro tested up to: 3.15.9
  *
  * @package   WPZOOM_Recipe_Card_Blocks
  * @author    WPZOOM
