@@ -278,6 +278,7 @@ export default class IngredientItem extends Component {
             },
         } = this.props;
 
+
         const isSelectedName = isSelected && subElement === 'name';
         const itemClassName = ! isGroup ? 'ingredient-item' : 'ingredient-item ingredient-item-group';
 
@@ -327,12 +328,9 @@ export default class IngredientItem extends Component {
                         keepPlaceholderOnFocus={ true }
                     />
                 }
-                {
-                    isSelectedName &&
-                    <div className="ingredient-item-controls-container">
-                        { this.getButtons() }
-                    </div>
-                }
+				<div className="ingredient-item-controls-container">
+					{ this.getButtons() }
+				</div>
             </li>
         );
     }

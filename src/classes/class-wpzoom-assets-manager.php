@@ -277,7 +277,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			} elseif ( 'wpzoom-comment-rating-script' === $handle ) {
 				$dependencies = array( 'jquery' );
 			} elseif ( self::$_slug . '-masonry-gallery' === $handle ) {
-				$dependencies = array( 'jquery-masonry', 'imagesloaded' );
+				$dependencies = array( 'imagesloaded' );
 			}
 
 			return $dependencies;
