@@ -265,7 +265,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$dependencies = array();
 
 			if ( self::$_slug . '-js' === $handle ) {
-				$dependencies = array( 'wp-components', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-compose' );
+				$dependencies = array( 'wp-components', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-compose', 'lodash' );
 			} elseif ( self::$_slug . '-editor-css' === $handle ) {
 				$dependencies = array( 'wp-edit-blocks' );
 			} elseif ( self::$_slug . '-script' === $handle ) {
