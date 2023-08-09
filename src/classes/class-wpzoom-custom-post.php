@@ -419,24 +419,6 @@ class WPZOOM_Custom_Post {
 			return;
 		}
 
-		wp_enqueue_script(
-			'wpzoom-rcb-block-cpt-notification-script',
-			WPZOOM_RCB_PLUGIN_URL . 'dist/assets/admin/js/custom-posts-notification.js',
-			array( 'wp-blocks' ),
-			WPZOOM_RCB_VERSION,
-			true
-		);
-		wp_localize_script(
-			'wpzoom-rcb-block-cpt-notification-script',
-			'wpzoomCPTNotification',
-			array_merge(
-				array(
-					'message' => esc_html__( 'Update this Recipe, and the changes will apply everywhere it\'s used. You can find the link to the parent post below.', 'recipe-card-blocks-by-wpzoom' ),
-				),
-				self::get_parent_data()
-			)
-		);
-
 	}
 
 	public static function get_parent_data() {
