@@ -35,6 +35,7 @@
 		text-align: center;
 	}
 	.detail-item-controls-container {
+		display: none;
 		position: absolute;
 		top: 0px;
 		left: -52px;
@@ -45,6 +46,9 @@
 		.detail-item-button {
 			display: block;
 		}
+	}
+	.detail-item:focus-within .detail-item-controls-container {
+		display: block;
 	}
 	.detail-item .detail-item-value {
 		padding: 0;

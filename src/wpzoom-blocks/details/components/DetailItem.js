@@ -259,11 +259,10 @@ export default class DetailItem extends Component {
                     unstableOnFocus={ this.onFocusValue }
                     keepPlaceholderOnFocus={ true }
                 />
-                { ( isSelectedLabel || isSelectedValue ) &&
-                    <div className="detail-item-controls-container">
-                        { this.getButtons() }
-                    </div>
-                }
+				<div className="detail-item-controls-container">
+					{ this.getButtons() }
+				</div>
+                
             </div>
         );
     }

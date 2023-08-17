@@ -320,12 +320,9 @@ export default class DirectionStep extends Component {
                         keepPlaceholderOnFocus={ true }
                     />
                 }
-                {
-                    isSelectedText &&
-                    <div className="direction-step-controls-container">
-                        { this.getButtons() }
-                    </div>
-                }
+				<div className="direction-step-controls-container">
+					{ this.getButtons() }
+				</div>
             </li>
         );
     }

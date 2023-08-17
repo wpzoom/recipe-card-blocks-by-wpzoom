@@ -235,12 +235,9 @@ export default class IngredientItem extends Component {
                         keepPlaceholderOnFocus={ true }
                     />
                 }
-                {
-                    isSelectedName &&
-                    <div className="ingredient-item-controls-container">
-                        { this.getButtons() }
-                    </div>
-                }
+				<div className="ingredient-item-controls-container">
+					{ this.getButtons() }
+				</div>
             </li>
         );
     }
