@@ -323,7 +323,7 @@ export default class DirectionStep extends Component {
 		}
 
         return (
-            <li className={ stepClassName } key={ id }>
+            <li className={ stepClassName } key={ id } tabIndex={0}>
                 {
                     ! isGroup &&
                     <RichText

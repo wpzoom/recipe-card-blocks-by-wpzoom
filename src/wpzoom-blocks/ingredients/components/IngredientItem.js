@@ -206,7 +206,7 @@ export default class IngredientItem extends Component {
         const itemClassName = ! isGroup ? 'ingredient-item' : 'ingredient-item ingredient-item-group';
 
         return (
-            <li className={ itemClassName } key={ id }>
+            <li className={ itemClassName } key={ id } tabIndex={0}>
                 {
                     ! isGroup &&
                     <RichText

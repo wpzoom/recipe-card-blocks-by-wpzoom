@@ -56,6 +56,9 @@
 	.components-icon-button .dashicon + .components-icon-button-text {
 		margin-left: 5px;
 	}
+	.direction-step:focus {
+		outline: none;
+	}
 	.direction-step:focus-within .direction-step-button-container {
 		display:block;
 	}

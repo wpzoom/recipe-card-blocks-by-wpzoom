@@ -63,6 +63,9 @@
 	.components-icon-button .dashicon + .components-icon-button-text {
 		margin-left: 5px;
 	}
+	.ingredient-item:focus {
+		outline: none;
+	}
 	.ingredient-item:focus-within .ingredient-item-button-container {
 		display:block;
 	}

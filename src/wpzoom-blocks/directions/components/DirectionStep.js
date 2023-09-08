@@ -291,7 +291,7 @@ export default class DirectionStep extends Component {
         const stepClassName = ! isGroup ? 'direction-step' : 'direction-step direction-step-group';
 
         return (
-            <li className={ stepClassName } key={ id }>
+            <li className={ stepClassName } key={ id } tabIndex={0}>
                 {
                     ! isGroup &&
                     <RichText

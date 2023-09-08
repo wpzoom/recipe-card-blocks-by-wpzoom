@@ -294,7 +294,7 @@ export default class IngredientItem extends Component {
 		}
 
         return (
-            <li className={ itemClassName } key={ id }>
+            <li className={ itemClassName } key={ id } tabIndex={0}>
                 {
                     ! isGroup &&
                     <Fragment>

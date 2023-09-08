@@ -167,6 +167,9 @@
 	.ingredient-item-button-container button.ingredient-item-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
 		color: #a00;
 	}
+	.ingredient-item:focus {
+		outline:none;
+	}
 	.ingredient-item:focus-within .ingredient-item-button-container {
 		display:flex;
 	}
@@ -196,6 +199,9 @@
 	}
 	.direction-step-button-container button.direction-step-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
 		color: #a00;
+	}
+	.direction-step:focus {
+		outline: none;
 	}
 	.direction-step:focus-within .direction-step-button-container {
 		display:block;
