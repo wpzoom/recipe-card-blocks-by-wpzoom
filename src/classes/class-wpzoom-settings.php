@@ -1111,8 +1111,8 @@ class WPZOOM_Settings {
 				'sections'     => array(
 
                     array(
-                        'id'       => 'wpzoom_rcb_settings_google_fonts',
-                        'title'    => __( 'Google Fonts', 'recipe-card-blocks-by-wpzoom' ),
+                        'id'       => 'wpzoom_section_pinterest_script',
+                        'title'    => __( 'Pinterest Script', 'recipe-card-blocks-by-wpzoom' ),
                         'page'     => 'wpzoom-recipe-card-settings-performance',
                         'callback' => '__return_false',
                         'fields'   => array(
