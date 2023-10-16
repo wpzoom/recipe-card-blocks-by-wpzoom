@@ -348,12 +348,18 @@ class WPZOOM_Recipe_Card_Block {
 				self::$recipe = (object) array( 'ID' => $recipe_ID ); 
 			}
 		}
+		if( is_object( self::$recipe ) && isset( self::$recipe->post_author ) ) {
+			$recipe_post_author = get_the_author_meta( 'display_name', self::$recipe->post_author );
+		}
+		else {
+			$recipe_post_author = get_the_author_meta( 'display_name', 1 );
+		}
 
 		$recipe_title              = get_the_title( self::$recipe );
 		$recipe_thumbnail_url      = get_the_post_thumbnail_url( self::$recipe );
 		$recipe_thumbnail_id       = get_post_thumbnail_id( self::$recipe );
 		$recipe_permalink          = get_the_permalink( self::$recipe );
-		$recipe_author_name        = get_the_author_meta( 'display_name', self::$recipe->post_author );
+		$recipe_author_name        = $recipe_post_author;
 		$attachment_id             = isset( $image['id'] ) ? $image['id'] : $recipe_thumbnail_id;
 		$tasty_pins_pinterest_text = get_post_meta( $attachment_id, 'tp_pinterest_text', true );
 
