@@ -5,7 +5,7 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, block, foodie, f
 Requires at least: 6.0
 Requires PHP: 7.2
 Tested up to: 6.3
-Stable tag: 3.2.6
+Stable tag: 3.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -163,6 +163,9 @@ The **PRO** version includes an intuitive and easy-to-use tool that allows you t
 
 
 == Changelog ==
+
+= 3.2.7 =
+* Fixed a PHP warning
 
 = 3.2.6 =
 * Bug fix in Safari
