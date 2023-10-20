@@ -12,7 +12,7 @@ import { getBlockStyle } from '../../../helpers/getBlockStyle';
 
 /* WordPress dependencies */
 import {
-    IconButton,
+    Button,
     Modal,
     TabPanel,
     SelectControl,
@@ -219,7 +219,7 @@ function IconsModal(
      */
     return (
         <Fragment>
-            <IconButton
+            <Button
                 icon={ ! icon && 'insert' }
                 onClick={ onOpenModal }
                 className="editor-inserter__toggle"
@@ -229,7 +229,7 @@ function IconsModal(
                     icon &&
                     <span className={ `${ _prefix } ${ iconSet }-${ icon }` } style={ iconStyles }></span>
                 }
-            </IconButton>
+            </Button>
             {
                 isOpen &&
                 <Modal

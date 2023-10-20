@@ -14,9 +14,8 @@ import {
     BaseControl,
     PanelBody,
     ToggleControl,
-    Button,
     Disabled,
-    IconButton,
+    Button,
     withNotices,
 } from '@wordpress/components';
 import {
@@ -290,7 +289,7 @@ class VideoUpload extends Component {
                                             value={ url }
                                             onChange={ ( url ) => this.onChangeURL( url ) }
                                         />
-                                        <IconButton icon="editor-break" label={ __( 'Apply', 'recipe-card-blocks-by-wpzoom' ) } onClick={ this.onSubmitURL } />
+                                        <Button icon="editor-break" label={ __( 'Apply', 'recipe-card-blocks-by-wpzoom' ) } onClick={ this.onSubmitURL } />
                                     </URLPopover>
                                 ) }
                             </div>

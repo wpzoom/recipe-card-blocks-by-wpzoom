@@ -8,10 +8,10 @@ use Elementor\Control_Media;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Image_Size;
-use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Text_Shadow;
-use Elementor\Core\Schemes\Typography;
+use Elementor\Group_Control_Typography;
+use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Plugin;
 use Elementor\Utils;
 use Elementor\Icons_Manager;
@@ -209,7 +209,9 @@ class Recipe_Card_Cpt extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'recipe_card_title_style_typography',
-				'scheme'   => Typography::TYPOGRAPHY_1,
+				'global' => [
+					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+				],
 				'selector' => '{{WRAPPER}} .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-title',
 			)
 		);
@@ -242,7 +244,9 @@ class Recipe_Card_Cpt extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'recipe_card_detail_label_style_typography',
-				'scheme'   => Typography::TYPOGRAPHY_1,
+				'global' => [
+					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+				],
 				'selector' => '{{WRAPPER}} .wp-block-wpzoom-recipe-card-block-recipe-card .detail-item-label',
 			)
 		);
@@ -318,7 +322,9 @@ class Recipe_Card_Cpt extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'recipe_card_detail_value_typography',
-				'scheme'   => Typography::TYPOGRAPHY_3,
+				'global' => [
+					'default' => Global_Typography::TYPOGRAPHY_TEXT,
+				],
 				'selector' => '{{WRAPPER}} .recipe-card-details .detail-item-value',
 			)
 		);
@@ -362,7 +368,9 @@ class Recipe_Card_Cpt extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'recipe_card_detail_unit_typography',
-				'scheme'   => Typography::TYPOGRAPHY_3,
+				'global' => [
+					'default' => Global_Typography::TYPOGRAPHY_TEXT,
+				],
 				'selector' => '{{WRAPPER}} .recipe-card-details .detail-item-unit',
 			)
 		);
@@ -395,7 +403,9 @@ class Recipe_Card_Cpt extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'recipe_card_summary_typography',
-				'scheme'   => Typography::TYPOGRAPHY_3,
+				'global' => [
+					'default' => Global_Typography::TYPOGRAPHY_TEXT,
+				],
 				'selector' => '{{WRAPPER}} .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-summary',
 			)
 		);

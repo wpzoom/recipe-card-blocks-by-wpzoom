@@ -6,7 +6,7 @@ import isShallowEqual from '@wordpress/is-shallow-equal';
 /* WordPress dependencies */
 import { Component, Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
-import { IconButton } from '@wordpress/components';
+import { Button } from '@wordpress/components';
 
 /**
  * A Ingredient item within a Ingredient block.
@@ -140,13 +140,13 @@ export default class IngredientItem extends Component {
     getButtons() {
         return <div className="ingredient-item-button-container">
             { this.getMover() }
-            <IconButton
+            <Button
                 className="ingredient-item-button ingredient-item-button-delete editor-inserter__toggle"
                 icon="trash"
                 label={ __( 'Delete ingredient', 'recipe-card-blocks-by-wpzoom' ) }
                 onClick={ this.onRemoveIngredient }
             />
-            <IconButton
+            <Button
                 className="ingredient-item-button ingredient-item-button-add editor-inserter__toggle"
                 icon="editor-break"
                 label={ __( 'Insert ingredient', 'recipe-card-blocks-by-wpzoom' ) }
@@ -162,14 +162,14 @@ export default class IngredientItem extends Component {
      */
     getMover() {
         return <Fragment>
-            <IconButton
+            <Button
                 className="editor-block-mover__control"
                 onClick={ this.onMoveIngredientUp }
                 icon="arrow-up-alt2"
                 label={ __( 'Move item up', 'recipe-card-blocks-by-wpzoom' ) }
                 aria-disabled={ this.props.isFirst }
             />
-            <IconButton
+            <Button
                 className="editor-block-mover__control"
                 onClick={ this.onMoveIngredientDown }
                 icon="arrow-down-alt2"

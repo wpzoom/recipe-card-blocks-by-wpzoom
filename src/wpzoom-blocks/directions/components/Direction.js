@@ -12,7 +12,7 @@ import { generateId } from '../../../helpers/generateId';
 
 /* WordPress dependencies */
 import { RichText } from '@wordpress/block-editor';
-import { IconButton } from '@wordpress/components';
+import { Button } from '@wordpress/components';
 import { Component, renderToString } from '@wordpress/element';
 const { pluginURL } = window.wpzoomRecipeCard;
 
@@ -376,20 +376,20 @@ export default class Direction extends Component {
     getAddStepButton() {
         return (
             <div className="directions-add-buttons">
-                <IconButton
+                <Button
                     icon="insert"
                     onClick={ this.onAddStepButtonClick }
                     className="editor-inserter__toggle"
                 >
                     <span className="components-icon-button-text">{ __( 'Add step', 'recipe-card-blocks-by-wpzoom' ) }</span>
-                </IconButton>
-                <IconButton
+                </Button>
+                <Button
                     icon="editor-insertmore"
                     onClick={ this.onAddGroupButtonClick }
                     className="editor-inserter__toggle"
                 >
                     <span className="components-icon-button-text">{ __( 'Add direction group', 'recipe-card-blocks-by-wpzoom' ) }</span>
-                </IconButton>
+                </Button>
             </div>
         );
     }

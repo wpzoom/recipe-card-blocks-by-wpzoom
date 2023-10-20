@@ -20,7 +20,6 @@ import { stripHTML } from '../../../helpers/stringHelpers';
 import { renderToString, Fragment } from '@wordpress/element';
 import {
     Button,
-    IconButton,
     Modal,
     Toolbar,
     TextareaControl,
@@ -236,7 +235,7 @@ function ExtraOptionsModal(
             {
                 toToolBar &&
                 <Toolbar>
-                    <IconButton
+                    <Button
                         icon="edit"
                         className="wpzoom-recipe-card__extra-options"
                         label={ __( 'Recipe Card extra options', 'recipe-card-blocks-by-wpzoom' ) }
@@ -248,7 +247,7 @@ function ExtraOptionsModal(
                         } }
                     >
                         { __( 'Bulk Add', 'recipe-card-blocks-by-wpzoom' ) }
-                    </IconButton>
+                    </Button>
                 </Toolbar>
             }
             {

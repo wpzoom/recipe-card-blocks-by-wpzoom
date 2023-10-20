@@ -713,7 +713,7 @@ export default compose( [
         const {
             getMedia,
             getPostType,
-            getAuthors,
+			getUsers,
         } = select( 'core' );
 
         const {
@@ -729,6 +729,11 @@ export default compose( [
         } = getEditorSettings();
 
         const getAuthorData = ( authors, path = '' ) => {
+
+			if( null === authors ) {
+				return authors;
+			}
+
             const postAuthor = getEditedPostAttribute( 'author' );
             let authorData = null;
 
@@ -753,7 +758,7 @@ export default compose( [
         const tags = getEditedPostAttribute( 'tags' );
         const postTitle = getEditedPostAttribute( 'title' );
         const featuredImageId = getEditedPostAttribute( 'featured_media' );
-        const authors = getAuthors();
+        const authors = getUsers({ who: 'authors' });
         const postAuthor = getAuthorData( authors, 'name' );
 
         let id = 0;
