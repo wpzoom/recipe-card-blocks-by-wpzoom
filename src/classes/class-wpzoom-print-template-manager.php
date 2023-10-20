@@ -119,7 +119,7 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 
 			$custom_author_name = $recipe_author_name;
 			if ( ! empty( $settings['custom_author_name'] ) ) {
-				$custom_author_name = $settings['custom_author_name'];
+				$custom_author_name = WPZOOM_Helpers::deserialize_block_attributes( $settings['custom_author_name'] );
 			}
 
 			$RecipeCardClassName = implode( ' ', array( $class, $className ) );
@@ -205,7 +205,7 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 			$recipe_card_heading = '
                 <div class="recipe-card-heading">
                     ' . sprintf( '<h2 class="%s">%s</h2>', 'recipe-card-title', ( $recipeTitle ? strip_tags( $recipeTitle ) : strip_tags( $recipe_title ) ) ) .
-					( $settings['displayAuthor'] ? '<span class="recipe-card-author">' . __( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . esc_html( $custom_author_name ) . '</span>' : '' ) .
+					( $settings['displayAuthor'] ? '<span class="recipe-card-author">' . __( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . wp_kses_post( $custom_author_name ) . '</span>' : '' ) .
 					'<div class="recipe-card-terms">' .
 					( $settings['displayCourse'] ? WPZOOM_Recipe_Card_Block::get_recipe_terms( 'wpzoom_rcb_courses' ) : '' ) .
 					( $settings['displayCuisine'] ? WPZOOM_Recipe_Card_Block::get_recipe_terms( 'wpzoom_rcb_cuisines' ) : '' ) .
