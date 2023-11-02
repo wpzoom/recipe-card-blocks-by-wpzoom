@@ -56,6 +56,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Shortcode' ) ) {
 
 			global $post;
 			static $i;
+			$blocks = array();
 
 			// Defining Shortcode's Attributes
 			$shortcode_args = shortcode_atts(
@@ -63,26 +64,35 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Shortcode' ) ) {
 					'id' => '',
 				), $atts );
 
-			$post_id = isset( $shortcode_args['id'] ) ? $shortcode_args['id'] : null;
+			$recipe_id = isset( $shortcode_args['id'] ) ? $shortcode_args['id'] : null;
 
-			if( !$post_id ) {
+			if( !$recipe_id ) {
 				return '';	
 			}
 
-			$parentRecipe_ID = get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
+			$parentRecipe_ID = get_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', true );
 			if( !empty( $parentRecipe_ID ) ) {
 				$i = $parentRecipe_ID;
 			}
 			else {
-				$i = $post_id;
+				$i = $recipe_id;
 			}
 
-			$recipe = get_post_field( 'post_content', intval( $post_id ), 'display' );
+			$recipe = get_post( intval( $recipe_id ) );
+
+			if ( has_blocks( $recipe->post_content ) ) {
+				$blocks = parse_blocks( $recipe->post_content );
+			}
+			
+			$output = '';
+			foreach( $blocks as $block ) {
+				$output .= render_block( $block );
+			}
 
 			return sprintf( 
 				'<div class="wpzoom-custom-recipe-card-post wpzoom-rcb-post-shortcode" data-parent-id="%3$d" data-recipe-post="%2$d">%1$s</div>',
-				apply_filters( 'the_content', $recipe ),
-				intval( $post_id ),
+				$output,
+				intval( $recipe_id ),
 				intval( $i )
 			);
 
