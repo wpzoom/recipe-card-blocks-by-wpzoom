@@ -100,16 +100,26 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         const { settings, hasInstance } = attributes;
 
         if ( ! hasInstance ) {
-            if ( 'newdesign' === style ) {
-                settings[ 0 ] = { ...settings[ 0 ], primary_color: '#FFA921' };
-            } else if ( 'default' === style ) {
-                settings[ 0 ] = { ...settings[ 0 ], primary_color: '#222222' };
-            } else if ( 'simple' === style ) {
-                settings[ 0 ] = { ...settings[ 0 ], primary_color: '#222222' };
-            }
+			if ( 'newdesign' === style ) {
+				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#FFA921' };
+			} else if ( 'default' === style ) {
+				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#222222' };
+			} else if ( 'simple' === style ) {
+				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#222222' };
+			}
 
-            setAttributes( { settings, hasInstance: true } );
-        }
+			const newSettings = settings ? settings.slice() : [];
+
+			newSettings[ 0 ] = {
+				...newSettings[ 0 ],
+				blockInit: true
+			};
+
+			setAttributes( { 
+				settings : newSettings, 
+				hasInstance: true 
+			} );
+		}
 
         // Fix issue with null value for custom details items
         // Add default value instead of null

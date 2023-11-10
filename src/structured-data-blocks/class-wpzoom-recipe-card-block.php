@@ -202,6 +202,7 @@ class WPZOOM_Recipe_Card_Block {
 						'displayCalories'    => WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_calories' ) === '1',
 						'headerAlign'        => WPZOOM_Settings::get( 'wpzoom_rcb_settings_heading_content_align' ),
 						'ingredientsLayout'  => '1-column',
+						'blockInit'          => false
 					),
 				),
 				'items'   => array(
