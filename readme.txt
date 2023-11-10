@@ -4,8 +4,8 @@ Donate link: https://recipecard.io/
 Tags: recipe plugin, recipe card, food recipe, recipes, recipe, block, foodie, foodica, recipe maker, nutrition facts, schema, structured data, food blog, food card
 Requires at least: 6.0
 Requires PHP: 7.2
-Tested up to: 6.3
-Stable tag: 3.2.9
+Tested up to: 6.4
+Stable tag: 3.2.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -163,6 +163,10 @@ The **PRO** version includes an intuitive and easy-to-use tool that allows you t
 
 
 == Changelog ==
+
+= 3.2.10 =
+* Fixed compatibility with WordPress 6.4.1
+* Multiple bug fixes
 
 = 3.2.9 =
 * Fixed a bug with the Print view
