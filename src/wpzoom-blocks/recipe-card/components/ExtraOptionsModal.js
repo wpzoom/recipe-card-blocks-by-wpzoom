@@ -139,7 +139,7 @@ function ExtraOptionsModal(
 
     function onBulkAddIngredients() {
         const items = [];
-        const regex = /([^\n\t\r\v\f][\w\W].*)/gmi;
+		const regex = /([^.\n\t\r\v\f][a-zA-Z0-9а-яА-Я].*)/gmi;
         let m; let index = 0;
 
         while ( ( m = regex.exec( _ingredients ) ) !== null ) {
@@ -176,7 +176,7 @@ function ExtraOptionsModal(
 
     function onBulkAddDirections() {
         const steps = [];
-        const regex = /([^.\n\t\r\v\f][a-zA-Z0-9].*)/gmi;
+		const regex = /([^.\n\t\r\v\f][a-zA-Z0-9а-яА-Я].*)/gmi;
         let m; let index = 0;
 
         while ( ( m = regex.exec( _directions ) ) !== null ) {
