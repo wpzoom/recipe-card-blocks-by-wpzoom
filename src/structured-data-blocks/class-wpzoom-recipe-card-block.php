@@ -145,6 +145,10 @@ class WPZOOM_Recipe_Card_Block {
 				'type'    => 'boolean',
 				'default' => false,
 			),
+			'initDetails' => array(
+				'type'    => 'boolean',
+				'default' => false,
+			),
 			'recipeTitle'          => array(
 				'type'     => 'string',
 				'selector' => '.recipe-card-title',
@@ -1010,6 +1014,13 @@ class WPZOOM_Recipe_Card_Block {
 				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '0',
 			),
+			array(
+				'id'      => self::$helpers->generateId( 'detail-item' ),
+				'iconSet' => 'fa',
+				'_prefix' => 'fas',
+				'icon'    => 'sort-amount-down',
+				'value'   => '0',
+			),
 		);
 	}
 
@@ -1088,7 +1099,7 @@ class WPZOOM_Recipe_Card_Block {
 				continue;
 			} elseif ( 3 === $index && self::$settings['displayCalories'] != '1' ) {
 				continue;
-			} elseif ( ( 4 === $index || 5 === $index || 6 === $index || 7 === $index ) && empty( $detail['label'] ) ) {
+			} elseif ( ( 4 === $index || 5 === $index || 6 === $index || 7 === $index || 9 === $index ) && empty( $detail['label'] ) ) {
 				continue;
 			}
 

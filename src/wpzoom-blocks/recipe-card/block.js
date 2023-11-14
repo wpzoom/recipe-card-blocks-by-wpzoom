@@ -97,9 +97,9 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
      */
     edit: ( { attributes, setAttributes, className } ) => {
         const style = getBlockStyle( className );
-        const { settings, hasInstance } = attributes;
+        const { settings, hasInstance, initDetails, details } = attributes;
 
-        if ( ! hasInstance ) {
+        if ( ! hasInstance || ! initDetails ) {
 			if ( 'newdesign' === style ) {
 				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#FFA921' };
 			} else if ( 'default' === style ) {
@@ -109,15 +109,23 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
 			}
 
 			const newSettings = settings ? settings.slice() : [];
+			const newDetails = details ? details.slice() : []; 
 
 			newSettings[ 0 ] = {
 				...newSettings[ 0 ],
 				blockInit: true
 			};
 
+			newDetails[9] = {
+				...newDetails[9],
+				value: 1,
+			}
+
 			setAttributes( { 
-				settings : newSettings, 
-				hasInstance: true 
+				details : newDetails,
+				settings : newSettings,
+				hasInstance: true, 
+				initDetails: true
 			} );
 		}
 
