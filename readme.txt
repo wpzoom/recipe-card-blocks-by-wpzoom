@@ -5,7 +5,7 @@ Tags: recipe plugin, recipe card, food recipe, recipes, recipe, block, foodie, f
 Requires at least: 6.0
 Requires PHP: 7.2
 Tested up to: 6.4
-Stable tag: 3.2.10
+Stable tag: 3.2.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -163,6 +163,10 @@ The **PRO** version includes an intuitive and easy-to-use tool that allows you t
 
 
 == Changelog ==
+
+= 3.2.11 =
+* Fixed a bug with custom details
+* Added support for Cyrillic characters in the Bulk Add feature
 
 = 3.2.10 =
 * Fixed compatibility with WordPress 6.4.1
