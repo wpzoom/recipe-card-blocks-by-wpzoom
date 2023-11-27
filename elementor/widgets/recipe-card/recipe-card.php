@@ -1774,9 +1774,9 @@ class Recipe_Card extends Widget_Base {
 
 		if ( 'embed' === $settings['video_type'] ) {
 			$output = wp_oembed_get( $video_url );
-		} elseif ( 'hosted' === $settings['video_type'] ) {
+		} elseif ( 'hosted' === $settings['video_type'] && $hosted_url ) {
+			
 			$video_params = $this->get_hosted_params() ? $this->get_hosted_params() : array();
-
 			$output = sprintf(
 				'<video %s src="%s"></video>',
 				Utils::render_html_attributes( $video_params ),
@@ -1933,7 +1933,7 @@ class Recipe_Card extends Widget_Base {
 			$video_id         = ! empty( $settings['hosted_url']['id'] ) ? $settings['hosted_url']['id'] : 0;
 			$video_attachment = get_post( $video_id );
 
-			if ( $video_attachment ) {
+			if ( $video_attachment && $video_id ) {
 				$video_data = wp_get_attachment_metadata( $video_id );
 				$video_url  = wp_get_attachment_url( $video_id );
 
