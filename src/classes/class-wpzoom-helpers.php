@@ -244,6 +244,10 @@ class WPZOOM_Helpers {
 	}
 
 	public static function deserialize_block_attributes( $encoded_attributes ) {
+
+		if( ! $encoded_attributes ) {
+			return $encoded_attributes;
+		}
 		
 		$encoded_attributes = preg_replace( '/u002d/', '-', $encoded_attributes );
 		$encoded_attributes = preg_replace( '/u003c/', '<', $encoded_attributes );
@@ -251,6 +255,7 @@ class WPZOOM_Helpers {
 		$encoded_attributes = preg_replace( '/u0026/', '&', $encoded_attributes );
 		// Regex: /\\"/
 		$encoded_attributes = preg_replace( '/u0022/', '"', $encoded_attributes );
+		$encoded_attributes = preg_replace( '/u00a0/', ' ', $encoded_attributes );
 	 
 		return $encoded_attributes;
 	}
