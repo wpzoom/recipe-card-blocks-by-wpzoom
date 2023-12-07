@@ -60,3 +60,14 @@ add_action( 'init', 'WPZOOM_Recipe_Card_Shortcode::instance' );
 if ( defined( 'ELEMENTOR_VERSION' ) && is_callable( 'Elementor\Plugin::instance' ) ) {
 	require_once 'elementor/wpzoom-elementor-recipe-card.php';
 }
+
+/**
+ * Add Tasty Links plugin support
+ */
+if( ! function_exists( 'wpzoom_rcb_tasty_links_block' ) ) {
+	function wpzoom_rcb_tasty_links_block( $blocks ) {
+		$blocks[] = 'wpzoom-recipe-card/block-recipe-card';
+		return $blocks;
+	}
+}
+add_filter( 'tasty_links_enabled_rendered_blocks', 'wpzoom_rcb_tasty_links_block' );
