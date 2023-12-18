@@ -2,7 +2,7 @@
 /**
  * Recipes Edit 
  *
- * @since   3.2.13
+ * @since 3.2.13
  * @package WPZOOM_Recipe_Card_Blocks
  */
 
@@ -44,6 +44,8 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 
 		/**
 		 * The Constructor.
+		 * 
+		 * @since 3.2.13
 		 */
 		public function __construct() {
 			
@@ -54,7 +56,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 		}
 
 		/**
-		 * Detect if the recipe block is present in content and add the button.
+		 * Detect if the recipe block is in the content then add the button.
 		 * 
 		 * @since 3.2.13
 		 */
@@ -66,7 +68,8 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 
 				if( has_block( 'wpzoom-recipe-card/block-recipe-card', $post->post_content ) ) {
 					
-					$url = get_edit_post_link( $post->ID );
+					$url = get_edit_post_link( self::get_recipe_id( $post->ID ) );
+					
 					$wp_admin_bar->add_node( 
 						array(
 							'id'    => 'edit-wpzoom-recipe',
@@ -88,13 +91,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 						}
 					}
 					if( isset( $atts['postId'] ) ) {
-						$parentRecipe_ID = get_post_meta( $atts['postId'], '_wpzoom_rcb_parent_post_id', true );
-						if( !empty( $parentRecipe_ID ) ) {
-							$recipe_ID = $parentRecipe_ID;
-						}
-						else {
-							$recipe_ID = $atts['postId'];
-						}
+						$recipe_ID = self::get_recipe_id( $atts['postId'] );
 					}
 					$url = get_edit_post_link( $recipe_ID );
 					$wp_admin_bar->add_node( 
@@ -120,7 +117,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 			$recipe_edit_url_action = array();
 
 			if( has_block( 'wpzoom-recipe-card/block-recipe-card', $post->post_content ) ) {
-				$url = get_edit_post_link( $post->ID );
+				$url = get_edit_post_link( self::get_recipe_id( $post->ID ) );
 				$recipe_edit_url_action = array(
 					'edit-wpzoom-recipe' => sprintf(
 						'<a href="%s">%s</a>',
@@ -142,13 +139,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 					}
 				}
 				if( isset( $atts['postId'] ) ) {
-					$parentRecipe_ID = get_post_meta( $atts['postId'], '_wpzoom_rcb_parent_post_id', true );
-					if( !empty( $parentRecipe_ID ) ) {
-						$recipe_ID = $parentRecipe_ID;
-					}
-					else {
-						$recipe_ID = $atts['postId'];
-					}
+					$recipe_ID = self::get_recipe_id( $atts['postId'] );
 				}
 				$url = get_edit_post_link( $recipe_ID );
 				$recipe_edit_url_action = array(
@@ -163,6 +154,31 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 			$actions = array_merge( $actions, $recipe_edit_url_action  );
 
 			return $actions;
+
+		}
+
+		public static function get_recipe_id( $id )  {
+
+			if( ! $id ) {
+				return;
+			}	
+
+			$args = array(
+				'numberposts' => -1,
+				'post_type'   => 'wpzoom_rcb',
+				'meta_key'    => '_wpzoom_rcb_parent_post_id',
+				'meta_value'  => $id
+
+			);
+
+			$posts = get_posts( $args );
+
+			if( $posts ) {
+				return $posts[0]->ID;
+			}
+			else {
+				return $id;
+			}
 
 		}
 
