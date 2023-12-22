@@ -303,7 +303,8 @@
             border-top: 1px dashed rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
 
-            .recipe-card-notes-list {
+            .recipe-card-notes-list,
+            ul {
                 @include recipe-notes-list( $coconut-cream, $coffee, $default-primary-color, $default-primary-text-color );
             }
         }

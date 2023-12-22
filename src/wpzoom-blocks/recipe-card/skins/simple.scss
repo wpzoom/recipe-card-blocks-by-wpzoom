@@ -340,7 +340,8 @@
             border-top: 1px dashed rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
 
-            .recipe-card-notes-list {
+            .recipe-card-notes-list,
+            ul {
                 @include recipe-notes-list( #FFF3E0, $coffee, $simple-primary-color, $simple-primary-text-color );
             }
         }

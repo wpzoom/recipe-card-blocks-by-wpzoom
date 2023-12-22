@@ -659,7 +659,7 @@ class RecipeCard extends Component {
                         keepPlaceholderOnFocus={ true }
                     />
                     <RichText
-                        className="recipe-card-notes-list"
+                        // className="recipe-card-notes-list"
                         tagName="ul"
                         multiline="li"
                         value={ newNotesValue }
