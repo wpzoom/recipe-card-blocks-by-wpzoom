@@ -164,6 +164,10 @@ The **PRO** version includes an intuitive and easy-to-use tool that allows you t
 
 == Changelog ==
 
+= 3.2.14 =
+* Fix bug with Notes in the editor
+* Added support for the Tasty Links plugin
+
 = 3.2.13 =
 * Fixed a PHP warning
 
