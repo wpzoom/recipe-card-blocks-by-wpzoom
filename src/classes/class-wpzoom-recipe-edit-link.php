@@ -62,6 +62,10 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 		 */
 		public static function add_edit_button( $wp_admin_bar ) {
 
+			if( is_admin() ){
+				return $wp_admin_bar;
+			}
+
 			global $post;
 
 			if ( $post ) {
