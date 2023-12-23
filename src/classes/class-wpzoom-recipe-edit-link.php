@@ -66,49 +66,56 @@ if ( ! class_exists( 'WPZOOM_Recipe_Edit_Link' ) ) {
 				return $wp_admin_bar;
 			}
 
-			global $post;
-
-			if ( $post ) {
-
-				if( has_block( 'wpzoom-recipe-card/block-recipe-card', $post->post_content ) ) {
-					
-					$url = get_edit_post_link( self::get_recipe_id( $post->ID ) );
-					
-					$wp_admin_bar->add_node( 
-						array(
-							'id'    => 'edit-wpzoom-recipe',
-							'title' => esc_html__( 'Edit Recipe', 'recipe-card-blocks-by-wpzoom' ),
-							'href'  => $url . '&scroll=wpzoom_recipe_block',
-						) 
-					);
-				}
-				elseif( has_block( 'wpzoom-recipe-card/recipe-block-from-posts', $post->post_content ) ) {
-					
-					$atts = $gutenberg_matches = array();
-					$gutenberg_patern = '/<!--\s+wp:(wpzoom\-recipe\-card\/recipe\-block\-from\-posts)(\s+(\{.*?\}))?\s+(\/)?-->/';
-					preg_match_all( $gutenberg_patern, $post->post_content, $matches );
-					if ( isset( $matches[3] ) ) {
-						foreach ( $matches[3] as $block_attributes_json ) {
-							if ( ! empty( $block_attributes_json ) ) {
-								$atts = json_decode( $block_attributes_json, true );
-							}
-						}
-					}
-					if( isset( $atts['postId'] ) ) {
-						$recipe_ID = self::get_recipe_id( $atts['postId'] );
-					}
-					$url = get_edit_post_link( $recipe_ID );
-					$wp_admin_bar->add_node( 
-						array(
-							'id'    => 'edit-wpzoom-recipe',
-							'title' => esc_html__( 'Edit Recipe', 'recipe-card-blocks-by-wpzoom' ),
-							'href'  => $url . '&scroll=wpzoom_recipe_block',
-						) 
-					);
-				}
-
+			//Check if user can edit posts
+			if( ! current_user_can( 'edit_posts' ) ) {
+				return $wp_admin_bar;
 			}
 
+			if ( ( is_single() || is_page() ) && ! is_front_page() ) {
+
+				global $post;
+
+				if ( $post ) {
+
+					if( has_block( 'wpzoom-recipe-card/block-recipe-card', $post->post_content ) ) {
+						
+						$url = get_edit_post_link( self::get_recipe_id( $post->ID ) );
+						
+						$wp_admin_bar->add_node( 
+							array(
+								'id'    => 'edit-wpzoom-recipe',
+								'title' => esc_html__( 'Edit Recipe', 'recipe-card-blocks-by-wpzoom' ),
+								'href'  => $url . '&scroll=wpzoom_recipe_block',
+							) 
+						);
+					}
+					elseif( has_block( 'wpzoom-recipe-card/recipe-block-from-posts', $post->post_content ) ) {
+						
+						$atts = $gutenberg_matches = array();
+						$gutenberg_patern = '/<!--\s+wp:(wpzoom\-recipe\-card\/recipe\-block\-from\-posts)(\s+(\{.*?\}))?\s+(\/)?-->/';
+						preg_match_all( $gutenberg_patern, $post->post_content, $matches );
+						if ( isset( $matches[3] ) ) {
+							foreach ( $matches[3] as $block_attributes_json ) {
+								if ( ! empty( $block_attributes_json ) ) {
+									$atts = json_decode( $block_attributes_json, true );
+								}
+							}
+						}
+						if( isset( $atts['postId'] ) ) {
+							$recipe_ID = self::get_recipe_id( $atts['postId'] );
+						}
+						$url = get_edit_post_link( $recipe_ID );
+						$wp_admin_bar->add_node( 
+							array(
+								'id'    => 'edit-wpzoom-recipe',
+								'title' => esc_html__( 'Edit Recipe', 'recipe-card-blocks-by-wpzoom' ),
+								'href'  => $url . '&scroll=wpzoom_recipe_block',
+							) 
+						);
+					}
+
+				}
+			}
 		}
 
 		public static function add_edit_recipe_button_admin_row_actions( $actions, $post ) {
