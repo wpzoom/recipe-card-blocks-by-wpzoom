@@ -148,7 +148,7 @@ export default class DetailItem extends Component {
             1: { label: __( 'Prep time', 'recipe-card-blocks-by-wpzoom' ), value: 30, unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ) },
             2: { label: __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ), value: 40, unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ) },
             3: { label: __( 'Calories', 'recipe-card-blocks-by-wpzoom' ), value: 300, unit: __( 'kcal', 'recipe-card-blocks-by-wpzoom' ) },
-            8: { label: __( 'Total time', 'recipe-card-blocks-by-wpzoom' ), value: 0, unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ) },
+            8: { label: __( 'Total time', 'recipe-card-blocks-by-wpzoom' ), value: 70, unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ) },
         };
 
         if ( isUndefined( itemValue ) ) {
