@@ -1012,7 +1012,7 @@ class WPZOOM_Recipe_Card_Block {
 				'icon'    => 'clock',
 				'label'   => esc_html__( 'Total time', 'recipe-card-blocks-by-wpzoom' ),
 				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
-				'value'   => '0',
+				'value'   => '70',
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
