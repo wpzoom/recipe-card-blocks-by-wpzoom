@@ -1767,13 +1767,16 @@ class Recipe_Card extends Widget_Base {
 
 	public function get_video() {
 		$settings   = $this->get_settings_for_display();
+		
 		$video_url  = isset( $settings['video_url'] ) ? esc_url( $settings['video_url'] ) : '';
 		$hosted_url = isset( $settings['hosted_url']['url'] ) ? esc_url( $settings['hosted_url']['url'] ) : '';
 
 		$output = '';
 
-		if ( 'embed' === $settings['video_type'] ) {
+		if ( 'embed' === $settings['video_type'] && $video_url ) {
+			
 			$output = wp_oembed_get( $video_url );
+		
 		} elseif ( 'hosted' === $settings['video_type'] && $hosted_url ) {
 			
 			$video_params = $this->get_hosted_params() ? $this->get_hosted_params() : array();
@@ -1791,6 +1794,11 @@ class Recipe_Card extends Widget_Base {
 		$settings = $this->get_settings_for_display();
 
 		$output = $this->get_video();
+
+		if ( empty( $output ) ) {
+			return '';
+		}
+
 		return sprintf( '<div class="recipe-card-video no-print"><h3 class="video-title">%s</h3>%s</div>', $settings['video_title'], $output );
 	}
 
