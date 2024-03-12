@@ -422,7 +422,7 @@ class Recipe_Card extends Widget_Base {
 			array(
 				'label'     => esc_html__( 'Cuisine (required)', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::SWITCHER,
-				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
+				'label_on'  => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
 				'label_off' => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
