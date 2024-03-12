@@ -329,7 +329,7 @@ class Recipe_Card extends Widget_Base {
 				'label'       => esc_html__( 'Pinterest Button', 'recipe-card-blocks-by-wpzoom' ),
 				'description' => esc_html__( 'Display Pinterest Button', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::SWITCHER,
-				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
+				'label_on'    => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
 				'label_off'   => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 				'default'     => 'yes',
 			)
@@ -363,7 +363,7 @@ class Recipe_Card extends Widget_Base {
 				'label'       => esc_html__( 'Author', 'recipe-card-blocks-by-wpzoom' ),
 				'description' => esc_html__( 'Display Author', 'recipe-card-blocks-by-wpzoom' ),
 				'type'        => Controls_Manager::SWITCHER,
-				'label_on'    => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
+				'label_on'    => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
 				'label_off'   => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
@@ -399,7 +399,7 @@ class Recipe_Card extends Widget_Base {
 			array(
 				'label'     => esc_html__( 'Course (required)', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::SWITCHER,
-				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
+				'label_on'  => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
 				'label_off' => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
@@ -445,7 +445,7 @@ class Recipe_Card extends Widget_Base {
 			array(
 				'label'     => esc_html__( 'Display Difficulty', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::SWITCHER,
-				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
+				'label_on'  => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
 				'label_off' => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
@@ -489,7 +489,7 @@ class Recipe_Card extends Widget_Base {
 			array(
 				'label'     => esc_html__( 'Display Detail Item', 'recipe-card-blocks-by-wpzoom' ),
 				'type'      => Controls_Manager::SWITCHER,
-				'label_on'  => esc_html__( 'Show', 'wpzoom-recipe-cards' ),
+				'label_on'  => esc_html__( 'Show', 'recipe-card-blocks-by-wpzoom' ),
 				'label_off' => esc_html__( 'Hide', 'recipe-card-blocks-by-wpzoom' ),
 			)
 		);
