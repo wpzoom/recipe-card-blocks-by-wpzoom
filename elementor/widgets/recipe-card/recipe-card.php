@@ -881,7 +881,7 @@ class Recipe_Card extends Widget_Base {
 					),
 				),
 				'placeholder'        => esc_html__( 'Enter your URL', 'recipe-card-blocks-by-wpzoom' ),
-				'default'            => 'https://www.youtube.com/watch?v=TehuLXQXNi8',
+				'default'            => '',
 				'label_block'        => true,
 				'condition'          => array(
 					'video_type' => 'embed',
