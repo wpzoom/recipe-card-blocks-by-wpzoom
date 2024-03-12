@@ -34,3 +34,13 @@
 .wpzoom-rcb-plugin-row-meta-rate-stars svg:hover ~ svg {
     fill: none;
 }
+
+.rcb-premium-badge {
+    animation: blinkingText 2s infinite;
+}
+
+@keyframes blinkingText{
+        0%      { background-color: #e15819;}
+        50%     { background-color: #ec7944;}
+        100%    { background-color: #e15819;}
+    }

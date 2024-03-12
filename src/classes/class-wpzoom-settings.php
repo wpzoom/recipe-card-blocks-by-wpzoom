@@ -248,7 +248,7 @@ class WPZOOM_Settings {
 					<a href="https://recipecard.io/documentation/" target="_blank" class="wpzoom-doc-link"><?php _e( 'Documentation', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 					<a href="https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/" target="_blank" class="wpzoom-support-link"><?php _e( 'Support Forum', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 					<a href="https://recipecard.io/support/tickets/" target="_blank" class="wpzoom-support-link"><strong><?php _e( 'Premium Support', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
-					<a href="<?php echo esc_url( $upgrade_url ); ?>" target="_blank" class="wpzoom-pro-link" style="color:#FFA921;"><strong><?php _e( 'Get the PRO version &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
+					<a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=rcbfree&utm_campaign=btnsettings" target="_blank" class="wpzoom-pro-link" style="color:#FFA921;"><strong><?php _e( 'Get the PRO version &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
 				</div>
 			</div>
 			<a href="#wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i><?php _e( 'Close', 'recipe-card-blocks-by-wpzoom' ); ?></a>
@@ -1395,6 +1395,49 @@ class WPZOOM_Settings {
 
                 <div class="wpz_right-col">
 
+
+                   <div class="wpz-onboard_wrapper">
+                       <div class="wpz-onboard_content-wrapper">
+                           <div class="wpz-onboard_content">
+                               <div class="wpz-onboard_content-side">
+
+                                   <div class="wpz-onboard_content-side-section discover-premium">
+                                       <h3 class="wpz-onboard_content-side-section-title icon-docs">
+                                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg">
+                                           <mask id="mask0_3409_3568" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                           <rect width="24" height="24" fill="#D9D9D9"/>
+                                           </mask>
+                                           <g mask="url(#mask0_3409_3568)">
+                                           <path d="M19 9L17.75 6.25L15 5L17.75 3.75L19 1L20.25 3.75L23 5L20.25 6.25L19 9ZM19 23L17.75 20.25L15 19L17.75 17.75L19 15L20.25 17.75L23 19L20.25 20.25L19 23ZM9 20L6.5 14.5L1 12L6.5 9.5L9 4L11.5 9.5L17 12L11.5 14.5L9 20ZM9 15.15L10 13L12.15 12L10 11L9 8.85L8 11L5.85 12L8 13L9 15.15Z" fill="white"/>
+                                           </g>
+                                           </svg> <?php esc_html_e( 'Recipe Card Blocks PRO', 'recipe-card-blocks-by-wpzoom' ); ?></h3>
+                                       <p class="wpz-onboard_content-side-section-content"><?php esc_html_e( 'Unlock advanced customization options with the PRO version to make your recipe cards truly unique. Add videos, nutritional facts, and more to engage your readers like never before!', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+
+                                       <ul>
+                                           <li><span class="dashicons dashicons-yes"></span> Adjustable Servings</li>
+                                           <li><span class="dashicons dashicons-yes"></span> Unit Conversion</li>
+                                           <li><span class="dashicons dashicons-yes"></span> Recipe Roundups</li>
+                                           <li><span class="dashicons dashicons-yes"></span> Recipe Index Block</li>
+                                           <li><span class="dashicons dashicons-yes"></span> Star Rating</li>
+                                           <li><span class="dashicons dashicons-yes"></span> Equipment</li>
+                                           <li><span class="dashicons dashicons-yes"></span> ...and many more</li>
+                                       </ul>
+                                       <div class="wpz-onboard_content-side-section-button">
+                                           <a href="<?php echo esc_url( __( 'https://recipecard.io/features/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=btn-right-col', 'recipe-card-blocks-by-wpzoom' ) ); ?>" target="_blank" class="button button-primary"><?php esc_html_e( 'Discover All PRO Features &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+
+                                       </div>
+
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+                    <?php
+                    $current_user = wp_get_current_user();
+                    ?>
                         <div id="mlb2-5662656" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-5662656">
                           <div class="ml-form-align-center">
                             <div class="ml-form-embedWrapper embedForm">
@@ -1413,7 +1456,7 @@ class WPZOOM_Settings {
                                   <div class="ml-form-formContent">
                                     <div class="ml-form-fieldRow ml-last-item">
                                       <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                                        <input aria-label="email" aria-required="true" type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="Enter your email address" autocomplete="email">
+                                        <input aria-label="email" aria-required="true" type="email" value="<?php echo esc_attr($current_user->user_email); ?>" class="form-control" data-inputmask="" name="fields[email]" placeholder="Enter your email address" autocomplete="email">
                                       </div>
                                     </div>
                                   </div>

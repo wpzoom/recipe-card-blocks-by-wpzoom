@@ -52,7 +52,7 @@ class WPZOOM_Admin_Menu {
 		add_submenu_page(
 			WPZOOM_RCB_SETTINGS_PAGE,
 			esc_html__( 'Recipe Card Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ),
-			'<span style="color:#FFA921">' . esc_html__( 'Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ) . '</span>',
+			'<span style="color:#e15819; font-weight: 600;">' . esc_html__( 'UPGRADE', 'recipe-card-blocks-by-wpzoom' ) . ' &rarr; <span class="rcb-premium-badge" style="background-color: #e15819; color: #fff; margin-left: 3px; font-size: 11px; min-height: 16px;  border-radius: 8px; display: inline-block; font-weight: 600; line-height: 1.6; padding: 0 8px">PRO</span></span>',
 			'edit_posts',
 			'wpzoom-recipe-card-vs-pro',
 			array( $this, 'admin_page' )
