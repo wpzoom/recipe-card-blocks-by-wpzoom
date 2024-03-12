@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.0
 Requires PHP: 7.2
 Tested up to: 6.4
-Stable tag: 3.2.15
+Stable tag: 3.2.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -163,6 +163,9 @@ The **PRO** version includes an intuitive and easy-to-use tool that allows you t
 
 
 == Changelog ==
+
+= 3.2.16 =
+* Multiple fixes in the Elementor widget
 
 = 3.2.15 =
 * Bug fix with the Total Time value
