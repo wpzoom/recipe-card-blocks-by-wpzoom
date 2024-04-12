@@ -81,6 +81,35 @@ class WPZOOM_Custom_Post {
 		add_action( 'template_redirect', array( $this, 'redirect_single_recipe_to_404' ) );
 		add_filter( 'post_row_actions', array( $this, 'filter_admin_row_actions' ), 11, 2 );
 
+		add_action( 'enqueue_block_editor_assets', array( $this, 'add_checkbox_to_gutenberg_toolbar' ) );
+
+	}
+
+	public function add_checkbox_to_gutenberg_toolbar( $hook ) {
+		
+		$status = 'draft';
+
+		if( isset( $_GET['post'] ) ) {
+			
+			$id = $_GET['post'];
+			$post = get_post( $id );
+			if( is_object( $post ) && $post->post_type == 'wpzoom_rcb' ) {
+				$status = get_post_status( $post->ID );
+			}
+		}
+
+		if( isset( $status ) && 'publish' == $status ) {
+			return;
+		}
+
+		wp_enqueue_script( 
+			'wpzoom-rcb-checkbox-gutenberg-toolbar', 
+			WPZOOM_RCB_PLUGIN_URL . 'dist/assets/admin/js/editor.js', 
+			array(), 
+			WPZOOM_RCB_VERSION, 
+			true 
+		);
+
 	}
 
 	//Add ID of the recipe to the row actions
