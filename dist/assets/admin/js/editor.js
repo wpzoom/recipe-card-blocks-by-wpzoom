@@ -83,18 +83,10 @@
 				return;
 			}			
 
-			// Assuming content contains the provided HTML comment
-			var postContent = recipePost.content;
-
-			// Extract the JSON data from the HTML comment
-			var jsonData = postContent.match(/\{.*\}/);
-
-			if ( jsonData ) {
-				// Parse the JSON data
-				var recipeData = JSON.parse(jsonData[0]);
-
-				// Get the recipeTitle
-				var recipeTitle = recipeData.recipeTitle;
+			var recipeTitle = '';
+			var recipeTitleContainer = document.querySelector('.recipe-card-heading');
+			if ( recipeTitleContainer ) {
+				recipeTitle = recipeTitleContainer.children[0].innerText;
 			}
 
 			var postTitle = recipeTitle || recipePost.title.raw || recipePost.title.rendered || recipePost.title;
@@ -114,7 +106,7 @@
 				data: newPostData,
 			})
 			.then(data => {
-				console.log('New post created with ID:', data.id);
+				console.log('New post created with title:', postTitle);
 			})
 			.catch(error => {
 				console.error('Error creating new post:', error);
