@@ -81,11 +81,27 @@
 			// Check if a post has already been created
 			if ( postCreated > 0) {
 				return;
+			}			
+
+			// Assuming content contains the provided HTML comment
+			var postContent = recipePost.content;
+
+			// Extract the JSON data from the HTML comment
+			var jsonData = postContent.match(/\{.*\}/);
+
+			if ( jsonData ) {
+				// Parse the JSON data
+				var recipeData = JSON.parse(jsonData[0]);
+
+				// Get the recipeTitle
+				var recipeTitle = recipeData.recipeTitle;
 			}
+
+			var postTitle = recipeTitle || recipePost.title.raw || recipePost.title.rendered || recipePost.title;
 
 			// Prepare data for the new post
 			const newPostData = {
-				title: recipePost.title.raw || recipePost.title.rendered || recipePost.title, // Use the raw, rendered, or fallback title from the recipe post
+				title: postTitle, // Set the title of the new post
 				content: '<!-- wp:wpzoom-recipe-card/recipe-block-from-posts {"postId":"' + recipePost.id + '"} /-->', // Use the WPZoom Recipe Card block with the recipe post ID
 				status: 'draft', // Set the status of the new post to draft
 				postType: 'post', // Set the post type of the new post
