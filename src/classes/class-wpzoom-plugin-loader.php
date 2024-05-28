@@ -110,6 +110,11 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-admin-pointer.php';
 
+			//Importer
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/import/class-wpzoom-import.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/import/class-wpzoom-import-manager.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/import/class-wpzoom-import-wprm.php';
+
 			//Added February 2022
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-shortcode.php';
 

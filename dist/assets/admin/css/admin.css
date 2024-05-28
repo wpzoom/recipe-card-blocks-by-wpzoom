@@ -44,3 +44,343 @@
         50%     { background-color: #ec7944;}
         100%    { background-color: #e15819;}
     }
+
+/* Import Recipes Panel Style */
+.wpzoom-rcb-admin-panel-header,
+.wpzoom-rcb-admin-panel-footer,
+.wpzoom-rcb-admin-panel-content,
+.wpzoom-rcb-panel-modal-content {
+	box-sizing: border-box;
+	background: #FFFFFF;
+	border: 1px solid #DDDDDD;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
+	padding:14px 34px;
+	display: block;
+}
+.wpzoom-rcb-admin-panel-header,
+.wpzoom-rcb-admin-panel-content {
+	margin-bottom: 35px;
+}
+.wpzoom-rcb-admin-panel-content {
+	width: 100%;
+	max-width: 66%;
+	float: left;
+}
+.wpzoom-rcb-admin-panel-side-notice {
+	display: block;
+	float: right;
+}
+.wpzoom-rcb-admin-panel-footer {
+	clear: both;
+}
+.wpzoom-rcb-admin-panel-content-inner {
+	padding-top: 10px;
+}
+
+.wpzoom-rcb-import-scan-step {
+	background: url(../../images/import.svg) no-repeat left 10px;
+	padding-left: 70px;
+}
+
+.wpzoom-rcb-import-progress-step {
+	display: flex;
+	align-items: center;
+}
+.wpzoom-rcb-import-progress-step h1 {
+	padding: 0;
+	margin-left: 25px !important;
+}
+
+.wpzoom-rcb-admin-panel-header h3,
+.wpzoom-rcb-admin-panel-header h5 {
+	color: #242628;
+	font-size: 24px;
+	line-height: 30px;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+.wpzoom-rcb-admin-panel-header h5 {
+	font-size: 18px;
+	line-height: 22px;
+	color: #242628;
+	margin-bottom: 0;
+}
+
+.wpzoom-rcb-admin-panel-header-inner {
+	display: inline-block;
+}
+.wpzoom-rcb-plugin-version {
+	float: right;
+	font-size: 14px;
+	line-height: 18px;
+	font-weight: 400;
+	color:#81909C;
+	display: block;
+}
+
+.wpzoom-rcb-admin-panel-footer-inner {
+	display: flex;
+}
+.wpzoom-rcb-footer-links {
+	display: block;
+}
+.wpzoom-rcb-footer-links li  {
+	display: inline-block;
+	margin-left:35px;
+}
+.wpzoom-rcb-footer-links li a {
+	color: #242628;
+	text-decoration: none;
+    font-weight: 600;
+}
+
+.wpzoom-rcb-footer-links li a:hover {
+    color: #E1581A;
+}
+
+.wpzoom-rcb-admin-panel-content h1 {
+	font-size: 18px;
+	margin: 0;
+	line-height: 22px;
+	font-weight: 600;
+}
+.wpzoom-rcb-panel-modal-content-text p,
+.wpzoom-rcb-admin-panel-content p,
+.wpzoom-rcb-admin-panel-content ul,
+.wpzoom-rcb-admin-panel-note p {
+	font-size: 14px;
+	line-height:20px;
+	font-weight: 400;
+	color:#242628;
+	margin-bottom: 20px;
+}
+.wpzoom-rcb-admin-panel-content p a, 
+.wpzoom-rcb-admin-panel-note p a {
+	color:#E1581A;
+	text-decoration: none;
+    font-weight: 600;
+}
+
+.wpzoom-rcb-admin-panel-content p a:hover,
+.wpzoom-rcb-admin-panel-note p a:hover {
+    color:#222;
+}
+
+.wpzoom-rcb-admin-panel-content ul {
+	list-style-type: decimal;
+	padding-left: 15px;
+}
+.wpzoom-rcb-admin-panel-note {
+	padding:10px 65px;
+	border-radius: 10px;
+	margin:40px 0px;
+	background: #FFE7D4 url(../../images/report.svg) no-repeat 20px 25px;
+}
+.wpzoom-rcb-admin-panel-side-notice .wpzoom-rcb-admin-panel-note {
+	max-width:370px;
+	border-radius: 3px;
+	margin: 0;
+	border: 1px solid #EAAB90;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
+	padding: 60px 20px 20px;
+}
+.wpzoom-rcb-btn {
+	color: #fff !important;
+	font-size:14px;
+	background: #E1581A;
+	border-radius: 3px;
+	display: inline-block;
+	padding: 12px 16px;
+	text-decoration: none !important;
+	margin-bottom: 35px;
+    font-weight: 600;
+}
+.wpzoom-rcb-btn.disabled {
+	background: #7C848A;
+	pointer-events: none;
+	color: #dedede !important;
+}
+
+.wpzoom-rcb-btn:hover {
+    background: #222;
+}
+
+.wpzoom-rcb-btn-border {
+	background: none;
+	color:#041728 !important;
+	border: 1px solid #041728;
+	margin-right: 5px;
+	padding: 8px;
+	margin-bottom: 0;
+}
+.wpzoom-rcb-btn-border:hover {
+    color: #fff !important;
+}
+
+.wpzoom-rcb-btn-block {
+	clear: both;
+}
+.wpzoom-rcb-circular-progress {
+	position: relative;
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+    margin-bottom: 10px;
+}
+
+.wpzoom-rcb-circular-progress svg {
+    width: 40px;
+    height: 40px;
+}
+
+  .wpzoom-rcb-import-progress-step,
+  .wpzoom-rcb-import-search-result-step,
+  .wpzoom-rcb-import-finish-step,
+  .wpzoom-rcb-admin-panel-side-notice,
+  .wpzoom-amount-selected-recipes {
+	display: none;
+  }
+
+  .wpzoom-rcb-panel-modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background: rgba(36, 38, 40, .2 );
+	/* display: flex;	 */
+  }
+  .wpzoom-rcb-panel-modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: auto;
+	padding: 14px 34px;
+	width: 100%;
+	max-width: 850px;
+  }
+  .wpzoom-rcb-panel-modal-content-text {
+		border-top:1px solid #DDDDDD;
+		border-bottom:1px solid #DDDDDD;
+		padding: 40px 0;
+		margin:40px 0;
+  }
+  #wpzoom-close-modal-window {
+	text-indent: -9999px;
+	background: url(../../images/close_24px.png) no-repeat center center;
+	display: block;
+	width: 24px;
+	height:24px;
+	position: absolute;
+	right:30px;
+	top:30px;
+  }
+
+  .wpzoom-rcb-panel-modal-content .wpzoom-rcb-btn {
+	float:right;
+	margin-bottom: 15px;
+  }
+  #wpzoom-cancel-modal {
+	color:#E1581A;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 42px;
+  }
+  a.wpzoom-rcb-import-link {
+	color:#E1581A;
+	text-decoration: none;
+	margin-right: 20px;
+	font-size: 14px;
+	margin-bottom: 30px;
+  }
+  #wpzoom-found-recipes {
+	border-top: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+	padding:15px 0;
+	margin: 20px 0;
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+  .wpzoom-rcb-import-checkbox {
+	display: grid;
+	place-content:first baseline;
+	align-items:start;
+	grid-template-columns:repeat(2, auto);
+	margin-bottom: 15px;
+  }
+  #wpzoom-found-recipes label {
+	display: block;
+	font-size: 14px;
+	font-weight: 500;
+	margin-left:10px;
+	display: inline-block;
+  }
+  #wpzoom-import-recipes {
+	margin-top:20px;
+	margin-bottom: 10px;
+  }
+  .wpzoom-rcb-import-search-result-step h1,
+  .wpzoom-rcb-import-finish-step h1 {
+	margin-bottom: 40px;
+	padding:15px 0px 13px 65px;
+	background: url(../../images/check.svg) no-repeat left top;
+    display: block !important;
+  }
+  
+  #wpzoom-found-recipes input[type="checkbox"] {
+	/* Add if not using autoprefixer */
+	-webkit-appearance: none;
+	appearance: none;
+	/* For iOS < 15 to remove gradient background */
+	background-color: #fff;
+	/* Not removed via appearance */
+	margin: 0;
+	font: inherit;
+	color: #7C848A;
+	width: 1.15em;
+	height: 1.15em;
+	border: 0.15em solid #7C848A;
+	border-radius: 0.15em;
+	transform: translateY(-0.075em);
+	display: grid;
+	place-content: center;
+	outline: none !important;
+	box-shadow: none;
+  }
+  .wpzoom-amount-selected-recipes {
+	margin-left: 20px;
+  }
+  .wpzoom-rcb-import-checkbox.active label,
+  .wpzoom-amount-selected-recipes {
+	color:#E1581A;
+  }
+  
+  #wpzoom-found-recipes input[type="checkbox"]:checked {
+	border-color:#E1581A;
+	color:#E1581A;
+  }
+  #wpzoom-found-recipes input[type="checkbox"]::before {
+	content: "";
+	width: 0.75em;
+	height: 0.75em;
+	transform: scale(0);
+	transition: 120ms transform ease-in-out;
+	transform-origin: bottom left;
+	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+	/* Windows High Contrast Mode */
+	background-color: #E1581A;
+	margin: 0;
+  }
+  
+  #wpzoom-found-recipes input[type="checkbox"]:checked::before {
+	transform: scale(1);
+	color: #E1581A;
+  }
