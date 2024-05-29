@@ -89,11 +89,15 @@ class WPZOOM_Custom_Post {
 		
 		$status = 'draft';
 
+		if( ! self::get_current_post_type( 'wpzoom_rcb' ) ) {
+			return;
+		}
+
 		if( isset( $_GET['post'] ) ) {
 			
 			$id = $_GET['post'];
 			$post = get_post( $id );
-			if( is_object( $post ) && $post->post_type == 'wpzoom_rcb' ) {
+			if( is_object( $post ) ) {
 				$status = get_post_status( $post->ID );
 			}
 		}
