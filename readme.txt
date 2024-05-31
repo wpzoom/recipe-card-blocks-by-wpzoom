@@ -4,8 +4,8 @@ Donate link: https://recipecard.io/
 Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.0
 Requires PHP: 7.2
-Tested up to: 6.4
-Stable tag: 3.2.16
+Tested up to: 6.5
+Stable tag: 3.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Multiple Designs**
 * Gutenberg-ready
 * Works with any theme
+* Import recipes from WP Recipe Maker
 * Video integration
 * GDPR-compliant
 * Bulk Add Ingredients and Directions
@@ -66,6 +67,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Comments Rating**
 * **Recipe Submissions - 🆕**
 * **Recipe Roundup - 🆕**
+* **Recipe Index Block - 🆕**
 * **Equipment**
 * **Cook Mode**
 * **Gallery in Directions**
@@ -143,7 +145,7 @@ Yes, you can find documentation for this plugin with more instructions on our we
 
 = Is it possible to migrate recipes from another plugin? =
 
-The **PRO** version includes an intuitive and easy-to-use tool that allows you to **import recipes** created using other plugins.
+Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **import recipes** created using the WP Recipe Maker plugin.
 
 [How to import recipes from other plugins](https://recipecard.io/features/importing-recipes-from-other-recipe-plugins/)
 
@@ -163,6 +165,10 @@ The **PRO** version includes an intuitive and easy-to-use tool that allows you t
 
 
 == Changelog ==
+
+= 3.3.0 =
+* New: Import recipes from WP Recipe Maker
+* New: Create a Draft Post when creating a new recipe card post.
 
 = 3.2.16 =
 * Multiple fixes in the Elementor widget
