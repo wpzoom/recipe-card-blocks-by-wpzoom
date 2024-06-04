@@ -636,7 +636,7 @@ class WPZOOM_Recipe_Card_Block {
 		$json_ld = array(
 			'@context'           => 'https://schema.org',
 			'@type'              => 'Recipe',
-			'name'               => isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : self::$recipe->post_title,
+			'name'               => isset( $attributes['recipeTitle'] ) ? strip_tags( $attributes['recipeTitle'] ) : strip_tags( self::$recipe->post_title ),
 			'image'              => '',
 			'description'        => isset( $attributes['summary'] ) ? $attributes['summary'] : self::$recipe->post_excerpt,
 			'keywords'           => $tag_list,
@@ -658,7 +658,7 @@ class WPZOOM_Recipe_Card_Block {
 			'recipeInstructions' => array(),
 			'video'              => array(
 				'@type'        => 'VideoObject',
-				'name'         => isset( $attributes['recipeTitle'] ) ? $attributes['recipeTitle'] : self::$recipe->post_title,
+				'name'         => isset( $attributes['recipeTitle'] ) ? strip_tags( $attributes['recipeTitle'] ) : strip_tags( self::$recipe->post_title ),
 				'description'  => isset( $attributes['summary'] ) ? $attributes['summary'] : self::$recipe->post_excerpt,
 				'thumbnailUrl' => '',
 				'contentUrl'   => '',
@@ -669,7 +669,7 @@ class WPZOOM_Recipe_Card_Block {
 		);
 
 		if ( ! empty( $attributes['recipeTitle'] ) ) {
-			$json_ld['name'] = $attributes['recipeTitle'];
+			$json_ld['name'] = strip_tags( $attributes['recipeTitle'] );
 		}
 
 		if ( ! empty( $attributes['summary'] ) ) {
