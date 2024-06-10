@@ -201,7 +201,7 @@ if ( is_array( $settings[ 'recipe_directions_list' ] ) ) :
 	}
 	$html .= '<ul class="directions-list">';
 	foreach ( $settings['recipe_directions_list'] as $index => $item ) :
-		$id = self::$helpers->generateId( 'direction-step' );
+		$id = isset( $item['_id'] ) ? $item['_id'] : self::$helpers->generateId( 'direction-step' );
 		if( 'yes' == $item['directions_group'] && !empty( $item['directions_group_title'] ) ) :
 
 			$html .= '<li id="wpzoom-rcb-' . $id . '" class="direction-step direction-step-group">';
