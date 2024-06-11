@@ -2056,57 +2056,56 @@ class Recipe_Card extends Widget_Base {
 					$json_ld['totalTime'] = $this->get_period_time( $prepTime + $cookTime );
 				}
 			}
+		}
 
-			// Ingredients
-			if( ! empty( $settings[ 'recipe_ingredients_list' ] ) ) {
+		// Ingredients
+		if( ! empty( $settings[ 'recipe_ingredients_list' ] ) ) {
+						
+			$ingredients = array_filter( $settings[ 'recipe_ingredients_list' ], 'is_array' );
+			foreach ( $ingredients as $ingredient ) {
 				
-				$ingredients = array_filter( $settings[ 'recipe_ingredients_list' ], 'is_array' );
-				foreach ( $ingredients as $ingredient ) {
-					
-					$isGroup = isset( $ingredient['ingredient_group'] ) && 'yes' === $ingredient['ingredient_group'] ? true : false;
-	
-					if ( ! $isGroup ) {
-						$json_ld['recipeIngredient'][] = $this->get_ingredient_to_JSON( $ingredient );
-					}
+				$isGroup = isset( $ingredient['ingredient_group'] ) && 'yes' === $ingredient['ingredient_group'] ? true : false;
+
+				if ( ! $isGroup ) {
+					$json_ld['recipeIngredient'][] = $this->get_ingredient_to_JSON( $ingredient );
 				}
 			}
+		}
 
-			// Directions
-			if( ! empty( $settings[ 'recipe_directions_list' ] ) ) {
-				$steps =          array_filter( $settings[ 'recipe_directions_list' ], 'is_array' );
-				$groups_section = array();
-				$instructions   = array();
+		// Directions
+		if( ! empty( $settings[ 'recipe_directions_list' ] ) ) {
+			$steps =          array_filter( $settings[ 'recipe_directions_list' ], 'is_array' );
+			$groups_section = array();
+			$instructions   = array();
 
-				foreach ( $steps as $key => $step ) {
-					$isGroup = isset( $step['directions_group'] ) && 'yes' === $step['directions_group'] ? true : false;
-					$parent_permalink = get_the_permalink();
+			foreach ( $steps as $key => $step ) {
+				$isGroup = isset( $step['directions_group'] ) && 'yes' === $step['directions_group'] ? true : false;
+				$parent_permalink = get_the_permalink();
 
-					if ( $isGroup ) {
-						$groups_section[ $key ] = array(
-							'@type'           => 'HowToSection',
-							'name'            => '',
-							'itemListElement' => array(),
-						);
-						$groups_section[ $key ]['name'] = wp_strip_all_tags( $step['directions_group_title'] );
-					}
-
-					if ( count( $groups_section ) > 0 ) {
-						end( $groups_section );
-						$last_key = key( $groups_section );
-	
-						if ( ! $isGroup && $key > $last_key ) {
-							$groups_section[ $last_key ]['itemListElement'][] = $this->get_step_json_ld( $step, $parent_permalink );
-						}
-					} else {
-						$instructions[] = $this->get_step_json_ld( $step, $parent_permalink );
-					}
-				
+				if ( $isGroup ) {
+					$groups_section[ $key ] = array(
+						'@type'           => 'HowToSection',
+						'name'            => '',
+						'itemListElement' => array(),
+					);
+					$groups_section[ $key ]['name'] = wp_strip_all_tags( $step['directions_group_title'] );
 				}
-				
-				$groups_section                = array_merge( $instructions, $groups_section );
-				$json_ld['recipeInstructions'] = $groups_section;
 
+				if ( count( $groups_section ) > 0 ) {
+					end( $groups_section );
+					$last_key = key( $groups_section );
+
+					if ( ! $isGroup && $key > $last_key ) {
+						$groups_section[ $last_key ]['itemListElement'][] = $this->get_step_json_ld( $step, $parent_permalink );
+					}
+				} else {
+					$instructions[] = $this->get_step_json_ld( $step, $parent_permalink );
+				}
+			
 			}
+			
+			$groups_section                = array_merge( $instructions, $groups_section );
+			$json_ld['recipeInstructions'] = $groups_section;
 
 		}
 
