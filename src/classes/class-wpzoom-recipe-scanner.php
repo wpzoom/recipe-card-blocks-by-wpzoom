@@ -58,6 +58,16 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 
 		public function scripts( $hook ) {
 
+			if ( 'recipe-cards_page_wpzoom_import_panel' !== $hook && 'edit.php' !== $hook ) {
+				return;
+			}
+
+			if ( 'edit.php' === $hook ) {
+				if( isset( $_GET['post_type'] ) && 'wpzoom_rcb' !== $_GET['post_type'] ) {
+					return;
+				}				
+			}
+
 			wp_enqueue_script(
 				'wpzoom-rcb-scan-script',
 				untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/admin/js/scanner.js',
@@ -70,7 +80,7 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 				'WPZOOM_Scanner',
 				array(
 					'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
-					'ajax_nonce' => wp_create_nonce( 'wpzoom-reset-settings-nonce' ),
+					'ajax_nonce' => wp_create_nonce( 'wpzoom-recipe-scanner-nonce' ),
 				)
 			);
 		}
@@ -83,7 +93,7 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 		 */
 		public function search_recipes_box_close() {
 			
-			check_ajax_referer( 'wpzoom-reset-settings-nonce', 'security' );
+			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 
 			if ( set_transient( 'wpzoom_rcb_search_recipe_box', true, 12 * HOUR_IN_SECONDS ) ) {
 				$response = array(
@@ -111,7 +121,7 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 		 */
 		public function search_recipes( $page = 0 ) {
 
-			check_ajax_referer( 'wpzoom-reset-settings-nonce', 'security' );
+			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 			
 			$recipes = array();
 			$finished = false;

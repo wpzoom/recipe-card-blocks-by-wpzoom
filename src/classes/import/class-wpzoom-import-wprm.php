@@ -83,7 +83,7 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 		 */
 		public function search_recipes() {
 
-			check_ajax_referer( 'wpzoom-reset-settings-nonce', 'security' );
+			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 
 			$post_types = array( 'post', 'page' );
 			$custom_post_types = WPZOOM_Settings::get( 'wpzoom_rcb_settings_types_recipe_post' );
@@ -147,7 +147,7 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 		public function import_recipes() {
 
-			check_ajax_referer( 'wpzoom-reset-settings-nonce', 'security' );
+			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 
 			$recipes_data = isset( $_POST['recipes'] ) && is_array( $_POST['recipes'] ) ? $_POST['recipes'] : array();
 
