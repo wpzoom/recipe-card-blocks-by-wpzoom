@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.0
 Requires PHP: 7.2
 Tested up to: 6.5
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,9 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 
 
 == Changelog ==
+
+= 3.3.2 =
+* Bug fix with the recipe importer
 
 = 3.3.1 =
 * Fixed a bug with the Schema markup in the Elementor widget
