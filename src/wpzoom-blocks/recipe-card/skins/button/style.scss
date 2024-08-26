@@ -1,0 +1,514 @@
+// Define variables
+$primary-color: #E1581A;
+$secondary-color: #f34b00;
+
+// Styles for AI button
+.ai-button {
+  background-color: white;
+  color: $primary-color;
+  border: 2px solid $primary-color;
+  padding: 14px 40px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  width: fit-content;
+  margin-left: auto !important;
+  display: block;
+  border-radius: 5px;
+  font-weight: 600 !important;
+  padding: 15px 20px 35px 20px !important;
+
+  &:hover {
+    background-color: $primary-color;
+    color: white;
+
+    svg path {
+      fill: white;
+    }
+  }
+
+  svg {
+    margin-right: 10px;
+  }
+}
+
+// Styles for popup overlay
+.popup-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  background: #00000055;
+  transform: none !important;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+// Styles for popup content
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 40px 60px;
+  border: 2px solid #F2F4F6;
+  border-radius: 10px;
+  width: 570px;
+  box-shadow: 0 15px 25px 0 rgba(0, 0, 0, 0.05);
+
+  h2 {
+    font-size: 18px;
+    color: #041728;
+    margin-top: 35px;
+    font-weight: 600;
+  }
+
+  ul li {
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 400;
+    color: $primary-color;
+  }
+
+  input[type="text"] {
+    font-size: 20px;
+    color: var(--rcb-dark, #041728);
+    padding: 10px 10px 10px 70px;
+    border-radius: 4px;
+    margin: 0 0 20px 0;
+    border: 1px solid #7C848A;
+    width: 440px;
+    height: 47px;
+    border: 1px solid var(--rcb-grey, #7C848A);
+    background: var(--white, #FFF);
+  }
+}
+
+
+// Styles for submit button
+.submit-button {
+  font-size: 22px;
+  background-color: $secondary-color !important;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  font-weight: 500;
+  width: 440px;
+  padding: 14px;
+  justify-content: center;
+  border-radius: 5px;
+  background: var(--main-color, #E1581A);
+
+  &:hover {
+    background-color: darken($secondary-color, 10%);
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+
+    svg {
+      height: 26px;
+      width: 26px;
+      margin-right: 16px;
+    }
+  }
+}
+
+.manual-button {
+  width: fit-content;
+  margin-left: auto !important;
+  display: block;
+  color: #7C848A;
+  border: 2px solid #7C848A;
+  background-color: white;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 14px !important;
+}
+
+.components-button {
+
+  &.ai-button {
+    position: relative;
+
+    span.btn-svg {
+      position: absolute;
+      top: 8px;
+    }
+
+    span.btn-text {
+      padding-left: 20px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+
+  &.regenerate-recipe-button {
+    padding: 0 0 0 0;
+    font-size: 14px;
+    font-weight: 600;
+
+    span.btn-text {
+      color: $primary-color;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    span.btn-svg {
+      margin: 0 5px 0 0;
+    }
+  }
+}
+
+.svg-input {
+  position: relative;
+
+  span {
+    svg {
+      position: absolute;
+      top: 14px;
+      left: 20px;
+    }
+  }
+}
+
+.Content-suggestions {
+  h4 {
+    color: #041728;
+    font-size: 15px;
+    margin: 25px 0 15px 0;
+    opacity: 1;
+  }
+
+  ul {
+    li {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+}
+
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  z-index: 9999; /* Ensure it's above other elements */
+
+  @keyframes spin {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+}
+.wp-block-wpzoom-recipe-card-block-recipe-card.image-loader .recipe-card-image-placeholder,
+.wp-block-wpzoom-recipe-card-block-recipe-card.image-loader .recipe-card-image-preview,
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999; /* Ensure it's on top */
+}
+.wp-block-wpzoom-recipe-card-block-recipe-card.image-loader .recipe-card-image-placeholder,
+.wp-block-wpzoom-recipe-card-block-recipe-card.image-loader .recipe-card-image-preview {
+  position: relative;
+  min-height: 200px;
+  box-shadow: none;
+}
+.wp-block-wpzoom-recipe-card-block-recipe-card.image-loader .recipe-card-image-placeholder div,
+.wp-block-wpzoom-recipe-card-block-recipe-card.image-loader .recipe-card-image-preview div {
+  display: none;
+}
+.recipe-image-placeholder-wrapper .loader {
+  position:absolute;
+}
+.wp-block-wpzoom-recipe-card-block-recipe-card.image-loader .recipe-card-image-placeholder::after,
+.wp-block-wpzoom-recipe-card-block-recipe-card.image-loader .recipe-card-image-preview::after,
+.loader::after {
+  content: "";
+  border: 4px solid rgba(255, 255, 255, 0.3); /* Light grey */
+  border-top: 4px solid #E1581A; /* Orange */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+.wp-block-wpzoom-recipe-card-block-recipe-card {
+  &.is-style-default {
+    .recipe-card-image-preview {
+      .recipe-card-image {
+        margin: 10px 0;
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#inspector-text-control-0:focus {
+  border: 1px solid var(--rcb-grey, #7C848A);
+}
+
+#inspector-text-control-0::placeholder {
+  color: #c4b8b8;
+}
+
+.manual-button:active, .manual-button:hover {
+  border-radius: 5px;
+  border: 2px solid var(--rcb-grey, #7C848A);
+  color: #7C848A
+}
+
+.components-button.ai-button span.btn-text {
+  font-weight: 600 !important;
+  padding-left: 28px;
+}
+
+.components-button.ai-button span.btn-svg {
+  top: 15px;
+}
+
+.use-recipe-image-prompt {
+  margin: 0 0 25px 0;
+}
+
+.use-recipe-image-prompt .components-checkbox-control__input[type=checkbox]:checked,
+.use-recipe-image-prompt .components-checkbox-control__input[type=checkbox]:indeterminate {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+
+.wp-block {
+
+    .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple .recipe-card-header-wrap {
+      margin-top: 20px !important;
+    }
+
+    .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-newdesign .recipe-card-image {
+        margin-top: 20px;
+    }
+
+    .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-mint .recipe-card-header-container {
+      margin-top: 20px !important;
+    }
+
+    .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-mint {
+
+        .ai-button {
+            margin-right: auto !important;
+            margin-left: 0 !important;
+        }
+
+    }
+
+    .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-accent-color-header .recipe-card-header-container {
+      margin-top: 20px !important;
+    }
+
+}
+
+.close-button {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 26px;
+  height: 26px;
+  background-color: #f34b00;
+  cursor: pointer;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 0 4px 1px 5px;
+  border: none;
+
+  span {
+    margin: 1px 1px 0 0;
+  }
+}
+
+
+.submit-button {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.submit-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.calculate-nutr{
+    background-color: white;
+    color: #E1581A;
+    border: 2px solid #E1581A;
+    cursor: pointer;
+    -o-transition: background-color 0.3s, color 0.3s;
+    margin-left: auto !important;
+    display: block;
+    border-radius: 5px;
+    font-weight: 600 !important;
+    padding: 10px 30px 30px 30px !important;
+    margin-right: 100px;
+    font-size: 15px;
+}
+.popup-content-error{
+  border-radius: 6px !important;
+  width: 475px;
+  padding: 0;
+}
+.popup-content-error h4{
+  border-radius: 0px !important;
+  font-size: 20px;
+  text-align: center;
+  line-height: 1.5em;
+}
+.popup-content-error .error-close-btn{
+  background: white;
+  color: #8080809e;
+  right: 20px;
+  top: 15px;
+}
+.popup-content-error .error-close-btn span{
+  font-size: 30px !important;
+}
+.popup-content-error .Content-suggestions p{
+  text-align: center;
+  font-size: 14px;
+}
+.popup-content-error .Content-suggestions{
+  padding: 50px 30px 30px;
+}
+button.components-button.try-again,
+button.components-button.activate-license
+{
+    margin: 0 auto;
+    display: block;
+    background-color: #E1581A;
+    color: #fff;
+    width: 100%;
+    border-radius: 3px;
+    font-size: 15px;
+    height: 40px;
+    margin-top: 80px;
+}
+.popup-content-error a.try-again,
+.popup-content-error a.activate-license
+{
+  margin: 0 auto;
+  display: block;
+  background-color: #E1581A;
+  color: #fff;
+  width: 100%;
+  border-radius: 3px;
+  font-size: 15px;
+  height: 40px;
+  margin-top: 80px;
+  text-align: center;
+  padding: 10px;
+}
+.popup-content-error a.activate-license,
+button.components-button.activate-license
+{
+  margin-top: 0;
+}
+.popup-content-error a.try-again span.btn-text,
+.popup-content-error a.activate-license span.btn-text
+{
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  margin: 0 auto;
+}
+.popup-svg{
+  width: 100px;
+  display: block;
+  margin: 0 auto;
+  background: #ffe7d4;
+  border-radius: 3px;
+  padding: 10px 10px 10px 10px;
+}
+
+.popup-svg .error-svg{
+  display: block;
+  margin: 0 auto;
+}
+.popup-content-error .ai-credits-error{
+  padding: 35px 35px 30px !important;
+}
+.popup-content-error a.ai-error{
+  margin: 0px !important;
+}
+span.ai-error{
+  width: 100%;
+  display: block;
+  padding: 30px 0px 30px 0px;
+  margin-top: 40px;
+  text-align: center;
+}
+span.ai-error a{
+  text-align: center;
+  color: #E1581A;
+  font-size: 15px;
+  text-decoration: underline;
+}
+p.ai-p{
+  padding: 0px 20px 0px 20px;
+}
+
+
+@media only screen and (max-width: 640px) {
+
+    .popup-content {
+        width: 90%;
+        padding: 7%;
+    }
+
+    .popup-content input[type="text"],
+    .submit-button {
+        width: 100%;
+    }
+
+
+}

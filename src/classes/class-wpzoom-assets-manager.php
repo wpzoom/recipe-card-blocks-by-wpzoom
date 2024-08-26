@@ -348,7 +348,9 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 					self::$_slug . '-script',
 					'wpzoomRecipeCard',
 					array(
+						'siteURL'    => get_site_url(),
 						'pluginURL'  => WPZOOM_RCB_PLUGIN_URL,
+						'storeURL'   => WPZOOM_RCB_STORE_URL,
 						'homeURL'    => self::get_home_url(),
 						'permalinks' => get_option( 'permalink_structure' ),
 						'ajax_url'   => admin_url( 'admin-ajax.php' ),
@@ -394,7 +396,9 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				array(
 					'version'             => WPZOOM_RCB_VERSION,
 					'textdomain'          => WPZOOM_RCB_TEXT_DOMAIN,
-					'pluginURL'           => WPZOOM_RCB_PLUGIN_URL,
+					'siteURL'    => get_site_url(),
+					'pluginURL'  => WPZOOM_RCB_PLUGIN_URL,
+					'storeURL'   => WPZOOM_RCB_STORE_URL,
 					'is_pro'              => WPZOOM_Recipe_Card_Block_Gutenberg::is_pro(),
 					'setting_options'     => ( ! empty( $options ) ? $options : WPZOOM_Settings::get_defaults() ),
 					'nutritionFactsLabel' => WPZOOM_Nutrition_Block::$labels,

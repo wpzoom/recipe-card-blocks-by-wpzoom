@@ -282,6 +282,9 @@ class WPZOOM_Recipe_Card_Block {
 				'type'    => 'string',
 				'default' => is_rtl() ? 'right' : 'left',
 			),
+			'messageToAI' => array(
+				'type'    => 'object',
+			),
 		);
 
 		// Hook server side rendering into render callback

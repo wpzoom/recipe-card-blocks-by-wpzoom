@@ -1,0 +1,26 @@
+.custom-toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+  
+  .custom-toast {
+    background-color: #333;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+  }
+  
+  .custom-toast--success {
+    background-color: #28a745 !important;
+  }
+  .custom-toast--error{
+    background-color: #dc3545 !important;
+  }
+   .custom-toast--insufficient-credit{
+  background-color: #dc3545 !important;
+  }

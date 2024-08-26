@@ -23,6 +23,10 @@ import PrintButton from '../skins/shared/print-button';
 import PinterestButton from '../skins/shared/pinterest-button';
 import { printIcon, pinterestIcon } from '../skins/shared/icon';
 
+/* AI Generate dependecies */
+import ButtonBox from '../skins/button';
+import RegenerateButton from '../skins/button/regeneratebutton';
+
 /* WordPress dependencies */
 import { Component, renderToString, Fragment } from '@wordpress/element';
 import {
@@ -321,6 +325,14 @@ class RecipeCard extends Component {
     }
 
     render() {
+
+        if ( ! this.props.attributes ) {
+            this.props.attributes = {};
+        }
+        if ( ! this.props.attributes.messageToAI ) {
+            this.props.attributes.messageToAI = {};
+        }
+
         const {
             attributes,
             setAttributes,
@@ -346,6 +358,7 @@ class RecipeCard extends Component {
             hasImage,
             image,
             blockAlignment,
+            messageToAI,
             settings: {
                 0: {
                     hide_header_image,
@@ -411,7 +424,10 @@ class RecipeCard extends Component {
                 {
                     'simple' !== style &&
                     <Fragment>
-
+                    <ButtonBox prompts={ messageToAI } />
+                                    { messageToAI && (
+                                        <RegenerateButton type="image" message={ messageToAI } />
+                                    ) }
                         {
                             ! hasImage &&
                                 <Placeholder
