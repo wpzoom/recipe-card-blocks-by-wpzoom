@@ -1,32 +1,33 @@
 <?php
-wp_enqueue_script( 'wpzoom-rcb-license-script' );
-wp_enqueue_style( 'wpzoom-rcb-license-styles' );
+wp_enqueue_script( 'wpzoom-rcb-user-script' );
+wp_enqueue_style( 'wpzoom-rcb-user-styles' );
 
-$site_url = home_url();
+$site_url   = home_url();
 $parsed_url = parse_url( $site_url );
 
 ?>
 
 <div class="vtop-bar">
 	<div class="v-bar">
-		<h2><?php esc_html_e( 'Recipe Card Block PRO', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
-		<p><?php esc_html_e( 'V. 5.1.3', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+		<h2><?php esc_html_e( 'Recipe Card Block Ai Credits', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
+		<p><?php esc_html_e( 'V. ', 'recipe-card-blocks-by-wpzoom' ); echo WPZOOM_RCB_VERSION; ?></p>
 	</div>
-	<h4><?php esc_html_e( 'License', 'recipe-card-blocks-by-wpzoom' ); ?></h4>
+	<h4><?php esc_html_e( 'Connect Recipecard.io', 'recipe-card-blocks-by-wpzoom' ); ?></h4>
 </div>
 <div id="request-processing" class="hidden"></div>
 <?php
-$license_data = get_transient( 'wpzoom_rcb_plugin_license_data' );
-if ( ! $license_data || $license_data->license !== 'valid' ) {
+$user_data = get_transient( 'wpzoom_rcb_plugin_user_data' );
+
+if ( ! $user_data ) {
 	?>
 	<div class="vcard">
 		<div class="vcard-top">
 			<img src="<?php echo plugin_dir_url( __FILE__ ); ?>/assets/img/active.svg" alt="">
-			<h2><?php esc_html_e( 'Activate your license', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
+			<h2><?php esc_html_e( 'Connect', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
 		</div>
 		<div class="vcard-body">
-			<p><?php esc_html_e( 'Connect now and activate your license to experience seamless features and exclusive benefits.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
-			<a href="#" class="vsign"><?php esc_html_e( '', 'recipe-card-blocks-by-wpzoom' ); ?>Connect & Activate</a>
+			<p><?php esc_html_e( 'Connect to recipecard.io to get your status and amount of the credits', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+			<a href="#" class="vsign"><?php esc_html_e( '', 'recipe-card-blocks-by-wpzoom' ); ?>Connect</a>
 		</div>
 	</div>
 	<div class="vpopup-fixed vsign hidden">
@@ -70,74 +71,26 @@ if ( ! $license_data || $license_data->license !== 'valid' ) {
 			</div>
 		</div>
 	</div>
-	<div class="vpopup-fixed vcont hidden">
-		<div class="vpopup-container">
-			<div class="vpopup-content">
-				<div class="vpop-head">
-					<h2><?php esc_html_e( 'Activate PRO Features', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
-					<div class="vclose-button">
-						<img src="<?php echo plugin_dir_url( __FILE__ ); ?>/assets/img/close.svg">
-					</div>
-				</div>
-				<div class="vpop-body">
-					<div class="vpop-prag">
-						<p><?php esc_html_e( 'Connect your WordPress site to the Recipe Card Blocks Dashboard and activate your license to use all the PRO features.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
-					</div>
-					<div class="vlinks">
-						<div class="vlinks-row">
-							<div>
-								<img src="<?php echo plugin_dir_url( __FILE__ ); ?>/assets/img/site.svg"/>
-							</div>
-							<div class="vlinks-body">
-								<h2><?php echo esc_html( $parsed_url['host'] ?? $site_url ); ?></h2>
-							</div>
-						</div>
-						<div class="vlinks-row">
-							<div>
-								<img src="<?php echo plugin_dir_url( __FILE__ ); ?>/assets/img/user.svg" class="rcb-pro-user-avatar"/>
-							</div>
-							<div class="vlinks-body">
-								<h2 class="rcb-pro-user-name"><?php esc_html_e( 'Alex Todd', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
-								<a href="#" onclick="window.location.reload();"><?php esc_html_e( 'Switch user', 'recipe-card-blocks-by-wpzoom' ); ?></a>
-							</div>
-						</div>
-					</div>
-					<a class="conn" href="#"><?php esc_html_e( 'Connect', 'recipe-card-blocks-by-wpzoom' ); ?></a>
-				</div>
-			</div>
-		</div>
-	</div>
 	<?php
-} else {
-	$customer_email = $license_data->customer_email;
-	$expires = strtotime( $license_data->expires );
-	$status = $license_data->license;
-	$credits = get_option( 'wpzoom_credits' );
-	$total_credits = $credits['total'] ?? '';
+} else {	
+	$customer_email    = $user_data->user->email;
+	$credits           = get_option( 'wpzoom_credits' );
+	$total_credits     = $credits['total'] ?? '';
 	$remaining_credits = $credits['remaining'] ?? '';
 	?>
 	<div class="vcard">
 		<div class="vcard-top">
 			<img src="<?php echo plugin_dir_url( __FILE__ ); ?>/assets/img/active.svg">
-			<h2><?php esc_html_e( 'Your license', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
+			<h2><?php esc_html_e( 'Status: ', 'recipe-card-blocks-by-wpzoom' ); ?>Active</h2>
 		</div>
 		<div class="vcard-body">
-			<div class="vstatus">
-				<div class="grey"><?php esc_html_e( 'Status:', 'recipe-card-blocks-by-wpzoom' ); ?></div>
-				<div class="green"><?php echo ucfirst( esc_html( $status ) ); ?></div>
-			</div>
-			<div class="vexpire">
-				<div class="grey"><?php esc_html_e( 'Expiration date:', 'recipe-card-blocks-by-wpzoom' ); ?></div>
-				<div class="black"><?php echo date_i18n( get_option( 'date_format' ), $expires ); ?></div>
-			</div>
 			<div class="vuser">
 				<div class="grey"><?php esc_html_e( 'Connected to:', 'recipe-card-blocks-by-wpzoom' ); ?></div>
 				<div class="black"><?php echo esc_html( $customer_email ); ?></div>
-				<div class="orange dconnect"><?php esc_html_e( 'Switch user', 'recipe-card-blocks-by-wpzoom' ); ?></div>
 			</div>
 			<div class="vconnect">
 				<a class="connect" href="<?php echo esc_url( WPZOOM_RCB_STORE_URL ) ?>account/" target="_blank"><?php esc_html_e( 'My account', 'recipe-card-blocks-by-wpzoom' ); ?></a>
-				<a class="dconnect" href="#"><?php esc_html_e( 'Disconnect license', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+				<a class="dconnect" href="#"><?php esc_html_e( 'Log out', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 			</div>
 		</div>
 	</div>

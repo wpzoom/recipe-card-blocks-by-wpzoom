@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Manage Ratings Page
+ * Class Manage Login Endpoint
  *
  * @since   3.2.0
  * @package WPZOOM_Recipe_Card_Blocks
@@ -22,15 +22,30 @@ if ( ! class_exists( 'WPZoom_Admin_License' ) ) {
          * Enqueue scripts and styles for admin.
          */
         public function admin_enqueue_scripts() {
-	        wp_register_script( 'wpzoom-rcb-license-script', plugin_dir_url( __FILE__ ) . 'templates/assets/js/vcustom_js.js', [], WPZOOM_RCB_VERSION );
-			wp_localize_script( 'wpzoom-rcb-license-script', 'licenseParams', array(
-				'ajaxEndpointURL'        => esc_url( admin_url( 'admin-ajax.php' ) ),
-				'checkPurchaseNonce'     => wp_create_nonce( 'check_purchase' ),
-				'activateLicenseNonce'   => wp_create_nonce( 'activate_license' ),
-				'deactivateLicenseNonce' => wp_create_nonce( 'deactivate_license' ),
-			) );
+	        
+            wp_register_script( 
+                'wpzoom-rcb-user-script', 
+                plugin_dir_url( __FILE__ ) . 'templates/assets/js/vcustom_js.js', 
+                [],
+                WPZOOM_RCB_VERSION 
+            );
+			
+            wp_localize_script( 
+                'wpzoom-rcb-user-script', 
+                'userParams',
+                array(
+				    'ajaxEndpointURL'     => esc_url( admin_url( 'admin-ajax.php' ) ),
+				    'userDataNonce'       => wp_create_nonce( 'get_user_info_ai_credits' ),
+                    'logoutUserDataNonce' => wp_create_nonce( 'logout_user_ai_credits' ),
+			    ) 
+            );
 
-	        wp_register_style( 'wpzoom-rcb-license-styles', plugin_dir_url( __FILE__ ) . 'templates/assets/css/license_style1.css', array(), '1.0' );
+	        wp_register_style( 
+                'wpzoom-rcb-user-styles', 
+                plugin_dir_url( __FILE__ ) . 'templates/assets/css/license_style1.css', 
+                [],
+                WPZOOM_RCB_VERSION 
+            );
         
             wp_enqueue_style( 'inter-font', 'https://fonts.googleapis.com/css2?family=Inter' );
         }

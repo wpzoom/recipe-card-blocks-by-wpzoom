@@ -90,8 +90,107 @@ class WPZOOM_Settings {
 			}
 
 			$this->_fields = new WPZOOM_Settings_Fields();
+			$this->register_ai_credits_ajax_endpoints();
 		}
 	}
+
+	/**
+	 * Register the REST route.
+	 */
+	public function register_ai_credits_ajax_endpoints() {
+		add_action( 'wp_ajax_get_user_info_ai_credits', [ $this, 'get_user_info_ai_credits' ] );
+		add_action( 'wp_ajax_logout_user_ai_credits', [ $this, 'logout_user_ai_credits' ] );
+	}
+
+	/**
+	 * Ajax request to get user info
+	 */
+	public function get_user_info_ai_credits() {
+
+		if ( ! check_ajax_referer( 'get_user_info_ai_credits', 'nonce', false ) ) {
+			wp_send_json( [
+				'success' => false,
+				'message' => 'Security verification failed.',
+			] );
+		}
+
+		delete_transient( 'wpzoom_rcb_plugin_user_data' );
+
+		$endpoint = WPZOOM_RCB_STORE_URL . 'wp-json/wpzoomRCB/v1/getUser';
+
+		// data to send in our API request
+		$api_params = [
+			'username' => sanitize_text_field( $_POST['username'] ?? '' ),
+			'password' => sanitize_text_field( $_POST['password'] ?? '' ),
+		];
+
+		// Call the custom API.
+		$response = wp_remote_post( $endpoint, [
+			'timeout' => 60,
+			'body'    => $api_params,
+		] );
+
+		// make sure the response came back okay
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			if ( is_wp_error( $response ) ) {
+				$message = $response->get_error_message();
+			} else {
+				$message = __( 'An error occurred, please try again.', 'recipe-card-blocks-by-wpzoom' );
+			}
+
+			wp_send_json( [
+				'success' => false,
+				'message' => $message,
+			] );
+		}
+
+		$user_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+		if ( ! $user_data || ! isset( $user_data->success ) || ! $user_data->success ) {
+			wp_send_json( [
+				'success' => false,
+				'message' => $user_data->message ?? __( 'An error occurred, please try again.', 'recipe-card-blocks-by-wpzoom' ),
+			] );
+		}
+
+		set_transient( 'wpzoom_rcb_plugin_user_data', $user_data, 60 * 60 * 24 );
+
+		if( isset( $user_data->user->credits ) ) {
+			update_option( 'wpzoom_credits', [
+				'total'     => $user_data->user->credits->total,
+				'remaining' => $user_data->user->credits->remaining,
+				'ID'        => $user_data->user->ID,
+			] );
+		}
+
+		wp_send_json( json_decode( wp_remote_retrieve_body( $response ) ) );
+	
+	}
+
+	/**
+	 * Ajax request to logout user
+	 */
+	public function logout_user_ai_credits() {
+
+		if ( ! check_ajax_referer( 'logout_user_ai_credits', 'nonce', false ) ) {
+			wp_send_json( [
+				'success' => false,
+				'message' => 'Security verification failed.',
+			] );
+		}
+
+		// Delete user data
+		delete_transient( 'wpzoom_rcb_plugin_user_data' );
+		delete_option( 'wpzoom_credits' );
+
+		wp_send_json( [
+			'success' => true,
+			'message' => 'User data has been deleted.',
+		] );
+
+	}
+
+
 
 	/**
 	 * Set default values for setting options.
