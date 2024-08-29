@@ -42,6 +42,7 @@ import {
     Icon,
 } from '@wordpress/components';
 import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
+import AIRecipeCredits from './ai-recipe-credits';
 
 /**
  * Module Constants
@@ -1074,6 +1075,10 @@ export default class Inspector extends Component {
                         />
                     </PanelRow>
                 </PanelBody>
+                <AIRecipeCredits
+                    onChangeDetail={ this.onChangeDetail }
+                    { ...{ attributes } }
+                />
                 <PanelBody icon={ dataTestingIcon } className="wpzoom-recipe-card-structured-data-testing" initialOpen={ sectionOpen } title={ __( 'Structured Data Testing', 'recipe-card-blocks-by-wpzoom' ) }>
                     <BaseControl
                         id={ `${ id }-counters` }

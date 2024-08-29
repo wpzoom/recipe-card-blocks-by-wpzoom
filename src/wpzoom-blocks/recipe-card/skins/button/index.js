@@ -102,6 +102,10 @@ const ButtonBox = ( props ) => {
                 imagePromptAppend = ' ' + licenseData.append_recipe_image_prompt,
                 imagePromptPrepend = licenseData.prepend_recipe_image_prompt + ' ';
 
+                licenseData.license = 'valid';
+
+                console.log( licenseData );
+
             const response = await fetch( licenseData.endpoint_url + 'wp-json/wp-zoom-openai/v1/purchase', {
                 method: 'POST',
                 headers: {
@@ -113,8 +117,8 @@ const ButtonBox = ( props ) => {
                         image: imagePromptPrepend + ( customImagePrompt ? inputValue : imagePrompt ) + imagePromptAppend,
                         generate_image: generateRecipeImage,
                     },
-                    user_id: userId,
-                    email: licenseData.customer_email,
+                    user_id: licenseData.user.ID,
+                    email: licenseData.user.email,
                 } ),
             } );
             const responseData = await response.json();

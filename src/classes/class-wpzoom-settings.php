@@ -90,12 +90,121 @@ class WPZOOM_Settings {
 			}
 
 			$this->_fields = new WPZOOM_Settings_Fields();
-			$this->register_ai_credits_ajax_endpoints();
 		}
+
+		$this->register_ai_credits_ajax_endpoints();
+		add_action( 'rest_api_init', array( $this, 'register_custom_rest_route' ) );
 	}
 
 	/**
-	 * Register the REST route.
+	 * Register the custom rest route
+	 */
+	public function register_custom_rest_route() {
+		register_rest_route(
+			'wpzoomRCB/v1', '/saveGeneratedImage',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'save_generated_image' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+		register_rest_route(
+			'wpzoomRCB/v1', '/updateCredits',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'update_credits' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+		register_rest_route(
+			'wpzoomRCB/v1', '/getCredits',
+			array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'get_credits' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+		register_rest_route(
+			'wpzoomRCB/v1', '/getLicenseData',
+			array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'get_license_data' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+
+	/**
+	 * Get credits
+	 */
+	public function get_credits() {
+		return get_option( 'wpzoom_credits', [] );
+	}
+
+	/**
+	 * Update credits
+	 */
+	public function update_credits( $request ) {
+		$params = $request->get_params();
+
+		$credits_data = get_option( 'wpzoom_credits', [] );
+		if( isset( $params['free_credits'] ) ) {
+			$credits_data['free_credits'] = $params['free_credits'];
+		}
+		$credits_data['remaining'] = $params['remaining'];
+		$credits_data['total'] = $params['total'];
+
+		update_option( 'wpzoom_credits', $credits_data );
+
+		return $params;
+	}
+
+	public function get_license_data() {
+		$license_data = get_transient( 'wpzoom_rcb_plugin_user_data' );
+
+		if ( ! $license_data ) {
+			$license_data = (object) [];
+		}
+
+		$license_data->endpoint_url = WPZOOM_RCB_STORE_URL;
+
+		$license_data->prepend_recipe_data_prompt = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_data_ai_prompt_prepend' );
+		$license_data->append_recipe_data_prompt = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_data_ai_prompt_append' );
+
+		$license_data->prepend_recipe_image_prompt = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_image_ai_prompt_prepend' );
+		$license_data->append_recipe_image_prompt = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_image_ai_prompt_append' );
+
+		return $license_data;
+	}
+
+	/**
+	 * Save generated image
+	 */
+	public function save_generated_image( $request ) {
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+		$image_url = $request->get_json_params();
+		if ( ! filter_var( $image_url, FILTER_VALIDATE_URL ) ) {
+			return $image_url;
+		}
+		$image_id  = media_sideload_image( $image_url, 0, __( 'AI generated image of a recipe card.', 'recipe-card-blocks-by-wpzoom' ), 'id' );
+		$image     = [];
+		if ( $image_id ) {
+			$image_url = wp_get_attachment_image_url( $image_id, 'full' );
+			$image_title = get_the_title( $image_id );
+
+			$image['id']    = $image_id;
+			$image['title'] = $image_title;
+			$image['url']   = $image_url;
+		}
+
+		return $image;
+	}
+
+	/**
+	 * Register the ajax endpoints for AI Credits
 	 */
 	public function register_ai_credits_ajax_endpoints() {
 		add_action( 'wp_ajax_get_user_info_ai_credits', [ $this, 'get_user_info_ai_credits' ] );
@@ -1312,6 +1421,78 @@ class WPZOOM_Settings {
 						)
 					)
 				)	
+			),
+'ai'        => array(
+				'tab_id'       => 'tab-ai',
+				'tab_title'    => __( 'AI', 'recipe-card-blocks-by-wpzoom' ),
+				'option_group' => 'wpzoom-recipe-card-settings-ai',
+				'option_name'  => self::$option,
+				'sections'     => array(
+					array(
+						'id'       => 'wpzoom_section_ai_prompt_recipe_data',
+						'title'    => __( 'Recipe Data Prompt', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-ai',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_recipe_data_ai_prompt_prepend',
+								'title' => __( 'Prepend', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_recipe_data_ai_prompt_prepend',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'e.g.: generate the recipe in the metric system', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '',
+									'type'        => 'text',
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_recipe_data_ai_prompt_append',
+								'title' => __( 'Append', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_recipe_data_ai_prompt_append',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'e.g.: generate the recipe in Spanish language', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '',
+									'type'        => 'text',
+								),
+							),
+						),
+					),
+					array(
+						'id'       => 'wpzoom_section_ai_prompt_recipe_image',
+						'title'    => __( 'Recipe Image Prompt', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-ai',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_recipe_image_ai_prompt_prepend',
+								'title' => __( 'Prepend', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_recipe_image_ai_prompt_prepend',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Prepend prompt for recipe image to AI.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => 'Generate realistic photography for:',
+									'type'        => 'text',
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_recipe_image_ai_prompt_append',
+								'title' => __( 'Append', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_recipe_image_ai_prompt_append',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Append prompt for recipe image to AI.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '',
+									'type'        => 'text',
+								),
+							),
+						),
+					),
+				),
 			),
 			'metadata'    => array(
 				'tab_id'       => 'tab-metadata',

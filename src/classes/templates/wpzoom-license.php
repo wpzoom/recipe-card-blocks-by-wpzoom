@@ -75,6 +75,7 @@ if ( ! $user_data ) {
 } else {	
 	$customer_email    = $user_data->user->email;
 	$credits           = get_option( 'wpzoom_credits' );
+	$free_credits      = $credits['free_credits'] ?? '';
 	$total_credits     = $credits['total'] ?? '';
 	$remaining_credits = $credits['remaining'] ?? '';
 	?>
@@ -103,6 +104,12 @@ if ( ! $user_data ) {
 			<p><?php esc_html_e( 'Generating a recipe costs 1 AI Credit. Buy an AI credit plan from our website that best fits your needs.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
 			<div class="vscore">
 				<?php
+				if ( ! empty( $free_credits ) ) {
+					?>
+					<span class="grey"><?php esc_html_e( 'Free credits:', 'recipe-card-blocks-by-wpzoom' ); ?></span>
+					<span class="vsuper"><?php echo esc_html( $free_credits ); ?></span>
+					<?php
+				}
 				if ( ! empty( $remaining_credits ) ) {
 					?>
 					<span class="vsuper"><?php echo esc_html( $remaining_credits ); ?></span>
@@ -113,7 +120,7 @@ if ( ! $user_data ) {
 					<span class="grey">/ <?php echo esc_html( $total_credits ); ?> <?php esc_html_e( 'remaining', 'recipe-card-blocks-by-wpzoom' ); ?></span>
 					<?php
 				}
-				if ( empty( $total_credits ) && empty( $remaining_credits ) ) {
+				if ( empty( $total_credits ) && empty( $remaining_credits ) && empty( $free_credits ) ) {
 					?>
 					<span class="vsuper">0</span>
 					<span class="grey">/ 0 <?php esc_html_e( 'remaining', 'recipe-card-blocks-by-wpzoom' ); ?></span>
