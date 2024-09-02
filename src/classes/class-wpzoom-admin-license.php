@@ -21,7 +21,9 @@ if ( ! class_exists( 'WPZoom_Admin_License' ) ) {
         /**
          * Enqueue scripts and styles for admin.
          */
-        public function admin_enqueue_scripts() {
+        public function admin_enqueue_scripts( $hook ) {
+
+            $pos = strpos( $hook, WPZOOM_RCB_SETTINGS_PAGE );
 	        
             wp_register_script( 
                 'wpzoom-rcb-user-script', 
@@ -46,8 +48,17 @@ if ( ! class_exists( 'WPZoom_Admin_License' ) ) {
                 [],
                 WPZOOM_RCB_VERSION 
             );
+
+			wp_enqueue_style(
+				'wpzoom-rcb-admin-style',
+				untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/admin/css/style.css',
+				array(),
+				WPZOOM_RCB_VERSION
+			);
         
             wp_enqueue_style( 'inter-font', 'https://fonts.googleapis.com/css2?family=Inter' );
+
+
         }
         
         /**

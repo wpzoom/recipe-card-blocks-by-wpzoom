@@ -515,6 +515,10 @@ class RecipeCard extends Component {
                 {
                     'simple' === style &&
                     <div className="recipe-card-header-wrap">
+                        <ButtonBox prompts={ messageToAI } />
+                        { messageToAI && (
+                            <RegenerateButton type="image" message={ messageToAI } />
+                        ) }
 
                         {
                             ! hasImage &&
@@ -570,7 +574,6 @@ class RecipeCard extends Component {
                         }
 
                         <div className="recipe-card-along-image">
-
                             <div className="recipe-card-heading">
                                 <RichText
                                     className="recipe-card-title"
@@ -600,7 +603,9 @@ class RecipeCard extends Component {
 
                     </div>
                 }
-
+                { messageToAI && (
+                    <RegenerateButton type="recipe" message={ messageToAI } />
+                ) }
                 <RichText
                     className="recipe-card-summary"
                     tagName="p"

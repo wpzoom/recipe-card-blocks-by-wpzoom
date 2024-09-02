@@ -97,7 +97,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
             button.addEventListener( 'click', function( event ) {
                 event.preventDefault(); // Prevent the default action of the link
 
-                if ( confirm( 'Are you sure? You want to deactivate the license on this website.' ) ) {
+                if ( confirm( 'Are you sure? You want to log out.' ) ) {
                     showLoader();
 
                     const requestBody = {
