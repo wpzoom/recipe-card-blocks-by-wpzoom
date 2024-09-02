@@ -52,8 +52,8 @@ class WPZOOM_Admin_Menu {
 		// WPZOOM Recipe Card Ai Credits sub menu item.
 		add_submenu_page(
 			WPZOOM_RCB_SETTINGS_PAGE,
-			esc_html__( 'Ai Credits', 'recipe-card-blocks-by-wpzoom' ),
-			esc_html__( 'Ai Credits', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html__( 'AI Credits', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html__( 'AI Credits', 'recipe-card-blocks-by-wpzoom' ),
 			'manage_options',
 			'admin-license',
 			array( $this, 'manage_license' )

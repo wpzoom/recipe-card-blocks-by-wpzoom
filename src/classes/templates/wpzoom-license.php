@@ -9,10 +9,10 @@ $parsed_url = parse_url( $site_url );
 
 <div class="vtop-bar">
 	<div class="v-bar">
-		<h2><?php esc_html_e( 'Recipe Card Block Ai Credits', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
-		<p><?php esc_html_e( 'V. ', 'recipe-card-blocks-by-wpzoom' ); echo WPZOOM_RCB_VERSION; ?></p>
+		<h2><?php esc_html_e( 'Recipe Card Blocks (Lite)', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
+		<p><?php esc_html_e( 'v ', 'recipe-card-blocks-by-wpzoom' ); echo WPZOOM_RCB_VERSION; ?></p>
 	</div>
-	<h4><?php esc_html_e( 'Connect Recipecard.io', 'recipe-card-blocks-by-wpzoom' ); ?></h4>
+	<h4><?php esc_html_e( 'AI Credits', 'recipe-card-blocks-by-wpzoom' ); ?></h4>
 </div>
 <div id="request-processing" class="hidden"></div>
 <?php
