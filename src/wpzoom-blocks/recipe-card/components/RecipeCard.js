@@ -82,6 +82,7 @@ const {
 /* Import CSS. */
 import '../style.scss';
 import '../editor.scss';
+import { useRecipeImageActions } from '../skins/button/store';
 
 /**
  * A Recipe Card block.
@@ -480,6 +481,9 @@ class RecipeCard extends Component {
                                 </div>
                             </div>
                         }
+                        { messageToAI && (
+                            <RegenerateButton type="recipe" message={ messageToAI } />
+                        ) }
                         <div className="recipe-card-heading">
                             <RichText
                                 className="recipe-card-title"
@@ -719,6 +723,7 @@ class RecipeCard extends Component {
 
 export default compose( [
     withSelect( ( select, props ) => {
+
         const {
             attributes: {
                 image,
@@ -785,7 +790,60 @@ export default compose( [
             id = featuredImageId;
         }
 
+        const { getMessageToAI, getRecipeData, getRecipeImage } = select('my-plugin');
+        const { setMessageToAI, setRecipeData } = useRecipeImageActions();
+        // Get the message to AI and update props if needed
+        const messageToAI = getMessageToAI();
+        
+        if (messageToAI) {
+            props.attributes.messageToAI = messageToAI;
+            setMessageToAI(null);
+        }
+
+        const recipeImage = getRecipeImage();
+        if ( recipeImage && recipeImage.id ) {
+            props.attributes.hasImage = true;
+            props.hasImage = true;
+            props.setAttributes( { ...props, image: {
+                id: recipeImage.id,
+                url: recipeImage.url,
+                title: String( recipeImage.title ),
+            },
+            } );
+
+            setRecipeData( getRecipeData(), null );
+        }
+
+        const recipeData = getRecipeData();
+        const recipeDataParse = recipeData ? JSON.parse( recipeData ) : null;
+        
+        if ( recipeDataParse !== null && recipeDataParse && recipeDataParse.title ) {
+            props.attributes.recipeTitle = recipeDataParse.title;
+            props.recipeTitle = recipeDataParse.title;
+            props.setAttributes( { ...props, recipeTitle: recipeDataParse.title } );
+
+            delete recipeDataParse.title;
+            setRecipeData( JSON.stringify( recipeDataParse ), getRecipeImage() );
+        }
+
+        if ( recipeDataParse !== null && recipeDataParse && recipeDataParse.description ) {
+            props.setAttributes( { ...props, summary:
+                recipeDataParse.description,
+                jsonSummary: recipeDataParse.description,
+                course: recipeDataParse.course,
+                cuisine: recipeDataParse.cuisine,
+                difficulty: recipeDataParse.difficulty,
+            } );
+
+            delete recipeDataParse.description;
+            delete recipeDataParse.course;
+            delete recipeDataParse.cuisine;
+            delete recipeDataParse.difficulty;
+            setRecipeData( JSON.stringify( recipeDataParse ), getRecipeImage() );
+        }
+
         return {
+            ...props,
             media: id ? getMedia( id ) : false,
             postTitle,
             postType,

@@ -39,6 +39,8 @@ const RegenerateButton = ( props ) => {
     const [ isPopoverVisible, setIsPopoverVisible ] = useState( false );
     const [ inputValue, setInputValue ] = useState( _prompt );
     const [ error, setError ] = useState( false );
+    const [ isGenerateAIVisible, setIsGenerateAIVisible ] = useState( true );
+    const [ isAddManuallyVisible, setIsAddManuallyVisible ] = useState( false );
     const [ creditserror, setCreditserror ] = useState( false );
     const [ success, setSuccess ] = useState( false );
     const [ isLoading, setIsLoading ] = useState( false );

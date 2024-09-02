@@ -8,11 +8,16 @@ import { stripHTML } from '../../../helpers/stringHelpers';
 
 /* WordPress dependencies */
 import { Component, renderToString } from '@wordpress/element';
+import { useRecipeDataActions } from '../skins/button/store';
+import { compose } from '@wordpress/compose';
+import {  withSelect } from '@wordpress/data';
+
+import { generateId  } from '../../../helpers/generateId';
 
 /**
  * A Detail item within a Detail block.
  */
-export default class Detail extends Component {
+class Detail extends Component {
     /**
      * Constructs a Detail editor component.
      *
@@ -315,3 +320,68 @@ Detail.propTypes = {
 Detail.defaultProps = {
     className: '',
 };
+
+export default compose( [
+    withSelect( ( select, props ) => {
+        const { getRecipeData, getRecipeImage } = select( 'my-plugin' );
+        const { setRecipeData } = useRecipeDataActions();
+        const recipeData = getRecipeData();
+        const recipeDataParse = recipeData ? JSON.parse( recipeData ) : null;
+
+        if ( recipeDataParse !== null && recipeDataParse ) {
+            const details = [];
+            if ( recipeDataParse.servings ) {
+                details.push( {
+                    id: generateId( 'detail-item-0' ),
+                    icon: 'food',
+                    iconSet: 'oldicon',
+                    label: 'Servings',
+                    unit: 'servings',
+                    value: String( recipeDataParse.servings ),
+                } );
+                delete recipeDataParse.servings;
+            }
+            if ( recipeDataParse.preparation_time ) {
+                details.push( {
+                    id: generateId( 'detail-item-1' ),
+                    icon: 'clock',
+                    iconSet: 'oldicon',
+                    label: 'Prep time',
+                    unit: 'minutes',
+                    value: String( recipeDataParse.preparation_time ),
+                } );
+                delete recipeDataParse.preparation_time;
+            }
+            if ( recipeDataParse.cooking_time ) {
+                details.push( {
+                    id: generateId( 'detail-item-2' ),
+                    icon: 'cooking-food-in-a-hot-casserole',
+                    iconSet: 'foodicons',
+                    label: 'Cooking time',
+                    unit: 'minutes',
+                    value: String( recipeDataParse.cooking_time ),
+                } );
+                delete recipeDataParse.cooking_time;
+            }
+            if ( recipeDataParse.calories ) {
+                details.push( {
+                    id: generateId( 'detail-item-3' ),
+                    icon: 'fire-flames',
+                    iconSet: 'foodicons',
+                    label: 'Calories',
+                    unit: 'kcal',
+                    value: String( recipeDataParse.calories ),
+                } );
+                delete recipeDataParse.calories;
+            }
+
+            if ( details.length > 0 ) {
+                props.setAttributes( { ...props.attributes, details: details } );
+
+                setRecipeData( JSON.stringify( recipeDataParse ), getRecipeImage() );
+            }
+        }
+
+        return props;
+    } ),
+] )( Detail );

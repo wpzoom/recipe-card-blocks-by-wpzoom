@@ -7,16 +7,20 @@ import toNumber from 'lodash/toNumber';
 /* Internal dependencies */
 import DirectionStep from './DirectionStep';
 import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
+import { generateId  } from '../../../helpers/generateId';
 
 /* WordPress dependencies */
 import { RichText } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { Component, renderToString } from '@wordpress/element';
+import { compose } from '@wordpress/compose';
+import { useRecipeDataActions } from '../skins/button/store';
+import { withSelect } from '@wordpress/data';
 
 /**
  * A Direction step within a Direction block.
  */
-export default class Direction extends Component {
+class Direction extends Component {
     /**
      * Constructs a Direction editor component.
      *
@@ -420,3 +424,32 @@ Direction.propTypes = {
 Direction.defaultProps = {
     className: '',
 };
+
+export default compose( [
+    withSelect( ( select, props ) => {
+        const { getRecipeData, getRecipeImage } = select( 'my-plugin' );
+        const { setRecipeData } = useRecipeDataActions();
+        const recipeData = getRecipeData();
+        const recipeDataParse = recipeData ? JSON.parse( recipeData ) : null;
+        if ( recipeDataParse !== null && recipeDataParse && recipeDataParse.instructions && recipeDataParse.instructions.length > 0 ) {
+            props.attributes = [];
+            const steps = [];
+            recipeDataParse.instructions.map( ( step, index ) => {
+                steps.push( {
+                    id: generateId( 'direction-step-' + index ),
+                    text: [ step ],
+                    jsonText: step,
+                    isGroup: false,
+                } );
+            } );
+            if ( steps.length > 0 ) {
+                props.setAttributes( { ...props.attributes, steps: steps } );
+
+                recipeDataParse.instructions = [];
+                setRecipeData( JSON.stringify( recipeDataParse ), getRecipeImage() );
+            }
+        }
+
+        return props;
+    } ),
+] )( Direction );

@@ -184,7 +184,7 @@ const ButtonBox = ( props ) => {
                 setMessageToAI( {
                     recipe: inputValue,
                     image: customImagePrompt ? inputValue : imagePrompt,
-                    nutrition: inputValue,
+
                 } );
                 setRecipeData( null, imgData );
             }
