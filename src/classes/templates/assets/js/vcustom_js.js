@@ -97,7 +97,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
             button.addEventListener( 'click', function( event ) {
                 event.preventDefault(); // Prevent the default action of the link
 
-                if ( confirm( 'Are you sure? You want to log out.' ) ) {
+                if ( confirm( 'Are you sure you want to log out?' ) ) {
                     showLoader();
 
                     const requestBody = {
