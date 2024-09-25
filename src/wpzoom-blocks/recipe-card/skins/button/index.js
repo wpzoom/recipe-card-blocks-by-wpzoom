@@ -97,7 +97,8 @@ const ButtonBox = ( props ) => {
 
             const userId = await getCurrentUser();
 
-            let recipePromptAppend = ' ' + licenseData.append_recipe_data_prompt,
+            let aiChatModel = licenseData.chat_model,
+                recipePromptAppend = ' ' + licenseData.append_recipe_data_prompt,
                 recipePromptPrepend = licenseData.prepend_recipe_data_prompt + ' ',
                 imagePromptAppend = ' ' + licenseData.append_recipe_image_prompt,
                 imagePromptPrepend = licenseData.prepend_recipe_image_prompt + ' ';
@@ -119,6 +120,7 @@ const ButtonBox = ( props ) => {
                     },
                     user_id: licenseData.user.ID,
                     email: licenseData.user.email,
+                    chat_model: aiChatModel,
                 } ),
             } );
             const responseData = await response.json();

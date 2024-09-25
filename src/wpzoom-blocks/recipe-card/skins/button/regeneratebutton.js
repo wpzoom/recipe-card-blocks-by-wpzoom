@@ -80,7 +80,8 @@ const RegenerateButton = ( props ) => {
                 return false;
             }
 
-            let promptAppend = '',
+            let aiChatModel = licenseData.chat_model,
+                promptAppend = '',
                 promptPrepend = '';
             if ( props.type === 'recipe' ) {
                 promptAppend = ' ' + licenseData.append_recipe_data_prompt;
@@ -94,7 +95,7 @@ const RegenerateButton = ( props ) => {
                 method: 'POST', headers: {
                     'Content-Type': 'application/json',
                 }, body: JSON.stringify( {
-                    message: promptPrepend + inputValue + promptAppend, user_id: licenseData.user.ID, email: licenseData.user.email,
+                    message: promptPrepend + inputValue + promptAppend, user_id: licenseData.user.ID, email: licenseData.user.email, chat_model: aiChatModel,
                 } ),
             } );
             const responseData = await response.json();
