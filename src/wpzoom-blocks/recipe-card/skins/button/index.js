@@ -414,6 +414,7 @@ const ButtonBox = ( props ) => {
 							</div>
 							<h4>We're sorry, an unexpected error has occurred.</h4>
 							<p>Please, check in the Ai Credits page that you are connected to the {storeURL}</p>
+							<a class="components-button buyMore is-primary" href={`${siteURL}/wp-admin/admin.php?page=admin-license`}>AI Credits and Connect page</a>
 						</div>
 					</div>
 				</Popover>
