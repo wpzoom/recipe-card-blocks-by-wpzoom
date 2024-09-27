@@ -56,8 +56,6 @@ if ( ! class_exists( 'WPZoom_Admin_License' ) ) {
 				WPZOOM_RCB_VERSION
 			);
         
-            wp_enqueue_style( 'inter-font', 'https://fonts.googleapis.com/css2?family=Inter' );
-
 
         }
         
