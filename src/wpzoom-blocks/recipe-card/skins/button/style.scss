@@ -185,9 +185,12 @@ $secondary-color: #f34b00;
     font-size: 15px;
     margin: 25px 0 15px 0;
     opacity: 1;
+    text-align: left;
   }
 
   ul {
+    text-align: left;
+
     li {
       opacity: 1;
       cursor: pointer;
@@ -422,6 +425,7 @@ $secondary-color: #f34b00;
   padding: 50px 30px 30px;
 }
 button.components-button.try-again,
+.components-button.buyMore,
 button.components-button.activate-license
 {
     margin: 0 auto;
@@ -435,6 +439,7 @@ button.components-button.activate-license
     margin-top: 80px;
 }
 .popup-content-error a.try-again,
+.components-button.buyMore,
 .popup-content-error a.activate-license
 {
   margin: 0 auto;
@@ -448,6 +453,9 @@ button.components-button.activate-license
   margin-top: 80px;
   text-align: center;
   padding: 10px;
+}
+.components-button.buyMore:active {
+    color: #fff;
 }
 .popup-content-error a.activate-license,
 button.components-button.activate-license
