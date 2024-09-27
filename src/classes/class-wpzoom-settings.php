@@ -1426,24 +1426,24 @@ class WPZOOM_Settings {
 			),
 			'ai' => array(
 				'tab_id'       => 'tab-ai',
-				'tab_title'    => __( 'AI', 'recipe-card-blocks-by-wpzoom' ),
+				'tab_title'    => __( 'AI Settings', 'recipe-card-blocks-by-wpzoom' ),
 				'option_group' => 'wpzoom-recipe-card-settings-ai',
 				'option_name'  => self::$option,
 				'sections'     => array(
 					array(
 						'id'       => 'wpzoom_section_ai_chat_model_recipe_data',
-						'title'    => __( 'AI Chat Model', 'recipe-card-blocks-by-wpzoom' ),
+						'title'    => __( 'OpenAI Model', 'recipe-card-blocks-by-wpzoom' ),
 						'page'     => 'wpzoom-recipe-card-settings-ai',
 						'callback' => '__return_false',
 						'fields'   => array(
 							array(
 								'id'    => 'wpzoom_rcb_settings_recipe_data_ai_chat_model',
-								'title' => __( 'Chat Model', 'recipe-card-blocks-by-wpzoom' ),
+								'title' => __( 'Select the AI model to use', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'select',
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_recipe_data_ai_chat_model',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Select the chat model to use.', 'recipe-card-blocks-by-wpzoom' ),
+									'description' => __( '<strong>GPT 4o</strong> - Fastest and most advanced model<br/><strong>GPT 3.5 Turbo</strong> - Legacy model, good for simple recipes.', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => 'gpt-4o',
 									'options'     => array(
 										'gpt-4o'        => esc_html__( 'GPT-4o', 'recipe-card-blocks-by-wpzoom' ),

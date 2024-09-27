@@ -1,8 +1,3 @@
-
-#wpcontent {
-    padding: 20px;
-}
-
 .vtop-bar {
     background-color: #fff;
     padding: 15px 20px;
@@ -35,14 +30,12 @@
 
 .v-bar h2 {
     font-size: 21px;
-    font-family: 'inter';
     font-weight: 600;
     color: #242628;
 }
 
 .vtop-bar h4 {
     font-size: 16px;
-    font-family: 'inter';
     font-weight: 600;
     color: #242628;
     margin-top: 20px;
@@ -50,7 +43,6 @@
 
 .v-bar p {
     font-size: 14px;
-    font-family: 'inter';
     color: #81909C;
 }
 
@@ -61,7 +53,6 @@
 
 .vcard .vcard-top h2 {
     padding-left: 20px;
-    font-family: 'inter';
     font-weight: 600;
 }
 
@@ -70,23 +61,21 @@
 }
 
 .vcard .vcard-body p {
-    font-family: 'inter';
     font-weight: 400;
     font-size: 12px;
     margin-top: 0px;
     margin-bottom: 20px;
 }
 
-.vcard .vcard-body a {
+.vcard .vcard-body a.vsign,
+.vcard .vcard-body a.rcb-btn {
     background-color: #E1581A;
     color: #fff;
-    padding: 10px;
+    padding: 10px 14px;
     text-decoration: none;
     display: inline-block;
     border-radius: 2px;
-    font-family: 'inter';
     font-weight: 600;
-    font-size: 12px;
     outline: none;
 }
 
@@ -96,14 +85,12 @@
 
 .vscore span.vsuper {
     color: #242628;
-    font-family: 'inter';
     font-weight: 600;
     font-size: 36px;
 }
 
 .vscore span.grey {
     color: #7C848A;
-    font-family: 'inter';
     font-weight: 400;
     font-size: 14px;
 }
@@ -131,14 +118,12 @@
 
 .vcard-body .grey {
     color: #7C848A;
-    font-family: 'inter';
     font-weight: 400;
     font-size: 12px;
 }
 
 .vcard-body .green {
     color: #1DB954;
-    font-family: 'inter';
     font-weight: 600;
     font-size: 12px;
     padding-left: 10px;
@@ -146,7 +131,6 @@
 
 .vcard-body .black {
     color: #242628;
-    font-family: 'inter';
     font-weight: 600;
     font-size: 12px;
     padding: 0px 10px;
@@ -154,7 +138,6 @@
 
 .vcard-body .orange {
     color: #E1581A;
-    font-family: 'inter';
     font-weight: 600;
     font-size: 12px;
 }
@@ -166,7 +149,6 @@
     text-decoration: none;
     display: inline-block;
     border-radius: 2px;
-    font-family: 'inter';
     font-weight: 600;
     font-size: 12px;
     border: 1px solid #E1581A;
@@ -180,7 +162,6 @@
     text-decoration: none;
     display: inline-block;
     border-radius: 2px;
-    font-family: 'inter';
     font-weight: 600;
     font-size: 12px;
     border: 1px solid #7C848A;
@@ -249,14 +230,12 @@
 }
 
 .vpop-head h2 {
-    font-family: 'inter';
     font-weight: 600;
     font-size: 20px;
     margin: 0px;
 }
 
 .vpop-prag {
-    font-family: 'inter';
     font-weight: 400;
     font-size: 16px;
     margin: 0px;
@@ -274,7 +253,6 @@
 
 .vinput-group label {
     color: #242628;
-    font-family: 'inter';
     font-weight: 600;
     font-size: 12px;
     margin-bottom: 10px;
@@ -295,7 +273,6 @@
 }
 
 .vinput-group a {
-    font-family: 'inter';
     font-weight: 600;
     font-size: 14px;
     color: #E1581A;
@@ -303,7 +280,6 @@
 }
 
 .vinput-group input[type="submit"] {
-    font-family: 'inter';
     font-weight: 600;
     font-size: 14px;
     color: #fff;
@@ -326,7 +302,6 @@
 
 .vlinks-body h2 {
     margin: 0px;
-    font-family: 'inter';
     font-weight: 600;
 }
 
@@ -335,7 +310,6 @@
     margin-top: 5px;
     color: #E1581A;
     text-decoration: none;
-    font-family: 'inter';
     font-weight: 600;
     outline: none;
 }
@@ -353,7 +327,6 @@
     justify-content: center;
     padding: 10px;
     color: #fff;
-    font-family: 'inter';
     font-weight: 600;
     text-decoration: none;
     border-radius: 3px;
@@ -420,7 +393,6 @@ font-size:14px;
 .vpopup-fixed .vpop-prag p{
 	font-size:14px;
 	line-height:24px;
-	font-family:'inter';
 }
 .vcard .vcard-body p {
     line-height: 24px;
@@ -458,7 +430,6 @@ font-size:14px;
 
 .vscore span.vsuper {
     text-edge: cap;
-    font-family: Inter;
     font-size: 36px;
     font-style: normal;
     font-weight: 600;
@@ -500,10 +471,7 @@ font-size:14px;
 .vpop-head{
 	padding-bottom:20px;
 }
-.vcard .vcard-body a{
-	font-size: 13px;
-	padding: 12px 16px;
-}
+
 
 @keyframes spin {
     0% {

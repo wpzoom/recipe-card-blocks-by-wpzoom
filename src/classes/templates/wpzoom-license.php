@@ -40,11 +40,19 @@ if ( ! $user_data ) {
 	<div class="vcard">
 		<div class="vcard-top">
 			<img src="<?php echo plugin_dir_url( __FILE__ ); ?>/assets/img/active.svg" alt="">
-			<h2><?php esc_html_e( 'Connect your account', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
+			<h2><?php esc_html_e( 'Your Account', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
 		</div>
 		<div class="vcard-body">
-			<p><?php esc_html_e( 'Connect to recipecard.io to get your status and the amount of credits', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+            <p><?php esc_html_e( 'Connect to', 'recipe-card-blocks-by-wpzoom' ); ?> <a href="https://recipecard.io" target="_blank">recipecard.io</a> <?php esc_html_e( 'to get the status and the amount of credits.', 'recipe-card-blocks-by-wpzoom' ); ?><br/> <?php
+                    printf(
+                        /* translators: %s: RCB store URL */
+                        esc_html__( 'No account? %s' , 'recipe-card-blocks-by-wpzoom' ),
+                        '<a href="' . esc_url( WPZOOM_RCB_STORE_URL ) . 'register/" target="_blank">Sign up today</a> and purchase AI Credits!'
+                    );
+                ?></p>
+
 			<a href="#" class="vsign"><?php esc_html_e( '', 'recipe-card-blocks-by-wpzoom' ); ?>Connect</a>
+
 		</div>
 	</div>
 	<div class="vpopup-fixed vsign hidden">
@@ -154,7 +162,7 @@ if ( ! $user_data ) {
 				}
 				?>
 			</div>
-			<a href="<?php echo esc_url( WPZOOM_RCB_STORE_URL ) ?>account/ai-credits/" target="_blank"><?php esc_html_e( 'Buy AI credits', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+			<a href="<?php echo esc_url( WPZOOM_RCB_STORE_URL ) ?>account/ai-credits/" class="rcb-btn" target="_blank"><?php esc_html_e( 'Buy AI credits', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 		</div>
 	</div>
 	<?php
