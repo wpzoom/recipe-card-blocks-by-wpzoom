@@ -179,6 +179,10 @@ export default class DetailItem extends Component {
             item,
         } = this.props;
 
+        if ( item === undefined ) {
+            return;
+        }
+
         const {
             id,
             icon,

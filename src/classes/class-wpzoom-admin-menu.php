@@ -49,6 +49,16 @@ class WPZOOM_Admin_Menu {
 			array( $this, 'admin_page' )
 		);
 
+		// WPZOOM Recipe Card Ai Credits sub menu item.
+		add_submenu_page(
+			WPZOOM_RCB_SETTINGS_PAGE,
+			esc_html__( 'AI Credits', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html__( 'AI Credits', 'recipe-card-blocks-by-wpzoom' ),
+			'manage_options',
+			'admin-license',
+			array( $this, 'manage_license' )
+		);
+
 		add_submenu_page(
 			WPZOOM_RCB_SETTINGS_PAGE,
 			esc_html__( 'Recipe Card Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ),
@@ -66,6 +76,15 @@ class WPZOOM_Admin_Menu {
 	 */
 	public function admin_page() {
 		do_action( 'wpzoom_rcb_admin_page' );
+	}
+
+	/**
+	 * Wrapper for the hook to render license page.
+	 *
+	 * @since 3.3.2
+	 */
+	public function manage_license() {
+		do_action( 'wpzoom_rcb_admin_license' );
 	}
 }
 

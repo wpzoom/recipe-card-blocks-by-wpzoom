@@ -11,6 +11,7 @@
     float: left;
     width: 65%;
 }
+.recipe-cards_page_admin-license .wpz_right-col,
 .toplevel_page_wpzoom-recipe-card-settings #wpzoom-recipe-card-settings + .wpz_right-col {
     float: right;
     width: 35%;
@@ -1627,6 +1628,9 @@ div.wp-tab-panel-inactive {
     flex-grow: 1;
     padding: 0;
     margin: 0;
+    font-size: 2em;
+    font-weight: 600;
+    line-height: 1.8;
 }
 
 .wpz-onboard_wrapper .wpz-onboard_header .wpz-onboard_title-wrapper .wpz-onboard_title span {
@@ -1663,7 +1667,7 @@ div.wp-tab-panel-inactive {
     padding: 0;
     margin: 0;
 }
-
+.wpz-onboard_wrapper .wpz-onboard_header .wpz-onboard_quick_links,
 .wpz-onboard_wrapper .wpz-onboard_header .wpz-onboard_tabs {
     -js-display: flex;
     display: flex;
@@ -1702,7 +1706,7 @@ div.wp-tab-panel-inactive {
     opacity: 1;
     transform: none;
 }
-
+.wpz-onboard_header .wpz-onboard_quick_links > a,
 .wpz-onboard_wrapper .wpz-onboard_header .wpz-onboard_tabs li a {
     font-size: 18px;
     font-weight: 500;
@@ -1714,11 +1718,16 @@ div.wp-tab-panel-inactive {
     box-shadow: none;
     transition: all 0.3s ease;
 }
+.wpz-onboard_header .wpz-onboard_quick_links > a {
+    margin: 0 50px 0 0;
+}
 
+.wpz-onboard_header .wpz-onboard_quick_links > a:hover,
 .wpz-onboard_wrapper .wpz-onboard_header .wpz-onboard_tabs li a:hover {
     color: var(--inspiro-primary-color);
 }
 
+.wpz-onboard_header .wpz-onboard_quick_links > a svg,
 .wpz-onboard_wrapper .wpz-onboard_header .wpz-onboard_tabs li a svg {
     display: inline-block;
     vertical-align: middle;

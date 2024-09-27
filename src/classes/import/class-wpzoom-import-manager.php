@@ -72,10 +72,10 @@ if ( ! class_exists( 'WPZOOM_Import_Manager' ) ) {
 				5
 			);
 
-			if( isset( $submenu['wpzoom-recipe-card-settings'][2] ) ) {
+			if( isset( $submenu['wpzoom-recipe-card-settings'][3] ) ) {
 				
-				$pro_menu = $submenu['wpzoom-recipe-card-settings'][2];
-				unset( $submenu['wpzoom-recipe-card-settings'][2] );
+				$pro_menu = $submenu['wpzoom-recipe-card-settings'][3];
+				unset( $submenu['wpzoom-recipe-card-settings'][3] );
 				
 				$submenu['wpzoom-recipe-card-settings'][] = $pro_menu;
 			}

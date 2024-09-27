@@ -6,17 +6,21 @@ import toNumber from 'lodash/toNumber';
 
 /* Internal dependencies */
 import IngredientItem from './IngredientItem';
-import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
+import { stripHTML, deserializeAttributes  } from '../../../helpers/stringHelpers';
+import { generateId  } from '../../../helpers/generateId';
 
 /* WordPress dependencies */
 import { RichText } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { Component, renderToString } from '@wordpress/element';
+import { compose } from '@wordpress/compose';
+import { useRecipeData, useRecipeDataActions } from '../skins/button/store';
+import { withDispatch, withSelect } from '@wordpress/data';
 
 /**
  * A Ingredient item within a Ingredient block.
  */
-export default class Ingredient extends Component {
+class Ingredient extends Component {
     /**
      * Constructs a Ingredient editor component.
      *
@@ -431,3 +435,33 @@ Ingredient.propTypes = {
 Ingredient.defaultProps = {
     className: '',
 };
+
+export default compose( [
+    withSelect( ( select, props ) => {
+        const { getRecipeData, getRecipeImage } = select( 'my-plugin' );
+        const { setRecipeData } = useRecipeDataActions();
+        const recipeData = getRecipeData();
+        const recipeDataParse = recipeData ? JSON.parse( recipeData ) : null;
+
+        if ( recipeDataParse !== null && recipeDataParse && recipeDataParse.ingredients && recipeDataParse.ingredients.length > 0 ) {
+            props.attributes = [];
+            const ingredients = [];
+            recipeDataParse.ingredients.map( ( item, index ) => {
+                ingredients.push( {
+                    id: generateId( 'ingredient-item-' + index ),
+                    name: [`${item.amount} ${item.unit} ${item.ingredient}`],
+                    jsonName: `${item.amount} ${item.unit} ${item.ingredient}`,
+                    isGroup: false,
+                } );
+            } );
+            if ( ingredients.length > 0 ) {
+                props.setAttributes( { ...props.attributes, ingredients: ingredients } );
+
+                recipeDataParse.ingredients = [];
+                setRecipeData( JSON.stringify( recipeDataParse ), getRecipeImage() );
+            }
+        }
+
+        return props;
+    } ),
+] )( Ingredient );

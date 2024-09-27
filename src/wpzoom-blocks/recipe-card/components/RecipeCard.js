@@ -23,6 +23,10 @@ import PrintButton from '../skins/shared/print-button';
 import PinterestButton from '../skins/shared/pinterest-button';
 import { printIcon, pinterestIcon } from '../skins/shared/icon';
 
+/* AI Generate dependecies */
+import ButtonBox from '../skins/button';
+import RegenerateButton from '../skins/button/regeneratebutton';
+
 /* WordPress dependencies */
 import { Component, renderToString, Fragment } from '@wordpress/element';
 import {
@@ -78,6 +82,7 @@ const {
 /* Import CSS. */
 import '../style.scss';
 import '../editor.scss';
+import { useRecipeImageActions } from '../skins/button/store';
 
 /**
  * A Recipe Card block.
@@ -321,6 +326,14 @@ class RecipeCard extends Component {
     }
 
     render() {
+
+        if ( ! this.props.attributes ) {
+            this.props.attributes = {};
+        }
+        if ( ! this.props.attributes.messageToAI ) {
+            this.props.attributes.messageToAI = {};
+        }
+
         const {
             attributes,
             setAttributes,
@@ -346,6 +359,7 @@ class RecipeCard extends Component {
             hasImage,
             image,
             blockAlignment,
+            messageToAI,
             settings: {
                 0: {
                     hide_header_image,
@@ -411,7 +425,10 @@ class RecipeCard extends Component {
                 {
                     'simple' !== style &&
                     <Fragment>
-
+                    <ButtonBox prompts={ messageToAI } />
+                                    { messageToAI && (
+                                        <RegenerateButton type="image" message={ messageToAI } />
+                                    ) }
                         {
                             ! hasImage &&
                                 <Placeholder
@@ -464,6 +481,9 @@ class RecipeCard extends Component {
                                 </div>
                             </div>
                         }
+                        { messageToAI && (
+                            <RegenerateButton type="recipe" message={ messageToAI } />
+                        ) }
                         <div className="recipe-card-heading">
                             <RichText
                                 className="recipe-card-title"
@@ -495,6 +515,10 @@ class RecipeCard extends Component {
                 {
                     'simple' === style &&
                     <div className="recipe-card-header-wrap">
+                        <ButtonBox prompts={ messageToAI } />
+                        { messageToAI && (
+                            <RegenerateButton type="image" message={ messageToAI } />
+                        ) }
 
                         {
                             ! hasImage &&
@@ -550,7 +574,6 @@ class RecipeCard extends Component {
                         }
 
                         <div className="recipe-card-along-image">
-
                             <div className="recipe-card-heading">
                                 <RichText
                                     className="recipe-card-title"
@@ -580,7 +603,9 @@ class RecipeCard extends Component {
 
                     </div>
                 }
-
+                { messageToAI && (
+                    <RegenerateButton type="recipe" message={ messageToAI } />
+                ) }
                 <RichText
                     className="recipe-card-summary"
                     tagName="p"
@@ -703,6 +728,7 @@ class RecipeCard extends Component {
 
 export default compose( [
     withSelect( ( select, props ) => {
+
         const {
             attributes: {
                 image,
@@ -769,7 +795,60 @@ export default compose( [
             id = featuredImageId;
         }
 
+        const { getMessageToAI, getRecipeData, getRecipeImage } = select('my-plugin');
+        const { setMessageToAI, setRecipeData } = useRecipeImageActions();
+        // Get the message to AI and update props if needed
+        const messageToAI = getMessageToAI();
+        
+        if (messageToAI) {
+            props.attributes.messageToAI = messageToAI;
+            setMessageToAI(null);
+        }
+
+        const recipeImage = getRecipeImage();
+        if ( recipeImage && recipeImage.id ) {
+            props.attributes.hasImage = true;
+            props.hasImage = true;
+            props.setAttributes( { ...props, image: {
+                id: recipeImage.id,
+                url: recipeImage.url,
+                title: String( recipeImage.title ),
+            },
+            } );
+
+            setRecipeData( getRecipeData(), null );
+        }
+
+        const recipeData = getRecipeData();
+        const recipeDataParse = recipeData ? JSON.parse( recipeData ) : null;
+        
+        if ( recipeDataParse !== null && recipeDataParse && recipeDataParse.title ) {
+            props.attributes.recipeTitle = recipeDataParse.title;
+            props.recipeTitle = recipeDataParse.title;
+            props.setAttributes( { ...props, recipeTitle: recipeDataParse.title } );
+
+            delete recipeDataParse.title;
+            setRecipeData( JSON.stringify( recipeDataParse ), getRecipeImage() );
+        }
+
+        if ( recipeDataParse !== null && recipeDataParse && recipeDataParse.description ) {
+            props.setAttributes( { ...props, summary:
+                recipeDataParse.description,
+                jsonSummary: recipeDataParse.description,
+                course: recipeDataParse.course,
+                cuisine: recipeDataParse.cuisine,
+                difficulty: recipeDataParse.difficulty,
+            } );
+
+            delete recipeDataParse.description;
+            delete recipeDataParse.course;
+            delete recipeDataParse.cuisine;
+            delete recipeDataParse.difficulty;
+            setRecipeData( JSON.stringify( recipeDataParse ), getRecipeImage() );
+        }
+
         return {
+            ...props,
             media: id ? getMedia( id ) : false,
             postTitle,
             postType,
