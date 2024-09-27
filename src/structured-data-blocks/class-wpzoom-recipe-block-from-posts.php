@@ -72,12 +72,36 @@ class WPZOOM_Recipe_Block_From_Posts {
 	 */
 	public function render( $attributes, $content ) {
 
-		$recipeContent = get_post_field( 'post_content', intval( $attributes[ 'postId' ] ), 'display' );
+		$post_id = isset( $attributes['postId'] ) ? $attributes['postId'] : null;
+
+		if( ! $post_id ) {
+			return '';	
+		}
+
+		$parentRecipe_ID = get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
+		if( ! empty( $parentRecipe_ID ) && $parentRecipe_ID != get_the_ID() ) {
+			$i = $parentRecipe_ID;
+		}
+		else {
+			$i = $post_id;
+		}
+
+		$recipe = get_post( intval( $post_id ) );
+		$recipe_content = $recipe->post_content;
+
+		$blocks = parse_blocks( $recipe_content );
+
+		$recipe_output = '';
+
+		foreach( $blocks as $block ) {
+			$recipe_output .= render_block( $block );
+		}
 
 		return sprintf( 
-			'<div class="wpzoom-custom-recipe-card-post" data-recipe-post="%2$d">%1$s</div>',
-			apply_filters( 'the_content', $recipeContent ),
-			intval( $attributes[ 'postId' ] )
+			'<div class="wpzoom-custom-recipe-card-post" data-parent-id="%3$d" data-recipe-post="%2$d">%1$s</div>',
+			$recipe_output,
+			intval( $post_id ),
+			intval( $i )
 	 );
 		
 	}

@@ -71,7 +71,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Shortcode' ) ) {
 			}
 
 			$parentRecipe_ID = get_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', true );
-			if( !empty( $parentRecipe_ID ) ) {
+			if( ! empty( $parentRecipe_ID ) && $parentRecipe_ID != get_the_ID() ) {
 				$i = $parentRecipe_ID;
 			}
 			else {
