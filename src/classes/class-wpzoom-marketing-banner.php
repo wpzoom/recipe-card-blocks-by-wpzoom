@@ -68,10 +68,10 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						<div class="banner-clock">
 							<span class="hurry-up">Hurry Up!</span>
 							<div class="clock-digits">
-								<span><i id="days"><?php //echo $interval->days ?></i>d</span>
-								<span><i id="hours"><?php //echo $interval->h ?></i>h</span>
-								<span><i id="minutes"><?php //echo $interval->i ?></i>m</span>
-								<span><i id="seconds"><?php //echo $interval->s ?></i>s</span>
+								<span><i id="days">00<?php //echo $interval->days ?></i>d</span>
+								<span><i id="hours">00<?php //echo $interval->h ?></i>h</span>
+								<span><i id="minutes">00<?php //echo $interval->i ?></i>m</span>
+								<span><i id="seconds">00<?php //echo $interval->s ?></i>s</span>
 							</div>
 						</div>
 						<a href="<?php //echo BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade now &rarr;</a>
@@ -102,7 +102,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				/* start banner content */
 				.bf-wpzoom-banner-image {
 					/*max-width: 190px;*/
-					margin: 0;
+					margin-right: 15px;
 				}
 
 				/* text container */
@@ -112,7 +112,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.banner-text-container h2{
 					color: #000;
 					font-size: 30px;
-					margin: 0 0 15px;
+					margin: 0 0 20px;
 					font-weight: 800;
 				}
 				.banner-text-container .orange-text {
@@ -121,9 +121,8 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.banner-text-container .banner-text {
 					font-size: 14px;
 					font-weight: 500;
-					line-height: 26px;
-					margin-bottom: 5px;
-					/*display: inline-block;*/
+					margin-bottom: 10px;
+					display: inline-block;
 				}
 				.banner-promo-btns {
 					/*max-width: 500px;*/
@@ -140,9 +139,9 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 
 				/* CTA btn */
-				.upgrade-banner {
-					margin-left: auto;
-				}
+				/*.upgrade-banner {*/
+				/*	margin-left: auto;*/
+				/*}*/
 				.upgrade-banner .banner-clock {
 					display: flex;
 					flex-direction: column;
@@ -150,6 +149,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.upgrade-banner .banner-clock .hurry-up {
 					font-size: 14px;
 					margin-bottom: 5px;
+					font-weight: 500;
 				}
 				.banner-clock .clock-digits {
 					display: flex;
@@ -179,6 +179,56 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					text-decoration: none;
 					text-transform: uppercase;
 					z-index: 999;
+				}
+				/* Responsive */
+				@media screen and (max-width: 1200px) {
+					.wpzoom-banner-container-wrapper {
+						margin-right: 10px;
+					}
+					.wpzoom-bf-banner-container {
+						flex-direction: column;
+					}
+					.wpzoom-bf-banner-container.notice.is-dismissible {
+						padding-right: 0;
+					}
+					.bf-wpzoom-banner-image {
+						margin-bottom: 15px;
+						margin-right: 15px;
+					}
+					.banner-text-container {
+						margin: 14px 14px;
+					}
+					.banner-text-container .orange-text {
+						line-height: 30px;
+					}
+					.upgrade-banner {
+						margin-bottom: 15px;
+					}
+				}
+				/*@media screen and (min-width: 1201px) and (max-width: 1230px) {*/
+				/*	.wpzoom-bf-banner-container.notice.is-dismissible {*/
+				/*		padding-right: 0px;*/
+				/*	}*/
+				/*}*/
+				@media screen and (min-width: 1201px) {
+					.upgrade-banner {
+						margin-left: auto;
+					}
+				}
+				@media screen and (max-width: 1230px) {
+					/*.banner-text-container .banner-text {*/
+					/*	line-height: 20px;*/
+					/*}*/
+					.banner-text-container h2 {
+						font-size: 28px;
+					}
+					.banner-text-container .banner-text {
+						max-width: 520px;
+					}
+					.upgrade-banner a.btn-upgrade-now {
+						font-size: 14px;
+						padding: 12px 40px;
+					}
 				}
 			</style>
 		<?php }
