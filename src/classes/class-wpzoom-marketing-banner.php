@@ -85,7 +85,6 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.wpzoom-bf-banner-container {
 					display: flex;
 					align-items: center;
-					/*justify-content: space-between;*/
 					color: #000;
 					background: #FFE7D4;
 				}
@@ -101,14 +100,10 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 
 				/* start banner content */
 				.bf-wpzoom-banner-image {
-					/*max-width: 190px;*/
-					margin-right: 15px;
+					margin-right: 30px;
 				}
 
 				/* text container */
-				.banner-text-container {
-					/*margin: 0;*/
-				}
 				.banner-text-container h2{
 					color: #000;
 					font-size: 30px;
@@ -124,9 +119,6 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					margin-bottom: 10px;
 					display: inline-block;
 				}
-				.banner-promo-btns {
-					/*max-width: 500px;*/
-				}
 				.banner-promo-btns .banner-btn {
 					padding: 4px 16px;
 					color: #242628;
@@ -139,16 +131,12 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 
 				/* CTA btn */
-				/*.upgrade-banner {*/
-				/*	margin-left: auto;*/
-				/*}*/
 				.upgrade-banner .banner-clock {
 					display: flex;
 					flex-direction: column;
 				}
 				.upgrade-banner .banner-clock .hurry-up {
 					font-size: 14px;
-					margin-bottom: 5px;
 					font-weight: 500;
 				}
 				.banner-clock .clock-digits {
@@ -181,6 +169,11 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					z-index: 999;
 				}
 				/* Responsive */
+				@media screen and (max-width: 782px) {
+					.wpzoom-bf-banner-container.notice {
+						line-height: unset;
+					}
+				}
 				@media screen and (max-width: 1200px) {
 					.wpzoom-banner-container-wrapper {
 						margin-right: 10px;
@@ -205,25 +198,23 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						margin-bottom: 15px;
 					}
 				}
-				/*@media screen and (min-width: 1201px) and (max-width: 1230px) {*/
-				/*	.wpzoom-bf-banner-container.notice.is-dismissible {*/
-				/*		padding-right: 0px;*/
-				/*	}*/
-				/*}*/
 				@media screen and (min-width: 1201px) {
 					.upgrade-banner {
 						margin-left: auto;
+						margin-right: 20px;
+					}
+					.upgrade-banner .banner-clock .hurry-up {
+						margin-bottom: 5px;
+					}
+				}
+				@media screen and (min-width: 1201px) and (max-width: 1300px) {
+					.banner-text-container .banner-text {
+						max-width: 520px;
 					}
 				}
 				@media screen and (max-width: 1230px) {
-					/*.banner-text-container .banner-text {*/
-					/*	line-height: 20px;*/
-					/*}*/
 					.banner-text-container h2 {
 						font-size: 28px;
-					}
-					.banner-text-container .banner-text {
-						max-width: 520px;
 					}
 					.upgrade-banner a.btn-upgrade-now {
 						font-size: 14px;
