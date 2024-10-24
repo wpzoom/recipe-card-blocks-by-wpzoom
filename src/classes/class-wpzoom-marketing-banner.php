@@ -1,0 +1,189 @@
+<?php
+/**
+ * Handle the plugin marketing stuff.
+ *
+ * @since   3.4.0
+ * @package WPZOOM_Recipe_Card_Blocks
+ */
+if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
+	class WPZOOM_Marketing_Banner {
+		const BTN_UPGRADE_NOW_LINK = '#';
+		const BF_START_DATE = '2024-10-22';
+		const BF_END_DATE = '2024-10-24';
+
+		public static function init() {
+			add_action('admin_notices', [__CLASS__, 'show_black_friday_banner']);
+		}
+
+		/**
+		 * Display the Black Friday banner if the conditions are met.
+		 */
+		public static function show_black_friday_banner() {
+			if (self::is_black_friday_period() && !self::has_dismissed_banner()) {
+				self::inspiro_display_black_friday_banner();
+			}
+		}
+
+		/**
+		 * Check if the Black Friday period is ongoing.
+		 *
+		 * @return bool
+		 */
+		private static function is_black_friday_period() {
+			$today = current_time('Y-m-d');
+			return $today >= self::BF_START_DATE && $today <= self::BF_END_DATE;
+		}
+
+		/**
+		 * Check if the user has dismissed the Black Friday banner.
+		 *
+		 * @return bool
+		 */
+		private static function has_dismissed_banner() {
+			return (bool) get_user_meta(get_current_user_id(), 'inspiro_dismiss_black_friday_banner', true);
+		}
+
+		private static function inspiro_display_black_friday_banner() { ?>
+			<div class="wpzoom-banner-container-wrapper">
+				<div class="wpzoom-bf-banner-container notice is-dismissible">
+
+					<img src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/src/classes/templates/assets/img/bf-recipe-card-block-pro.png'; ?>"
+						 class="bf-wpzoom-banner-image"
+						 alt="WPZOOM Recipe Card Block Pro Deal"
+					>
+
+					<div class="banner-text-container">
+						<h2>Upgrade to <span class="orange-text">Recipe Card Blocks Pro</span></h2>
+						<span class="banner-text">Unlock the full potential of your recipes with our PRO version! Get advanced features like:</span>
+
+						<div class="banner-promo-btns">
+							<div class="banner-btn">Premium Block Skins</div>
+							<div class="banner-btn">Recipe Index Block</div>
+							<div class="banner-btn">Star Rating</div>
+							<div class="banner-btn">+ many more</div>
+						</div>
+					</div>
+
+					<div class="upgrade-banner">
+						<div class="banner-clock">
+							<span class="hurry-up">Hurry Up!</span>
+							<div class="clock-digits">
+								<span><i id="days"><?php //echo $interval->days ?></i>d</span>
+								<span><i id="hours"><?php //echo $interval->h ?></i>h</span>
+								<span><i id="minutes"><?php //echo $interval->i ?></i>m</span>
+								<span><i id="seconds"><?php //echo $interval->s ?></i>s</span>
+							</div>
+						</div>
+						<a href="<?php //echo BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade now &rarr;</a>
+					</div>
+				</div>
+			</div>
+			<style>
+				.wpzoom-banner-container-wrapper {
+					margin: 10px 20px 0 2px;
+				}
+				.wpzoom-bf-banner-container {
+					display: flex;
+					align-items: center;
+					/*justify-content: space-between;*/
+					color: #000;
+					background: #FFE7D4;
+				}
+				/*	rewrite WP core rule */
+				.wpzoom-bf-banner-container.notice {
+					border: unset;
+					padding: 0 12px 0 0;
+				}
+				.wpzoom-bf-banner-container.notice.is-dismissible {
+					padding-right: 14px;
+					margin: 5px 0 15px;
+				}
+
+				/* start banner content */
+				.bf-wpzoom-banner-image {
+					/*max-width: 190px;*/
+					margin: 0;
+				}
+
+				/* text container */
+				.banner-text-container {
+					/*margin: 0;*/
+				}
+				.banner-text-container h2{
+					color: #000;
+					font-size: 30px;
+					margin: 0 0 15px;
+					font-weight: 800;
+				}
+				.banner-text-container .orange-text {
+					color: #E1581A;
+				}
+				.banner-text-container .banner-text {
+					font-size: 14px;
+					font-weight: 500;
+					line-height: 26px;
+					margin-bottom: 5px;
+					/*display: inline-block;*/
+				}
+				.banner-promo-btns {
+					/*max-width: 500px;*/
+				}
+				.banner-promo-btns .banner-btn {
+					padding: 4px 16px;
+					color: #242628;
+					font-weight: 600;
+					background: #EAAB90;
+					border-radius: 30px;
+					display: inline-block;
+					margin: 0 5px 8px 0;
+					font-size: 11px;
+				}
+
+				/* CTA btn */
+				.upgrade-banner {
+					margin-left: auto;
+				}
+				.upgrade-banner .banner-clock {
+					display: flex;
+					flex-direction: column;
+				}
+				.upgrade-banner .banner-clock .hurry-up {
+					font-size: 14px;
+					margin-bottom: 5px;
+				}
+				.banner-clock .clock-digits {
+					display: flex;
+					font-size: 14px;
+					font-weight: 300;
+					margin-bottom: 10px;
+				}
+				.banner-clock .clock-digits span {
+					margin-right: 8px;
+				}
+				.banner-clock .clock-digits i {
+					font-style: normal !important;
+					margin-right: 2px;
+					font-weight: 600;
+					font-size: 20px;
+				}
+				.upgrade-banner a.btn-upgrade-now {
+					color: #fff;
+					font-size: 18px;
+					font-weight: 700;
+					line-height: 20px;
+					background: #E1581A;
+					padding: 15px 29px;
+					border-radius: 10px;
+					position: relative;
+					display: inline-block;
+					text-decoration: none;
+					text-transform: uppercase;
+					z-index: 999;
+				}
+			</style>
+		<?php }
+
+
+	}
+}
+WPZOOM_Marketing_Banner::init();

@@ -131,6 +131,8 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			// Added August 2024
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-admin-license.php';
 
+			// Added October 2024
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-marketing-banner.php';
 		}
 
 		/**
