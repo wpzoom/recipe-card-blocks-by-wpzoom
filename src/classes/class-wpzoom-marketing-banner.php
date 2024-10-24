@@ -96,6 +96,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.wpzoom-bf-banner-container.notice.is-dismissible {
 					padding-right: 14px;
 					margin: 5px 0 15px;
+					border-radius: 3px;
 				}
 
 				/* start banner content */
@@ -107,6 +108,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.banner-text-container h2{
 					color: #000;
 					font-size: 30px;
+					line-height: 1.2;
 					margin: 0 0 20px;
 					font-weight: 800;
 				}
@@ -157,36 +159,59 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.upgrade-banner a.btn-upgrade-now {
 					color: #fff;
 					font-size: 18px;
-					font-weight: 700;
 					line-height: 20px;
-					background: #E1581A;
 					padding: 15px 29px;
-					border-radius: 10px;
-					position: relative;
-					display: inline-block;
+					font-weight: 600;
+					background: #E1581A;
 					text-decoration: none;
 					text-transform: uppercase;
+					display: inline-block;
 					z-index: 999;
+					position: relative;
+					border-radius: 5px;
+					box-shadow: rgba(0, 0, 0, .1) 0 1px 3px 0, rgba(0, 0, 0, .06) 0 1px 2px 0;
+					white-space: nowrap;
 				}
 				/* Responsive */
+				@media screen and (max-width: 550px) {
+					h2	.orange-text {
+						display: block;
+					}
+					.wpzoom-bf-banner-container {
+						flex-direction: column;
+					}
+				}
+
+				@media screen and (max-width: 700px) {
+					.bf-wpzoom-banner-image {
+						display: none;
+					}
+				}
+				/*@media screen and (min-width: 700px) and (max-width: 750px){*/
+				/*	.banner-text-container {*/
+				/*		max-width: 248px;*/
+				/*	}*/
+				/*}*/
 				@media screen and (max-width: 782px) {
 					.wpzoom-bf-banner-container.notice {
 						line-height: unset;
+					}
+				}
+				@media screen and (max-width: 1023px) {
+					.banner-promo-btns,
+					.upgrade-banner .banner-clock {
+						display: none;
 					}
 				}
 				@media screen and (max-width: 1200px) {
 					.wpzoom-banner-container-wrapper {
 						margin-right: 10px;
 					}
-					.wpzoom-bf-banner-container {
-						flex-direction: column;
-					}
 					.wpzoom-bf-banner-container.notice.is-dismissible {
 						padding-right: 0;
 					}
 					.bf-wpzoom-banner-image {
-						margin-bottom: 15px;
-						margin-right: 15px;
+						margin-right: 0;
 					}
 					.banner-text-container {
 						margin: 14px 14px;
@@ -217,8 +242,9 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						font-size: 28px;
 					}
 					.upgrade-banner a.btn-upgrade-now {
-						font-size: 14px;
-						padding: 12px 40px;
+						font-size: 16px;
+						padding: 13px 25px;
+						margin-right: 18px;
 					}
 				}
 			</style>
