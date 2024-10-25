@@ -9,8 +9,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 	class WPZOOM_Marketing_Banner {
 		const BTN_UPGRADE_NOW_LINK = '#';
 		const BF_START_DATE = '2024-10-24 00:00:00';
-//		const BF_END_DATE = '2024-10-25 23:59:59';
-		const BF_END_DATE = '2024-10-25 17:55:00';
+		const BF_END_DATE = '2024-10-25 23:59:59';
 
 		public static function init() {
 			add_action('admin_notices', [__CLASS__, 'show_black_friday_banner']);
@@ -32,8 +31,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		 */
 		private static function is_black_friday_period() {
 			$today = current_time('Y-m-d H:i:s');
-//			return $today >= self::BF_START_DATE && $today <= self::BF_END_DATE;
-			return true;
+			return $today >= self::BF_START_DATE && $today <= self::BF_END_DATE;
 		}
 
 		/**
@@ -262,7 +260,6 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 			</style>
 			<script type="text/javascript">
-				document.addEventListener("DOMContentLoaded", function() {
 
 					// don't working now
 					jQuery(document).on('click', '.wpzoom-bf-banner-container .notice-dismiss', function () {
@@ -273,12 +270,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 
 					// Set the date we're counting down to
 					(function () {
-						const countDownDate = new Date("<?php echo self::BF_END_DATE; ?>").getTime(); // example was this type: Dec 31, 2023 23:59:59
-
-						// Get the current minute, for testing purposes
-						//	<?php //$today = new DateTime(); ?>
-						//console.log('php: ' + <?php //echo $today->format('i') ?>//);
-						//console.log('js: ' + new Date().getMinutes());
+						const countDownDate = new Date("<?php echo self::BF_END_DATE; ?>").getTime();
 
 						// Update the countdown every 1 second
 						const x = setInterval(function () {
@@ -291,14 +283,15 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 
 							// Time calculations for days, hours, minutes and seconds
 							let days, hours, minutes, seconds;
-							// if (distance > 0) {
+
+							if (distance > 0) {
 								days = Math.floor(distance / (1000 * 60 * 60 * 24));
 								hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 								minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 								seconds = Math.floor((distance % (1000 * 60)) / 1000);
-							// } else {
-							// 	days = hours = minutes = seconds = 0;
-							// }
+							} else {
+								days = hours = minutes = seconds = 0;
+							}
 
 							// Display the result in the elements with respective ids
 							document.getElementById("bf-days").innerText = days;
@@ -312,7 +305,6 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 							}
 						}, 1000);
 					})();
-				});
 			</script>
 		<?php }
 	}
