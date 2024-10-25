@@ -8,8 +8,9 @@
 if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 	class WPZOOM_Marketing_Banner {
 		const BTN_UPGRADE_NOW_LINK = '#';
-		const BF_START_DATE = '2024-10-24';
-		const BF_END_DATE = '2024-10-25';
+		const BF_START_DATE = '2024-10-24 00:00:00';
+//		const BF_END_DATE = '2024-10-25 23:59:59';
+		const BF_END_DATE = '2024-10-25 17:55:00';
 
 		public static function init() {
 			add_action('admin_notices', [__CLASS__, 'show_black_friday_banner']);
@@ -30,7 +31,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		 * @return bool
 		 */
 		private static function is_black_friday_period() {
-			$today = current_time('Y-m-d');
+			$today = current_time('Y-m-d H:i:s');
 //			return $today >= self::BF_START_DATE && $today <= self::BF_END_DATE;
 			return true;
 		}
@@ -286,18 +287,18 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 							let now = new Date().getTime();
 
 							// Find the distance between now and the countdown date
-							const distance = countDownDate - now;
+							let distance = countDownDate - now;
 
 							// Time calculations for days, hours, minutes and seconds
 							let days, hours, minutes, seconds;
-							if (distance > 0) {
+							// if (distance > 0) {
 								days = Math.floor(distance / (1000 * 60 * 60 * 24));
 								hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 								minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 								seconds = Math.floor((distance % (1000 * 60)) / 1000);
-							} else {
-								days = hours = minutes = seconds = 0;
-							}
+							// } else {
+							// 	days = hours = minutes = seconds = 0;
+							// }
 
 							// Display the result in the elements with respective ids
 							document.getElementById("bf-days").innerText = days;
@@ -305,7 +306,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 							document.getElementById("bf-minutes").innerText = minutes;
 							document.getElementById("bf-seconds").innerText = seconds;
 
-							// If the count down is finished, clear the interval
+							// If the countdown is finished, clear the interval
 							if (distance < 0) {
 								clearInterval(x);
 							}
