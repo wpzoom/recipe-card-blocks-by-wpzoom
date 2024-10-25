@@ -128,11 +128,19 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			//Added December 2023
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-edit-link.php';
 
-			// Added August 2024
+			//Added August 2024
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-admin-license.php';
 
-			// Added October 2024
-			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-marketing-banner.php';
+			//Added October 2024
+			self::include_marketing_class_file();
+		}
+
+		public static function include_marketing_class_file() {
+			global $pagenow;
+
+			if ( is_admin() && $pagenow === 'index.php') {
+				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-marketing-banner.php';
+			}
 		}
 
 		/**

@@ -8,8 +8,8 @@
 if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 	class WPZOOM_Marketing_Banner {
 		const BTN_UPGRADE_NOW_LINK = '#';
-		const BF_START_DATE = '2024-10-22';
-		const BF_END_DATE = '2024-10-24';
+		const BF_START_DATE = '2024-10-25';
+		const BF_END_DATE = '2024-10-30';
 
 		public static function init() {
 			add_action('admin_notices', [__CLASS__, 'show_black_friday_banner']);
@@ -52,11 +52,11 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						 alt="WPZOOM Recipe Card Block Pro Deal"
 					>
 
-					<div class="banner-text-container">
+					<div class="recipe-banner-text-container">
 						<h2>Upgrade to <span class="orange-text">Recipe Card Blocks Pro</span></h2>
 						<span class="banner-text">Unlock the full potential of your recipes with our PRO version! Get advanced features like:</span>
 
-						<div class="banner-promo-btns">
+						<div class="recipe-banner-promo-btns">
 							<div class="banner-btn">Premium Block Skins</div>
 							<div class="banner-btn">Recipe Index Block</div>
 							<div class="banner-btn">Star Rating</div>
@@ -64,14 +64,14 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						</div>
 					</div>
 
-					<div class="upgrade-banner">
+					<div class="recipe-upgrade-banner">
 						<div class="banner-clock">
 							<span class="hurry-up">Hurry Up!</span>
 							<div class="clock-digits">
-								<span><i id="days">00<?php //echo $interval->days ?></i>d</span>
-								<span><i id="hours">00<?php //echo $interval->h ?></i>h</span>
-								<span><i id="minutes">00<?php //echo $interval->i ?></i>m</span>
-								<span><i id="seconds">00<?php //echo $interval->s ?></i>s</span>
+								<span><i id="days">0<?php //echo $interval->days ?></i>d</span>
+								<span><i id="hours">0<?php //echo $interval->h ?></i>h</span>
+								<span><i id="minutes">0<?php //echo $interval->i ?></i>m</span>
+								<span><i id="seconds">0<?php //echo $interval->s ?></i>s</span>
 							</div>
 						</div>
 						<a href="<?php //echo BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade now &rarr;</a>
@@ -105,23 +105,23 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 
 				/* text container */
-				.banner-text-container h2{
+				.recipe-banner-text-container h2{
 					color: #000;
 					font-size: 30px;
 					line-height: 1.2;
 					margin: 0 0 20px;
 					font-weight: 800;
 				}
-				.banner-text-container .orange-text {
+				.recipe-banner-text-container .orange-text {
 					color: #E1581A;
 				}
-				.banner-text-container .banner-text {
+				.recipe-banner-text-container .banner-text {
 					font-size: 14px;
 					font-weight: 500;
 					margin-bottom: 10px;
 					display: inline-block;
 				}
-				.banner-promo-btns .banner-btn {
+				.recipe-banner-promo-btns .banner-btn {
 					padding: 4px 16px;
 					color: #242628;
 					font-weight: 600;
@@ -133,30 +133,30 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 
 				/* CTA btn */
-				.upgrade-banner .banner-clock {
+				.recipe-upgrade-banner .banner-clock {
 					display: flex;
 					flex-direction: column;
 				}
-				.upgrade-banner .banner-clock .hurry-up {
+				.recipe-upgrade-banner .hurry-up {
 					font-size: 14px;
 					font-weight: 500;
 				}
-				.banner-clock .clock-digits {
+				.recipe-upgrade-banner .clock-digits {
 					display: flex;
 					font-size: 14px;
 					font-weight: 300;
 					margin-bottom: 10px;
 				}
-				.banner-clock .clock-digits span {
+				.recipe-upgrade-banner .clock-digits span {
 					margin-right: 8px;
 				}
-				.banner-clock .clock-digits i {
+				.recipe-upgrade-banner.clock-digits i {
 					font-style: normal !important;
 					margin-right: 2px;
 					font-weight: 600;
 					font-size: 20px;
 				}
-				.upgrade-banner a.btn-upgrade-now {
+				.recipe-upgrade-banner a.btn-upgrade-now {
 					color: #fff;
 					font-size: 18px;
 					line-height: 20px;
@@ -174,11 +174,11 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 				/* Responsive */
 				@media screen and (max-width: 550px) {
-					h2	.orange-text {
-						display: block;
-					}
 					.wpzoom-bf-banner-container {
 						flex-direction: column;
+					}
+					.recipe-banner-text-container h2 .orange-text {
+						display: block;
 					}
 				}
 
@@ -187,19 +187,14 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						display: none;
 					}
 				}
-				/*@media screen and (min-width: 700px) and (max-width: 750px){*/
-				/*	.banner-text-container {*/
-				/*		max-width: 248px;*/
-				/*	}*/
-				/*}*/
 				@media screen and (max-width: 782px) {
 					.wpzoom-bf-banner-container.notice {
 						line-height: unset;
 					}
 				}
 				@media screen and (max-width: 1023px) {
-					.banner-promo-btns,
-					.upgrade-banner .banner-clock {
+					.recipe-banner-promo-btns,
+					.recipe-upgrade-banner .banner-clock {
 						display: none;
 					}
 				}
@@ -213,35 +208,32 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					.bf-wpzoom-banner-image {
 						margin-right: 0;
 					}
-					.banner-text-container {
-						margin: 14px 14px;
+					.recipe-banner-text-container{
+						margin: 14px 14px 15px 14px;
 					}
-					.banner-text-container .orange-text {
+					.recipe-banner-text-container .orange-text {
 						line-height: 30px;
-					}
-					.upgrade-banner {
-						margin-bottom: 15px;
 					}
 				}
 				@media screen and (min-width: 1201px) {
-					.upgrade-banner {
+					.recipe-upgrade-banner {
 						margin-left: auto;
 						margin-right: 20px;
 					}
-					.upgrade-banner .banner-clock .hurry-up {
+					.recipe-upgrade-banner .hurry-up {
 						margin-bottom: 5px;
 					}
 				}
 				@media screen and (min-width: 1201px) and (max-width: 1300px) {
-					.banner-text-container .banner-text {
+					.recipe-banner-text-container .banner-text {
 						max-width: 520px;
 					}
 				}
 				@media screen and (max-width: 1230px) {
-					.banner-text-container h2 {
+					.recipe-banner-text-container h2 {
 						font-size: 28px;
 					}
-					.upgrade-banner a.btn-upgrade-now {
+					.recipe-upgrade-banner a.btn-upgrade-now {
 						font-size: 16px;
 						padding: 13px 25px;
 						margin-right: 18px;
@@ -249,8 +241,6 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 			</style>
 		<?php }
-
-
 	}
 }
 WPZOOM_Marketing_Banner::init();
