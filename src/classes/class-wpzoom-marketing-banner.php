@@ -150,7 +150,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.recipe-upgrade-banner .clock-digits span {
 					margin-right: 8px;
 				}
-				.recipe-upgrade-banner.clock-digits i {
+				.recipe-upgrade-banner .clock-digits i {
 					font-style: normal !important;
 					margin-right: 2px;
 					font-weight: 600;

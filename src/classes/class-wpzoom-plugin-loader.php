@@ -138,7 +138,7 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 		public static function include_marketing_class_file() {
 			global $pagenow;
 
-			if ( is_admin() && $pagenow === 'index.php') {
+			if ( ( is_admin() && $pagenow === 'index.php' ) || $pagenow === 'plugins.php' ) {
 				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-marketing-banner.php';
 			}
 		}
