@@ -8,8 +8,8 @@
 if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 	class WPZOOM_Marketing_Banner {
 		const BTN_UPGRADE_NOW_LINK = '#';
-		const BF_START_DATE = '2024-10-25';
-		const BF_END_DATE = '2024-10-30';
+		const BF_START_DATE = '2024-10-24';
+		const BF_END_DATE = '2024-10-25';
 
 		public static function init() {
 			add_action('admin_notices', [__CLASS__, 'show_black_friday_banner']);
@@ -31,7 +31,8 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		 */
 		private static function is_black_friday_period() {
 			$today = current_time('Y-m-d');
-			return $today >= self::BF_START_DATE && $today <= self::BF_END_DATE;
+//			return $today >= self::BF_START_DATE && $today <= self::BF_END_DATE;
+			return true;
 		}
 
 		/**
@@ -52,6 +53,11 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 			return $today->diff( $endDay );
 		}
 
+		/**
+		 * Render Banner Layout
+		 *
+		 * @return mixed
+		 */
 		private static function inspiro_display_black_friday_banner() {
 			$interval = self::show_current_left_time();
 		?>
@@ -79,13 +85,13 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						<div class="banner-clock">
 							<span class="hurry-up">Hurry Up!</span>
 							<div class="clock-digits">
-								<span><i id="days"><?php echo $interval->days ?></i>d</span>
-								<span><i id="hours"><?php echo $interval->h ?></i>h</span>
-								<span><i id="minutes"><?php echo $interval->i ?></i>m</span>
-								<span><i id="seconds"><?php echo $interval->s ?></i>s</span>
+								<span><i id="bf-days"><?php echo $interval->days ?></i>d</span>
+								<span><i id="bf-hours"><?php echo $interval->h ?></i>h</span>
+								<span><i id="bf-minutes"><?php echo $interval->i ?></i>m</span>
+								<span><i id="bf-seconds"><?php echo $interval->s ?></i>s</span>
 							</div>
 						</div>
-						<a href="<?php //echo BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade now &rarr;</a>
+						<a href="<?php echo self::BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade now &rarr;</a>
 					</div>
 				</div>
 			</div>
@@ -254,6 +260,59 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					}
 				}
 			</style>
+			<script type="text/javascript">
+				document.addEventListener("DOMContentLoaded", function() {
+
+					// don't working now
+					jQuery(document).on('click', '.wpzoom-bf-banner-container .notice-dismiss', function () {
+						jQuery.post(ajaxurl, {
+							action: 'wpzoom_recipe_plugin_dismiss_black_friday_banner'
+						});
+					});
+
+					// Set the date we're counting down to
+					(function () {
+						const countDownDate = new Date("<?php echo self::BF_END_DATE; ?>").getTime(); // example was this type: Dec 31, 2023 23:59:59
+
+						// Get the current minute, for testing purposes
+						//	<?php //$today = new DateTime(); ?>
+						//console.log('php: ' + <?php //echo $today->format('i') ?>//);
+						//console.log('js: ' + new Date().getMinutes());
+
+						// Update the countdown every 1 second
+						const x = setInterval(function () {
+
+							// Get today's date and time
+							let now = new Date().getTime();
+
+							// Find the distance between now and the countdown date
+							const distance = countDownDate - now;
+
+							// Time calculations for days, hours, minutes and seconds
+							let days, hours, minutes, seconds;
+							if (distance > 0) {
+								days = Math.floor(distance / (1000 * 60 * 60 * 24));
+								hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+								minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+								seconds = Math.floor((distance % (1000 * 60)) / 1000);
+							} else {
+								days = hours = minutes = seconds = 0;
+							}
+
+							// Display the result in the elements with respective ids
+							document.getElementById("bf-days").innerText = days;
+							document.getElementById("bf-hours").innerText = hours;
+							document.getElementById("bf-minutes").innerText = minutes;
+							document.getElementById("bf-seconds").innerText = seconds;
+
+							// If the count down is finished, clear the interval
+							if (distance < 0) {
+								clearInterval(x);
+							}
+						}, 1000);
+					})();
+				});
+			</script>
 		<?php }
 	}
 }
