@@ -180,6 +180,9 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					.recipe-banner-text-container h2 .orange-text {
 						display: block;
 					}
+					.recipe-upgrade-banner a.btn-upgrade-now {
+						margin-bottom: 20px;
+					}
 				}
 
 				@media screen and (max-width: 700px) {
