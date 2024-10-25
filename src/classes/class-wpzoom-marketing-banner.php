@@ -43,23 +43,13 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 			return (bool) get_user_meta(get_current_user_id(), 'inspiro_dismiss_black_friday_banner', true);
 		}
 
-		private static function show_current_left_time() {
-			// - Functionality for render first date/time - //
-			$today = new DateTime();
-			$endDay = new DateTime( self::BF_END_DATE );
-
-			// Calculate the difference in days between today and the end date
-			return $today->diff( $endDay );
-		}
 
 		/**
 		 * Render Banner Layout
 		 *
 		 * @return mixed
 		 */
-		private static function inspiro_display_black_friday_banner() {
-			$interval = self::show_current_left_time();
-		?>
+		private static function inspiro_display_black_friday_banner() { ?>
 			<div class="wpzoom-banner-container-wrapper">
 				<div class="wpzoom-bf-banner-container notice is-dismissible">
 
@@ -84,10 +74,10 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						<div class="banner-clock">
 							<span class="hurry-up">Hurry Up!</span>
 							<div class="clock-digits">
-								<span><i id="bf-days"><?php echo $interval->days ?></i>d</span>
-								<span><i id="bf-hours"><?php echo $interval->h ?></i>h</span>
-								<span><i id="bf-minutes"><?php echo $interval->i ?></i>m</span>
-								<span><i id="bf-seconds"><?php echo $interval->s ?></i>s</span>
+								<span><i id="bf-days"></i>d</span>
+								<span><i id="bf-hours"></i>h</span>
+								<span><i id="bf-minutes"></i>m</span>
+								<span><i id="bf-seconds"></i>s</span>
 							</div>
 						</div>
 						<a href="<?php echo self::BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade now &rarr;</a>
@@ -270,38 +260,52 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 
 					// Set the date we're counting down to
 					(function () {
-						const countDownDate = new Date("<?php echo self::BF_END_DATE; ?>").getTime();
+						// Constants
+						const COUNTDOWN_END_DATE = new Date("<?php echo self::BF_END_DATE; ?>").getTime();
 
-						// Update the countdown every 1 second
-						const x = setInterval(function () {
+						// Element references
+						const daysContainer = document.getElementById("bf-days");
+						const hoursContainer = document.getElementById("bf-hours");
+						const minutesContainer = document.getElementById("bf-minutes");
+						const secondsContainer = document.getElementById("bf-seconds");
 
-							// Get today's date and time
-							let now = new Date().getTime();
-
-							// Find the distance between now and the countdown date
-							let distance = countDownDate - now;
-
-							// Time calculations for days, hours, minutes and seconds
-							let days, hours, minutes, seconds;
+						// Function to calculate the time difference
+						function calculateTimeDifference(targetDate) {
+							const now = new Date().getTime();
+							const distance = targetDate - now;
 
 							if (distance > 0) {
-								days = Math.floor(distance / (1000 * 60 * 60 * 24));
-								hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-								minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-								seconds = Math.floor((distance % (1000 * 60)) / 1000);
+								return {
+									days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+									hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+									minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+									seconds: Math.floor((distance % (1000 * 60)) / 1000)
+								};
 							} else {
-								days = hours = minutes = seconds = 0;
+								return { days: 0, hours: 0, minutes: 0, seconds: 0 };
 							}
+						}
 
-							// Display the result in the elements with respective ids
-							document.getElementById("bf-days").innerText = days;
-							document.getElementById("bf-hours").innerText = hours;
-							document.getElementById("bf-minutes").innerText = minutes;
-							document.getElementById("bf-seconds").innerText = seconds;
+						// Function to update the HTML elements with the calculated time
+						function updateCountdownDisplay(time) {
+							daysContainer.innerText = time.days;
+							hoursContainer.innerText = time.hours;
+							minutesContainer.innerText = time.minutes;
+							secondsContainer.innerText = time.seconds;
+						}
 
-							// If the countdown is finished, clear the interval
-							if (distance < 0) {
-								clearInterval(x);
+						// Render the countdown initially
+						updateCountdownDisplay(calculateTimeDifference(COUNTDOWN_END_DATE));
+
+						// Update the countdown every 1 second
+						const intervalId = setInterval(function () {
+							const timeDifference = calculateTimeDifference(COUNTDOWN_END_DATE);
+							updateCountdownDisplay(timeDifference);
+
+							// Clear interval if the countdown is over
+							if (timeDifference.days === 0 && timeDifference.hours === 0 &&
+								timeDifference.minutes === 0 && timeDifference.seconds === 0) {
+								clearInterval(intervalId);
 							}
 						}, 1000);
 					})();
