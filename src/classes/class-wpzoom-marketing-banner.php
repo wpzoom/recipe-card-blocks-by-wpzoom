@@ -43,7 +43,18 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 			return (bool) get_user_meta(get_current_user_id(), 'inspiro_dismiss_black_friday_banner', true);
 		}
 
-		private static function inspiro_display_black_friday_banner() { ?>
+		private static function show_current_left_time() {
+			// - Functionality for render first date/time - //
+			$today = new DateTime();
+			$endDay = new DateTime( self::BF_END_DATE );
+
+			// Calculate the difference in days between today and the end date
+			return $today->diff( $endDay );
+		}
+
+		private static function inspiro_display_black_friday_banner() {
+			$interval = self::show_current_left_time();
+		?>
 			<div class="wpzoom-banner-container-wrapper">
 				<div class="wpzoom-bf-banner-container notice is-dismissible">
 
@@ -68,10 +79,10 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						<div class="banner-clock">
 							<span class="hurry-up">Hurry Up!</span>
 							<div class="clock-digits">
-								<span><i id="days">0<?php //echo $interval->days ?></i>d</span>
-								<span><i id="hours">0<?php //echo $interval->h ?></i>h</span>
-								<span><i id="minutes">0<?php //echo $interval->i ?></i>m</span>
-								<span><i id="seconds">0<?php //echo $interval->s ?></i>s</span>
+								<span><i id="days"><?php echo $interval->days ?></i>d</span>
+								<span><i id="hours"><?php echo $interval->h ?></i>h</span>
+								<span><i id="minutes"><?php echo $interval->i ?></i>m</span>
+								<span><i id="seconds"><?php echo $interval->s ?></i>s</span>
 							</div>
 						</div>
 						<a href="<?php //echo BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade now &rarr;</a>
