@@ -71,3 +71,17 @@ if( ! function_exists( 'wpzoom_rcb_tasty_links_block' ) ) {
 	}
 }
 add_filter( 'tasty_links_enabled_rendered_blocks', 'wpzoom_rcb_tasty_links_block' );
+
+
+/**
+ * Temporary Black Friday banner functionality
+ * - Handle the AJAX request to dismiss the Banner of the plugin marketing stuff
+ * - This action wasn't included in the wpzoom-marketing-banner class because have issue with
+ */
+add_action('wp_ajax_recipe_plugin_dismiss_bf_banner', 'dismiss_black_friday_banner');
+
+function dismiss_black_friday_banner() {
+	update_user_meta( get_current_user_id(), 'inspiro_dismiss_black_friday_banner', true );
+//	wp_send_json_success();
+}
+

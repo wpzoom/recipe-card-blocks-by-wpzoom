@@ -9,17 +9,17 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 	class WPZOOM_Marketing_Banner {
 		const BTN_UPGRADE_NOW_LINK = '#';
 		const BF_START_DATE = '2024-10-24 00:00:00';
-		const BF_END_DATE = '2024-10-25 23:59:59';
+		const BF_END_DATE = '2024-10-30 23:59:59';
 
 		public static function init() {
-			add_action('admin_notices', [__CLASS__, 'show_black_friday_banner']);
+			add_action( 'admin_notices', [ __CLASS__, 'show_black_friday_banner' ] );
 		}
 
 		/**
 		 * Display the Black Friday banner if the conditions are met.
 		 */
 		public static function show_black_friday_banner() {
-			if (self::is_black_friday_period() && !self::has_dismissed_banner()) {
+			if ( self::is_black_friday_period() && ! self::has_dismissed_banner() ) {
 				self::inspiro_display_black_friday_banner();
 			}
 		}
@@ -30,7 +30,8 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		 * @return bool
 		 */
 		private static function is_black_friday_period() {
-			$today = current_time('Y-m-d H:i:s');
+			$today = current_time( 'Y-m-d H:i:s' );
+
 			return $today >= self::BF_START_DATE && $today <= self::BF_END_DATE;
 		}
 
@@ -40,9 +41,8 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		 * @return bool
 		 */
 		private static function has_dismissed_banner() {
-			return (bool) get_user_meta(get_current_user_id(), 'inspiro_dismiss_black_friday_banner', true);
+			return (bool) get_user_meta( get_current_user_id(), 'inspiro_dismiss_black_friday_banner', true );
 		}
-
 
 		/**
 		 * Render Banner Layout
@@ -51,17 +51,15 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		 */
 		private static function inspiro_display_black_friday_banner() { ?>
 			<div class="wpzoom-banner-container-wrapper">
-				<div class="wpzoom-bf-banner-container notice is-dismissible">
-
-					<img src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/src/classes/templates/assets/img/bf-recipe-card-block-pro.png'; ?>"
-						 class="bf-wpzoom-banner-image"
-						 alt="WPZOOM Recipe Card Block Pro Deal"
+				<div id="wpzoom-bf-banner-container" class="wpzoom-bf-banner-container notice is-dismissible">
+					<img
+						src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/src/classes/templates/assets/img/bf-recipe-card-block-pro.png'; ?>"
+						class="bf-wpzoom-banner-image"
+						alt="WPZOOM Recipe Card Block Pro Deal"
 					>
-
 					<div class="recipe-banner-text-container">
 						<h2>Upgrade to <span class="orange-text">Recipe Card Blocks Pro</span></h2>
 						<span class="banner-text">Unlock the full potential of your recipes with our PRO version! Get advanced features like:</span>
-
 						<div class="recipe-banner-promo-btns">
 							<div class="banner-btn">Premium Block Skins</div>
 							<div class="banner-btn">Recipe Index Block</div>
@@ -69,7 +67,6 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 							<div class="banner-btn">+ many more</div>
 						</div>
 					</div>
-
 					<div class="recipe-upgrade-banner">
 						<div class="banner-clock">
 							<span class="hurry-up">Hurry Up!</span>
@@ -80,7 +77,8 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 								<span><i id="bf-seconds"></i>s</span>
 							</div>
 						</div>
-						<a href="<?php echo self::BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade now &rarr;</a>
+						<a href="<?php echo self::BTN_UPGRADE_NOW_LINK ?>" target="_blank" class="btn-upgrade-now">Upgrade
+							now &rarr;</a>
 					</div>
 				</div>
 			</div>
@@ -88,17 +86,20 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				.wpzoom-banner-container-wrapper {
 					margin: 10px 20px 0 2px;
 				}
+
 				.wpzoom-bf-banner-container {
 					display: flex;
 					align-items: center;
 					color: #000;
 					background: #FFE7D4;
 				}
+
 				/*	rewrite WP core rule */
 				.wpzoom-bf-banner-container.notice {
 					border: unset;
 					padding: 0 12px 0 0;
 				}
+
 				.wpzoom-bf-banner-container.notice.is-dismissible {
 					padding-right: 14px;
 					margin: 5px 0 15px;
@@ -111,22 +112,25 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 
 				/* text container */
-				.recipe-banner-text-container h2{
+				.recipe-banner-text-container h2 {
 					color: #000;
 					font-size: 30px;
 					line-height: 1.2;
 					margin: 0 0 20px;
 					font-weight: 800;
 				}
+
 				.recipe-banner-text-container .orange-text {
 					color: #E1581A;
 				}
+
 				.recipe-banner-text-container .banner-text {
 					font-size: 14px;
 					font-weight: 500;
 					margin-bottom: 10px;
 					display: inline-block;
 				}
+
 				.recipe-banner-promo-btns .banner-btn {
 					padding: 4px 16px;
 					color: #242628;
@@ -143,25 +147,30 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					display: flex;
 					flex-direction: column;
 				}
+
 				.recipe-upgrade-banner .hurry-up {
 					font-size: 14px;
 					font-weight: 500;
 				}
+
 				.recipe-upgrade-banner .clock-digits {
 					display: flex;
 					font-size: 14px;
 					font-weight: 300;
 					margin-bottom: 10px;
 				}
+
 				.recipe-upgrade-banner .clock-digits span {
 					margin-right: 8px;
 				}
+
 				.recipe-upgrade-banner .clock-digits i {
 					font-style: normal !important;
 					margin-right: 2px;
 					font-weight: 600;
 					font-size: 20px;
 				}
+
 				.recipe-upgrade-banner a.btn-upgrade-now {
 					color: #fff;
 					font-size: 18px;
@@ -178,14 +187,17 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					box-shadow: rgba(0, 0, 0, .1) 0 1px 3px 0, rgba(0, 0, 0, .06) 0 1px 2px 0;
 					white-space: nowrap;
 				}
+
 				/* Responsive */
 				@media screen and (max-width: 550px) {
 					.wpzoom-bf-banner-container {
 						flex-direction: column;
 					}
+
 					.recipe-banner-text-container h2 .orange-text {
 						display: block;
 					}
+
 					.recipe-upgrade-banner a.btn-upgrade-now {
 						margin-bottom: 20px;
 					}
@@ -196,52 +208,64 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						display: none;
 					}
 				}
+
 				@media screen and (max-width: 782px) {
 					.wpzoom-bf-banner-container.notice {
 						line-height: unset;
 					}
 				}
+
 				@media screen and (max-width: 1023px) {
 					.recipe-banner-promo-btns,
 					.recipe-upgrade-banner .banner-clock {
 						display: none;
 					}
 				}
+
 				@media screen and (max-width: 1200px) {
 					.wpzoom-banner-container-wrapper {
 						margin-right: 10px;
 					}
+
 					.wpzoom-bf-banner-container.notice.is-dismissible {
 						padding-right: 0;
 					}
+
 					.bf-wpzoom-banner-image {
 						margin-right: 0;
 					}
-					.recipe-banner-text-container{
+
+					.recipe-banner-text-container {
 						margin: 14px 14px 15px 14px;
 					}
+
 					.recipe-banner-text-container .orange-text {
 						line-height: 30px;
 					}
 				}
+
 				@media screen and (min-width: 1201px) {
 					.recipe-upgrade-banner {
 						margin-left: auto;
 						margin-right: 20px;
 					}
+
 					.recipe-upgrade-banner .hurry-up {
 						margin-bottom: 5px;
 					}
 				}
+
 				@media screen and (min-width: 1201px) and (max-width: 1300px) {
 					.recipe-banner-text-container .banner-text {
 						max-width: 520px;
 					}
 				}
+
 				@media screen and (max-width: 1230px) {
 					.recipe-banner-text-container h2 {
 						font-size: 28px;
 					}
+
 					.recipe-upgrade-banner a.btn-upgrade-now {
 						font-size: 16px;
 						padding: 13px 25px;
@@ -250,65 +274,80 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				}
 			</style>
 			<script type="text/javascript">
+				jQuery(document).ready(function () {
+					jQuery(document).on('click', '#wpzoom-bf-banner-container button.notice-dismiss', function (e) {
+						console.log('clicked: ' + e.target);
 
-					// don't working now
-					jQuery(document).on('click', '.wpzoom-bf-banner-container .notice-dismiss', function () {
-						jQuery.post(ajaxurl, {
-							action: 'wpzoom_recipe_plugin_dismiss_black_friday_banner'
+						jQuery.ajax({
+							url: ajaxurl,
+							type: 'GET',
+							data: {
+								action: 'recipe_plugin_dismiss_bf_banner',
+							},
+							// data: Your Data Here,
+							success: function(response) {
+								console.log('Success:', response);
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.log('Error:', textStatus, errorThrown);
+								console.log('Response Text:', jqXHR.responseText);
+							}
 						});
+
 					});
+				});
 
-					// Set the date we're counting down to
-					(function () {
-						// Constants
-						const COUNTDOWN_END_DATE = new Date("<?php echo self::BF_END_DATE; ?>").getTime();
+				// Set the date we're counting down to
+				(function () {
+					// Constants
+					const COUNTDOWN_END_DATE = new Date("<?php echo self::BF_END_DATE; ?>").getTime();
 
-						// Element references
-						const daysContainer = document.getElementById("bf-days");
-						const hoursContainer = document.getElementById("bf-hours");
-						const minutesContainer = document.getElementById("bf-minutes");
-						const secondsContainer = document.getElementById("bf-seconds");
+					// Element references
+					const daysContainer = document.getElementById("bf-days");
+					const hoursContainer = document.getElementById("bf-hours");
+					const minutesContainer = document.getElementById("bf-minutes");
+					const secondsContainer = document.getElementById("bf-seconds");
 
-						// Function to calculate the time difference
-						function calculateTimeDifference(targetDate) {
-							const now = new Date().getTime();
-							const distance = targetDate - now;
+					// Function to calculate the time difference
+					function calculateTimeDifference(targetDate) {
+						const now = new Date().getTime();
+						const distance = targetDate - now;
 
-							if (distance > 0) {
-								return {
-									days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-									hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-									minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-									seconds: Math.floor((distance % (1000 * 60)) / 1000)
-								};
-							} else {
-								return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-							}
+						if (distance > 0) {
+							return {
+								days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+								hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+								minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+								seconds: Math.floor((distance % (1000 * 60)) / 1000)
+							};
+						} else {
+							return {days: 0, hours: 0, minutes: 0, seconds: 0};
 						}
+					}
 
-						// Function to update the HTML elements with the calculated time
-						function updateCountdownDisplay(time) {
-							daysContainer.innerText = time.days;
-							hoursContainer.innerText = time.hours;
-							minutesContainer.innerText = time.minutes;
-							secondsContainer.innerText = time.seconds;
+					// Function to update the HTML elements with the calculated time
+					function updateCountdownDisplay(time) {
+						daysContainer.innerText = time.days;
+						hoursContainer.innerText = time.hours;
+						minutesContainer.innerText = time.minutes;
+						secondsContainer.innerText = time.seconds;
+					}
+
+					// Render the countdown initially
+					updateCountdownDisplay(calculateTimeDifference(COUNTDOWN_END_DATE));
+
+					// Update the countdown every 1 second
+					const intervalId = setInterval(function () {
+						const timeDifference = calculateTimeDifference(COUNTDOWN_END_DATE);
+						updateCountdownDisplay(timeDifference);
+
+						// Clear interval if the countdown is over
+						if (timeDifference.days === 0 && timeDifference.hours === 0 &&
+							timeDifference.minutes === 0 && timeDifference.seconds === 0) {
+							clearInterval(intervalId);
 						}
-
-						// Render the countdown initially
-						updateCountdownDisplay(calculateTimeDifference(COUNTDOWN_END_DATE));
-
-						// Update the countdown every 1 second
-						const intervalId = setInterval(function () {
-							const timeDifference = calculateTimeDifference(COUNTDOWN_END_DATE);
-							updateCountdownDisplay(timeDifference);
-
-							// Clear interval if the countdown is over
-							if (timeDifference.days === 0 && timeDifference.hours === 0 &&
-								timeDifference.minutes === 0 && timeDifference.seconds === 0) {
-								clearInterval(intervalId);
-							}
-						}, 1000);
-					})();
+					}, 1000);
+				})();
 			</script>
 		<?php }
 	}
