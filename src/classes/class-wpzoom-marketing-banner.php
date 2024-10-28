@@ -12,7 +12,21 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		const BF_END_DATE = '2024-10-30 23:59:59';
 
 		public static function init() {
-			add_action( 'admin_notices', [ __CLASS__, 'show_black_friday_banner' ] );
+
+			global $pagenow;
+
+			// add notices only on specific pages
+			if ( ( is_admin() && $pagenow === 'index.php' ) || $pagenow === 'plugins.php' ||
+				 ( $pagenow === 'edit.php' && $_SERVER['QUERY_STRING'] === 'post_type=wpzoom_rcb') ||
+				 ( $pagenow === 'admin.php' && $_SERVER['QUERY_STRING'] === 'page=wpzoom-recipe-card-settings') ) {
+
+				add_action( 'admin_notices', [ __CLASS__, 'show_black_friday_banner' ] );
+			}
+
+			add_action( 'wp_ajax_rcb_dismiss_bf_banner', [
+				__CLASS__,
+				'dismiss_black_friday_banner'
+			] );
 		}
 
 		/**
@@ -41,7 +55,16 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		 * @return bool
 		 */
 		private static function has_dismissed_banner() {
-			return (bool) get_user_meta( get_current_user_id(), 'inspiro_dismiss_black_friday_banner', true );
+			return (bool) get_user_meta( get_current_user_id(), 'wpzoom_rcb_dismiss_black_friday_banner', true );
+		}
+
+		/**
+		 * Handle the AJAX request to dismiss the Banner.
+		 */
+		public static function dismiss_black_friday_banner() {
+//			check_ajax_referer('my_nonce_action', 'security');
+			update_user_meta( get_current_user_id(), 'wpzoom_rcb_dismiss_black_friday_banner', true );
+			wp_send_json_success();
 		}
 
 		/**
@@ -51,7 +74,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		 */
 		private static function inspiro_display_black_friday_banner() { ?>
 			<div class="wpzoom-banner-container-wrapper">
-				<div id="wpzoom-bf-banner-container" class="wpzoom-bf-banner-container notice is-dismissible">
+				<div id="wpzoom-rcb-bf-banner-container" class="wpzoom-bf-banner-container notice is-dismissible">
 					<img
 						src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/src/classes/templates/assets/img/bf-recipe-card-block-pro.png'; ?>"
 						class="bf-wpzoom-banner-image"
@@ -275,25 +298,22 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 			</style>
 			<script type="text/javascript">
 				jQuery(document).ready(function () {
-					jQuery(document).on('click', '#wpzoom-bf-banner-container button.notice-dismiss', function (e) {
-						console.log('clicked: ' + e.target);
-
+					jQuery(document).on('click', '#wpzoom-rcb-bf-banner-container button.notice-dismiss', function (e) {
 						jQuery.ajax({
 							url: ajaxurl,
 							type: 'GET',
 							data: {
-								action: 'recipe_plugin_dismiss_bf_banner',
+								action: 'rcb_dismiss_bf_banner',
 							},
 							// data: Your Data Here,
-							success: function(response) {
-								console.log('Success:', response);
-							},
-							error: function(jqXHR, textStatus, errorThrown) {
-								console.log('Error:', textStatus, errorThrown);
-								console.log('Response Text:', jqXHR.responseText);
-							}
+							// success: function(response) {
+							// 	console.log('Success:', response);
+							// },
+							// error: function(jqXHR, textStatus, errorThrown) {
+							// 	console.log('Error:', textStatus, errorThrown);
+							// 	console.log('Response Text:', jqXHR.responseText);
+							// }
 						});
-
 					});
 				});
 

@@ -132,19 +132,7 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-admin-license.php';
 
 			//Added October 2024
-			self::include_marketing_class_file();
-		}
-
-		// small function for current page detecting
-		public static function include_marketing_class_file() {
-			global $pagenow;
-
-			if ( ( is_admin() && $pagenow === 'index.php' ) || $pagenow === 'plugins.php' ||
-			     ( $pagenow === 'edit.php' && $_SERVER['QUERY_STRING'] === 'post_type=wpzoom_rcb') ||
-			     ( $pagenow === 'admin.php' && $_SERVER['QUERY_STRING'] === 'page=wpzoom-recipe-card-settings') ) {
-
-				require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-marketing-banner.php';
-			}
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-marketing-banner.php';
 		}
 
 		/**
