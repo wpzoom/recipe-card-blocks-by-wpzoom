@@ -7,9 +7,9 @@
  */
 if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 	class WPZOOM_Marketing_Banner {
-		const BTN_UPGRADE_NOW_LINK = '#';
-		const BF_START_DATE = '2024-10-24 00:00:00';
-		const BF_END_DATE = '2024-10-30 23:59:59';
+		const BTN_UPGRADE_NOW_LINK = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=bf-rcb-banner-btn&utm_campaign=bf-rcb';
+		const BF_START_DATE = '2024-11-27 00:00:00';
+		const BF_END_DATE = '2024-12-03 23:59:59';
 
 		public static function init() {
 
@@ -75,24 +75,21 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		private static function inspiro_display_black_friday_banner() { ?>
 			<div class="wpzoom-banner-container-wrapper">
 				<div id="wpzoom-rcb-bf-banner-container" class="wpzoom-bf-banner-container notice is-dismissible">
-					<img
-						src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/src/classes/templates/assets/img/bf-recipe-card-block-pro.png'; ?>"
-						class="bf-wpzoom-banner-image"
-						alt="WPZOOM Recipe Card Block Pro Deal"
-					>
+					<a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=bf-rcb-banner-image&utm_campaign=bf-rcb"><img src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/src/classes/templates/assets/img/bf-recipe-card-block-pro.png'; ?>" class="bf-wpzoom-banner-image" alt="WPZOOM Recipe Card Block Pro Deal" ></a>
 					<div class="recipe-banner-text-container">
 						<h2>Upgrade to <span class="orange-text">Recipe Card Blocks Pro</span></h2>
-						<span class="banner-text">Unlock the full potential of your recipes with our PRO version! Get advanced features like:</span>
+						<span class="banner-text">Unlock the full potential of your recipes and get more traffic with the PRO version! Get advanced features like:</span>
 						<div class="recipe-banner-promo-btns">
-							<div class="banner-btn">Premium Block Skins</div>
-							<div class="banner-btn">Recipe Index Block</div>
+							<div class="banner-btn">Premium Recipe Card Skins</div>
+							<div class="banner-btn">Recipe Index</div>
 							<div class="banner-btn">Star Rating</div>
+                            <div class="banner-btn">Equipment</div>
 							<div class="banner-btn">+ many more</div>
 						</div>
 					</div>
 					<div class="recipe-upgrade-banner">
 						<div class="banner-clock">
-							<span class="hurry-up">Hurry Up!</span>
+							<span class="hurry-up">Hurry Up! Offer ends soon!</span>
 							<div class="clock-digits">
 								<span><i id="bf-days"></i>d</span>
 								<span><i id="bf-hours"></i>h</span>
@@ -107,13 +104,13 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 			</div>
 			<style>
 				.wpzoom-banner-container-wrapper {
-					margin: 10px 20px 0 2px;
+					margin: 10px 20px 10px 2px;
 				}
 
 				.wpzoom-bf-banner-container {
 					display: flex;
 					align-items: center;
-					color: #000;
+					color: #242628;
 					background: #FFE7D4;
 				}
 
@@ -132,14 +129,15 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 				/* start banner content */
 				.bf-wpzoom-banner-image {
 					margin-right: 30px;
+                    max-width: 150px;
 				}
 
 				/* text container */
 				.recipe-banner-text-container h2 {
-					color: #000;
+					color: #242628;
 					font-size: 30px;
 					line-height: 1.2;
-					margin: 0 0 20px;
+					margin: 10px 0;
 					font-weight: 800;
 				}
 
@@ -210,6 +208,10 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 					box-shadow: rgba(0, 0, 0, .1) 0 1px 3px 0, rgba(0, 0, 0, .06) 0 1px 2px 0;
 					white-space: nowrap;
 				}
+
+                .recipe-upgrade-banner a.btn-upgrade-now:hover {
+                    background: #242628;
+                }
 
 				/* Responsive */
 				@media screen and (max-width: 550px) {
