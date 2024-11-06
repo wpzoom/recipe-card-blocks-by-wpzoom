@@ -582,19 +582,19 @@ export default class Inspector extends Component {
                             onChange={ display => this.onChangeSettings( display, 'hide_header_image' ) }
                         />
                     </BaseControl>
+                    <BaseControl
+                        id={ `${ id }-print-btn` }
+                        label={ __( 'Print Button', 'recipe-card-blocks-by-wpzoom' ) }
+                    >
+                        <ToggleControl
+                            label={ __( 'Display Print Button', 'recipe-card-blocks-by-wpzoom' ) }
+                            checked={ print_btn }
+                            onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
+                        />
+                    </BaseControl>
                     {
                         ! hide_header_image &&
                         <Fragment>
-                            <BaseControl
-                                id={ `${ id }-print-btn` }
-                                label={ __( 'Print Button', 'recipe-card-blocks-by-wpzoom' ) }
-                            >
-                                <ToggleControl
-                                    label={ __( 'Display Print Button', 'recipe-card-blocks-by-wpzoom' ) }
-                                    checked={ print_btn }
-                                    onChange={ display => this.onChangeSettings( display, 'print_btn' ) }
-                                />
-                            </BaseControl>
                             <BaseControl
                                 id={ `${ id }-pinit-btn` }
                                 label={ __( 'Pinterest Button', 'recipe-card-blocks-by-wpzoom' ) }

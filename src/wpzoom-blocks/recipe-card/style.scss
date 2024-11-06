@@ -138,6 +138,47 @@
         .recipe-card-title + p {
             margin-bottom: 0;
         }
+        .wpzoom-recipe-card-print-link {
+
+            display: inline-block;
+            vertical-align: middle;
+            float: right;
+            border: 1px dashed rgba(0,0,0,0.1);
+            padding: 5px;
+
+            .btn-print-link {
+                    display: block;
+                    font-style: normal;
+                    text-decoration: none;
+                    font-size: 14px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    color: #000;
+                    border: none;
+                    box-shadow: none;
+                    transition: .2s ease opacity;
+
+                    &:hover {
+                        opacity:.8;
+                    }
+
+                    .wpzoom-rcb-icon-print-link {
+                        display: inline-block;
+                        width: 22px;
+                        height: 22px;
+                        vertical-align: middle;
+                        fill: #000;
+                    }
+                    .wpzoom-rcb-print-icon {
+                        font-size: $ultra-font-size;
+                        margin-right: calc(#{ $grid-unit-15 / 2 });
+                        vertical-align: middle;
+                    }
+                    span {
+                        display:none;
+                    }
+                }
+        }
 
         @include clear-after;
     }
