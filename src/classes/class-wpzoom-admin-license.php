@@ -36,9 +36,10 @@ if ( ! class_exists( 'WPZoom_Admin_License' ) ) {
                 'wpzoom-rcb-user-script', 
                 'userParams',
                 array(
-				    'ajaxEndpointURL'     => esc_url( admin_url( 'admin-ajax.php' ) ),
-				    'userDataNonce'       => wp_create_nonce( 'get_user_info_ai_credits' ),
-                    'logoutUserDataNonce' => wp_create_nonce( 'logout_user_ai_credits' ),
+				    'ajaxEndpointURL'          => esc_url( admin_url( 'admin-ajax.php' ) ),
+				    'userDataNonce'            => wp_create_nonce( 'get_user_info_ai_credits' ),
+                    'logoutUserDataNonce'      => wp_create_nonce( 'logout_user_ai_credits' ),
+                    'refreshCreditsScoreNonce' => wp_create_nonce( 'refresh_user_ai_credits' ),
 			    ) 
             );
 

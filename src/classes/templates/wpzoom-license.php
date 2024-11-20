@@ -142,26 +142,28 @@ if ( ! $user_data ) {
 					?>
 					<span class="grey"><?php esc_html_e( 'Free credits:', 'recipe-card-blocks-by-wpzoom' ); ?></span>
 					<span class="vsuper"><?php echo esc_html( $free_credits ); ?></span>
+					<br/>
 					<?php
 				}
 				if ( ! empty( $remaining_credits ) ) {
 					?>
-					<span class="vsuper"><?php echo esc_html( $remaining_credits ); ?></span>
+					<span class="vsuper remaining_credits"><?php echo esc_html( $remaining_credits ); ?></span>
 					<?php
 				}
 				if ( ! empty( $total_credits ) ) {
 					?>
-					<span class="grey">/ <?php echo esc_html( $total_credits ); ?> <?php esc_html_e( 'remaining', 'recipe-card-blocks-by-wpzoom' ); ?></span>
+					<span class="grey total_credits">/ <span><?php echo esc_html( $total_credits ); ?></span> <?php esc_html_e( 'remaining', 'recipe-card-blocks-by-wpzoom' ); ?></span>
 					<?php
 				}
 				if ( empty( $total_credits ) && empty( $remaining_credits ) && empty( $free_credits ) ) {
 					?>
-					<span class="vsuper">0</span>
-					<span class="grey">/ 0 <?php esc_html_e( 'remaining', 'recipe-card-blocks-by-wpzoom' ); ?></span>
+					<span class="vsuper remaining_credits">0</span>
+					<span class="grey total_credits">/ <span>0</span> <?php esc_html_e( 'remaining', 'recipe-card-blocks-by-wpzoom' ); ?></span>
 					<?php
 				}
 				?>
 			</div>
+			<a href="#" title="<?php esc_attr_e( 'Refresh Credits Score', 'recipe-card-blocks-by-wpzoom' )?>" id="wpzoom-credit-score_refresh"><img src="<?php echo plugin_dir_url( __FILE__ ); ?>/assets/img/refresh.svg"></a>
 			<a href="<?php echo esc_url( WPZOOM_RCB_STORE_URL ) ?>account/ai-credits/" class="rcb-btn" target="_blank"><?php esc_html_e( 'Buy AI credits', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 		</div>
 	</div>

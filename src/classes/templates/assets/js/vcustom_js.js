@@ -15,6 +15,10 @@ document.addEventListener( 'DOMContentLoaded', function() {
     // Get all elements with class "conn" in contPopup popup
     const dConnectBtn = document.querySelectorAll( '.dconnect' );
 
+    const refreshBtn = document.querySelector( '#wpzoom-credit-score_refresh' );
+    const remainingCredits = document.querySelector( '.vscore .remaining_credits' );
+    const totalCredits     = document.querySelector( '.vscore .total_credits span' );
+
     let info;
 
     // Function to remove the "hidden" class and add the "show" class
@@ -39,6 +43,46 @@ document.addEventListener( 'DOMContentLoaded', function() {
         loader.classList.add( 'hidden' );
     }
 
+    // Event listener for refresh button
+    if ( refreshBtn ) {
+        refreshBtn.addEventListener( 'click', function( event ) {
+            event.preventDefault(); // Prevent the default action of the link
+            showLoader();
+            
+            const requestBody = {
+                action: 'refresh_ai_credits',
+                nonce: userParams.refreshCreditsScoreNonce,
+            }; // Request body
+
+            jQuery.ajax( {
+                url: userParams.ajaxEndpointURL,
+                type: 'POST',
+                data: requestBody,
+                success: function( data ) {
+
+                    // Handle response data
+                    if ( data.success ) {
+                        location.reload();
+                    } else {
+                        if ( data.message ) {
+                            alert( data.message );
+                        }
+                        console.error( 'Unexpected response:', data );
+                    }
+                    hideLoader();
+                },
+                error: function( xhr, status, error ) {
+                    // Handle errors
+                    console.error( 'There was a problem with the AJAX request:', error );
+                    hideLoader();
+                },
+            } );
+
+
+        } );
+    }
+
+
     // Event listener for login
     if ( loginForm ) {
         loginForm.addEventListener( 'submit', function( event ) {
@@ -59,6 +103,9 @@ document.addEventListener( 'DOMContentLoaded', function() {
                 type: 'POST',
                 data: requestBody,
                 success: function( data ) {
+
+                    console.log( data );
+
                     // Handle response data
                     if ( data.success ) {
                         info = data;
@@ -97,7 +144,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
             button.addEventListener( 'click', function( event ) {
                 event.preventDefault(); // Prevent the default action of the link
 
-                if ( confirm( 'Are you sure you want to log out?' ) ) {
+                if ( confirm( 'Are you sure? You want to log out.' ) ) {
                     showLoader();
 
                     const requestBody = {

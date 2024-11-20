@@ -211,6 +211,72 @@ class WPZOOM_Settings {
 	public function register_ai_credits_ajax_endpoints() {
 		add_action( 'wp_ajax_get_user_info_ai_credits', [ $this, 'get_user_info_ai_credits' ] );
 		add_action( 'wp_ajax_logout_user_ai_credits', [ $this, 'logout_user_ai_credits' ] );
+		add_action( 'wp_ajax_refresh_ai_credits', [ $this, 'refresh_ai_credits' ] );
+	}
+
+	/**
+	 * Refresh AI Credits
+	 */
+	public function refresh_ai_credits() {
+
+		if ( ! check_ajax_referer( 'refresh_user_ai_credits', 'nonce', false ) ) {
+			wp_send_json( [
+				'success' => false,
+				'message' => 'Security verification failed.',
+			] );
+		}
+
+		$license_data = get_transient( 'wpzoom_rcb_plugin_user_data' );
+
+		if ( ! $license_data ) {
+			$license_data = (object) [];
+		}
+
+		$credits_data = get_option( 'wpzoom_credits' );
+		if ( ! $credits_data ) {
+			$credits_data = array(
+				'total'     => 0,
+				'remaining' => 0,
+				'ID'        => '',
+			);
+		}
+
+		$credits_id = $credits_data['ID'] ?? '';
+
+		if ( empty( $credits_id ) && ! empty( $license_data->user->ID ) ) {
+			$credits_id = $license_data->user->ID;
+		}
+
+		if ( ! empty( $credits_id ) ) {
+			$credits_api_params = array(
+				'ID' => $credits_id,
+			);
+			$credits_response = wp_remote_post(
+				esc_url( WPZOOM_RCB_STORE_URL . 'wp-json/wpzoomRCB/v1/checkCredits' ),
+				array(
+					'timeout'   => 15,
+					'body'      => $credits_api_params,
+				)
+			);
+
+			if ( ! is_wp_error( $credits_response ) ) {
+				$credits_resp = json_decode( wp_remote_retrieve_body( $credits_response ) );
+				if ( ! empty( $credits_resp->success ) ) {
+
+					// Update credits
+					if ( isset( $credits_resp->free_credits ) ) {
+						$credits_data['free_credits']     = $credits_resp->free_credits;
+					}
+
+					$credits_data['remaining'] = isset( $credits_resp->remaining ) ? $credits_resp->remaining : $credits_data['remaining'];
+					$credits_data['total']     = isset( $credits_resp->total ) ? $credits_resp->total : $credits_data['total'];
+					$credits_data['ID']        = $credits_id;
+					update_option( 'wpzoom_credits', $credits_data );
+				}
+				wp_send_json( $credits_resp );
+			}
+		}
+
 	}
 
 	/**

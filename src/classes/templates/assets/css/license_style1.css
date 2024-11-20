@@ -154,7 +154,6 @@
     border: 1px solid #E1581A;
     outline: none;
 }
-
 .vcard-body .vconnect a.dconnect {
     background-color: #fff;
     color: #7C848A;
@@ -470,6 +469,12 @@ font-size:14px;
 }
 .vpop-head{
 	padding-bottom:20px;
+}
+#wpzoom-credit-score_refresh {
+    display: block;
+    margin-right: 15px;
+    float: left;
+
 }
 
 
