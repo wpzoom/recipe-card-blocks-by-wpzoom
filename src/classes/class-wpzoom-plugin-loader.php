@@ -61,19 +61,15 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			 *
 			 * @since 2.1.1
 			 */
-			if ( function_exists( 'get_plugin_data' ) ) {
-				$plugin_data = get_plugin_data( WPZOOM_RCB_PLUGIN_FILE );
-			} else {
-				$plugin_data = get_file_data(
-					WPZOOM_RCB_PLUGIN_FILE,
-					array(
-						'Version'    => 'Version',
-						'TextDomain' => 'Text Domain',
-						'AuthorURI'  => 'Author URI',
-					),
-					'plugin'
-				);
-			}
+			$plugin_data = get_file_data(
+				WPZOOM_RCB_PLUGIN_FILE,
+				array(
+					'Version'    => 'Version',
+					'TextDomain' => 'Text Domain',
+					'AuthorURI'  => 'Author URI',
+				),
+				'plugin'
+			);
 
 			define( 'WPZOOM_RCB_VERSION', $plugin_data['Version'] );
 			define( 'WPZOOM_RCB_TEXT_DOMAIN', $plugin_data['TextDomain'] );
