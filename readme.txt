@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 3.4.1
+Stable tag: 3.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 
 * **Elementor Support**
 * **Structured Data Integration**
+* **[Generate recipes using AI](https://recipecard.io/ai-recipe-generator/) 🆕**
 * **AMP Support**
 * **Multiple Designs**
 * Gutenberg-ready
@@ -67,7 +68,7 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * **Comments Rating**
 * **Recipe Submissions - 🆕**
 * **Recipe Roundup - 🆕**
-* **Recipe Index Block - 🆕**
+* **Recipe Index - 🆕**
 * **Equipment**
 * **Cook Mode**
 * **Gallery in Directions**
@@ -165,6 +166,10 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 
 
 == Changelog ==
+
+= 3.4.2 =
+* WordPress 6.7 notice fix
+* Added a button to refresh the number of AI credits
 
 = 3.4.1 =
 * Added the Print button to recipes without an image
