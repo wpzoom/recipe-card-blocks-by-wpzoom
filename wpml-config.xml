@@ -1,4 +1,36 @@
 <wpml-config>
+	<custom-types>
+        <custom-type translate="1">wpzoom_rcb</custom-type>
+    </custom-types>
+    <admin-texts>
+        <key name="wpzoom-recipe-card-settings">
+            <key name="wpzoom_rcb_settings_author_custom_name" />
+            <key name="wpzoom_rcb_settings_details_title" />
+            <key name="wpzoom_rcb_settings_ingredients_title" />
+            <key name="wpzoom_rcb_settings_equipment_title" />
+            <key name="wpzoom_rcb_settings_steps_title" />
+            <key name="wpzoom_rcb_settings_video_title" />
+            <key name="wpzoom_rcb_settings_notes_title" />
+            <key name="wpzoom_rcb_settings_nutrition_title" />
+            <key name="wpzoom_rcb_settings_instagram_cta_title" />
+            <key name="wpzoom_rcb_settings_instagram_cta_subtitle" />
+            <key name="wpzoom_rcb_settings_pinterest_cta_title" />
+            <key name="wpzoom_rcb_settings_pinterest_cta_subtitle" />
+            <key name="wpzoom_rcb_settings_facebook_cta_title" />
+            <key name="wpzoom_rcb_settings_facebook_cta_subtitle" />
+            <key name="wpzoom_rcb_settings_jump_to_recipe_text" />
+            <key name="wpzoom_rcb_settings_print_recipe_text" />
+            <key name="wpzoom_rcb_settings_recipe_prevent_sleep_label" />
+            <key name="wpzoom_rcb_settings_recipe_prevent_sleep_description" />
+
+			<key name="wpzoom_rcb_settings_servings_title" />
+			<key name="wpzoom_rcb_settings_preptime_title" />
+			<key name="wpzoom_rcb_settings_cookingtime_title" />
+			<key name="wpzoom_rcb_settings_totaltime_title" />
+			<key name="wpzoom_rcb_settings_calories_title" />			
+			
+         </key>
+    </admin-texts>
 	<gutenberg-blocks>
 		<gutenberg-block type="wpzoom-recipe-card/block-recipe-card" translate="1">
 			<key name="recipeTitle" />

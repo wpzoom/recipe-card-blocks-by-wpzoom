@@ -2,6 +2,8 @@
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 
+import { __ } from '@wordpress/i18n';
+
 /* Internal dependencies */
 import DetailItem from './DetailItem';
 import { stripHTML } from '../../../helpers/stringHelpers';
@@ -335,8 +337,8 @@ export default compose( [
                     id: generateId( 'detail-item-0' ),
                     icon: 'food',
                     iconSet: 'oldicon',
-                    label: 'Servings',
-                    unit: 'servings',
+                    label: __( 'Servings', 'recipe-card-blocks-by-wpzoom' ),
+                    unit: __( 'servings', 'recipe-card-blocks-by-wpzoom' ),
                     value: String( recipeDataParse.servings ),
                 } );
                 delete recipeDataParse.servings;
@@ -346,8 +348,8 @@ export default compose( [
                     id: generateId( 'detail-item-1' ),
                     icon: 'clock',
                     iconSet: 'oldicon',
-                    label: 'Prep time',
-                    unit: 'minutes',
+                    label: __( 'Prep time', 'recipe-card-blocks-by-wpzoom' ),
+                    unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
                     value: String( recipeDataParse.preparation_time ),
                 } );
                 delete recipeDataParse.preparation_time;
@@ -357,8 +359,8 @@ export default compose( [
                     id: generateId( 'detail-item-2' ),
                     icon: 'cooking-food-in-a-hot-casserole',
                     iconSet: 'foodicons',
-                    label: 'Cooking time',
-                    unit: 'minutes',
+                    label: __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ),
+                    unit: __( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
                     value: String( recipeDataParse.cooking_time ),
                 } );
                 delete recipeDataParse.cooking_time;
@@ -368,8 +370,8 @@ export default compose( [
                     id: generateId( 'detail-item-3' ),
                     icon: 'fire-flames',
                     iconSet: 'foodicons',
-                    label: 'Calories',
-                    unit: 'kcal',
+                    label: __( 'Calories', 'recipe-card-blocks-by-wpzoom' ),
+                    unit: __( 'kcal', 'recipe-card-blocks-by-wpzoom' ),
                     value: String( recipeDataParse.calories ),
                 } );
                 delete recipeDataParse.calories;

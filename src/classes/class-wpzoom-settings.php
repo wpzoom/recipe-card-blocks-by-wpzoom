@@ -757,6 +757,29 @@ class WPZOOM_Settings {
 								),
 							),
 							array(
+								'id'    => 'wpzoom_rcb_settings_servings_title',
+								'title' => __( 'Default Servings Title', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_servings_title',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Add your custom Servings title for new or existing Recipe Cards.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => __( 'Servings', 'recipe-card-blocks-by-wpzoom' ),
+									'type'        => 'text',
+								),
+							),
+
+							array(
+                                'id'    => 'wpzoom_rcb_settings_cta_delimiter_eq_1',
+                                'title' => '',
+                                'type'  => 'subsection',
+                                'args'  => array(
+                                    'label_for' => 'wpzoom_rcb_settings_cta_delimiter_eq_1',
+                                    'class'     => 'wpzoom-rcb-field wpzoom-rcb-field-delimiter',
+                                ),
+                            ),
+
+							array(
 								'id'    => 'wpzoom_rcb_settings_display_preptime',
 								'title' => __( 'Display Preparation Time', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'checkbox',
@@ -769,6 +792,29 @@ class WPZOOM_Settings {
 									'preview_pos' => 'top',
 								),
 							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_preptime_title',
+								'title' => __( 'Default Preparation Time Title', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_preptime_title',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Add your custom Preparation Time title for new or existing Recipe Cards.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => __( 'Prep time', 'recipe-card-blocks-by-wpzoom' ),
+									'type'        => 'text',
+								),
+							),
+
+							array(
+                                'id'    => 'wpzoom_rcb_settings_cta_delimiter_eq_2',
+                                'title' => '',
+                                'type'  => 'subsection',
+                                'args'  => array(
+                                    'label_for' => 'wpzoom_rcb_settings_cta_delimiter_eq_2',
+                                    'class'     => 'wpzoom-rcb-field wpzoom-rcb-field-delimiter',
+                                ),
+                            ),
+
 							array(
 								'id'    => 'wpzoom_rcb_settings_display_cookingtime',
 								'title' => __( 'Display Cooking Time', 'recipe-card-blocks-by-wpzoom' ),
@@ -783,6 +829,29 @@ class WPZOOM_Settings {
 								),
 							),
 							array(
+								'id'    => 'wpzoom_rcb_settings_cookingtime_title',
+								'title' => __( 'Default Cooking Time Title', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_cookingtime_title',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Add your custom Cooking Time title for new or existing Recipe Cards.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => __( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ),
+									'type'        => 'text',
+								),
+							),
+
+							array(
+								'id'    => 'wpzoom_rcb_settings_cta_delimiter_eq_3',
+								'title' => '',
+								'type'  => 'subsection',
+								'args'  => array(
+									'label_for' => 'wpzoom_rcb_settings_cta_delimiter_eq_3',
+									'class'     => 'wpzoom-rcb-field wpzoom-rcb-field-delimiter',
+								),
+							),
+
+							array(
 								'id'    => 'wpzoom_rcb_settings_display_totaltime',
 								'title' => __( 'Display Total Time', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'checkbox',
@@ -796,6 +865,29 @@ class WPZOOM_Settings {
 								),
 							),
 							array(
+								'id'    => 'wpzoom_rcb_settings_totaltime_title',
+								'title' => __( 'Default Total Time Title', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_totaltime_title',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Add your custom Total Time title for new or existing Recipe Cards.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => __( 'Total time', 'recipe-card-blocks-by-wpzoom' ),
+									'type'        => 'text',
+								),
+							),
+
+							array(
+								'id'    => 'wpzoom_rcb_settings_cta_delimiter_eq_4',
+								'title' => '',
+								'type'  => 'subsection',
+								'args'  => array(
+									'label_for' => 'wpzoom_rcb_settings_cta_delimiter_eq_4',
+									'class'     => 'wpzoom-rcb-field wpzoom-rcb-field-delimiter',
+								),
+							),
+
+							array(
 								'id'    => 'wpzoom_rcb_settings_display_calories',
 								'title' => __( 'Display Calories', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'checkbox',
@@ -806,6 +898,18 @@ class WPZOOM_Settings {
 									'default'     => true,
 									'preview'     => true,
 									'preview_pos' => 'top',
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_calories_title',
+								'title' => __( 'Default Calories Title', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_calories_title',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Add your custom Calories title for new or existing Recipe Cards.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => __( 'Calories', 'recipe-card-blocks-by-wpzoom' ),
+									'type'        => 'text',
 								),
 							),
 						),

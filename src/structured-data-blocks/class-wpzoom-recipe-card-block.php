@@ -968,32 +968,32 @@ class WPZOOM_Recipe_Card_Block {
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'oldicon',
 				'icon'    => 'food',
-				'label'   => esc_html__( 'Servings', 'recipe-card-blocks-by-wpzoom' ),
-				'unit'    => esc_html__( 'servings', 'recipe-card-blocks-by-wpzoom' ),
+				//'label'   => esc_html__( 'Servings', 'recipe-card-blocks-by-wpzoom' ),
+				//'unit'    => esc_html__( 'servings', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '4',
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'oldicon',
 				'icon'    => 'clock',
-				'label'   => esc_html__( 'Prep time', 'recipe-card-blocks-by-wpzoom' ),
-				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
+				//'label'   => esc_html__( 'Prep time', 'recipe-card-blocks-by-wpzoom' ),
+				//'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '30',
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'foodicons',
 				'icon'    => 'cooking-food-in-a-hot-casserole',
-				'label'   => esc_html__( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ),
-				'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
+				//'label'   => esc_html__( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ),
+				//'unit'    => esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '40',
 			),
 			array(
 				'id'      => self::$helpers->generateId( 'detail-item' ),
 				'iconSet' => 'foodicons',
 				'icon'    => 'fire-flames',
-				'label'   => esc_html__( 'Calories', 'recipe-card-blocks-by-wpzoom' ),
-				'unit'    => esc_html__( 'kcal', 'recipe-card-blocks-by-wpzoom' ),
+				//'label'   => esc_html__( 'Calories', 'recipe-card-blocks-by-wpzoom' ),
+				//'unit'    => esc_html__( 'kcal', 'recipe-card-blocks-by-wpzoom' ),
 				'value'   => '300',
 			),
 			array(
@@ -1102,16 +1102,56 @@ class WPZOOM_Recipe_Card_Block {
 			$icon               = $label = $value = $unit = '';
 			$isRestingTimeField = 4 === $index && isset( $detail['isRestingTimeField'] ) ? $detail['isRestingTimeField'] : false;
 
-			if ( 0 === $index && self::$settings['displayServings'] != '1' ) {
-				continue;
-			} elseif ( 1 === $index && self::$settings['displayPrepTime'] != '1' ) {
-				continue;
-			} elseif ( 2 === $index && self::$settings['displayCookingTime'] != '1' ) {
-				continue;
+			if ( 0 === $index ) {
+
+				if( self::$settings['displayServings'] != '1' ) {
+					continue;
+				}
+				if( empty( $detail['label'] ) ) { 
+					$detail['label'] = esc_html__( 'Servings', 'recipe-card-blocks-by-wpzoom' ); 
+				}
+				if( empty( $detail['unit'] ) ) { 
+					$detail['unit'] = esc_html__( 'servings', 'recipe-card-blocks-by-wpzoom' ); 
+				}
+
+			} elseif ( 1 === $index ) {
+
+				if( self::$settings['displayPrepTime'] != '1' ) {
+					continue;
+				}
+				if( empty( $detail['label'] ) ) { 
+					$detail['label'] = esc_html__( 'Prep time', 'recipe-card-blocks-by-wpzoom' ); 
+				}
+				if( empty( $detail['unit'] ) ) { 
+					$detail['unit'] = esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' );
+				}
+
+			} elseif ( 2 === $index ) {
+
+				if( self::$settings['displayCookingTime'] != '1' ) {
+					continue;
+				}
+				if( empty( $detail['label'] ) ) { 
+					$detail['label'] = esc_html__( 'Cooking time', 'recipe-card-blocks-by-wpzoom' ); 
+				}
+				if( empty( $detail['unit'] ) ) { 
+					$detail['unit'] = esc_html__( 'minutes', 'recipe-card-blocks-by-wpzoom' );
+				}
+				
 			} elseif ( 8 === $index && self::$settings['displayTotalTime'] != '1' ) {
 				continue;
-			} elseif ( 3 === $index && self::$settings['displayCalories'] != '1' ) {
-				continue;
+			} elseif ( 3 === $index ) {
+
+				if( self::$settings['displayCalories'] != '1' ) {
+					continue;
+				}
+				if( empty( $detail['label'] ) ) { 
+					$detail['label'] = esc_html__( 'Calories', 'recipe-card-blocks-by-wpzoom' ); 
+				}
+				if( empty( $detail['unit'] ) ) { 
+					$detail['unit'] = esc_html__( 'kcal', 'recipe-card-blocks-by-wpzoom' );
+				}
+				
 			} elseif ( ( 4 === $index || 5 === $index || 6 === $index || 7 === $index || 9 === $index ) && empty( $detail['label'] ) ) {
 				continue;
 			}
