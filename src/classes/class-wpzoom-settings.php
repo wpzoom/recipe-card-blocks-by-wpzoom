@@ -969,22 +969,45 @@ class WPZOOM_Settings {
 								),
 							),
 
-                            array(
-                                'id'    => 'wpzoom_rcb_settings_primary_color',
-                                'title' => __( 'Default Primary Color', 'recipe-card-blocks-by-wpzoom' ),
-                                'type'  => 'colorpicker',
-                                'args'  => array(
-                                    'label_for' => 'wpzoom_rcb_settings_primary_color',
-                                    'class'     => 'wpzoom-rcb-field',
-                                    'default'   => '#F2A123',
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
-                                ),
-                            ),
+							array(
+								'id'    => 'wpzoom_rcb_settings_primary_color',
+								'title' => __( 'Default Primary Color', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'colorpicker',
+								'args'  => array(
+									'label_for' => 'wpzoom_rcb_settings_primary_color',
+									'class'     => 'wpzoom-rcb-field',
+									'default'   => '#F2A123',
+									'disabled'    => true,
+									'badge'       => $premium_badge,
+								),
+							),
 						),
 					),
-
-
+					array(
+						'id'       => 'wpzoom_section_recipe_recipe_heading',
+						'title'    => __( 'Recipe Heading', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-appearance',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_recipe_title_tag',
+								'title' => __( 'Recipe Title HTML Tag', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'select',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_recipe_title_tag',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Default html tag to use in Recipe Title.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => 'h2',
+									'options'     => array(
+										'h1' => __( 'H1', 'recipe-card-blocks-by-wpzoom' ),
+										'h2' => __( 'H2', 'recipe-card-blocks-by-wpzoom' ),
+										'h3' => __( 'H3', 'recipe-card-blocks-by-wpzoom' ),
+										'h4' => __( 'H4', 'recipe-card-blocks-by-wpzoom' ),
+									),
+								),
+							),
+						),
+					),
                     array(
                         'id'       => 'wpzoom_section_recipe_call_to_action',
                         'title'    => __( 'Footer Call To Action', 'recipe-card-blocks-by-wpzoom' ),

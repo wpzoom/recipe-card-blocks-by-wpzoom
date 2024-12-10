@@ -555,9 +555,17 @@ class WPZOOM_Recipe_Card_Block {
 			);
 		}
 
+		// Get the recipe title tag
+		$recipe_title_tag = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_title_tag' );
+		$recipe_title_tag = ! empty( $recipe_title_tag ) ? $recipe_title_tag : 'h2';
+
 		$recipe_card_heading = '
 			<div class="recipe-card-heading">
-				' . $heading_print_button . sprintf( '<h2 class="%s">%s</h2>', 'recipe-card-title', ( $recipeTitle ? $recipeTitle : esc_html( $recipe_title ) ) ) .
+				' . $heading_print_button . sprintf( 
+					'<%1$s class="%2$s">%3$s</%1$s>', 
+					$recipe_title_tag,
+					'recipe-card-title', 
+					( $recipeTitle ? $recipeTitle : esc_html( $recipe_title ) ) ) .
 				( self::$settings['displayAuthor'] ? '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . esc_html( $custom_author_name ) . '</span>' : '' ) .
 				( self::$settings['displayCourse'] ? self::get_recipe_terms( 'wpzoom_rcb_courses' ) : '' ) .
 				( self::$settings['displayCuisine'] ? self::get_recipe_terms( 'wpzoom_rcb_cuisines' ) : '' ) .
