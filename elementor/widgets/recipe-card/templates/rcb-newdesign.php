@@ -81,13 +81,17 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 
 	//Recipe Card Heading
 	$html .= '<div class="recipe-card-heading">';
+
+	// Get the recipe title tag
+	$recipe_title_tag = \WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_title_tag' );
+	$recipe_title_tag = ! empty( $recipe_title_tag ) ? $recipe_title_tag : 'h2';
 		
 	if( !empty( $settings['title'] ) ) {
 		$this->add_inline_editing_attributes( 'title' );
-		$html .= '<h2 ' . $this->get_render_attribute_string( 'title' ) . '>' . esc_html( $settings['title'] ) . '</h2>';
+		$html .= '<' . $recipe_title_tag . ' ' . $this->get_render_attribute_string( 'title' ) . '>' . esc_html( $settings['title'] ) . '</' . $recipe_title_tag . '>';
 	}
 	else {
-		$html .= '<h2 class="recipe-card-title">' . esc_html( get_the_title() ) . '</h2>';
+		$html .= '<' . $recipe_title_tag . ' class="recipe-card-title">' . esc_html( get_the_title() ) . '</' . $recipe_title_tag . '>';
 	}
 
 	if ( 'yes' === $settings['show_author'] ) {
