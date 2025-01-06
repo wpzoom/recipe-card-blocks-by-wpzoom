@@ -196,9 +196,8 @@ export default class Ingredient extends Component {
         let fieldToFocus = 'title';
         if ( this.editorRefs[ `${ index - 1 }:name` ] ) {
             fieldToFocus = `${ index - 1 }:name`;
+            this.setFocus( fieldToFocus );
         }
-
-        this.setFocus( fieldToFocus );
 
         speak( __( 'Ingredient removed', 'recipe-card-blocks-by-wpzoom' ) );
     }

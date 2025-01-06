@@ -202,9 +202,8 @@ export default class Direction extends Component {
         let fieldToFocus = 'title';
         if ( this.editorRefs[ `${ index - 1 }:text` ] ) {
             fieldToFocus = `${ index - 1 }:text`;
+            this.setFocus( fieldToFocus );
         }
-
-        this.setFocus( fieldToFocus );
 
         speak( __( 'Step removed', 'recipe-card-blocks-by-wpzoom' ) );
     }

@@ -22,9 +22,16 @@
 		padding: 10px 4px 10px;
 		border: 1px solid #d3d3d3;
 		list-style-type: none;
+		display: flex;
 
 		.direction-step-group-title {
 			font-weight: bold;
+		}
+
+		.editor-rich-text,
+		.block-editor-rich-text__editable {
+			display: inline-block;
+			width: 93%;
 		}
 	}
 	.directions-list > li {
@@ -60,7 +67,7 @@
 		outline: none;
 	}
 	.direction-step:focus-within .direction-step-button-container {
-		display:block;
+		display:flex;
 	}
 }
 
