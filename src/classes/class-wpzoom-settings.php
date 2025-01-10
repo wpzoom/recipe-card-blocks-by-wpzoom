@@ -985,18 +985,18 @@ class WPZOOM_Settings {
 					),
 					array(
 						'id'       => 'wpzoom_section_recipe_recipe_heading',
-						'title'    => __( 'Recipe Heading', 'recipe-card-blocks-by-wpzoom' ),
+						'title'    => __( 'Recipe Title', 'recipe-card-blocks-by-wpzoom' ),
 						'page'     => 'wpzoom-recipe-card-settings-appearance',
 						'callback' => '__return_false',
 						'fields'   => array(
 							array(
 								'id'    => 'wpzoom_rcb_settings_recipe_title_tag',
-								'title' => __( 'Recipe Title HTML Tag', 'recipe-card-blocks-by-wpzoom' ),
+								'title' => __( 'Recipe Title HTML Heading', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'select',
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_recipe_title_tag',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Default html tag to use in Recipe Title.', 'recipe-card-blocks-by-wpzoom' ),
+									'description' => esc_html__( 'Default HTML tag for Recipe Title.', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => 'h2',
 									'options'     => array(
 										'h1' => __( 'H1', 'recipe-card-blocks-by-wpzoom' ),
