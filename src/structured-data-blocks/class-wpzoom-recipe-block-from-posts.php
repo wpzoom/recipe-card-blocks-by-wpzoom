@@ -87,6 +87,12 @@ class WPZOOM_Recipe_Block_From_Posts {
 		}
 
 		$recipe = get_post( intval( $post_id ) );
+
+		// Check if post exists, is published, and is of correct post type
+		if ( ! $recipe || $recipe->post_status !== 'publish' || $recipe->post_type !== 'wpzoom_rcb' ) {
+			return '';
+		}
+
 		$recipe_content = $recipe->post_content;
 
 		$blocks = parse_blocks( $recipe_content );
