@@ -1740,7 +1740,7 @@ class WPZOOM_Settings {
 		<div class="wrap" style="margin:0">
 			<?php do_action( 'wpzoom_rcb_welcome_banner' ); ?>
 
-			<div class="wpz-onboard_wrapper">
+			<div class="wpz-rcb_onboard_wrapper">
 				<h2 style="display:none;"></h2>
 				<div class="wpz-onboard_header">
 					<div class="wpz-onboard_title-wrapper">
@@ -1815,7 +1815,7 @@ class WPZOOM_Settings {
                 <div class="wpz_right-col">
 
 
-                   <div class="wpz-onboard_wrapper">
+                   <div class="wpz-rcb_onboard_wrapper">
                        <div class="wpz-onboard_content-wrapper">
                            <div class="wpz-onboard_content">
                                <div class="wpz-onboard_content-side">

@@ -65,7 +65,7 @@ class WPZOOM_Lite_vs_PRO {
           </script>
 
 
-        <div class="wpz-onboard_wrapper">
+        <div class="wpz-rcb_onboard_wrapper">
             <div id="tabs">
 
                     <div class="wpz-onboard_header">
