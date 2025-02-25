@@ -1241,14 +1241,14 @@ div.wp-tab-panel-inactive {
     --rcb-dashboard-primary-color: #e15819;
 }
 
-/* Theme Info Page */
-.theme-info-wrap {
+/* Plugin Info Page */
+.plugin-info-wrap {
     margin: 0 0 25px;
     position: relative;
     padding: 35px 30px;
 }
 
-.theme-info-wrap .many-more {
+.plugin-info-wrap .many-more {
     font-size: 20px;
     color: var(--rcb-dashboard-primary-color);
     font-weight: 600;
@@ -1256,28 +1256,28 @@ div.wp-tab-panel-inactive {
     display: block;
 }
 
-.theme-info-wrap.welcome-section {
+.plugin-info-wrap.welcome-section {
     background-image: url("data:image/svg+xml,%3Csvg width='303' height='419' viewBox='0 0 303 419' fill='none' xmlns='https://www.w3.org/2000/svg'%3E%3Cpath opacity='0.1' fill-rule='evenodd' clip-rule='evenodd' d='M209.5 419C325.204 419 419 325.204 419 209.5C419 93.7964 325.204 0 209.5 0C93.7964 0 0 93.7964 0 209.5C0 325.204 93.7964 419 209.5 419ZM176.742 93.9576C176.742 75.7255 191.522 60.9455 209.754 60.9455H239.465C241.288 60.9455 242.766 62.4235 242.766 64.2467V122.99C242.766 124.079 242.185 125.085 241.242 125.629L181.313 160.229C179.281 161.402 176.742 159.936 176.742 157.59V93.9576ZM178.265 219.167L238.195 184.567C240.227 183.394 242.766 184.86 242.766 187.206V325.042C242.766 343.275 227.986 358.055 209.754 358.055H180.043C178.22 358.055 176.742 356.577 176.742 354.753V221.806C176.742 220.718 177.323 219.712 178.265 219.167Z' fill='%23e15819'/%3E%3C/svg%3E%0A");
     background-repeat: no-repeat;
     background-position: center right;
 }
 
-.theme-info-wrap.welcome-section p {
+.plugin-info-wrap.welcome-section p {
     max-width: 68%;
 }
 
-.theme-info-wrap * {
+.plugin-info-wrap * {
     box-sizing: border-box;
 }
 
-.theme-info-wrap img {
+.plugin-info-wrap img {
     max-width: 100%;
     margin-bottom: 20px;
 /*    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);*/
 /*    border: 1px solid #eee;*/
 }
 
-.theme-info-wrap .theme-intro {
+.plugin-info-wrap .theme-intro {
     margin: 20px 0;
     border: 1px solid #e2e9ec;
     background: #f7fafa;
@@ -1287,7 +1287,7 @@ div.wp-tab-panel-inactive {
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.theme-info-wrap h1 {
+.plugin-info-wrap h1 {
     font-size: 30px;
     font-weight: 400;
     line-height: 1.2;
@@ -1296,25 +1296,25 @@ div.wp-tab-panel-inactive {
     color: #333333;
 }
 
-.theme-info-wrap h3 {
+.plugin-info-wrap h3 {
     font-size: 24px;
     font-size: 1.5rem;
     line-height: 1.2;
 }
 
-.theme-info-wrap h4 {
+.plugin-info-wrap h4 {
     font-size: 18px;
     font-size: 1.125rem;
     margin: 10px 0;
     margin: 0.625rem 0;
 }
 
-.theme-info-wrap h4 .dashicons {
+.plugin-info-wrap h4 .dashicons {
     font-size: 22px;
     margin-right: 4px;
 }
 
-.theme-info-wrap .theme-description {
+.plugin-info-wrap .theme-description {
     font-size: 17px;
     font-size: 1.0625rem;
     font-weight: 400;
@@ -1322,14 +1322,14 @@ div.wp-tab-panel-inactive {
     color: #777777;
 }
 
-.theme-info-wrap .theme-links p strong {
+.plugin-info-wrap .theme-links p strong {
     font-size: 14px;
     font-size: 0.875rem;
     margin-right: 16px;
     margin-right: 1rem;
 }
 
-.theme-info-wrap .theme-links p a {
+.plugin-info-wrap .theme-links p a {
     font-size: 14px;
     font-size: 0.875rem;
     margin-right: 16px;
@@ -1494,15 +1494,15 @@ div.wp-tab-panel-inactive {
 }
 
 @media screen and (max-width: 1000px) {
-    .theme-info-wrap .theme-links p strong {
+    .plugin-info-wrap .theme-links p strong {
         display: block;
     }
-    .theme-info-wrap [class*="wpz-col-"] {
+    .plugin-info-wrap [class*="wpz-col-"] {
         float: none;
         width: 100%;
         margin: 0;
     }
-    .theme-info-wrap .theme-screenshot {
+    .plugin-info-wrap .theme-screenshot {
         margin-bottom: 20px;
     }
 }
@@ -1602,7 +1602,7 @@ div.wp-tab-panel-inactive {
 }
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_header,
-.wpz-rcb_onboard_wrapper .theme-info-wrap,
+.wpz-rcb_onboard_wrapper .plugin-info-wrap,
 .wpz-rcb_onboard_wrapper .wpz-onboard_content .wpz-onboard_content-side .wpz-onboard_content-side-section,
 .wpz-rcb_onboard_wrapper .wpz-onboard_content-container,
 .wpz-rcb_onboard_wrapper .wpz-onboard_footer {
@@ -2165,7 +2165,7 @@ div.wp-tab-panel-inactive {
     .wpz-rcb_onboard_wrapper {
         padding-right: 10px;
     }
-    .theme-info-wrap.welcome-section p {
+    .plugin-info-wrap.welcome-section p {
         max-width: 100%;
     }
 }

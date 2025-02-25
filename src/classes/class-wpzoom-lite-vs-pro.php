@@ -99,7 +99,7 @@ class WPZOOM_Lite_vs_PRO {
                             <div class="wpz-onboard_content-main">
                                 <div id="quick-start" class="wpz-onboard_content-main-tab">
 
-                                    <div class="theme-info-wrap welcome-section">
+                                    <div class="plugin-info-wrap welcome-section">
 
                                         <h3 class="wpz-onboard_content-main-title"><?php esc_html_e( 'Welcome, foodies!', 'recipe-card-blocks-by-wpzoom' ); ?> 👋</h3>
                                         <p class="wpz-onboard_content-main-intro"><?php esc_html_e( 'Thank you for installing the free version of our plugin! You\'ve already taken the first step towards making your food blog a go-to resource for mouthwatering recipes with the Recipe Card Blocks plugin. But why stop there when you can give your readers and your blog the gourmet treatment with the PRO version?', 'recipe-card-blocks-by-wpzoom' ); ?></p>
@@ -113,7 +113,7 @@ class WPZOOM_Lite_vs_PRO {
 
                                     </div>
 
-                                        <div class="theme-info-wrap">
+                                        <div class="plugin-info-wrap">
 
                                             <h3 class="wpz-onboard_content-main-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg">
                                                 <mask id="mask0_3409_3568" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -269,14 +269,14 @@ class WPZOOM_Lite_vs_PRO {
                                                 </a>
 
 
-                                        </div><!-- /.theme-info-wrap -->
+                                        </div><!-- /.plugin-info-wrap -->
 
 
                                 </div>
 
                                 <div id="vs-pro" class="wpz-onboard_content-main-tab">
 
-                                    <div class="theme-info-wrap">
+                                    <div class="plugin-info-wrap">
                                         <h3 class="plugin-comparison-intro">
                                             <?php esc_html_e( 'Recipe Card Block Free vs. PRO', 'recipe-card-blocks-by-wpzoom' ); ?>
                                         </h3>
