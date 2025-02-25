@@ -1238,7 +1238,7 @@ div.wp-tab-panel-inactive {
 
 /* NEW */
 :root {
-    --inspiro-primary-color: #e15819;
+    --rcb-dashboard-primary-color: #e15819;
 }
 
 /* Theme Info Page */
@@ -1250,7 +1250,7 @@ div.wp-tab-panel-inactive {
 
 .theme-info-wrap .many-more {
     font-size: 20px;
-    color: var(--inspiro-primary-color);
+    color: var(--rcb-dashboard-primary-color);
     font-weight: 600;
     margin: 30px 0;
     display: block;
@@ -1534,7 +1534,7 @@ div.wp-tab-panel-inactive {
 
 .wp-core-ui .wpz-rcb_onboard_wrapper input[type="text"]:hover,
 .wp-core-ui .wpz-rcb_onboard_wrapper textarea:hover {
-    border-color: var(--inspiro-primary-color);
+    border-color: var(--rcb-dashboard-primary-color);
     box-shadow: none;
 }
 
@@ -1549,9 +1549,9 @@ div.wp-tab-panel-inactive {
     align-items: center;
     font-weight: 600;
     color: #fff;
-    background-color: var(--inspiro-primary-color);
+    background-color: var(--rcb-dashboard-primary-color);
     padding: 3px 13px;
-    border: 1px solid var(--inspiro-primary-color);
+    border: 1px solid var(--rcb-dashboard-primary-color);
     transition: all 0.3s ease;
     margin-right: 5px;
     margin-bottom: 8px;
@@ -1564,12 +1564,12 @@ div.wp-tab-panel-inactive {
 }
 
 .wp-core-ui .wpz-rcb_onboard_wrapper .button.button-secondary {
-    color: var(--inspiro-primary-color);
+    color: var(--rcb-dashboard-primary-color);
     background-color: transparent;
 }
 
 .wp-core-ui .wpz-rcb_onboard_wrapper .button.button-secondary:hover, .wp-core-ui .wpz-rcb_onboard_wrapper .button.button-secondary:active {
-    background-color: rgba(var(--inspiro-primary-color), 0.1);
+    background-color: rgba(var(--rcb-dashboard-primary-color), 0.1);
 }
 
 .wp-core-ui .wpz-rcb_onboard_wrapper .button.button-smaller {
@@ -1693,7 +1693,7 @@ div.wp-tab-panel-inactive {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--inspiro-primary-color);
+    background-color: var(--rcb-dashboard-primary-color);
     height: 6px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
@@ -1724,7 +1724,7 @@ div.wp-tab-panel-inactive {
 
 .wpz-onboard_header .wpz-onboard_quick_links > a:hover,
 .wpz-rcb_onboard_wrapper .wpz-onboard_header .wpz-onboard_tabs li a:hover {
-    color: var(--inspiro-primary-color);
+    color: var(--rcb-dashboard-primary-color);
 }
 
 .wpz-onboard_header .wpz-onboard_quick_links > a svg,
@@ -1878,7 +1878,7 @@ div.wp-tab-panel-inactive {
     z-index: 3;
     font-size: 13px;
     color: #fff;
-    background-color: var(--inspiro-primary-color);
+    background-color: var(--rcb-dashboard-primary-color);
     border: none;
     padding: 9px;
     text-align: center;
@@ -1940,7 +1940,7 @@ div.wp-tab-panel-inactive {
     font-size: 13px;
     font-weight: 600;
     text-decoration: none;
-    color: var(--inspiro-primary-color);
+    color: var(--rcb-dashboard-primary-color);
 }
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content .wpz-onboard_content-main .wpz-onboard_content-main-steps .wpz-onboard_content-main-step.step-choose-design form ul li figure figcaption p a:hover, .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content .wpz-onboard_content-main .wpz-onboard_content-main-steps .wpz-onboard_content-main-step.step-choose-design form ul li figure figcaption p a:active {
@@ -1957,12 +1957,12 @@ div.wp-tab-panel-inactive {
 }
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content .wpz-onboard_content-main .wpz-onboard_content-main-steps .wpz-onboard_content-main-step.step-choose-design form ul li.selected-template .preview-thumbnail::before, .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content .wpz-onboard_content-main .wpz-onboard_content-main-steps .wpz-onboard_content-main-step.step-choose-design form ul li.preparing-view-template .preview-thumbnail::before {
-    background-color: rgba(var(--inspiro-primary-color), 0.8);
+    background-color: rgba(var(--rcb-dashboard-primary-color), 0.8);
     opacity: 1;
 }
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content .wpz-onboard_content-main .wpz-onboard_content-main-steps .wpz-onboard_content-main-step.step-choose-design form ul li.selected-template .preview-thumbnail .button-select-template, .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content .wpz-onboard_content-main .wpz-onboard_content-main-steps .wpz-onboard_content-main-step.step-choose-design form ul li.preparing-view-template .preview-thumbnail .button-select-template {
-    color: var(--inspiro-primary-color);
+    color: var(--rcb-dashboard-primary-color);
     background-color: #fff;
     opacity: 1;
     cursor: initial;
@@ -1991,7 +1991,7 @@ div.wp-tab-panel-inactive {
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content .wpz-onboard_content-side .wpz-onboard_content-side-section ul li .dashicons {
     border-radius: 50px;
-    color: var(--inspiro-primary-color);
+    color: var(--rcb-dashboard-primary-color);
     background-color: #ffe7d4;
     margin-right: 5px;
 }
@@ -2008,7 +2008,7 @@ div.wp-tab-panel-inactive {
 }
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content .wpz-onboard_content-side .wpz-onboard_content-side-section.discover-premium {
-    background-color: var(--inspiro-primary-color);
+    background-color: var(--rcb-dashboard-primary-color);
 }
 
 
@@ -2087,7 +2087,7 @@ div.wp-tab-panel-inactive {
 }
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content-overlay .go-back-link:hover, .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content-overlay .go-back-link:active {
-    color: var(--inspiro-primary-color);
+    color: var(--rcb-dashboard-primary-color);
 }
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_content-wrapper .wpz-onboard_content-overlay .wpz-onboard_content-overlay-design-pages-title {
