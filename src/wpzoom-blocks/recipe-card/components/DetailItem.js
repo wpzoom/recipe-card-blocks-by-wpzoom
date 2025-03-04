@@ -10,7 +10,8 @@ import IconsModal from './IconsModal';
 
 /* WordPress dependencies */
 import { Component } from '@wordpress/element';
-import { TextControl } from '@wordpress/components';
+import { TextControl, Tooltip } from '@wordpress/components';
+import { info } from '@wordpress/icons';
 
 /**
  * A Detail items within a Details block.
@@ -189,6 +190,8 @@ export default class DetailItem extends Component {
             value,
         } = item;
 
+        const isTimeField = index === 1 || index === 2 || index === 8;
+
         return (
             <div className={ `detail-item detail-item-${ index }` } key={ id }>
                 {
@@ -196,15 +199,28 @@ export default class DetailItem extends Component {
                         <div className="detail-item-icon">{ this.getOpenModalButton( this.props ) }</div> :
                         <div className="detail-open-modal">{ this.getOpenModalButton( this.props ) }</div>
                 }
-                <p className="detail-item-label">{ this.getPlaceholder( index, 'label' ) }</p>
-                <TextControl
-                    instanceId={ `${ id }-${ index }-item-amount` }
-                    type="text"
-                    placeholder={ this.getPlaceholder( index, 'value' ) }
-                    value={ value }
-                    onChange={ this.onChangeValue }
-                />
+                <p className="detail-item-label">{ this.getPlaceholder(index, 'label') }</p>
+                <div className="detail-item-input-wrapper">
+                    <TextControl
+                        instanceId={ `${ id }-${ index }-item-amount` }
+                        type="text"
+                        placeholder={ this.getPlaceholder( index, 'value' ) }
+                        value={ value }
+                        onChange={ this.onChangeValue }
+                    />
+
+                </div>
                 <p className="detail-item-unit">{ this.getPlaceholder( index, 'unit' ) }</p>
+                {isTimeField && (
+                    <Tooltip placement={'top-start'} text={ __('The plugin will automatically convert the time into hours.', 'recipe-card-blocks-by-wpzoom')}>
+                        <span className="wpzoom-info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                                <circle cx="12" cy="12" r="11" fill="#757575" />
+                                <text x="12" y="17" font-size="16" fill="white" text-anchor="middle" font-family="Arial, sans-serif">?</text>
+                            </svg>
+                        </span>
+                    </Tooltip>
+                )}
             </div>
         );
     }

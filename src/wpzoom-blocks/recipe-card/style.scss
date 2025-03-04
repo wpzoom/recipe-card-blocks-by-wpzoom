@@ -230,6 +230,7 @@
             margin-bottom: 15px;
             clear: both;
             .detail-item {
+                position: relative;
                 > p:not(.detail-item-label):not(.detail-item-value):not(.detail-item-unit) {
                     display: none;
                 }
@@ -238,6 +239,60 @@
                 }
                 .detail-item-unit {
                     margin-bottom: 0;
+                }
+
+                .detail-item-input-wrapper {
+                    position: relative;
+                    display: inline-flex;
+                    align-items: center;
+                }
+
+                .wpzoom-info-icon {
+                    display: inline-block;
+                    margin-left: 5px;
+                    cursor: help;
+                    vertical-align: text-bottom;
+                    position: relative;
+
+                    &:hover {
+                        opacity: 0.8;
+                    }
+
+                    svg {
+                        width: 12px;
+                        height: 12px;
+                        filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+                        vertical-align: middle;
+                    }
+                }
+
+                // Force tooltip to appear above
+                .components-tooltip {
+                    position: absolute !important;
+                    bottom: 100% !important;
+                    left: 50% !important;
+                    transform: translateX(-50%) translateY(-4px) !important;
+                    background: #333 !important;
+                    color: white !important;
+                    padding: 8px 12px !important;
+                    border-radius: 4px !important;
+                    font-size: 13px !important;
+                    white-space: nowrap !important;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+                    z-index: 9999 !important;
+
+                    &::before {
+                        content: '' !important;
+                        position: absolute !important;
+                        bottom: -4px !important;
+                        left: 50% !important;
+                        transform: translateX(-50%) !important;
+                        width: 0 !important;
+                        height: 0 !important;
+                        border-left: 5px solid transparent !important;
+                        border-right: 5px solid transparent !important;
+                        border-top: 5px solid #333 !important;
+                    }
                 }
             }
         }
