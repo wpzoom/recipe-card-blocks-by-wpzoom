@@ -841,8 +841,9 @@ class WPZOOM_Recipe_Card_Block {
 		}
 
 		if ( ! empty( $attributes['keywords'] ) ) {
-			$json_ld['keywords'] = $attributes['keywords'];
+            $json_ld['keywords'] = array_merge( $tag_list, $attributes['keywords'] );
 		}
+        $json_ld['keywords'] = implode( ', ', $json_ld['keywords'] );
 
 		if ( ! empty( $attributes['details'] ) && is_array( $attributes['details'] ) ) {
 			$details = array_filter( $attributes['details'], 'is_array' );
