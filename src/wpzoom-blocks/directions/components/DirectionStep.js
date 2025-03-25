@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
 import isShallowEqual from '@wordpress/is-shallow-equal';
+import isString from 'lodash/isString';
 
 /* WordPress dependencies */
 import { Component, Fragment } from '@wordpress/element';
@@ -230,6 +231,7 @@ export default class DirectionStep extends Component {
                 key={ relevantMedia.id }
                 alt={ relevantMedia.alt }
                 title={ relevantMedia.title }
+				style={ { width: '750px' } }
                 src={ relevantMedia.url }
             />
         );
@@ -290,6 +292,44 @@ export default class DirectionStep extends Component {
         const isSelectedText = isSelected && subElement === 'text';
         const stepClassName = ! isGroup ? 'direction-step' : 'direction-step direction-step-group';
 
+		let textValue = text;
+
+		if( ! isString( textValue ) ) {
+			
+			const defaultWidth = '750px';
+
+			textValue.forEach( item => {
+				if( item.type === 'img' && item.props ) {
+					let style = item.props.style;
+
+					// Object style
+					if ( typeof style === "object" && style !== null && "width" in style ) {
+						// Check if the object width is exactly "px"
+						if (/^\s*px\s*$/.test(style.width)) {
+						  style.width = defaultWidth; // Set default width
+						}
+						item.props.style = style ? `${style}; width: ${defaultWidth}` : `width: ${defaultWidth}`;
+					}
+
+					// String style
+					if ( typeof style === "string" ) {
+						if (/width:\s*px\s*;/.test(style)) {
+						  // Replace "width: px;" with the default width
+						  item.props.style = style.replace(/width:\s*px\s*;/, `width: ${defaultWidth};`);
+						}
+						if ( ! style || ! style.includes('width') ) {
+							item.props.style = style ? `${style}; width: ${defaultWidth}` : `width: ${defaultWidth}`;
+						}
+					}
+
+					// No style
+					if( ! style ) {
+						item.props.style = `width: ${defaultWidth}`;
+					}
+				}
+			} );
+		}
+
         return (
             <li className={ stepClassName } key={ id } tabIndex={0}>
                 {
@@ -299,7 +339,7 @@ export default class DirectionStep extends Component {
                         tagName="p"
                         unstableOnSetup={ this.setTextRef }
                         key={ `${ id }-text` }
-                        value={ text }
+                        value={ textValue }
                         onChange={ this.onChangeText }
                         placeholder={ __( 'Enter step description', 'recipe-card-blocks-by-wpzoom' ) }
                         unstableOnFocus={ this.onFocusText }
@@ -313,7 +353,7 @@ export default class DirectionStep extends Component {
                         tagName="p"
                         unstableOnSetup={ this.setTextRef }
                         key={ `${ id }-group-title` }
-                        value={ text }
+                        value={ textValue }
                         onChange={ this.onChangeGroupTitle }
                         placeholder={ __( 'Enter group title', 'recipe-card-blocks-by-wpzoom' ) }
                         unstableOnFocus={ this.onFocusText }
