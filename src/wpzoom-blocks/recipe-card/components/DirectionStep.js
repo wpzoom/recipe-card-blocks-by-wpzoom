@@ -235,12 +235,14 @@ export default class DirectionStep extends Component {
 
         let newText = text.slice();
 
-        const relevantMedia = pickRelevantMediaFiles( media, 'step' );
+        const relevantMedia = pickRelevantMediaFiles( media, 'step' );		
+
         const image = (
             <img
                 key={ relevantMedia.id }
                 alt={ relevantMedia.alt }
                 title={ relevantMedia.title }
+				style={ { width: '750px' } }
                 src={ relevantMedia.url }
                 className={ setting_options.wpzoom_rcb_settings_print_show_steps_image === '0' ? 'no-print' : '' }
             />
@@ -313,12 +315,52 @@ export default class DirectionStep extends Component {
 
         let textContent = text;
 
+
+
+
         if ( isString( textContent ) ) {
             // Converting HTML strings into React components
             textContent = ReactHtmlParser( text );
             textContent = deserializeAttributes( text );
         }
 		else {
+			const defaultWidth = '750px';
+
+			textContent.forEach( item => {
+			
+				if ( item.type === "img" && item.props ) {
+
+					let style = item.props.style;
+
+					// Object style
+					if ( typeof style === "object" && style !== null && "width" in style ) {
+						// Check if the object width is exactly "px"
+						if (/^\s*px\s*$/.test(style.width)) {
+						  style.width = defaultWidth; // Set default width
+						}
+						item.props.style = style ? `${style}; width: ${defaultWidth}` : `width: ${defaultWidth}`;
+						
+					}
+
+					// String style
+					if ( typeof style === "string" ) {
+						if (/width:\s*px\s*;/.test(style)) {
+						  // Replace "width: px;" with the default width
+						  item.props.style = style.replace(/width:\s*px\s*;/, `width: ${defaultWidth};`);
+						}
+						if ( ! style || ! style.includes('width') ) {
+							item.props.style = style ? `${style}; width: ${defaultWidth}` : `width: ${defaultWidth}`;
+						}
+					}
+
+					// No style
+					if( ! style ) {
+						item.props.style = `width: ${defaultWidth}`;
+					}
+				}
+				
+			});
+
             textContent = deserializeArray( textContent );
 		}
 

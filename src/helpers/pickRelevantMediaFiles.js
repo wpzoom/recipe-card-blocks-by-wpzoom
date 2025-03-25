@@ -10,11 +10,12 @@ export const pickRelevantMediaFiles = ( image, target ) => {
         sizes: null,
         alt: '',
         title: '',
+		style: { width: '750px' }
     };
     let imageProps;
 
     if ( image ) {
-        imageProps = pick( image, [ 'alt', 'id', 'link', 'caption', 'title' ] );
+        imageProps = pick( image, [ 'alt', 'id', 'link', 'caption', 'title', 'style' ] );
 
         const original = get( image, [ 'url' ] ) || get( image, [ 'source_url' ] );
         const wpzoom_rcb_block_step_image = get( image, [ 'sizes', 'wpzoom-rcb-block-step-image', 'url' ] ) || get( image, [ 'media_details', 'sizes', 'wpzoom-rcb-block-step-image', 'source_url' ] );
