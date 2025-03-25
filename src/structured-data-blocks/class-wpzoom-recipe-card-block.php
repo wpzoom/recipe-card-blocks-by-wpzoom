@@ -1422,6 +1422,10 @@ class WPZOOM_Recipe_Card_Block {
 
 						$image_width = WPZOOM_Settings::get( 'wpzoom_rcb_settings_steps_image_width' );
 
+						if ( empty( $img_style ) ) {
+							$img_style = 'style="width: ' . $image_width . 'px;"';
+						}
+
 						if ( preg_match( '/width:\s*px\s*;/', $img_style ) ) {
 							$img_style = preg_replace( '/width:\s*px\s*;/', 'width: ' . $image_width . 'px;', $img_style );
 						}
