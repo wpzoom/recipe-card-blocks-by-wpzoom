@@ -188,6 +188,10 @@
 		.direction-step-group-title {
 			font-weight: bold;
 		}
+
+        img {
+            pointer-events: all !important;
+        }
 	}
 	.direction-step-button-container {
 		display:none;
