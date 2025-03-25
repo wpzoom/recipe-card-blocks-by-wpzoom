@@ -312,7 +312,7 @@ export default class DirectionStep extends Component {
 						if (/^\s*px\s*$/.test(style.width)) {
 						  style.width = defaultWidth; // Set default width
 						}
-						item.props.style = style ? `${style}; width: ${defaultWidth}` : `width: ${defaultWidth}`;
+						item.props.style = `width: ${defaultWidth}`;
 					}
 
 					// String style
@@ -322,7 +322,7 @@ export default class DirectionStep extends Component {
 						  item.props.style = style.replace(/width:\s*px\s*;/, `width: ${defaultWidth};`);
 						}
 						if ( ! style || ! style.includes('width') ) {
-							item.props.style = style ? `${style}; width: ${defaultWidth}` : `width: ${defaultWidth}`;
+							item.props.style = `width: ${defaultWidth}`;
 						}
 					}
 

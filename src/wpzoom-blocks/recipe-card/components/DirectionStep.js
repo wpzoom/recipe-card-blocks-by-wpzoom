@@ -244,8 +244,8 @@ export default class DirectionStep extends Component {
                 key={ relevantMedia.id }
                 alt={ relevantMedia.alt }
                 title={ relevantMedia.title }
-				style={ { width: '750px' } }
                 src={ relevantMedia.url }
+				style={ { width: `${DefaultImageWidth}px` } }
                 className={ setting_options.wpzoom_rcb_settings_print_show_steps_image === '0' ? 'no-print' : '' }
             />
         );
@@ -317,9 +317,6 @@ export default class DirectionStep extends Component {
 
         let textContent = text;
 
-
-
-
         if ( isString( textContent ) ) {
             // Converting HTML strings into React components
             textContent = ReactHtmlParser( text );
@@ -329,8 +326,9 @@ export default class DirectionStep extends Component {
 			const defaultWidth = `${DefaultImageWidth}px`;
 
 			textContent.forEach( item => {
-			
-				if ( item.type === "img" && item.props ) {
+		
+
+				if ( item.type === 'img' && item.props ) {
 
 					let style = item.props.style;
 
@@ -340,18 +338,21 @@ export default class DirectionStep extends Component {
 						if (/^\s*px\s*$/.test(style.width)) {
 						  style.width = defaultWidth; // Set default width
 						}
-						item.props.style = style ? `${style}; width: ${defaultWidth}` : `width: ${defaultWidth}`;
+						item.props.style = `width: ${defaultWidth}`;
+					
 						
 					}
 
 					// String style
-					if ( typeof style === "string" ) {
-						if (/width:\s*px\s*;/.test(style)) {
+					if ( typeof style === "string" ) {						
+						if (/width:\s*px\s*/.test(style)) {
 						  // Replace "width: px;" with the default width
-						  item.props.style = style.replace(/width:\s*px\s*;/, `width: ${defaultWidth};`);
+						  item.props.style = style.replace(/width:\s*px\s*/, `width: ${defaultWidth};`);
+						  console.log( item.props.style );
 						}
+
 						if ( ! style || ! style.includes('width') ) {
-							item.props.style = style ? `${style}; width: ${defaultWidth}` : `width: ${defaultWidth}`;
+							item.props.style = `width: ${defaultWidth}`;
 						}
 					}
 

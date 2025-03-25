@@ -1420,6 +1420,13 @@ class WPZOOM_Recipe_Card_Block {
 						$class        .= ' direction-step-image';
 						$img_style     = isset( $node['props']['style'] ) ? $node['props']['style'] : '';
 
+						$image_width = WPZOOM_Settings::get( 'wpzoom_rcb_settings_steps_image_width' );
+
+						if ( preg_match( '/width:\s*px\s*;/', $img_style ) ) {
+							$img_style = preg_replace( '/width:\s*px\s*;/', 'width: ' . $image_width . 'px;', $img_style );
+						}
+
+
 						if ( empty( $title ) ) {
 							if ( isset( $attributes['recipeTitle'] ) ) {
 								$title = esc_html( wp_strip_all_tags( WPZOOM_Helpers::deserialize_block_attributes( $attributes['recipeTitle'] ) ) );
@@ -1432,6 +1439,7 @@ class WPZOOM_Recipe_Card_Block {
 
 						// Try to get attachment ID by image url if attribute `key` is not found in $node array
 						if ( ! $attachment_id ) {
+							
 							$new_src = $src;
 
 							$re = '/-\d+[Xx]\d+\./m';
@@ -1450,7 +1458,7 @@ class WPZOOM_Recipe_Card_Block {
 							if ( $attachment_id ) {
 								$attachment = wp_get_attachment_image(
 									$attachment_id,
-									'wpzoom_rcb_block_step_image',
+									'wpzoom-rcb-block-step-image',
 									false,
 									array(
 										'title' => $title,
@@ -1463,7 +1471,7 @@ class WPZOOM_Recipe_Card_Block {
 						} else {
 							$attachment = wp_get_attachment_image(
 								$attachment_id,
-								'wpzoom_rcb_block_step_image',
+								'wpzoom-rcb-block-step-image',
 								false,
 								array(
 									'title' => $title,
