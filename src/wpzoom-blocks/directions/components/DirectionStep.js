@@ -15,6 +15,10 @@ import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles'
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
+const { setting_options } = wpzoomRecipeCard;
+
+const DefaultImageWidth = setting_options.wpzoom_rcb_settings_steps_image_width || 750;
+
 /**
  * A Direction step within a Direction block.
  */
@@ -231,7 +235,7 @@ export default class DirectionStep extends Component {
                 key={ relevantMedia.id }
                 alt={ relevantMedia.alt }
                 title={ relevantMedia.title }
-				style={ { width: '750px' } }
+				style={ { width: `${DefaultImageWidth}px` } }
                 src={ relevantMedia.url }
             />
         );
@@ -296,7 +300,7 @@ export default class DirectionStep extends Component {
 
 		if( ! isString( textValue ) ) {
 			
-			const defaultWidth = '750px';
+			const defaultWidth = `${DefaultImageWidth}px`;
 
 			textValue.forEach( item => {
 				if( item.type === 'img' && item.props ) {

@@ -658,6 +658,18 @@ class WPZOOM_Settings {
 									'type'        => 'text',
 								),
 							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_steps_image_width',
+								'title' => __( 'Directions Image Width', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'input',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_steps_image_width',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Add max image width for new or existing Recipe Cards.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => 750,
+									'type'        => 'number',
+								),
+							),
 
                             array(
                                 'id'    => 'wpzoom_rcb_settings_cta_delimiter_eq',

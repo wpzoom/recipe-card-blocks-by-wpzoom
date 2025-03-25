@@ -21,6 +21,8 @@ import { RichText, MediaUpload } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 const { setting_options } = wpzoomRecipeCard;
 
+const DefaultImageWidth = setting_options.wpzoom_rcb_settings_steps_image_width || 750;
+
 /* Module constants */
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
@@ -324,7 +326,7 @@ export default class DirectionStep extends Component {
             textContent = deserializeAttributes( text );
         }
 		else {
-			const defaultWidth = '750px';
+			const defaultWidth = `${DefaultImageWidth}px`;
 
 			textContent.forEach( item => {
 			
