@@ -1526,7 +1526,7 @@ class WPZOOM_Recipe_Card_Block {
 			}
 		}
 
-		return wp_kses_post( $output );
+		return $output;
 	}
 
 	public static function wrap_ingredient_name( $nodes, $type = '' ) {

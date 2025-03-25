@@ -80,6 +80,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 			fly_add_image_size( 'wpzoom-rcb-block-header', 800, 530, true );
 			fly_add_image_size( 'wpzoom-rcb-block-header-square', 530, 530, true );
 			fly_add_image_size( 'wpzoom-rcb-block-step-image', 750 );
+			fly_add_image_size( 'wpzoom-rcb-block-step-image@2x', 1500 );
 
 			// Add image size for recipe Schema.org markup
 			fly_add_image_size( 'wpzoom-rcb-structured-data-1_1', 500, 500, true );
@@ -89,6 +90,7 @@ final class WPZOOM_Recipe_Card_Block_Gutenberg {
 			add_image_size( 'wpzoom-rcb-block-header', 800, 530, true );
 			add_image_size( 'wpzoom-rcb-block-header-square', 530, 530, true );
 			add_image_size( 'wpzoom-rcb-block-step-image', 750 );
+			add_image_size( 'wpzoom-rcb-block-step-image@2x', 1500 );
 
 			// Add image size for recipe Schema.org markup
 			add_image_size( 'wpzoom-rcb-structured-data-1_1', 500, 500, true );
