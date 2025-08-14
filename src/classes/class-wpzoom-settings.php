@@ -105,7 +105,7 @@ class WPZOOM_Settings {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'save_generated_image' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array($this, 'rest_permission_upload'),
 			)
 		);
 		register_rest_route(
@@ -113,7 +113,7 @@ class WPZOOM_Settings {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'update_credits' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array($this, 'rest_permission_edit'),
 			)
 		);
 		register_rest_route(
@@ -121,7 +121,7 @@ class WPZOOM_Settings {
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_credits' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array($this, 'rest_permission_edit'),
 			)
 		);
 		register_rest_route(
@@ -129,9 +129,25 @@ class WPZOOM_Settings {
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_license_data' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array($this, 'rest_permission_edit'),
 			)
 		);
+	}
+
+	/**
+	 * Permission callback for routes that require content editing capability.
+	 */
+	public function rest_permission_edit($request)
+	{
+		return is_user_logged_in() && current_user_can('edit_posts');
+	}
+
+	/**
+	 * Permission callback for routes that require media upload capability.
+	 */
+	public function rest_permission_upload($request)
+	{
+		return is_user_logged_in() && current_user_can('upload_files');
 	}
 
 	/**
@@ -145,18 +161,26 @@ class WPZOOM_Settings {
 	 * Update credits
 	 */
 	public function update_credits( $request ) {
-		$params = $request->get_params();
+		$params = $request->get_json_params();
 
 		$credits_data = get_option( 'wpzoom_credits', [] );
-		if( isset( $params['free_credits'] ) ) {
-			$credits_data['free_credits'] = $params['free_credits'];
+		if (!is_array($credits_data)) {
+			$credits_data = [];
 		}
-		$credits_data['remaining'] = $params['remaining'];
-		$credits_data['total'] = $params['total'];
+
+		if (isset($params['free_credits'])) {
+			$credits_data['free_credits'] = absint($params['free_credits']);
+		}
+		if (isset($params['remaining'])) {
+			$credits_data['remaining'] = absint($params['remaining']);
+		}
+		if (isset($params['total'])) {
+			$credits_data['total'] = absint($params['total']);
+		}
 
 		update_option( 'wpzoom_credits', $credits_data );
 
-		return $params;
+		return rest_ensure_response($credits_data);
 	}
 
 	public function get_license_data() {

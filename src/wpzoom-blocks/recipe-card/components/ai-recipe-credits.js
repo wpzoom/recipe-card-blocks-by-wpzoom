@@ -49,6 +49,10 @@ const AIRecipeCredits = ( props ) => {
                 apiFetch( {
                     path: '/wpzoomRCB/v1/getCredits',
                     method: 'GET',
+                    headers: {
+                        'X-WP-Nonce': wpzoomRecipeCard.api_nonce,
+                    },
+                    credentials: 'same-origin',
                 } )
                     .then( data => {
                         setCredits( data.remaining || 0 );

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import CustomToast from '../toast';
 import { __ } from '@wordpress/i18n';
 
-const { siteURL, storeURL } = wpzoomRecipeCard;
+const { restURL } = wpzoomRecipeCard;
 
 const RegenerateButton = ( props ) => {
     const prompts = props.message;
@@ -61,7 +61,12 @@ const RegenerateButton = ( props ) => {
             setIsPopoverVisible( false );
 
             let licenseData = {};
-            await fetch( `${siteURL}/wp-json/wpzoomRCB/v1/getLicenseData` )
+            await fetch(`${restURL}wpzoomRCB/v1/getLicenseData`, {
+                headers: {
+                    'X-WP-Nonce': wpzoomRecipeCard.api_nonce,
+                },
+                credentials: 'same-origin',
+            })
                 .then( response => response.json() )
                 .then( data => {
                     licenseData = data;
@@ -131,11 +136,15 @@ const RegenerateButton = ( props ) => {
                     return false;
                 }
                 if ( props.type === 'image' ) {
-                    await fetch( `${siteURL}/wp-json/wpzoomRCB/v1/saveGeneratedImage`, {
-                        method: 'POST', headers: {
+                    await fetch(`${restURL}wpzoomRCB/v1/saveGeneratedImage`, {
+                        method: 'POST',
+                        headers: {
                             'Content-Type': 'application/json',
-                        }, body: JSON.stringify( imgData ),
-                    } )
+                            'X-WP-Nonce': wpzoomRecipeCard.api_nonce,
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(imgData),
+                    })
                         .then( response => response.json() )
                         .then( data => {
                             imgData = data;
@@ -145,11 +154,15 @@ const RegenerateButton = ( props ) => {
                         } );
                 }
                 if ( responseData.credits ) {
-                    await fetch( `${siteURL}/wp-json/wpzoomRCB/v1/updateCredits`, {
-                        method: 'POST', headers: {
+                    await fetch(`${restURL}wpzoomRCB/v1/updateCredits`, {
+                        method: 'POST',
+                        headers: {
                             'Content-Type': 'application/json',
-                        }, body: JSON.stringify( responseData.credits ),
-                    } );
+                            'X-WP-Nonce': wpzoomRecipeCard.api_nonce,
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(responseData.credits),
+                    });
                 }
                 setError( false );
                 setSuccess( true );
