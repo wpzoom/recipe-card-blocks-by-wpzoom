@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: 3.4.7
+Stable tag: 3.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,7 +97,6 @@ Inspired by our popular food blog theme [Foodica](https://www.wpzoom.com/themes/
 * New Feature: Ingredients and Directions **Groups**: you can now organize in **sub-sections** ingredients and directions
 * New Feature: **Bulk Add**. You can add ingredients and directions by inserting more entries at once.
 
-
 = 📌 WHAT'S NEW IN 2.0? =
 * New Block with **Schema Markup**: **Recipe Card Block (schema.org)**
 * Now you can use a single block to create a recipe card. You don't have to add any more blocks like Ingredients or Directions separately.
@@ -166,6 +165,9 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 
 
 == Changelog ==
+
+= 3.4.8 =
+* Improvements to the Recipe AI Generator
 
 = 3.4.7 =
 * CSS bug fix
