@@ -113,7 +113,7 @@ class WPZOOM_Settings {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'update_credits' ),
-				'permission_callback' => array($this, 'rest_permission_edit'),
+				'permission_callback' => array($this, 'rest_permission_admin'),
 			)
 		);
 		register_rest_route(
@@ -121,7 +121,7 @@ class WPZOOM_Settings {
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_credits' ),
-				'permission_callback' => array($this, 'rest_permission_edit'),
+				'permission_callback' => array($this, 'rest_permission_admin'),
 			)
 		);
 		register_rest_route(
@@ -129,17 +129,9 @@ class WPZOOM_Settings {
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_license_data' ),
-				'permission_callback' => array($this, 'rest_permission_edit'),
+				'permission_callback' => array($this, 'rest_permission_admin'),
 			)
 		);
-	}
-
-	/**
-	 * Permission callback for routes that require content editing capability.
-	 */
-	public function rest_permission_edit($request)
-	{
-		return is_user_logged_in() && current_user_can('edit_posts');
 	}
 
 	/**
@@ -148,6 +140,14 @@ class WPZOOM_Settings {
 	public function rest_permission_upload($request)
 	{
 		return is_user_logged_in() && current_user_can('upload_files');
+	}
+
+	/**
+	 * Permission callback for admin-only routes.
+	 */
+	public function rest_permission_admin($request)
+	{
+		return is_user_logged_in() && current_user_can('manage_options');
 	}
 
 	/**
