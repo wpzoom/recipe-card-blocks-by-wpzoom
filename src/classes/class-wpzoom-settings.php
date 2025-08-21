@@ -986,9 +986,9 @@ class WPZOOM_Settings {
 									'description' => esc_html__( 'Default template to use for all Recipe Cards.', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => 'default',
 									'options'     => array(
-										'default'   => __( 'Default', 'recipe-card-blocks-by-wpzoom' ),
-										'newdesign' => __( 'New Design', 'recipe-card-blocks-by-wpzoom' ),
-										'simple'    => __( 'Simple Design', 'recipe-card-blocks-by-wpzoom' ),
+										'default'   => __( 'Modern', 'recipe-card-blocks-by-wpzoom' ),
+										'newdesign' => __( 'Amber', 'recipe-card-blocks-by-wpzoom' ),
+										'simple'    => __( 'Clean', 'recipe-card-blocks-by-wpzoom' ),
 									),
 								),
 							),

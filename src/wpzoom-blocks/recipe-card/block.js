@@ -72,17 +72,17 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         // Mark style as default.
         {
             name: 'default',
-            label: __( 'Default', 'recipe-card-blocks-by-wpzoom' ),
+            label: __( 'Modern', 'recipe-card-blocks-by-wpzoom' ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'default',
         },
         {
             name: 'newdesign',
-            label: __( 'New Design', 'recipe-card-blocks-by-wpzoom' ),
+            label: __( 'Amber', 'recipe-card-blocks-by-wpzoom' ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'newdesign',
         },
         {
             name: 'simple',
-            label: __( 'Simple Design', 'recipe-card-blocks-by-wpzoom' ),
+            label: __( 'Clean', 'recipe-card-blocks-by-wpzoom' ),
             isDefault: setting_options.wpzoom_rcb_settings_template === 'simple',
         },
     ],

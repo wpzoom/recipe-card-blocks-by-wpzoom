@@ -117,7 +117,7 @@
 }
 .toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a:hover,
 .toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li a:focus {
-    color: #2271b1;
+    color: #e15819;
 }
 .toplevel_page_wpzoom-recipe-card-settings ul.wp-tab-bar li.wp-tab-active {
     box-shadow: none;
@@ -2144,7 +2144,7 @@ div.wp-tab-panel-inactive {
 }
 
 .wpz-rcb_onboard_wrapper .wpz-onboard_footer .wpz-onboard_footer-links li a:hover {
-    color: #2271b1;
+    color: #e15819;
 }
 
 

@@ -1089,15 +1089,15 @@ class Recipe_Card extends Widget_Base {
 				'default' => 'is-style-default',
 				'options' => array(
 					'is-style-default' => array(
-						'label' => esc_html__( 'Default', 'recipe-card-blocks-by-wpzoom' ),
+						'label' => esc_html__( 'Modern', 'recipe-card-blocks-by-wpzoom' ),
 						'image' => WPZOOM_RCB_PLUGIN_URL . 'elementor/assets/images/examples/rcb-example-default.png'
 					),
 					'is-style-simple'  => array(
-						'label' => esc_html__( 'Simple', 'recipe-card-blocks-by-wpzoom' ),
+						'label' => esc_html__( 'Clean', 'recipe-card-blocks-by-wpzoom' ),
 						'image' => WPZOOM_RCB_PLUGIN_URL . 'elementor/assets/images/examples/rcb-example-classic.png'
 					),
 					'is-style-newdesign' => array(
-						'label' => esc_html__( 'New Design', 'recipe-card-blocks-by-wpzoom' ),
+						'label' => esc_html__( 'Amber', 'recipe-card-blocks-by-wpzoom' ),
 						'image' => WPZOOM_RCB_PLUGIN_URL . 'elementor/assets/images/examples/rcb-example-new-design.png'
 					)
 				),

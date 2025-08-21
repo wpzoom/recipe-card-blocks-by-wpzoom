@@ -655,7 +655,7 @@
   background: var(--main-color, #E1581A);
 
   &:hover {
-    background-color: darken($secondary-color, 10%);
+    background-color: darken($secondary-color, 10%) !important;
   }
 
   span {
@@ -1000,12 +1000,16 @@ button.components-button.activate-license
   border-radius: 3px;
   font-size: 15px;
   height: 40px;
-  margin-top: 80px;
+  margin-top: 20px;
   text-align: center;
   padding: 10px;
 }
 .components-button.buyMore:active {
     color: #fff;
+}
+
+.components-button.buyMore:hover {
+     background-color: #000 !important;
 }
 .popup-content-error a.activate-license,
 button.components-button.activate-license

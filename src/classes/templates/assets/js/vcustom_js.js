@@ -49,6 +49,9 @@ document.addEventListener( 'DOMContentLoaded', function() {
             event.preventDefault(); // Prevent the default action of the link
             showLoader();
             
+            // Add rotating class to the button
+            refreshBtn.classList.add( 'rotating' );
+            
             const requestBody = {
                 action: 'refresh_ai_credits',
                 nonce: userParams.refreshCreditsScoreNonce,
@@ -70,11 +73,15 @@ document.addEventListener( 'DOMContentLoaded', function() {
                         console.error( 'Unexpected response:', data );
                     }
                     hideLoader();
+                    // Remove rotating class after request completes
+                    refreshBtn.classList.remove( 'rotating' );
                 },
                 error: function( xhr, status, error ) {
                     // Handle errors
                     console.error( 'There was a problem with the AJAX request:', error );
                     hideLoader();
+                    // Remove rotating class after request completes
+                    refreshBtn.classList.remove( 'rotating' );
                 },
             } );
 
