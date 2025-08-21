@@ -309,7 +309,7 @@ const RegenerateButton = ( props ) => {
                     </div>
                     <h4>There are no AI Credits left</h4>
                     <p className="ai-p">Refill your balance for uninterrupted access to AI Recipe Generator functionalities.</p>
-                    <span className="ai-error"><a href="#">Learn more about AI Recipe Generator</a></span>
+                    <span className="ai-error"><a href="https://recipecard.io/ai-recipe-generator/" target="_blank">Learn more about AI Recipe Generator</a></span>
                     <Button className="try-again ai-error" target="_blank" href="https://recipecard.io/account/ai-credits/">
                         <span className="btn-text">Buy more Al credits</span>
                     </Button>
