@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import CustomToast from '../toast';
 import { __ } from '@wordpress/i18n';
 
-const { restURL } = wpzoomRecipeCard;
+const { restURL, siteURL } = wpzoomRecipeCard;
 
 const RegenerateButton = ( props ) => {
     const prompts = props.message;

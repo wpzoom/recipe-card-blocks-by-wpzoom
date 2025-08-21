@@ -16,7 +16,7 @@ import { useDispatch } from '@wordpress/data';
 import { STORE_KEY } from './store'; // Import the store key
 import { useRecipeDataActions } from './store';
 
-const { restURL, storeURL } = wpzoomRecipeCard;
+const { restURL, storeURL, siteURL } = wpzoomRecipeCard;
 
 const ButtonBox = ( props ) => {
     const prompts = props.prompts;
