@@ -32,6 +32,7 @@ class Nutrition extends Component {
 
         this.preFillData = this.preFillData.bind( this );
         this.onChangeData = this.onChangeData.bind( this );
+        this.onChangeSettings = this.onChangeSettings.bind( this );
 
         this.state = {
             isDataPreFill: false,
@@ -99,11 +100,10 @@ class Nutrition extends Component {
             },
         } = this.props;
 
-        const newData = settings || {};
+        const newSettings = { ...( settings || {} ) };
+        newSettings[ index ] = newValue;
 
-        newData[ index ] = newValue;
-
-        setAttributes( { settings: { ...newData } } );
+        setAttributes( { settings: newSettings } );
     }
 
     getValue( label_id ) {
@@ -546,20 +546,38 @@ class Nutrition extends Component {
                 <div className={ `${ blockClassName }-information` }>
                     <h3>{ __( 'Nutrition Information', 'recipe-card-blocks-by-wpzoom' ) }</h3>
                     { this.drawNutritionLabels() }
+                    <Button
+                        className={ `${ blockClassName }-reload-values` }
+                        title={ __( 'Sync servings and calories from Recipe Card block. Only works if you have a Recipe Card block on the same page.', 'recipe-card-blocks-by-wpzoom' ) }
+                        isSecondary
+                        onClick={ () => this.setState( { reloadValues: true, isDataPreFill: false } ) }
+                    >
+                        { __( 'Reload Values', 'recipe-card-blocks-by-wpzoom' ) }
+                    </Button>
+                    <p style={ { fontSize: '12px', fontStyle: 'italic', color: '#757575', marginTop: '8px' } }>
+                        { __( 'Note: This button syncs servings and calories from the Recipe Card block (if present on the page).', 'recipe-card-blocks-by-wpzoom' ) }
+                    </p>
+                    <div style={ { marginTop: '16px', padding: '12px', backgroundColor: '#f0f6fc', border: '1px solid #c3dcf3', borderRadius: '4px' } }>
+                        <p style={ { margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600' } }>
+                            { __( '💡 Need help calculating nutrition values?', 'recipe-card-blocks-by-wpzoom' ) }
+                        </p>
+                        <p style={ { margin: '0 0 8px 0', fontSize: '12px', lineHeight: '1.5' } }>
+                            { __( 'Use our Recipe Nutrition Analyzer to automatically calculate all nutrition facts for your recipes!', 'recipe-card-blocks-by-wpzoom' ) }
+                        </p>
+                        <a
+                            href="https://recipecard.io/recipe-nutrition-analyzer/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={ { display: 'inline-block', padding: '6px 12px', backgroundColor: '#2271b1', color: '#fff', textDecoration: 'none', borderRadius: '3px', fontSize: '12px', fontWeight: '500' } }
+                        >
+                            { __( 'Try Recipe Analyzer →', 'recipe-card-blocks-by-wpzoom' ) }
+                        </a>
+                    </div>
                 </div>
                 <div className={ blockClassName }>
                     { this.drawNutritionFacts() }
                     <p className="nutrition-facts-daily-value-text">* { __( 'The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.', 'recipe-card-blocks-by-wpzoom' ) }</p>
                 </div>
-                <Button
-                    className={ `${ blockClassName }-reload-values` }
-                    title={ __( 'In case you made some changes to Recipe Card, press button to Reload values.', 'recipe-card-blocks-by-wpzoom' ) }
-                    isDefault
-                    isLarge
-                    onClick={ () => this.setState( { reloadValues: true, isDataPreFill: false } ) }
-                >
-                    { __( 'Reload Values', 'recipe-card-blocks-by-wpzoom' ) }
-                </Button>
                 <InspectorControls>
                     <PanelBody className={ `${ blockClassName }-settings` } initialOpen={ true } title={ __( 'Nutrition Settings', 'recipe-card-blocks-by-wpzoom' ) }>
                         <SelectControl
@@ -571,6 +589,22 @@ class Nutrition extends Component {
                             ] }
                             onChange={ newValue => this.onChangeSettings( newValue, 'layout-orientation' ) }
                         />
+                        <div style={ { marginTop: '16px', padding: '12px', backgroundColor: '#f0f6fc', border: '1px solid #c3dcf3', borderRadius: '4px' } }>
+                            <p style={ { margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600' } }>
+                                { __( '💡 Quick Tip', 'recipe-card-blocks-by-wpzoom' ) }
+                            </p>
+                            <p style={ { margin: '0 0 8px 0', fontSize: '12px', lineHeight: '1.5' } }>
+                                { __( 'Save time by using our Recipe Nutrition Analyzer to automatically calculate all nutrition values.', 'recipe-card-blocks-by-wpzoom' ) }
+                            </p>
+                            <a
+                                href="https://recipecard.io/recipe-nutrition-analyzer/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={ { color: '#2271b1', textDecoration: 'none', fontSize: '12px', fontWeight: '500' } }
+                            >
+                                { __( 'Try Recipe Analyzer →', 'recipe-card-blocks-by-wpzoom' ) }
+                            </a>
+                        </div>
                     </PanelBody>
                 </InspectorControls>
             </div>

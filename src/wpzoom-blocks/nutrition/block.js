@@ -51,6 +51,22 @@ registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
         __( 'Nutrition', 'recipe-card-blocks-by-wpzoom' ),
         __( 'WPZOOM', 'recipe-card-blocks-by-wpzoom' ),
     ],
+    attributes: {
+        id: {
+            type: 'string',
+            default: 'wpzoom-recipe-nutrition',
+        },
+        data: {
+            type: 'object',
+            default: {},
+        },
+        settings: {
+            type: 'object',
+            default: {
+                'layout-orientation': 'vertical',
+            },
+        },
+    },
 
     /**
      * The edit function describes the structure of your block in the context of the editor.

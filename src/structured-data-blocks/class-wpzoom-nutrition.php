@@ -101,7 +101,7 @@ class WPZOOM_Nutrition_Block {
 			'settings' => array(
 				'type'    => 'object',
 				'default' => array(
-					'layout-orientation' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_nutrition_layout' ),
+					'layout-orientation' => 'vertical',
 				),
 			),
 		);
@@ -132,8 +132,8 @@ class WPZOOM_Nutrition_Block {
 		// Import variables into the current symbol table from an array
 		extract( $attributes );
 
-		self::$data       = $data;
-		self::$settings   = $settings;
+		self::$data       = isset( $data ) ? $data : array();
+		self::$settings   = isset( $settings ) ? $settings : array( 'layout-orientation' => 'vertical' );
 		self::$attributes = $attributes;
 
 		$class     = 'wp-block-wpzoom-recipe-card-block-nutrition';
@@ -475,7 +475,7 @@ class WPZOOM_Nutrition_Block {
 			array(
 				'id'    => 'total-fat',
 				'label' => esc_html__( 'Total Fat', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 65,
+				'pdv'   => 78,
 			),
 			array(
 				'id'    => 'saturated-fat',
@@ -494,22 +494,22 @@ class WPZOOM_Nutrition_Block {
 			array(
 				'id'    => 'sodium',
 				'label' => esc_html__( 'Sodium', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 2400,
+				'pdv'   => 2300,
 			),
 			array(
 				'id'    => 'potassium',
 				'label' => esc_html__( 'Potassium', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 3500,
+				'pdv'   => 4700,
 			),
 			array(
 				'id'    => 'total-carbohydrate',
 				'label' => esc_html__( 'Total Carbohydrate', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 300,
+				'pdv'   => 275,
 			),
 			array(
 				'id'    => 'dietary-fiber',
 				'label' => esc_html__( 'Dietary Fiber', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 25,
+				'pdv'   => 28,
 			),
 			array(
 				'id'    => 'sugars',
