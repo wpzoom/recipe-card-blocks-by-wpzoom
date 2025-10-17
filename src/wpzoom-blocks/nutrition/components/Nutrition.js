@@ -125,16 +125,26 @@ class Nutrition extends Component {
         return get( labels, [ key, 'pdv' ] );
     }
 
+    getUnit( label_id ) {
+        const key = findKey( labels, function( o ) {
+            return o.id === label_id;
+        } );
+        return get( labels, [ key, 'unit' ] ) || '';
+    }
+
     drawNutritionLabels() {
         const { id, data } = this.props.attributes;
 
         return labels.map( ( label, index ) => {
+            // Serving size field accepts text, others remain numeric
+            const inputType = label.id === 'serving-size' ? 'text' : 'number';
+
             return (
                 <TextControl
                     key={ index }
                     id={ `${ id }-${ label.id }` }
                     instanceId={ `${ id }-${ label.id }` }
-                    type="number"
+                    type={ inputType }
                     label={ label.label }
                     value={ get( data, label.id ) }
                     onChange={ newValue => this.onChangeData( newValue, label.id ) }
@@ -149,7 +159,8 @@ class Nutrition extends Component {
         return labels.map( ( label, index ) => {
             const value = get( data, label.id );
 
-            if ( index <= 12 ) {
+            // Skip first 14 items (up to protein) and added-sugars (nested under sugars)
+            if ( index <= 13 || label.id === 'added-sugars' ) {
                 return;
             }
 
@@ -157,11 +168,25 @@ class Nutrition extends Component {
                 return;
             }
 
-            return (
-                <li key={ index }>
-                    <strong>{ label.label } <span className="nutrition-facts-right"><span className="nutrition-facts-percent nutrition-facts-label">{ value }</span>%</span></strong>
-                </li>
-            );
+            const pdv = label.pdv || 0;
+            const unit = label.unit || '';
+
+            // Calculate percentage if PDV is defined
+            if ( pdv ) {
+                const percentage = ceil( ( parseFloat( value ) / pdv ) * 100 );
+                return (
+                    <li key={ index }>
+                        <strong>{ label.label } <span className="nutrition-facts-label">{ value }</span><span className="nutrition-facts-label">{ unit }</span> <span className="nutrition-facts-right"><span className="nutrition-facts-percent">{ percentage }</span>%</span></strong>
+                    </li>
+                );
+            } else {
+                // Fallback: display value as-is if no PDV defined
+                return (
+                    <li key={ index }>
+                        <strong>{ label.label } <span className="nutrition-facts-right"><span className="nutrition-facts-percent nutrition-facts-label">{ value }</span>%</span></strong>
+                    </li>
+                );
+            }
         } );
     }
 
@@ -182,7 +207,7 @@ class Nutrition extends Component {
                         this.getValue( 'serving-size' ) &&
                         <Fragment>
                             <strong className="nutrition-facts-serving-size">{ this.getLabelTitle( 'serving-size' ) }</strong>
-                            <strong className="nutrition-facts-label nutrition-facts-right">{ this.getValue( 'serving-size' ) }{ __( 'g', 'recipe-card-blocks-by-wpzoom' ) }</strong>
+                            <strong className="nutrition-facts-label nutrition-facts-right">{ this.getValue( 'serving-size' ) }</strong>
                         </Fragment>
                     }
                 </p>
@@ -287,6 +312,14 @@ class Nutrition extends Component {
                                     <Fragment>
                                         <strong className="nutrition-facts-label">{ this.getLabelTitle( 'sugars' ) }</strong>
                                         <strong className="nutrition-facts-label"> { this.getValue( 'sugars' ) } </strong><strong className="nutrition-facts-label">{ __( 'g', 'recipe-card-blocks-by-wpzoom' ) }</strong>
+                                        {
+                                            this.getValue( 'added-sugars' ) &&
+                                            <div style={ { paddingLeft: '1em' } }>
+                                                <strong className="nutrition-facts-label">{ this.getLabelTitle( 'added-sugars' ) } </strong>
+                                                <strong className="nutrition-facts-label">{ this.getValue( 'added-sugars' ) }</strong><strong className="nutrition-facts-label">{ __( 'g', 'recipe-card-blocks-by-wpzoom' ) }</strong>
+                                                <strong className="nutrition-facts-right"><span className="nutrition-facts-percent">{ ceil( ( this.getValue( 'added-sugars' ) / this.getPDV( 'added-sugars' ) ) * 100 ) }</span>%</strong>
+                                            </div>
+                                        }
                                     </Fragment>
                                 }
                             </li>
@@ -329,7 +362,7 @@ class Nutrition extends Component {
                             this.getValue( 'serving-size' ) &&
                             <Fragment>
                                 <strong className="nutrition-facts-serving-size">{ this.getLabelTitle( 'serving-size' ) }</strong>
-                                <strong className="nutrition-facts-label nutrition-facts-right">{ this.getValue( 'serving-size' ) }{ __( 'g', 'recipe-card-blocks-by-wpzoom' ) }</strong>
+                                <strong className="nutrition-facts-label nutrition-facts-right">{ this.getValue( 'serving-size' ) }</strong>
                             </Fragment>
                         }
                     </p>
@@ -448,6 +481,14 @@ class Nutrition extends Component {
                                         <Fragment>
                                             <strong className="nutrition-facts-label">{ this.getLabelTitle( 'sugars' ) }</strong>
                                             <strong className="nutrition-facts-label"> { this.getValue( 'sugars' ) }</strong><strong className="nutrition-facts-label">{ __( 'g', 'recipe-card-blocks-by-wpzoom' ) }</strong>
+                                            {
+                                                this.getValue( 'added-sugars' ) &&
+                                                <div style={ { paddingLeft: '1em' } }>
+                                                    <strong className="nutrition-facts-label">{ this.getLabelTitle( 'added-sugars' ) } </strong>
+                                                    <strong className="nutrition-facts-label">{ this.getValue( 'added-sugars' ) }</strong><strong className="nutrition-facts-label">{ __( 'g', 'recipe-card-blocks-by-wpzoom' ) }</strong>
+                                                    <strong className="nutrition-facts-right"><span className="nutrition-facts-percent">{ ceil( ( this.getValue( 'added-sugars' ) / this.getPDV( 'added-sugars' ) ) * 100 ) }</span>%</strong>
+                                                </div>
+                                            }
                                         </Fragment>
                                     }
                                 </li>

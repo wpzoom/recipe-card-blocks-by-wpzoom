@@ -42,9 +42,9 @@ registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
         src: icon,
     },
     category: 'wpzoom-recipe-card', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-    // Allow only one Premium Recipe Card block per post.
+    // Allow multiple Nutrition blocks per post.
     supports: {
-        multiple: false,
+        multiple: true,
     },
     keywords: [
         __( 'Recipe Card', 'recipe-card-blocks-by-wpzoom' ),

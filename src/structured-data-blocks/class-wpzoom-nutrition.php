@@ -172,11 +172,22 @@ class WPZOOM_Nutrition_Block {
 		foreach ( self::$labels as $key => $label ) {
 			$value = isset( self::$data[ $label['id'] ] ) && ! empty( self::$data[ $label['id'] ] ) ? self::$data[ $label['id'] ] : false;
 
-			if ( $key <= 12 || ! $value ) {
+			// Skip first 13 items (up to protein) and added-sugars (nested under sugars)
+			if ( $key <= 13 || ! $value || $label['id'] === 'added-sugars' ) {
 				continue;
 			}
 
-			$output .= '<li><strong>' . esc_html( $label['label'] ) . ' <span class="nutrition-facts-right"><span class="nutrition-facts-percent nutrition-facts-label">' . floatval( $value ) . '</span>%</span></strong></li>';
+			$pdv  = self::get_label_pdv( $label['id'] );
+			$unit = self::get_label_unit( $label['id'] );
+
+			// Calculate percentage if PDV is defined
+			if ( $pdv ) {
+				$percentage = ceil( ( floatval( $value ) / $pdv ) * 100 );
+				$output    .= '<li><strong>' . esc_html( $label['label'] ) . ' <span class="nutrition-facts-label">' . floatval( $value ) . '</span><span class="nutrition-facts-label">' . $unit . '</span> <span class="nutrition-facts-right"><span class="nutrition-facts-percent">' . $percentage . '</span>%</span></strong></li>';
+			} else {
+				// Fallback: display value as-is if no PDV defined
+				$output .= '<li><strong>' . esc_html( $label['label'] ) . ' <span class="nutrition-facts-right"><span class="nutrition-facts-percent nutrition-facts-label">' . floatval( $value ) . '</span>%</span></strong></li>';
+			}
 		}
 
 		return $output;
@@ -196,7 +207,7 @@ class WPZOOM_Nutrition_Block {
 			$output .= '<p><span class="nutrition-facts-serving">' . sprintf( esc_html__( '%s servings per container', 'recipe-card-blocks-by-wpzoom' ), floatval( self::$data['servings'] ) ) . '</span></p>';
 		}
 		if ( isset( self::$data['serving-size'] ) && ! empty( self::$data['serving-size'] ) ) {
-			$output .= '<p><strong class="nutrition-facts-serving-size">' . self::get_label_title( 'serving-size' ) . '</strong><strong class="nutrition-facts-label nutrition-facts-right">' . floatval( self::$data['serving-size'] ) . $measurements['g'] . '</strong></p>';
+			$output .= '<p><strong class="nutrition-facts-serving-size">' . self::get_label_title( 'serving-size' ) . '</strong><strong class="nutrition-facts-label nutrition-facts-right">' . esc_html( self::$data['serving-size'] ) . '</strong></p>';
 		}
 
 		$output .= '<hr class="nutrition-facts-hr"/>';
@@ -278,6 +289,13 @@ class WPZOOM_Nutrition_Block {
 				$output .= '<li>';
 				$output .= '<strong class="nutrition-facts-label">' . self::get_label_title( 'sugars' ) . '</strong>
 		                    <strong class="nutrition-facts-label">' . floatval( self::$data['sugars'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>';
+				if ( isset( self::$data['added-sugars'] ) && ! empty( self::$data['added-sugars'] ) ) {
+					$output .= '<div style="padding-left: 1em;">';
+					$output .= '<strong class="nutrition-facts-label">' . self::get_label_title( 'added-sugars' ) . ' </strong>';
+					$output .= '<strong class="nutrition-facts-label">' . floatval( self::$data['added-sugars'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>';
+					$output .= '<strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['added-sugars'] ) / self::get_label_pdv( 'added-sugars' ) ) * 100 ) . '</span>%</strong>';
+					$output .= '</div>';
+				}
 				$output .= '</li>';
 			}
 
@@ -316,7 +334,7 @@ class WPZOOM_Nutrition_Block {
 			$output .= '<p><span class="nutrition-facts-serving">' . sprintf( esc_html__( '%s servings per container', 'recipe-card-blocks-by-wpzoom' ), self::$data['servings'] ) . '</span></p>';
 		}
 		if ( isset( self::$data['serving-size'] ) && ! empty( self::$data['serving-size'] ) ) {
-			$output .= '<p><strong class="nutrition-facts-serving-size">' . self::get_label_title( 'serving-size' ) . '</strong><strong class="nutrition-facts-label nutrition-facts-right">' . floatval( self::$data['serving-size'] ) . $measurements['g'] . '</strong></p>';
+			$output .= '<p><strong class="nutrition-facts-serving-size">' . self::get_label_title( 'serving-size' ) . '</strong><strong class="nutrition-facts-label nutrition-facts-right">' . esc_html( self::$data['serving-size'] ) . '</strong></p>';
 		}
 
 		$output .= '<hr class="nutrition-facts-hr"/>';
@@ -410,6 +428,13 @@ class WPZOOM_Nutrition_Block {
 				$output .= '<li>';
 				$output .= '<strong class="nutrition-facts-label">' . self::get_label_title( 'sugars' ) . '</strong>
 		                    <strong class="nutrition-facts-label">' . floatval( self::$data['sugars'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>';
+				if ( isset( self::$data['added-sugars'] ) && ! empty( self::$data['added-sugars'] ) ) {
+					$output .= '<div style="padding-left: 1em;">';
+					$output .= '<strong class="nutrition-facts-label">' . self::get_label_title( 'added-sugars' ) . ' </strong>';
+					$output .= '<strong class="nutrition-facts-label">' . floatval( self::$data['added-sugars'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>';
+					$output .= '<strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['added-sugars'] ) / self::get_label_pdv( 'added-sugars' ) ) * 100 ) . '</span>%</strong>';
+					$output .= '</div>';
+				}
 				$output .= '</li>';
 			}
 
@@ -488,7 +513,12 @@ class WPZOOM_Nutrition_Block {
 			),
 			array(
 				'id'    => 'sugars',
-				'label' => esc_html__( 'Sugars', 'recipe-card-blocks-by-wpzoom' ),
+				'label' => esc_html__( 'Total Sugars', 'recipe-card-blocks-by-wpzoom' ),
+			),
+			array(
+				'id'    => 'added-sugars',
+				'label' => esc_html__( 'Includes Added Sugars', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 50,
 			),
 			array(
 				'id'    => 'protein',
@@ -498,102 +528,152 @@ class WPZOOM_Nutrition_Block {
 			array(
 				'id'    => 'vitamin-a',
 				'label' => esc_html__( 'Vitamin A', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 900,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'vitamin-c',
 				'label' => esc_html__( 'Vitamin C', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 90,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'calcium',
 				'label' => esc_html__( 'Calcium', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 1300,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'iron',
 				'label' => esc_html__( 'Iron', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 18,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'vitamin-d',
 				'label' => esc_html__( 'Vitamin D', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 20,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'vitamin-e',
 				'label' => esc_html__( 'Vitamin E', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 15,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'vitamin-k',
 				'label' => esc_html__( 'Vitamin K', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 120,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'thiamin',
 				'label' => esc_html__( 'Thiamin', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 1.2,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'riboflavin',
 				'label' => esc_html__( 'Riboflavin', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 1.3,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'niacin',
 				'label' => esc_html__( 'Niacin', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 16,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'vitamin-b6',
 				'label' => esc_html__( 'Vitamin B6', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 1.7,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'vitamin-b12',
 				'label' => esc_html__( 'Vitamin B12', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 2.4,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'folate',
 				'label' => esc_html__( 'Folate', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 400,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'biotin',
 				'label' => esc_html__( 'Biotin', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 30,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'pantothenic-acid',
 				'label' => esc_html__( 'Pantothenic Acid', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 5,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'phosphorus',
 				'label' => esc_html__( 'Phosphorus', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 1250,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'iodine',
 				'label' => esc_html__( 'Iodine', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 150,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'magnesium',
 				'label' => esc_html__( 'Magnesium', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 420,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'zinc',
 				'label' => esc_html__( 'Zinc', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 11,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'selenium',
 				'label' => esc_html__( 'Selenium', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 55,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'copper',
 				'label' => esc_html__( 'Copper', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 0.9,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'manganese',
 				'label' => esc_html__( 'Manganese', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 2.3,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'chromium',
 				'label' => esc_html__( 'Chromium', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 35,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'molybdenum',
 				'label' => esc_html__( 'Molybdenum', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 45,
+				'unit'  => 'mcg',
 			),
 			array(
 				'id'    => 'chloride',
 				'label' => esc_html__( 'Chloride', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 2300,
+				'unit'  => 'mg',
 			),
 		);
 
@@ -613,6 +693,12 @@ class WPZOOM_Nutrition_Block {
 	public static function get_label_pdv( $label ) {
 		$key = array_search( $label, array_column( self::$labels, 'id' ) );
 
-		return floatval( self::$labels[ $key ]['pdv'] );
+		return isset( self::$labels[ $key ]['pdv'] ) ? floatval( self::$labels[ $key ]['pdv'] ) : false;
+	}
+
+	public static function get_label_unit( $label ) {
+		$key = array_search( $label, array_column( self::$labels, 'id' ) );
+
+		return isset( self::$labels[ $key ]['unit'] ) ? self::$labels[ $key ]['unit'] : '';
 	}
 }
