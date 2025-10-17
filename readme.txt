@@ -1,4 +1,4 @@
-=== Recipe Card Blocks for Gutenberg & Elementor - Best WordPress Recipe Plugin ===
+=== Recipe Card Blocks Lite ===
 Contributors: WPZOOM
 Donate link: https://recipecard.io/
 Tags: recipe, recipe card, recipes, recipe maker, schema
