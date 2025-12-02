@@ -4,8 +4,8 @@ Donate link: https://recipecard.io/
 Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.0
 Requires PHP: 7.4
-Tested up to: 6.8
-Stable tag: 3.4.10
+Tested up to: 6.9
+Stable tag: 3.4.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,9 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 
 
 == Changelog ==
+
+= 3.4.11 =
+* Minor bug fix
 
 = 3.4.10 =
 * Improvements to the Nutrition Facts block
