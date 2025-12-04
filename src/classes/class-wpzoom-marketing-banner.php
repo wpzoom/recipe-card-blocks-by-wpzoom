@@ -8,8 +8,8 @@
 if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 	class WPZOOM_Marketing_Banner {
 		const BTN_UPGRADE_NOW_LINK = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=bf-rcb-banner-btn&utm_campaign=bf-rcb';
-		const BF_START_DATE = '2025-11-26 00:00:00';
-		const BF_END_DATE = '2025-12-03 23:59:59';
+		const BF_START_DATE = '2026-11-25 00:00:00';
+		const BF_END_DATE = '2026-12-02 23:59:59';
 
 		public static function init() {
 
