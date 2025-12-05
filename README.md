@@ -1,95 +1,153 @@
-# [Recipe Card Blocks for WordPress & Elementor](https://recipecard.io/) #
+# Recipe Card Blocks
 
-![Plugin Version](https://img.shields.io/wordpress/plugin/v/recipe-card-blocks-by-wpzoom.svg) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/recipe-card-blocks-by-wpzoom.svg) ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/recipe-card-blocks-by-wpzoom.svg) ![WordPress Compatibility](https://img.shields.io/wordpress/v/recipe-card-blocks-by-wpzoom.svg) [![Build Status](https://img.shields.io/travis/wpzoom/recipe-card-blocks-by-wpzoom/master.svg)](https://travis-ci.org/wpzoom/recipe-card-blocks-by-wpzoom) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/wpzoom/recipe-card-blocks-by-wpzoom/blob/master/license.txt)
+Beautiful recipe card blocks for food bloggers with Schema Markup (JSON-LD) for WordPress. The ultimate recipe plugin for your food blog.
 
-### Welcome to our GitHub Repository
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/recipe-card-blocks-by-wpzoom)](https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom/)
+[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/stars/recipe-card-blocks-by-wpzoom)](https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom/)
+[![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/recipe-card-blocks-by-wpzoom)](https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom/)
+[![License](https://img.shields.io/badge/license-GPL--2.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 
-**Beautiful Recipe Card Blocks** for Food Bloggers with Schema Markup for the new WordPress editor (Gutenberg).
+## Features
 
-⭐️ **[Recipe Card Blocks PRO](https://recipecard.io)** *NOW AVAILABLE!* ⭐️
+### Included Blocks
+- **Recipe Card** (with Schema.org Markup)
+- **Recipe Details**
+- **Ingredients**
+- **Directions**
+- **Nutrition Facts**
+- **Recipe Card Widget for Elementor**
 
+### Free Features
+- **AI Recipe Generator** - Generate recipes using AI
+- **Elementor Support** - Native Elementor widget
+- **Structured Data** - JSON-LD Schema markup for SEO
+- **AMP Support** - Works with AMP pages
+- **Multiple Designs** - Beautiful recipe card styles
+- **Gutenberg-ready** - Native block editor support
+- **Works with any theme**
+- **Import from WP Recipe Maker** - Easy migration
+- **Video Integration** - Add recipe videos
+- **Bulk Add** - Add ingredients and directions quickly
+- **Groups** - Organize ingredients and directions in sections
+- **WPML Support** - Multilingual ready
+- **Recipe Shortcode** - Insert recipes anywhere
+- **100% GDPR Compliant** - No external data collection
 
-[View Demo](https://demo.recipecard.io/)
+### PRO Features
+- Star Rating
+- Unit Conversion (US - Metric)
+- Comments Rating
+- Recipe Submissions
+- Recipe Roundup
+- Recipe Index
+- Equipment Block
+- Cook Mode
+- Gallery in Directions
+- Multiple Styles
+- Adjustable Servings
+- Ingredients Quantity
+- Custom Pinterest Image
+- Color Schemes
+- Food Labels
+- Social Call-to-action
 
-Did you find this plugin helpful? Please consider leaving a [5-star review](https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/reviews/).
+## Installation
 
+### From WordPress.org
 
-= 📌 INCLUDED BLOCKS =
+1. Go to **Plugins > Add New** in your WordPress admin
+2. Search for "Recipe Card Blocks"
+3. Click **Install Now** and then **Activate**
 
-* **Recipe Card (with Schema.org Markup)**
-* **Recipe Details**
-* **Ingredients**
-* **Directions**
-* **Nutrition Facts**
+### Manual Installation
 
-= 📌 FEATURES =
+1. Download the plugin from [WordPress.org](https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom/)
+2. Upload to `/wp-content/plugins/recipe-card-blocks-by-wpzoom/`
+3. Activate through the **Plugins** menu
 
-* **AMP Support**
-* **Multiple Designs**
-* Gutenberg-ready
-* Works with any theme
-* Video integration
-* GDPR-compliant
-* Bulk Add Ingredients and Directions
+### From GitHub
 
+```bash
+cd wp-content/plugins
+git clone https://github.com/wpzoom/recipe-card-blocks-by-wpzoom.git
+```
 
-= ⭐️ PRO FEATURES ⭐️ =
-* **Star Rating**
-* **Comments Rating - 🆕**
-* **Gallery in Directions**
-* Adjustable servings
-* Ingredients quantity
-* Custom Pinterest image and description for Pin
-* Color Schemes
-* Food Labels
-* Social Call-to-action (Facebook, Instagram, Pinterest)
-* Premium Support
-* and many new features coming soon!
+## Usage
 
-⭐️ **[Get the PRO version!](https://recipecard.io)** ⭐️
+### Creating a Recipe
 
-= 🙌 CREDITS & THANKS =
+1. Create a new post or page
+2. Add the **Recipe Card** block
+3. Fill in recipe details: title, description, ingredients, directions
+4. Add a featured image and configure cooking times
+5. Publish your recipe
 
-*  *Big thanks to Danny Cooper and his project [Editor Blocks](https://editorblockswp.com/) for providing help in developing this plugin.*
+### Managing Recipes
 
+Starting with version 3.0, all recipes are organized in a dedicated **Recipes** section:
 
-= 🙌 FOLLOW US =
+1. Go to **Recipes** in your WordPress admin
+2. View, edit, or create new recipes
+3. Use the **Insert Existing Recipe** block to add recipes to posts
 
-* 🐦 [Twitter](https://twitter.com/wpzoom)
-* 📘 [Facebook](https://facebook.com/wpzoom)
-* 🌄 [Instagram](https://instagram.com/wpzoom)
+### Using with Elementor
 
-= GDPR COMPLIANCE =
+1. Edit any page with Elementor
+2. Search for **Recipe Card** widget
+3. Drag and drop to add your recipe
+4. Configure settings in the widget panel
 
-In order to make the plugin **100% GDPR compliant**, you will have to disable **Google Fonts** in **Settings > Appearance**.
-Recipe Card Blocks by WPZOOM does not collect any information outside your WordPress installation, therefore it’s **100% GDPR compliant**.
+### Importing Recipes
 
+If you're migrating from WP Recipe Maker:
 
-## Installation ##
+1. Go to **Settings > WPZOOM Recipe Card**
+2. Use the import tool to migrate your recipes
+3. Review imported recipes in the Recipes section
 
-Simply search for the plugin name via the **Plugins -> Add New** dialog and click install, or download and extract the plugin, and copy the plugin folder into your wp-content/plugins directory and activate.
+## Schema Markup
 
-After installation create a new post or edit an existing one using Gutenberg editor, and when adding a new block, look under  **WPZOOM - Recipe Card** section to find these 2 blocks.
+The plugin automatically adds JSON-LD structured data to your recipes, which helps search engines understand your content and display rich snippets in search results.
 
-= Is there a Documentation available? =
+Supported schema properties:
+- Recipe name, description, and image
+- Prep time, cook time, and total time
+- Ingredients and instructions
+- Nutrition information
+- Video content
+- Author and ratings
 
-Yes, you can find a documentation for this plugin with more instructions on our website.
+## Requirements
 
-[Go to Documentation](https://recipecard.io/documentation/)
+- WordPress 6.0 or higher
+- PHP 7.4 or higher
 
+## Contributing
 
-## Bugs ##
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Bugs
+
 If you find an issue, let us know [here](https://github.com/wpzoom/recipe-card-blocks-by-wpzoom/issues)!
 
-## Support ##
-This is a developer's portal for Beautiful Recipe Card Blocks and should _not_ be used for support. Please visit the [support page](https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/) on WordPress.org if you need to submit a support request.
+## Support
 
-## Contributions ##
-Anyone is welcome to contribute to Social Icons Widget.
+This is a developer's portal for Recipe Card Blocks and should _not_ be used for support. Please visit the [support page](https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/) on WordPress.org if you need to submit a support request.
 
-There are various ways you can contribute:
+## Credits
 
-1. Raise an [Issue](https://github.com/wpzoom/recipe-card-blocks-by-wpzoom/issues) on GitHub
-2. Send us a Pull Request with your bug fixes and/or new features
-3. Translate Social Icons Widget into [different languages](https://translate.wordpress.org/projects/wp-plugins/recipe-card-blocks-by-wpzoom/)
+Big thanks to Danny Cooper and his project [Editor Blocks](https://editorblockswp.com/) for providing help in developing this plugin.
 
+## License
+
+This plugin is licensed under the [GPL v2 or later](https://www.gnu.org/licenses/gpl-2.0.html).
+
+---
+
+**Links:** [WordPress.org](https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom/) | [Demo](https://demo.recipecard.io/) | [recipecard.io](https://recipecard.io) | [Documentation](https://recipecard.io/documentation/)
