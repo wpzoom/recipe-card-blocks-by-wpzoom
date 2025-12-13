@@ -158,7 +158,7 @@ class WPZOOM_Lite_vs_PRO {
 
                                                             <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=starrating" title="Unit Conversion" target="_blank"><img src="https://recipecard.io/wp-content/themes/wpzoom-rcb/images/recipe-block/feat6.png" alt="<?php echo esc_attr__( 'Star Rating', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
 
-                                                            <?php esc_html_e( 'This feature enables readers to rate your recipes. This will not only boosts engagement by allowing users to share their feedback but also helps build trust with potential readers by displaying authentic, user-generated ratings.', 'recipe-card-blocks-by-wpzoom' ); ?>
+                                                            <?php esc_html_e( 'This feature enables readers to rate your recipes. This will not only boost engagement by allowing users to share their feedback but also helps build trust with potential readers by displaying authentic, user-generated ratings.', 'recipe-card-blocks-by-wpzoom' ); ?>
                                                         </p>
 
                                                         <p class="section_footer">
@@ -180,7 +180,7 @@ class WPZOOM_Lite_vs_PRO {
                                                             </svg> <?php esc_html_e( 'Recipe Index Block', 'recipe-card-blocks-by-wpzoom' ); ?>
                                                         </h4>
                                                         <p class="about">
-                                                            <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=unitconversionfeature" title="Unit Conversion" target="_blank"><img src="https://recipecard.io/wp-content/themes/wpzoom-rcb/images/recipe-block/index.png" alt="<?php echo esc_attr__( 'REcipe index block', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
+                                                            <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=unitconversionfeature" title="Unit Conversion" target="_blank"><img src="https://recipecard.io/wp-content/themes/wpzoom-rcb/images/recipe-block/index.png" alt="<?php echo esc_attr__( 'Recipe index block', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
 
                                                             <?php esc_html_e( 'A unique block, designed to enhance the organization and display of recipes on your WordPress site. This block serves as a powerful tool for food bloggers, culinary enthusiasts, and anyone looking to showcase their collection of recipes in a more structured and visually appealing manner.', 'recipe-card-blocks-by-wpzoom' ); ?>
                                                         </p>
@@ -203,7 +203,7 @@ class WPZOOM_Lite_vs_PRO {
                                                         </h4>
                                                         <p class="about">
 
-                                                            <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=unitconversionfeature" title="Unit Conversion" target="_blank"><img src="https://recipecard.io/wp-content/themes/wpzoom-rcb/images/recipe-block/roundups.png" alt="<?php echo esc_attr__( 'REcipe roundups', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
+                                                            <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=unitconversionfeature" title="Unit Conversion" target="_blank"><img src="https://recipecard.io/wp-content/themes/wpzoom-rcb/images/recipe-block/roundups.png" alt="<?php echo esc_attr__( 'Recipe roundups', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
 
                                                             <?php esc_html_e( 'The Recipe Roundups feature in the PRO version of the Recipe Card Blocks plugin allows food bloggers to curate and showcase collections of recipes around specific themes, seasons, or ingredients. This feature makes it easy to organize and present grouped content that highlights your best recipes or explores a particular culinary trend.', 'recipe-card-blocks-by-wpzoom' ); ?>
                                                         </p>
@@ -245,7 +245,7 @@ class WPZOOM_Lite_vs_PRO {
                                                         </h4>
                                                         <p class="about">
 
-                                                            <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=unitconversionfeature" title="Unit Conversion" target="_blank"><img src="https://recipecard.io/wp-content/themes/wpzoom-rcb/images/recipe-block/styles.png" alt="<?php echo esc_attr__( 'REcipe styles', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
+                                                            <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=unitconversionfeature" title="Unit Conversion" target="_blank"><img src="https://recipecard.io/wp-content/themes/wpzoom-rcb/images/recipe-block/styles.png" alt="<?php echo esc_attr__( 'Recipe styles', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
 
                                                             <?php esc_html_e( 'Choose your favorite Recipe Card style! No more boring and outdated designs that can turn your readers away. Recipe Card Blocks includes 5 modern styles easily customized to match your branding.', 'recipe-card-blocks-by-wpzoom' ); ?>
                                                         </p>
