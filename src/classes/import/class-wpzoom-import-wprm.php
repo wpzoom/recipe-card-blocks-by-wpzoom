@@ -85,6 +85,10 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'recipe-card-blocks-by-wpzoom' ) ) );
+			}
+
 			$post_types = array( 'post', 'page' );
 			$custom_post_types = WPZOOM_Settings::get( 'wpzoom_rcb_settings_types_recipe_post' );
 
@@ -149,6 +153,10 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'recipe-card-blocks-by-wpzoom' ) ) );
+			}
+
 			$recipes_data = isset( $_POST['recipes'] ) && is_array( $_POST['recipes'] ) ? $_POST['recipes'] : array();
 
 			$imported_recipes = array();
@@ -157,9 +165,9 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 				$imported_recipes_data = array();
 
-				$recipe_post_id = $recipe_data['post_id'];
-				$recipe_wprm_id = $recipe_data['recipe_id'];
-				$recipe_block_i = $recipe_data['block_index'];
+				$recipe_post_id = isset( $recipe_data['post_id'] ) ? absint( $recipe_data['post_id'] ) : 0;
+				$recipe_wprm_id = isset( $recipe_data['recipe_id'] ) ? absint( $recipe_data['recipe_id'] ) : 0;
+				$recipe_block_i = isset( $recipe_data['block_index'] ) ? absint( $recipe_data['block_index'] ) : 0;
 
 				$this->replace_recipe( $recipe_post_id, $recipe_wprm_id, $recipe_block_i );
 
@@ -724,7 +732,7 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 			global $wpdb;
 			
 			$table_name = $wpdb->prefix . 'wprm_ratings';
-			$query_ratings = "SELECT * FROM $table_name WHERE recipe_id = $wprm_recipe_id OR post_id = $wprm_recipe_id";
+			$query_ratings = $wpdb->prepare( "SELECT * FROM $table_name WHERE recipe_id = %d OR post_id = %d", $wprm_recipe_id, $wprm_recipe_id );
 			$ratings = $wpdb->get_results( $query_ratings );			
 
 			foreach ( $ratings as $rating ) {
