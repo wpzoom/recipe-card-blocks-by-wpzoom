@@ -93,7 +93,7 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 			$custom_post_types = WPZOOM_Settings::get( 'wpzoom_rcb_settings_types_recipe_post' );
 
 			if( !empty( $custom_post_types ) ) {
-				$post_types = array_merge( $post_types, $users_post_types );
+				$post_types = array_merge( $post_types, $custom_post_types );
 			}
 
 			$recipes = array();
