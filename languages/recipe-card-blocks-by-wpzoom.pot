@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-12-13 13:20+0000\n"
+"POT-Creation-Date: 2025-12-13 13:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Vicolas Petru\n"
 "Language-Team: WPZOOM\n"
@@ -81,7 +81,7 @@ msgstr ""
 
 #: templates/admin/privacy.php:15
 msgid ""
-"<strong>First of all, we want to inform you that we does not have access to "
+"<strong>First of all, we want to inform you that we do not have access to "
 "any of the data collected by the plugin.</strong> This is all stored in your "
 "local database and not communicated back to us. Take note of the following "
 "topics for your own privacy policy."
@@ -1786,13 +1786,13 @@ msgstr ""
 msgid "Recipe Image Prompt"
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:183
-msgid "REcipe index block"
-msgstr ""
-
 #: src/classes/class-wpzoom-lite-vs-pro.php:180
 #: src/classes/class-wpzoom-lite-vs-pro.php:413
 msgid "Recipe Index Block"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:183
+msgid "Recipe index block"
 msgstr ""
 
 #: src/classes/class-wpzoom-settings.php:1256
@@ -1803,13 +1803,13 @@ msgstr ""
 msgid "Recipe Rating shown in the Recipe Card and Recipe Metadata."
 msgstr ""
 
-#: src/classes/class-wpzoom-lite-vs-pro.php:206
-msgid "REcipe roundups"
-msgstr ""
-
 #: src/classes/class-wpzoom-lite-vs-pro.php:202
 #: src/classes/class-wpzoom-lite-vs-pro.php:403
 msgid "Recipe Roundups"
+msgstr ""
+
+#: src/classes/class-wpzoom-lite-vs-pro.php:206
+msgid "Recipe roundups"
 msgstr ""
 
 #: elementor/widgets/recipe-card/recipe-card.php:392
@@ -1825,7 +1825,7 @@ msgid "Recipe Star Rating"
 msgstr ""
 
 #: src/classes/class-wpzoom-lite-vs-pro.php:248
-msgid "REcipe styles"
+msgid "Recipe styles"
 msgstr ""
 
 #: src/classes/class-wpzoom-lite-vs-pro.php:408
@@ -2286,7 +2286,7 @@ msgstr ""
 
 #: src/classes/class-wpzoom-lite-vs-pro.php:161
 msgid ""
-"This feature enables readers to rate your recipes. This will not only boosts "
+"This feature enables readers to rate your recipes. This will not only boost "
 "engagement by allowing users to share their feedback but also helps build "
 "trust with potential readers by displaying authentic, user-generated ratings."
 msgstr ""
