@@ -492,9 +492,18 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 							$ingredient_note = array();
 
+							// Build the amount and unit prefix
+							$amount = isset( $ingredient['amount'] ) ? trim( $ingredient['amount'] ) : '';
+							$unit   = isset( $ingredient['unit'] ) ? trim( $ingredient['unit'] ) : '';
+							$amount_unit_prefix = '';
+
+							if ( ! empty( $amount ) || ! empty( $unit ) ) {
+								$amount_unit_prefix = trim( $amount . ' ' . $unit ) . ' ';
+							}
+
 							//Check if there is no global link
 							$globalLink = class_exists( 'WPRMP_Ingredient_Links' ) ? WPRMP_Ingredient_Links::get_ingredient_link( $ingredient['id'] ) : array();
-							
+
 							//Check if the link is not set here
 							if( isset( $ingredient['link']['url'] ) && !empty( $ingredient['link']['url'] ) ) {
 								$ingredient_name = array(
@@ -527,7 +536,7 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 							else {
 								$ingredient_name = $ingredient['name'];
 							}
-							
+
 							//Check if notes exist and add them
 							if( isset( $ingredient['notes'] ) && !empty( $ingredient['notes'] ) ) {
 								$ingredient_note = array(
@@ -540,17 +549,21 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 								);
 							}
 
+							// Build the full ingredient name with amount, unit, name and notes
+							$full_json_name = trim( $amount_unit_prefix . $ingredient['name'] );
+
 							$ingredients[] = array(
 								'id'       => uniqid( 'ingredient-item-' ),
-								'name'     => array( 
+								'name'     => array(
+									$amount_unit_prefix,
 									$ingredient_name,
 									$ingredient_note
 								),
-								'parse'    => array( 
-									'amount' => $ingredient['amount'], 
-									'unit'   => $ingredient['unit'] 
+								'parse'    => array(
+									'amount' => $amount,
+									'unit'   => $unit
 								),
-								'jsonName' => $ingredient['name'],
+								'jsonName' => $full_json_name,
 								'isGroup'  => false
 							);	
 						}
