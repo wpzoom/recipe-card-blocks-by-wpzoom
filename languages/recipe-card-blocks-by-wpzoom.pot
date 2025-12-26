@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-12-13 13:26+0000\n"
+"POT-Creation-Date: 2025-12-26 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Vicolas Petru\n"
 "Language-Team: WPZOOM\n"
@@ -338,7 +338,7 @@ msgstr ""
 msgid "Buy AI credits"
 msgstr ""
 
-#: src/classes/import/class-wpzoom-import-wprm.php:640
+#: src/classes/import/class-wpzoom-import-wprm.php:661
 msgid "Buy Now"
 msgstr ""
 
@@ -358,7 +358,7 @@ msgstr ""
 #: src/structured-data-blocks/class-wpzoom-nutrition.php:473
 #: src/structured-data-blocks/class-wpzoom-details.php:195
 #: elementor/widgets/recipe-card/recipe-card.php:585
-#: src/classes/import/class-wpzoom-import-wprm.php:392
+#: src/classes/import/class-wpzoom-import-wprm.php:400
 msgid "Calories"
 msgstr ""
 
@@ -491,7 +491,7 @@ msgstr ""
 #: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:996
 #: src/structured-data-blocks/class-wpzoom-details.php:188
 #: elementor/widgets/recipe-card/recipe-card.php:574
-#: src/classes/import/class-wpzoom-import-wprm.php:384
+#: src/classes/import/class-wpzoom-import-wprm.php:392
 msgid "Cooking time"
 msgstr ""
 
@@ -1573,7 +1573,7 @@ msgstr ""
 #: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:988
 #: src/structured-data-blocks/class-wpzoom-details.php:181
 #: elementor/widgets/recipe-card/recipe-card.php:564
-#: src/classes/import/class-wpzoom-import-wprm.php:376
+#: src/classes/import/class-wpzoom-import-wprm.php:384
 msgid "Prep time"
 msgstr ""
 
@@ -2000,7 +2000,7 @@ msgstr ""
 #: src/structured-data-blocks/class-wpzoom-nutrition.php:469
 #: src/structured-data-blocks/class-wpzoom-details.php:174
 #: elementor/widgets/recipe-card/recipe-card.php:554
-#: src/classes/import/class-wpzoom-import-wprm.php:368
+#: src/classes/import/class-wpzoom-import-wprm.php:376
 msgid "Servings"
 msgstr ""
 
@@ -2345,7 +2345,7 @@ msgid "Total Sugars"
 msgstr ""
 
 #: src/structured-data-blocks/class-wpzoom-recipe-card-block.php:1035
-#: src/classes/import/class-wpzoom-import-wprm.php:423
+#: src/classes/import/class-wpzoom-import-wprm.php:431
 msgid "Total time"
 msgstr ""
 
@@ -2597,6 +2597,11 @@ msgstr ""
 msgid ""
 "You currently have two versions of Recipe Card Blocks active on this site. "
 "Please <a href=\"%s\">deactivate one</a> before continuing."
+msgstr ""
+
+#: src/classes/import/class-wpzoom-import-wprm.php:89
+#: src/classes/import/class-wpzoom-import-wprm.php:157
+msgid "You do not have permission to perform this action."
 msgstr ""
 
 #: src/classes/class-wpzoom-lite-vs-pro.php:514
