@@ -223,4 +223,4 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 * New: Import recipes from WP Recipe Maker
 * New: Create a Draft Post when creating a new recipe card post.
 
-[See changelog for all versions](https://plugins.svn.wordpress.org/social-icons-widget-by-wpzoom/trunk/changelog.txt).
+[See changelog for all versions](https://plugins.svn.wordpress.org/recipe-card-blocks-by-wpzoom/trunk/changelog.txt).
