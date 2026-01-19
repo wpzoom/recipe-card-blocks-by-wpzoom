@@ -1,11 +1,16 @@
 .wp-block-wpzoom-recipe-card-block-recipe-card {
-    
+
 	.recipe-card-directions {
 		.directions-header {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			margin-bottom: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+
+            .directions-title{
+                margin: 0;
+            }
 		}
 
 		.image-switcher-container {

@@ -129,7 +129,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: inherit;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -369,7 +368,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: inherit;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -556,7 +554,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: inherit;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -1244,7 +1241,11 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
       justify-content: space-between;
   -ms-flex-align: center;
       align-items: center;
-  margin-bottom: 20px; }
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 25px; }
+  .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-directions .directions-header .directions-title {
+    margin: 0; }
 
 .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-directions .image-switcher-container .toggle-input {
   display: none; }
@@ -1519,7 +1520,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -1527,7 +1527,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -1535,7 +1534,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -1543,7 +1541,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -1896,7 +1893,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -1904,7 +1900,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -1912,7 +1907,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -1920,7 +1914,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -2290,7 +2283,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -2298,7 +2290,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -2306,7 +2297,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -2314,7 +2304,6 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
     font-size: 22px;
     font-weight: 600;
     color: #222222;
-    margin: 0 0 20px;
     padding: 0;
     background-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
