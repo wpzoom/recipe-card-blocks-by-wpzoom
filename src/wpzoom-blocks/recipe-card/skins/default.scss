@@ -233,16 +233,15 @@
 
 				.toggle-switch {
 					position: relative;
-					width: 54px; // Wider to fit icons
+					width: 54px;
 					height: 28px;
-					background-color: #e2e8f0; // Soft gray
+					background-color: #e2e8f0;
 					border-radius: 30px;
 					cursor: pointer;
 					transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 					display: flex;
 					align-items: center;
 
-					// The Moving Circle (Knob)
 					&::after {
 						content: "";
 						position: absolute;
@@ -275,7 +274,6 @@
 					}
 				}
 
-				// Checked State Logic
 				.toggle-input:checked + .toggle-label .toggle-switch {
 					background-color: #f43f5e; 
 
