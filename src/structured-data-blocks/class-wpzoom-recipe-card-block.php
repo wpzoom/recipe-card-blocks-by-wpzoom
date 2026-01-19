@@ -195,6 +195,7 @@ class WPZOOM_Recipe_Card_Block {
 						'print_btn'          => WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_print' ) === '1',
 						'pin_btn'            => WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_pin' ) === '1',
 						'custom_author_name' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_author_custom_name' ),
+						'hideImageToggle' 	 => WPZOOM_Settings::get( 'wpzoom_rcb_settings_hide_image_toggle' ) === '1',
 						'displayCourse'      => WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_course' ) === '1',
 						'displayCuisine'     => WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_cuisine' ) === '1',
 						'displayDifficulty'  => WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_difficulty' ) === '1',
@@ -1307,9 +1308,35 @@ class WPZOOM_Recipe_Card_Block {
 
 		$listClassNames = implode( ' ', array( 'directions-list' ) );
 
-		return sprintf(
-			'<div class="recipe-card-directions"><h3 class="directions-title">%s</h3><ul class="%s">%s</ul></div>',
+		// Check if the toggle feature is enabled in settings
+		$show_toggle = isset(self::$settings['hideImageToggle']) && self::$settings['hideImageToggle'] === true;
+
+		$switcher_html = '';
+		if ( $show_toggle ) {
+			$switcher_html = '
+				<div class="image-switcher-container">
+					<input type="checkbox" id="direction-images-toggle-checkbox" checked class="toggle-input">
+					<label for="direction-images-toggle-checkbox" class="toggle-label">
+						<div class="toggle-switch">
+							<svg class="icon-camera" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+							<svg class="icon-camera-off" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M21 21H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3m3-3h6l2 3h4a2 2 0 0 1 2 2v9.34m-7.72-2.06a4 4 0 1 1-5.56-5.56"/></svg>
+						</div>
+					</label>
+				</div>';
+		}
+
+		$header_html = sprintf(
+			'<div class="directions-header">
+				<h3 class="directions-title">%s</h3>
+				%s
+			</div>',
 			self::$attributes['directionsTitle'],
+			$switcher_html
+		);
+
+		return sprintf(
+			'<div class="recipe-card-directions">%s <ul class="%s">%s</ul></div>',
+			$header_html,
 			esc_attr( $listClassNames ),
 			$direction_items
 		);

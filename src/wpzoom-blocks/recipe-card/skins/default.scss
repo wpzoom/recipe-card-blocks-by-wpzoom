@@ -217,6 +217,94 @@
             margin-bottom: 25px;
         }
 
+        
+		.recipe-card-directions {
+			.directions-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+
+			.image-switcher-container {
+				.toggle-input {
+					display: none;
+				}
+
+				.toggle-switch {
+					position: relative;
+					width: 54px; // Wider to fit icons
+					height: 28px;
+					background-color: #e2e8f0; // Soft gray
+					border-radius: 30px;
+					cursor: pointer;
+					transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+					display: flex;
+					align-items: center;
+
+					// The Moving Circle (Knob)
+					&::after {
+						content: "";
+						position: absolute;
+						z-index: 2;
+						width: 22px;
+						height: 22px;
+						background-color: white;
+						border-radius: 50%;
+						left: 3px;
+						transition: all 0.3s ease;
+						box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+					}
+
+					svg {
+						position: absolute;
+						z-index: 1;
+						transition: all 0.3s ease;
+						stroke: #64748b;
+					}
+
+					.icon-camera {
+                        left: 8px;
+                        opacity: 0; 
+                        transform: scale(0.5);
+					}
+                    
+					.icon-camera-off {
+                        right: 8px;
+                        opacity: 1;
+					}
+				}
+
+				// Checked State Logic
+				.toggle-input:checked + .toggle-label .toggle-switch {
+					background-color: #f43f5e; 
+
+					&::after {
+						transform: translateX(26px);
+					}
+
+					.icon-camera {
+                        opacity: 1;
+                        transform: scale(1);
+                        stroke: white;
+                    }
+                    
+					.icon-camera-off {
+                        opacity: 0;
+                        transform: scale(0.5);
+					}
+				}
+			}
+
+
+            &:has(#direction-images-toggle-checkbox:not(:checked)) {
+                .directions-list img {
+                    display: none !important;
+                }
+            }
+		}
+
+
         .recipe-card-ingredients {
             position: relative;
             color: $coffee;

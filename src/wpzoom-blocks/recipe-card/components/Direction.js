@@ -31,7 +31,10 @@ class Direction extends Component {
     constructor( props ) {
         super( props );
 
-        this.state = { focus: '' };
+        this.state = { 
+            focus: '',  
+            hideImageToggleValue: true,
+        };
 
         this.changeStep = this.changeStep.bind( this );
         this.insertStep = this.insertStep.bind( this );
@@ -388,6 +391,15 @@ class Direction extends Component {
      */
     render() {
         const { attributes } = this.props;
+
+        const {
+            settings: {
+                0: {
+                    hideImageToggle
+                },
+            },
+        } = attributes;
+
         const { directionsTitle } = attributes;
 
         const classNames     = [ 'recipe-card-directions' ].filter( ( item ) => item ).join( ' ' );
@@ -397,17 +409,68 @@ class Direction extends Component {
 
         return (
             <div className={ classNames }>
-                <RichText
-                    tagName="h3"
-                    className="directions-title"
-                    format="string"
-                    value={ newDirectionsTitle }
-                    unstableOnFocus={ this.setFocusToTitle }
-                    onChange={ this.onChangeTitle }
-                    unstableOnSetup={ this.setTitleRef }
-                    placeholder={ __( 'Write Directions title', 'recipe-card-blocks-by-wpzoom' ) }
-                    keepPlaceholderOnFocus={ true }
-                />
+                <div class="directions-header">
+                    <RichText
+                        tagName="h3"
+                        className="directions-title"
+                        format="string"
+                        value={ newDirectionsTitle }
+                        unstableOnFocus={ this.setFocusToTitle }
+                        onChange={ this.onChangeTitle }
+                        unstableOnSetup={ this.setTitleRef }
+                        placeholder={ __( 'Write Directions title', 'recipe-card-blocks-by-wpzoom' ) }
+                        keepPlaceholderOnFocus={ true }
+                    />
+
+					{hideImageToggle && (
+						<div class="image-switcher-container">
+							<input
+								type="checkbox"
+								id="direction-images-toggle-checkbox"
+                                checked={this.state.hideImageToggleValue}
+								class="toggle-input"
+                                onChange={ () => this.setState({ hideImageToggleValue: !this.state.hideImageToggleValue }) }
+							/>
+							<label
+								for="direction-images-toggle-checkbox"
+								class="toggle-label"
+							>
+								<div class="toggle-switch">
+									<svg
+										class="icon-camera"
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="3"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+										<circle cx="12" cy="13" r="3" />
+									</svg>
+									<svg
+										class="icon-camera-off"
+										xmlns="http://www.w3.org/2000/svg"
+										width="14"
+										height="14"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="3"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<line x1="1" y1="1" x2="23" y2="23" />
+										<path d="M21 21H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3m3-3h6l2 3h4a2 2 0 0 1 2 2v9.34m-7.72-2.06a4 4 0 1 1-5.56-5.56" />
+									</svg>
+								</div>
+							</label>
+						</div>
+					)}
+                </div>
                 <ul className={ listClassNames }>{ this.getSteps() }</ul>
                 <div className="direction-buttons">{ this.getAddStepButton() }</div>
             </div>
