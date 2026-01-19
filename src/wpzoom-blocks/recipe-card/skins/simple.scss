@@ -252,9 +252,6 @@
 
         @include recipe-sections-title( $simple-heading-color, uppercase, $selectors... );
 
-        .directions-title {
-            margin-bottom: 25px;
-        }
 
         .recipe-card-ingredients {
             position: relative;

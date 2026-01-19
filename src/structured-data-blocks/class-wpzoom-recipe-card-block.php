@@ -1303,13 +1303,12 @@ class WPZOOM_Recipe_Card_Block {
 		return force_balance_tags( $output );
 	}
 
-	public static function get_steps_content( array $steps ) {
+	public static function get_steps_content( array $steps , $showToggle = true) {
 		$direction_items = self::get_direction_items( $steps );
 
 		$listClassNames = implode( ' ', array( 'directions-list' ) );
 
-		// Check if the toggle feature is enabled in settings
-		$show_toggle = isset(self::$settings['hideImageToggle']) && self::$settings['hideImageToggle'] === true;
+		$show_toggle = isset(self::$settings['hideImageToggle']) && self::$settings['hideImageToggle'] === true && $showToggle;
 
 		$switcher_html = '';
 		if ( $show_toggle ) {
