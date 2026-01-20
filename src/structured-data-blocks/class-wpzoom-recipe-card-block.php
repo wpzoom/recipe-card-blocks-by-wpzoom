@@ -1322,13 +1322,15 @@ class WPZOOM_Recipe_Card_Block {
 						</div>
 					</label>
 				</div>';
+				
+
+			$switcher_html = preg_replace('/\s+/', ' ', $switcher_html); // Collapse all whitespace to one space
+   			$switcher_html = str_replace('> <', '><', $switcher_html); // Remove spaces between tags
+    		$switcher_html = trim($switcher_html);
 		}
 
 		$header_html = sprintf(
-			'<div class="directions-header">
-				<h3 class="directions-title">%s</h3>
-				%s
-			</div>',
+			'<div class="directions-header"><h3 class="directions-title">%s</h3>%s</div>',
 			self::$attributes['directionsTitle'],
 			$switcher_html
 		);

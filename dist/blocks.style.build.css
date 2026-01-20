@@ -1247,6 +1247,9 @@ html[amp] .wp-block-wpzoom-recipe-card-block-recipe-card .wpzoom-recipe-card-pin
   .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-directions .directions-header .directions-title {
     margin: 0; }
 
+.wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-directions .image-switcher-container p:empty {
+  display: none; }
+
 .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-directions .image-switcher-container .toggle-input {
   display: none; }
 
