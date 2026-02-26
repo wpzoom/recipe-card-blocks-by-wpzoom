@@ -129,6 +129,9 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 
 			//Added October 2024
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-marketing-banner.php';
+
+			//Added February 2026
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipes-page-notice.php';
 		}
 
 		/**
