@@ -540,8 +540,12 @@ class WPZOOM_Lite_vs_PRO {
                                     <h3 class="wpz-onboard_content-side-section-title icon-assist">
                                         <svg width="24" height="24" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M15.9216 2H2.98533C2.43803 2 1.99023 2.45 1.99023 3V17L5.97062 13H15.9216C16.4689 13 16.9167 12.55 16.9167 12V3C16.9167 2.45 16.4689 2 15.9216 2ZM14.9265 4V11H5.14473L3.98047 12.17V4H14.9265ZM18.9068 6H20.897C21.4443 6 21.8921 6.45 21.8921 7V22L17.9117 18H6.96568C6.41837 18 5.97058 17.55 5.97058 17V15H18.9068V6Z"></path>
-                                        </svg> <?php esc_html_e( 'Walkthrough Video', 'recipe-card-blocks-by-wpzoom' ); ?></h3>
-                                    <p class="wpz-onboard_content-side-section-content"><?php esc_html_e( 'Below you can find a quick video tutorial that will guide you through configuring basic things in the plugin after installing it.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+                                        </svg> <?php esc_html_e( 'Video Tutorials', 'recipe-card-blocks-by-wpzoom' ); ?></h3>
+                                    <p class="wpz-onboard_content-side-section-content"><?php esc_html_e( 'Below you can find a video tutorials that will guide you through configuring basic things in the plugin after installing it.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+
+                                    <iframe width="800" height="464" src="https://www.youtube.com/embed/03CWHTz6o9E" title="How to Install &amp; Use Recipe Card Blocks Pro on WordPress (Full Tutorial)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                    <br/>
+                                    <br/>
 
                                     <iframe width="800" height="464" src="https://www.youtube.com/embed/eQK48J4BK0A" title="How To Add a Recipe Posts on WordPress for SEO A Step-by-Step Guide" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
