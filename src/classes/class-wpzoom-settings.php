@@ -941,6 +941,66 @@ class WPZOOM_Settings {
                         ),
                     ),
 
+					array(
+						'id'       => 'wpzoom_section_adjustable_servings',
+						'title'    => __( 'Adjustable Servings', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-general',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_enable_adjustable_servings',
+								'title' => __( 'Enable Adjustable Servings', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_enable_adjustable_servings',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Let readers scale ingredient quantities to any serving size.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => false,
+									'disabled'    => true,
+									'badge'       => $premium_badge,
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_adjustable_servings_style',
+								'title' => __( 'Control Style', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'select',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_adjustable_servings_style',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Choose how readers adjust the serving size.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => 'plus_minus',
+									'disabled'    => true,
+									'badge'       => $premium_badge,
+									'options'     => array(
+										'plus_minus' => __( 'Plus/Minus Buttons', 'recipe-card-blocks-by-wpzoom' ),
+										'toggles'    => __( 'Slider Toggles', 'recipe-card-blocks-by-wpzoom' ),
+									),
+								),
+							),
+						),
+					),
+
+					array(
+						'id'       => 'wpzoom_section_food_labels',
+						'title'    => __( 'Food Labels', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-general',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_display_food_labels',
+								'title' => __( 'Display Food Labels', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_display_food_labels',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Show allergen and dietary info badges on recipes (Gluten-Free, Vegan, Nut-Free, etc.).', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => false,
+									'disabled'    => true,
+									'badge'       => $premium_badge,
+								),
+							),
+						),
+					),
 
 					array(
 						'id'       => 'wpzoom_section_recipe_miscellaneous',
@@ -1053,6 +1113,63 @@ class WPZOOM_Settings {
                             ),
                         ),
                     ),
+
+					array(
+						'id'       => 'wpzoom_section_global_colors',
+						'title'    => __( 'Global Colors', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-appearance',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_global_header_bg_color',
+								'title' => __( 'Header Background', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'colorpicker',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_global_header_bg_color',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Customize the recipe card header background color.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '#222222',
+									'disabled'    => true,
+									'badge'       => $premium_badge,
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_global_accent_color',
+								'title' => __( 'Accent Color', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'colorpicker',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_global_accent_color',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Set a global accent color for buttons and links in recipe cards.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '#E1581A',
+									'disabled'    => true,
+									'badge'       => $premium_badge,
+								),
+							),
+						),
+					),
+
+					array(
+						'id'       => 'wpzoom_section_directions_gallery',
+						'title'    => __( 'Directions Image Gallery', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-appearance',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_enable_directions_gallery',
+								'title' => __( 'Enable Step-by-Step Gallery', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_enable_directions_gallery',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Add an image gallery with lightbox to each direction step.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => false,
+									'disabled'    => true,
+									'badge'       => $premium_badge,
+								),
+							),
+						),
+					),
 
 					array(
 						'id'       => 'wpzoom_section_recipe_nutrition',
@@ -1207,6 +1324,33 @@ class WPZOOM_Settings {
                                     'default'     => true,
                                 ),
                             ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_print_show_preview',
+                                'title' => __( 'Print Preview', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_print_show_preview',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Show a print preview dialog before printing, with text size controls.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => false,
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_print_credit_text',
+                                'title' => __( 'Custom Credit Text', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'input',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_print_credit_text',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Add your blog name and URL to printed recipes.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => '',
+                                    'type'        => 'text',
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
                         ),
                     ),
                     array(
@@ -1345,6 +1489,28 @@ class WPZOOM_Settings {
                             ),
                         ),
                     ),
+
+                    array(
+                        'id'       => 'wpzoom_section_woocommerce',
+                        'title'    => __( 'WooCommerce Shoppable Recipes', 'recipe-card-blocks-by-wpzoom' ),
+                        'page'     => 'wpzoom-recipe-card-settings-miscellaneous',
+                        'callback' => '__return_false',
+                        'fields'   => array(
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_enable_shoppable_recipes',
+                                'title' => __( 'Enable Shoppable Recipes', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_enable_shoppable_recipes',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Turn recipe ingredients into clickable purchase options via your WooCommerce store.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => false,
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
 
@@ -1418,6 +1584,55 @@ class WPZOOM_Settings {
                                     'class'       => 'wpzoom-rcb-field',
                                     'description' => esc_html__( 'Change rating stars color of Recipe Card.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => '#F2A123',
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                        ),
+                    ),
+                    array(
+                        'id'       => 'wpzoom_section_rating_modal',
+                        'title'    => __( 'Rating Modal', 'recipe-card-blocks-by-wpzoom' ),
+                        'page'     => 'wpzoom-recipe-card-settings-ratings',
+                        'callback' => '__return_false',
+                        'fields'   => array(
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_title',
+                                'title' => __( 'Modal Title', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'input',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_title',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Customize the title shown in the rating pop-up.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => __( 'Rate this Recipe', 'recipe-card-blocks-by-wpzoom' ),
+                                    'type'        => 'text',
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_button_color',
+                                'title' => __( 'Submit Button Color', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'colorpicker',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_button_color',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Color of the submit button in the rating modal.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => '#E1581A',
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_thank_you',
+                                'title' => __( 'Thank You Message', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'input',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_thank_you',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Message shown after a reader submits their rating.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => __( 'Thank you for your rating!', 'recipe-card-blocks-by-wpzoom' ),
+                                    'type'        => 'text',
+                                    'disabled'    => true,
                                     'badge'       => $premium_badge,
                                 ),
                             ),
