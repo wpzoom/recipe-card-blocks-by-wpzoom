@@ -167,6 +167,7 @@ if ( ! class_exists( 'WPZOOM_Recipes_Page_Notice' ) ) {
 					align-items: center;
 					gap: 8px;
 					padding-top: 4px;
+                    margin-top: 20px;
 				}
 
 				.wpzoom-rcb-upgrade-btn.button.button-primary {
