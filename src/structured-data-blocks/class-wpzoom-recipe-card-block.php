@@ -579,7 +579,7 @@ class WPZOOM_Recipe_Card_Block {
 			$summary_text   = sprintf(
 				'<p class="%s">%s</p>',
 				esc_attr( $summary_class ),
-				WPZOOM_Helpers::deserialize_block_attributes( $summary )
+				wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $summary ) )
 			);
 		}
 
@@ -589,7 +589,7 @@ class WPZOOM_Recipe_Card_Block {
 		$recipe_card_video   = self::get_video_content();
 
 		$esc_html_notes = isset( $notes ) ? esc_html( $notes ) : '';
-		$notes          = WPZOOM_Helpers::deserialize_block_attributes( $notes );
+		$notes          = wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $notes ) );
 		$notes          = str_replace( '<li></li>', '', $notes ); // remove empty list item
 		$notes_content  = ! empty( $esc_html_notes ) ?
 			sprintf(
@@ -597,8 +597,8 @@ class WPZOOM_Recipe_Card_Block {
 					<h3 class="notes-title">%s</h3>
 					<ul class="recipe-card-notes-list">%s</ul>
 				</div>',
-				WPZOOM_Helpers::deserialize_block_attributes( @$notesTitle ),
-				@$notes
+				wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( @$notesTitle ) ),
+				wp_kses_post( @$notes )
 			) : '';
 
 		$footer_copyright = '';
@@ -1281,7 +1281,7 @@ class WPZOOM_Recipe_Card_Block {
 					$output .= sprintf(
 						'<li id="%s" class="ingredient-item">%s</li>',
 						$ingredient_id,
-						$tick . WPZOOM_Helpers::deserialize_block_attributes( $name )
+						$tick . wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $name ) )
 					);
 				}
 			} else {
@@ -1293,7 +1293,7 @@ class WPZOOM_Recipe_Card_Block {
 					$output .= sprintf(
 						'<li id="%s" class="ingredient-item ingredient-item-group">%s</li>',
 						$ingredient_id,
-						$tick . WPZOOM_Helpers::deserialize_block_attributes( $name )
+						$tick . wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $name ) )
 					);
 				}
 			}
@@ -1329,7 +1329,7 @@ class WPZOOM_Recipe_Card_Block {
 					$output .= sprintf(
 						'<li id="%s" class="direction-step">%s</li>',
 						$step_id,
-						WPZOOM_Helpers::deserialize_block_attributes( $text )
+						wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $text ) )
 					);
 				}
 			} else {
@@ -1341,7 +1341,7 @@ class WPZOOM_Recipe_Card_Block {
 					$output .= sprintf(
 						'<li id="%s" class="direction-step direction-step-group">%s</li>',
 						$step_id,
-						WPZOOM_Helpers::deserialize_block_attributes( $text )
+						wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $text ) )
 					);
 				}
 			}
