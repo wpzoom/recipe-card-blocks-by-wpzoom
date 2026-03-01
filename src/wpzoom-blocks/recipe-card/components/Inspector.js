@@ -479,6 +479,7 @@ export default class Inspector extends Component {
                     print_btn,
                     pin_btn,
                     custom_author_name,
+                    hideImageToggle,
                     displayCourse,
                     displayCuisine,
                     displayDifficulty,
@@ -683,6 +684,16 @@ export default class Inspector extends Component {
                                 onChange={ authorName => this.onChangeSettings( authorName, 'custom_author_name' ) }
                             />
                         }
+                    </BaseControl>
+                    <BaseControl
+                        id={ `${ id }-direction-image-toggle` }
+                        label={ __( 'Hide images switcher', 'recipe-card-blocks-by-wpzoom' ) }
+                    >
+                        <ToggleControl
+                            label={ __( 'Show / Hide direction images', 'recipe-card-blocks-by-wpzoom' ) }
+                            checked={ hideImageToggle }
+                            onChange={ display => this.onChangeSettings( display, 'hideImageToggle' ) }
+                        />
                     </BaseControl>
                     {
                         style === 'newdesign' &&

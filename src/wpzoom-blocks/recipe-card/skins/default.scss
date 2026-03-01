@@ -1,5 +1,99 @@
 .wp-block-wpzoom-recipe-card-block-recipe-card {
 
+	.recipe-card-directions {
+		.directions-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+
+            .directions-title{
+                margin: 0;
+            }
+		}
+
+		.image-switcher-container {
+
+            p:empty {
+                display: none;
+            }
+
+			.toggle-input {
+				display: none;
+			}
+
+			.toggle-switch {
+				position: relative;
+				width: 54px;
+				height: 28px;
+				background-color: #e2e8f0;
+				border-radius: 30px;
+				cursor: pointer;
+				transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+				display: flex;
+				align-items: center;
+
+                
+				&::after {
+					content: "";
+					position: absolute;
+					z-index: 2;
+					width: 22px;
+					height: 22px;
+					background-color: white;
+					border-radius: 50%;
+					left: 3px;
+					transition: all 0.3s ease;
+					box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+				}
+
+				svg {
+					position: absolute;
+					z-index: 1;
+					transition: all 0.3s ease;
+					stroke: #64748b;
+				}
+
+				.icon-camera {
+					left: 8px;
+					opacity: 0;
+					transform: scale(0.5);
+				}
+
+				.icon-camera-off {
+					right: 8px;
+					opacity: 1;
+				}
+			}
+
+			.toggle-input:checked + .toggle-label .toggle-switch {
+				background-color: #f43f5e;
+
+				&::after {
+					transform: translateX(26px);
+				}
+
+				.icon-camera {
+					opacity: 1;
+					transform: scale(1);
+					stroke: white;
+				}
+
+				.icon-camera-off {
+					opacity: 0;
+					transform: scale(0.5);
+				}
+			}
+		}
+
+		&:has(#direction-images-toggle-checkbox:not(:checked)) {
+			.directions-list img {
+				display: none !important;
+			}
+		}
+	}
+
     &.is-style-default {
         padding: 20px 25px 30px;
 		margin-top: 50px;
@@ -213,9 +307,6 @@
 
         @include recipe-sections-title( $default-heading-color, uppercase, $selectors... );
 
-        .directions-title {
-            margin-bottom: 25px;
-        }
 
         .recipe-card-ingredients {
             position: relative;
