@@ -77,7 +77,7 @@ class WPZOOM_Elementor_Recipe_Card {
 	 * Enqueue plugin styles.
 	 */
 	public function plugin_css() {
-		wp_enqueue_style( 'wpzoom-recipe-card-elementor', WPZOOM_RCB_PLUGIN_URL . 'elementor/assets/css/wpzoom-recipe-card-elementor.css', WPZOOM_RCB_VERSION );
+		wp_enqueue_style( 'wpzoom-recipe-card-elementor', WPZOOM_RCB_PLUGIN_URL . 'elementor/assets/css/wpzoom-recipe-card-elementor.css', array(), WPZOOM_RCB_VERSION );
 	}
 
 	/**
