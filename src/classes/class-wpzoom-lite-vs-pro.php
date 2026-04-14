@@ -469,6 +469,22 @@ class WPZOOM_Lite_vs_PRO {
                                                                 <td><span class="dashicons dashicons-no"></span></td>
                                                                 <td><span class="dashicons dashicons-yes"></span></td>
                                                             </tr>
+                                                            <!-- Import & Export -->
+                                                            <tr>
+                                                                <td class="table-index"><h3><?php esc_html_e( 'Import from WP Recipe Maker', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
+                                                                <td><span class="dashicons dashicons-yes"></span></td>
+                                                                <td><span class="dashicons dashicons-yes"></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="table-index"><h3><strong><?php esc_html_e( 'Export Recipes (XML, JSON, CSV)', 'recipe-card-blocks-by-wpzoom' ); ?></strong> <span class="table-new-promo">NEW</span></h3></td>
+                                                                <td><span class="dashicons dashicons-no"></span></td>
+                                                                <td><span class="dashicons dashicons-yes"></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="table-index"><h3><strong><?php esc_html_e( 'Import Recipes from CSV or JSON', 'recipe-card-blocks-by-wpzoom' ); ?></strong> <span class="table-new-promo">NEW</span></h3></td>
+                                                                <td><span class="dashicons dashicons-no"></span></td>
+                                                                <td><span class="dashicons dashicons-yes"></span></td>
+                                                            </tr>
                                                             <!-- Support -->
                                                             <tr>
                                                                 <td class="table-index"><h3><?php esc_html_e( 'Premium Support', 'recipe-card-blocks-by-wpzoom' ); ?></h3></td>
