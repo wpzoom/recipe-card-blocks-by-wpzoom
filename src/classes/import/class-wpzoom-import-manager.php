@@ -62,10 +62,10 @@ if ( ! class_exists( 'WPZOOM_Import_Manager' ) ) {
 
 			global $submenu;
 
-			add_submenu_page( 
-				WPZOOM_RCB_SETTINGS_PAGE, 
-				esc_html__( 'Import Recipes', 'recipe-card-blocks-by-wpzoom' ),
-				esc_html__( 'Import Recipes', 'recipe-card-blocks-by-wpzoom' ),
+			add_submenu_page(
+				WPZOOM_RCB_SETTINGS_PAGE,
+				esc_html__( 'Import & Export', 'recipe-card-blocks-by-wpzoom' ),
+				esc_html__( 'Import & Export', 'recipe-card-blocks-by-wpzoom' ),
 				'edit_others_posts',
 				'wpzoom_import_panel',
 				array( __CLASS__, 'add_import_panel' ),

@@ -45,6 +45,59 @@
         100%    { background-color: #e15819;}
     }
 
+/* Import & Export Tabs */
+ul.wp-tab-bar {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0 0 25px;
+    padding: 0 10px;
+    border-radius: 4px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+    border: 1px solid #dcdcde;
+    background: #fff;
+    color: #50575e;
+    font-size: 14px;
+    list-style: none;
+}
+ul.wp-tab-bar li {
+    display: inline-block;
+    margin: 0 9px;
+}
+ul.wp-tab-bar li a {
+    display: inline-block;
+    margin: 0;
+    padding: 15px 0 5px;
+    border-bottom: 4px solid #fff;
+    color: #555;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+}
+ul.wp-tab-bar li a:hover,
+ul.wp-tab-bar li a:focus {
+    color: #E1581A;
+}
+ul.wp-tab-bar li.wp-tab-active {
+    box-shadow: none;
+    border: none;
+    border-bottom: 4px solid #E1581A;
+    color: #1d2327;
+}
+ul.wp-tab-bar li.wp-tab-active a {
+    color: #E1581A;
+}
+div.wp-tab-panel {
+    margin: 0;
+    padding: 0;
+    max-height: none;
+    min-height: 200px;
+    border: none;
+    border-radius: 0;
+}
+
 /* Import Recipes Panel Style */
 .wpzoom-rcb-admin-panel-header,
 .wpzoom-rcb-admin-panel-footer,
@@ -71,6 +124,13 @@
 	display: block;
 	float: right;
 }
+
+#export.wp-tab-panel,
+#import-csv-json.wp-tab-panel,
+#import.wp-tab-panel {
+    background: none;
+}
+
 .wpzoom-rcb-admin-panel-footer {
 	clear: both;
 }
