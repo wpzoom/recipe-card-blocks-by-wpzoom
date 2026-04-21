@@ -229,6 +229,7 @@ if ( ! class_exists( 'WPZOOM_Print_Template_Manager' ) ) {
 			$details_content     = WPZOOM_Recipe_Card_Block::get_details_content( $details );
 			$ingredients_content = WPZOOM_Recipe_Card_Block::get_ingredients_content( $ingredients );
 			$steps_content       = WPZOOM_Recipe_Card_Block::get_steps_content( $steps );
+			$steps_content       = WPZOOM_Recipe_Card_Block::get_steps_content( $steps, false );
 
 			$strip_tags_notes = isset( $notes ) ? strip_tags( $notes ) : '';
 			$notes            = isset( $notes ) ? wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $notes ) ) : '';

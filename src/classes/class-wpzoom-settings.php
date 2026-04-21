@@ -622,6 +622,19 @@ class WPZOOM_Settings {
 								),
 							),
 							array(
+								'id'    => 'wpzoom_rcb_settings_hide_image_toggle',
+								'title' => __( 'Hide Image Toggle', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_hide_image_toggle',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Show/hide images switcher on Directions section', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => false,
+									'preview'     => true,
+									'preview_pos' => 'bottom',
+								),
+							),
+							array(
 								'id'    => 'wpzoom_rcb_settings_display_author',
 								'title' => __( 'Display Author', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'checkbox',
