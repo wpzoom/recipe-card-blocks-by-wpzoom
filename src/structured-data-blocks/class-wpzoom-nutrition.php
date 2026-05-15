@@ -172,8 +172,8 @@ class WPZOOM_Nutrition_Block {
 		foreach ( self::$labels as $key => $label ) {
 			$value = isset( self::$data[ $label['id'] ] ) && ! empty( self::$data[ $label['id'] ] ) ? self::$data[ $label['id'] ] : false;
 
-			// Skip first 13 items (up to protein) and added-sugars (nested under sugars)
-			if ( $key <= 13 || ! $value || $label['id'] === 'added-sugars' ) {
+			// Skip first 12 items (up to protein) and added-sugars (nested under sugars)
+			if ( $key <= 12 || ! $value || $label['id'] === 'added-sugars' ) {
 				continue;
 			}
 
@@ -260,13 +260,6 @@ class WPZOOM_Nutrition_Block {
 			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'sodium' ) . '</strong>
 		                <strong class="nutrition-facts-label">' . floatval( self::$data['sodium'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['mg'] . '</strong>
 		                <strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['sodium'] ) / self::get_label_pdv( 'sodium' ) ) * 100 ) . '</span>%</strong>';
-			$output .= '</li>';
-		}
-		if ( isset( self::$data['potassium'] ) ) {
-			$output .= '<li>';
-			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'potassium' ) . '</strong>
-		                <strong class="nutrition-facts-label">' . floatval( self::$data['potassium'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['mg'] . '</strong>
-		                <strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['potassium'] ) / self::get_label_pdv( 'potassium' ) ) * 100 ) . '</span>%</strong>';
 			$output .= '</li>';
 		}
 
@@ -401,16 +394,8 @@ class WPZOOM_Nutrition_Block {
 		$output .= '<li class="nutrition-facts-no-border"><strong class="nutrition-facts-amount-per-serving">' . esc_html__( 'Amount Per Serving', 'recipe-card-blocks-by-wpzoom' ) . '</strong><strong class="nutrition-facts-right">% ' . esc_html__( 'Daily Value', 'recipe-card-blocks-by-wpzoom' ) . ' *</strong></li>';
 		$output .= '<li class="nutrition-facts-spacer"></li>';
 
-		if ( isset( self::$data['potassium'] ) && ! empty( self::$data['potassium'] ) ) {
-			$output .= '<li class="nutrition-facts-no-border">';
-			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'potassium' ) . '</strong>
-		                <strong class="nutrition-facts-label">' . floatval( self::$data['potassium'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['mg'] . '</strong>
-		                <strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['potassium'] ) / self::get_label_pdv( 'potassium' ) ) * 100 ) . '</span>%</strong>';
-			$output .= '</li>';
-		}
-
 		if ( isset( self::$data['total-carbohydrate'] ) && ! empty( self::$data['total-carbohydrate'] ) ) {
-			$output .= '<li>';
+			$output .= '<li class="nutrition-facts-no-border">';
 			$output .= '<strong class="nutrition-facts-heading">' . self::get_label_title( 'total-carbohydrate' ) . '</strong>
 		                <strong class="nutrition-facts-label">' . floatval( self::$data['total-carbohydrate'] ) . '</strong><strong class="nutrition-facts-label">' . $measurements['g'] . '</strong>
 		                <strong class="nutrition-facts-right"><span class="nutrition-facts-percent">' . ceil( ( floatval( self::$data['total-carbohydrate'] ) / self::get_label_pdv( 'total-carbohydrate' ) ) * 100 ) . '</span>%</strong>';
@@ -497,11 +482,6 @@ class WPZOOM_Nutrition_Block {
 				'pdv'   => 2300,
 			),
 			array(
-				'id'    => 'potassium',
-				'label' => esc_html__( 'Potassium', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 4700,
-			),
-			array(
 				'id'    => 'total-carbohydrate',
 				'label' => esc_html__( 'Total Carbohydrate', 'recipe-card-blocks-by-wpzoom' ),
 				'pdv'   => 275,
@@ -526,16 +506,10 @@ class WPZOOM_Nutrition_Block {
 				'pdv'   => 50,
 			),
 			array(
-				'id'    => 'vitamin-a',
-				'label' => esc_html__( 'Vitamin A', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 900,
+				'id'    => 'vitamin-d',
+				'label' => esc_html__( 'Vitamin D', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 20,
 				'unit'  => 'mcg',
-			),
-			array(
-				'id'    => 'vitamin-c',
-				'label' => esc_html__( 'Vitamin C', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 90,
-				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'calcium',
@@ -550,10 +524,22 @@ class WPZOOM_Nutrition_Block {
 				'unit'  => 'mg',
 			),
 			array(
-				'id'    => 'vitamin-d',
-				'label' => esc_html__( 'Vitamin D', 'recipe-card-blocks-by-wpzoom' ),
-				'pdv'   => 20,
+				'id'    => 'potassium',
+				'label' => esc_html__( 'Potassium', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 4700,
+				'unit'  => 'mg',
+			),
+			array(
+				'id'    => 'vitamin-a',
+				'label' => esc_html__( 'Vitamin A', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 900,
 				'unit'  => 'mcg',
+			),
+			array(
+				'id'    => 'vitamin-c',
+				'label' => esc_html__( 'Vitamin C', 'recipe-card-blocks-by-wpzoom' ),
+				'pdv'   => 90,
+				'unit'  => 'mg',
 			),
 			array(
 				'id'    => 'vitamin-e',

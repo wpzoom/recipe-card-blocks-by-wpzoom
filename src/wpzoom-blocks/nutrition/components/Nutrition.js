@@ -159,8 +159,8 @@ class Nutrition extends Component {
         return labels.map( ( label, index ) => {
             const value = get( data, label.id );
 
-            // Skip first 14 items (up to protein) and added-sugars (nested under sugars)
-            if ( index <= 13 || label.id === 'added-sugars' ) {
+            // Skip first 13 items (up to protein) and added-sugars (nested under sugars)
+            if ( index <= 12 || label.id === 'added-sugars' ) {
                 return;
             }
 
@@ -273,16 +273,6 @@ class Nutrition extends Component {
                                 <strong className="nutrition-facts-heading">{ this.getLabelTitle( 'sodium' ) }</strong>
                                 <strong className="nutrition-facts-label"> { this.getValue( 'sodium' ) }</strong><strong className="nutrition-facts-label">{ __( 'mg', 'recipe-card-blocks-by-wpzoom' ) }</strong>
                                 <strong className="nutrition-facts-right"><span className="nutrition-facts-percent">{ ceil( ( this.getValue( 'sodium' ) / this.getPDV( 'sodium' ) ) * 100 ) }</span>%</strong>
-                            </Fragment>
-                        }
-                    </li>
-                    <li>
-                        {
-                            this.getValue( 'potassium' ) &&
-                            <Fragment>
-                                <strong className="nutrition-facts-heading">{ this.getLabelTitle( 'potassium' ) }</strong>
-                                <strong className="nutrition-facts-label"> { this.getValue( 'potassium' ) }</strong><strong className="nutrition-facts-label">{ __( 'mg', 'recipe-card-blocks-by-wpzoom' ) }</strong>
-                                <strong className="nutrition-facts-right"><span className="nutrition-facts-percent">{ ceil( ( this.getValue( 'potassium' ) / this.getPDV( 'potassium' ) ) * 100 ) }</span>%</strong>
                             </Fragment>
                         }
                     </li>
@@ -446,16 +436,6 @@ class Nutrition extends Component {
                         </li>
                         <li className="nutrition-facts-spacer"></li>
                         <li className="nutrition-facts-no-border">
-                            {
-                                this.getValue( 'potassium' ) &&
-                                <Fragment>
-                                    <strong className="nutrition-facts-heading">{ this.getLabelTitle( 'potassium' ) }</strong>
-                                    <strong className="nutrition-facts-label"> { this.getValue( 'potassium' ) }</strong><strong className="nutrition-facts-label">{ __( 'mg', 'recipe-card-blocks-by-wpzoom' ) }</strong>
-                                    <strong className="nutrition-facts-right"><span className="nutrition-facts-percent">{ ceil( ( this.getValue( 'potassium' ) / this.getPDV( 'potassium' ) ) * 100 ) }</span>%</strong>
-                                </Fragment>
-                            }
-                        </li>
-                        <li>
                             {
                                 this.getValue( 'total-carbohydrate' ) &&
                                 <Fragment>
