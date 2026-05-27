@@ -5,7 +5,7 @@
  * Description: Recipe Card Blocks with Schema Markup — create SEO-optimized recipes with Gutenberg, Elementor & AMP support.
  * Author: WPZOOM
  * Author URI: https://recipecard.io/
- * Version: 3.4.14
+ * Version: 3.4.15
  * Copyright: (c) 2021 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
