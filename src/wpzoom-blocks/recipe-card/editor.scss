@@ -202,6 +202,44 @@
 			display: inline-flex;
 		}
 	}
+	.note-buttons {
+		display: flex;
+		gap: 8px;
+		margin: 10px 0;
+		flex-wrap: wrap;
+	}
+
+	.recipe-card-notes-list-editor {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.recipe-card-note-item-editor {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 8px;
+		align-items: start;
+		margin-bottom: 8px;
+	}
+
+	.recipe-card-note-item-editor__input {
+		min-height: 36px;
+		padding: 8px 10px;
+		border: 1px solid rgba(30, 30, 30, 0.2);
+		border-radius: 4px;
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.recipe-card-note-item-editor__input:focus {
+		border-color: #2271b1;
+		box-shadow: 0 0 0 1px #2271b1;
+		outline: 2px solid transparent;
+	}
+
+	.recipe-card-note-item-editor__delete {
+		align-self: center;
+	}
 	.direction-step-button-container button.direction-step-button-delete:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
 		color: #a00;
 	}

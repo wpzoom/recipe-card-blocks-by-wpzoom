@@ -15,6 +15,7 @@ import Ingredient from './Ingredient';
 import Direction from './Direction';
 import Inspector from './Inspector';
 import ExtraOptionsModal from './ExtraOptionsModal';
+import Notes from './Notes';
 import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
 import { getBlockStyle } from '../../../helpers/getBlockStyle';
@@ -348,8 +349,6 @@ class RecipeCard extends Component {
             id,
             recipeTitle,
             summary,
-            notesTitle,
-            notes,
             course,
             cuisine,
             difficulty,
@@ -376,9 +375,7 @@ class RecipeCard extends Component {
         } = attributes;
 
 		const newRecipeTitle  = deserializeAttributes( recipeTitle );
-		const newNotesValue   = deserializeAttributes( notes );
 		const newSummaryValue = deserializeAttributes( summary );
-		const newNotesTitle   = deserializeAttributes( notesTitle );
 		const newVideoTitle   = deserializeAttributes( videoTitle );
 
         const style = getBlockStyle( className );
@@ -672,29 +669,11 @@ class RecipeCard extends Component {
                         </Fragment>
                     }
                 </div>
-                <div className="recipe-card-notes">
-                    <RichText
-                        tagName="h3"
-                        className="notes-title"
-                        format="string"
-                        value={ newNotesTitle }
-                        unstableOnFocus={ () => this.setFocus( 'notesTitle' ) }
-                        onChange={ ( notesTitle ) => setAttributes( { notesTitle } ) }
-                        placeholder={ __( 'Write Notes title', 'recipe-card-blocks-by-wpzoom' ) }
-                        keepPlaceholderOnFocus={ true }
-                    />
-                    <RichText
-                        // className="recipe-card-notes-list"
-                        tagName="ul"
-                        multiline="li"
-                        value={ newNotesValue }
-                        unstableOnFocus={ () => this.setFocus( 'notes' ) }
-                        onChange={ ( newNote ) => setAttributes( { notes: newNote } ) }
-                        placeholder={ __( 'Enter Note text for your recipe.', 'recipe-card-blocks-by-wpzoom' ) }
-                        keepPlaceholderOnFocus={ true }
-                    />
-                    <p className="description">{ __( 'Press Enter to add new note.', 'recipe-card-blocks-by-wpzoom' ) }</p>
-                </div>
+                <Notes
+                    attributes={ attributes }
+                    setAttributes={ setAttributes }
+                    onFocus={ this.setFocus }
+                />
                 <Inspector
                     media={ this.props.media }
                     categories={ this.props.categories }
