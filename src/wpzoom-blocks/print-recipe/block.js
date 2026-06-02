@@ -14,6 +14,7 @@ import icon from './icon';
 /* WordPress dependencies */
 import { Fragment } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Register: Ingredients Gutenberg Block.
@@ -29,6 +30,7 @@ import { registerBlockType } from '@wordpress/blocks';
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
+    apiVersion: 3,
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
     title: __( 'Print Recipe', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     description: __( 'A button to print WPZOOM Recipe Card.', 'recipe-card-blocks-by-wpzoom' ),
@@ -60,13 +62,12 @@ registerBlockType( 'wpzoom-recipe-card/block-print-recipe', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes, className } ) => {
+    edit: ( { attributes } ) => {
         const { id, text } = attributes;
+        const blockProps = useBlockProps();
 
         return (
-            <Fragment>
-                <a href={ `#${ id }` } className={ className }>{ text }</a>
-            </Fragment>
+            <a { ...blockProps } href={ `#${ id }` }>{ text }</a>
         );
     },
 
