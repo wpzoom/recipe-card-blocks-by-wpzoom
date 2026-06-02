@@ -155,7 +155,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			wp_register_style(
 				self::$_slug . '-editor-css',
 				$this->asset_source( '', 'blocks.editor.build.css' ),
-				$this->get_dependencies( self::$_slug . '-editor-css' ),
+				array_merge( $this->get_dependencies( self::$_slug . '-editor-css' ), array( 'dashicons' ) ),
 				WPZOOM_RCB_VERSION
 			);
 		}
@@ -386,6 +386,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				);
 			}
 
+			wp_enqueue_style( 'dashicons' );
 			wp_enqueue_style( self::$_slug . '-editor-css' );
 
 			/**
@@ -419,8 +420,9 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function load_icon_fonts() {
-			// enqueue all icon fonts only in admin panel
+			// Required in the iframed block editor (Block API v3) where parent-enqueued dashicons are not available.
 			if ( is_admin() ) {
+				wp_enqueue_style( 'dashicons' );
 				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
 			}
 
