@@ -1110,6 +1110,45 @@ p.ai-p{
     .submit-button {
         width: 100%;
     }
+}
 
+/**
+ * Subtle single-line PRO nutrition-facts hint shown to free users
+ * at the bottom of the card.
+ */
+.wpzoom-rcb-recipe-nutrition-upsell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 4px;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f1;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #757575;
 
+    .dashicons-lock {
+        width: 15px;
+        height: 15px;
+        font-size: 15px;
+        color: #e15819;
+        flex-shrink: 0;
+    }
+
+    &__text {
+        flex: 1;
+    }
+
+    &__link {
+        font-weight: 600;
+        color: #e15819;
+        text-decoration: none;
+        white-space: nowrap;
+
+        &:hover,
+        &:focus {
+            color: #c8480f;
+            text-decoration: underline;
+        }
+    }
 }
