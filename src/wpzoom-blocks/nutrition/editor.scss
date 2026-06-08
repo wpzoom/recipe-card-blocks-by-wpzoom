@@ -65,3 +65,82 @@
         }
     }
 }
+
+/**
+ * PRO upsell card shown to free users inside the Nutrition Facts block.
+ */
+.wpzoom-rcb-nutrition-pro-upsell {
+    clear: both;
+    margin-top: 16px;
+    padding: 16px;
+    background: linear-gradient( 135deg, #fff7f2 0%, #fdeee4 100% );
+    border: 1px solid #f6c9a8;
+    border-radius: 6px;
+
+    .wpzoom-rcb-pro-upsell-title {
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #1d2327;
+    }
+
+    .wpzoom-rcb-pro-upsell-text {
+        margin: 0 0 10px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #50575e;
+    }
+
+    .wpzoom-rcb-pro-upsell-list {
+        margin: 0 0 12px;
+        padding: 0;
+        list-style: none;
+
+        li {
+            margin: 0 0 4px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #1d2327;
+        }
+    }
+
+    .wpzoom-rcb-pro-upsell-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #e15819;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.15s ease;
+
+        &:hover,
+        &:focus {
+            background-color: #c8480f;
+            color: #fff;
+        }
+    }
+
+    .wpzoom-rcb-pro-upsell-secondary {
+        display: block;
+        margin-top: 10px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #2271b1;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
+
+    &.is-compact {
+        padding: 12px;
+
+        .wpzoom-rcb-pro-upsell-title {
+            font-size: 13px;
+        }
+    }
+}
