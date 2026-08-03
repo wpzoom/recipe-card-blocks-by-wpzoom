@@ -15,6 +15,7 @@ import Nutrition from './components/Nutrition';
 
 /* WordPress dependencies */
 import { registerBlockType } from '@wordpress/blocks';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Register: Nutrition Gutenberg Block.
@@ -30,6 +31,7 @@ import { registerBlockType } from '@wordpress/blocks';
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
+    apiVersion: 3,
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
     title: __( 'Nutrition Facts', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     description: __( 'Display Nutrition Facts for your recipe.', 'recipe-card-blocks-by-wpzoom' ),
@@ -76,8 +78,17 @@ registerBlockType( 'wpzoom-recipe-card/block-nutrition', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes, setAttributes, className, clientId } ) => {
-        return <Nutrition { ...{ attributes, setAttributes, className, clientId } } />;
+    edit: ( { attributes, setAttributes, clientId } ) => {
+        const blockProps = useBlockProps();
+        // Use the deterministic block class (matching the PHP frontend render) instead of
+        // blockProps.className: under apiVersion 3 the latter is prefixed with editor-only
+        // classes (e.g. block-editor-block-list__block), which would break the CSS selectors.
+        const blockClassName = 'wp-block-wpzoom-recipe-card-block-nutrition';
+        return (
+            <div { ...blockProps }>
+                <Nutrition { ...{ attributes, setAttributes, className: blockClassName, clientId } } />
+            </div>
+        );
     },
 
     save() {

@@ -17,6 +17,7 @@ import icon from './icon';
 
 /* WordPress dependencies */
 import { registerBlockType } from '@wordpress/blocks';
+import { useBlockProps } from '@wordpress/block-editor';
 
 const deprecatedAttr = {
     title: {
@@ -59,6 +60,7 @@ const deprecatedAttr = {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'wpzoom-recipe-card/block-directions', {
+    apiVersion: 3,
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
     title: __( 'Directions', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     icon: {
@@ -119,7 +121,8 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes, setAttributes, className } ) => {
+    edit: ( { attributes, setAttributes } ) => {
+        const blockProps = useBlockProps();
         const steps = attributes.steps ? attributes.steps.slice() : [];
 
         // Populate deprecated attribute 'content'
@@ -159,7 +162,11 @@ registerBlockType( 'wpzoom-recipe-card/block-directions', {
             ];
         }
 
-        return <Direction { ...{ attributes, setAttributes, className } } />;
+        return (
+            <div { ...blockProps }>
+                <Direction { ...{ attributes, setAttributes, className: blockProps.className } } />
+            </div>
+        );
     },
 
     save() {
