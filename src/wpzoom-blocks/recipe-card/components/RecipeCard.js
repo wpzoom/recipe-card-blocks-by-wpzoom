@@ -16,6 +16,7 @@ import Direction from './Direction';
 import Inspector from './Inspector';
 import ExtraOptionsModal from './ExtraOptionsModal';
 import Notes from './Notes';
+import NutritionUpsell from './NutritionUpsell';
 import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
 import { getBlockStyle } from '../../../helpers/getBlockStyle';
@@ -674,6 +675,7 @@ class RecipeCard extends Component {
                     setAttributes={ setAttributes }
                     onFocus={ this.setFocus }
                 />
+                <NutritionUpsell />
                 <Inspector
                     media={ this.props.media }
                     categories={ this.props.categories }

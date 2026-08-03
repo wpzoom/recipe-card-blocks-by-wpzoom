@@ -25,6 +25,8 @@ import '../style.scss';
 import '../editor.scss';
 
 const labels = wpzoomRecipeCard.nutritionFactsLabel;
+const isPro = get( wpzoomRecipeCard, 'is_pro', false );
+const upgradeUrl = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=nutrition-block&utm_campaign=upgrade-premium';
 
 class Nutrition extends Component {
     constructor( props ) {
@@ -505,6 +507,61 @@ class Nutrition extends Component {
         return ( this.drawHorizontalLayout() );
     }
 
+    renderProUpsell() {
+        return (
+            <div className="wpzoom-rcb-nutrition-pro-upsell">
+                <p className="wpzoom-rcb-pro-upsell-title">
+                    { __( '⚡ Stop calculating nutrition by hand', 'recipe-card-blocks-by-wpzoom' ) }
+                </p>
+                <p className="wpzoom-rcb-pro-upsell-text">
+                    { __( 'With Recipe Card Blocks PRO, nutrition facts are calculated automatically from your recipe ingredients — calories, macros, vitamins and more — using our built-in ingredients database. No copy-pasting, no spreadsheets.', 'recipe-card-blocks-by-wpzoom' ) }
+                </p>
+                <ul className="wpzoom-rcb-pro-upsell-list">
+                    <li>{ __( '✓ Auto-fill every value straight from your ingredients', 'recipe-card-blocks-by-wpzoom' ) }</li>
+                    <li>{ __( '✓ Accurate, USDA-based nutrition data', 'recipe-card-blocks-by-wpzoom' ) }</li>
+                    <li>{ __( '✓ Better SEO & richer results in Google search', 'recipe-card-blocks-by-wpzoom' ) }</li>
+                </ul>
+                <a
+                    className="wpzoom-rcb-pro-upsell-button"
+                    href={ upgradeUrl }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    { __( 'Upgrade to PRO →', 'recipe-card-blocks-by-wpzoom' ) }
+                </a>
+                <a
+                    className="wpzoom-rcb-pro-upsell-secondary"
+                    href="https://recipecard.io/recipe-nutrition-analyzer/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    { __( 'Or try the free web Analyzer', 'recipe-card-blocks-by-wpzoom' ) }
+                </a>
+            </div>
+        );
+    }
+
+    renderProUpsellCompact() {
+        return (
+            <div className="wpzoom-rcb-nutrition-pro-upsell is-compact">
+                <p className="wpzoom-rcb-pro-upsell-title">
+                    { __( '⚡ Auto-calculate with PRO', 'recipe-card-blocks-by-wpzoom' ) }
+                </p>
+                <p className="wpzoom-rcb-pro-upsell-text">
+                    { __( 'PRO fills in all nutrition values automatically from your recipe ingredients — no manual entry.', 'recipe-card-blocks-by-wpzoom' ) }
+                </p>
+                <a
+                    className="wpzoom-rcb-pro-upsell-button"
+                    href={ upgradeUrl }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    { __( 'Upgrade to PRO →', 'recipe-card-blocks-by-wpzoom' ) }
+                </a>
+            </div>
+        );
+    }
+
     render() {
         const {
             className,
@@ -537,22 +594,7 @@ class Nutrition extends Component {
                     <p style={ { fontSize: '12px', fontStyle: 'italic', color: '#757575', marginTop: '8px' } }>
                         { __( 'Note: This button syncs servings and calories from the Recipe Card block (if present on the page).', 'recipe-card-blocks-by-wpzoom' ) }
                     </p>
-                    <div style={ { marginTop: '16px', padding: '12px', backgroundColor: '#f0f6fc', border: '1px solid #c3dcf3', borderRadius: '4px' } }>
-                        <p style={ { margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600' } }>
-                            { __( '💡 Need help calculating nutrition values?', 'recipe-card-blocks-by-wpzoom' ) }
-                        </p>
-                        <p style={ { margin: '0 0 8px 0', fontSize: '12px', lineHeight: '1.5' } }>
-                            { __( 'Use our Recipe Nutrition Analyzer to automatically calculate all nutrition facts for your recipes!', 'recipe-card-blocks-by-wpzoom' ) }
-                        </p>
-                        <a
-                            href="https://recipecard.io/recipe-nutrition-analyzer/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={ { display: 'inline-block', padding: '6px 12px', backgroundColor: '#2271b1', color: '#fff', textDecoration: 'none', borderRadius: '3px', fontSize: '12px', fontWeight: '500' } }
-                        >
-                            { __( 'Try Recipe Analyzer →', 'recipe-card-blocks-by-wpzoom' ) }
-                        </a>
-                    </div>
+                    { ! isPro && this.renderProUpsell() }
                 </div>
                 <div className={ blockClassName }>
                     { this.drawNutritionFacts() }
@@ -569,22 +611,7 @@ class Nutrition extends Component {
                             ] }
                             onChange={ newValue => this.onChangeSettings( newValue, 'layout-orientation' ) }
                         />
-                        <div style={ { marginTop: '16px', padding: '12px', backgroundColor: '#f0f6fc', border: '1px solid #c3dcf3', borderRadius: '4px' } }>
-                            <p style={ { margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600' } }>
-                                { __( '💡 Quick Tip', 'recipe-card-blocks-by-wpzoom' ) }
-                            </p>
-                            <p style={ { margin: '0 0 8px 0', fontSize: '12px', lineHeight: '1.5' } }>
-                                { __( 'Save time by using our Recipe Nutrition Analyzer to automatically calculate all nutrition values.', 'recipe-card-blocks-by-wpzoom' ) }
-                            </p>
-                            <a
-                                href="https://recipecard.io/recipe-nutrition-analyzer/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={ { color: '#2271b1', textDecoration: 'none', fontSize: '12px', fontWeight: '500' } }
-                            >
-                                { __( 'Try Recipe Analyzer →', 'recipe-card-blocks-by-wpzoom' ) }
-                            </a>
-                        </div>
+                        { ! isPro && this.renderProUpsellCompact() }
                     </PanelBody>
                 </InspectorControls>
             </div>
