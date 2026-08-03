@@ -4,8 +4,8 @@ Donate link: https://recipecard.io/
 Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.0
 Requires PHP: 7.4
-Tested up to: 7.0
-Stable tag: 3.4.15
+Tested up to: 7.1
+Stable tag: 3.4.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,6 +156,10 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 
 
 == Changelog ==
+
+= 3.4.16 =
+* Improved: Full compatibility with WordPress 7.1
+* Minor style fixes in the editor
 
 = 3.4.15 =
 * Multiple improvements and fixes
