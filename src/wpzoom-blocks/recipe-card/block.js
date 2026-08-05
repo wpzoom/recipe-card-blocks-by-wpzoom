@@ -18,7 +18,6 @@ import icon from './icon';
 
 /* WordPress dependencies */
 import { registerBlockType } from '@wordpress/blocks';
-import { useBlockProps } from '@wordpress/block-editor';
 const { setting_options, pluginURL } = wpzoomRecipeCard;
 
 /**
@@ -35,7 +34,6 @@ const { setting_options, pluginURL } = wpzoomRecipeCard;
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
-    apiVersion: 3,
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
     title: __( 'Recipe Card (Schema.org)', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     description: __( 'Display a Recipe Card with recipe metadata.', 'recipe-card-blocks-by-wpzoom' ),
@@ -97,9 +95,7 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes, setAttributes } ) => {
-        const blockProps = useBlockProps();
-        const className = blockProps.className;
+    edit: ( { attributes, setAttributes, className } ) => {
         const style = getBlockStyle( className );
         const { settings, hasInstance, initDetails, details } = attributes;
 
@@ -176,11 +172,7 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
             }
         } );
 
-        return (
-            <div { ...blockProps }>
-                <RecipeCard { ...{ attributes, setAttributes, className } } />
-            </div>
-        );
+        return <RecipeCard { ...{ attributes, setAttributes, className } } />;
     },
 
     save() {

@@ -14,7 +14,6 @@ import icon from './icon';
 /* WordPress dependencies */
 import { Fragment } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
-import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Register: Ingredients Gutenberg Block.
@@ -30,7 +29,6 @@ import { useBlockProps } from '@wordpress/block-editor';
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'wpzoom-recipe-card/block-jump-to-recipe', {
-    apiVersion: 3,
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
     title: __( 'Jump To Recipe', 'recipe-card-blocks-by-wpzoom' ), // Block title.
     description: __( 'A button to jump to a WPZOOM Recipe Card on the same page.', 'recipe-card-blocks-by-wpzoom' ),
@@ -62,12 +60,13 @@ registerBlockType( 'wpzoom-recipe-card/block-jump-to-recipe', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes } ) => {
+    edit: ( { attributes, className } ) => {
         const { id, text } = attributes;
-        const blockProps = useBlockProps();
 
         return (
-            <a { ...blockProps } href={ `#${ id }` }>{ text }</a>
+            <Fragment>
+                <a href={ `#${ id }` } className={ className }>{ text }</a>
+            </Fragment>
         );
     },
 

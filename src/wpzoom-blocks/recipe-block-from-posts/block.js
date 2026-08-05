@@ -10,7 +10,7 @@
  */
 import icon from './icon';
 
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { Disabled, PanelBody, Placeholder } from '@wordpress/components';
 import { withSelect } from '@wordpress/data';
@@ -37,7 +37,6 @@ function getPostEditURL(postId) {
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
-    apiVersion: 3,
     title:       __( 'Insert Existing Recipe', 'recipe-card-blocks-by-wpzoom' ),
     description: __( 'Select and display one of your existing recipes.', 'recipe-card-blocks-by-wpzoom' ),
     icon:        {
@@ -65,7 +64,6 @@ registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
     } )( ( props ) => {
         const { attributes, posts, setAttributes } = props;
         const { postId } = attributes;
-        const blockProps = useBlockProps();
         const _postId = postId && String( postId ).trim() != '' ? String( postId ) : '-1';
         //const recipePosts = posts && posts.length > 0 ? posts.map( ( x ) => { return { key: String( x.id ), name: x.title.raw } } ) : [];
         const recipeReactSelectPosts = posts && posts.length > 0 ? posts.map( ( x ) => ( { value:x.id, label: x.title.raw  } ) ) : [];
@@ -86,7 +84,7 @@ registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
 
         return (
             // eslint-disable-next-line react/jsx-no-undef
-            <div { ...blockProps }>
+            <React.Fragment>
                 <InspectorControls>
                     <PanelBody title={ __( 'Options', 'recipe-card-blocks-by-wpzoom' ) }>
                         { recipeReactSelectPosts.length > 0 ? postReactSelect : <Disabled>{ postReactSelect }</Disabled> }
@@ -101,7 +99,7 @@ registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
                         </Placeholder>
 					}
                 </Fragment>
-            </div>
+            </React.Fragment>
         );
     } )
 } );
