@@ -162,14 +162,15 @@ class Recipe_Card_Cpt extends Widget_Base {
 	"';
 
 	$rec_note = sprintf(
-		'<span %s>Use only one instance of this widget per page/post</span>',
-		$inline_style
+		'<span %1$s>%2$s</span>',
+		$inline_style,
+		esc_html__( 'Use only one instance of this widget per page/post', 'recipe-card-blocks-by-wpzoom' )
 	);
 
 	$this->add_control(
 		'recomendation_note',
 		array(
-			'label'       => 'IMPORTANT!' . $rec_note,
+			'label'       => esc_html__( 'IMPORTANT!', 'recipe-card-blocks-by-wpzoom' ) . $rec_note,
 			'type'        => Controls_Manager::HEADING,
 		)
 	);

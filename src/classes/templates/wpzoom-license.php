@@ -45,13 +45,14 @@ if ( ! $user_data ) {
 		<div class="vcard-body">
             <p><?php esc_html_e( 'Connect to', 'recipe-card-blocks-by-wpzoom' ); ?> <a href="https://recipecard.io" target="_blank">recipecard.io</a> <?php esc_html_e( 'to get the status and the amount of credits.', 'recipe-card-blocks-by-wpzoom' ); ?><br/> <?php
                     printf(
-                        /* translators: %s: RCB store URL */
-                        esc_html__( 'No account? %s' , 'recipe-card-blocks-by-wpzoom' ),
-                        '<a href="' . esc_url( WPZOOM_RCB_STORE_URL ) . 'register/" target="_blank">Sign up today</a> and purchase AI Credits!'
+                        /* translators: 1: opening link tag to the RCB registration page, 2: closing link tag */
+                        esc_html__( 'No account? %1$sSign up today%2$s and purchase AI Credits!' , 'recipe-card-blocks-by-wpzoom' ),
+                        '<a href="' . esc_url( WPZOOM_RCB_STORE_URL ) . 'register/" target="_blank">',
+                        '</a>'
                     );
                 ?></p>
 
-			<a href="#" class="vsign"><?php esc_html_e( '', 'recipe-card-blocks-by-wpzoom' ); ?>Connect</a>
+			<a href="#" class="vsign"><?php esc_html_e( 'Connect', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 
 		</div>
 	</div>

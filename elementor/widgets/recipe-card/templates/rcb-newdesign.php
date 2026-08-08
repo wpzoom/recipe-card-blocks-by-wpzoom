@@ -96,7 +96,7 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 
 	if ( 'yes' === $settings['show_author'] ) {
 		$recipe_author = ! empty( $settings['custom_author'] ) ? esc_html( $settings['custom_author'] ) : get_the_author_meta( 'display_name' );
-		$html .= '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'wpzoom-recipe-card' ) .' '. $recipe_author . '</span>';
+		$html .= '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) .' '. $recipe_author . '</span>';
 	}
 
 	if( !empty( $settings['recipe_course'] ) && $settings['show_course'] ) {

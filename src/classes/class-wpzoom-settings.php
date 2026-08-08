@@ -2045,8 +2045,8 @@ class WPZOOM_Settings {
     				<?php endforeach ?>
 
                     <ul class="rcb_btns_bottom">
-                        <li id="wpzoom_rcb_settings_save"><?php submit_button( 'Save Changes', 'primary', 'wpzoom_rcb_settings_save', false ); ?></li>
-                        <li id="wpzoom_rcb_reset_settings"><input type="button" class="button button-secondary" name="wpzoom_rcb_reset_settings" id="wpzoom_rcb_reset_settings" value="Reset Settings"></li>
+                        <li id="wpzoom_rcb_settings_save"><?php submit_button( __( 'Save Changes', 'recipe-card-blocks-by-wpzoom' ), 'primary', 'wpzoom_rcb_settings_save', false ); ?></li>
+                        <li id="wpzoom_rcb_reset_settings"><input type="button" class="button button-secondary" name="wpzoom_rcb_reset_settings" id="wpzoom_rcb_reset_settings" value="<?php esc_attr_e( 'Reset Settings', 'recipe-card-blocks-by-wpzoom' ); ?>"></li>
                     </ul>
 
     			</form>
@@ -2072,13 +2072,13 @@ class WPZOOM_Settings {
                                        <p class="wpz-onboard_content-side-section-content"><?php esc_html_e( 'Unlock advanced customization options with the PRO version to make your recipe cards truly unique. Add videos, nutritional facts, and more to engage your readers like never before!', 'recipe-card-blocks-by-wpzoom' ); ?></p>
 
                                        <ul>
-                                           <li><span class="dashicons dashicons-yes"></span> Adjustable Servings</li>
-                                           <li><span class="dashicons dashicons-yes"></span> Unit Conversion</li>
-                                           <li><span class="dashicons dashicons-yes"></span> Recipe Roundups</li>
-                                           <li><span class="dashicons dashicons-yes"></span> Recipe Index Block</li>
-                                           <li><span class="dashicons dashicons-yes"></span> Star Rating</li>
-                                           <li><span class="dashicons dashicons-yes"></span> Equipment</li>
-                                           <li><span class="dashicons dashicons-yes"></span> ...and many more</li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Adjustable Servings', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Unit Conversion', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Recipe Roundups', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Recipe Index Block', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Star Rating', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Equipment', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( '...and many more', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                        </ul>
                                        <div class="wpz-onboard_content-side-section-button">
                                            <a href="<?php echo esc_url( __( 'https://recipecard.io/features/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=btn-right-col', 'recipe-card-blocks-by-wpzoom' ) ); ?>" target="_blank" class="button button-primary"><?php esc_html_e( 'Discover All PRO Features &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></a>

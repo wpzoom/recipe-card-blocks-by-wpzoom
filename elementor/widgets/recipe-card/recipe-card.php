@@ -241,15 +241,22 @@ class Recipe_Card extends Widget_Base {
 		$cpt_link = admin_url( 'edit.php?post_type=wpzoom_rcb' );
 
 		$rec_note = sprintf(
-            '<span %s>We recommend creating recipes on the <a href="%s">All Recipes</a> page and adding them to Elementor using the <strong>Insert existing Recipe</strong> widget for more flexibility.</span>',
+			'<span %1$s>%2$s</span>',
 			$inline_style,
-			$cpt_link
+			sprintf(
+				/* translators: 1: opening link tag to the All Recipes page, 2: closing link tag, 3: opening <strong> tag, 4: closing </strong> tag */
+				esc_html__( 'We recommend creating recipes on the %1$sAll Recipes%2$s page and adding them to Elementor using the %3$sInsert existing Recipe%4$s widget for more flexibility.', 'recipe-card-blocks-by-wpzoom' ),
+				'<a href="' . esc_url( $cpt_link ) . '">',
+				'</a>',
+				'<strong>',
+				'</strong>'
+			)
 		);
 
 		$this->add_control(
 			'recomendation_note',
 			array(
-				'label'       => 'NOTE!' . $rec_note,
+				'label'       => esc_html__( 'NOTE!', 'recipe-card-blocks-by-wpzoom' ) . $rec_note,
 				'type'        => Controls_Manager::HEADING,
 			)
 		);

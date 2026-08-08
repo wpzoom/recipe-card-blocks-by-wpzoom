@@ -6,7 +6,7 @@ import { AIICON } from '../skins/shared/icon';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import {
     PanelBody,
     PanelRow,
@@ -85,18 +85,36 @@ const AIRecipeCredits = ( props ) => {
     >
             <PanelRow style={ { borderBottom: 'none !important' } }>
                 <p style={ { color: '#808080', fontWeight: 300 } }>
-                    Generating a recipe costs 1 AI Credit. Buy an AI credit plan from our website that best fits your needs.
+                    { __( 'Generating a recipe costs 1 AI Credit. Buy an AI credit plan from our website that best fits your needs.', 'recipe-card-blocks-by-wpzoom' ) }
                 </p>
             </PanelRow>
             <PanelRow style={ { borderBottom: 'none !important' } }>
-                { freeCredits > 0 && ( 
-                    <strong>{ freeCredits } Free Credits</strong>
+                { freeCredits > 0 && (
+                    <strong>
+                        { sprintf(
+                            /* translators: %d: number of free AI credits */
+                            _n( '%d Free Credit', '%d Free Credits', freeCredits, 'recipe-card-blocks-by-wpzoom' ),
+                            freeCredits
+                        ) }
+                    </strong>
                 ) }
                 { credits > 0 && (
-                    <strong>{ credits } Credits remaining</strong>    
+                    <strong>
+                        { sprintf(
+                            /* translators: %d: number of AI credits left */
+                            _n( '%d Credit remaining', '%d Credits remaining', credits, 'recipe-card-blocks-by-wpzoom' ),
+                            credits
+                        ) }
+                    </strong>
                 ) }
                 { freeCredits == 0 && credits == 0 && (
-                    <strong>0 Credits remaining</strong>
+                    <strong>
+                        { sprintf(
+                            /* translators: %d: number of AI credits left */
+                            _n( '%d Credit remaining', '%d Credits remaining', 0, 'recipe-card-blocks-by-wpzoom' ),
+                            0
+                        ) }
+                    </strong>
                 ) }
             </PanelRow>
             <PanelRow
