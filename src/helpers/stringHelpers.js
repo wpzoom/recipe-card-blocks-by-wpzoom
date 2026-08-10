@@ -3,6 +3,11 @@
  */
 import { replace, includes } from 'lodash';
 
+/**
+ * Internal dependencies
+ */
+import { sanitizeHTML } from './sanitizeHelpers';
+
  /**
  * Capitalize the first letter of a string.
  *
@@ -22,9 +27,21 @@ export function firstToUpperCase( string ) {
  * @returns {string} The string with HTML stripped.
  */
 export function stripHTML( string ) {
-    const tmp = document.createElement( 'DIV' );
-    tmp.innerHTML = string;
-    return tmp.textContent || tmp.innerText || '';
+    if ( ! string || 'string' !== typeof string ) {
+        return string || '';
+    }
+
+    // Parsed into an inert document instead of assigning `innerHTML` on a live
+    // element, which would already run the markup (`<img src=x onerror=…>`).
+    if ( 'undefined' !== typeof window && window.DOMParser ) {
+        const doc = new window.DOMParser().parseFromString( string, 'text/html' );
+
+        if ( doc && doc.body ) {
+            return doc.body.textContent || '';
+        }
+    }
+
+    return string.replace( /<[^>]*>?/g, '' );
 }
 
 /**
@@ -86,6 +103,10 @@ export function matchIMGsrc( string ) {
  * @returns {string} The deseralized string.
  */
  export function deserializeAttributes( string ) {
+    if ( ! string || 'string' !== typeof string ) {
+        return string;
+    }
+
 	if ( ! includes( string, '\\u003c' ) && includes( string, 'u003c' ) ) {
         string = replace( string, /u003c/g, '<' );
     }
@@ -101,7 +122,11 @@ export function matchIMGsrc( string ) {
     if ( ! includes( string, '\\u0026' ) && includes( string, 'u0026' ) ) {
         string = replace( string, /u0026/g, '&' );
     }
-    return string;
+
+    // The replacements above turn attribute text back into real markup, and
+    // that text can come straight from a request (the post title on
+    // `post-new.php`), so it must never reach `RichText` unfiltered.
+    return sanitizeHTML( string );
 }
 /**
  * Deserealize and convert the block attributes into the HTML
