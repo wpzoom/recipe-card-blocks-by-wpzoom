@@ -101,6 +101,15 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				false,
 				true
 			);
+
+			// NoSleep.js library for the Cook Mode toggle (since 3.5.0).
+			wp_register_script(
+				self::$_slug . '-no-sleep',
+				$this->asset_source( 'js', 'nosleep.min.js' ),
+				array(),
+				WPZOOM_RCB_VERSION,
+				true
+			);
 		}
 
 		/**
@@ -330,6 +339,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				$posts_loop_page = is_home() || is_archive() || is_search();
 
 				if ( $should_enqueue || $has_reusable_block || $posts_loop_page ) {
+					// Load the NoSleep library before the main script when Cook Mode is enabled
+					if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle' ) ) {
+						wp_enqueue_script( self::$_slug . '-no-sleep' );
+					}
+
 					wp_enqueue_script( self::$_slug . '-script' );
 
 					// Load Pinterest script
@@ -357,6 +371,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 						'ajax_url'   => admin_url( 'admin-ajax.php' ),
 						'nonce'      => wp_create_nonce( 'wpzoom_rcb' ),
 						'api_nonce'  => wp_create_nonce( 'wp_rest' ),
+						'defaultCookMode' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_toggle_status' ),
 					)
 				);
 			}

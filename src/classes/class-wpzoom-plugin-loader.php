@@ -104,6 +104,11 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-scanner.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-post-saver.php';
 
+			// Recipe ratings: comment ratings + on-card star voting (since 3.5.0).
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-rating-db.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-comment-rating.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-rating-stars.php';
+
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-admin-pointer.php';
 
 			//Importer
@@ -132,6 +137,10 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 
 			//Added February 2026
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipes-page-notice.php';
+
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-review-notice.php';
+
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-seo-health.php';
 		}
 
 		/**

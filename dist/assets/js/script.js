@@ -269,3 +269,30 @@ recipeCardResponsiveEmbeds();
 
 // Run on resize.
 window.onresize = recipeCardResponsiveEmbeds;
+
+/* Cook Mode (prevent screen sleep) toggle — since 3.5.0 */
+jQuery( function( $ ) {
+	if ( typeof NoSleep === 'function' ) {
+		var noSleep = new NoSleep();
+		var toggleEl = $( '#toggle_button' );
+		var wakeLockEnabled = false;
+
+		if ( ! toggleEl.length ) {
+			return;
+		}
+
+		toggleEl.on( 'click', function() {
+			if ( ! wakeLockEnabled && toggleEl.is( ':checked' ) ) {
+				noSleep.enable(); // keep the screen on!
+				wakeLockEnabled = true;
+			} else {
+				noSleep.disable(); // let the screen turn off.
+				wakeLockEnabled = false;
+			}
+		} );
+
+		if ( typeof wpzoomRecipeCard !== 'undefined' && '1' == wpzoomRecipeCard.defaultCookMode ) {
+			toggleEl.trigger( 'click' );
+		}
+	}
+} );

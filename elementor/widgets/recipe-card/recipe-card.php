@@ -1843,6 +1843,13 @@ class Recipe_Card extends Widget_Base {
 
 		$rating_average = $rating_count = '';
 
+		// Aggregate rating from comment ratings (since 3.5.0).
+		if ( class_exists( 'WPZOOM_Comment_Rating' ) && '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_comment_ratings' ) ) {
+			$rating_recipe_ID = isset( self::$recipe->ID ) ? self::$recipe->ID : get_the_ID();
+			$rating_average   = WPZOOM_Comment_Rating::get_rating_average( $rating_recipe_ID );
+			$rating_count     = WPZOOM_Comment_Rating::get_total_votes( $rating_recipe_ID );
+		}
+
 		$json_ld = array(
 			'@context'           => 'https://schema.org',
 			'@type'              => 'Recipe',

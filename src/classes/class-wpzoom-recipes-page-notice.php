@@ -75,19 +75,19 @@ if ( ! class_exists( 'WPZOOM_Recipes_Page_Notice' ) ) {
 						<span class="dashicons dashicons-warning"></span>
 					</div>
 					<div class="wpzoom-rcb-upgrade-notice-content">
-						<h3><?php esc_html_e( 'Action Required: Your recipes are missing key SEO features', 'recipe-card-blocks-by-wpzoom' ); ?></h3>
+						<h3><?php esc_html_e( 'Grow your food blog with Recipe Card Blocks PRO', 'recipe-card-blocks-by-wpzoom' ); ?></h3>
 						<p>
 							<?php
 							printf(
 								/* translators: %d: number of recipes */
-								esc_html__( 'You have %d recipes but you\'re using the free version of Recipe Card Blocks, which doesn\'t include Star Ratings in Google search results. Without ratings, your recipes are less likely to stand out and get clicks. Upgrade to PRO to unlock:', 'recipe-card-blocks-by-wpzoom' ),
+								esc_html__( 'You have %d recipes — nice work! Take them further with the PRO features top food blogs rely on:', 'recipe-card-blocks-by-wpzoom' ),
 								$recipe_count
 							);
 							?>
 						</p>
 						<ul>
-							<li><strong><?php esc_html_e( 'Star Ratings in Google', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'show star ratings directly in search results to boost click-through rates', 'recipe-card-blocks-by-wpzoom' ); ?></li>
-							<li><strong><?php esc_html_e( 'Recipe Index', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'a searchable recipe catalog that keeps visitors on your site longer', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+							<li><strong><?php esc_html_e( 'Rating Modal & Written Reviews', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'collect written reviews with ratings and require a comment for low ratings', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+							<li><strong><?php esc_html_e( 'Recipe Index & Roundups', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'a searchable recipe catalog and curated collections that keep visitors on your site longer', 'recipe-card-blocks-by-wpzoom' ); ?></li>
 							<li><strong><?php esc_html_e( 'Adjustable Servings & Unit Conversion', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'let readers scale ingredients and switch between US/Metric', 'recipe-card-blocks-by-wpzoom' ); ?></li>
 						</ul>
 					</div>

@@ -108,7 +108,7 @@ const RegenerateButton = ( props ) => {
                 method: 'POST', headers: {
                     'Content-Type': 'application/json',
                 }, body: JSON.stringify( {
-                    message: promptPrepend + inputValue + promptAppend, user_id: licenseData.user.ID, email: licenseData.user.email, chat_model: aiChatModel,
+                    message: promptPrepend + inputValue + promptAppend, user_id: licenseData.user.ID, email: licenseData.user.email, auth_token: licenseData.user.auth_token, chat_model: aiChatModel,
                 } ),
             } );
             const responseData = await response.json();

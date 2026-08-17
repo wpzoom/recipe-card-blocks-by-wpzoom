@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 3.4.19
+Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,7 +47,11 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 
 = 📌 FREE FEATURES =
 
-* **AI Recipe Generator** 🆕
+* **Star Ratings** 🆕 — readers rate recipes with one click directly on the recipe card or when leaving a comment, and ratings are added to your recipe metadata to **display stars in Google search results**
+* **AI Recipe Importer** 🆕 — import any recipe from a URL, pasted text, or **even a photo** of a cookbook page or handwritten recipe card
+* **Recipe SEO Health Dashboard** 🆕 — see which recipes are missing fields for Google rich results and fix them in one click
+* **Cook Mode** 🆕 — keeps the screen awake while cooking
+* **AI Recipe Generator**
 * **Elementor Support** with dedicated recipe widget
 * **Schema.org Structured Data** (JSON-LD)
 * **3 Recipe Card Styles**
@@ -55,7 +59,7 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 * **AMP Support**
 * Bulk Add Ingredients and Directions
 * Video integration
-* Import recipes from WP Recipe Maker
+* Import recipes from WP Recipe Maker (including your existing ratings!)
 * WPML Support
 * Recipe Shortcode
 * Works with any theme
@@ -66,7 +70,7 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 
 **Boost your SEO & Traffic:**
 
-* **Star Rating** — display star ratings in Google search results
+* **Rating Modal with Written Reviews** — show a confirmation pop-up when readers rate, collect review comments, and require a comment for low ratings
 * **Recipe Index Block** — searchable recipe catalog that keeps visitors on your site
 * **Recipe Roundups** 🆕 — curate themed recipe collections that rank for long-tail keywords
 
@@ -74,8 +78,6 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 
 * **Adjustable Servings** — readers scale ingredient quantities in real-time
 * **Unit Conversion (US ↔ Metric)** 🆕 — switch between measurement systems with one click
-* **Cook Mode** — keeps the screen awake while cooking
-* **Comments Rating** — readers rate recipes directly in comments
 
 **Grow your blog:**
 
@@ -156,6 +158,16 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 
 
 == Changelog ==
+
+= 3.5.0 =
+* New: Star Ratings — readers can now rate recipes directly on the recipe card and when leaving a comment (previously PRO-only)
+* New: Ratings are included in the recipe structured data (aggregateRating) — display stars in Google search results with the free plugin
+* New: The average rating is displayed in the recipe card
+* New: Cook Mode — prevent the screen from turning off while cooking (previously PRO-only)
+* New: AI Recipe Importer — import any recipe from a URL, pasted text, or even a photo of a cookbook page
+* New: Recipe SEO Health dashboard — see at a glance which recipes are missing fields for Google rich results
+* Improved: Importing recipes from WP Recipe Maker now also imports your existing ratings
+* Improved: Updated admin notices
 
 = 3.4.19 =
 * Minor bug fixes

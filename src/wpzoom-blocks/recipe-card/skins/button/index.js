@@ -55,6 +55,11 @@ const ButtonBox = ( props ) => {
     const [ isLoading, setIsLoading ] = useState( false );
     const [ isImageLoading, setIsImageLoading ] = useState( false );
     const [ showToast, setShowToast ] = useState( false );
+    const [ mode, setMode ] = useState( 'generate' );
+    const [ importType, setImportType ] = useState( 'url' );
+    const [ importValue, setImportValue ] = useState( '' );
+    const [ importImageData, setImportImageData ] = useState( null );
+    const [ importImageName, setImportImageName ] = useState( '' );
     const { getCurrentUser } = useSelect( ( select ) => ( {
         getCurrentUser: select( 'core' ).getCurrentUser,
     } ) );
@@ -133,6 +138,7 @@ const ButtonBox = ( props ) => {
                     },
                     user_id: licenseData.user.ID,
                     email: licenseData.user.email,
+                    auth_token: licenseData.user.auth_token,
                     chat_model: aiChatModel,
                 } ),
             } );
@@ -223,6 +229,112 @@ const ButtonBox = ( props ) => {
         }
     };
 
+    const handleImportFileChange = ( event ) => {
+        const file = event.target.files && event.target.files[ 0 ];
+        if ( ! file ) {
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImportImageData( reader.result );
+            setImportImageName( file.name );
+        };
+        reader.readAsDataURL( file );
+    };
+
+    const handleImportSubmit = async( event ) => {
+        if ( event ) {
+            event.preventDefault();
+        }
+        try {
+            setIsLoading( true );
+            setIsVisible( false );
+
+            let licenseData = {};
+            await fetch(`${restURL}wpzoomRCB/v1/getLicenseData`, {
+                headers: {
+                    'X-WP-Nonce': wpzoomRecipeCard.api_nonce,
+                },
+                credentials: 'same-origin',
+            })
+                .then( response => response.json() )
+                .then( data => {
+                    licenseData = data;
+                } )
+                .catch( error => {
+                    console.error( 'Error fetching option value:', error );
+                } );
+
+            if ( licenseData.user == '' || licenseData.user == null || licenseData.user == undefined ) {
+                setSuccess( false );
+                setIsLoading( false );
+                setErrorLogin( true );
+                return false;
+            }
+
+            const source = 'image' === importType ? importImageData : importValue;
+
+            const response = await fetch( licenseData.endpoint_url + 'wp-json/wp-zoom-openai/v1/import_recipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify( {
+                    source_type: importType,
+                    source: source,
+                    user_id: licenseData.user.ID,
+                    email: licenseData.user.email,
+                    auth_token: licenseData.user.auth_token,
+                    chat_model: licenseData.chat_model,
+                } ),
+            } );
+            const responseData = await response.json();
+
+            if ( responseData.error === 'Insufficient credits' ) {
+                setCreditserror( true );
+            } else if ( responseData.error ) {
+                setSuccess( false );
+                setError( responseData.error );
+            } else {
+                try {
+                    JSON.parse( responseData.chat_response );
+                } catch ( error ) {
+                    setSuccess( false );
+                    setError( 'Error in AI Response,\nTry a different source.' );
+                    return false;
+                }
+
+                setRecipeData( responseData.chat_response, null );
+                setMessageToAI( {
+                    recipe: 'url' === importType ? importValue : __( 'Imported recipe', 'recipe-card-blocks-by-wpzoom' ),
+                    image: '',
+                } );
+                setSuccess( true );
+
+                if ( responseData.credits ) {
+                    await fetch(`${restURL}wpzoomRCB/v1/updateCredits`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-WP-Nonce': wpzoomRecipeCard.api_nonce,
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify( responseData.credits ),
+                    });
+                }
+            }
+        } catch ( error ) {
+            console.error( 'Error importing recipe:', error );
+            setSuccess( false );
+            setError( true );
+        } finally {
+            setIsLoading( false );
+            setIsVisible( false );
+        }
+    };
+
+    const isImportReady = 'image' === importType ? !! importImageData : !! importValue.trim();
+
     const handleAddManuallyClick = () => {
         setIsVisible( false ); // Close the popover
         setIsAddManuallyVisible( false ); // Hide "Add Manually" button
@@ -295,6 +407,69 @@ const ButtonBox = ( props ) => {
                     <button className="close-button" onClick={ handleAddManuallyClick }>
                         <span className="dashicons dashicons-no-alt"></span>
                     </button>
+                    <div className="rcb-ai-mode-tabs">
+                        <button
+                            type="button"
+                            className={ `rcb-ai-mode-tab ${ 'generate' === mode ? 'is-active' : '' }` }
+                            onClick={ () => setMode( 'generate' ) }
+                        >
+                            { __( '✨ Generate with AI', 'recipe-card-blocks-by-wpzoom' ) }
+                        </button>
+                        <button
+                            type="button"
+                            className={ `rcb-ai-mode-tab ${ 'import' === mode ? 'is-active' : '' }` }
+                            onClick={ () => setMode( 'import' ) }
+                        >
+                            { __( '📥 Import Recipe', 'recipe-card-blocks-by-wpzoom' ) }
+                        </button>
+                    </div>
+                    { 'import' === mode && (
+                    <form onSubmit={ handleImportSubmit } className="rcb-ai-import-form">
+                        <p className="rcb-ai-import-intro">{ __( 'Import a recipe from any website, pasted text, or even a photo of a cookbook page or handwritten recipe card.', 'recipe-card-blocks-by-wpzoom' ) }</p>
+                        <div className="rcb-ai-import-type-tabs">
+                            <button type="button" className={ `rcb-ai-import-type ${ 'url' === importType ? 'is-active' : '' }` } onClick={ () => setImportType( 'url' ) }>{ __( 'From URL', 'recipe-card-blocks-by-wpzoom' ) }</button>
+                            <button type="button" className={ `rcb-ai-import-type ${ 'text' === importType ? 'is-active' : '' }` } onClick={ () => setImportType( 'text' ) }>{ __( 'From Text', 'recipe-card-blocks-by-wpzoom' ) }</button>
+                            <button type="button" className={ `rcb-ai-import-type ${ 'image' === importType ? 'is-active' : '' }` } onClick={ () => setImportType( 'image' ) }>{ __( 'From Photo', 'recipe-card-blocks-by-wpzoom' ) }</button>
+                        </div>
+                        { 'url' === importType && (
+                            <TextControl
+                                placeholder={ __( 'https://example.com/my-favorite-recipe/', 'recipe-card-blocks-by-wpzoom' ) }
+                                value={ importValue }
+                                className="message-recipe rcb-import-url"
+                                onChange={ ( newValue ) => setImportValue( newValue ) }
+                            />
+                        ) }
+                        { 'text' === importType && (
+                            <textarea
+                                placeholder={ __( 'Paste the full recipe text here — ingredients, directions, everything. Formatting doesn\'t matter.', 'recipe-card-blocks-by-wpzoom' ) }
+                                value={ importValue }
+                                className="rcb-import-text"
+                                rows="8"
+                                onChange={ ( event ) => setImportValue( event.target.value ) }
+                            />
+                        ) }
+                        { 'image' === importType && (
+                            <div className="rcb-import-photo">
+                                <input
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp,image/gif"
+                                    id="rcb-import-photo-input"
+                                    onChange={ handleImportFileChange }
+                                />
+                                { importImageData && (
+                                    <div className="rcb-import-photo-preview">
+                                        <img src={ importImageData } alt={ importImageName } />
+                                        <span>{ importImageName }</span>
+                                    </div>
+                                ) }
+                            </div>
+                        ) }
+                        <button className={ `submit-button ${ ! isImportReady ? 'disabled' : '' }` } disabled={ ! isImportReady }>
+                            <span>{ __( 'Import with 1 AI Credit', 'recipe-card-blocks-by-wpzoom' ) }</span>
+                        </button>
+                    </form>
+                    ) }
+                    { 'generate' === mode && (
                     <form onSubmit={ handleSubmit }>
                         <div className="svg-input">
                             <span>
@@ -396,6 +571,8 @@ const ButtonBox = ( props ) => {
                             </span>
                         </button>
                     </form>
+                    ) }
+                    { 'generate' === mode && (
                     <div className="Content-suggestions">
                         <h4>{ __( 'Prompt Examples', 'recipe-card-blocks-by-wpzoom' ) }</h4>
                         <ul>
@@ -406,6 +583,7 @@ const ButtonBox = ( props ) => {
                         ) ) }
                         </ul>
                     </div>
+                    ) }
                 </div>
             </Popover> ) }
 

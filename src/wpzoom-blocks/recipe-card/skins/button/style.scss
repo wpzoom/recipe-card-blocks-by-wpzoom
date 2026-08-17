@@ -1,0 +1,89 @@
+
+/* AI Import Recipe mode — since 3.5.0 */
+.rcb-ai-mode-tabs {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 14px;
+	border-bottom: 1px solid #e0e0e0;
+
+	.rcb-ai-mode-tab {
+		background: none;
+		border: none;
+		border-bottom: 2px solid transparent;
+		padding: 8px 12px;
+		font-size: 13px;
+		font-weight: 600;
+		color: #50575e;
+		cursor: pointer;
+
+		&.is-active {
+			color: #E1581A;
+			border-bottom-color: #E1581A;
+		}
+	}
+}
+
+.rcb-ai-import-form {
+	.rcb-ai-import-intro {
+		font-size: 13px;
+		color: #50575e;
+		margin: 0 0 12px;
+	}
+
+	.rcb-ai-import-type-tabs {
+		display: flex;
+		gap: 6px;
+		margin-bottom: 12px;
+
+		.rcb-ai-import-type {
+			background: #f6f7f7;
+			border: 1px solid #dcdcde;
+			border-radius: 4px;
+			padding: 6px 12px;
+			font-size: 12px;
+			cursor: pointer;
+
+			&.is-active {
+				background: #E1581A;
+				border-color: #E1581A;
+				color: #fff;
+			}
+		}
+	}
+
+	.rcb-import-text {
+		width: 100%;
+		font-size: 13px;
+		border: 1px solid #dcdcde;
+		border-radius: 4px;
+		padding: 8px;
+		margin-bottom: 12px;
+	}
+
+	.rcb-import-url {
+		margin-bottom: 12px;
+	}
+
+	.rcb-import-photo {
+		margin-bottom: 12px;
+
+		.rcb-import-photo-preview {
+			margin-top: 10px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			img {
+				max-width: 90px;
+				max-height: 90px;
+				border-radius: 4px;
+				object-fit: cover;
+			}
+
+			span {
+				font-size: 12px;
+				color: #50575e;
+			}
+		}
+	}
+}

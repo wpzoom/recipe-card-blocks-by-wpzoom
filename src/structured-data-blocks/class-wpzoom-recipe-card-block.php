@@ -67,6 +67,13 @@ class WPZOOM_Recipe_Card_Block {
 	public static $style;
 
 	/**
+	 * Recipe ID used for rating lookups.
+	 *
+	 * @since 3.5.0
+	 */
+	public static $recipe_ID_rating = 0;
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
@@ -353,9 +360,12 @@ class WPZOOM_Recipe_Card_Block {
 				self::$recipe->ID = $recipe_ID;
 			}
 			else {
-				self::$recipe = (object) array( 'ID' => $recipe_ID ); 
+				self::$recipe = (object) array( 'ID' => $recipe_ID );
 			}
 		}
+
+		// Recipe ID used to look up ratings; must match WPZOOM_Comment_Rating::get_recipe_id_for_post().
+		self::$recipe_ID_rating = $recipe_ID;
 		if( is_object( self::$recipe ) && isset( self::$recipe->post_author ) ) {
 			$recipe_post_author = get_the_author_meta( 'display_name', self::$recipe->post_author );
 		}
@@ -567,6 +577,7 @@ class WPZOOM_Recipe_Card_Block {
 					'recipe-card-title', 
 					( $recipeTitle ? $recipeTitle : esc_html( $recipe_title ) ) ) .
 				( self::$settings['displayAuthor'] ? '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . esc_html( $custom_author_name ) . '</span>' : '' ) .
+				self::get_rating_display() .
 				( self::$settings['displayCourse'] ? self::get_recipe_terms( 'wpzoom_rcb_courses' ) : '' ) .
 				( self::$settings['displayCuisine'] ? self::get_recipe_terms( 'wpzoom_rcb_cuisines' ) : '' ) .
 				( self::$settings['displayDifficulty'] ? self::get_recipe_terms( 'wpzoom_rcb_difficulties' ) : '' ) .
@@ -583,7 +594,7 @@ class WPZOOM_Recipe_Card_Block {
 			);
 		}
 
-		$details_content     = self::get_details_content( $details );
+		$details_content     = self::get_details_content( $details ) . self::get_cook_mode_toggle();
 		$ingredients_content = self::get_ingredients_content( $ingredients );
 		$steps_content       = self::get_steps_content( $steps );
 		$recipe_card_video   = self::get_video_content();
@@ -645,6 +656,85 @@ class WPZOOM_Recipe_Card_Block {
 	}
 
 	/**
+	 * Returns the average rating stars display for the recipe card heading.
+	 *
+	 * @since 3.5.0
+	 * @return string The rating display markup or empty string.
+	 */
+	protected static function get_rating_display() {
+		$recipe_ID = self::$recipe_ID_rating ? self::$recipe_ID_rating : ( isset( self::$recipe->ID ) ? self::$recipe->ID : 0 );
+
+		// Interactive on-card star voting (User Rating).
+		if ( class_exists( 'WPZOOM_Rating_Stars' ) && WPZOOM_Settings::get_rating_star_acces() ) {
+			return WPZOOM_Rating_Stars::get_rating_form( $recipe_ID );
+		}
+
+		// Fall back to a static average when only comment ratings are enabled.
+		if ( ! class_exists( 'WPZOOM_Comment_Rating' ) || '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_comment_ratings' ) ) {
+			return '';
+		}
+
+		$total = WPZOOM_Comment_Rating::get_total_votes( $recipe_ID );
+
+		if ( ! $total ) {
+			return '';
+		}
+
+		$average = WPZOOM_Comment_Rating::get_rating_average( $recipe_ID );
+		$rounded = (int) round( floatval( $average ) );
+
+		$stars = '';
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$star_class = $i <= $rounded ? 'wpz-full-star' : 'wpz-empty-star';
+			$stars     .= '<span class="' . esc_attr( $star_class . ' wpz-star-icon' ) . '">';
+			$stars     .= '<span class="wpzoom-rating-star-svg">' . WPZOOM_Comment_Rating::get_rating_star_svg( 'empty' ) . '</span>';
+			$stars     .= '<span class="wpzoom-rating-star-svg wpzoom-rating-star-full-svg">' . WPZOOM_Comment_Rating::get_rating_star_svg( 'full' ) . '</span>';
+			$stars     .= '</span>';
+		}
+
+		return sprintf(
+			'<div class="wpzoom-rcb-comment-rating recipe-card-average-rating"><div class="wpzoom-rcb-comment-rating-stars">%s</div><small class="wpzoom-rcb-average-rating-text">%s</small></div>',
+			$stars,
+			sprintf(
+				/* translators: %1$s: average rating, %2$d: number of votes */
+				esc_html( _n( '%1$s from %2$d vote', '%1$s from %2$d votes', $total, 'recipe-card-blocks-by-wpzoom' ) ),
+				esc_html( $average ),
+				absint( $total )
+			)
+		);
+	}
+
+	/**
+	 * Returns the Cook Mode (prevent screen sleep) toggle markup.
+	 *
+	 * @since 3.5.0
+	 * @return string The toggle markup or empty string.
+	 */
+	protected static function get_cook_mode_toggle() {
+		if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle' ) ) {
+			return '';
+		}
+
+		$label       = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_label' );
+		$description = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_description' );
+
+		$output  = '<div class="wpzoom-nosleep-toggle-container">';
+		$output .= '<label class="switch"><input type="checkbox" id="toggle_button"><div class="slider round"></div></label>';
+
+		if ( ! empty( $label ) ) {
+			$output .= '<span class="wpzoom-nosleep-label">' . esc_html( $label ) . '</span>';
+		}
+
+		if ( ! empty( $description ) ) {
+			$output .= '<p class="recipe-card-no-sleep no-print">' . esc_html( $description ) . '</p>';
+		}
+
+		$output .= '</div>';
+
+		return $output;
+	}
+
+	/**
 	 * Returns the JSON-LD for a recipe-card block.
 	 *
 	 * @return array The JSON-LD representation of the recipe-card block.
@@ -695,6 +785,26 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( ! empty( $attributes['summary'] ) ) {
 			$json_ld['description'] = esc_html( $attributes['summary'] );
+		}
+
+		// Aggregate rating from comment ratings (since 3.5.0). Required by Google for stars in search results.
+		if ( class_exists( 'WPZOOM_Comment_Rating' ) && '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_comment_ratings' ) ) {
+			$rating_recipe_ID = self::$recipe_ID_rating ? self::$recipe_ID_rating : ( isset( self::$recipe->ID ) ? self::$recipe->ID : 0 );
+			$rating_average   = WPZOOM_Comment_Rating::get_rating_average( $rating_recipe_ID );
+			$rating_count     = WPZOOM_Comment_Rating::get_total_votes( $rating_recipe_ID );
+			$review_count     = WPZOOM_Comment_Rating::get_review_count( $rating_recipe_ID );
+
+			if ( $rating_count > 0 ) {
+				$json_ld['aggregateRating'] = array(
+					'@type'       => 'AggregateRating',
+					'ratingValue' => $rating_average,
+					'ratingCount' => $rating_count,
+				);
+
+				if ( $review_count > 0 ) {
+					$json_ld['aggregateRating']['reviewCount'] = $review_count;
+				}
+			}
 		}
 
 		if ( ! empty( $attributes['image'] ) && isset( $attributes['hasImage'] ) && $attributes['hasImage'] ) {

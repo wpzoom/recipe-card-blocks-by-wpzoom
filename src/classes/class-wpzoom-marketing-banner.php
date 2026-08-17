@@ -82,7 +82,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 						<div class="recipe-banner-promo-btns">
 							<div class="banner-btn">Premium Recipe Card Skins</div>
 							<div class="banner-btn">Recipe Index</div>
-							<div class="banner-btn">Star Rating</div>
+							<div class="banner-btn">Recipe Index</div>
                             <div class="banner-btn">Equipment</div>
 							<div class="banner-btn">+ many more</div>
 						</div>
