@@ -120,6 +120,34 @@ class WPZOOM_Settings_Fields {
 	}
 
 	/**
+	 * HTML for Textarea field type
+	 *
+	 * @since 3.5.0
+	 * @param array $args
+	 * @return void
+	 */
+	public function textarea( $args ) {
+		$value = self::parse_editor_field( $args );
+		?>
+		<fieldset class="wpzoom-rcb-field-textarea">
+			<?php
+			if ( isset( $args['badge'] ) ) {
+				echo wp_kses_post( $args['badge'] ); }
+				$this->create_nonce_field( $args );
+			?>
+
+			<textarea name="wpzoom-recipe-card-settings[<?php echo esc_attr( $args['label_for'] ); ?>]" id="<?php echo esc_attr( $args['label_for'] ); ?>" cols="30" rows="5" class="regular-text" <?php echo ( self::is_disabled( $args ) ? 'disabled' : '' ); ?>><?php echo esc_textarea( $value ); ?></textarea>
+
+			<?php if ( isset( $args['description'] ) ) : ?>
+				<p class="description">
+					<?php echo wp_kses_post( $args['description'] ); ?>
+				</p>
+			<?php endif ?>
+		</fieldset>
+		<?php
+	}
+
+	/**
 	 * HTML for Select field type
 	 *
 	 * @param array $args
@@ -345,6 +373,31 @@ class WPZOOM_Settings_Fields {
 		}
 
 		return sanitize_text_field( $value );
+	}
+
+	/**
+	 * Parse textarea field to prevent value change via browser dev tool.
+	 *
+	 * Unlike parse_text_field() this keeps inline HTML, since the modal
+	 * notice/thank-you strings are allowed to contain markup.
+	 *
+	 * @since 3.5.0
+	 * @param array $args  The field arguments
+	 * @return boolean|string
+	 */
+	public static function parse_editor_field( $args ) {
+		$default_value = WPZOOM_Settings::get_default_option_value( $args['label_for'] );
+		$default       = isset( $args['default'] ) ? $args['default'] : '';
+
+		$value = isset( self::$options[ $args['label_for'] ] ) ? self::$options[ $args['label_for'] ] : $default;
+
+		if ( self::is_disabled( $args ) ) {
+			self::$options[ $args['label_for'] ] = $default_value;
+			WPZOOM_Settings::update_option( self::$options );
+			return $default_value;
+		}
+
+		return wp_kses_post( $value );
 	}
 
 	/**

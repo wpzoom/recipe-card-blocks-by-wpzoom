@@ -48,6 +48,31 @@ jQuery(document).ready(function(){
 			}
 		});
 
+		// reset all ratings to zero
+		$('#wpzoom_rcb_settings_reset_ratings').on( 'click', function(){
+			var data = {
+			    security: Settings.ajax_nonce,
+			    action: 'wpzoom_reset_ratings',
+			};
+			var $this = $(this);
+
+			if (window.confirm("Do you really want to Reset all ratings?")) {
+
+				$this.val('Loading...');
+
+				$.post( Settings.ajaxUrl, data, function(response){
+					if ( response.success ) {
+						$this.val('Done!');
+						$this.prop('disabled', true);
+						$this.next().html(response.data.message);
+					} else {
+						$this.val('Reset Ratings');
+						alert( ( response.data && response.data.message ) || 'Something went wrong when trying to reset the ratings!' );
+					}
+				});
+			}
+		});
+
 		// close Welcome banner
 		$('.wpzoom-rcb-welcome-close').click(function(e){
 			e.preventDefault();
