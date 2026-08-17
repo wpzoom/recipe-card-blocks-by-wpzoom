@@ -190,6 +190,40 @@ class WPZOOM_Recipe_Card_Block {
 	}
 
 	/**
+	 * Build the Cook Mode toggle.
+	 *
+	 * Cook Mode keeps the device screen awake while the reader is cooking. The
+	 * actual wake-lock is handled by NoSleep.js on the front end.
+	 *
+	 * @since 3.5.0
+	 * @return string Markup, or an empty string when the feature is off.
+	 */
+	public static function get_cook_mode_toggle() {
+		if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle' ) ) {
+			return '';
+		}
+
+		$label       = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_label' );
+		$description = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_description' );
+
+		$output = '<div class="wpzoom-nosleep-toggle-container no-print">'
+			. '<label class="switch">'
+			. '<input type="checkbox" id="toggle_button">'
+			. '<div class="slider round"></div>'
+			. '</label>';
+
+		if ( ! empty( $label ) ) {
+			$output .= '<span class="wpzoom-nosleep-label">' . esc_html( $label ) . '</span>';
+		}
+
+		if ( ! empty( $description ) ) {
+			$output .= '<p class="recipe-card-no-sleep no-print">' . esc_html( $description ) . '</p>';
+		}
+
+		return $output . '</div>';
+	}
+
+	/**
 	 * Optionally add the rating stars above and/or below the post content.
 	 *
 	 * Driven by the Rating Display settings.
@@ -771,6 +805,12 @@ class WPZOOM_Recipe_Card_Block {
                         ' . esc_html__( 'by WPZOOM', 'recipe-card-blocks-by-wpzoom' ) . '
 		        	</p>
 		        </div>';
+		}
+
+		$cook_mode = self::get_cook_mode_toggle();
+
+		if ( '' !== $cook_mode ) {
+			$recipe_card_image .= $cook_mode;
 		}
 
 		if ( 'simple' === self::$style ) {

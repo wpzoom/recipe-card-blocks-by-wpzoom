@@ -1488,10 +1488,19 @@ class WPZOOM_Settings {
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle',
                                     'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'Enable Cook Mode', 'recipe-card-blocks-by-wpzoom' ),
+                                    'description' => esc_html__( 'Enable the Cook Mode toggle.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => false,
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_recipe_prevent_sleep_toggle_status',
+                                'title' => __( 'Default Status', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_recipe_prevent_sleep_toggle_status',
+                                    'class'       => 'wpzoom-rcb-field required-cook-mode',
+                                    'description' => esc_html__( 'Enable to turn Cook Mode on by default.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => false,
                                 ),
                             ),
                             array(
@@ -1500,11 +1509,9 @@ class WPZOOM_Settings {
                                 'type'  => 'input',
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_recipe_prevent_sleep_label',
-                                    'class'       => 'wpzoom-rcb-field',
+                                    'class'       => 'wpzoom-rcb-field required-cook-mode',
                                     'default'     => __( 'Cook Mode', 'recipe-card-blocks-by-wpzoom' ),
                                     'type'        => 'text',
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
                                 ),
                             ),
                             array(
@@ -1513,11 +1520,9 @@ class WPZOOM_Settings {
                                 'type'  => 'input',
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_recipe_prevent_sleep_description',
-                                    'class'       => 'wpzoom-rcb-field',
+                                    'class'       => 'wpzoom-rcb-field required-cook-mode',
                                     'default'     => __( 'Keep the screen of your device on', 'recipe-card-blocks-by-wpzoom' ),
                                     'type'        => 'text',
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
                                 ),
                             ),
                         ),

@@ -230,6 +230,27 @@
 		});
 		wpzoom_set_correct_ids_to_recipe_shortcode();
 
+		// Cook Mode - keep the screen awake while cooking (NoSleep.js).
+		if (typeof NoSleep === "function") {
+			var noSleep = new NoSleep();
+			var $toggleEl = $("#toggle_button");
+			var wakeLockEnabled = false;
+
+			$toggleEl.on("click", function () {
+				if (!wakeLockEnabled && $toggleEl.is(":checked")) {
+					noSleep.enable();
+					wakeLockEnabled = true;
+				} else {
+					noSleep.disable();
+					wakeLockEnabled = false;
+				}
+			});
+
+			if ("1" == wpzoomRecipeCard.defaultCookMode) {
+				$toggleEl.trigger("click");
+			}
+		}
+
 		// Move auto-inserted rating stars into the theme's post meta area.
 		var $elementToMove = $("[data-js-move=true]:first-child");
 		var elementTarget = $elementToMove.data("js-selector");

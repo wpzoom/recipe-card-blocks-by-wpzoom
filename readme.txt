@@ -50,6 +50,7 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 * **AI Recipe Generator** 🆕
 * **Star Ratings** 🆕 — readers rate your recipes, and the ratings show up in Google search results
 * **Comment Ratings** 🆕 — readers rate recipes directly in comments
+* **Cook Mode** 🆕 — keeps the reader's screen awake while they cook
 * **Elementor Support** with dedicated recipe widget
 * **Schema.org Structured Data** (JSON-LD)
 * **3 Recipe Card Styles**
@@ -76,7 +77,6 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 
 * **Adjustable Servings** — readers scale ingredient quantities in real-time
 * **Unit Conversion (US ↔ Metric)** 🆕 — switch between measurement systems with one click
-* **Cook Mode** — keeps the screen awake while cooking
 * **Rating Modal & Written Reviews** — readers leave a written review along with their rating
 
 **Grow your blog:**
@@ -180,6 +180,7 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 * New: Comment ratings. Readers can leave a star rating along with their comment, and those reviews are added to the recipe schema.
 * New: Ratings screen under Recipe Cards for approving, unapproving and deleting ratings.
 * New: `[wpzoom_rcb_rating]` shortcode and a Recipe Rating block for showing the stars anywhere.
+* New: Cook Mode. A toggle on the recipe card that keeps the reader's screen from going to sleep while they cook. Enable it under Recipe Cards > Settings > Miscellaneous.
 * New: Ratings settings tab, including the rating mode, star colour, and where the stars appear.
 * New: Privacy policy suggestions, plus personal-data export and erase support for ratings.
 * Note: This release adds a database table, `wpzoom_rating_stars`, and stores the IP address of each visitor who submits a rating in order to prevent duplicate votes. See the Ratings settings if you would rather not collect ratings at all.

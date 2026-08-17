@@ -95,6 +95,14 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			);
 
 			wp_register_script(
+				self::$_slug . '-no-sleep',
+				$this->asset_source( 'js', 'nosleep.min.js' ),
+				$this->get_dependencies( self::$_slug . '-no-sleep' ),
+				WPZOOM_RCB_VERSION,
+				true
+			);
+
+			wp_register_script(
 				self::$_slug . '-pinit',
 				'https://assets.pinterest.com/js/pinit.js',
 				array(),
@@ -356,6 +364,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				$dependencies = array( 'jquery' );
 			} elseif ( self::$_slug . '-icon-fonts-css' === $handle ) {
 				$dependencies = array();
+			} elseif ( self::$_slug . '-no-sleep' === $handle ) {
+				$dependencies = array();
 			} elseif ( 'wpzoom-rating-stars-script' === $handle ) {
 				$dependencies = array( 'jquery' );
 			} elseif ( 'wpzoom-comment-rating-script' === $handle ) {
@@ -416,6 +426,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				if ( $should_enqueue || $has_reusable_block || $posts_loop_page ) {
 					wp_enqueue_script( self::$_slug . '-script' );
 
+					// Cook Mode keeps the screen awake, via NoSleep.js
+					if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle' ) ) {
+						wp_enqueue_script( self::$_slug . '-no-sleep' );
+					}
+
 					// Load Pinterest script
 					if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_load_pinterest_script' ) ) {
 						wp_enqueue_script( self::$_slug . '-pinit' );
@@ -446,6 +461,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 						'pluginURL'  => WPZOOM_RCB_PLUGIN_URL,
 						'storeURL'   => WPZOOM_RCB_STORE_URL,
 						'homeURL'    => self::get_home_url(),
+						'defaultCookMode' => WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_toggle_status' ),
 						'permalinks' => get_option( 'permalink_structure' ),
 						'ajax_url'   => admin_url( 'admin-ajax.php' ),
 						'nonce'      => wp_create_nonce( 'wpzoom_rcb' ),

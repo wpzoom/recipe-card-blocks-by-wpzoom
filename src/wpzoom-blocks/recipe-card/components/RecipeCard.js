@@ -18,6 +18,7 @@ import ExtraOptionsModal from './ExtraOptionsModal';
 import Notes from './Notes';
 import NutritionUpsell from './NutritionUpsell';
 import RatingPreview from './rating-preview';
+import CookMode from './cook-mode';
 import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
 import { getBlockStyle } from '../../../helpers/getBlockStyle';
@@ -480,6 +481,7 @@ class RecipeCard extends Component {
                                 </div>
                             </div>
                         }
+                        <CookMode settingOptions={ setting_options } />
                         { messageToAI && (
                             <RegenerateButton type="recipe" message={ messageToAI } />
                         ) }
@@ -572,6 +574,7 @@ class RecipeCard extends Component {
                                 </div>
                             </div>
                         }
+                        <CookMode settingOptions={ setting_options } />
 
                         <div className="recipe-card-along-image">
                             <div className="recipe-card-heading">

@@ -48,6 +48,18 @@ jQuery(document).ready(function(){
 			}
 		});
 
+		// Cook Mode sub-options only apply when the toggle itself is on
+		function showCookModeOptions() {
+			if ($('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle]"]:checked').val() !== '1') {
+				$('tr.required-cook-mode').hide();
+			} else {
+				$('tr.required-cook-mode').show();
+			}
+		}
+
+		showCookModeOptions();
+		$('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle]"]').on('change', showCookModeOptions);
+
 		// reset all ratings to zero
 		$('#wpzoom_rcb_settings_reset_ratings').on( 'click', function(){
 			var data = {

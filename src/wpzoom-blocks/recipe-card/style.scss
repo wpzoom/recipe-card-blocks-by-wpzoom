@@ -363,3 +363,91 @@
 @import "./skins/default";
 @import "./skins/newdesign";
 @import "./skins/simple";
+
+/* Cook Mode toggle (keeps the screen awake while cooking) */
+.wpzoom-nosleep-toggle-container {
+	display:flex;
+    flex-wrap: wrap;
+	margin: 10px 0;
+    align-items: center;
+
+	.switch {
+		position: relative;
+		display: inline-block;
+		width: 50px;
+		height: 24px;
+        margin: 0;
+	
+		input { 
+			display:none;
+		}
+	}
+
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #D9DEEC;
+		transition: .4s;
+		border-radius: 34px;
+	
+		&:before {
+			position: absolute;
+			content: "";
+			height: 18px;
+			width: 18px;
+			left: 3px;
+			bottom: 3px;
+			background-color: #021123;
+			transition: .4s;
+			border-radius: 50%;
+		}
+		&:after {
+			color: white;
+			display: block;
+			position: absolute;
+			transform: translate(-50%,-50%);
+			top: 50%;
+			left: 50%;
+		}
+	}
+
+	input {
+
+		&:checked + .slider {
+			background-color: #9AD093;
+		}
+		&:focus + .slider {
+			box-shadow: 0 0 1px #2196F3;
+		}
+		&:checked + .slider:before {
+			transform: translateX(26px);
+            background: #fff;
+		}
+	}
+
+	.wpzoom-nosleep-label {
+		display: inline-block;
+		font-size: 14px;
+		font-weight: bold;
+		vertical-align: middle;
+		margin: 0 10px;
+	}
+	
+	p.recipe-card-no-sleep {
+		font-size: 13px;
+        font-style: italic;
+        opacity: .8;
+        margin: 0;
+	}
+}
+
+@media screen and (max-width: 480px) {
+    .wpzoom-nosleep-toggle-container p.recipe-card-no-sleep {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}
