@@ -243,12 +243,14 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 *
 		 * @since  2.7.2
 		 * @param  string      $block_name The block name.
+		 * @param  int         $post_id The post to inspect. Defaults to the current post.
 		 * @param  int         $reusable_block_id The reusable block post ID.
 		 * @param  boolean|int $content The post content.
 		 * @return boolean     Return true if post content has provided block name as reusable block, else return false.
 		 */
-		public static function has_reusable_block( $block_name, $reusable_block_id = 0, $content = '' ) {
+		public static function has_reusable_block( $block_name, $post_id = 0, $reusable_block_id = 0, $content = '' ) {
 			$has_reusable_block = false;
+			$post_id            = $post_id > 0 ? $post_id : get_the_ID();
 
 			/**
 			 * Loop reusable blocks to get needed block
@@ -284,7 +286,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			}
 
 			if ( empty( $content ) ) {
-				$content = get_post_field( 'post_content', get_the_ID() );
+				$content = get_post_field( 'post_content', $post_id );
 			}
 
 			if ( $content ) {

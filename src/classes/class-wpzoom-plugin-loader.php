@@ -136,6 +136,8 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			//Added August 2026 - Star Ratings
 			// Order matters: the rating table must be defined before anything that reads it.
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-rating-db.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-manage-ratings.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-comment-rating.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-rating-stars.php';
 		}
 
