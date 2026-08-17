@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 3.4.19
+Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,22 @@ After installation, create a new post or edit an existing one using the block ed
 
 == Frequently Asked Questions ==
 
+= How do I get star ratings to show in Google search results? =
+
+Star ratings are enabled by default. Once at least one visitor rates a recipe, the plugin adds an `aggregateRating` to the recipe's structured data, which is what Google needs before it can show stars. Google decides if and when to display them, and it can take a while for your pages to be re-crawled. You can check that the markup is correct with Google's Rich Results Test.
+
+= How do I turn ratings off? =
+
+Go to Recipe Cards > Settings > Ratings. "User Rating" controls the stars on the recipe card, and "Comment Ratings" controls the star field in the comment form. Both can be switched off independently.
+
+= What data do ratings store? =
+
+Each rating stores the rating value, the recipe ID, the date and the visitor's IP address, plus the user ID for logged-in visitors. The IP address is used to stop the same visitor rating a recipe twice and to rate-limit submissions. If a visitor submits a written review, the name, email and review text are stored too. All of it stays in your own database and is never sent anywhere. See the suggested text under Tools > Privacy for wording you can use in your privacy policy.
+
+= Where do I moderate ratings? =
+
+Recipe Cards > Ratings lists every rating with approve, unapprove and delete actions. Ratings left through the comment form follow the comment's own approval status.
+
 = I just installed the plugin and can't find the blocks =
 
 Make sure you haven't disabled the new block editor using the Classic Editor plugin, as these blocks work only with the new editor.
@@ -156,6 +172,16 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 
 
 == Changelog ==
+
+= 3.5.0 =
+* New: Star ratings. Visitors can rate your recipes, and the rating is added to the recipe's structured data as `aggregateRating` so Google can show star ratings in search results.
+* New: Comment ratings. Readers can leave a star rating along with their comment, and those reviews are added to the recipe schema.
+* New: Ratings screen under Recipe Cards for approving, unapproving and deleting ratings.
+* New: `[wpzoom_rcb_rating]` shortcode and a Recipe Rating block for showing the stars anywhere.
+* New: Ratings settings tab, including the rating mode, star colour, and where the stars appear.
+* New: Privacy policy suggestions, plus personal-data export and erase support for ratings.
+* Note: This release adds a database table, `wpzoom_rating_stars`, and stores the IP address of each visitor who submits a rating in order to prevent duplicate votes. See the Ratings settings if you would rather not collect ratings at all.
+* Fixed: Importing recipes from WP Recipe Maker no longer fails when the imported recipes have ratings.
 
 = 3.4.19 =
 * Minor bug fixes
@@ -235,3 +261,8 @@ Yes, our plugin includes an intuitive and easy-to-use tool that allows you to **
 * New: Create a Draft Post when creating a new recipe card post.
 
 [See changelog for all versions](https://plugins.svn.wordpress.org/recipe-card-blocks-by-wpzoom/trunk/changelog.txt).
+
+== Upgrade Notice ==
+
+= 3.5.0 =
+Adds star ratings, so your recipes can show star ratings in Google search results. This version creates a new database table and stores the IP address of visitors who submit a rating, in order to prevent duplicate votes. Ratings are on by default and can be turned off under Recipe Cards > Settings > Ratings.

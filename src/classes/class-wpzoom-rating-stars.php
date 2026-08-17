@@ -196,9 +196,18 @@ class WPZOOM_Rating_Stars {
 	 * @return void
 	 */
 	public static function display_rating_modal_notice() {
-		// Only display on the Recipes list page
+		// Show on the screens a free user actually visits. PRO limits this to the
+		// Recipes list, which many sites never open.
 		$current_screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-		if ( ! $current_screen || 'edit-wpzoom_rcb' !== $current_screen->id ) {
+
+		if ( ! $current_screen ) {
+			return;
+		}
+
+		$allowed_screens = array( 'edit-wpzoom_rcb', 'plugins', 'dashboard' );
+
+		if ( ! in_array( $current_screen->id, $allowed_screens, true )
+			&& false === strpos( $current_screen->id, WPZOOM_RCB_SETTINGS_PAGE ) ) {
 			return;
 		}
 
@@ -229,12 +238,12 @@ class WPZOOM_Rating_Stars {
 			)
 		);
 
-		$message = __( '<strong>New!</strong> You can now show a <strong>confirmation modal</strong> when visitors click on rating stars. The modal allows visitors to add a comment with their rating, and you can require comments for ratings below a certain number of stars.', 'recipe-card-blocks-by-wpzoom' );
+		$message = __( '<strong>New in Recipe Card Blocks:</strong> your readers can now rate your recipes, and those ratings are added to your recipe structured data so <strong>Google can show star ratings in search results</strong>. Ratings are enabled by default - you can change how they work, or turn them off, in the settings.', 'recipe-card-blocks-by-wpzoom' );
 
 		$plugin_settings_link = sprintf(
 			wp_kses(
 				/* translators: Placeholder is the url to the Plugin settings */
-				__( '<a href="%s">Configure Rating Modal Settings →</a>', 'recipe-card-blocks-by-wpzoom' ),
+				__( '<a href="%s">Review Rating Settings →</a>', 'recipe-card-blocks-by-wpzoom' ),
 				array(
 					'a' => array(
 						'href' => array(),

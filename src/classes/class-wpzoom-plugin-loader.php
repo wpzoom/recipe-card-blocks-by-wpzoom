@@ -140,6 +140,7 @@ if ( ! class_exists( 'WPZOOM_Plugin_Loader' ) ) {
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-comment-rating.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-rating-stars.php';
 			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-recipe-rating-shortcode.php';
+			require_once WPZOOM_RCB_PLUGIN_DIR . 'src/classes/class-wpzoom-privacy-policy.php';
 		}
 
 		/**
