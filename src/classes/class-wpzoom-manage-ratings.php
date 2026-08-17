@@ -1616,9 +1616,66 @@ class WPZOOM_Manage_Ratings {
 	}
 
 	/**
+	 * Upsell shown in place of the ratings analytics.
+	 *
+	 * @since 3.5.0
+	 * @return void
+	 */
+	private function display_analytics_upsell() {
+		$total = 0;
+
+		if ( class_exists( 'WPZOOM_Rating_DB' ) ) {
+			$ratings = WPZOOM_Rating_DB::get_ratings( array( 'where' => 'approved = 1' ) );
+			$total   = isset( $ratings['total'] ) ? (int) $ratings['total'] : 0;
+		}
+
+		$upgrade_url = class_exists( 'WPZOOM_Plugin_Activator' )
+			? WPZOOM_Plugin_Activator::get_store_url( 'pricing/?utm_source=wpadmin&utm_medium=manage-ratings&utm_campaign=ratings-analytics' )
+			: 'https://recipecard.io/pricing/';
+		?>
+		<div class="wpzoom-ratings-analytics-upsell">
+			<div class="wpzoom-ratings-analytics-upsell-body">
+				<h3>
+					<span class="dashicons dashicons-chart-bar"></span>
+					<?php esc_html_e( 'Ratings Analytics', 'recipe-card-blocks-by-wpzoom' ); ?>
+					<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium"><?php esc_html_e( 'PRO Feature', 'recipe-card-blocks-by-wpzoom' ); ?></span>
+				</h3>
+				<p>
+					<?php
+					printf(
+						/* translators: %s: number of ratings collected so far */
+						esc_html( _n( 'You have collected %s rating so far. Upgrade to see how your recipes are performing:', 'You have collected %s ratings so far. Upgrade to see how your recipes are performing:', $total, 'recipe-card-blocks-by-wpzoom' ) ),
+						'<strong>' . esc_html( number_format_i18n( $total ) ) . '</strong>'
+					);
+					?>
+				</p>
+				<ul>
+					<li><?php esc_html_e( 'Total, approved, pending and average rating at a glance', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+					<li><?php esc_html_e( '7-day activity chart with period-on-period change', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+					<li><?php esc_html_e( 'Rating distribution across 1 to 5 stars', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+					<li><?php esc_html_e( 'Top rated recipes and most voted recipes, by date range', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+				</ul>
+				<a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary" target="_blank" rel="noopener noreferrer">
+					<?php esc_html_e( 'Upgrade to PRO', 'recipe-card-blocks-by-wpzoom' ); ?>
+				</a>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Display statistics summary box.
+	 *
+	 * Ratings analytics - the counts, the 7-day chart, the distribution and the
+	 * Top Rated list - are a PRO feature. The moderation list itself stays
+	 * available so free users can still deal with spam.
 	 */
 	public function display_statistics_box() {
+		if ( ! WPZOOM_RCB_HAS_PRO ) {
+			$this->display_analytics_upsell();
+			return;
+		}
+
 		$stats = $this->get_ratings_statistics();
 
 		if ( $stats['total'] <= 0 ) {

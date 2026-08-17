@@ -931,3 +931,59 @@ div.wp-tab-panel {
         border-bottom: 1px solid #e0e0e0;
     }
 }
+
+/* Ratings analytics upsell (shown in place of the PRO analytics) */
+.wpzoom-ratings-analytics-upsell {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #e15819;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+.wpzoom-ratings-analytics-upsell-body {
+    padding: 20px 24px;
+}
+.wpzoom-ratings-analytics-upsell h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 8px;
+    font-size: 15px;
+}
+.wpzoom-ratings-analytics-upsell h3 .dashicons {
+    color: #e15819;
+}
+.wpzoom-ratings-analytics-upsell p {
+    margin: 0 0 12px;
+    color: #50575e;
+}
+.wpzoom-ratings-analytics-upsell ul {
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 6px 24px;
+}
+.wpzoom-ratings-analytics-upsell li {
+    margin: 0;
+    padding-left: 22px;
+    position: relative;
+    color: #50575e;
+}
+.wpzoom-ratings-analytics-upsell li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 6px;
+    height: 10px;
+    border: solid #e15819;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+@media screen and (max-width: 782px) {
+    .wpzoom-ratings-analytics-upsell ul {
+        grid-template-columns: 1fr;
+    }
+}

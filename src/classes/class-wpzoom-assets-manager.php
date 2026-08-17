@@ -154,7 +154,11 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				return $custom_css;
 			}
 
-			$rating_stars_color = WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_stars_color' );
+			// Custom star colours are a PRO feature; free always uses the default.
+			// A value stored before the gate must not keep applying.
+			$rating_stars_color = WPZOOM_RCB_HAS_PRO
+				? WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_stars_color' )
+				: '#F2A123';
 
 			if ( ! empty( $rating_stars_color ) ) {
 				$color = sanitize_hex_color( $rating_stars_color );

@@ -111,7 +111,7 @@ class WPZOOM_Rating_Stars {
 			return;
 		}
 
-		$rating_mode = WPZOOM_Settings::get( 'wpzoom_rcb_settings_user_ratings_mode' );
+		$rating_mode = self::get_rating_mode();
 
 		// Don't output modal for instant mode
 		if ( 'instant' === $rating_mode ) {
@@ -335,7 +335,7 @@ class WPZOOM_Rating_Stars {
 			wp_send_json_error( $response );
 		}
 
-		$rating_mode          = WPZOOM_Settings::get( 'wpzoom_rcb_settings_user_ratings_mode' ) ?: 'modal';
+		$rating_mode          = self::get_rating_mode();
 		$is_modal_rating_mode = ( 'modal' === $rating_mode );
 		$force_comment        = 'disabled';
 		$anonymous_review_mode = false;
@@ -1006,7 +1006,7 @@ class WPZOOM_Rating_Stars {
 			'ajaxurl'         => admin_url( 'admin-ajax.php' ),
 			'ajax_nonce'      => wp_create_nonce( 'wpzoom-rating-stars-nonce' ),
 			'current_post_id' => isset( $post->ID ) ? intval( $post->ID ) : 0,
-			'rating_mode'     => WPZOOM_Settings::get( 'wpzoom_rcb_settings_user_ratings_mode' ) ?: 'modal',
+			'rating_mode'     => self::get_rating_mode(),
 			'show_name'       => false === WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_modal_show_name' ) ? '1' : WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_modal_show_name' ),
 			'show_email'      => false === WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_modal_show_email' ) ? '1' : WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_modal_show_email' ),
 			'require_name'    => (string) WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_modal_require_name' ),
@@ -1026,6 +1026,27 @@ class WPZOOM_Rating_Stars {
 		);
 
 		return $localize_data;
+	}
+
+	/**
+	 * The active rating mode.
+	 *
+	 * The modal and jump-to-comments flows are PRO features, so free always
+	 * reports 'instant'. Gating the settings field alone is not enough: the
+	 * anti-tamper write-back only resets a disabled field when the settings
+	 * page is rendered, so a value stored earlier would otherwise keep working.
+	 *
+	 * @since 3.5.0
+	 * @return string One of 'instant', 'modal', 'jump_to_comments'.
+	 */
+	public static function get_rating_mode() {
+		if ( ! WPZOOM_RCB_HAS_PRO ) {
+			return 'instant';
+		}
+
+		$mode = WPZOOM_Settings::get( 'wpzoom_rcb_settings_user_ratings_mode' );
+
+		return $mode ? $mode : 'modal';
 	}
 
 	/**
