@@ -48,6 +48,8 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 = 📌 FREE FEATURES =
 
 * **AI Recipe Generator** 🆕
+* **Star Ratings** 🆕 — readers rate your recipes, and the ratings show up in Google search results
+* **Comment Ratings** 🆕 — readers rate recipes directly in comments
 * **Elementor Support** with dedicated recipe widget
 * **Schema.org Structured Data** (JSON-LD)
 * **3 Recipe Card Styles**
@@ -66,7 +68,7 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 
 **Boost your SEO & Traffic:**
 
-* **Star Rating** — display star ratings in Google search results
+* **Ratings Analytics** — rating distribution, activity over time and your top rated recipes
 * **Recipe Index Block** — searchable recipe catalog that keeps visitors on your site
 * **Recipe Roundups** 🆕 — curate themed recipe collections that rank for long-tail keywords
 
@@ -75,7 +77,7 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 * **Adjustable Servings** — readers scale ingredient quantities in real-time
 * **Unit Conversion (US ↔ Metric)** 🆕 — switch between measurement systems with one click
 * **Cook Mode** — keeps the screen awake while cooking
-* **Comments Rating** — readers rate recipes directly in comments
+* **Rating Modal & Written Reviews** — readers leave a written review along with their rating
 
 **Grow your blog:**
 

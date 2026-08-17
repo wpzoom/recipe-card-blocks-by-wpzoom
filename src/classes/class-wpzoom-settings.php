@@ -2301,7 +2301,7 @@ class WPZOOM_Settings {
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Unit Conversion', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Recipe Roundups', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Recipe Index Block', 'recipe-card-blocks-by-wpzoom' ); ?></li>
-                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Star Rating', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Ratings Analytics', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Equipment', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( '...and many more', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                        </ul>
