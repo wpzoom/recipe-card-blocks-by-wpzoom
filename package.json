@@ -12,9 +12,10 @@
   ],
   "scripts": {
     "start": "cgb-scripts start",
-    "build": "cgb-scripts build",
+    "build": "cgb-scripts build && npm run build:rating-css",
     "eject": "cgb-scripts eject",
-    "lint": "eslint --fix --ext .js,.jsx src"
+    "lint": "eslint --fix --ext .js,.jsx src",
+    "build:rating-css": "node-sass src/wpzoom-blocks/rating/rating-frontend.scss dist/assets/css/rating.build.css --output-style compressed"
   },
   "dependencies": {
     "@babel/core": "^7.16.7",

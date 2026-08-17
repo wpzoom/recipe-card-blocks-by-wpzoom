@@ -1,0 +1,686 @@
+/* Prevent " / " delimiter from appearing on rating stars (e.g. when output is in .entry-meta or .recipe-sub-title) */
+.wpzoom-rating-stars-outputter,
+.wpzoom-rating-stars-container,
+.wpzoom-rcb-comment-rating-stars {
+	span::before,
+	li::before {
+		content: none !important;
+		display: none !important;
+		margin: 0 !important;
+		opacity: unset !important;
+	}
+}
+
+.wpzoom-recipe-card-rating-block {
+    // display: flex;
+    display: inline-block;
+    vertical-align: middle;
+
+    min-width: 240px;
+
+    &.aligncenter {
+        margin: 0 auto;
+        justify-content: center;
+
+        .wpzoom-rating-stars-container {
+            justify-content: center;
+        }
+    }
+}
+.wpzoom-rating-stars-container {
+	position: relative;
+	transition: opacity .25s linear;
+    margin-bottom: 25px;
+
+	.wpzoom-rating-stars-tooltip {
+		display: block;
+		opacity: 0;
+		visibility: hidden;
+		height: 0;
+	}
+
+	&.is-loading {
+		opacity: 0.7;
+	}
+	&[data-user-can-rate="0"] {
+		.wpzoom-rating-stars-tooltip {
+			position: absolute;
+			top: -100%;
+			left: 0;
+			background-color: rgba(0, 0, 0, 0.85);
+			color: #fff;
+			font-size: 13px;
+			font-style: normal;
+			padding: 3px 5px;
+			border-radius: 3px;
+			line-height: 1.4em;
+			height: auto;
+			transition: opacity .25s ease-in-out, visibility .25s ease-in-out;
+		}
+		.wpzoom-rating-stars {
+			> li {
+				pointer-events: none;
+				cursor: none;
+			}
+			&:hover ~ .wpzoom-rating-stars-tooltip {
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+	}
+}
+ul.wpzoom-rating-stars {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left;
+    display: inline-flex;
+    vertical-align: middle;
+
+	> li {
+		display: inline-block;
+        vertical-align: middle;
+		position: relative;
+		margin: 0;
+		padding: 0 4px 0 0;
+        width: 18px;
+        height: 21px;
+        min-width: 18px;
+        max-width: 18px;
+        box-sizing: content-box;
+        color: inherit;
+        cursor: pointer;
+
+		&:last-child {
+			padding-right: 0;
+		}
+		&.wpz-star-icon {
+			color: #F2A123;
+		}
+		&.wpz-empty-star {
+			color: #DBDBDB;
+		}
+		&.wpz-full-star {
+			color: #F2A123;
+		}
+		/* All lis have empty + full + partial SVGs; show one based on li class (hover uses JS to toggle classes) */
+		.wpzoom-rating-star-empty-svg,
+		.wpzoom-rating-star-full-svg,
+		.wpzoom-rating-star-partial {
+			position: absolute;
+			left: 0;
+			top: 0;
+			display: block;
+			width: 18px;
+			height: 21px;
+			max-width: 18px;
+			max-height: 21px;
+			svg {
+				display: block;
+				width: 100%;
+				height: 100%;
+				max-width: 20px;
+				max-height: 20px;
+				fill: currentColor;
+			}
+		}
+		.wpzoom-rating-star-full-svg,
+		.wpzoom-rating-star-partial {
+			display: none;
+		}
+		&.wpz-full-star {
+			.wpzoom-rating-star-empty-svg { display: none; }
+			.wpzoom-rating-star-full-svg { display: block; }
+			.wpzoom-rating-star-partial { display: none; }
+		}
+		&.wpz-one-half-star,
+		&.wpz-one-fourth-star,
+		&.wpz-three-quarters-star {
+			.wpzoom-rating-star-empty-svg { display: none; }
+			.wpzoom-rating-star-full-svg { display: none; }
+			.wpzoom-rating-star-partial { display: block; }
+		}
+		.wpzoom-rating-star-partial {
+			position: relative;
+			.wpzoom-rating-star-outline,
+			.wpzoom-rating-star-filled {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				svg {
+					display: block;
+					width: 100%;
+					height: 100%;
+					fill: currentColor;
+				}
+			}
+			/* Filled part: mask on the path so it aligns with the actual star shape */
+			.wpzoom-rating-star-filled path {
+				-webkit-mask-image: linear-gradient(to right, black 50%, transparent 50%);
+				mask-image: linear-gradient(to right, black 50%, transparent 50%);
+				-webkit-mask-size: 100% 100%;
+				mask-size: 100% 100%;
+				-webkit-mask-repeat: no-repeat;
+				mask-repeat: no-repeat;
+			}
+			&.wpzoom-rating-star-one-fourth .wpzoom-rating-star-filled path {
+				-webkit-mask-image: linear-gradient(to right, black 25%, transparent 25%);
+				mask-image: linear-gradient(to right, black 25%, transparent 25%);
+			}
+			&.wpzoom-rating-star-three-quarters .wpzoom-rating-star-filled path {
+				-webkit-mask-image: linear-gradient(to right, black 75%, transparent 75%);
+				mask-image: linear-gradient(to right, black 75%, transparent 75%);
+			}
+		}
+	}
+}
+ul.wpzoom-rating-stars:hover {
+    > li {
+        color: #F2A123;
+    }
+}
+.wpzoom-rating-stars-average {
+	margin-left: 10px;
+    font-size: 14px;
+    vertical-align: middle;
+
+	.wpzoom-rating-average,
+	.wpzoom-rating-total-votes {
+		font-weight: 500;
+	}
+	span {
+        font-weight: 500;
+	}
+}
+.wpzoom-rcb-comment-rating-form {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: block;
+    > label {
+        display: block;
+    }
+    fieldset {
+        border-width: 0;
+        padding: 0;
+    }
+    .hidden {
+        display: none !important;
+    }
+    .wpzoom-rcb-comment-rating-stars {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        height: 28.8px;
+        label {
+            cursor: pointer;
+            display: flex;
+            margin: 0;
+            padding: 0 4px 0 0;
+            > span {
+                color: inherit;
+            }
+            &[for="wpzoom-rcb-comment-rating-0"] {
+                display: none;
+            }
+        }
+    }
+}
+#respond .wpzoom-rcb-comment-rating-form {
+    .wpzoom-rcb-comment-rating-stars {
+        label {
+            display: flex;
+            &[for="wpzoom-rcb-comment-rating-0"] {
+                display: none;
+            }
+        }
+    }
+}
+
+.comment-respond .comment-form {
+    .wpzoom-rcb-comment-rating-form {
+        > label {
+            display: block;
+        }
+        .wpzoom-rcb-comment-rating-stars {
+            label {
+                display: inline-block;
+                &[for="wpzoom-rcb-comment-rating-0"] {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.wpzoom-rcb-comment-rating {
+    margin-bottom: 10px !important;
+    .wpzoom-rcb-comment-rating-stars {
+        padding: 0;
+        margin: 0;
+        > span {
+            font-size: 14px;
+        }
+        /* SVG stars in comment list (display) – same sizing as before dashicons */
+        > span.wpz-star-icon {
+            color: #F2A123;
+            display: inline-block;
+            width: 16px;
+            height: 21px;
+            position: relative;
+            font-size: 0;
+            line-height: 0;
+            margin-right: 2px;
+            vertical-align: middle;
+
+            &.wpz-empty-star {
+                color: #F2A123;
+            }
+
+            .wpzoom-rating-star-svg {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                svg {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    fill: currentColor;
+                }
+            }
+            .wpzoom-rating-star-full-svg {
+                display: none;
+            }
+            &.wpz-full-star {
+                .wpzoom-rating-star-svg:not(.wpzoom-rating-star-full-svg) {
+                    display: none;
+                }
+                .wpzoom-rating-star-full-svg {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+// Global span.wpz-star-icon: SVG-only (no font icon). Comment form and modal have their own scoped rules.
+span.wpz-star-icon {
+    color: #F2A123;
+    &.wpz-empty-star {
+        color: #DBDBDB;
+    }
+}
+.wpzoom-rcb-comment-rating-stars {
+
+    > label {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        color: inherit;
+
+        &:last-child {
+            padding-right: 0;
+        }
+        span.wpz-star-icon {
+            color: #F2A123;
+            display: inline-block;
+            width: 18px;
+            height: 21px;
+            position: relative;
+            font-size: 0;
+            line-height: 0;
+
+            &:hover {
+                color: #F2A123;
+            }
+
+            &.wpz-empty-star {
+                color: #DBDBDB;
+            }
+            &.wpz-full-star {
+                color: #F2A123 !important;
+            }
+
+            .wpzoom-rating-star-svg {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                svg {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    fill: currentColor;
+                }
+            }
+            .wpzoom-rating-star-full-svg {
+                display: none;
+            }
+            &.wpz-full-star {
+                .wpzoom-rating-star-svg:not(.wpzoom-rating-star-full-svg) {
+                    display: none;
+                }
+                .wpzoom-rating-star-full-svg {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+// Rating Modal Styles
+.wpzoom-rating-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(2px);
+    }
+
+    &-content {
+        position: relative;
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 450px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: wpzoom-modal-fade-in 0.3s ease-out;
+    }
+
+    &-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: #f5f5f5;
+        border-radius: 50%;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        color: #666;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            background: #e0e0e0;
+            color: #041728;
+        }
+    }
+
+    &-title {
+        margin: 0 0 5px;
+        font-size: 22px;
+        font-weight: 600;
+        color: #041728;
+        text-align: center;
+    }
+
+    &-recipe-name {
+        margin: 0 0 20px;
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+        font-style: italic;
+    }
+
+    &-stars {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 25px;
+
+        .wpzoom-rating-modal-star {
+            width: 36px;
+            height: 57.59px;
+            min-width: 36px;
+            max-width: 36px;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+            position: relative;
+            display: block;
+            color: #DBDBDB;
+            font-size: 0; /* hide any font icon; we use SVG only */
+            line-height: 0;
+
+            &:hover {
+                transform: scale(1.15);
+            }
+
+            &.wpz-full-star {
+                color: #F2A123;
+            }
+
+            .wpzoom-rating-star-svg {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                font-size: 0;
+                svg {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    fill: #F2A123;
+                }
+            }
+            .wpzoom-rating-star-full-svg {
+                display: none;
+            }
+            &.wpz-full-star {
+                .wpzoom-rating-star-svg:not(.wpzoom-rating-star-full-svg) {
+                    display: none;
+                }
+                .wpzoom-rating-star-full-svg {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    &-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &-field {
+        textarea,
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: #F2A123;
+                box-shadow: 0 0 0 3px rgba(242, 161, 35, 0.15);
+            }
+
+            &::placeholder {
+                color: #999;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        &-description {
+            margin: 8px 0 0;
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+        }
+
+        &-submit {
+            margin-top: 5px;
+        }
+
+        // Required field indicator
+        &.is-required {
+            textarea,
+            input[type="text"],
+            input[type="email"] {
+                border-color: #F2A123;
+
+                &:focus {
+                    border-color: #F2A123;
+                    box-shadow: 0 0 0 3px rgba(242, 161, 35, 0.25);
+                }
+            }
+        }
+    }
+
+    &-submit {
+        width: 100%;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+        transition: opacity 0.2s ease, transform 0.1s ease;
+
+        &:hover {
+            opacity: 0.9;
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+
+    &-error {
+        background: #fff2f2;
+        border: 1px solid #ffcccc;
+        color: #cc0000;
+        padding: 12px 15px;
+        border-radius: 8px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    &-thank-you {
+        text-align: center;
+        padding: 30px 20px;
+
+        p {
+            font-size: 18px;
+            color: #041728;
+            margin: 0;
+        }
+    }
+
+    &-loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+    }
+
+    &-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #F2A123;
+        border-radius: 50%;
+        animation: wpzoom-spinner 0.8s linear infinite;
+    }
+}
+
+@keyframes wpzoom-modal-fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes wpzoom-spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+    .wpzoom-rating-modal {
+        &-content {
+            padding: 20px;
+            margin: 10px;
+            width: calc(100% - 20px);
+        }
+
+        &-title {
+            font-size: 18px;
+        }
+
+        &-stars {
+            .wpzoom-rating-modal-star {
+                font-size: 28px;
+            }
+        }
+
+        &-field {
+            textarea,
+            input[type="text"],
+            input[type="email"] {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+        }
+
+        &-submit {
+            padding: 12px 16px;
+            font-size: 15px;
+        }
+    }
+}

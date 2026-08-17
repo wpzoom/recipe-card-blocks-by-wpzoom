@@ -104,6 +104,76 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		}
 
 		/**
+		 * Prefer a minified frontend script when one has been built.
+		 *
+		 * Ported from PRO so the rating classes can be shared verbatim.
+		 *
+		 * @since 3.5.0
+		 * @param string $filename Unminified filename, e.g. 'wpzoom-rating-stars.js'.
+		 * @return string
+		 */
+		public function resolve_frontend_js_filename( $filename ) {
+			$filename = (string) $filename;
+
+			if ( '' === $filename ) {
+				return $filename;
+			}
+
+			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+				return $filename;
+			}
+
+			if ( '.min.js' === substr( $filename, -7 ) ) {
+				return $filename;
+			}
+
+			if ( '.js' !== substr( $filename, -3 ) ) {
+				return $filename;
+			}
+
+			$min_filename = substr( $filename, 0, -3 ) . '.min.js';
+			$min_path     = WPZOOM_RCB_PLUGIN_DIR . 'dist/assets/js/' . $min_filename;
+
+			if ( file_exists( $min_path ) ) {
+				return $min_filename;
+			}
+
+			return $filename;
+		}
+
+		/**
+		 * Inline styles driven by the settings page.
+		 *
+		 * @since 3.5.0
+		 * @return string
+		 */
+		public static function get_custom_css() {
+			$custom_css = '';
+
+			if ( ! class_exists( 'WPZOOM_Settings' ) ) {
+				return $custom_css;
+			}
+
+			$rating_stars_color = WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_stars_color' );
+
+			if ( ! empty( $rating_stars_color ) ) {
+				$color = sanitize_hex_color( $rating_stars_color );
+
+				if ( ! empty( $color ) ) {
+					$custom_css .= '
+						.wp-block-wpzoom-recipe-card-block-recipe-card ul.wpzoom-rating-stars>li.wpz-star-icon,
+						.wpzoom-rcb-comment-rating-form .wpzoom-rcb-comment-rating-stars label span.wpz-star-icon,
+						.wpzoom-rcb-comment-rating .wpzoom-rcb-comment-rating-stars span.wpz-star-icon,
+						ul.wpzoom-rating-stars > li.wpz-star-icon {
+							color: ' . $color . ';
+						}';
+				}
+			}
+
+			return $custom_css;
+		}
+
+		/**
 		 * Registers Front-end block styles.
 		 *
 		 * Fired by `enqueu_block_assets` action.
@@ -122,6 +192,14 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				self::$_slug . '-icon-fonts-css',
 				$this->asset_source( 'css', 'icon-fonts.build.css' ),
 				$this->get_dependencies( self::$_slug . '-icon-fonts-css' ),
+				WPZOOM_RCB_VERSION
+			);
+
+			// Handle name matches PRO so ported rating code enqueues it unchanged.
+			wp_register_style(
+				self::$_slug . '-rating-css',
+				$this->asset_source( 'css', 'rating.build.css' ),
+				array(),
 				WPZOOM_RCB_VERSION
 			);
 
@@ -339,6 +417,15 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 					wp_enqueue_style( self::$_slug . '-style-css' );
 
+					if ( class_exists( 'WPZOOM_Settings' ) && WPZOOM_Settings::get_rating_star_acces() ) {
+						wp_enqueue_style( self::$_slug . '-rating-css' );
+					}
+
+					$custom_css = self::get_custom_css();
+
+					if ( ! empty( $custom_css ) ) {
+						wp_add_inline_style( self::$_slug . '-style-css', $custom_css );
+					}
 				}
 
 				/**
@@ -526,6 +613,16 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 			$inline_CSS  = file_get_contents( $this->asset_source( '', 'blocks.style.build.css' ) );
 			$inline_CSS .= file_get_contents( $this->asset_source( 'css', 'amp-icon-fonts.build.css' ) );
+
+			// Rating styles, read from disk rather than by URL (the two calls above
+			// rely on allow_url_fopen, which is off on plenty of hosts).
+			$rating_css_path = WPZOOM_RCB_PLUGIN_DIR . 'dist/assets/css/rating.build.css';
+
+			if ( file_exists( $rating_css_path ) ) {
+				$inline_CSS .= file_get_contents( $rating_css_path );
+			}
+
+			$inline_CSS .= self::get_custom_css();
 
 			$inline_CSS .= '.artl-cnt ul li:before {display: none}';
 			$inline_CSS .= "{$block_class_name} .recipe-card-notes .recipe-card-notes-list>li::before {
