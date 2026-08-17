@@ -48,6 +48,7 @@ class WPZOOM_Structured_Data_Render {
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-recipe-card-block.php';
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-nutrition.php';
 		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-recipe-block-from-posts.php';
+		require_once WPZOOM_RCB_SD_BLOCKS_DIR . 'class-wpzoom-rating.php';
 
 	}
 
@@ -64,6 +65,7 @@ class WPZOOM_Structured_Data_Render {
 			new WPZOOM_Recipe_Card_Block(),
 			new WPZOOM_Nutrition_Block(),
 			new WPZOOM_Recipe_Block_From_Posts(),
+			new WPZOOM_Rating_Block(),
 		);
 
 		if ( WPZOOM_RCB_HAS_PRO ) {

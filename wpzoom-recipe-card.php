@@ -76,6 +76,7 @@ if ( ! function_exists( 'wpzoom_rating_stars' ) ) {
 }
 
 add_action( 'init', 'WPZOOM_Recipe_Card_Shortcode::instance' );
+add_action( 'init', 'WPZOOM_Recipe_Rating_Shortcode::instance' );
 
 /**
  * Check if the Elementor Page Builder is enabled load the widget
