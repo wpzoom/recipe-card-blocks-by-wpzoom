@@ -446,8 +446,57 @@ div.wp-tab-panel {
   }
 
 /* ------------------------------------------------------------------
-   Ratings moderation screen
+   Ratings & Analytics screen
    ------------------------------------------------------------------ */
+/* Top Rated Recipes Date Filters */
+.wpzoom-top-rated-filters {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+}
+.wpzoom-top-rated-filters .filter-btn {
+	padding: 4px 10px;
+	font-size: 12px;
+	text-decoration: none;
+	color: #50575e;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	transition: all 0.15s ease;
+}
+.wpzoom-top-rated-filters .filter-btn:hover {
+	background: #f0f0f1;
+	color: #1d2327;
+	border-color: #8c8f94;
+}
+.wpzoom-top-rated-filters .filter-btn.active {
+	background: #E1581A;
+	color: #fff;
+	border-color: #E1581A;
+}
+.wpzoom-top-rated-section .section-header {
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.wpzoom-top-rated-section .section-header-left .section-subtitle {
+	font-size: 12px;
+	color: #646970;
+}
+.wpzoom-top-rated-section .section-header-right {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.wpzoom-top-rated-limit {
+	padding: 4px 8px;
+	font-size: 12px;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	background: #fff;
+	cursor: pointer;
+}
+
 
 .wpzoom-manage-ratings-wrap .wpzoom-ratings-stats-box {
     background: #fff;
@@ -481,13 +530,15 @@ div.wp-tab-panel {
 }
 .wpzoom-ratings-stats-box .stat-approved strong { color: #00a32a; }
 .wpzoom-ratings-stats-box .stat-pending strong { color: #dba617; }
-/
+
+/* Stats Details Row - Side by Side Layout */
 .wpzoom-ratings-stats-box .stats-details {
     display: flex;
     gap: 40px;
     align-items: flex-start;
 }
-/
+
+/* 7-Day Activity Chart Section */
 .wpzoom-ratings-stats-box .stats-activity-section {
     flex: 1;
     min-width: 280px;
@@ -564,7 +615,7 @@ div.wp-tab-panel {
     color: #666;
     text-transform: uppercase;
 }
-/
+/* Tooltip for chart bars */
 .wpzoom-ratings-stats-box .stats-chart-bar-wrapper[data-tooltip]::before {
     content: attr(data-tooltip);
     position: absolute;
@@ -601,7 +652,8 @@ div.wp-tab-panel {
     opacity: 1;
     visibility: visible;
 }
-/
+
+/* Rating Distribution Section */
 .wpzoom-ratings-stats-box .stats-distribution-section {
     flex: 1;
     min-width: 200px;
@@ -690,7 +742,8 @@ div.wp-tab-panel {
     background: #dbeafe;
     color: #1e40af;
 }
-/
+
+/* Manage Ratings: keep SVG comment-rating stars compact and render only the active layer */
 .wpzoom-manage-ratings-wrap .wpzoom-rcb-comment-rating {
     margin: 0 0 6px;
     line-height: 1;
@@ -735,4 +788,146 @@ div.wp-tab-panel {
 }
 .wpzoom-manage-ratings-wrap .wpzoom-rcb-comment-rating .wpzoom-rcb-comment-rating-stars .wpz-full-star .wpzoom-rating-star-full-svg {
     display: block;
+}
+@media screen and (max-width: 1200px) {
+    .wpzoom-ratings-stats-box .stats-details {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .wpzoom-ratings-stats-box .stats-activity-section,
+    .wpzoom-ratings-stats-box .stats-distribution-section {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+@media screen and (max-width: 782px) {
+    .wpzoom-ratings-stats-box .stats-counts {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .wpzoom-ratings-stats-box .stat-divider {
+        display: none;
+    }
+    .wpzoom-ratings-stats-box .stats-activity-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+/* Top Rated Recipes Section */
+.wpzoom-top-rated-section {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+.wpzoom-top-rated-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #f9f9f9;
+}
+.wpzoom-top-rated-section .section-header-left h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+}
+.wpzoom-top-rated-columns {
+    display: flex;
+    gap: 0;
+}
+.wpzoom-top-rated-column {
+    flex: 1;
+    padding: 15px 20px;
+}
+.wpzoom-top-rated-column:first-child {
+    border-right: 1px solid #e0e0e0;
+}
+.wpzoom-top-rated-column h4 {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d2327;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.wpzoom-top-rated-column h4 .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #E1581A;
+}
+.wpzoom-top-rated-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.wpzoom-top-rated-list li {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f1;
+}
+.wpzoom-top-rated-list li:last-child {
+    border-bottom: none;
+}
+.wpzoom-top-rated-list .rank {
+    width: 24px;
+    height: 24px;
+    background: #f0f0f1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #50575e;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+.wpzoom-top-rated-list li:first-child .rank {
+    background: #E1581A;
+    color: #fff;
+}
+.wpzoom-top-rated-list .recipe-info {
+    flex: 1;
+    min-width: 0;
+}
+.wpzoom-top-rated-list .recipe-title {
+    display: block;
+    font-weight: 500;
+    color: #1d2327;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.wpzoom-top-rated-list .recipe-title:hover {
+    color: #E1581A;
+}
+.wpzoom-top-rated-list .recipe-meta {
+    font-size: 12px;
+    color: #646970;
+}
+.wpzoom-top-rated-list .recipe-meta .stars {
+    color: #dba617;
+}
+.wpzoom-top-rated-list .no-recipes {
+    color: #646970;
+    font-style: italic;
+    padding: 10px 0;
+}
+@media screen and (max-width: 1200px) {
+    .wpzoom-top-rated-columns {
+        flex-direction: column;
+    }
+    .wpzoom-top-rated-column:first-child {
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+    }
 }
