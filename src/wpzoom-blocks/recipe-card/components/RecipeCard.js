@@ -17,6 +17,7 @@ import Inspector from './Inspector';
 import ExtraOptionsModal from './ExtraOptionsModal';
 import Notes from './Notes';
 import NutritionUpsell from './NutritionUpsell';
+import RatingPreview from './rating-preview';
 import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
 import { getBlockStyle } from '../../../helpers/getBlockStyle';
@@ -497,6 +498,7 @@ class RecipeCard extends Component {
                                 keepPlaceholderOnFocus={ true }
                             />
                             { displayAuthor && <span className="recipe-card-author">{ __( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) } { customAuthorName }</span> }
+                            { '1' === get( setting_options, 'wpzoom_rcb_settings_user_ratings' ) && <RatingPreview /> }
                             { displayCourse && <span className="recipe-card-course">{ __( 'Course', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( course ) ? course.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
                             { displayCuisine && <span className="recipe-card-cuisine">{ __( 'Cuisine', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( cuisine ) ? cuisine.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
                             { displayDifficulty && <span className="recipe-card-difficulty">{ __( 'Difficulty', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( difficulty ) ? difficulty.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
@@ -587,6 +589,7 @@ class RecipeCard extends Component {
                                     keepPlaceholderOnFocus={ true }
                                 />
                                 { displayAuthor && <span className="recipe-card-author">{ __( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) } { customAuthorName }</span> }
+                                { '1' === get( setting_options, 'wpzoom_rcb_settings_user_ratings' ) && <RatingPreview /> }
                                 { displayCourse && <span className="recipe-card-course">{ __( 'Course', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( course ) ? course.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
                                 { displayCuisine && <span className="recipe-card-cuisine">{ __( 'Cuisine', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( cuisine ) ? cuisine.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }
                                 { displayDifficulty && <span className="recipe-card-difficulty">{ __( 'Difficulty', 'recipe-card-blocks-by-wpzoom' ) }: <mark>{ ! RichText.isEmpty( difficulty ) ? difficulty.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span> }

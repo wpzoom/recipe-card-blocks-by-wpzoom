@@ -1841,7 +1841,16 @@ class Recipe_Card extends Widget_Base {
 		$tag_list = wp_get_post_terms( self::$recipe->ID, 'post_tag', array( 'fields' => 'names' ) );
 		$cat_list = wp_get_post_terms( self::$recipe->ID, 'category', array( 'fields' => 'names' ) );
 
-		$rating_average = $rating_count = '';
+		// Ratings ship in free as of 3.5.0; previously these stayed empty and the
+		// aggregateRating below was always pruned.
+		$rating_average = 0;
+		$rating_count   = 0;
+
+		if ( class_exists( 'WPZOOM_Rating_Stars' ) && WPZOOM_Settings::get_rating_star_acces() ) {
+			$elementor_rating_id = (int) get_the_ID();
+			$rating_average      = WPZOOM_Rating_Stars::get_rating_average( $elementor_rating_id );
+			$rating_count        = WPZOOM_Rating_Stars::get_total_votes( $elementor_rating_id );
+		}
 
 		$json_ld = array(
 			'@context'           => 'https://schema.org',

@@ -229,6 +229,13 @@
 			});
 		});
 		wpzoom_set_correct_ids_to_recipe_shortcode();
+
+		// Move auto-inserted rating stars into the theme's post meta area.
+		var $elementToMove = $("[data-js-move=true]:first-child");
+		var elementTarget = $elementToMove.data("js-selector");
+		if ($elementToMove.length && elementTarget) {
+			$elementToMove.appendTo(elementTarget);
+		}
 	});
 })(jQuery, wpzoomRecipeCard);
 
