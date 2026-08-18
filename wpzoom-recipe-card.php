@@ -83,6 +83,7 @@ add_action( 'init', 'WPZOOM_Recipe_Rating_Shortcode::instance' );
  */
 if ( defined( 'ELEMENTOR_VERSION' ) && is_callable( 'Elementor\Plugin::instance' ) ) {
 	require_once 'elementor/wpzoom-elementor-recipe-card.php';
+	require_once 'elementor/wpzoom-elementor-rating-stars.php';
 }
 
 /**

@@ -251,26 +251,36 @@ class WPZOOM_Recipe_Card_Block {
 			return $content;
 		}
 
+		return self::place_rating_stars( $content, $output );
+	}
+
+	/**
+	 * Place already-rendered rating stars around the post content.
+	 *
+	 * Split out from add_rating_stars_to_content() so the Elementor path can
+	 * reuse it - both builders must honour the same Rating Display settings.
+	 *
+	 * @since 3.5.0
+	 * @param string $content The post content.
+	 * @param string $output  The rendered rating stars markup.
+	 * @return string
+	 */
+	public static function place_rating_stars( $content, $output ) {
 		if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_rating_stars_meta' ) ) {
 			$output = '<span class="wpzoom-rating-stars-outputter" data-js-move="true" data-js-selector=".entry-meta">' . $output . '</span>';
 		}
 
 		switch ( WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_star_position' ) ) {
 			case 'bottom-content':
-				$content = $content . $output;
-				break;
+				return $content . $output;
 
 			case 'both-content':
-				$content = $output . $content . $output;
-				break;
+				return $output . $content . $output;
 
 			case 'top-content':
 			default:
-				$content = $output . $content;
-				break;
+				return $output . $content;
 		}
-
-		return $content;
 	}
 
 	public static function is_built_with_elementor( $post_id = false ) {
