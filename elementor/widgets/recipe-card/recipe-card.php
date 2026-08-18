@@ -75,6 +75,13 @@ class Recipe_Card extends Widget_Base {
 			)
 		);
 
+		// Rating stars, when the feature is on.
+		if ( class_exists( '\WPZOOM_Settings' ) && \WPZOOM_Settings::get_rating_star_acces() ) {
+			wp_enqueue_style( 'wpzoom-rcb-block-rating-css' );
+			wp_enqueue_script( 'wpzoom-rating-stars-script' );
+			wp_localize_script( 'wpzoom-rating-stars-script', 'wpzoomRatingStars', \WPZOOM_Rating_Stars::get_localize_data() );
+		}
+
 		wp_register_script( 'wpzoom-rcb-script-js', WPZOOM_RCB_PLUGIN_URL . 'dist/assets/js/script.js', array( 'jquery' ), WPZOOM_RCB_VERSION, true );
 
 		wp_localize_script(

@@ -595,8 +595,12 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			}
 
 			$post_id = $post_id > 0 ? $post_id : get_the_ID();
-			
-			$elementor_data = get_post_meta( $post_id, '_elementor_data' );	
+
+			if ( ! $post_id ) {
+				$post_id = get_queried_object_id();
+			}
+
+			$elementor_data = get_post_meta( $post_id, '_elementor_data' );
 
 			if ( isset( $elementor_data[0] ) && is_string( $elementor_data[0] ) ) {
 
@@ -605,7 +609,9 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		
 				if ( preg_match_all( $regExp, $elementor_data[0], $outputArray, PREG_SET_ORDER) ) {}
 				foreach( $outputArray as $found ) {
-					if( in_array( 'wpzoom-elementor-recipe-card-widget-cpt', $found ) ) {
+					// Both the Recipe Card widget and the CPT variant count.
+					if ( in_array( 'wpzoom-elementor-recipe-card-widget-cpt', $found, true )
+						|| in_array( 'wpzoom-elementor-recipe-card-widget', $found, true ) ) {
 						return true;
 					}
 				}	

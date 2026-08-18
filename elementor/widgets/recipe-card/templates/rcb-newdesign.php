@@ -99,6 +99,14 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 		$html .= '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) .' '. $recipe_author . '</span>';
 	}
 
+	if ( function_exists( 'wpzoom_rating_stars' ) ) {
+		$recipe_card_rating = wpzoom_rating_stars( self::$recipe->ID );
+
+		if ( ! empty( $recipe_card_rating ) ) {
+			$html .= '<div class="recipe-card-rating-wrap">' . $recipe_card_rating . '</div>';
+		}
+	}
+
 	if( !empty( $settings['recipe_course'] ) && $settings['show_course'] ) {
 		$html .= $this->get_recipe_terms( $settings['recipe_course'], 'courses' );
 	}
