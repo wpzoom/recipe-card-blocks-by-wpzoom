@@ -77,6 +77,7 @@ class WPZOOM_Custom_Post {
 		// Update the columns shown on the custom post type edit.php view - so we also have custom columns
 		add_filter( 'manage_wpzoom_rcb_posts_columns' , array( $this, 'recipe_post_type_columns' ) );
 		add_action( 'manage_wpzoom_rcb_posts_custom_column' , array( $this,'fill_custom_post_type_columns' ), 10, 2 );
+		add_action( 'admin_head', array( $this, 'recipe_list_admin_styles' ) );
 
 		add_action( 'template_redirect', array( $this, 'redirect_single_recipe_to_404' ) );
 		add_filter( 'post_row_actions', array( $this, 'filter_admin_row_actions' ), 11, 2 );
@@ -140,6 +141,7 @@ class WPZOOM_Custom_Post {
 		return array(
 				'cb'              => '<input type="checkbox" />',
 				'title'           => esc_html__( 'Recipe Title', 'recipe-card-blocks-by-wpzoom' ),
+				'seo'             => esc_html__( 'SEO', 'recipe-card-blocks-by-wpzoom' ),
 				'shortcode'       => esc_html__( 'Shortcode', 'recipe-card-blocks-by-wpzoom' ),
 				'parent_post'     => esc_html__( 'Parent', 'recipe-card-blocks-by-wpzoom' ),
 				'used_in'         => esc_html__( 'Posts containing this recipe', 'recipe-card-blocks-by-wpzoom' ),
@@ -151,12 +153,75 @@ class WPZOOM_Custom_Post {
 	public function fill_custom_post_type_columns( $column, $post_id ) {
 
 
+		$post = get_post( $post_id );
 		$parent_id = get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
 
 		if( 'trash' === get_post_status( $parent_id ) ) {
 			$parent_id = $post_id;
 		};
 		
+		if ( 'seo' === $column ) {
+			$seo = $this->get_recipe_seo_data( $post );
+
+			if ( false === $seo ) {
+				echo '<span class="disable">&mdash;</span>';
+				return;
+			}
+
+			$has_missing_required = in_array( false, $seo['required'], true );
+
+			if ( $has_missing_required ) {
+				// Red: a required field is missing, so the recipe is not eligible for rich results.
+				$color = '#cc1818';
+			} elseif ( $seo['score'] >= 80 ) {
+				// Green: all required fields present and 80%+ complete (only minor recommended gaps).
+				$color = '#007017';
+			} else {
+				// Orange: required fields present but several recommended fields are still missing.
+				$color = '#bd8600';
+			}
+
+			// Build the per-field checklist shown inside the hover tooltip.
+			$render_group = function( $label, $fields, $missing_color ) {
+				$items = '';
+				foreach ( $fields as $name => $ok ) {
+					$items .= sprintf(
+						'<li style="display:flex;align-items:center;gap:6px;padding:1px 0;color:%1$s;"><span style="font-weight:700;width:12px;">%2$s</span>%3$s</li>',
+						$ok ? '#1a7f37' : $missing_color,
+						$ok ? '&#10003;' : '&#10007;',
+						esc_html( $name )
+					);
+				}
+				return sprintf(
+					'<div style="margin-top:6px;"><div style="font-weight:600;color:#1d2327;margin-bottom:2px;">%1$s</div><ul style="margin:0;padding:0;list-style:none;">%2$s</ul></div>',
+					esc_html( $label ),
+					$items
+				);
+			};
+
+			// Missing required fields are flagged red; missing recommended fields orange.
+			$checklist  = $render_group( esc_html__( 'Required', 'recipe-card-blocks-by-wpzoom' ), $seo['required'], '#cc1818' );
+			$checklist .= $render_group( esc_html__( 'Recommended', 'recipe-card-blocks-by-wpzoom' ), $seo['recommended'], '#bd8600' );
+
+			printf(
+				'<div class="wpzoom-rcb-seo-score" style="position:relative;display:flex;align-items:center;gap:8px;max-width:150px;">'
+					. '<span style="flex:1 1 auto;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;">'
+						. '<span style="display:block;width:%1$d%%;height:100%%;background:%2$s;"></span>'
+					. '</span>'
+					. '<strong style="color:%2$s;font-size:12px;min-width:32px;text-align:right;">%1$d%%</strong>'
+					. '<span class="wpzoom-rcb-seo-tip" style="position:absolute;z-index:100;top:100%%;left:0;width:220px;background:#fff;border:1px solid #c3c4c7;box-shadow:0 2px 10px rgba(0,0,0,.15);border-radius:4px;padding:8px 10px;font-size:12px;line-height:1.5;white-space:normal;">'
+						. '<span style="display:block;font-weight:600;color:%2$s;border-bottom:1px solid #f0f0f1;padding-bottom:4px;margin-bottom:2px;">%3$s: %1$d%%</span>'
+						. '%4$s'
+					. '</span>'
+				. '</div>',
+				(int) $seo['score'],
+				esc_attr( $color ),
+				esc_html__( 'Structured data', 'recipe-card-blocks-by-wpzoom' ),
+				$checklist
+			);
+			return;
+		}
+
 		// Fill in the columns with meta box info associated with each post
 		switch ( $column ) {
 
@@ -183,6 +248,135 @@ class WPZOOM_Custom_Post {
 				}
 			break;
 		}
+	}
+
+	/**
+	 * Calculate the structured-data completeness score for a recipe.
+	 *
+	 * Mirrors the editor checks in
+	 * src/wpzoom-blocks/recipe-card/components/block-settings/index.js:
+	 * 3 required (image, ingredients, steps) + 8 recommended (description,
+	 * video, prep time, cook time, calories, course, cuisine, keywords).
+	 *
+	 * @param WP_Post $post The recipe post.
+	 * @return array|false  Score data (score, missing_required, missing_recommended), or false if no recipe card block.
+	 */
+	public function get_recipe_seo_data( $post ) {
+		$attrs = array();
+
+		if ( $post && ! empty( $post->post_content ) ) {
+			$blocks = parse_blocks( $post->post_content );
+			foreach ( $blocks as $block ) {
+				if ( isset( $block['blockName'] ) && 'wpzoom-recipe-card/block-recipe-card' === $block['blockName'] ) {
+					$attrs = isset( $block['attrs'] ) ? $block['attrs'] : array();
+					break;
+				}
+			}
+		}
+
+		if ( empty( $attrs ) ) {
+			return false;
+		}
+
+		// Ingredients / steps presence (skip group headers).
+		$has_ingredients = false;
+		if ( isset( $attrs['ingredients'] ) && is_array( $attrs['ingredients'] ) ) {
+			foreach ( $attrs['ingredients'] as $ing ) {
+				if ( ! empty( $ing['isGroup'] ) ) {
+					continue;
+				}
+				if ( ! empty( $ing['jsonName'] ) || ( isset( $ing['name'] ) && ! empty( $ing['name'] ) ) ) {
+					$has_ingredients = true;
+					break;
+				}
+			}
+		}
+
+		$has_steps = false;
+		if ( isset( $attrs['steps'] ) && is_array( $attrs['steps'] ) ) {
+			foreach ( $attrs['steps'] as $step ) {
+				if ( ! empty( $step['isGroup'] ) ) {
+					continue;
+				}
+				if ( ! empty( $step['jsonText'] ) || ( isset( $step['text'] ) && ! empty( $step['text'] ) ) ) {
+					$has_steps = true;
+					break;
+				}
+			}
+		}
+
+		$details    = isset( $attrs['details'] ) && is_array( $attrs['details'] ) ? $attrs['details'] : array();
+		$has_detail = function( $index ) use ( $details ) {
+			return isset( $details[ $index ]['value'] ) && '' !== trim( (string) $details[ $index ]['value'] );
+		};
+
+		$has_list = function( $key ) use ( $attrs ) {
+			if ( ! isset( $attrs[ $key ] ) || ! is_array( $attrs[ $key ] ) ) {
+				return false;
+			}
+			$filtered = array_filter( $attrs[ $key ], function( $item ) {
+				return ! empty( $item );
+			} );
+			return ! empty( $filtered );
+		};
+
+		$summary = '';
+		if ( ! empty( $attrs['jsonSummary'] ) ) {
+			$summary = (string) $attrs['jsonSummary'];
+		} elseif ( isset( $attrs['summary'] ) && ! is_array( $attrs['summary'] ) ) {
+			$summary = (string) $attrs['summary'];
+		}
+		$has_summary = '' !== trim( wp_strip_all_tags( $summary ) );
+
+		$required = array(
+			'Image'       => ! empty( $attrs['hasImage'] ),
+			'Ingredients' => $has_ingredients,
+			'Steps'       => $has_steps,
+		);
+
+		$recommended = array(
+			'Description' => $has_summary,
+			'Video'       => ! empty( $attrs['hasVideo'] ),
+			'Prep time'   => $has_detail( 1 ),
+			'Cook time'   => $has_detail( 2 ),
+			'Calories'    => $has_detail( 3 ),
+			'Course'      => $has_list( 'course' ),
+			'Cuisine'     => $has_list( 'cuisine' ),
+			'Keywords'    => $has_list( 'keywords' ),
+		);
+
+		// Required fields weigh more than recommended ones toward the score.
+		$required_weight    = 2;
+		$recommended_weight = 1;
+
+		$total_weight   = ( count( $required ) * $required_weight ) + ( count( $recommended ) * $recommended_weight );
+		$present_weight = ( count( array_filter( $required ) ) * $required_weight ) + ( count( array_filter( $recommended ) ) * $recommended_weight );
+		$score          = $total_weight > 0 ? (int) round( ( $present_weight / $total_weight ) * 100 ) : 0;
+
+		return array(
+			'score'       => $score,
+			'required'    => $required,
+			'recommended' => $recommended,
+		);
+	}
+
+	/**
+	 * Print inline styles for the SEO score column hover tooltip on the recipe list.
+	 *
+	 * @return void
+	 */
+	public function recipe_list_admin_styles() {
+		$screen = get_current_screen();
+
+		if ( ! $screen || 'edit-wpzoom_rcb' !== $screen->id ) {
+			return;
+		}
+
+		echo '<style>'
+			. '.wp-list-table .column-seo{width:170px;}'
+			. '.wpzoom-rcb-seo-score .wpzoom-rcb-seo-tip{display:none;}'
+			. '.wpzoom-rcb-seo-score:hover .wpzoom-rcb-seo-tip{display:block;}'
+			. '</style>';
 	}
 
 	/**
