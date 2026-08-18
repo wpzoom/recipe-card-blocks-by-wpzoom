@@ -80,6 +80,10 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 	}
 
 	//Recipe Card Heading
+	if ( method_exists( '\WPZOOM_Recipe_Card_Block', 'get_cook_mode_toggle' ) ) {
+		$html .= \WPZOOM_Recipe_Card_Block::get_cook_mode_toggle();
+	}
+
 	$html .= '<div class="recipe-card-heading">';
 
 	// Get the recipe title tag

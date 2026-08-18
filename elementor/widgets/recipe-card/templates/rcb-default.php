@@ -78,6 +78,10 @@ if ( ! empty( $settings['image']['url'] ) ) {
 }
 
 //Recipe Card Heading
+if ( method_exists( '\WPZOOM_Recipe_Card_Block', 'get_cook_mode_toggle' ) ) {
+	$html .= \WPZOOM_Recipe_Card_Block::get_cook_mode_toggle();
+}
+
 $html .= '<div class="recipe-card-heading">';
 
 	// Get the recipe title tag
