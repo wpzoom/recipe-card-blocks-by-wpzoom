@@ -1681,7 +1681,7 @@ class WPZOOM_Settings {
                                 'type'  => 'checkbox',
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_display_rating_stars_meta',
-                                    'class'       => 'wpzoom-rcb-field',
+                                    'class'       => 'wpzoom-rcb-field required-auto-rating-stars',
                                     'description' => __( 'Uses JavaScript and requires the .entry-meta class in your theme.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => false,
                                     'preview'     => false,
@@ -1694,7 +1694,7 @@ class WPZOOM_Settings {
                                 'type'  => 'select',
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_rating_star_position',
-                                    'class'       => 'wpzoom-rcb-field',
+                                    'class'       => 'wpzoom-rcb-field required-auto-rating-stars',
                                     'description' => esc_html__( 'Select where to add rating stars.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => 'top-content',
                                     'options'     => array(

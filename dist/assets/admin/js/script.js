@@ -60,6 +60,18 @@ jQuery(document).ready(function(){
 		showCookModeOptions();
 		$('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle]"]').on('change', showCookModeOptions);
 
+		// Rating display sub-options only apply when the auto-insert toggle is on
+		function showAutoRatingStarsOptions() {
+			if ($('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_display_rating_stars]"]:checked').val() !== '1') {
+				$('tr.required-auto-rating-stars').hide();
+			} else {
+				$('tr.required-auto-rating-stars').show();
+			}
+		}
+
+		showAutoRatingStarsOptions();
+		$('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_display_rating_stars]"]').on('change', showAutoRatingStarsOptions);
+
 		// reset all ratings to zero
 		$('#wpzoom_rcb_settings_reset_ratings').on( 'click', function(){
 			var data = {
