@@ -1846,10 +1846,10 @@ class Recipe_Card extends Widget_Base {
 		$rating_average = 0;
 		$rating_count   = 0;
 
-		if ( class_exists( 'WPZOOM_Rating_Stars' ) && WPZOOM_Settings::get_rating_star_acces() ) {
+		if ( class_exists( '\WPZOOM_Rating_Stars' ) && \WPZOOM_Settings::get_rating_star_acces() ) {
 			$elementor_rating_id = (int) get_the_ID();
-			$rating_average      = WPZOOM_Rating_Stars::get_rating_average( $elementor_rating_id );
-			$rating_count        = WPZOOM_Rating_Stars::get_total_votes( $elementor_rating_id );
+			$rating_average      = \WPZOOM_Rating_Stars::get_rating_average( $elementor_rating_id );
+			$rating_count        = \WPZOOM_Rating_Stars::get_total_votes( $elementor_rating_id );
 		}
 
 		$json_ld = array(
