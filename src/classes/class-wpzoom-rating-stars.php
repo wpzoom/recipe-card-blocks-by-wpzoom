@@ -243,7 +243,7 @@ class WPZOOM_Rating_Stars {
 		$plugin_settings_link = sprintf(
 			wp_kses(
 				/* translators: Placeholder is the url to the Plugin settings */
-				__( '<a href="%s">Review Rating Settings →</a>', 'recipe-card-blocks-by-wpzoom' ),
+				__( '<a href="%s">Review Rating Settings</a>', 'recipe-card-blocks-by-wpzoom' ),
 				array(
 					'a' => array(
 						'href' => array(),
@@ -253,23 +253,28 @@ class WPZOOM_Rating_Stars {
 			esc_url( $plugin_settings_url )
 		);
 
-		$ignore_message_link = sprintf(
-			wp_kses(
-				/* translators: Placeholder is the url to dismiss the message */
-				__( '<a href="%s">Dismiss</a>', 'recipe-card-blocks-by-wpzoom' ),
-				array(
-					'a' => array(
-						'href' => array(),
-					),
-				)
-			),
-			esc_url( $ignore_message_url )
-		);
 		?>
-		<div class="notice notice-info">
+		<div class="notice notice-info is-dismissible wpzoom-rcb-rating-notice" data-dismiss-url="<?php echo esc_url( $ignore_message_url ); ?>">
 			<p><?php echo wp_kses_post( $message ); ?></p>
-			<p><?php echo $plugin_settings_link; ?> | <?php echo $ignore_message_link; ?></p>
+			<p><?php echo $plugin_settings_link; ?></p>
 		</div>
+		<script>
+		( function() {
+			document.addEventListener( 'click', function( event ) {
+				var button = event.target.closest( '.wpzoom-rcb-rating-notice .notice-dismiss' );
+
+				if ( ! button ) {
+					return;
+				}
+
+				var notice = button.closest( '.wpzoom-rcb-rating-notice' );
+
+				if ( notice && notice.dataset.dismissUrl ) {
+					window.fetch( notice.dataset.dismissUrl, { credentials: 'same-origin' } );
+				}
+			} );
+		}() );
+		</script>
 		<?php
 	}
 
