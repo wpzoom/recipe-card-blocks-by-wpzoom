@@ -65,6 +65,7 @@ class WPZOOM_Manage_Ratings {
 		$page = isset( $_GET['page'] ) ? $_GET['page'] : '';
 
 		add_filter( 'wpzoom_manage_ratings_submenu_item', array( $this, 'submenu_item_bubble' ), 1 );
+		add_action( 'admin_menu', array( $this, 'add_top_level_bubble' ), 999 );
 
 		// Do ajax request
 		add_action( 'wp_ajax_approverating', array( $this, 'approve_rating' ) );
@@ -308,6 +309,11 @@ class WPZOOM_Manage_Ratings {
 	 * Set pending ratings count.
 	 */
 	public function set_pending_count() {
+		// Already counted during this request.
+		if ( is_array( $this->pending_count ) ) {
+			return;
+		}
+
 		// Check if ratings are enabled before querying
 		if ( ! WPZOOM_Settings::get_rating_star_acces() && ! WPZOOM_Settings::get( 'wpzoom_rcb_settings_comment_ratings' ) ) {
 			$this->pending_count = array( 'total' => 0, 'ratings' => array() );
@@ -646,6 +652,32 @@ class WPZOOM_Manage_Ratings {
 			$output = sprintf( '%s %s', $menu_title, '<span class="awaiting-mod count-' . absint( $awaiting_mod ) . '"><span class="pending-count" aria-hidden="true">' . $awaiting_mod_i18n . '</span><span class="comments-in-moderation-text screen-reader-text">' . $awaiting_mod_text . '</span></span>' );
 
 			return $output;
+		}
+
+		return $menu_title;
+	}
+
+	/**
+	 * Append the moderation bubble to the top-level "Recipe Cards" menu item.
+	 *
+	 * Runs on admin_menu after the pages are registered so that
+	 * $admin_page_hooks keeps the plain 'recipe-cards' prefix that the submenu
+	 * page hooks are derived from.
+	 *
+	 * @since 3.5.0
+	 */
+	public function add_top_level_bubble() {
+		global $menu;
+
+		if ( ! is_array( $menu ) ) {
+			return;
+		}
+
+		foreach ( $menu as $index => $item ) {
+			if ( isset( $item[2] ) && WPZOOM_RCB_SETTINGS_PAGE === $item[2] ) {
+				$menu[ $index ][0] = $this->submenu_item_bubble( $item[0] );
+				break;
+			}
 		}
 	}
 
