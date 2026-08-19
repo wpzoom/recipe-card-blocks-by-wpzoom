@@ -48,6 +48,55 @@ jQuery(document).ready(function(){
 			}
 		});
 
+		// Cook Mode sub-options only apply when the toggle itself is on
+		function showCookModeOptions() {
+			if ($('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle]"]:checked').val() !== '1') {
+				$('tr.required-cook-mode').hide();
+			} else {
+				$('tr.required-cook-mode').show();
+			}
+		}
+
+		showCookModeOptions();
+		$('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle]"]').on('change', showCookModeOptions);
+
+		// Rating display sub-options only apply when the auto-insert toggle is on
+		function showAutoRatingStarsOptions() {
+			if ($('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_display_rating_stars]"]:checked').val() !== '1') {
+				$('tr.required-auto-rating-stars').hide();
+			} else {
+				$('tr.required-auto-rating-stars').show();
+			}
+		}
+
+		showAutoRatingStarsOptions();
+		$('input[name="wpzoom-recipe-card-settings[wpzoom_rcb_settings_display_rating_stars]"]').on('change', showAutoRatingStarsOptions);
+
+		// reset all ratings to zero
+		$('#wpzoom_rcb_settings_reset_ratings').on( 'click', function(){
+			var data = {
+			    security: Settings.ajax_nonce,
+			    action: 'wpzoom_reset_ratings',
+			};
+			var $this = $(this);
+
+			if (window.confirm("Do you really want to Reset all ratings?")) {
+
+				$this.val('Loading...');
+
+				$.post( Settings.ajaxUrl, data, function(response){
+					if ( response.success ) {
+						$this.val('Done!');
+						$this.prop('disabled', true);
+						$this.next().html(response.data.message);
+					} else {
+						$this.val('Reset Ratings');
+						alert( ( response.data && response.data.message ) || 'Something went wrong when trying to reset the ratings!' );
+					}
+				});
+			}
+		});
+
 		// close Welcome banner
 		$('.wpzoom-rcb-welcome-close').click(function(e){
 			e.preventDefault();

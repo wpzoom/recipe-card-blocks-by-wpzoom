@@ -79,6 +79,7 @@ class WPZOOM_Settings {
 
 			// Do ajax request
 			add_action( 'wp_ajax_wpzoom_reset_settings', array( $this, 'reset_settings' ) );
+			add_action( 'wp_ajax_wpzoom_reset_ratings', array( $this, 'reset_ratings' ) );
 			add_action( 'wp_ajax_wpzoom_welcome_banner_close', array( $this, 'welcome_banner_close' ) );
 
 			// Only load if we are actually on the settings page.
@@ -522,6 +523,37 @@ class WPZOOM_Settings {
 	}
 
 	/**
+	 * Whether user ratings are enabled.
+	 *
+	 * Name kept identical to the PRO plugin (typo included) so the two
+	 * codebases stay diff-able.
+	 *
+	 * @since 3.5.0
+	 * @return boolean
+	 */
+	public static function get_rating_star_acces() {
+		if ( '1' !== self::get( 'wpzoom_rcb_settings_user_ratings' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Whether comment ratings are enabled.
+	 *
+	 * @since 3.5.0
+	 * @return boolean
+	 */
+	public static function get_comment_rating_star_acces() {
+		if ( '1' !== self::get( 'wpzoom_rcb_settings_comment_ratings' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Welcome banner
 	 * Show banner after user activate plugin
 	 *
@@ -568,6 +600,7 @@ class WPZOOM_Settings {
 		$premium_extended_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Professional License Required', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'PRO Feature', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 		$soon_badge    = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_coming_soon">' . __( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
+		$new_badge     = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_new">' . __( 'New', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 
 		self::$settings = array(
 			'general'     => array(
@@ -1455,10 +1488,19 @@ class WPZOOM_Settings {
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle',
                                     'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'Enable Cook Mode', 'recipe-card-blocks-by-wpzoom' ),
+                                    'description' => esc_html__( 'Enable the Cook Mode toggle.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => false,
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_recipe_prevent_sleep_toggle_status',
+                                'title' => __( 'Default Status', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_recipe_prevent_sleep_toggle_status',
+                                    'class'       => 'wpzoom-rcb-field required-cook-mode',
+                                    'description' => esc_html__( 'Enable to turn Cook Mode on by default.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => false,
                                 ),
                             ),
                             array(
@@ -1467,11 +1509,9 @@ class WPZOOM_Settings {
                                 'type'  => 'input',
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_recipe_prevent_sleep_label',
-                                    'class'       => 'wpzoom-rcb-field',
+                                    'class'       => 'wpzoom-rcb-field required-cook-mode',
                                     'default'     => __( 'Cook Mode', 'recipe-card-blocks-by-wpzoom' ),
                                     'type'        => 'text',
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
                                 ),
                             ),
                             array(
@@ -1480,11 +1520,9 @@ class WPZOOM_Settings {
                                 'type'  => 'input',
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_recipe_prevent_sleep_description',
-                                    'class'       => 'wpzoom-rcb-field',
+                                    'class'       => 'wpzoom-rcb-field required-cook-mode',
                                     'default'     => __( 'Keep the screen of your device on', 'recipe-card-blocks-by-wpzoom' ),
                                     'type'        => 'text',
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
                                 ),
                             ),
                         ),
@@ -1533,15 +1571,13 @@ class WPZOOM_Settings {
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_user_ratings',
                                     'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'Allow visitors to vote your recipes.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'description' => esc_html__( 'Allow visitors to rate your recipes.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => true,
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
+                                    'disabled'    => false,
                                     'preview'     => true,
-                                    'preview_pos' => 'top',
+                                    'preview_pos' => 'bottom',
                                 ),
                             ),
-
                             array(
                                 'id'    => 'wpzoom_rcb_settings_comment_ratings',
                                 'title' => __( 'Comment Ratings', 'recipe-card-blocks-by-wpzoom' ),
@@ -1549,15 +1585,13 @@ class WPZOOM_Settings {
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_comment_ratings',
                                     'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'Allow visitors to vote recipes when adding a comment', 'recipe-card-blocks-by-wpzoom' ),
+                                    'description' => esc_html__( 'Allow visitors to rate recipes when adding a comment.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => true,
-                                    'preview'     => true,
+                                    'disabled'    => false,
+                                    'preview'     => false,
                                     'preview_pos' => 'top',
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
                                 ),
                             ),
-
                             array(
                                 'id'    => 'wpzoom_rcb_settings_who_can_rate',
                                 'title' => __( 'Who can rate?', 'recipe-card-blocks-by-wpzoom' ),
@@ -1568,8 +1602,28 @@ class WPZOOM_Settings {
                                     'description' => esc_html__( 'Select who can rate your recipes.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => 'everyone',
                                     'options'     => array(
-                                        'loggedin' => __( 'Only logged in users can rate recipes', 'recipe-card-blocks-by-wpzoom' ),
+                                        'loggedin' => __( 'Only logged-in users can rate recipes', 'recipe-card-blocks-by-wpzoom' ),
                                         'everyone' => __( 'Everyone can rate recipes', 'recipe-card-blocks-by-wpzoom' ),
+                                    ),
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_user_ratings_mode',
+                                'title' => __( 'User Ratings Mode', 'recipe-card-blocks-by-wpzoom' ) . ' ' . $new_badge,
+                                'type'  => 'select',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_user_ratings_mode',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => sprintf(
+                                        /* translators: %s: link to modal settings section */
+                                        __( 'Choose which user rating flow to use. %s', 'recipe-card-blocks-by-wpzoom' ),
+                                        '<a href="#wpzoom_section_rating_modal">' . esc_html__( 'Configure modal settings below ↓', 'recipe-card-blocks-by-wpzoom' ) . '</a>'
+                                    ),
+                                    'default'     => 'instant',
+                                    'options'     => array(
+                                        'modal'            => __( 'Open a modal when clicking on the stars', 'recipe-card-blocks-by-wpzoom' ),
+                                        'jump_to_comments' => __( 'Jump to the comments section when clicking stars; open the modal if comments are not available', 'recipe-card-blocks-by-wpzoom' ),
+                                        'instant'          => __( 'Instant rating (no confirmation)', 'recipe-card-blocks-by-wpzoom' ),
                                     ),
                                     'disabled'    => true,
                                     'badge'       => $premium_badge,
@@ -1582,19 +1636,182 @@ class WPZOOM_Settings {
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_rating_stars_color',
                                     'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'Change rating stars color of Recipe Card.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'description' => esc_html__( 'Change the rating star color in the Recipe Card.', 'recipe-card-blocks-by-wpzoom' ),
                                     'default'     => '#F2A123',
+                                    'disabled'    => true,
                                     'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_reset_ratings',
+                                'title' => __( 'Reset Ratings', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'button',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_reset_ratings',
+                                    'type'        => 'button',
+                                    'button_type' => 'secondary',
+                                    'text'        => esc_html__( 'Reset Ratings', 'recipe-card-blocks-by-wpzoom' ),
+                                    'description' => esc_html__( 'This action resets all ratings to zero. This action cannot be undone.', 'recipe-card-blocks-by-wpzoom' ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    array(
+                        'id'       => 'wpzoom_section_rating_display',
+                        'title'    => __( 'Rating Display', 'recipe-card-blocks-by-wpzoom' ),
+                        'page'     => 'wpzoom-recipe-card-settings-ratings',
+                        'callback' => array( $this, 'section_rating_display_cb' ),
+                        'fields'   => array(
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_display_rating_stars',
+                                'title' => __( 'Automatically add Rating Stars', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_display_rating_stars',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => __( 'Automatically display rating stars above or under the post content.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => false,
+                                    'preview'     => false,
+                                    'preview_pos' => 'bottom',
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_display_rating_stars_meta',
+                                'title' => __( 'Automatically add Rating Stars in Post Meta', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_display_rating_stars_meta',
+                                    'class'       => 'wpzoom-rcb-field required-auto-rating-stars',
+                                    'description' => __( 'Uses JavaScript and requires the .entry-meta class in your theme.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => false,
+                                    'preview'     => false,
+                                    'preview_pos' => 'bottom',
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_star_position',
+                                'title' => __( 'Position', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'select',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_star_position',
+                                    'class'       => 'wpzoom-rcb-field required-auto-rating-stars',
+                                    'description' => esc_html__( 'Select where to add rating stars.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => 'top-content',
+                                    'options'     => array(
+                                        'top-content'        => __( 'At the Top', 'recipe-card-blocks-by-wpzoom' ),
+                                        'bottom-content'     => __( 'At the Bottom', 'recipe-card-blocks-by-wpzoom' ),
+                                        'both-content'       => __( 'At the Top and Bottom', 'recipe-card-blocks-by-wpzoom' ),
+                                    ),
                                 ),
                             ),
                         ),
                     ),
                     array(
                         'id'       => 'wpzoom_section_rating_modal',
-                        'title'    => __( 'Rating Modal', 'recipe-card-blocks-by-wpzoom' ),
+                        'title'    => __( 'User Ratings Modal', 'recipe-card-blocks-by-wpzoom' ),
                         'page'     => 'wpzoom-recipe-card-settings-ratings',
-                        'callback' => '__return_false',
+                        'callback' => array( $this, 'section_rating_modal_cb' ),
                         'fields'   => array(
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_show_name',
+                                'title' => __( 'Show Name Field', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_show_name',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Display the Name field in the rating modal.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => true,
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_show_email',
+                                'title' => __( 'Show Email Field', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_show_email',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Display the Email field in the rating modal.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => true,
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_require_name',
+                                'title' => __( 'Require Name', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_require_name',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Require visitors to enter their name when rating (only applies when Name field is visible).', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => true,
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_require_email',
+                                'title' => __( 'Require Email', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'checkbox',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_require_email',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Require visitors to enter their email when rating (only applies when Email field is visible).', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => true,
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_force_comment',
+                                'title' => __( 'Force Visitors to Leave a Comment', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'select',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_force_comment',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Require visitors to leave a comment when giving a low rating.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => 'disabled',
+                                    'options'     => array(
+                                        'disabled' => __( 'Never (optional comment)', 'recipe-card-blocks-by-wpzoom' ),
+                                        'always'   => __( 'Always require a comment', 'recipe-card-blocks-by-wpzoom' ),
+                                        '1'        => __( 'If they want to give 1 star', 'recipe-card-blocks-by-wpzoom' ),
+                                        '2'        => __( 'If they want to give 2 stars or less', 'recipe-card-blocks-by-wpzoom' ),
+                                        '3'        => __( 'If they want to give 3 stars or less', 'recipe-card-blocks-by-wpzoom' ),
+                                        '4'        => __( 'If they want to give 4 stars or less', 'recipe-card-blocks-by-wpzoom' ),
+                                    ),
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_comment_placeholder',
+                                'title' => __( 'Review Placeholder Text', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'input',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_comment_placeholder',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Placeholder text for the review textarea.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => __( 'What did you think of this recipe? (optional)', 'recipe-card-blocks-by-wpzoom' ),
+                                    'type'        => 'text',
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_public_review_notice',
+                                'title' => __( 'Public Review Notice', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'textarea',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_public_review_notice',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Text shown below the review textarea.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => __( 'Your review may be published publicly on this page if comments are enabled.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
                             array(
                                 'id'    => 'wpzoom_rcb_settings_rating_modal_title',
                                 'title' => __( 'Modal Title', 'recipe-card-blocks-by-wpzoom' ),
@@ -1602,9 +1819,36 @@ class WPZOOM_Settings {
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_rating_modal_title',
                                     'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'Customize the title shown in the rating pop-up.', 'recipe-card-blocks-by-wpzoom' ),
-                                    'default'     => __( 'Rate this Recipe', 'recipe-card-blocks-by-wpzoom' ),
+                                    'description' => esc_html__( 'The title displayed at the top of the rating modal.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => __( 'Rate This Recipe', 'recipe-card-blocks-by-wpzoom' ),
                                     'type'        => 'text',
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_button_text',
+                                'title' => __( 'Submit Button Text', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'input',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_button_text',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'The text for the submit button in the modal.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => __( 'Rate and Review Recipe', 'recipe-card-blocks-by-wpzoom' ),
+                                    'type'        => 'text',
+                                    'disabled'    => true,
+                                    'badge'       => $premium_badge,
+                                ),
+                            ),
+                            array(
+                                'id'    => 'wpzoom_rcb_settings_rating_modal_thank_you',
+                                'title' => __( 'Thank You Message', 'recipe-card-blocks-by-wpzoom' ),
+                                'type'  => 'textarea',
+                                'args'  => array(
+                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_thank_you',
+                                    'class'       => 'wpzoom-rcb-field',
+                                    'description' => esc_html__( 'Message displayed after a successful rating submission. You can use HTML.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => __( 'Thank you for rating this recipe!', 'recipe-card-blocks-by-wpzoom' ),
                                     'disabled'    => true,
                                     'badge'       => $premium_badge,
                                 ),
@@ -1616,22 +1860,8 @@ class WPZOOM_Settings {
                                 'args'  => array(
                                     'label_for'   => 'wpzoom_rcb_settings_rating_modal_button_color',
                                     'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'Color of the submit button in the rating modal.', 'recipe-card-blocks-by-wpzoom' ),
-                                    'default'     => '#E1581A',
-                                    'disabled'    => true,
-                                    'badge'       => $premium_badge,
-                                ),
-                            ),
-                            array(
-                                'id'    => 'wpzoom_rcb_settings_rating_modal_thank_you',
-                                'title' => __( 'Thank You Message', 'recipe-card-blocks-by-wpzoom' ),
-                                'type'  => 'input',
-                                'args'  => array(
-                                    'label_for'   => 'wpzoom_rcb_settings_rating_modal_thank_you',
-                                    'class'       => 'wpzoom-rcb-field',
-                                    'description' => esc_html__( 'Message shown after a reader submits their rating.', 'recipe-card-blocks-by-wpzoom' ),
-                                    'default'     => __( 'Thank you for your rating!', 'recipe-card-blocks-by-wpzoom' ),
-                                    'type'        => 'text',
+                                    'description' => esc_html__( 'Color of the submit button in the modal.', 'recipe-card-blocks-by-wpzoom' ),
+                                    'default'     => '#041728',
                                     'disabled'    => true,
                                     'badge'       => $premium_badge,
                                 ),
@@ -2076,7 +2306,7 @@ class WPZOOM_Settings {
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Unit Conversion', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Recipe Roundups', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Recipe Index Block', 'recipe-card-blocks-by-wpzoom' ); ?></li>
-                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Star Rating', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+                                           <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Ratings Analytics', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Equipment', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( '...and many more', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                        </ul>
@@ -2285,6 +2515,50 @@ class WPZOOM_Settings {
 	}
 
 	/**
+	 * Reset all ratings.
+	 *
+	 * @since 3.5.0
+	 * @return void
+	 */
+	public function reset_ratings() {
+		check_ajax_referer( 'wpzoom-reset-settings-nonce', 'security' );
+
+		// The nonce above is shared with other settings actions, so gate on the
+		// capability too - this destroys every rating on the site.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'status'  => '403',
+					'message' => esc_html__( 'You are not allowed to reset ratings.', 'recipe-card-blocks-by-wpzoom' ),
+				)
+			);
+		}
+
+		if ( ! class_exists( 'WPZOOM_Rating_DB' ) ) {
+			wp_send_json_error(
+				array(
+					'status'  => '500',
+					'message' => esc_html__( 'Ratings are not available.', 'recipe-card-blocks-by-wpzoom' ),
+				)
+			);
+		}
+
+		global $wpdb;
+
+		$table_name = WPZOOM_Rating_DB::get_table_name();
+
+		// TRUNCATE returns 0 on an already-empty table, which is still a success.
+		$wpdb->query( 'TRUNCATE TABLE `' . $table_name . '`' );
+
+		wp_send_json_success(
+			array(
+				'status'  => '200',
+				'message' => esc_html__( 'All ratings have been reset.', 'recipe-card-blocks-by-wpzoom' ),
+			)
+		);
+	}
+
+	/**
 	 * Close Welcome banner
 	 *
 	 * @since 1.2.0
@@ -2316,6 +2590,29 @@ class WPZOOM_Settings {
 	public function section_defaults_cb( $args ) {
 		?>
 		 <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Default configurations for new recipes.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+		<?php
+	}
+
+	public function section_rating_display_cb( $args ) {
+		?>
+		 <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Recipe rating stars shown before or after post content.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+		<?php
+	}
+
+	public function section_rating_modal_cb( $args ) {
+		$show_name  = self::get( 'wpzoom_rcb_settings_rating_modal_show_name' );
+		$show_email = self::get( 'wpzoom_rcb_settings_rating_modal_show_email' );
+		$show_name  = false === $show_name ? '1' : (string) $show_name;
+		$show_email = false === $show_email ? '1' : (string) $show_email;
+		?>
+		 <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Customize the rating modal that appears when visitors click on the stars to rate a recipe.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+		<?php if ( '1' !== $show_name || '1' !== $show_email ) : ?>
+			<div class="notice notice-warning inline" style="margin:8px 0 12px;">
+				<p>
+					<?php esc_html_e( 'Spam safety note: when Name or Email fields are hidden, anonymous modal submissions are more likely to be spam. To protect your site, public review comments are disabled when both Name and Email are hidden.', 'recipe-card-blocks-by-wpzoom' ); ?>
+				</p>
+			</div>
+		<?php endif; ?>
 		<?php
 	}
 

@@ -85,7 +85,7 @@ class WPZOOM_Elementor {
 			if ( $reusable_block_id ) {
 				foreach ( $whitelist_blocks as $block_name ) {
 					if ( ! $has_reusable_block ) {
-						$has_reusable_block = WPZOOM_Assets_Manager::has_reusable_block( $block_name, $reusable_block_id );
+						$has_reusable_block = WPZOOM_Assets_Manager::has_reusable_block( $block_name, 0, $reusable_block_id );
 					}
 				}
 			}

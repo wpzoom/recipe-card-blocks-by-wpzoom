@@ -97,6 +97,14 @@ if ( 'yes' === $settings['show_author'] ) {
 	$html .= '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) .' '. $recipe_author . '</span>';
 }
 
+if ( function_exists( 'wpzoom_rating_stars' ) ) {
+	$recipe_card_rating = wpzoom_rating_stars( self::$recipe->ID );
+
+	if ( ! empty( $recipe_card_rating ) ) {
+		$html .= '<div class="recipe-card-rating-wrap">' . $recipe_card_rating . '</div>';
+	}
+}
+
 if( !empty( $settings['recipe_course'] ) && $settings['show_course'] ) {
 	$html .= $this->get_recipe_terms( $settings['recipe_course'], 'courses' );
 }
@@ -108,6 +116,11 @@ if( !empty( $settings['recipe_difficulty'] ) && $settings['show_difficulty'] ) {
 }
 
 $html .= '</div><!-- /.recipe-card-heading -->';
+
+//Cook Mode toggle
+if ( method_exists( '\WPZOOM_Recipe_Card_Block', 'get_cook_mode_toggle' ) ) {
+	$html .= \WPZOOM_Recipe_Card_Block::get_cook_mode_toggle();
+}
 
 //Recipe Card Details
 if ( is_array( $settings[ 'recipe_details_list' ] ) ) :

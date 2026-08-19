@@ -50,6 +50,20 @@ final class WPZOOM_Plugin_Activator {
 			add_option( 'wpzoom_rcb_do_activation_redirect', true );
 			set_transient( 'wpzoom_rcb_welcome_banner', true, 12 * HOUR_IN_SECONDS );
 
+			/**
+			 * Create the ratings table up front.
+			 *
+			 * WPZOOM_Rating_DB also self-heals on 'plugins_loaded', which is what
+			 * covers in-place updates where no activation hook fires. Doing it here
+			 * as well means the table exists before the first request, which matters
+			 * for WP-CLI activation and for sites whose first hit is REST or cron.
+			 *
+			 * @since 3.5.0
+			 */
+			if ( class_exists( 'WPZOOM_Rating_DB' ) ) {
+				WPZOOM_Rating_DB::create_or_update_database( get_option( 'wpzoom_rcb_rating_db_version', '0.0' ) );
+			}
+
 			flush_rewrite_rules();
 		}
 	}

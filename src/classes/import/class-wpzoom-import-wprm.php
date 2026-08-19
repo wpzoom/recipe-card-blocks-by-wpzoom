@@ -744,8 +744,12 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 			// Migrate ratings.
 			global $wpdb;
 			
+			// WPRM stores its two kinds of rating differently: star-widget votes
+			// carry recipe_id with post_id left at 0, while comment ratings carry
+			// comment_id plus the ID of the commented post and leave recipe_id at 0.
+			// Comment ratings are therefore only reachable through the post ID.
 			$table_name = $wpdb->prefix . 'wprm_ratings';
-			$query_ratings = $wpdb->prepare( "SELECT * FROM $table_name WHERE recipe_id = %d OR post_id = %d", $wprm_recipe_id, $wprm_recipe_id );
+			$query_ratings = $wpdb->prepare( "SELECT * FROM $table_name WHERE recipe_id = %d OR post_id = %d", $wprm_recipe_id, $post_id );
 			$ratings = $wpdb->get_results( $query_ratings );			
 
 			foreach ( $ratings as $rating ) {
@@ -760,7 +764,8 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 					$recipe_id = 0 < $comment_id ? 0 : $post_id;
 
 					$wpzoom_recipe_rating = array(
-						'date'       => $rating->rate_date,
+						// WPRM's column is `date`, ours is `rate_date`.
+						'rate_date'  => $rating->date,
 						'recipe_id'  => $recipe_id,
 						'post_id'    => $recipe_id,
 						'comment_id' => $comment_id,

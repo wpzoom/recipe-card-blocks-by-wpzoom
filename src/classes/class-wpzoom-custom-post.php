@@ -79,6 +79,9 @@ class WPZOOM_Custom_Post {
 		add_action( 'manage_wpzoom_rcb_posts_custom_column' , array( $this,'fill_custom_post_type_columns' ), 10, 2 );
 		add_action( 'admin_head', array( $this, 'recipe_list_admin_styles' ) );
 
+		add_filter( 'manage_edit-wpzoom_rcb_sortable_columns', array( $this, 'recipe_post_sortable_columns' ) );
+		add_action( 'pre_get_posts', array( $this, 'ratings_custom_column_orderby' ), 10 );
+
 		add_action( 'template_redirect', array( $this, 'redirect_single_recipe_to_404' ) );
 		add_filter( 'post_row_actions', array( $this, 'filter_admin_row_actions' ), 11, 2 );
 
@@ -142,6 +145,7 @@ class WPZOOM_Custom_Post {
 				'cb'              => '<input type="checkbox" />',
 				'title'           => esc_html__( 'Recipe Title', 'recipe-card-blocks-by-wpzoom' ),
 				'seo'             => esc_html__( 'SEO', 'recipe-card-blocks-by-wpzoom' ),
+				'ratings'         => esc_html__( 'Rating', 'recipe-card-blocks-by-wpzoom' ),
 				'shortcode'       => esc_html__( 'Shortcode', 'recipe-card-blocks-by-wpzoom' ),
 				'parent_post'     => esc_html__( 'Parent', 'recipe-card-blocks-by-wpzoom' ),
 				'used_in'         => esc_html__( 'Posts containing this recipe', 'recipe-card-blocks-by-wpzoom' ),
@@ -225,6 +229,46 @@ class WPZOOM_Custom_Post {
 		// Fill in the columns with meta box info associated with each post
 		switch ( $column ) {
 
+			case 'ratings' :
+
+				// Check if ratings are enabled before making database queries
+				if ( WPZOOM_Settings::get_rating_star_acces() ) {
+					$rating_average = WPZOOM_Rating_Stars::get_rating_average( $parent_id );
+					$total_votes    = WPZOOM_Rating_Stars::get_total_votes( $parent_id );
+				} else {
+					$rating_average = 0;
+					$total_votes    = 0;
+				}
+
+				$ratings_html = '';
+
+				$get_average_rating = get_post_meta( $post_id, '_wpzoom_rcb_average_rating', true );
+
+				if( empty( $rating_average ) || '0.0' == $rating_average ) {
+					update_post_meta( $post_id, '_wpzoom_rcb_average_rating', null );
+				}
+				else if( $get_average_rating !== $rating_average ) {
+					update_post_meta( $post_id, '_wpzoom_rcb_average_rating', $rating_average );
+				}
+
+				if( !$total_votes ) {
+					echo esc_html__( 'No votes', 'recipe-card-blocks-by-wpzoom' );
+					return;
+				}
+
+				$ratings_html .= '<span class="wpzoom-rcb-summary-ratings">';
+					if( '1' == $total_votes ) {
+						$ratings_html .= $total_votes . ' ' . esc_html__( 'Vote', 'recipe-card-blocks-by-wpzoom' ) . ' <strong>' . $rating_average . ' <span class="dashicons dashicons-star-filled"></span></strong>';
+					}
+					else {
+						$ratings_html .= $total_votes . ' ' . esc_html__( 'Votes', 'recipe-card-blocks-by-wpzoom' ) . ' <strong>' . $rating_average . ' <span class="dashicons dashicons-star-filled"></span></strong>';
+					}
+				$ratings_html .= '</span>';
+
+				echo $ratings_html;
+
+				break;
+
 			case 'shortcode' :
 				$post = get_post();
 				echo '<input type="text" size="22" id="wpz-cpt-rcb-shortcode" onClick="this.select();" value="' . $this->display_shortcode_string( $post->ID ) .'">';
@@ -248,6 +292,30 @@ class WPZOOM_Custom_Post {
 				}
 			break;
 		}
+	}
+
+	public function ratings_custom_column_orderby( $query ) {
+
+		//Return if not in wp-admin
+        if( ! is_admin() )
+            return;
+
+        //Order by what?
+        $orderby = $query->get( 'orderby' );
+		$order   = $query->get( 'order' );
+
+        //Check if order by is one of our custom columns. Then add WP_Query parameters accordingly
+		if( 'rating' == $orderby ) {
+			$query->set( 'meta_key', '_wpzoom_rcb_average_rating' );
+			$query->set( 'orderby', 'meta_value_num' );
+			$query->set( 'order' , $order );
+        }
+
+	}
+
+	function recipe_post_sortable_columns( $columns ) {
+		$columns['ratings'] = 'rating';
+		return $columns;
 	}
 
 	/**

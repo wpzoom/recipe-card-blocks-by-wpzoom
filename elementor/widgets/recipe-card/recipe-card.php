@@ -75,6 +75,13 @@ class Recipe_Card extends Widget_Base {
 			)
 		);
 
+		// Rating stars, when the feature is on.
+		if ( class_exists( '\WPZOOM_Settings' ) && \WPZOOM_Settings::get_rating_star_acces() ) {
+			wp_enqueue_style( 'wpzoom-rcb-block-rating-css' );
+			wp_enqueue_script( 'wpzoom-rating-stars-script' );
+			wp_localize_script( 'wpzoom-rating-stars-script', 'wpzoomRatingStars', \WPZOOM_Rating_Stars::get_localize_data() );
+		}
+
 		wp_register_script( 'wpzoom-rcb-script-js', WPZOOM_RCB_PLUGIN_URL . 'dist/assets/js/script.js', array( 'jquery' ), WPZOOM_RCB_VERSION, true );
 
 		wp_localize_script(
@@ -1841,7 +1848,16 @@ class Recipe_Card extends Widget_Base {
 		$tag_list = wp_get_post_terms( self::$recipe->ID, 'post_tag', array( 'fields' => 'names' ) );
 		$cat_list = wp_get_post_terms( self::$recipe->ID, 'category', array( 'fields' => 'names' ) );
 
-		$rating_average = $rating_count = '';
+		// Ratings ship in free as of 3.5.0; previously these stayed empty and the
+		// aggregateRating below was always pruned.
+		$rating_average = 0;
+		$rating_count   = 0;
+
+		if ( class_exists( '\WPZOOM_Rating_Stars' ) && \WPZOOM_Settings::get_rating_star_acces() ) {
+			$elementor_rating_id = (int) get_the_ID();
+			$rating_average      = \WPZOOM_Rating_Stars::get_rating_average( $elementor_rating_id );
+			$rating_count        = \WPZOOM_Rating_Stars::get_total_votes( $elementor_rating_id );
+		}
 
 		$json_ld = array(
 			'@context'           => 'https://schema.org',

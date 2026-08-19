@@ -49,6 +49,16 @@ class WPZOOM_Admin_Menu {
 			array( $this, 'admin_page' )
 		);
 
+		// Ratings moderation sub menu item.
+		add_submenu_page(
+			WPZOOM_RCB_SETTINGS_PAGE,
+			esc_html__( 'Ratings & Analytics', 'recipe-card-blocks-by-wpzoom' ),
+			apply_filters( 'wpzoom_manage_ratings_submenu_item', esc_html__( 'Ratings', 'recipe-card-blocks-by-wpzoom' ) ),
+			'edit_others_posts',
+			'wpzoom-manage-ratings',
+			array( $this, 'manage_ratings' )
+		);
+
 		// WPZOOM Recipe Card AI Credits sub menu item.
 		add_submenu_page(
 			WPZOOM_RCB_SETTINGS_PAGE,
@@ -76,6 +86,15 @@ class WPZOOM_Admin_Menu {
 	 */
 	public function admin_page() {
 		do_action( 'wpzoom_rcb_admin_page' );
+	}
+
+	/**
+	 * Wrapper for the hook to render the ratings moderation page.
+	 *
+	 * @since 3.5.0
+	 */
+	public function manage_ratings() {
+		do_action( 'wpzoom_rcb_admin_manage_ratings' );
 	}
 
 	/**

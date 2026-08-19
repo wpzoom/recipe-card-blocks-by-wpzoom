@@ -67,6 +67,16 @@ class WPZOOM_Recipe_Card_Block {
 	public static $style;
 
 	/**
+	 * The post ID that ratings for this recipe card are keyed to.
+	 *
+	 * Deliberately separate from $recipe_ID, which gets reassigned to the
+	 * parent post and drives titles, thumbnails and taxonomies.
+	 *
+	 * @since 3.5.0
+	 */
+	public static $recipe_ID_rating = 0;
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
@@ -85,9 +95,192 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( false !== $has_recipe_card_block ) {
 			$content = self::prepend_content_recipe_buttons( $content );
+			$content = self::add_rating_stars_to_content( $content );
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Resolve the post ID that ratings for this recipe card are keyed to.
+	 *
+	 * Mirrors WPZOOM_Premium_Recipe_Card_Block's resolution so that ratings
+	 * collected here stay valid after upgrading to PRO, and vice versa. The
+	 * quirks are intentional - do not "fix" them here alone or the two
+	 * plugins will disagree about which post a rating belongs to.
+	 *
+	 * @since 3.5.0
+	 * @return int
+	 */
+	public static function resolve_recipe_id_for_rating() {
+		global $post;
+
+		$recipe_ID_rating = (int) get_the_ID();
+
+		// Insert Existing Recipe block.
+		if ( $post instanceof WP_Post && has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) ) {
+			$atts    = array();
+			$pattern = '/<!--\s+wp:(wpzoom\-recipe\-card\/recipe\-block\-from\-posts)(\s+(\{.*?\}))?\s+(\/)?-->/';
+
+			preg_match_all( $pattern, $post->post_content, $matches );
+
+			if ( isset( $matches[3] ) ) {
+				foreach ( $matches[3] as $block_attributes_json ) {
+					if ( ! empty( $block_attributes_json ) ) {
+						$atts = json_decode( $block_attributes_json, true );
+					}
+				}
+			}
+
+			if ( isset( $atts['postId'] ) ) {
+				$recipe_ID_rating = self::resolve_rating_parent( intval( $atts['postId'] ) );
+			}
+		}
+
+		// [wpzoom_rcb_post] shortcode.
+		if ( $post instanceof WP_Post && has_shortcode( $post->post_content, 'wpzoom_rcb_post' ) ) {
+			preg_match_all( '/\[wpzoom_rcb_post(.*?)\]/', $post->post_content, $matches );
+
+			if ( isset( $matches[1][0] ) ) {
+				$shortcode_id     = (int) filter_var( $matches[1][0], FILTER_SANITIZE_NUMBER_INT );
+				$recipe_ID_rating = self::resolve_rating_parent( $shortcode_id );
+			}
+		}
+
+		// Elementor recipe-card-CPT widget.
+		if ( self::is_built_with_elementor() ) {
+			$elementor_data = get_post_meta( get_the_ID(), '_elementor_data' );
+
+			if ( isset( $elementor_data[0] ) && is_string( $elementor_data[0] ) ) {
+				$widgets = array();
+				$ids     = array();
+
+				preg_match_all( '/"widgetType":"([^"]*)/i', $elementor_data[0], $widgets, PREG_SET_ORDER );
+				preg_match_all( '/"rcb_post_id":"([^"]*)/i', $elementor_data[0], $ids, PREG_SET_ORDER );
+
+				foreach ( $widgets as $found ) {
+					if ( in_array( 'wpzoom-elementor-recipe-card-widget-cpt', $found, true ) && isset( $ids[0][1] ) ) {
+						$recipe_ID_rating = self::resolve_rating_parent( intval( $ids[0][1] ) );
+					}
+				}
+			}
+		}
+
+		return $recipe_ID_rating;
+	}
+
+	/**
+	 * Prefer an embedded recipe's parent post when that parent is a different
+	 * post that itself contains a recipe card; otherwise use the recipe itself.
+	 *
+	 * @since 3.5.0
+	 * @param int $embedded_recipe_id The embedded recipe post ID.
+	 * @return int
+	 */
+	protected static function resolve_rating_parent( $embedded_recipe_id ) {
+		$parent_ID = get_post_meta( $embedded_recipe_id, '_wpzoom_rcb_parent_post_id', true );
+
+		if ( ! empty( $parent_ID )
+			&& intval( $parent_ID ) !== (int) get_the_ID()
+			&& has_block( 'wpzoom-recipe-card/block-recipe-card', intval( $parent_ID ) ) ) {
+			return intval( $parent_ID );
+		}
+
+		return $embedded_recipe_id;
+	}
+
+	/**
+	 * Build the Cook Mode toggle.
+	 *
+	 * Cook Mode keeps the device screen awake while the reader is cooking. The
+	 * actual wake-lock is handled by NoSleep.js on the front end.
+	 *
+	 * @since 3.5.0
+	 * @return string Markup, or an empty string when the feature is off.
+	 */
+	public static function get_cook_mode_toggle() {
+		if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_enable_prevent_sleep_toggle' ) ) {
+			return '';
+		}
+
+		$label       = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_label' );
+		$description = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_description' );
+
+		$output = '<div class="wpzoom-nosleep-toggle-container no-print">'
+			. '<label class="switch">'
+			. '<input type="checkbox" id="toggle_button">'
+			. '<div class="slider round"></div>'
+			. '</label>';
+
+		if ( ! empty( $label ) ) {
+			$output .= '<span class="wpzoom-nosleep-label">' . esc_html( $label ) . '</span>';
+		}
+
+		if ( ! empty( $description ) ) {
+			$output .= '<p class="recipe-card-no-sleep no-print">' . esc_html( $description ) . '</p>';
+		}
+
+		return $output . '</div>';
+	}
+
+	/**
+	 * Optionally add the rating stars above and/or below the post content.
+	 *
+	 * Driven by the Rating Display settings.
+	 *
+	 * @since 3.5.0
+	 * @param string $content The post content.
+	 * @return string
+	 */
+	public static function add_rating_stars_to_content( $content ) {
+		if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_rating_stars' ) ) {
+			return $content;
+		}
+
+		if ( ! function_exists( 'wpzoom_rating_stars' ) ) {
+			return $content;
+		}
+
+		// render() sets this, and runs before the_content filters fire for block
+		// content. Fall back for any path where it has not been resolved yet.
+		$recipe_ID_rating = self::$recipe_ID_rating ? self::$recipe_ID_rating : get_the_ID();
+
+		$output = wpzoom_rating_stars( $recipe_ID_rating );
+
+		if ( empty( $output ) ) {
+			return $content;
+		}
+
+		return self::place_rating_stars( $content, $output );
+	}
+
+	/**
+	 * Place already-rendered rating stars around the post content.
+	 *
+	 * Split out from add_rating_stars_to_content() so the Elementor path can
+	 * reuse it - both builders must honour the same Rating Display settings.
+	 *
+	 * @since 3.5.0
+	 * @param string $content The post content.
+	 * @param string $output  The rendered rating stars markup.
+	 * @return string
+	 */
+	public static function place_rating_stars( $content, $output ) {
+		if ( '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_rating_stars_meta' ) ) {
+			$output = '<span class="wpzoom-rating-stars-outputter" data-js-move="true" data-js-selector=".entry-meta">' . $output . '</span>';
+		}
+
+		switch ( WPZOOM_Settings::get( 'wpzoom_rcb_settings_rating_star_position' ) ) {
+			case 'bottom-content':
+				return $content . $output;
+
+			case 'both-content':
+				return $output . $content . $output;
+
+			case 'top-content':
+			default:
+				return $output . $content;
+		}
 	}
 
 	public static function is_built_with_elementor( $post_id = false ) {
@@ -559,6 +752,18 @@ class WPZOOM_Recipe_Card_Block {
 		$recipe_title_tag = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_title_tag' );
 		$recipe_title_tag = ! empty( $recipe_title_tag ) ? $recipe_title_tag : 'h2';
 
+		self::$recipe_ID_rating = self::resolve_recipe_id_for_rating();
+
+		$recipe_card_rating = '';
+
+		if ( function_exists( 'wpzoom_rating_stars' ) ) {
+			$rating_stars = wpzoom_rating_stars( self::$recipe_ID_rating );
+
+			if ( ! empty( $rating_stars ) ) {
+				$recipe_card_rating = '<div class="recipe-card-rating-wrap">' . $rating_stars . '</div>';
+			}
+		}
+
 		$recipe_card_heading = '
 			<div class="recipe-card-heading">
 				' . $heading_print_button . sprintf( 
@@ -567,6 +772,7 @@ class WPZOOM_Recipe_Card_Block {
 					'recipe-card-title', 
 					( $recipeTitle ? $recipeTitle : esc_html( $recipe_title ) ) ) .
 				( self::$settings['displayAuthor'] ? '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . esc_html( $custom_author_name ) . '</span>' : '' ) .
+				$recipe_card_rating .
 				( self::$settings['displayCourse'] ? self::get_recipe_terms( 'wpzoom_rcb_courses' ) : '' ) .
 				( self::$settings['displayCuisine'] ? self::get_recipe_terms( 'wpzoom_rcb_cuisines' ) : '' ) .
 				( self::$settings['displayDifficulty'] ? self::get_recipe_terms( 'wpzoom_rcb_difficulties' ) : '' ) .
@@ -611,6 +817,8 @@ class WPZOOM_Recipe_Card_Block {
 		        </div>';
 		}
 
+		$cook_mode = self::get_cook_mode_toggle();
+
 		if ( 'simple' === self::$style ) {
 			// Wrap recipe card heading and details content into one div
 			$recipe_card_image   = '<div class="recipe-card-header-wrap">' . $recipe_card_image;
@@ -633,6 +841,7 @@ class WPZOOM_Recipe_Card_Block {
 			$recipe_card_heading .
 			$details_content .
 			$summary_text .
+			$cook_mode .
 			$ingredients_content .
 			$steps_content .
 			$recipe_card_video .
@@ -653,6 +862,33 @@ class WPZOOM_Recipe_Card_Block {
 		$attributes = self::$attributes;
 		$tag_list   = wp_get_post_terms( self::$recipe->ID, 'post_tag', array( 'fields' => 'names' ) );
 		$cat_list   = wp_get_post_terms( self::$recipe->ID, 'category', array( 'fields' => 'names' ) );
+
+		$rating_average = 0;
+		$rating_count   = 0;
+		$review_count   = 0;
+		$reviews        = array();
+
+		if ( class_exists( 'WPZOOM_Rating_Stars' ) && WPZOOM_Settings::get_rating_star_acces() ) {
+			$recipe_ID_rating = self::$recipe_ID_rating ? self::$recipe_ID_rating : get_the_ID();
+
+			$rating_average = WPZOOM_Rating_Stars::get_rating_average( $recipe_ID_rating );
+			$rating_count   = WPZOOM_Rating_Stars::get_total_votes( $recipe_ID_rating );
+			$review_count   = WPZOOM_Rating_Stars::get_review_count( $recipe_ID_rating );
+
+			$reviews_ID = get_the_ID();
+
+			if ( empty( $reviews_ID ) ) {
+				$reviews_ID = $recipe_ID_rating;
+			}
+
+			$reviews = get_comments(
+				array(
+					'post_id' => $reviews_ID,
+					'status'  => 'approve',
+					'type'    => 'comment',
+				)
+			);
+		}
 
 		$json_ld = array(
 			'@context'           => 'https://schema.org',
@@ -677,6 +913,12 @@ class WPZOOM_Recipe_Card_Block {
 			),
 			'recipeIngredient'   => array(),
 			'recipeInstructions' => array(),
+			'aggregateRating'    => array(
+				'@type'       => 'AggregateRating',
+				'ratingValue' => $rating_average,
+				'ratingCount' => $rating_count,
+				'reviewCount' => $review_count,
+			),
 			'video'              => array(
 				'@type'        => 'VideoObject',
 				'name'         => isset( $attributes['recipeTitle'] ) ? strip_tags( $attributes['recipeTitle'] ) : strip_tags( self::$recipe->post_title ),
@@ -968,7 +1210,52 @@ class WPZOOM_Recipe_Card_Block {
 			$json_ld['recipeInstructions'] = $groups_section;
 		}
 
-		return $json_ld;
+		// Google rejects an aggregateRating with no votes, so drop it entirely
+		// rather than emitting zeros.
+		if ( $rating_count <= 0 ) {
+			unset( $json_ld['aggregateRating'] );
+		}
+
+		if ( $review_count <= 0 && isset( $json_ld['aggregateRating'] ) ) {
+			unset( $json_ld['aggregateRating']['reviewCount'] );
+		}
+
+		// Individual reviews, from approved comments carrying a rating.
+		if ( ! empty( $reviews ) && is_array( $reviews )
+			&& class_exists( 'WPZOOM_Comment_Rating' )
+			&& WPZOOM_Settings::get_comment_rating_star_acces() ) {
+
+			$reviews_schema = array();
+
+			foreach ( $reviews as $review ) {
+				$review_rating = WPZOOM_Comment_Rating::get_rating_by_comment_id( $review->comment_ID );
+
+				if ( $review_rating <= 0 ) {
+					continue;
+				}
+
+				$reviews_schema[] = array(
+					'@type'         => 'Review',
+					'reviewRating'  => array(
+						'@type'       => 'Rating',
+						'ratingValue' => $review_rating,
+					),
+					'author'        => array(
+						'@type' => 'Person',
+						'name'  => get_comment_author( $review->comment_ID ),
+					),
+					'datePublished' => get_comment_date( 'c', $review->comment_ID ),
+					'reviewBody'    => $review->comment_content,
+				);
+			}
+
+			if ( ! empty( $reviews_schema ) ) {
+				$json_ld['review'] = $reviews_schema;
+			}
+		}
+
+		// Filter name matches PRO so integrations keep working across an upgrade.
+		return apply_filters( 'wpzoom_rcb_block_json_ld', $json_ld, self::$recipe->ID, $attributes );
 	}
 
 	public static function get_details_default() {
