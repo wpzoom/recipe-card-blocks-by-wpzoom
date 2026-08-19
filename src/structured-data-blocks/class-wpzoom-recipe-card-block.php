@@ -82,6 +82,28 @@ class WPZOOM_Recipe_Card_Block {
 	public function __construct() {
 		self::$structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
 		self::$helpers                 = new WPZOOM_Helpers();
+
+		add_action( 'wp', array( $this, 'maybe_filter_shortcode_content' ) );
+	}
+
+	/**
+	 * Hook the_content on posts that only embed a recipe via [wpzoom_rcb_post].
+	 *
+	 * render() normally registers that filter, but it is the block render
+	 * callback - on a shortcode-only post it never runs, so the automatic
+	 * rating stars never got a chance to appear.
+	 *
+	 * @since 3.5.0
+	 * @return void
+	 */
+	public function maybe_filter_shortcode_content() {
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		if ( WPZOOM_Assets_Manager::has_cpt_rcb_shortcode() ) {
+			add_filter( 'the_content', array( $this, 'filter_the_content' ) );
+		}
 	}
 
 	public function filter_the_content( $content ) {
@@ -95,6 +117,10 @@ class WPZOOM_Recipe_Card_Block {
 
 		if ( false !== $has_recipe_card_block ) {
 			$content = self::prepend_content_recipe_buttons( $content );
+			$content = self::add_rating_stars_to_content( $content );
+		} elseif ( WPZOOM_Assets_Manager::has_cpt_rcb_shortcode() ) {
+			// Shortcode embeds: the card markup is added later (do_shortcode runs
+			// at priority 11), so only the surrounding rating stars apply here.
 			$content = self::add_rating_stars_to_content( $content );
 		}
 
@@ -241,9 +267,10 @@ class WPZOOM_Recipe_Card_Block {
 			return $content;
 		}
 
-		// render() sets this, and runs before the_content filters fire for block
-		// content. Fall back for any path where it has not been resolved yet.
-		$recipe_ID_rating = self::$recipe_ID_rating ? self::$recipe_ID_rating : get_the_ID();
+		// render() sets this for block content. On a shortcode-only post render()
+		// never ran, so resolve it here - using get_the_ID() would key the stars
+		// to the host post rather than the embedded recipe.
+		$recipe_ID_rating = self::$recipe_ID_rating ? self::$recipe_ID_rating : self::resolve_recipe_id_for_rating();
 
 		$output = wpzoom_rating_stars( $recipe_ID_rating );
 
