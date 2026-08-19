@@ -975,8 +975,8 @@ div.wp-tab-panel {
     content: '';
     position: absolute;
     left: 0;
-    top: 6px;
-    width: 6px;
+    top: 1px;
+    width: 5px;
     height: 10px;
     border: solid #e15819;
     border-width: 0 2px 2px 0;
