@@ -174,6 +174,7 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 * New: Cook Mode. A toggle on the recipe card that keeps the reader's screen from going to sleep while they cook. Enable it under Recipe Cards > Settings > Miscellaneous.
 * New: Ratings settings tab, including the rating mode, star colour, and where the stars appear.
 * New: Privacy policy suggestions, plus personal-data export and erase support for ratings.
+* New: SEO column on the All Recipes screen.
 * Note: This release stores the IP address of each visitor who submits a rating in order to prevent duplicate votes. See the Ratings settings if you would rather not collect ratings at all.
 
 = 3.4.19 =
