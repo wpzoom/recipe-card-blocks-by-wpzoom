@@ -97,7 +97,7 @@ $upgrade_url = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=imp
 					<!-- Locked overlay -->
 					<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.85); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px;">
 						<div style="text-align: center; max-width: 480px; padding: 40px 20px;">
-							<span class="dashicons dashicons-lock" style="font-size: 48px; color: #e15819; margin-bottom: 16px; display: block;"></span>
+							<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#e15819" aria-hidden="true" focusable="false" style="display: block; margin: 0 auto 16px;"><path d="M12 1.5A5 5 0 0 0 7 6.5V10h2.5V6.5a2.5 2.5 0 0 1 5 0V10H17V6.5a5 5 0 0 0-5-5Z"></path><path fill-rule="evenodd" d="M5.5 10h13A2.5 2.5 0 0 1 21 12.5v7a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 19.5v-7A2.5 2.5 0 0 1 5.5 10Zm6.5 4a2 2 0 0 0-1 3.732V19a1 1 0 1 0 2 0v-1.268A2 2 0 0 0 12 14Z"></path></svg>
 							<h2 style="margin: 0 0 12px; font-size: 22px;"><?php esc_html_e( 'PRO Feature', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
 							<p style="color: #555; margin-bottom: 20px;">
 								<?php esc_html_e( 'Import recipes from CSV or JSON files exported from spreadsheets, other recipe plugins like WP Recipe Maker, or any external source. Includes smart auto-mapping, ingredient parsing, and support for WordPress XML migration.', 'recipe-card-blocks-by-wpzoom' ); ?>
@@ -144,7 +144,7 @@ $upgrade_url = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=imp
 					<!-- Locked overlay -->
 					<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.85); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px;">
 						<div style="text-align: center; max-width: 480px; padding: 40px 20px;">
-							<span class="dashicons dashicons-lock" style="font-size: 48px; color: #e15819; margin-bottom: 16px; display: block;"></span>
+							<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#e15819" aria-hidden="true" focusable="false" style="display: block; margin: 0 auto 16px;"><path d="M12 1.5A5 5 0 0 0 7 6.5V10h2.5V6.5a2.5 2.5 0 0 1 5 0V10H17V6.5a5 5 0 0 0-5-5Z"></path><path fill-rule="evenodd" d="M5.5 10h13A2.5 2.5 0 0 1 21 12.5v7a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 19.5v-7A2.5 2.5 0 0 1 5.5 10Zm6.5 4a2 2 0 0 0-1 3.732V19a1 1 0 1 0 2 0v-1.268A2 2 0 0 0 12 14Z"></path></svg>
 							<h2 style="margin: 0 0 12px; font-size: 22px;"><?php esc_html_e( 'PRO Feature', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
 							<p style="color: #555; margin-bottom: 20px;">
 								<?php esc_html_e( 'Export all your recipes in WordPress XML (lossless migration), JSON, or CSV formats. Perfect for backups, moving to another site, or editing recipes in bulk using a spreadsheet.', 'recipe-card-blocks-by-wpzoom' ); ?>
