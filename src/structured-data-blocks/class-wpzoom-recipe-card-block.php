@@ -819,10 +819,6 @@ class WPZOOM_Recipe_Card_Block {
 
 		$cook_mode = self::get_cook_mode_toggle();
 
-		if ( '' !== $cook_mode ) {
-			$recipe_card_image .= $cook_mode;
-		}
-
 		if ( 'simple' === self::$style ) {
 			// Wrap recipe card heading and details content into one div
 			$recipe_card_image   = '<div class="recipe-card-header-wrap">' . $recipe_card_image;
@@ -845,6 +841,7 @@ class WPZOOM_Recipe_Card_Block {
 			$recipe_card_heading .
 			$details_content .
 			$summary_text .
+			$cook_mode .
 			$ingredients_content .
 			$steps_content .
 			$recipe_card_video .

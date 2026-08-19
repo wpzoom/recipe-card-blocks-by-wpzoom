@@ -481,7 +481,6 @@ class RecipeCard extends Component {
                                 </div>
                             </div>
                         }
-                        <CookMode settingOptions={ setting_options } />
                         { messageToAI && (
                             <RegenerateButton type="recipe" message={ messageToAI } />
                         ) }
@@ -574,8 +573,6 @@ class RecipeCard extends Component {
                                 </div>
                             </div>
                         }
-                        <CookMode settingOptions={ setting_options } />
-
                         <div className="recipe-card-along-image">
                             <div className="recipe-card-heading">
                                 <RichText
@@ -622,6 +619,7 @@ class RecipeCard extends Component {
                     placeholder={ __( 'Enter a short recipe description.', 'recipe-card-blocks-by-wpzoom' ) }
                     keepPlaceholderOnFocus={ true }
                 />
+                <CookMode settingOptions={ setting_options } />
                 <Ingredient
                     generateId={ generateId }
                     { ...{ attributes, setAttributes, className } }

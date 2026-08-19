@@ -75,10 +75,6 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 			$html .= '</div><!-- /.recipe-card-image -->';
 		endif;
 		$html .= '<div class="recipe-card-along-image">';
-			if ( method_exists( '\WPZOOM_Recipe_Card_Block', 'get_cook_mode_toggle' ) ) {
-				$html .= \WPZOOM_Recipe_Card_Block::get_cook_mode_toggle();
-			}
-
 			$html .= '<div class="recipe-card-heading">';
 
 			// Get the recipe title tag
@@ -168,6 +164,11 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 			$this->get_render_attribute_string( 'recipe_card_summary' ),
 			$settings['recipe_card_summary']
 		);
+	}
+
+	//Cook Mode toggle
+	if ( method_exists( '\WPZOOM_Recipe_Card_Block', 'get_cook_mode_toggle' ) ) {
+		$html .= \WPZOOM_Recipe_Card_Block::get_cook_mode_toggle();
 	}
 
 	//Recipe Card Ingridients
