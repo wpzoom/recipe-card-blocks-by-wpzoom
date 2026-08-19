@@ -156,7 +156,7 @@ class WPZOOM_Lite_vs_PRO {
                                                         </h4>
                                                         <p class="about">
 
-                                                            <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=ratinganalytics" title="Ratings Analytics &amp; Reviews" target="_blank"><img src="https://recipecard.io/wp-content/themes/wpzoom-rcb/images/recipe-block/feat6.png" alt="<?php echo esc_attr__( 'Ratings Analytics &amp; Reviews', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
+                                                            <a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=about-rcb-page&utm_campaign=ratinganalytics" title="Ratings Analytics &amp; Reviews" target="_blank"><img src="<?php echo esc_url( untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/images/ratings-analytics.png' ); ?>" alt="<?php echo esc_attr__( 'Ratings Analytics &amp; Reviews', 'recipe-card-blocks-by-wpzoom' ); ?>" /></a>
 
                                                             <?php esc_html_e( 'Star ratings are included in the free version. PRO adds the rating modal so readers can leave a written review with their rating, plus an analytics dashboard showing your rating distribution, activity over time, and your top rated recipes.', 'recipe-card-blocks-by-wpzoom' ); ?>
                                                         </p>
