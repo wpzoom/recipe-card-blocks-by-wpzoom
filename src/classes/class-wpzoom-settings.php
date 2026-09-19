@@ -586,7 +586,7 @@ class WPZOOM_Settings {
 					<button type="button" class="wpz-yd-btn is-primary" id="wpz-yamidoo-install" data-nonce="<?php echo esc_attr( wp_create_nonce( 'wpzoom_rcb_install_yamidoo' ) ); ?>">
 						<?php echo esc_html( 'missing' === $state ? __( 'Install & activate', 'recipe-card-blocks-by-wpzoom' ) : __( 'Activate Yamidoo', 'recipe-card-blocks-by-wpzoom' ) ); ?>
 					</button>
-					<a class="wpz-yd-btn" href="https://yamidoo.ai/for/food-blogs/" target="_blank" rel="noopener"><?php esc_html_e( 'Learn more', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+					<a class="wpz-yd-btn" href="https://recipecard.io/ai-cooking-assistant/" target="_blank" rel="noopener"><?php esc_html_e( 'Learn more', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 				<?php elseif ( 'active' === $state ) : ?>
 					<a class="wpz-yd-btn is-primary" href="<?php echo esc_url( $settings_url ); ?>"><?php esc_html_e( 'Connect Yamidoo', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
 				<?php elseif ( 'connected' === $state ) : ?>
@@ -822,7 +822,7 @@ class WPZOOM_Settings {
 					<p><?php esc_html_e( 'Readers ask while they cook: what can I swap, how do I halve it, how long per side. Yamidoo answers from the recipe card on that page and from the rest of your blog, in the reader’s language, and hands the conversation to you when they ask for a person. Free plan, no credit card.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
 					<p class="wpz-assistant__links">
 						<a href="https://yamidoo.ai/for/food-blogs/" target="_blank" rel="noopener"><?php esc_html_e( 'How it works for food blogs', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
-						<a href="https://yamidoo.ai/docs/guides/food-blogs/" target="_blank" rel="noopener"><?php esc_html_e( 'Setup guide', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+						<a href="https://recipecard.io/documentation/ai-cooking-assistant/" target="_blank" rel="noopener"><?php esc_html_e( 'Setup guide', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
 					</p>
 				</div>
 				<div class="wpz-assistant__chat" aria-hidden="true">
