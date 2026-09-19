@@ -869,6 +869,7 @@ class WPZOOM_Recipe_Card_Block {
 			$details_content .
 			$summary_text .
 			$cook_mode .
+			( ! empty( self::$settings['yamidoo_btn'] ) ? self::get_yamidoo_ask_button() : '' ) .
 			$ingredients_content .
 			$steps_content .
 			$recipe_card_video .
@@ -2122,6 +2123,45 @@ class WPZOOM_Recipe_Card_Block {
 		);
 
 		return $output;
+	}
+
+	/**
+	 * "Ask about this recipe" button for the Yamidoo AI chat widget.
+	 *
+	 * Rendered in the card body, just above the ingredients, with its own
+	 * skin-independent styling. The widget's no-code trigger
+	 * (`data-yamidoo="ask"`) opens the chat and sends the text;
+	 * the widget adds `yamidoo-ready` to <html> when it boots, so the button is
+	 * hidden until then and never appears on sites without the widget.
+	 *
+	 * @since 3.6.0
+	 * @return string
+	 */
+	public static function get_yamidoo_ask_button() {
+		$title = '';
+		if ( ! empty( self::$stored_data['recipeTitle'] ) ) {
+			$title = wp_strip_all_tags( self::$stored_data['recipeTitle'] );
+		} elseif ( ! empty( self::$recipe ) && ! empty( self::$recipe->post_title ) ) {
+			$title = wp_strip_all_tags( self::$recipe->post_title );
+		}
+		$ask = $title
+			? sprintf( __( 'I have a question about the %s recipe.', 'recipe-card-blocks-by-wpzoom' ), $title )
+			: __( 'I have a question about this recipe.', 'recipe-card-blocks-by-wpzoom' );
+		$ask = apply_filters( 'wpzoom/recipe_card/yamidoo_ask_button/text', $ask, self::$recipe );
+
+		return sprintf(
+			'<div class="wpzoom-recipe-card-yamidoo-ask no-print">
+	            <a class="btn-yamidoo-ask" href="#" data-yamidoo="ask" data-yamidoo-mode="prefill" data-yamidoo-text="%1$s">
+	                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H8l-5 3 1.5-4.5A8 8 0 1 1 21 12Z"/></svg>
+	                <span>%2$s</span>
+	            </a>
+	            <span class="wpzoom-recipe-card-yamidoo-ask__hint">%3$s</span>
+	        </div>
+	        <style>.wpzoom-recipe-card-yamidoo-ask{display:none}.yamidoo-ready .wpzoom-recipe-card-yamidoo-ask{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 24px}.wpzoom-recipe-card-yamidoo-ask .btn-yamidoo-ask{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid currentColor;border-radius:999px;font-size:14px;font-weight:600;line-height:1.2;text-decoration:none;color:inherit;background:transparent;cursor:pointer;transition:.2s ease opacity}.wpzoom-recipe-card-yamidoo-ask .btn-yamidoo-ask:hover{opacity:.7;text-decoration:none}.wpzoom-recipe-card-yamidoo-ask .btn-yamidoo-ask svg{flex:none}.wpzoom-recipe-card-yamidoo-ask__hint{font-size:13px;opacity:.7}</style>',
+			esc_attr( $ask ),
+			esc_html__( 'Ask about this recipe', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html__( 'Substitutions, scaling, timing — answered from this recipe.', 'recipe-card-blocks-by-wpzoom' )
+		);
 	}
 
 	/**

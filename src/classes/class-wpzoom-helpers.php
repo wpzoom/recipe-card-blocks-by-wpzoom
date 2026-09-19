@@ -143,6 +143,9 @@ class WPZOOM_Helpers {
 		if ( ! isset( $settings['pin_btn'] ) ) {
 			$settings['pin_btn'] = WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_pin' );
 		}
+		if ( ! isset( $settings['yamidoo_btn'] ) ) {
+			$settings['yamidoo_btn'] = filter_var( WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_yamidoo_ask' ), FILTER_VALIDATE_BOOLEAN );
+		}
 		if ( ! isset( $settings['pin_has_custom_image'] ) ) {
 			$settings['pin_has_custom_image'] = false;
 		}

@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 3.5.0
+Stable tag: 3.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,11 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 
 
 == Changelog ==
+
+= 3.6.0 =
+* New: AI Assistant tab under Recipe Cards > Settings. It connects your recipes to Yamidoo, a free AI chat that answers readers' questions about the recipe they are on: substitutions with amounts, scaling, unit conversions, timing and storage. One button installs and activates the Yamidoo plugin from WordPress.org.
+* New: "Ask about this recipe" button in the recipe card, just above the ingredients. It opens the chat with that recipe already in context and the question started for the reader. It is switched on automatically when Yamidoo is activated, and stays hidden on sites without it.
+* Improved: The AI Settings tab now explains that its settings control the AI Recipe Generator, and links to AI credits.
 
 = 3.5.0 =
 * New: Star ratings. Visitors can rate your recipes, and the rating is added to the recipe's structured data as `aggregateRating` so Google can show star ratings in search results.

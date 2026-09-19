@@ -73,6 +73,8 @@ class WPZOOM_Settings {
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( $this, 'settings_init' ) );
 			add_action( 'admin_init', array( $this, 'set_defaults' ) );
+			add_action( 'wp_ajax_wpzoom_rcb_install_yamidoo', array( $this, 'ajax_install_yamidoo' ) );
+			add_action( 'activated_plugin', array( $this, 'on_yamidoo_activated' ) );
 
 			// Include admin scripts & styles
 			add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
@@ -518,6 +520,339 @@ class WPZOOM_Settings {
 	 * @param string $option  Option name
 	 * @return string|boolean
 	 */
+
+
+
+	/**
+	 * State of the Yamidoo chat plugin on this site.
+	 *
+	 * @since 3.6.0
+	 * @return string One of: missing, installed, active, connected.
+	 */
+	public static function yamidoo_state() {
+		if ( class_exists( 'WPZOOM_AI_Chat' ) ) {
+			return 'connected'; // WPZOOM Connect runs the widget itself.
+		}
+		if ( defined( 'YAMIDOO_VERSION' ) ) {
+			$opts = get_option( 'yamidoo_settings', array() );
+			return ! empty( $opts['site_id'] ) ? 'connected' : 'active';
+		}
+		return file_exists( WP_PLUGIN_DIR . '/yamidoo/yamidoo.php' ) ? 'installed' : 'missing';
+	}
+
+	/**
+	 * Status card for the AI Assistant tab. One button installs Yamidoo from
+	 * WordPress.org (when needed), activates it and turns on the recipe card
+	 * button, without leaving the page; then it points to Connect.
+	 *
+	 * @since 3.6.0
+	 * @return string
+	 */
+	public static function yamidoo_status_html() {
+		$state        = self::yamidoo_state();
+		$settings_url = class_exists( 'WPZOOM_AI_Chat' ) && ! defined( 'YAMIDOO_VERSION' )
+			? admin_url( 'admin.php?page=wpzoom-social-icons-widget&tab=ai-chat' )
+			: admin_url( 'options-general.php?page=yamidoo' );
+		$logo = '<svg class="wpz-yd-logo" width="98" height="22" role="img" aria-label="Yamidoo" viewBox="0 0 1116 250" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#wpzYdClip)"><path d="M300.511 199.654V178.102H315.314C322.933 178.102 325.763 175.925 327.94 170.483L331.205 162.428H323.151L281.572 50.7521H310.525L339.695 136.305L367.56 50.7521H396.513L351.015 179.191C345.791 193.558 337.301 199.654 320.321 199.654H300.511Z" fill="#10161d"/><path d="M437.65 169.612C413.269 169.612 397.159 158.074 397.159 137.829C397.159 117.801 409.568 107.134 435.038 102.127L473.569 94.5082C473.569 78.1813 465.95 69.6913 451.147 69.6913C437.65 69.6913 430.031 76.0044 427.419 87.7598L399.119 86.4536C403.69 62.0721 422.412 48.1398 451.147 48.1398C484.236 48.1398 501.434 65.5552 501.434 96.4675V138.7C501.434 145.013 503.611 146.754 507.965 146.754H511.665V167C509.706 167.435 505.352 167.871 501.434 167.871C489.026 167.871 479.665 163.517 477.27 149.367V149.149C471.392 161.557 456.589 169.612 437.65 169.612ZM443.31 149.367C461.814 149.367 473.569 137.611 473.569 119.978V113.447L443.528 119.543C431.119 121.937 426.112 127.162 426.112 135.217C426.112 144.36 432.208 149.367 443.31 149.367Z" fill="#10161d"/><path d="M523.23 167V50.7521H548.483L549.136 70.1267C555.013 56.1944 566.769 48.1398 581.137 48.1398C598.117 48.1398 609.872 57.0652 614.879 72.0859C620.103 56.6298 632.077 48.1398 648.186 48.1398C672.132 48.1398 686.935 63.5959 686.935 92.3313V167H659.07V99.5152C659.07 80.3582 652.757 70.7798 639.26 70.7798C625.981 70.7798 617.927 81.6644 617.927 100.386V167H592.021V100.386C592.021 81.4467 586.797 70.7798 572.647 70.7798C559.367 70.7798 551.095 81.8821 551.095 100.386V167H523.23Z" fill="#10161d"/><path d="M709.083 35.2959V10.479H738.037V35.2959H709.083ZM709.519 167V50.7521H737.384V167H709.519Z" fill="#10161d"/><path d="M800.686 169.612C771.08 169.612 752.576 146.101 752.576 108.876C752.576 71.6505 771.515 48.1398 800.686 48.1398C817.013 48.1398 829.857 55.3236 836.17 67.2967V12.4382H864.034V167H837.476L836.823 149.802C830.292 162.211 816.795 169.612 800.686 169.612ZM809.176 146.972C826.374 146.972 836.17 133.475 836.17 108.876C836.17 84.059 826.591 70.7798 809.176 70.7798C792.196 70.7798 781.529 85.1475 781.529 108.876C781.529 132.169 792.414 146.972 809.176 146.972Z" fill="#10161d"/><path d="M936.38 169.612C901.767 169.612 879.127 145.666 879.127 108.876C879.127 72.0859 901.767 48.1398 936.38 48.1398C970.775 48.1398 993.415 72.0859 993.415 108.876C993.415 145.666 970.775 169.612 936.38 169.612ZM936.38 146.972C954.231 146.972 964.462 133.04 964.462 108.876C964.462 84.9298 954.231 70.7798 936.38 70.7798C918.311 70.7798 908.08 84.9298 908.08 108.876C908.08 133.04 918.311 146.972 936.38 146.972Z" fill="#10161d"/><path d="M1058.89 169.612C1024.28 169.612 1001.64 145.666 1001.64 108.876C1001.64 72.0859 1024.28 48.1398 1058.89 48.1398C1093.29 48.1398 1115.93 72.0859 1115.93 108.876C1115.93 145.666 1093.29 169.612 1058.89 169.612ZM1058.89 146.972C1076.74 146.972 1086.97 133.04 1086.97 108.876C1086.97 84.9298 1076.74 70.7798 1058.89 70.7798C1040.82 70.7798 1030.59 84.9298 1030.59 108.876C1030.59 133.04 1040.82 146.972 1058.89 146.972Z" fill="#10161d"/><path d="M113.5 0C176.184 0 227 50.9256 227 113.745C227 176.565 168.555 250 105.87 250C102.47 250 99.104 249.849 95.7793 249.555C94.4106 249.434 93.604 247.981 94.1956 246.741L179.28 68.3939H148.899L124.797 117.11C122.636 121.44 120.61 125.635 118.72 129.695C116.965 133.619 115.277 137.949 113.657 142.685C112.037 137.949 110.348 133.619 108.593 129.695C106.838 125.635 104.88 121.44 102.719 117.11L79.0217 68.3939H47.2231L97.2192 170.011C97.4945 170.571 97.493 171.227 97.2151 171.785L73.9774 218.477C73.5189 219.398 72.4338 219.822 71.4783 219.44C29.5968 202.702 0 161.688 0 113.745C0 50.9256 50.8157 0 113.5 0Z" fill="#FE551B"/></g><defs><clipPath id="wpzYdClip"><rect width="1116" height="250" fill="white"/></clipPath></defs></svg>';
+
+		$can = 'missing' === $state
+			? current_user_can( 'install_plugins' ) && current_user_can( 'activate_plugins' )
+			: current_user_can( 'activate_plugins' );
+
+		$states = array(
+			'missing'   => array( __( 'Not installed', 'recipe-card-blocks-by-wpzoom' ), __( 'Add the AI cooking assistant to your recipes', 'recipe-card-blocks-by-wpzoom' ), __( 'One click installs the free Yamidoo plugin from WordPress.org, activates it and turns on the recipe card button. Free plan, no credit card.', 'recipe-card-blocks-by-wpzoom' ) ),
+			'installed' => array( __( 'Installed, not active', 'recipe-card-blocks-by-wpzoom' ), __( 'Yamidoo is installed but switched off', 'recipe-card-blocks-by-wpzoom' ), __( 'One click activates it and turns on the recipe card button.', 'recipe-card-blocks-by-wpzoom' ) ),
+			'active'    => array( __( 'Active · not connected', 'recipe-card-blocks-by-wpzoom' ), __( 'One step left: connect Yamidoo', 'recipe-card-blocks-by-wpzoom' ), __( 'Connecting creates your free account and starts indexing your recipes. It takes about a minute.', 'recipe-card-blocks-by-wpzoom' ) ),
+			'connected' => array( __( 'Connected', 'recipe-card-blocks-by-wpzoom' ), __( 'Your cooking assistant is live', 'recipe-card-blocks-by-wpzoom' ), __( 'Readers can ask about any recipe. Keep the recipe card button below switched on.', 'recipe-card-blocks-by-wpzoom' ) ),
+		);
+		list( $pill, $title, $text ) = $states[ $state ];
+		if ( ! $can && in_array( $state, array( 'missing', 'installed' ), true ) ) {
+			$text = __( 'Ask a site administrator to install and activate the free Yamidoo plugin.', 'recipe-card-blocks-by-wpzoom' );
+		}
+
+		ob_start();
+		?>
+		<div class="wpz-yd-card is-<?php echo esc_attr( $state ); ?>" id="wpz-yamidoo-status">
+			<div class="wpz-yd-card__main">
+				<div class="wpz-yd-card__top">
+					<?php echo $logo; // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG ?>
+					<span class="wpz-yd-pill"><i></i><?php echo esc_html( $pill ); ?></span>
+				</div>
+				<p class="wpz-yd-card__title"><?php echo esc_html( $title ); ?></p>
+				<p class="wpz-yd-card__text"><?php echo esc_html( $text ); ?></p>
+			</div>
+			<div class="wpz-yd-card__actions">
+				<?php if ( in_array( $state, array( 'missing', 'installed' ), true ) && $can ) : ?>
+					<button type="button" class="wpz-yd-btn is-primary" id="wpz-yamidoo-install" data-nonce="<?php echo esc_attr( wp_create_nonce( 'wpzoom_rcb_install_yamidoo' ) ); ?>">
+						<?php echo esc_html( 'missing' === $state ? __( 'Install & activate', 'recipe-card-blocks-by-wpzoom' ) : __( 'Activate Yamidoo', 'recipe-card-blocks-by-wpzoom' ) ); ?>
+					</button>
+					<a class="wpz-yd-btn" href="https://yamidoo.ai/for/food-blogs/" target="_blank" rel="noopener"><?php esc_html_e( 'Learn more', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+				<?php elseif ( 'active' === $state ) : ?>
+					<a class="wpz-yd-btn is-primary" href="<?php echo esc_url( $settings_url ); ?>"><?php esc_html_e( 'Connect Yamidoo', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+				<?php elseif ( 'connected' === $state ) : ?>
+					<a class="wpz-yd-btn" href="<?php echo esc_url( $settings_url ); ?>"><?php esc_html_e( 'Yamidoo settings', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+					<a class="wpz-yd-btn is-primary" href="https://app.yamidoo.ai/dashboard" target="_blank" rel="noopener"><?php esc_html_e( 'Open dashboard', 'recipe-card-blocks-by-wpzoom' ); ?> &nearr;</a>
+				<?php else : ?>
+					<a class="wpz-yd-btn" href="https://wordpress.org/plugins/yamidoo/" target="_blank" rel="noopener"><?php esc_html_e( 'View on WordPress.org', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+				<?php endif; ?>
+				<span class="wpz-yd-progress" aria-live="polite"></span>
+			</div>
+		</div>
+		<?php if ( in_array( $state, array( 'missing', 'installed' ), true ) && $can ) : ?>
+		<script>
+		( function () {
+			var btn = document.getElementById( 'wpz-yamidoo-install' );
+			if ( ! btn ) { return; }
+			var progress = document.querySelector( '#wpz-yamidoo-status .wpz-yd-progress' );
+			btn.addEventListener( 'click', function () {
+				btn.disabled = true;
+				progress.classList.remove( 'is-error' );
+				progress.textContent = <?php echo wp_json_encode( 'missing' === $state ? __( 'Installing and activating…', 'recipe-card-blocks-by-wpzoom' ) : __( 'Activating…', 'recipe-card-blocks-by-wpzoom' ) ); ?>;
+				var body = new FormData();
+				body.append( 'action', 'wpzoom_rcb_install_yamidoo' );
+				body.append( 'nonce', btn.getAttribute( 'data-nonce' ) );
+				fetch( ajaxurl, { method: 'POST', credentials: 'same-origin', body: body } )
+					.then( function ( r ) { return r.json(); } )
+					.then( function ( res ) {
+						if ( ! res || ! res.success ) {
+							throw new Error( res && res.data && res.data.message ? res.data.message : <?php echo wp_json_encode( __( 'Something went wrong.', 'recipe-card-blocks-by-wpzoom' ) ); ?> );
+						}
+						progress.textContent = <?php echo wp_json_encode( __( 'Done. Reloading…', 'recipe-card-blocks-by-wpzoom' ) ); ?>;
+						// Activating Yamidoo switched the recipe card button on (on_yamidoo_activated).
+						location.reload();
+					} )
+					.catch( function ( err ) {
+						btn.disabled = false;
+						progress.textContent = err.message;
+						progress.classList.add( 'is-error' );
+					} );
+			} );
+		} )();
+		</script>
+		<?php endif; ?>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
+	 * AJAX: install Yamidoo from WordPress.org if it is missing, then activate it.
+	 *
+	 * @since 3.6.0
+	 */
+	public function ajax_install_yamidoo() {
+		check_ajax_referer( 'wpzoom_rcb_install_yamidoo', 'nonce' );
+
+		$file = 'yamidoo/yamidoo.php';
+
+		if ( ! file_exists( WP_PLUGIN_DIR . '/' . $file ) ) {
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				wp_send_json_error( array( 'message' => __( 'You are not allowed to install plugins on this site.', 'recipe-card-blocks-by-wpzoom' ) ), 403 );
+			}
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+			$api = plugins_api( 'plugin_information', array( 'slug' => 'yamidoo', 'fields' => array( 'sections' => false ) ) );
+			if ( is_wp_error( $api ) ) {
+				wp_send_json_error( array( 'message' => $api->get_error_message() ) );
+			}
+
+			$skin     = new WP_Ajax_Upgrader_Skin();
+			$upgrader = new Plugin_Upgrader( $skin );
+			$result   = $upgrader->install( $api->download_link );
+
+			if ( is_wp_error( $result ) ) {
+				wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+			}
+			if ( is_wp_error( $skin->result ) ) {
+				wp_send_json_error( array( 'message' => $skin->result->get_error_message() ) );
+			}
+			if ( $skin->get_errors()->has_errors() ) {
+				wp_send_json_error( array( 'message' => $skin->get_error_messages() ) );
+			}
+			if ( ! $result ) {
+				wp_send_json_error( array( 'message' => __( 'WordPress could not write to the plugins folder. Install Yamidoo from Plugins → Add New instead.', 'recipe-card-blocks-by-wpzoom' ) ) );
+			}
+			wp_clean_plugins_cache();
+		}
+
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You are not allowed to activate plugins on this site.', 'recipe-card-blocks-by-wpzoom' ) ), 403 );
+		}
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		$activated = activate_plugin( $file );
+		if ( is_wp_error( $activated ) ) {
+			wp_send_json_error( array( 'message' => $activated->get_error_message() ) );
+		}
+
+		wp_send_json_success( array( 'connect_url' => admin_url( 'options-general.php?page=yamidoo' ) ) );
+	}
+
+	/**
+	 * "AI Settings" tab intro: explains that these settings drive the AI Recipe
+	 * Generator in the editor (not the reader-facing chat on the AI Assistant tab).
+	 *
+	 * @since 3.6.0
+	 * @param array $args Section arguments.
+	 */
+	public function section_ai_generation_intro_cb( $args ) {
+		?>
+		<style>
+			.wpz-aigen{margin:14px 0 8px;padding:22px 26px;background:#fff;border:1px solid rgba(16,22,29,.09);border-radius:16px;box-shadow:0 1px 2px rgba(16,22,29,.04);color:#10161d;max-width:960px}
+			.wpz-aigen__eyebrow{display:inline-flex;align-items:center;gap:6px;margin:0 0 10px;padding:3px 10px;border-radius:999px;background:#f2f4f6;color:#4f5e6d;font-size:11.5px;font-weight:600;line-height:1.5}
+			.wpz-aigen__eyebrow .dashicons{font-size:14px;width:14px;height:14px}
+			.wpz-aigen__title{margin:0 0 6px!important;font-size:16px;font-weight:600;line-height:1.35;letter-spacing:-.01em;color:#10161d}
+			.wpz-aigen__text{margin:0 0 6px!important;max-width:720px;font-size:13.5px;line-height:1.6;color:#4f5e6d}
+			.wpz-aigen__links{display:flex;flex-wrap:wrap;gap:6px 18px;margin:12px 0 0!important;font-size:13px}
+			.wpz-aigen__links a{font-weight:600;text-decoration:none}
+			.wpz-aigen__note{margin:14px 0 0!important;padding-top:12px;border-top:1px solid rgba(16,22,29,.09);font-size:12.5px;color:#4f5e6d}
+		</style>
+		<div class="wpz-aigen" id="<?php echo esc_attr( $args['id'] ); ?>">
+			<span class="wpz-aigen__eyebrow"><span class="dashicons dashicons-edit-page"></span><?php esc_html_e( 'AI Recipe Generator', 'recipe-card-blocks-by-wpzoom' ); ?></span>
+			<p class="wpz-aigen__title"><?php esc_html_e( 'Settings for generating recipes with AI in the editor', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+			<p class="wpz-aigen__text"><?php esc_html_e( 'Add a Recipe Card block, type a dish or an idea (for example “Spaghetti Carbonara” or “an easy weeknight dessert”), and the generator fills in the ingredients with quantities, step-by-step directions, recipe details and an image. You review and edit everything before publishing.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+			<p class="wpz-aigen__text"><?php esc_html_e( 'Below you can choose the AI models and adjust the prompts used for the recipe text and the image. Each generation uses AI credits from your license.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+			<p class="wpz-aigen__links">
+				<a href="https://recipecard.io/wordpress-ai-recipe-generator/" target="_blank" rel="noopener"><?php esc_html_e( 'How the AI Recipe Generator works', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=admin-license' ) ); ?>"><?php esc_html_e( 'AI credits', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+			</p>
+			<p class="wpz-aigen__note">
+				<?php esc_html_e( 'Looking for the chat that answers your readers’ questions about a recipe?', 'recipe-card-blocks-by-wpzoom' ); ?>
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpzoom-recipe-card-settings&tab=tab-assistant' ) ); ?>"><?php esc_html_e( 'That’s on the AI Assistant tab', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * "AI Assistant" tab, top block: styles for the tab and the Yamidoo status
+	 * card with the one-click install. Rendered before the toggle.
+	 *
+	 * @since 3.6.0
+	 * @param array $args Section arguments.
+	 */
+	public function section_assistant_status_cb( $args ) {
+		?>
+		<style>
+			.wpz-assistant{max-width:960px;margin:6px 0 28px;font-size:14px;line-height:1.55;color:#10161d}
+			.wpz-assistant__hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:center;padding:28px 32px;border:1px solid rgba(16,22,29,.09);border-radius:16px;background:#fff}
+			.wpz-assistant__eyebrow{display:inline-block;margin:0 0 10px;padding:3px 9px;border-radius:999px;background:rgba(34,187,102,.12);color:#0f6e43;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+			.wpz-assistant__hero h2{margin:0 0 10px;font-size:24px;line-height:1.2;letter-spacing:-.01em;color:#10161d}
+			.wpz-assistant__hero p{margin:0;font-size:14px;color:#4f5e6d}
+			.wpz-assistant__links{margin-top:14px;font-size:13px}
+			.wpz-assistant__links a{margin-right:14px}
+			.wpz-assistant__chat{border:1px solid rgba(16,22,29,.09);border-radius:16px;overflow:hidden;background:#f6f7f7;font-size:12.5px;line-height:1.45}
+			.wpz-assistant__chat-head{padding:10px 14px;background:#10161d;color:#fff}
+			.wpz-assistant__chat-head strong{display:block;font-size:13px}
+			.wpz-assistant__chat-head span{opacity:.7;font-size:11.5px}
+			.wpz-assistant__chat-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+			.wpz-assistant__q{align-self:flex-end;max-width:88%;padding:7px 11px;border-radius:14px 14px 3px 14px;background:#10161d;color:#fff}
+			.wpz-assistant__a{align-self:flex-start;max-width:92%;padding:8px 11px;border-radius:14px 14px 14px 3px;background:#fff;border:1px solid #dcdcde;color:#10161d}
+			.wpz-assistant__a ul{margin:4px 0 0 14px;list-style:disc}
+			.wpz-assistant__a li{margin:0}
+			.wpz-assistant__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+			.wpz-assistant__card{padding:18px 18px 16px;border:1px solid rgba(16,22,29,.09);border-radius:16px;background:#fff}
+			.wpz-assistant__card .dashicons{font-size:22px;width:22px;height:22px;color:#10161d}
+			.wpz-assistant__card h3{margin:10px 0 6px;font-size:14px;line-height:1.3}
+			.wpz-assistant__card p{margin:0;font-size:13px;color:#4f5e6d}
+			.wpz-assistant__steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px;counter-reset:step}
+			.wpz-assistant__step{padding:16px 18px;border:1px dashed #c3c4c7;border-radius:12px;background:#fff}
+			.wpz-assistant__step::before{counter-increment:step;content:counter(step);display:inline-grid;place-items:center;width:24px;height:24px;margin-bottom:8px;border-radius:50%;background:#10161d;color:#fff;font-size:12px;font-weight:700}
+			.wpz-assistant__step h3{margin:0 0 4px;font-size:14px}
+			.wpz-assistant__step p{margin:0;font-size:13px;color:#4f5e6d}
+			.wpz-yd-card{display:flex;align-items:center;justify-content:space-between;gap:24px 32px;flex-wrap:wrap;margin:14px 0 20px;padding:22px 26px;background:#fff;border:1px solid rgba(16,22,29,.09);border-radius:16px;box-shadow:0 1px 2px rgba(16,22,29,.04);color:#10161d}.wpz-yd-card__main{flex:1 1 420px;min-width:0}.wpz-yd-card__top{display:flex;align-items:center;gap:12px;margin-bottom:12px}.wpz-yd-logo{display:block;width:98px;height:22px}.wpz-yd-pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:#f2f4f6;color:#4f5e6d;font-size:11.5px;font-weight:600;line-height:1.5}.wpz-yd-pill i{width:6px;height:6px;border-radius:50%;background:#81909c}.wpz-yd-card.is-active .wpz-yd-pill{background:#fff4ed;color:#b93d0f}.wpz-yd-card.is-active .wpz-yd-pill i{background:#fe551b}.wpz-yd-card.is-connected .wpz-yd-pill{background:rgba(34,187,102,.12);color:#0f6e43}.wpz-yd-card.is-connected .wpz-yd-pill i{background:#22bb66}.wpz-yd-card__title{margin:0 0 4px!important;font-size:16px;font-weight:600;line-height:1.35;letter-spacing:-.01em;color:#10161d}.wpz-yd-card__text{margin:0!important;max-width:620px;font-size:13.5px;line-height:1.6;color:#4f5e6d}.wpz-yd-card__actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.wpz-yd-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;padding:0 16px;border:1px solid rgba(16,22,29,.14);border-radius:10px;background:#fff;color:#10161d!important;font-size:13.5px;font-weight:600;line-height:1;text-decoration:none!important;cursor:pointer;box-shadow:none;transition:background .15s ease,border-color .15s ease}.wpz-yd-btn:hover{background:#f6f7f8;border-color:rgba(16,22,29,.24)}.wpz-yd-btn:focus-visible{outline:2px solid #fe551b;outline-offset:2px}.wpz-yd-btn.is-primary{background:#10161d;border-color:#10161d;color:#fff!important}.wpz-yd-btn.is-primary:hover{background:#242628;border-color:#242628}.wpz-yd-btn[disabled]{opacity:.6;cursor:progress}.wpz-yd-progress{flex-basis:100%;font-size:12.5px;color:#4f5e6d}.wpz-yd-progress:empty{display:none}.wpz-yd-progress.is-error{color:#d63638}
+			@media (max-width:900px){.wpz-assistant__hero{grid-template-columns:1fr}.wpz-assistant__steps{grid-template-columns:1fr}}
+		</style>
+		<?php
+		echo self::yamidoo_status_html(); // phpcs:ignore WordPress.Security.EscapeOutput -- built from escaped parts
+	}
+
+	/**
+	 * Whether the Yamidoo plugin is active. Reads the active plugins list
+	 * instead of its constants, because Recipe Card Blocks loads first.
+	 *
+	 * @since 3.6.0
+	 * @return bool
+	 */
+	public static function yamidoo_plugin_active() {
+		$file = 'yamidoo/yamidoo.php';
+		if ( in_array( $file, (array) get_option( 'active_plugins', array() ), true ) ) {
+			return true;
+		}
+		return is_multisite() && isset( ( (array) get_site_option( 'active_sitewide_plugins', array() ) )[ $file ] );
+	}
+
+	/**
+	 * When Yamidoo is activated (from the Plugins screen or the one-click
+	 * button), switch on the "Ask about this recipe" button.
+	 *
+	 * @since 3.6.0
+	 * @param string $plugin Plugin basename that was activated.
+	 */
+	public function on_yamidoo_activated( $plugin ) {
+		if ( 'yamidoo/yamidoo.php' !== $plugin ) {
+			return;
+		}
+		$options = get_option( self::$option );
+		$options = is_array( $options ) ? $options : array();
+		$options['wpzoom_rcb_settings_display_yamidoo_ask'] = '1';
+		update_option( self::$option, $options );
+	}
+
+	/**
+	 * The "AI Assistant" tab intro: what the cooking assistant does, how it is
+	 * set up, and the live status of the Yamidoo widget on this site.
+	 *
+	 * @since 3.6.0
+	 * @param array $args Section arguments.
+	 */
+	public function section_assistant_intro_cb( $args ) {
+		$features = array(
+			array( 'dashicons-randomize',   __( 'Substitutions with amounts', 'recipe-card-blocks-by-wpzoom' ),  __( 'No buttermilk? It answers with the swap, the quantity and what changes, from the ingredient list on the page.', 'recipe-card-blocks-by-wpzoom' ) ),
+			array( 'dashicons-editor-ol',   __( 'Scaling and conversions', 'recipe-card-blocks-by-wpzoom' ),     __( 'Halve it, double it, cups to grams, °F to °C. Every ingredient is recomputed from the recipe yield and listed back.', 'recipe-card-blocks-by-wpzoom' ) ),
+			array( 'dashicons-clock',       __( 'Timing, storage, dietary', 'recipe-card-blocks-by-wpzoom' ),    __( 'Cook times and temperatures quoted from the card. Make-ahead, freezing and allergen questions answered from the ingredients, with a label reminder.', 'recipe-card-blocks-by-wpzoom' ) ),
+			array( 'dashicons-admin-users', __( 'A person one click away', 'recipe-card-blocks-by-wpzoom' ),     __( 'When a reader asks for you, the conversation lands in your Yamidoo inbox with the recipe attached. Reply live or later by email.', 'recipe-card-blocks-by-wpzoom' ) ),
+		);
+		?>
+		<div class="wpz-assistant" id="<?php echo esc_attr( $args['id'] ); ?>">
+			<div class="wpz-assistant__hero">
+				<div>
+					<span class="wpz-assistant__eyebrow"><?php esc_html_e( 'New', 'recipe-card-blocks-by-wpzoom' ); ?></span>
+					<h2><?php esc_html_e( 'A cooking assistant that knows the recipe your reader is on', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
+					<p><?php esc_html_e( 'Readers ask while they cook: what can I swap, how do I halve it, how long per side. Yamidoo answers from the recipe card on that page and from the rest of your blog, in the reader’s language, and hands the conversation to you when they ask for a person. Free plan, no credit card.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
+					<p class="wpz-assistant__links">
+						<a href="https://yamidoo.ai/for/food-blogs/" target="_blank" rel="noopener"><?php esc_html_e( 'How it works for food blogs', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+						<a href="https://yamidoo.ai/docs/guides/food-blogs/" target="_blank" rel="noopener"><?php esc_html_e( 'Setup guide', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+					</p>
+				</div>
+				<div class="wpz-assistant__chat" aria-hidden="true">
+					<div class="wpz-assistant__chat-head"><strong><?php esc_html_e( 'Ask about this recipe', 'recipe-card-blocks-by-wpzoom' ); ?></strong><span>Lemon Blueberry Pancakes</span></div>
+					<div class="wpz-assistant__chat-body">
+						<div class="wpz-assistant__q">How long per side? And can I halve this for two?</div>
+						<div class="wpz-assistant__a"><strong>2 to 3 minutes per side</strong>, per the instructions on this page. Halved, for 2 servings:<ul><li>1 cup all-purpose flour</li><li>1 tbsp sugar</li><li>1&frac12; tsp baking powder</li><li>&frac78; cup buttermilk</li><li>1 large egg &hellip;</li></ul></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="wpz-assistant__grid">
+				<?php foreach ( $features as $f ) : ?>
+					<div class="wpz-assistant__card">
+						<span class="dashicons <?php echo esc_attr( $f[0] ); ?>"></span>
+						<h3><?php echo esc_html( $f[1] ); ?></h3>
+						<p><?php echo esc_html( $f[2] ); ?></p>
+					</div>
+				<?php endforeach; ?>
+			</div>
+
+			<div class="wpz-assistant__steps">
+				<div class="wpz-assistant__step"><h3><?php esc_html_e( 'Install Yamidoo', 'recipe-card-blocks-by-wpzoom' ); ?></h3><p><?php esc_html_e( 'The button at the top installs and activates the free plugin from WordPress.org.', 'recipe-card-blocks-by-wpzoom' ); ?></p></div>
+				<div class="wpz-assistant__step"><h3><?php esc_html_e( 'Connect and pick “Food blog”', 'recipe-card-blocks-by-wpzoom' ); ?></h3><p><?php esc_html_e( 'Connect creates your account and indexes your recipes. The Food blog type turns on the cooking rules.', 'recipe-card-blocks-by-wpzoom' ); ?></p></div>
+				<div class="wpz-assistant__step"><h3><?php esc_html_e( 'Turn on the button', 'recipe-card-blocks-by-wpzoom' ); ?></h3><p><?php esc_html_e( '“Ask about this recipe” appears in every recipe card, above the ingredients.', 'recipe-card-blocks-by-wpzoom' ); ?></p></div>
+			</div>
+		</div>
+		<?php
+	}
+
 	public static function get( $option ) {
 		return isset( self::$options[ $option ] ) ? self::$options[ $option ] : false;
 	}
@@ -1982,12 +2317,61 @@ class WPZOOM_Settings {
 					)
 				)	
 			),
+			'assistant' => array(
+				'tab_id'       => 'tab-assistant',
+				'tab_title'    => __( 'AI Assistant', 'recipe-card-blocks-by-wpzoom' ),
+				'tab_badge'    => __( 'New', 'recipe-card-blocks-by-wpzoom' ),
+				'option_group' => 'wpzoom-recipe-card-settings-assistant',
+				'option_name'  => self::$option,
+				'sections'     => array(
+					array(
+						'id'       => 'wpzoom_section_assistant_status',
+						'title'    => '',
+						'page'     => 'wpzoom-recipe-card-settings-assistant',
+						'callback' => array( $this, 'section_assistant_status_cb' ),
+						'fields'   => array(),
+					),
+					array(
+						'id'       => 'wpzoom_section_ai_chat',
+						'title'    => __( 'Recipe card button', 'recipe-card-blocks-by-wpzoom' ),
+						'page'     => 'wpzoom-recipe-card-settings-assistant',
+						'callback' => '__return_false',
+						'fields'   => array(
+							array(
+								'id'    => 'wpzoom_rcb_settings_display_yamidoo_ask',
+								'title' => __( 'Show "Ask about this recipe"', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'checkbox',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_display_yamidoo_ask',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Adds the button to every recipe card, just above the ingredients. It opens the Yamidoo chat with that recipe already in context. Switched on automatically when Yamidoo is activated, and hidden until the widget has loaded, so it never shows on a site without it.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => self::yamidoo_plugin_active() ? '1' : false,
+								),
+							),
+						),
+					),
+					array(
+						'id'       => 'wpzoom_section_assistant_intro',
+						'title'    => '',
+						'page'     => 'wpzoom-recipe-card-settings-assistant',
+						'callback' => array( $this, 'section_assistant_intro_cb' ),
+						'fields'   => array(),
+					),
+				),
+			),
 			'ai' => array(
 				'tab_id'       => 'tab-ai',
 				'tab_title'    => __( 'AI Settings', 'recipe-card-blocks-by-wpzoom' ),
 				'option_group' => 'wpzoom-recipe-card-settings-ai',
 				'option_name'  => self::$option,
 				'sections'     => array(
+					array(
+						'id'       => 'wpzoom_section_ai_generation_intro',
+						'title'    => '',
+						'page'     => 'wpzoom-recipe-card-settings-ai',
+						'callback' => array( $this, 'section_ai_generation_intro_cb' ),
+						'fields'   => array(),
+					),
 					array(
 						'id'       => 'wpzoom_section_ai_chat_model_recipe_data',
 						'title'    => __( 'OpenAI Model', 'recipe-card-blocks-by-wpzoom' ),
@@ -2250,9 +2634,9 @@ class WPZOOM_Settings {
     				<ul class="wp-tab-bar">
     					<?php foreach ( self::$settings as $setting ) : ?>
     						<?php if ( self::$active_tab === $setting['tab_id'] ) : ?>
-    							<li class="wp-tab-active"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?></a></li>
+    							<li class="wp-tab-active"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?><?php if ( ! empty( $setting['tab_badge'] ) ) : ?><span class="wpz-tab-badge" style="display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:rgba(34,187,102,.14);color:#0f6e43;font-size:10px;font-weight:700;line-height:1.6;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle"><?php echo esc_html( $setting['tab_badge'] ); ?></span><?php endif; ?></a></li>
     						<?php else : ?>
-    							<li><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?></a></li>
+    							<li><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?><?php if ( ! empty( $setting['tab_badge'] ) ) : ?><span class="wpz-tab-badge" style="display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:rgba(34,187,102,.14);color:#0f6e43;font-size:10px;font-weight:700;line-height:1.6;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle"><?php echo esc_html( $setting['tab_badge'] ); ?></span><?php endif; ?></a></li>
     						<?php endif ?>
     					<?php endforeach ?>
     				</ul>
