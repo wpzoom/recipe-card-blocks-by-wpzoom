@@ -16,17 +16,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Instance the class
-WPZOOM_Elementor_Rating_Stars::instance();
+WPZOOM_RCB_Elementor_Rating_Stars::instance();
 
 /**
- * Class WPZOOM_Elementor_Rating_Stars
+ * Class WPZOOM_RCB_Elementor_Rating_Stars
  */
-class WPZOOM_Elementor_Rating_Stars {
+class WPZOOM_RCB_Elementor_Rating_Stars {
 
 	/**
 	 * Instance
 	 *
-	 * @var WPZOOM_Elementor_Rating_Stars The single instance of the class.
+	 * @var WPZOOM_RCB_Elementor_Rating_Stars The single instance of the class.
 	 * @since 3.5.0
 	 * @access private
 	 * @static

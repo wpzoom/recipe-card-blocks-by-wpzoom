@@ -5,7 +5,7 @@
  * Description: Recipe Card Blocks with Schema Markup — create SEO-optimized recipes with Gutenberg, Elementor & AMP support.
  * Author: WPZOOM
  * Author URI: https://recipecard.io/
- * Version: 3.6.0
+ * Version: 3.6.1
  * Copyright: (c) 2026 WPZOOM
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -55,14 +55,18 @@ if ( ! function_exists( 'wpzoom_rcb_block_is_registered' ) ) {
 /**
  * Show the rating form or the plain rating number for a recipe.
  *
+ * Prefixed with `wpzoom_rcb_` on purpose: PRO (up to 7.3.0) declares
+ * `wpzoom_rating_stars()` unconditionally, so declaring that name here
+ * fatals when PRO is activated while this plugin is still active.
+ *
  * @since 3.5.0
  * @param int    $recipe_ID The recipe ID ratings are keyed to.
  * @param string $type      'form' for the interactive widget, 'number' for text.
  * @param string $label     Optional label used by the 'number' variant.
  * @return string
  */
-if ( ! function_exists( 'wpzoom_rating_stars' ) ) {
-	function wpzoom_rating_stars( $recipe_ID, $type = 'form', $label = '' ) {
+if ( ! function_exists( 'wpzoom_rcb_rating_stars' ) ) {
+	function wpzoom_rcb_rating_stars( $recipe_ID, $type = 'form', $label = '' ) {
 		if ( ! class_exists( 'WPZOOM_Rating_Stars' ) || ! WPZOOM_Settings::get_rating_star_acces() ) {
 			return '';
 		}

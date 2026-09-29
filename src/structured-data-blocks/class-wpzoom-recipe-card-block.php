@@ -263,7 +263,7 @@ class WPZOOM_Recipe_Card_Block {
 			return $content;
 		}
 
-		if ( ! function_exists( 'wpzoom_rating_stars' ) ) {
+		if ( ! function_exists( 'wpzoom_rcb_rating_stars' ) ) {
 			return $content;
 		}
 
@@ -272,7 +272,7 @@ class WPZOOM_Recipe_Card_Block {
 		// to the host post rather than the embedded recipe.
 		$recipe_ID_rating = self::$recipe_ID_rating ? self::$recipe_ID_rating : self::resolve_recipe_id_for_rating();
 
-		$output = wpzoom_rating_stars( $recipe_ID_rating );
+		$output = wpzoom_rcb_rating_stars( $recipe_ID_rating );
 
 		if ( empty( $output ) ) {
 			return $content;
@@ -783,8 +783,8 @@ class WPZOOM_Recipe_Card_Block {
 
 		$recipe_card_rating = '';
 
-		if ( function_exists( 'wpzoom_rating_stars' ) ) {
-			$rating_stars = wpzoom_rating_stars( self::$recipe_ID_rating );
+		if ( function_exists( 'wpzoom_rcb_rating_stars' ) ) {
+			$rating_stars = wpzoom_rcb_rating_stars( self::$recipe_ID_rating );
 
 			if ( ! empty( $rating_stars ) ) {
 				$recipe_card_rating = '<div class="recipe-card-rating-wrap">' . $rating_stars . '</div>';
