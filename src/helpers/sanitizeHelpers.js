@@ -291,6 +291,18 @@ export function sanitizeHTML( string ) {
         return toPlainText( string );
     }
 
+    // The HTML parser drops whitespace at the very start of a document, so it is
+    // put back afterwards. Ingredient and step values stored as arrays are
+    // sanitized one fragment at a time, and the fragment following a link
+    // (" or a sugar substitute") would otherwise lose its leading space.
+    const leadingWhitespace = string.match( /^[\t\n\f\r ]*/ )[ 0 ];
+
+    if ( leadingWhitespace ) {
+        const rest = string.slice( leadingWhitespace.length );
+
+        return leadingWhitespace + ( rest ? sanitizeHTML( rest ) : '' );
+    }
+
     let current = string;
 
     // Two extra passes are enough to settle any mutation the serializer

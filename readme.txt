@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 3.6.1
+Stable tag: 3.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,9 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 
 
 == Changelog ==
+
+= 3.6.2 =
+* Minor bug fix
 
 = 3.6.1 =
 * Minor bug fixes
