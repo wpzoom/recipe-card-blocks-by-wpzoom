@@ -492,14 +492,10 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 							$ingredient_note = array();
 
-							// Build the amount and unit prefix
+							// Amount and unit go in their own fields (shown before the name),
+							// as in the Pro version, not into the name as well.
 							$amount = isset( $ingredient['amount'] ) ? trim( $ingredient['amount'] ) : '';
 							$unit   = isset( $ingredient['unit'] ) ? trim( $ingredient['unit'] ) : '';
-							$amount_unit_prefix = '';
-
-							if ( ! empty( $amount ) || ! empty( $unit ) ) {
-								$amount_unit_prefix = trim( $amount . ' ' . $unit ) . ' ';
-							}
 
 							//Check if there is no global link
 							$globalLink = class_exists( 'WPRMP_Ingredient_Links' ) ? WPRMP_Ingredient_Links::get_ingredient_link( $ingredient['id'] ) : array();
@@ -549,21 +545,19 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 								);
 							}
 
-							// Build the full ingredient name with amount, unit, name and notes
-							$full_json_name = trim( $amount_unit_prefix . $ingredient['name'] );
-
 							$ingredients[] = array(
 								'id'       => uniqid( 'ingredient-item-' ),
 								'name'     => array(
-									$amount_unit_prefix,
 									$ingredient_name,
 									$ingredient_note
 								),
 								'parse'    => array(
-									'amount' => $amount,
-									'unit'   => $unit
+									'amount'     => $amount,
+									'unit'       => $unit,
+									'ingredient' => $ingredient['name'],
+									'notes'      => isset( $ingredient['notes'] ) ? $ingredient['notes'] : '',
 								),
-								'jsonName' => $full_json_name,
+								'jsonName' => $ingredient['name'],
 								'isGroup'  => false
 							);	
 						}
@@ -791,7 +785,7 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 			$update_content = array(
 				'ID'           => $post_id,
-				'post_content' => $content,
+				'post_content' => wp_slash( $content ),
 			);
 			
 			wp_update_post( $update_content );

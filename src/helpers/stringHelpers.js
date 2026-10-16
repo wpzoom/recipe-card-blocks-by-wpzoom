@@ -146,3 +146,34 @@ export function deserializeArray( value ) {
 	return cleanArray;
 
 }
+
+/**
+ * The amount and unit stored in an ingredient's own fields (recipes made with
+ * the Pro version, or imported), as one label such as "2 cups".
+ *
+ * Empty when there are none, or when the name already starts with them (recipes
+ * imported by older versions), so the amount is never shown twice.
+ *
+ * @param {Object} item Ingredient attributes.
+ *
+ * @returns {string} The label, or an empty string.
+ */
+export function getIngredientAmountLabel( item ) {
+	if ( ! item || item.isGroup || ! item.parse ) {
+		return '';
+	}
+
+	const label = [ item.parse.amount, item.parse.unit ]
+		.map( ( part ) => ( part ? String( part ).trim() : '' ) )
+		.filter( Boolean )
+		.join( ' ' );
+
+	if ( ! label ) {
+		return '';
+	}
+
+	const text = String( item.jsonName || '' ).replace( /\s+/g, ' ' ).trim().toLowerCase();
+	const repeated = text === label.toLowerCase() || text.indexOf( label.toLowerCase() + ' ' ) === 0;
+
+	return repeated ? '' : label;
+}

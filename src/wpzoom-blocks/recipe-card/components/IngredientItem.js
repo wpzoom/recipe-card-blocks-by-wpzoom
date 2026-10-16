@@ -13,7 +13,8 @@ import { Button } from '@wordpress/components';
 /* Internal dependencies */
 import {
     deserializeAttributes, 
-    deserializeArray
+    deserializeArray,
+    getIngredientAmountLabel
 } from '../../../helpers/stringHelpers';
 
 /* Module constants */
@@ -226,6 +227,7 @@ export default class IngredientItem extends Component {
 
         const isSelectedName = isSelected && subElement === 'name';
         const itemClassName = ! isGroup ? 'ingredient-item' : 'ingredient-item ingredient-item-group';
+        const amountLabel = getIngredientAmountLabel( this.props.item );
 
         let nameContent = name;
 
@@ -244,6 +246,15 @@ export default class IngredientItem extends Component {
                     ! isGroup &&
                     <Fragment>
                         <span className="tick-circle"></span>
+                        { amountLabel &&
+                            <span
+                                className="ingredient-item-amount"
+                                style={ { whiteSpace: 'nowrap', marginRight: '6px', fontWeight: 600 } }
+                                title={ __( 'Amount and unit can be edited in Recipe Card Blocks PRO', 'recipe-card-blocks-by-wpzoom' ) }
+                            >
+                                { amountLabel }
+                            </span>
+                        }
                         <RichText
                             className="ingredient-item-name"
                             tagName="p"

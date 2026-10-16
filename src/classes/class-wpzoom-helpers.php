@@ -263,6 +263,43 @@ class WPZOOM_Helpers {
 		return $encoded_attributes;
 	}
 
+	/**
+	 * Get the amount and unit stored in an ingredient's own fields.
+	 *
+	 * Recipes made with the Pro version (or imported) keep the amount and unit
+	 * separate from the name. Returns nothing when the name already starts with
+	 * them, as in recipes imported by older versions, so they aren't shown twice.
+	 *
+	 * @since 3.6.3
+	 *
+	 * @param array $ingredient Ingredient attributes.
+	 * @return array { amount: string, unit: string }, empty strings when none.
+	 */
+	public static function get_ingredient_amount( $ingredient ) {
+		$none = array( 'amount' => '', 'unit' => '' );
+
+		if ( ! is_array( $ingredient ) || ! empty( $ingredient['isGroup'] ) || empty( $ingredient['parse'] ) || ! is_array( $ingredient['parse'] ) ) {
+			return $none;
+		}
+
+		$amount = isset( $ingredient['parse']['amount'] ) ? trim( (string) $ingredient['parse']['amount'] ) : '';
+		$unit   = isset( $ingredient['parse']['unit'] ) ? trim( (string) $ingredient['parse']['unit'] ) : '';
+
+		if ( '' === $amount && '' === $unit ) {
+			return $none;
+		}
+
+		$text = ! empty( $ingredient['jsonName'] ) && is_string( $ingredient['jsonName'] ) ? $ingredient['jsonName'] : '';
+		$text = preg_replace( '/[\s\x{00A0}]+/u', ' ', trim( html_entity_decode( wp_strip_all_tags( $text ), ENT_QUOTES, 'UTF-8' ) ) );
+
+		$prefix = str_replace( ' ', '\s*', preg_quote( trim( $amount . ' ' . $unit ), '/' ) );
+		if ( '' !== $text && preg_match( '/^' . $prefix . '(\s|$)/iu', $text ) ) {
+			return $none;
+		}
+
+		return array( 'amount' => $amount, 'unit' => $unit );
+	}
+
 	public static function deserialize_block_attributes_array( $encoded_attributes ) {
 
 		$converted_attributes = array(); 

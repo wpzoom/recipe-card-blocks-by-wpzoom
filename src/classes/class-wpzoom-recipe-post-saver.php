@@ -281,11 +281,18 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			$recipeBlock = isset( $matches[0] ) ? $matches[0] : '';
 			//$parentRecipeBlock = isset( $parent_matches[0] ) ? $parent_matches[0] : '';
 
-			$update_parent_content = preg_replace( $recipe_patern, $recipeBlock[0], $parent_content );
+			// Callback, not a replacement string: "$5" or "\\" inside the block JSON
+			// would otherwise be read as back-references.
+			$recipe_block          = $recipeBlock[0];
+			$update_parent_content = preg_replace_callback( $recipe_patern, function() use ( $recipe_block ) {
+				return $recipe_block;
+			}, $parent_content );
 
+			// wp_update_post() unslashes its input: without wp_slash() the \u0026-style
+			// escapes in block attributes would be saved as "u0026".
 			$updated_parent_args = array(
 				'ID' => $parent_id,
-				'post_content' => $update_parent_content,
+				'post_content' => wp_slash( $update_parent_content ),
 			);
 
 			remove_action( 'save_post', array( __CLASS__, 'update_parent_recipe_card' ), 10 );
@@ -316,7 +323,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			$post = array(
 				'post_title'   => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
 				'post_name'    => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
-				'post_content' => $recipe['recipe'],
+				'post_content' => wp_slash( $recipe['recipe'] ),
 				'post_type'    => 'wpzoom_rcb',
 				'post_status'  => 'publish',
 			);
@@ -366,7 +373,7 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			$recipe_post = array(
 				'ID' => $posts[0]->ID,
 				'post_name'    => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
-				'post_content' => $recipe['recipe'],
+				'post_content' => wp_slash( $recipe['recipe'] ),
 			);
 			
 			$recipe_id = wp_update_post( $recipe_post );

@@ -32,7 +32,14 @@ class WPZOOM_Structured_Data_Helpers {
 			$name = trim( $this->ingredient_name_to_JSON( $ingredient['name'] ) );
 		}
 
-		$ingredient_json_ld = wp_strip_all_tags( $name );
+		// Older saves stored escapes without their backslash ("u0026"); the visible card
+		// decodes them, so do the same here.
+		$name = WPZOOM_Helpers::deserialize_block_attributes( $name );
+
+		// Amount and unit kept in their own fields (recipes made with the Pro version).
+		$amount = WPZOOM_Helpers::get_ingredient_amount( $ingredient );
+
+		$ingredient_json_ld = trim( $amount['amount'] . ' ' . $amount['unit'] ) . ' ' . wp_strip_all_tags( $name );
 
 		return trim( $ingredient_json_ld );
 	}

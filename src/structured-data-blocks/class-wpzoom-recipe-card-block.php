@@ -1557,6 +1557,29 @@ class WPZOOM_Recipe_Card_Block {
 		);
 	}
 
+	/**
+	 * Markup for an ingredient's own amount and unit fields, if any.
+	 *
+	 * @since 3.6.3
+	 *
+	 * @param array $ingredient Ingredient attributes.
+	 * @return string HTML (with a trailing space) or an empty string.
+	 */
+	public static function get_ingredient_amount_html( $ingredient ) {
+		$amount = WPZOOM_Helpers::get_ingredient_amount( $ingredient );
+		$html   = '';
+
+		if ( '' !== $amount['amount'] ) {
+			$html .= sprintf( '<span class="wpzoom-rcb-ingredient wpzoom-rcb-ingredient-amount">%s</span> ', esc_html( $amount['amount'] ) );
+		}
+
+		if ( '' !== $amount['unit'] ) {
+			$html .= sprintf( '<span class="wpzoom-rcb-ingredient wpzoom-rcb-ingredient-unit">%s</span> ', esc_html( $amount['unit'] ) );
+		}
+
+		return $html;
+	}
+
 	public static function get_ingredient_items( array $ingredients ) {
 		$output        = '';
 		$strikethrough = WPZOOM_Settings::get( 'wpzoom_rcb_settings_ingredients_strikethrough' ) === '1' ? ' is-strikethrough-active' : '';
@@ -1586,7 +1609,7 @@ class WPZOOM_Recipe_Card_Block {
 				}
 
 				if ( ! empty( $ingredient['name'] ) ) {
-					$name = sprintf( '<span class="wpzoom-rcb-ingredient-name">%s</span>', self::wrap_ingredient_name( $ingredient['name'] ) );
+					$name = self::get_ingredient_amount_html( $ingredient ) . sprintf( '<span class="wpzoom-rcb-ingredient-name">%s</span>', self::wrap_ingredient_name( $ingredient['name'] ) );
 
 					$name    = sprintf(
 						'<p class="ingredient-item-name%s">%s</p>',

@@ -195,7 +195,7 @@ class WPZOOM_Settings {
 
 		$license_data->endpoint_url = WPZOOM_RCB_STORE_URL;
 
-		$license_data->chat_model = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_data_ai_chat_model' );
+		$license_data->chat_model = self::get_ai_chat_model();
 
 		$license_data->prepend_recipe_data_prompt = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_data_ai_prompt_prepend' );
 		$license_data->append_recipe_data_prompt = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_data_ai_prompt_append' );
@@ -855,6 +855,29 @@ class WPZOOM_Settings {
 
 	public static function get( $option ) {
 		return isset( self::$options[ $option ] ) ? self::$options[ $option ] : false;
+	}
+
+	/**
+	 * Get the OpenAI chat model to use for recipe generation.
+	 *
+	 * Maps models that OpenAI has retired to a supported replacement so
+	 * sites that saved a legacy choice keep working after the shutdown.
+	 *
+	 * @return string Chat model identifier.
+	 */
+	public static function get_ai_chat_model() {
+		$model = self::get( 'wpzoom_rcb_settings_recipe_data_ai_chat_model' );
+
+		// gpt-3.5-turbo is shut down by OpenAI on October 23, 2026.
+		$retired = array(
+			'gpt-3.5-turbo' => 'gpt-4o-mini',
+		);
+
+		if ( isset( $retired[ $model ] ) ) {
+			$model = $retired[ $model ];
+		}
+
+		return $model ? $model : 'gpt-4o';
 	}
 
 	/**
@@ -2385,11 +2408,11 @@ class WPZOOM_Settings {
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_recipe_data_ai_chat_model',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => __( '<strong>GPT 4o</strong> - Fastest and most advanced model<br/><strong>GPT 3.5 Turbo</strong> - Legacy model, good for simple recipes.', 'recipe-card-blocks-by-wpzoom' ),
+									'description' => __( '<strong>GPT-4o</strong> - Most advanced model<br/><strong>GPT-4o-mini</strong> - Fast and cost-effective', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => 'gpt-4o',
 									'options'     => array(
-										'gpt-4o'        => esc_html__( 'GPT-4o', 'recipe-card-blocks-by-wpzoom' ),
-										'gpt-3.5-turbo' => esc_html__( 'GPT-3.5 Turbo', 'recipe-card-blocks-by-wpzoom' ),
+										'gpt-4o'      => esc_html__( 'GPT-4o', 'recipe-card-blocks-by-wpzoom' ),
+										'gpt-4o-mini' => esc_html__( 'GPT-4o-mini', 'recipe-card-blocks-by-wpzoom' ),
 									),
 								),
 							),

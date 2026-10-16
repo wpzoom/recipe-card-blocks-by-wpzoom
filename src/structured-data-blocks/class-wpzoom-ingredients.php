@@ -184,8 +184,9 @@ class WPZOOM_Ingredients_Block {
 			if ( ! $isGroup ) {
 				if ( ! empty( $ingredient['name'] ) ) {
 					$name    = sprintf(
-						'<p class="ingredient-item-name%s">%s</p>',
+						'<p class="ingredient-item-name%s">%s%s</p>',
 						$strikethrough,
+						WPZOOM_Recipe_Card_Block::get_ingredient_amount_html( $ingredient ),
 						WPZOOM_Recipe_Card_Block::wrap_ingredient_name( $ingredient['name'] )
 					);
 					$output .= sprintf(
