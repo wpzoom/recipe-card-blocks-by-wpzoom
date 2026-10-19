@@ -531,7 +531,7 @@ class Nutrition extends Component {
                 </a>
                 <a
                     className="wpzoom-rcb-pro-upsell-secondary"
-                    href="https://recipecard.io/recipe-nutrition-analyzer/"
+                    href="https://recipecard.io/recipe-nutrition-analyzer/?utm_source=wpadmin&utm_medium=nutrition-block&utm_campaign=nutrition-analyzer"
                     target="_blank"
                     rel="noopener noreferrer"
                 >

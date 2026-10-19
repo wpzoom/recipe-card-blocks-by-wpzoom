@@ -283,8 +283,8 @@ class WPZOOM_Manage_Ratings {
 
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-			'<p>' . sprintf( '<a href="https://recipecard.io/documentation/">%s</a>', __( 'Documentation on Ratings', 'recipe-card-blocks-by-wpzoom' ) ) . '</p>' .
-			'<p>' . sprintf( '<a href="https://recipecard.io/support/">%s</a>', __( 'Support', 'recipe-card-blocks-by-wpzoom' ) ) . '</p>'
+			'<p>' . sprintf( '<a href="https://recipecard.io/documentation/?utm_source=wpadmin&utm_medium=ratings-page&utm_campaign=docs">%s</a>', __( 'Documentation on Ratings', 'recipe-card-blocks-by-wpzoom' ) ) . '</p>' .
+			'<p>' . sprintf( '<a href="https://recipecard.io/support/?utm_source=wpadmin&utm_medium=ratings-page&utm_campaign=support">%s</a>', __( 'Support', 'recipe-card-blocks-by-wpzoom' ) ) . '</p>'
 		);
 	}
 
@@ -1663,7 +1663,7 @@ class WPZOOM_Manage_Ratings {
 
 		$upgrade_url = class_exists( 'WPZOOM_Plugin_Activator' )
 			? WPZOOM_Plugin_Activator::get_store_url( 'pricing/?utm_source=wpadmin&utm_medium=manage-ratings&utm_campaign=ratings-analytics' )
-			: 'https://recipecard.io/pricing/';
+			: 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=ratings-page&utm_campaign=upgrade-premium';
 		?>
 		<div class="wpzoom-ratings-analytics-upsell">
 			<div class="wpzoom-ratings-analytics-upsell-body">

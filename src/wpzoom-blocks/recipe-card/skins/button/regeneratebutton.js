@@ -315,8 +315,8 @@ const RegenerateButton = ( props ) => {
                     </div>
                     <h4>{ __( 'There are no AI Credits left', 'recipe-card-blocks-by-wpzoom' ) }</h4>
                     <p className="ai-p">{ __( 'Refill your balance for uninterrupted access to AI Recipe Generator functionalities.', 'recipe-card-blocks-by-wpzoom' ) }</p>
-                    <span className="ai-error"><a href="https://recipecard.io/ai-recipe-generator/" target="_blank">{ __( 'Learn more about AI Recipe Generator', 'recipe-card-blocks-by-wpzoom' ) }</a></span>
-                    <Button className="try-again ai-error" target="_blank" href="https://recipecard.io/account/ai-credits/">
+                    <span className="ai-error"><a href="https://recipecard.io/ai-recipe-generator/?utm_source=wpadmin&utm_medium=editor-ai-button&utm_campaign=ai-generator" target="_blank">{ __( 'Learn more about AI Recipe Generator', 'recipe-card-blocks-by-wpzoom' ) }</a></span>
+                    <Button className="try-again ai-error" target="_blank" href="https://recipecard.io/account/ai-credits/?utm_source=wpadmin&utm_medium=editor-ai-button&utm_campaign=ai-credits">
                         <span className="btn-text">{ __( 'Buy more AI credits', 'recipe-card-blocks-by-wpzoom' ) }</span>
                     </Button>
                 </div>

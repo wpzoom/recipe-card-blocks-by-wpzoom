@@ -586,7 +586,7 @@ class WPZOOM_Settings {
 					<button type="button" class="wpz-yd-btn is-primary" id="wpz-yamidoo-install" data-nonce="<?php echo esc_attr( wp_create_nonce( 'wpzoom_rcb_install_yamidoo' ) ); ?>">
 						<?php echo esc_html( 'missing' === $state ? __( 'Install & activate', 'recipe-card-blocks-by-wpzoom' ) : __( 'Activate Yamidoo', 'recipe-card-blocks-by-wpzoom' ) ); ?>
 					</button>
-					<a class="wpz-yd-btn" href="https://recipecard.io/ai-cooking-assistant/" target="_blank" rel="noopener"><?php esc_html_e( 'Learn more', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+					<a class="wpz-yd-btn" href="https://recipecard.io/ai-cooking-assistant/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=ai-assistant" target="_blank" rel="noopener"><?php esc_html_e( 'Learn more', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 				<?php elseif ( 'active' === $state ) : ?>
 					<a class="wpz-yd-btn is-primary" href="<?php echo esc_url( $settings_url ); ?>"><?php esc_html_e( 'Connect Yamidoo', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
 				<?php elseif ( 'connected' === $state ) : ?>
@@ -713,7 +713,7 @@ class WPZOOM_Settings {
 			<p class="wpz-aigen__text"><?php esc_html_e( 'Add a Recipe Card block, type a dish or an idea (for example “Spaghetti Carbonara” or “an easy weeknight dessert”), and the generator fills in the ingredients with quantities, step-by-step directions, recipe details and an image. You review and edit everything before publishing.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
 			<p class="wpz-aigen__text"><?php esc_html_e( 'Below you can choose the AI models and adjust the prompts used for the recipe text and the image. Each generation uses AI credits from your license.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
 			<p class="wpz-aigen__links">
-				<a href="https://recipecard.io/wordpress-ai-recipe-generator/" target="_blank" rel="noopener"><?php esc_html_e( 'How the AI Recipe Generator works', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+				<a href="https://recipecard.io/wordpress-ai-recipe-generator/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=ai-generator" target="_blank" rel="noopener"><?php esc_html_e( 'How the AI Recipe Generator works', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=admin-license' ) ); ?>"><?php esc_html_e( 'AI credits', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
 			</p>
 			<p class="wpz-aigen__note">
@@ -822,7 +822,7 @@ class WPZOOM_Settings {
 					<p><?php esc_html_e( 'Readers ask while they cook: what can I swap, how do I halve it, how long per side. Yamidoo answers from the recipe card on that page and from the rest of your blog, in the reader’s language, and hands the conversation to you when they ask for a person. Free plan, no credit card.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
 					<p class="wpz-assistant__links">
 						<a href="https://yamidoo.ai/for/food-blogs/" target="_blank" rel="noopener"><?php esc_html_e( 'How it works for food blogs', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
-						<a href="https://recipecard.io/documentation/ai-cooking-assistant/" target="_blank" rel="noopener"><?php esc_html_e( 'Setup guide', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
+						<a href="https://recipecard.io/documentation/ai-cooking-assistant/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=docs" target="_blank" rel="noopener"><?php esc_html_e( 'Setup guide', 'recipe-card-blocks-by-wpzoom' ); ?> &rarr;</a>
 					</p>
 				</div>
 				<div class="wpz-assistant__chat" aria-hidden="true">
@@ -935,9 +935,9 @@ class WPZOOM_Settings {
 				<h3 class="wpzoom-rcb-welcome-title"><?php _e( 'Thank you for installing Recipe Card Blocks!', 'recipe-card-blocks-by-wpzoom' ); ?></h3>
 				<p class="wpzoom-rcb-welcome-description"><?php _e( 'If you need help getting started with Recipe Card Blocks, please click on the links below.', 'recipe-card-blocks-by-wpzoom' ); ?></p>
 				<div class="wpzoom-rcb-welcome-buttons">
-					<a href="https://recipecard.io/documentation/" target="_blank" class="wpzoom-doc-link"><?php _e( 'Documentation', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+					<a href="https://recipecard.io/documentation/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=docs" target="_blank" class="wpzoom-doc-link"><?php _e( 'Documentation', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 					<a href="https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/" target="_blank" class="wpzoom-support-link"><?php _e( 'Support Forum', 'recipe-card-blocks-by-wpzoom' ); ?></a>
-					<a href="https://recipecard.io/support/tickets/" target="_blank" class="wpzoom-support-link"><strong><?php _e( 'Premium Support', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
+					<a href="https://recipecard.io/support/tickets/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=support" target="_blank" class="wpzoom-support-link"><strong><?php _e( 'Premium Support', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
 					<a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=rcbfree&utm_campaign=btnsettings" target="_blank" class="wpzoom-pro-link" style="color:#FFA921;"><strong><?php _e( 'Get the PRO version &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
 				</div>
 			</div>

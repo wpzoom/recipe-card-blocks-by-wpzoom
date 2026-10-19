@@ -11,9 +11,9 @@
 	<div class="wpzoom-rcb-admin-panel-footer-inner">
 		<img src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/images/logo.svg'; ?>" alt="Recipe Card Blocks PRO" />
 		<ul class="wpzoom-rcb-footer-links">
-			<li><a href="https://recipecard.io/blog" target="_blank"><?php esc_html_e( 'Our Blog', 'recipe-card-blocks-by-wpzoom' ); ?></a></li>
-			<li><a href="https://recipecard.io/support" target="_blank"><?php esc_html_e( 'Support', 'recipe-card-blocks-by-wpzoom' ); ?></a></li>
-			<li><a href="https://recipecard.io/roadmap" target="_blank"><?php esc_html_e( 'Roadmap', 'recipe-card-blocks-by-wpzoom' ); ?></a></li>
+			<li><a href="https://recipecard.io/blog?utm_source=wpadmin&utm_medium=admin-footer&utm_campaign=footer" target="_blank"><?php esc_html_e( 'Our Blog', 'recipe-card-blocks-by-wpzoom' ); ?></a></li>
+			<li><a href="https://recipecard.io/support?utm_source=wpadmin&utm_medium=admin-footer&utm_campaign=footer" target="_blank"><?php esc_html_e( 'Support', 'recipe-card-blocks-by-wpzoom' ); ?></a></li>
+			<li><a href="https://recipecard.io/roadmap?utm_source=wpadmin&utm_medium=admin-footer&utm_campaign=footer" target="_blank"><?php esc_html_e( 'Roadmap', 'recipe-card-blocks-by-wpzoom' ); ?></a></li>
 		</ul>
 	</div>
 </div>
