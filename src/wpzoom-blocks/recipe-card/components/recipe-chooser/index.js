@@ -517,7 +517,7 @@ export default function RecipeChooser( { clientId, attributes, setAttributes, ho
             className="wpzoom-rcb-recipe-chooser"
             icon={ placeholderIcon }
             label={ isCardHost ?
-                __( 'Recipe Card (Schema.org)', 'recipe-card-blocks-by-wpzoom' ) :
+                __( 'Recipe Card', 'recipe-card-blocks-by-wpzoom' ) :
                 __( 'Insert Existing Recipe', 'recipe-card-blocks-by-wpzoom' ) }
             instructions={ 'menu' === mode && isCardHost ? __( 'How do you want to start?', 'recipe-card-blocks-by-wpzoom' ) : '' }
         >
