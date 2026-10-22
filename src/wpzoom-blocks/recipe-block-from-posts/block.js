@@ -10,16 +10,16 @@
  */
 import icon from './icon';
 
+import RecipePicker from './recipe-picker';
+import RecipeChooser, { useMultipleRecipesNotice } from '../recipe-card/components/recipe-chooser';
+
 import { InspectorControls } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import { Disabled, PanelBody, Placeholder } from '@wordpress/components';
-import { withSelect } from '@wordpress/data';
+import { PanelBody } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import { addQueryArgs } from '@wordpress/url';
 import { __ } from '@wordpress/i18n';
 const { serverSideRender: ServerSideRender } = wp;
-
-import ReactSelect from 'react-select';
 
 import './editor.scss';
 import './style.scss';
@@ -38,7 +38,7 @@ function getPostEditURL(postId) {
  */
 registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
     title:       __( 'Insert Existing Recipe', 'recipe-card-blocks-by-wpzoom' ),
-    description: __( 'Select and display one of your existing recipes.', 'recipe-card-blocks-by-wpzoom' ),
+    description: __( 'Show one of your existing recipes, or start a new one from scratch or from a copy.', 'recipe-card-blocks-by-wpzoom' ),
     icon:        {
         // Specifying a background color to appear with the icon e.g.: in the inserter.
         // background: '#FDA921',
@@ -57,50 +57,39 @@ registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
         }
     },
     example:     {},
-    edit: withSelect( ( select ) => {
-        const { getEntityRecords } = select( 'core' );
-        return {
-            posts: getEntityRecords( 'postType', 'wpzoom_rcb', { order: 'desc', orderby: 'date', per_page: -1 } )
-        };
-    } )( ( props ) => {
-        const { attributes, posts, setAttributes } = props;
+    edit: ( props ) => {
+        const { attributes, setAttributes, clientId } = props;
         const { postId } = attributes;
         const _postId = postId && String( postId ).trim() != '' ? String( postId ) : '-1';
-        //const recipePosts = posts && posts.length > 0 ? posts.map( ( x ) => { return { key: String( x.id ), name: x.title.raw } } ) : [];
-        const recipeReactSelectPosts = posts && posts.length > 0 ? posts.map( ( x ) => ( { value:x.id, label: x.title.raw  } ) ) : [];
-        const postReactSelect = (
-            <ReactSelect
-				className="wpzoom-select-cpt-recipe-cards"
-				aria-labelledby="cpt-select"
-				options={ recipeReactSelectPosts }
-				value={_postId}
-				onChange={ ( value ) => setAttributes( { postId: String( value ) } ) }
-				simpleValue
-				clearable={true}
-			/>
-        );
 
-		const getCPTEditURL = getPostEditURL( _postId );
-		const editCPT = <p className="wpzoom-edit-link-description">{ __( 'Edit the recipe post', 'recipe-card-blocks-by-wpzoom' ) } <a href={getCPTEditURL}>{__( 'here', 'recipe-card-blocks-by-wpzoom' ) }</a></p>;
+        useMultipleRecipesNotice();
+
+        const getCPTEditURL = getPostEditURL( _postId );
+        const editCPT = <p className="wpzoom-edit-link-description">{ __( 'Edit the recipe post', 'recipe-card-blocks-by-wpzoom' ) } <a href={getCPTEditURL}>{__( 'here', 'recipe-card-blocks-by-wpzoom' ) }</a></p>;
 
         return (
-            // eslint-disable-next-line react/jsx-no-undef
-            <React.Fragment>
+            <Fragment>
                 <InspectorControls>
                     <PanelBody title={ __( 'Options', 'recipe-card-blocks-by-wpzoom' ) }>
-                        { recipeReactSelectPosts.length > 0 ? postReactSelect : <Disabled>{ postReactSelect }</Disabled> }
-						{ editCPT }
+                        <RecipePicker
+                            value={ _postId }
+                            onChange={ ( value ) => setAttributes( { postId: value } ) }
+                        />
+                        { editCPT }
                     </PanelBody>
                 </InspectorControls>
-                <Fragment>
-                    { '-1' != _postId ?
-                        <ServerSideRender block="wpzoom-recipe-card/recipe-block-from-posts" attributes={ attributes } /> :
-                        <Placeholder icon={ icon } label={ __( 'Insert Existing Recipe', 'recipe-card-blocks-by-wpzoom' ) }>
-                            { recipeReactSelectPosts.length > 0 ? postReactSelect : <Disabled>{ postReactSelect }</Disabled> }
-                        </Placeholder>
-					}
-                </Fragment>
-            </React.Fragment>
+                { '-1' != _postId ?
+                    <ServerSideRender block="wpzoom-recipe-card/recipe-block-from-posts" attributes={ attributes } /> :
+                    // Empty: the same choices as the Recipe Card block (3.7.0, as PRO 7.5.0).
+                    <RecipeChooser
+                        host="existing"
+                        clientId={ clientId }
+                        attributes={ attributes }
+                        setAttributes={ setAttributes }
+                        icon={ icon }
+                    />
+                }
+            </Fragment>
         );
-    } )
+    },
 } );

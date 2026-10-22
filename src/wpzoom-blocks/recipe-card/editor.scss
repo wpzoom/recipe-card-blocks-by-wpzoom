@@ -1152,3 +1152,170 @@ p.ai-p{
         }
     }
 }
+
+// "How do you want to start?" chooser of Recipe Card (PRO) and Insert Existing Recipe (3.7.0).
+.wpzoom-rcb-recipe-chooser {
+	$rcb-accent: #2EA55F;
+	$rcb-accent-tint: #e8f5ed;
+
+	.components-placeholder__fieldset {
+		flex-direction: column;
+		max-width: 600px;
+	}
+
+	.components-placeholder__instructions {
+		margin-bottom: 16px;
+	}
+
+	.wpzoom-rcb-recipe-chooser__options {
+		display: grid;
+		gap: 8px;
+		width: 100%;
+	}
+
+	.components-button.wpzoom-rcb-recipe-chooser__option {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		height: auto;
+		width: 100%;
+		padding: 14px 16px;
+		text-align: left;
+		white-space: normal;
+		// .components-button is 600 in newer WordPress; only the title is bold.
+		font-weight: 400;
+		color: #1e1e1e;
+		background: #fff;
+		border: 1px solid #e0e0e0;
+		border-radius: 8px;
+		box-shadow: none;
+		transition: border-color 0.12s ease, background-color 0.12s ease, box-shadow 0.12s ease;
+
+		&:hover:not(:disabled) {
+			border-color: $rcb-accent;
+			background: #f5fbf7;
+			box-shadow: 0 1px 4px rgba(46, 165, 95, 0.14);
+
+			.wpzoom-rcb-recipe-chooser__option-arrow {
+				color: $rcb-accent;
+				transform: translateX(2px);
+			}
+		}
+
+		&:focus:not(:disabled) {
+			border-color: $rcb-accent;
+			box-shadow: 0 0 0 1px $rcb-accent;
+			outline: 2px solid transparent;
+		}
+
+		&:disabled {
+			opacity: 1;
+			cursor: not-allowed;
+			background: #fafafa;
+
+			.wpzoom-rcb-recipe-chooser__option-icon {
+				color: #a7aaad;
+				background: #f0f0f0;
+			}
+
+			.wpzoom-rcb-recipe-chooser__option-title,
+			.wpzoom-rcb-recipe-chooser__option-description {
+				color: #a7aaad;
+			}
+		}
+	}
+
+	.wpzoom-rcb-recipe-chooser__option-icon {
+		display: flex;
+		flex: 0 0 40px;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		color: $rcb-accent;
+		background: $rcb-accent-tint;
+		border-radius: 8px;
+	}
+
+	.wpzoom-rcb-recipe-chooser__option-text {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 0;
+	}
+
+	.wpzoom-rcb-recipe-chooser__option-title {
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 1.4;
+	}
+
+	.wpzoom-rcb-recipe-chooser__option-description {
+		font-size: 12px;
+		line-height: 1.5;
+		color: #757575;
+	}
+
+	.wpzoom-rcb-recipe-chooser__option-note {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		margin-top: 4px;
+		font-size: 12px;
+		color: #8a6116;
+
+		svg {
+			flex: 0 0 auto;
+			fill: currentColor;
+		}
+	}
+
+	.wpzoom-rcb-recipe-chooser__option-arrow {
+		display: flex;
+		flex: 0 0 auto;
+		color: #949494;
+		transition: color 0.12s ease, transform 0.12s ease;
+
+		svg {
+			fill: currentColor;
+		}
+	}
+
+	.wpzoom-rcb-recipe-chooser__picker {
+		width: 100%;
+
+		.wpzoom-select-cpt-recipe-cards {
+			margin-bottom: 12px;
+		}
+
+		.components-notice {
+			margin: 0 0 12px;
+		}
+	}
+
+	.wpzoom-rcb-recipe-chooser__picker-label {
+		margin: 0 0 8px;
+		font-weight: 600;
+	}
+
+	.wpzoom-rcb-recipe-chooser__divider {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin: 20px 0 12px;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: #757575;
+
+		&::before,
+		&::after {
+			content: "";
+			flex: 1 1 auto;
+			height: 1px;
+			background: #e0e0e0;
+		}
+	}
+}
