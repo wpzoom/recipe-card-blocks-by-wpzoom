@@ -117,6 +117,8 @@ class WPZOOM_Rating_Block {
 			$recipe_ID = isset( $attributes['recipeId'] ) ? $attributes['recipeId'] : null;
 		}
 
+		$recipe_ID = absint( $recipe_ID );
+
 		$parentRecipe_ID = get_post_meta( $recipe_ID, '_wpzoom_rcb_parent_post_id', true );
 		if( !empty( $parentRecipe_ID ) ) {
 			$i = $parentRecipe_ID;

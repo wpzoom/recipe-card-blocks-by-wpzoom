@@ -65,13 +65,13 @@ class WPZOOM_Print {
 			$attributes       = array();
 			$recipe           = get_post( intval( $print_atts['recipe-id'] ) );
 
-			if ( 'publish' !== $recipe->post_status && '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_only_published_posts' ) ) {
-				wp_redirect( home_url() );
+			if ( ! self::can_print_post( $recipe ) ) {
+				wp_safe_redirect( home_url() );
 				exit();
 			}
 
 			if ( ! empty( $block_name ) && ! has_block( $block_name, $recipe ) ) {
-				if ( 0 === intval( $print_atts['reusable-block-id'] ) ) {
+				if ( empty( $print_atts['reusable-block-id'] ) ) {
 					// Try to find the reusable block id from core/block.
 					if ( has_blocks( $recipe->post_content ) ) {
 						$blocks = parse_blocks( $recipe->post_content );
@@ -85,8 +85,15 @@ class WPZOOM_Print {
 			}
 
 			// Get reusable block post.
-			if ( intval( $print_atts['reusable-block-id'] ) > 0 ) {
+			if ( isset( $print_atts['reusable-block-id'] ) && intval( $print_atts['reusable-block-id'] ) > 0 ) {
 				$recipe = get_post( intval( $print_atts['reusable-block-id'] ) );
+
+				// Only synced patterns (core/block refs) may be printed this way, and they
+				// go through the same visibility checks as the requested post.
+				if ( ! $recipe || 'wp_block' !== $recipe->post_type || ! self::can_print_post( $recipe ) ) {
+					wp_safe_redirect( home_url() );
+					exit();
+				}
 			}
 
 			if ( has_blocks( $recipe->post_content ) ) {
@@ -141,6 +148,41 @@ class WPZOOM_Print {
 				exit();
 			}
 		}
+	}
+
+	/**
+	 * Check whether the current visitor may print the given post.
+	 *
+	 * Anonymous visitors only get published, publicly viewable posts that are not
+	 * password protected (or whose password they already entered). Anything else
+	 * requires the read_post capability, e.g. an editor previewing a draft.
+	 *
+	 * @since 3.6.4
+	 * @param WP_Post|null $post The post to print.
+	 * @return bool
+	 */
+	public static function can_print_post( $post ) {
+		if ( ! $post instanceof WP_Post ) {
+			return false;
+		}
+
+		$is_published = 'publish' === $post->post_status;
+
+		if ( ! $is_published && '1' === WPZOOM_Settings::get( 'wpzoom_rcb_settings_print_only_published_posts' ) ) {
+			return false;
+		}
+
+		if ( post_password_required( $post ) ) {
+			return false;
+		}
+
+		// Synced patterns are not a viewable post type, but published ones are rendered
+		// inside public posts anyway.
+		if ( $is_published && ( 'wp_block' === $post->post_type || is_post_publicly_viewable( $post ) ) ) {
+			return true;
+		}
+
+		return current_user_can( 'read_post', $post->ID );
 	}
 }
 
