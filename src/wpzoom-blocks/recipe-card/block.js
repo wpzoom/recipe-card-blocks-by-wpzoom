@@ -18,6 +18,58 @@ import icon from './icon';
 
 /* WordPress dependencies */
 import { registerBlockType } from '@wordpress/blocks';
+import { useEffect } from '@wordpress/element';
+import { select } from '@wordpress/data';
+
+/*
+ * Several Recipe Cards per post (3.7.0), matching Recipe Card Blocks PRO 7.5.0.
+ * A recipe post (wpzoom_rcb) holds exactly one; `typenow` is printed by wp-admin.
+ */
+const IS_RECIPE_POST_EDITOR = typeof window !== 'undefined' && 'wpzoom_rcb' === window.typenow;
+const RECIPE_CARD_BLOCK = 'wpzoom-recipe-card/block-recipe-card';
+const ID_PREFIXES = {
+    ingredients: 'ingredient-item',
+    steps: 'direction-step',
+    details: 'detail-item',
+};
+
+/**
+ * A new key linking a card to the recipe post the saver creates for it.
+ *
+ * @returns {string} Key.
+ */
+function generateRecipeKey() {
+    return `${ Date.now().toString( 36 ) }${ Math.random().toString( 36 ).slice( 2, 10 ) }`;
+}
+
+/**
+ * Whether a card was just inserted and holds nothing yet.
+ *
+ * @param {Object} attributes Attributes at mount.
+ * @returns {boolean} Whether it is new.
+ */
+function isNewRecipeCard( attributes ) {
+    const hasText = ( value ) => ( typeof value === 'string' ? value.replace( /<[^>]*>/g, '' ).trim() !== '' : Array.isArray( value ) && value.length > 0 );
+    const isFilled = ( items, key ) => Array.isArray( items ) && items.some( ( item ) => item && hasText( item[ key ] ) );
+
+    return ! attributes.hasInstance && ! hasText( attributes.recipeTitle ) && ! isFilled( attributes.ingredients, 'name' ) && ! isFilled( attributes.steps, 'text' );
+}
+
+/**
+ * Row lists with a new ID on every row, for a card that duplicates another.
+ *
+ * @param {Object} attributes Card attributes.
+ * @returns {Object} Lists ready for setAttributes.
+ */
+function withFreshItemIds( attributes ) {
+    const lists = {};
+    Object.keys( ID_PREFIXES ).forEach( ( key ) => {
+        if ( Array.isArray( attributes[ key ] ) ) {
+            lists[ key ] = attributes[ key ].map( ( item ) => ( item && 'object' === typeof item ? { ...item, id: generateId( ID_PREFIXES[ key ] ) } : item ) );
+        }
+    } );
+    return lists;
+}
 const { setting_options, pluginURL } = wpzoomRecipeCard;
 
 /**
@@ -46,9 +98,9 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         src: icon,
     },
     category: 'wpzoom-recipe-card', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-    // Allow only one Recipe Card Block per post.
+    // Several per post since 3.7.0; a recipe post holds one.
     supports: {
-        multiple: false,
+        multiple: ! IS_RECIPE_POST_EDITOR,
     },
     keywords: [
         __( 'Recipe Card', 'recipe-card-blocks-by-wpzoom' ),
@@ -95,7 +147,29 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes, setAttributes, className } ) => {
+    edit: ( { attributes, setAttributes, className, clientId } ) => {
+        // recipeKey links the card to its recipe post. New cards get one; a card
+        // whose key an earlier card already has (Duplicate, paste) gets a new
+        // key and new row IDs. The closure holds the attributes at mount.
+        useEffect( () => {
+            if ( ! attributes.recipeKey ) {
+                if ( isNewRecipeCard( attributes ) ) {
+                    setAttributes( { recipeKey: generateRecipeKey() } );
+                }
+                return;
+            }
+
+            const { getClientIdsWithDescendants, getBlockName, getBlockAttributes } = select( 'core/block-editor' );
+            const clientIds = getClientIdsWithDescendants();
+
+            for ( let i = 0; i < clientIds.length && clientIds[ i ] !== clientId; i++ ) {
+                if ( RECIPE_CARD_BLOCK === getBlockName( clientIds[ i ] ) && getBlockAttributes( clientIds[ i ] ).recipeKey === attributes.recipeKey ) {
+                    setAttributes( { ...withFreshItemIds( attributes ), recipeKey: generateRecipeKey() } );
+                    break;
+                }
+            }
+        }, [] );
+
         const style = getBlockStyle( className );
         const { settings, hasInstance, initDetails, details } = attributes;
 

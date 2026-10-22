@@ -315,6 +315,165 @@ class WPZOOM_Helpers {
 
 		return $encoded_attributes;
 	}
+
+	/**
+	 * Parent post of a recipe post.
+	 *
+	 * The _wpzoom_rcb_parent_post_id meta links a wpzoom_rcb post to the post
+	 * whose recipe card it was created from. Importers and post-duplication
+	 * plugins copy that meta onto regular posts as well, where it points at an
+	 * unrelated recipe; reading it there sends the card's title, ratings, print
+	 * and edit links to that recipe. Only a recipe post can have a parent.
+	 *
+	 * @since 3.7.0
+	 * @param int $post_id Post ID.
+	 * @return int Parent post ID, or 0 when the post is not a recipe post, has no parent or is its own parent.
+	 */
+	public static function get_recipe_parent_id( $post_id ) {
+
+		$post_id = (int) $post_id;
+
+		if ( ! $post_id || 'wpzoom_rcb' !== get_post_type( $post_id ) ) {
+			return 0;
+		}
+
+		$parent_id = (int) get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
+
+		if ( ! $parent_id || $parent_id === $post_id ) {
+			return 0;
+		}
+
+		return $parent_id;
+
+	}
+
+	/**
+	 * Meta key on a recipe post holding the key of the Recipe Card it mirrors.
+	 *
+	 * @since 3.7.0
+	 */
+	const CARD_KEY_META = '_wpzoom_rcb_card_key';
+
+	/**
+	 * Request cache for get_recipe_twins().
+	 *
+	 * @var array<int, int[]>
+	 */
+	private static $twins_cache = array();
+
+	/**
+	 * Recipe posts created from the Recipe Card blocks of a post.
+	 *
+	 * Order, which also decides the post's primary recipe (the first one, which
+	 * its ratings and the "Edit Recipe" link belong to):
+	 * 1. Recipe posts without a card key, newest first. Before 7.5.0 the
+	 *    newest was the one kept in sync and opened by "Edit Recipe", and
+	 *    many sites have older duplicates from repeated imports.
+	 * 2. Recipe posts with a card key (7.5.0+), oldest first, so adding or
+	 *    reordering cards never changes the primary one.
+	 *
+	 * @since 3.7.0
+	 * @param int  $parent_id Post holding the Recipe Card blocks.
+	 * @param bool $fresh     Skip the request cache (after creating a recipe post).
+	 * @return int[] Recipe post IDs.
+	 */
+	public static function get_recipe_twins( $parent_id, $fresh = false ) {
+
+		$parent_id = (int) $parent_id;
+
+		if ( ! $parent_id ) {
+			return array();
+		}
+
+		if ( ! $fresh && isset( self::$twins_cache[ $parent_id ] ) ) {
+			return self::$twins_cache[ $parent_id ];
+		}
+
+		$ids = get_posts(
+			array(
+				'post_type'    => 'wpzoom_rcb',
+				'post_status'  => 'any',
+				'numberposts'  => -1,
+				'fields'       => 'ids',
+				'orderby'      => array(
+					'date' => 'DESC',
+					'ID'   => 'DESC',
+				),
+				'post__not_in' => array( $parent_id ),
+				'meta_key'     => '_wpzoom_rcb_parent_post_id',
+				'meta_value'   => $parent_id,
+			)
+		);
+
+		$keyless = array();
+		$keyed   = array();
+
+		foreach ( array_unique( array_map( 'intval', $ids ) ) as $id ) {
+			if ( '' === (string) get_post_meta( $id, self::CARD_KEY_META, true ) ) {
+				$keyless[] = $id;
+			} else {
+				$keyed[] = $id;
+			}
+		}
+
+		sort( $keyed );
+
+		self::$twins_cache[ $parent_id ] = array_merge( $keyless, $keyed );
+
+		return self::$twins_cache[ $parent_id ];
+
+	}
+
+	/**
+	 * Forget cached twins of a post.
+	 *
+	 * @since 3.7.0
+	 * @param int $parent_id Post ID; 0 forgets all.
+	 */
+	public static function flush_recipe_twins_cache( $parent_id = 0 ) {
+
+		if ( $parent_id ) {
+			unset( self::$twins_cache[ (int) $parent_id ] );
+		} else {
+			self::$twins_cache = array();
+		}
+
+	}
+
+	/**
+	 * Recipe post mirroring a Recipe Card of a post.
+	 *
+	 * With a card key: the recipe post created for that card. Without one: the
+	 * post's primary recipe post (see get_recipe_twins()), which is what
+	 * single-card posts and every post saved before 7.5.0 have.
+	 *
+	 * @since 3.7.0
+	 * @param int    $parent_id Post holding the Recipe Card.
+	 * @param string $card_key  The card's `recipeKey` attribute, if any.
+	 * @return int Recipe post ID, or 0 when there is none.
+	 */
+	public static function get_recipe_twin_id( $parent_id, $card_key = '' ) {
+
+		$twins = self::get_recipe_twins( $parent_id );
+
+		if ( empty( $twins ) ) {
+			return 0;
+		}
+
+		if ( '' === (string) $card_key ) {
+			return $twins[0];
+		}
+
+		foreach ( $twins as $twin_id ) {
+			if ( (string) get_post_meta( $twin_id, self::CARD_KEY_META, true ) === (string) $card_key ) {
+				return $twin_id;
+			}
+		}
+
+		return 0;
+
+	}
+
 }
 
 

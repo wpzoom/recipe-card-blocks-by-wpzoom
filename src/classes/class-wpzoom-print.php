@@ -14,6 +14,47 @@ class WPZOOM_Print {
 		add_action( 'init', array( __CLASS__, 'print_page' ) );
 	}
 
+	/**
+	 * The block a Print button belongs to. Recipe Cards are matched by the
+	 * element ID they render with, so each card of a post with several prints
+	 * itself (3.7.0, as PRO 7.5.0); other blocks by their `id` attribute.
+	 * Nested blocks are searched at any depth; the first match wins.
+	 *
+	 * @since 3.7.0
+	 * @param array[] $blocks       Parsed blocks.
+	 * @param string  $block_name   Block to print.
+	 * @param string  $requested_id Element ID the Print button sent.
+	 * @param int     $host_id      Post the blocks belong to.
+	 * @return array|null The block's attributes, or null.
+	 */
+	private static function find_print_block( $blocks, $block_name, $requested_id, $host_id ) {
+
+		foreach ( $blocks as $block ) {
+			if ( $block['blockName'] === $block_name ) {
+				$attrs = is_array( $block['attrs'] ) ? $block['attrs'] : array();
+
+				if ( 'wpzoom-recipe-card/block-recipe-card' === $block_name ) {
+					$element_id = WPZOOM_Recipe_Card_Block::get_card_dom_id( $host_id, $attrs );
+				} else {
+					$element_id = isset( $attrs['id'] ) ? $attrs['id'] : 'wpzoom-recipe-card';
+				}
+
+				if ( $element_id === $requested_id ) {
+					return $attrs;
+				}
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$found = self::find_print_block( $block['innerBlocks'], $block_name, $requested_id, $host_id );
+				if ( null !== $found ) {
+					return $found;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	public static function print_page() {
 		preg_match( '/[\/\?]wpzoom_rcb_print[\/=](\d+)([\/\?\&].*)?$/', $_SERVER['REQUEST_URI'], $print_url );
 		$print_atts = array(
@@ -89,48 +130,11 @@ class WPZOOM_Print {
 				$recipe = get_post( intval( $print_atts['reusable-block-id'] ) );
 			}
 
-			if ( has_blocks( $recipe->post_content ) ) {
-				
-				$blocks = parse_blocks( $recipe->post_content );
-				foreach ( $blocks as $key => $block ) {
-
-					if( isset( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) && !empty( $block['innerBlocks'] ) ) {
-						foreach( $block['innerBlocks'] as $innerBlock ) {
-							if( isset( $innerBlock['innerBlocks'] ) && is_array( $innerBlock['innerBlocks'] ) && !empty( $innerBlock['innerBlocks'] ) ) {
-								foreach( $innerBlock['innerBlocks'] as $innBlock ) {
-
-									$needle_block_id = isset( $innBlock['attrs']['id'] ) ? $innBlock['attrs']['id'] : 'wpzoom-recipe-card';
-									$needle_block    = ! empty( $block_name ) && $innBlock['blockName'] === $block_name;
-									$block_needed    = $print_atts['block-id'] === $needle_block_id && $needle_block;
-
-									if ( $block_needed ) {
-										$has_WPZOOM_block = true;
-										$attributes       = $innBlock['attrs'];
-									}
-
-								}
-							}
-							$needle_block_id = isset( $innerBlock['attrs']['id'] ) ? $innerBlock['attrs']['id'] : 'wpzoom-recipe-card';
-							$needle_block    = ! empty( $block_name ) && $innerBlock['blockName'] === $block_name;
-							$block_needed    = $print_atts['block-id'] === $needle_block_id && $needle_block;
-
-							if ( $block_needed ) {
-								$has_WPZOOM_block = true;
-								$attributes       = $innerBlock['attrs'];
-							}
-						}
-					}
-					else {
-						$needle_block_id = isset( $block['attrs']['id'] ) ? $block['attrs']['id'] : 'wpzoom-recipe-card';
-						$needle_block    = ! empty( $block_name ) && $block['blockName'] === $block_name;
-						$block_needed    = $print_atts['block-id'] === $needle_block_id && $needle_block;
-
-					}
-
-					if ( $block_needed ) {
-						$has_WPZOOM_block = true;
-						$attributes       = $block['attrs'];
-					}
+			if ( has_blocks( $recipe->post_content ) && ! empty( $block_name ) ) {
+				$found = self::find_print_block( parse_blocks( $recipe->post_content ), $block_name, (string) $print_atts['block-id'], $recipe->ID );
+				if ( null !== $found ) {
+					$has_WPZOOM_block = true;
+					$attributes       = $found;
 				}
 			}
 

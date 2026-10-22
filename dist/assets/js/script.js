@@ -231,23 +231,28 @@
 		wpzoom_set_correct_ids_to_recipe_shortcode();
 
 		// Cook Mode - keep the screen awake while cooking (NoSleep.js).
+		// Cook Mode keeps the whole page awake, so every card's toggle (3.7.0: a
+		// page can show several) switches it, and all toggles show its state.
 		if (typeof NoSleep === "function") {
 			var noSleep = new NoSleep();
-			var $toggleEl = $("#toggle_button");
+			var toggleSelector = ".wpzoom-rcb-cook-mode-toggle, #toggle_button";
 			var wakeLockEnabled = false;
 
-			$toggleEl.on("click", function () {
-				if (!wakeLockEnabled && $toggleEl.is(":checked")) {
-					noSleep.enable();
-					wakeLockEnabled = true;
-				} else {
+			$(document).on("click", toggleSelector, function () {
+				if ($(this).is(":checked")) {
+					if (!wakeLockEnabled) {
+						noSleep.enable();
+						wakeLockEnabled = true;
+					}
+				} else if (wakeLockEnabled) {
 					noSleep.disable();
 					wakeLockEnabled = false;
 				}
+				$(toggleSelector).not(this).prop("checked", wakeLockEnabled);
 			});
 
 			if ("1" == wpzoomRecipeCard.defaultCookMode) {
-				$toggleEl.trigger("click");
+				$(toggleSelector).first().trigger("click");
 			}
 		}
 

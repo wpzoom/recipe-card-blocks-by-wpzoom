@@ -99,9 +99,12 @@ class WPZOOM_Recipe_Block_From_Posts {
 
 		$recipe_output = '';
 
+		// The card rates under the recipe this block shows (3.7.0, as PRO 7.5.0).
+		WPZOOM_Recipe_Card_Block::push_render_context( WPZOOM_Recipe_Card_Block::resolve_rating_parent( intval( $post_id ) ) );
 		foreach( $blocks as $block ) {
 			$recipe_output .= render_block( $block );
 		}
+		WPZOOM_Recipe_Card_Block::pop_render_context();
 
 		return sprintf( 
 			'<div class="wpzoom-custom-recipe-card-post" data-parent-id="%3$d" data-recipe-post="%2$d">%1$s</div>',

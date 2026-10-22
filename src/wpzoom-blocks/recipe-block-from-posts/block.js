@@ -48,7 +48,8 @@ registerBlockType( 'wpzoom-recipe-card/recipe-block-from-posts', {
         src: icon,
     },
     category:    'wpzoom-recipe-card',
-    supports:    { align: false, html: false, multiple: false },
+    // Several per post since 3.7.0 (as PRO 7.5.0).
+    supports:    { align: false, html: false },
     attributes:  {
         postId: {
             type:    'string',

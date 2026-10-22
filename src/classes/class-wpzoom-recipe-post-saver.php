@@ -141,10 +141,171 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 		}
 
 		/**
-		 * Duplicate Recipe Block to the Recipe Custom Post.
+		 * Recipe Card blocks in a content string, in order of appearance,
+		 * nested blocks included.
 		 *
-		 * @since    1.0.0
-		 * @param    array $post_id post ID with recipe card block in content.
+		 * Recipe Card blocks are dynamic, so each one is a self-closing comment
+		 * delimiter; its attribute JSON escapes "--", "<" and ">", so the lazy
+		 * match cannot stop inside it.
+		 *
+		 * @since 3.7.0
+		 * @param string $content Post content.
+		 * @return array[] Each card: `delimiter` (the block's comment), `offset`
+		 *                 (byte offset in $content), `attrs`, `key` (recipeKey).
+		 */
+		public static function get_recipe_cards( $content ) {
+
+			$cards = array();
+
+			if ( empty( $content ) || false === strpos( $content, 'wp:wpzoom-recipe-card/block-recipe-card' ) ) {
+				return $cards;
+			}
+
+			$pattern = '/<!--\s+wp:wpzoom\-recipe\-card\/block\-recipe\-card(\s+(\{.*?\}))?\s+(\/)?-->/';
+
+			if ( ! preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE ) ) {
+				return $cards;
+			}
+
+			foreach ( $matches as $match ) {
+				$attrs = array();
+
+				if ( isset( $match[2] ) && is_array( $match[2] ) && '' !== $match[2][0] ) {
+					$decoded = json_decode( $match[2][0], true );
+					if ( is_array( $decoded ) ) {
+						$attrs = $decoded;
+					}
+				}
+
+				$cards[] = array(
+					'delimiter' => $match[0][0],
+					'offset'    => (int) $match[0][1],
+					'attrs'     => $attrs,
+					'key'       => isset( $attrs['recipeKey'] ) && is_scalar( $attrs['recipeKey'] ) ? (string) $attrs['recipeKey'] : '',
+				);
+			}
+
+			return $cards;
+		}
+
+		/**
+		 * Recipe post of each Recipe Card in a post.
+		 *
+		 * 1. A card with a key gets the recipe post created for that key.
+		 * 2. A card without a key (saved before 7.5.0, or by a tool that does
+		 *    not set one) gets the next remaining recipe post: the primary one
+		 *    when it is the post's only keyless card, which keeps the recipe
+		 *    post existing sites sync to; in creation order when there are
+		 *    several, so each keeps the recipe post created for it.
+		 * 3. In a post with a single card, a card with a key and no recipe post
+		 *    of its own takes over a remaining recipe post that has no key, so a
+		 *    card that gains a key never ends up with a duplicate recipe post.
+		 *    Never with several cards: a new card must not take over an old
+		 *    duplicate that other pages may still embed.
+		 *
+		 * Both sync directions use this, so a recipe post always writes back
+		 * to the card it was filled from.
+		 *
+		 * @since 3.7.0
+		 * @param int     $parent_id Post holding the cards.
+		 * @param array[] $cards     Result of get_recipe_cards().
+		 * @param bool    $fresh     Read recipe posts from the database, not the
+		 *                           request cache (the saver always does).
+		 * @return int[] Recipe post ID per card index, 0 for cards without one.
+		 */
+		public static function match_cards_to_twins( $parent_id, $cards, $fresh = true ) {
+
+			$result = array_fill( 0, count( $cards ), 0 );
+			$twins  = WPZOOM_Helpers::get_recipe_twins( $parent_id, $fresh );
+
+			if ( empty( $twins ) ) {
+				return $result;
+			}
+
+			$twin_keys = array();
+			foreach ( $twins as $twin_id ) {
+				$twin_keys[ $twin_id ] = (string) get_post_meta( $twin_id, WPZOOM_Helpers::CARD_KEY_META, true );
+			}
+
+			$used = array();
+
+			$keyless_cards = 0;
+			foreach ( $cards as $card ) {
+				if ( '' === $card['key'] ) {
+					$keyless_cards++;
+				}
+			}
+
+			// Creation order: keyless recipe posts oldest first, then keyed ones.
+			$keyless_twins = array();
+			$keyed_twins   = array();
+			foreach ( $twins as $twin_id ) {
+				if ( '' === $twin_keys[ $twin_id ] ) {
+					$keyless_twins[] = $twin_id;
+				} else {
+					$keyed_twins[] = $twin_id;
+				}
+			}
+			sort( $keyless_twins );
+			$creation_order = array_merge( $keyless_twins, $keyed_twins );
+
+			$next_twin = function( $keyless_only, $order ) use ( $twin_keys, &$used ) {
+				foreach ( $order as $twin_id ) {
+					if ( empty( $used[ $twin_id ] ) && ( ! $keyless_only || '' === $twin_keys[ $twin_id ] ) ) {
+						return $twin_id;
+					}
+				}
+				return 0;
+			};
+
+			foreach ( $cards as $i => $card ) {
+				if ( '' === $card['key'] ) {
+					continue;
+				}
+				foreach ( $twins as $twin_id ) {
+					if ( empty( $used[ $twin_id ] ) && $twin_keys[ $twin_id ] === $card['key'] ) {
+						$result[ $i ]      = $twin_id;
+						$used[ $twin_id ] = true;
+						break;
+					}
+				}
+			}
+
+			foreach ( $cards as $i => $card ) {
+				if ( '' !== $card['key'] || $result[ $i ] ) {
+					continue;
+				}
+				$twin_id = $next_twin( false, $keyless_cards > 1 ? $creation_order : $twins );
+				if ( $twin_id ) {
+					$result[ $i ]      = $twin_id;
+					$used[ $twin_id ] = true;
+				}
+			}
+
+			foreach ( $cards as $i => $card ) {
+				if ( 1 !== count( $cards ) || '' === $card['key'] || $result[ $i ] ) {
+					continue;
+				}
+				$twin_id = $next_twin( true, $twins );
+				if ( $twin_id ) {
+					$result[ $i ]      = $twin_id;
+					$used[ $twin_id ] = true;
+				}
+			}
+
+			return $result;
+		}
+
+		/**
+		 * Copy each Recipe Card of a post to its recipe post (wpzoom_rcb),
+		 * creating recipe posts for cards that have none.
+		 *
+		 * @since 1.0.0
+		 * @since 3.7.0 Every card is synced to its own recipe post, matching
+		 *              Recipe Card Blocks PRO 7.5.0, which allows several cards
+		 *              per post. Before, only one card was synced.
+		 * @param int     $post_id Post ID.
+		 * @param WP_Post $post    Post object.
 		 */
 		public static function duplicate_recipe_to_custom_post( $post_id, $post ) {
 
@@ -171,61 +332,54 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			if ( ! current_user_can('edit_post', $post_id) ) 
 			return;
 
-			//Don't do anything if there is no recipe card
-			if( ! has_block( 'wpzoom-recipe-card/block-recipe-card', $post ) ) {
+			$cards = self::get_recipe_cards( $post->post_content );
+
+			if ( empty( $cards ) ) {
 				return;
 			}
 
-			$recipes = array();
+			$twins = self::match_cards_to_twins( $post->ID, $cards );
 
-			$gutenberg_matches = array();
-			$gutenberg_patern = '/<!--\s+wp:(wpzoom\-recipe\-card\/block\-recipe\-card)(\s+(\{.*?\}))?\s+(\/)?-->/';
-			preg_match_all( $gutenberg_patern, $post->post_content, $matches );
+			// unhook this function so it doesn't loop infinitely
+			remove_action( 'save_post', array( __CLASS__, 'duplicate_recipe_to_custom_post' ), 10 );
 
-			if( isset( $matches[0] ) ) {
-				$block = $matches[0];
-			}
-			if ( isset( $matches[3] ) ) {
-				foreach ( $matches[3] as $block_attributes_json ) {
-					if ( ! empty( $block_attributes_json ) ) {
-						$attributes = json_decode( $block_attributes_json, true );
+			foreach ( $cards as $i => $card ) {
+				$name = ! empty( $card['attrs']['recipeTitle'] ) && is_string( $card['attrs']['recipeTitle'] ) ? $card['attrs']['recipeTitle'] : esc_html__( 'Unknown', 'recipe-card-blocks-by-wpzoom' );
+
+				$recipe = array(
+					'name'     => $name,
+					'recipe'   => $card['delimiter'],
+					'url'      => get_edit_post_link( $post->ID ),
+					'parentId' => $post->ID,
+					'cardKey'  => $card['key'],
+				);
+
+				if ( $twins[ $i ] ) {
+					// A card that gained a key took over a recipe post without one.
+					if ( '' !== $card['key'] && '' === (string) get_post_meta( $twins[ $i ], WPZOOM_Helpers::CARD_KEY_META, true ) ) {
+						update_post_meta( $twins[ $i ], WPZOOM_Helpers::CARD_KEY_META, $card['key'] );
 					}
+					self::update_recipe_post( $recipe, $twins[ $i ] );
+				} else {
+					self::create_recipe_post( $recipe );
 				}
 			}
-				
-			$name = isset( $attributes['recipeTitle'] ) && $attributes['recipeTitle'] ? $attributes['recipeTitle'] : esc_html__( 'Unknown', 'recipe-card-blocks-by-wpzoom' );  
-			$recipes[] = array(
-				'name'     => $name,
-				'recipe'   => $block[0],
-				'url'      => get_edit_post_link( $post->ID ),
-				'parentId' => $post->ID
-			);
-			
-			//check if the recipe post already exists
-			if( !empty( $recipes ) ) {
-				foreach( $recipes as $recipe ) {
-					// unhook this function so it doesn't loop infinitely
-					remove_action( 'save_post', array( __CLASS__, 'duplicate_recipe_to_custom_post' ), 10 );
-					if( self::recipe_post_exists( $post->ID ) ) {
-						self::update_recipe_post( $recipe );
-					}
-					else {
-						self::create_recipe_post( $recipe );
-					}
-					add_action( 'save_post', array( __CLASS__, 'duplicate_recipe_to_custom_post' ), 10, 2 );
-				}
-			}
-			else {
-				return;
-			}
+
+			add_action( 'save_post', array( __CLASS__, 'duplicate_recipe_to_custom_post' ), 10, 2 );
+
+			WPZOOM_Helpers::flush_recipe_twins_cache( $post->ID );
 		}
 
-	
 		/**
-		 * Sincronyze the content of the parent and CPT recipe card.
+		 * Copy a saved recipe post (wpzoom_rcb) back to the Recipe Card it was
+		 * created from, in its parent post.
 		 *
-		 * @since    1.0.0
-		 * @param    array $post_id post ID with recipe card block in content.
+		 * @since 1.0.0
+		 * @since 3.7.0 Only the matching card is replaced, and nothing is saved
+		 *              when it already holds the same content. Before, every
+		 *              card in the parent was overwritten.
+		 * @param int     $post_id Post ID.
+		 * @param WP_Post $post    Post object.
 		 */
 		public static function update_parent_recipe_card( $post_id, $post ) {
 
@@ -256,42 +410,45 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			if ( ! current_user_can('edit_post', $post_id) ) 
 			return;
 
-			//Don't do anything if there is no recipe card
-			if( ! has_block( 'wpzoom-recipe-card/block-recipe-card', $post ) ) {
+			$recipe_cards = self::get_recipe_cards( $post->post_content );
+			if ( empty( $recipe_cards ) ) {
 				return;
 			}
 
 			//Check if there is any parent post/page
-			$parent_id = get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
-			if( empty( $parent_id ) || $parent_id === $post_id ) {
+			$parent_id = WPZOOM_Helpers::get_recipe_parent_id( $post->ID );
+			if ( ! $parent_id ) {
 				return;
 			}
 
-			//Get parent content
 			$parent_post = get_post( $parent_id );
-			$parent_content = $parent_post->post_content;
-			
-			//print_r( $parent_content );
+			if ( ! $parent_post ) {
+				return;
+			}
 
-			$gutenberg_matches = array();
-			$recipe_patern = '/<!--\s+wp:(wpzoom\-recipe\-card\/block\-recipe\-card)(\s+(\{.*?\}))?\s+(\/)?-->/';
-			preg_match_all( $recipe_patern, $post->post_content, $matches );
-			preg_match_all( $recipe_patern, $parent_content, $parent_matches );
+			$parent_content = (string) $parent_post->post_content;
+			$parent_cards   = self::get_recipe_cards( $parent_content );
+			if ( empty( $parent_cards ) ) {
+				return;
+			}
 
-			$recipeBlock = isset( $matches[0] ) ? $matches[0] : '';
-			//$parentRecipeBlock = isset( $parent_matches[0] ) ? $parent_matches[0] : '';
+			$index = array_search( (int) $post->ID, self::match_cards_to_twins( $parent_id, $parent_cards ), true );
+			if ( false === $index ) {
+				return;
+			}
 
-			// Callback, not a replacement string: "$5" or "\\" inside the block JSON
-			// would otherwise be read as back-references.
-			$recipe_block          = $recipeBlock[0];
-			$update_parent_content = preg_replace_callback( $recipe_patern, function() use ( $recipe_block ) {
-				return $recipe_block;
-			}, $parent_content );
+			$target   = $parent_cards[ $index ];
+			$new_card = $recipe_cards[0]['delimiter'];
+			if ( $target['delimiter'] === $new_card ) {
+				return;
+			}
 
-			// wp_update_post() unslashes its input: without wp_slash() the \u0026-style
-			// escapes in block attributes would be saved as "u0026".
+			$update_parent_content = substr_replace( $parent_content, $new_card, $target['offset'], strlen( $target['delimiter'] ) );
+
+			// wp_update_post() unslashes its input: without wp_slash() the escapes
+			// in block attributes would lose their backslash.
 			$updated_parent_args = array(
-				'ID' => $parent_id,
+				'ID'           => $parent_id,
 				'post_content' => wp_slash( $update_parent_content ),
 			);
 
@@ -332,6 +489,11 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			$recipe_id = wp_insert_post( $post );
 			update_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', $recipe['parentId'] );
 			update_post_meta( $recipe_id, '_wpzoom_rcb_has_parent', true );
+			if ( ! empty( $recipe['cardKey'] ) ) {
+				update_post_meta( $recipe_id, WPZOOM_Helpers::CARD_KEY_META, $recipe['cardKey'] );
+			}
+
+			WPZOOM_Helpers::flush_recipe_twins_cache( $recipe['parentId'] );
 
 			return $recipe_id;
 
@@ -341,9 +503,12 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 		 * Update the custom post recipe.
 		 *
 		 * @since    1.0.0
-		 * @param		 array $recipe Recipe fields to save.
+		 * @since    3.7.0 Takes the recipe post ID.
+		 * @param array $recipe    Recipe fields to save.
+		 * @param int   $recipe_id Recipe post to update; when omitted, the
+		 *                         parent's primary recipe post.
 		 */
-		public static function update_recipe_post( $recipe ) {
+		public static function update_recipe_post( $recipe, $recipe_id = 0 ) {
 
 			// Don't update recipe post if option is off
 			if ( '1' !== WPZOOM_Settings::get('wpzoom_rcb_settings_update_recipe_post') ) {
@@ -354,61 +519,42 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 				return null;
 			}
 
-			$args = array(
-				'meta_query' => array(
-					array(
-						'key' => '_wpzoom_rcb_parent_post_id',
-						'value' => $recipe['parentId']
-					)
-				),
-				'post_type' => 'wpzoom_rcb',
-				'posts_per_page' => 1
-			);
-			
-			$posts = get_posts( $args );
+			if ( ! $recipe_id ) {
+				$recipe_id = WPZOOM_Helpers::get_recipe_twin_id( $recipe['parentId'] );
+			}
 
-			// check results ##
-			if ( ! $posts || is_wp_error( $posts ) ) return false;
+			if ( ! $recipe_id ) {
+				return false;
+			}
 
 			$recipe_post = array(
-				'ID' => $posts[0]->ID,
+				'ID'           => $recipe_id,
 				'post_name'    => WPZOOM_Helpers::deserialize_block_attributes( $recipe['name'] ),
 				'post_content' => wp_slash( $recipe['recipe'] ),
 			);
 			
 			$recipe_id = wp_update_post( $recipe_post );
 			update_post_meta( $recipe_id, '_wpzoom_rcb_has_parent', true );
-			//update_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', $recipe['parentId'] );
 
 			return $recipe_id;
 
 		}
 
+		/**
+		 * Whether a post has a recipe post created from its Recipe Card.
+		 *
+		 * @since 1.0.0
+		 * @since 3.7.0 A meta query instead of loading every recipe post.
+		 * @param int $post_id Post ID.
+		 * @return bool
+		 */
 		public static function recipe_post_exists( $post_id ) {
 
 			if( empty( $post_id ) ) {
 				return false;
 			}
 
-			$recipes_ids = array();
-			$existing_recipes = get_posts(
-				array(  
-					'post_type'   => 'wpzoom_rcb',
-					'numberposts' => -1
-				)
-			);
-
-			if( empty( $existing_recipes ) ) {
-				return false;
-			}
-
-			foreach( $existing_recipes as $key => $recipe ) {
-				$parent_id = get_post_meta( $recipe->ID, '_wpzoom_rcb_parent_post_id', true );
-				$recipes_ids[] = $parent_id;
-			}
-			if( in_array( $post_id, $recipes_ids ) ) {
-				return true;
-			}
+			return (bool) WPZOOM_Helpers::get_recipe_twin_id( $post_id );
 
 		}
 	}
