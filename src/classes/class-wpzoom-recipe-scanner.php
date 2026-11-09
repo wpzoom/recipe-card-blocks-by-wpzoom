@@ -156,7 +156,9 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 								'name'     => $name,
 								'recipe'   => serialize_blocks( array( $block ) ),
 								'url'      => get_edit_post_link( $post->ID ),
-								'parentId' => $post->ID
+								'parentId' => $post->ID,
+								// 3.7.0: link the recipe post to its card.
+								'cardKey'  => isset( $block['attrs']['recipeKey'] ) && is_scalar( $block['attrs']['recipeKey'] ) ? (string) $block['attrs']['recipeKey'] : '',
 							);
 						
 						}

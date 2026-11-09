@@ -355,22 +355,26 @@ class WPZOOM_Helpers {
 	const CARD_KEY_META = '_wpzoom_rcb_card_key';
 
 	/**
-	 * Request cache for get_recipe_twins().
+	 * Request caches, keyed by parent post ID (placement: by recipe post ID).
 	 *
-	 * @var array<int, int[]>
+	 * @var array
 	 */
-	private static $twins_cache = array();
+	private static $twins_cache     = array();
+	private static $cards_cache     = array();
+	private static $map_cache       = array();
+	private static $primary_cache   = array();
+	private static $placement_cache = array();
 
 	/**
 	 * Recipe posts created from the Recipe Card blocks of a post.
 	 *
-	 * Order, which also decides the post's primary recipe (the first one, which
-	 * its ratings and the "Edit Recipe" link belong to):
-	 * 1. Recipe posts without a card key, newest first. Before 7.5.0 the
-	 *    newest was the one kept in sync and opened by "Edit Recipe", and
-	 *    many sites have older duplicates from repeated imports.
-	 * 2. Recipe posts with a card key (7.5.0+), oldest first, so adding or
-	 *    reordering cards never changes the primary one.
+	 * Order (matching and the choice of the post's primary recipe follow it):
+	 * 1. Recipe posts without a card key, newest first. Before 7.5.0 the newest
+	 *    was the one kept in sync and opened by "Edit Recipe", and many sites
+	 *    have older duplicates from repeated imports.
+	 * 2. Recipe posts with a card key (3.7.0+), oldest first.
+	 * Within each group published recipe posts come before drafts, pending and
+	 * private ones, as before 3.7.0 (PRO 7.5.0) only published ones were used.
 	 *
 	 * @since 3.7.0
 	 * @param int  $parent_id Post holding the Recipe Card blocks.
@@ -405,27 +409,44 @@ class WPZOOM_Helpers {
 			)
 		);
 
-		$keyless = array();
-		$keyed   = array();
-
-		foreach ( array_unique( array_map( 'intval', $ids ) ) as $id ) {
-			if ( '' === (string) get_post_meta( $id, self::CARD_KEY_META, true ) ) {
-				$keyless[] = $id;
-			} else {
-				$keyed[] = $id;
-			}
-		}
-
-		sort( $keyed );
-
-		self::$twins_cache[ $parent_id ] = array_merge( $keyless, $keyed );
+		self::$twins_cache[ $parent_id ] = self::order_recipe_twins( $ids );
 
 		return self::$twins_cache[ $parent_id ];
 
 	}
 
 	/**
-	 * Forget cached twins of a post.
+	 * Order recipe posts as get_recipe_twins() describes.
+	 *
+	 * @param int[] $ids Recipe post IDs, newest first.
+	 * @return int[]
+	 */
+	private static function order_recipe_twins( $ids ) {
+
+		$groups = array(
+			'keyless_publish' => array(),
+			'keyless_other'   => array(),
+			'keyed_publish'   => array(),
+			'keyed_other'     => array(),
+		);
+
+		foreach ( array_unique( array_map( 'intval', $ids ) ) as $id ) {
+			$group  = '' === (string) get_post_meta( $id, self::CARD_KEY_META, true ) ? 'keyless' : 'keyed';
+			$group .= 'publish' === get_post_status( $id ) ? '_publish' : '_other';
+
+			$groups[ $group ][] = $id;
+		}
+
+		sort( $groups['keyed_publish'] );
+		sort( $groups['keyed_other'] );
+
+		return array_merge( $groups['keyless_publish'], $groups['keyless_other'], $groups['keyed_publish'], $groups['keyed_other'] );
+
+	}
+
+	/**
+	 * Forget cached recipe-post data of a post (after it or its recipe posts
+	 * were saved).
 	 *
 	 * @since 3.7.0
 	 * @param int $parent_id Post ID; 0 forgets all.
@@ -433,10 +454,217 @@ class WPZOOM_Helpers {
 	public static function flush_recipe_twins_cache( $parent_id = 0 ) {
 
 		if ( $parent_id ) {
-			unset( self::$twins_cache[ (int) $parent_id ] );
+			$parent_id = (int) $parent_id;
+			unset( self::$twins_cache[ $parent_id ], self::$cards_cache[ $parent_id ], self::$map_cache[ $parent_id ], self::$primary_cache[ $parent_id ] );
 		} else {
-			self::$twins_cache = array();
+			self::$twins_cache   = array();
+			self::$cards_cache   = array();
+			self::$map_cache     = array();
+			self::$primary_cache = array();
 		}
+
+		self::$placement_cache = array();
+
+	}
+
+	/**
+	 * Recipe Card blocks of a post's saved content, cached for the request.
+	 *
+	 * @since 3.7.0
+	 * @param int $post_id Post ID.
+	 * @return array[] See WPZOOM_Recipe_Post_Saver::get_recipe_cards().
+	 */
+	public static function get_post_recipe_cards( $post_id ) {
+
+		$post_id = (int) $post_id;
+
+		if ( ! $post_id || ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
+			return array();
+		}
+
+		if ( ! isset( self::$cards_cache[ $post_id ] ) ) {
+			self::$cards_cache[ $post_id ] = WPZOOM_Recipe_Post_Saver::get_recipe_cards( (string) get_post_field( 'post_content', $post_id ) );
+		}
+
+		return self::$cards_cache[ $post_id ];
+
+	}
+
+	/**
+	 * Recipe post of each Recipe Card of a post, cached for the request.
+	 *
+	 * @since 3.7.0
+	 * @param int $post_id Post ID.
+	 * @return int[] Recipe post ID per card index, 0 for cards without one.
+	 */
+	public static function get_post_card_twins( $post_id ) {
+
+		$post_id = (int) $post_id;
+
+		if ( ! isset( self::$map_cache[ $post_id ] ) ) {
+			$cards = self::get_post_recipe_cards( $post_id );
+
+			self::$map_cache[ $post_id ] = empty( $cards ) ? array() : WPZOOM_Recipe_Post_Saver::match_cards_to_twins( $post_id, $cards, false );
+		}
+
+		return self::$map_cache[ $post_id ];
+
+	}
+
+	/**
+	 * Index (in get_post_recipe_cards()) of the post's primary card: the one its
+	 * ratings, JSON-LD, plain element ID and "Edit Recipe" link belong to.
+	 *
+	 * It is the card whose recipe post comes first in get_recipe_twins() order
+	 * among the recipe posts that still match a card, so leftover recipe posts
+	 * (older duplicates, recipe posts of removed cards) never take that place.
+	 * When that card has no key, the post's first keyless card is primary, as
+	 * all keyless cards counted as primary before 3.7.0 (PRO 7.5.0). With no recipe post
+	 * matched (creating them is off), the first card is primary.
+	 *
+	 * @since 3.7.0
+	 * @param int $post_id Post ID.
+	 * @return int Card index, or -1 when the post holds no Recipe Card.
+	 */
+	public static function get_primary_card_index( $post_id ) {
+
+		$post_id = (int) $post_id;
+
+		if ( isset( self::$primary_cache[ $post_id ] ) ) {
+			return self::$primary_cache[ $post_id ];
+		}
+
+		$cards = self::get_post_recipe_cards( $post_id );
+		$index = empty( $cards ) ? -1 : 0;
+
+		if ( ! empty( $cards ) ) {
+			$map = self::get_post_card_twins( $post_id );
+
+			foreach ( self::get_recipe_twins( $post_id ) as $twin_id ) {
+				$found = array_search( $twin_id, $map, true );
+				if ( false !== $found ) {
+					$index = (int) $found;
+					break;
+				}
+			}
+
+			if ( '' === $cards[ $index ]['key'] ) {
+				foreach ( $cards as $i => $card ) {
+					if ( '' === $card['key'] ) {
+						$index = $i;
+						break;
+					}
+				}
+			}
+		}
+
+		self::$primary_cache[ $post_id ] = $index;
+
+		return $index;
+
+	}
+
+	/**
+	 * Index of a card in get_post_recipe_cards() from its attributes: the
+	 * first card with its key, or the first keyless card for a card without
+	 * one.
+	 *
+	 * @since 3.7.0
+	 * @param int   $post_id    Post ID.
+	 * @param array $attributes Card attributes.
+	 * @return int|null Index, or null when the post's saved content holds no such card.
+	 */
+	public static function find_card_index( $post_id, $attributes ) {
+
+		$card_key = isset( $attributes['recipeKey'] ) && is_scalar( $attributes['recipeKey'] ) ? (string) $attributes['recipeKey'] : '';
+
+		foreach ( self::get_post_recipe_cards( $post_id ) as $i => $card ) {
+			if ( $card['key'] === $card_key ) {
+				return $i;
+			}
+		}
+
+		return null;
+
+	}
+
+	/**
+	 * Where a recipe post's Recipe Card is in its parent post.
+	 *
+	 * @since 3.7.0
+	 * @param int $recipe_id Recipe post ID.
+	 * @return array {
+	 *     @type int       $parent    Parent post ID, 0 for a standalone recipe.
+	 *     @type bool|null $in_parent Whether the parent still holds this recipe's card;
+	 *                                null when the parent holds no Recipe Card at all.
+	 *     @type bool      $primary   Whether it is the parent's primary recipe.
+	 *     @type string    $anchor    Element ID of its card when it is not the primary one.
+	 * }
+	 */
+	public static function get_recipe_placement( $recipe_id ) {
+
+		$recipe_id = (int) $recipe_id;
+
+		if ( isset( self::$placement_cache[ $recipe_id ] ) ) {
+			return self::$placement_cache[ $recipe_id ];
+		}
+
+		$placement = array(
+			'parent'    => 0,
+			'in_parent' => null,
+			'primary'   => true,
+			'anchor'    => '',
+		);
+
+		$parent_id = self::get_recipe_parent_id( $recipe_id );
+
+		if ( $parent_id ) {
+			$placement['parent'] = $parent_id;
+
+			$cards = self::get_post_recipe_cards( $parent_id );
+
+			if ( ! empty( $cards ) ) {
+				$index = array_search( $recipe_id, self::get_post_card_twins( $parent_id ), true );
+
+				$placement['in_parent'] = false !== $index;
+
+				if ( false !== $index && $index !== self::get_primary_card_index( $parent_id ) ) {
+					$placement['primary'] = false;
+					if ( class_exists( 'WPZOOM_Recipe_Card_Block' ) ) {
+						$placement['anchor'] = WPZOOM_Recipe_Card_Block::get_card_dom_id( $parent_id, $cards[ $index ]['attrs'], $index );
+					}
+				}
+			}
+		}
+
+		self::$placement_cache[ $recipe_id ] = $placement;
+
+		return $placement;
+
+	}
+
+	/**
+	 * Post ID an embedded recipe (Insert Existing Recipe block, shortcode,
+	 * Elementor widget) rates under: its parent post when that is another post
+	 * still holding a Recipe Card and the recipe is the parent's primary one,
+	 * otherwise the recipe post itself. The first two conditions are the
+	 * pre-3.7.0 rule.
+	 *
+	 * @since 3.7.0
+	 * @param int $recipe_id Embedded recipe post ID.
+	 * @param int $host_id   Post showing the embed.
+	 * @return int
+	 */
+	public static function get_embed_rating_id( $recipe_id, $host_id ) {
+
+		$recipe_id = (int) $recipe_id;
+		$parent_id = self::get_recipe_parent_id( $recipe_id );
+
+		if ( $parent_id && $parent_id !== (int) $host_id && has_block( 'wpzoom-recipe-card/block-recipe-card', $parent_id ) && self::get_recipe_placement( $recipe_id )['primary'] ) {
+			return $parent_id;
+		}
+
+		return $recipe_id;
 
 	}
 
@@ -444,8 +672,7 @@ class WPZOOM_Helpers {
 	 * Recipe post mirroring a Recipe Card of a post.
 	 *
 	 * With a card key: the recipe post created for that card. Without one: the
-	 * post's primary recipe post (see get_recipe_twins()), which is what
-	 * single-card posts and every post saved before 7.5.0 have.
+	 * recipe post of the post's primary card, else its first recipe post.
 	 *
 	 * @since 3.7.0
 	 * @param int    $parent_id Post holding the Recipe Card.
@@ -461,7 +688,10 @@ class WPZOOM_Helpers {
 		}
 
 		if ( '' === (string) $card_key ) {
-			return $twins[0];
+			$index = self::get_primary_card_index( $parent_id );
+			$map   = self::get_post_card_twins( $parent_id );
+
+			return $index >= 0 && ! empty( $map[ $index ] ) ? (int) $map[ $index ] : $twins[0];
 		}
 
 		foreach ( $twins as $twin_id ) {

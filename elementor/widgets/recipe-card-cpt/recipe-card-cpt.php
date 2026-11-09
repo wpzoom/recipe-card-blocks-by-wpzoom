@@ -831,14 +831,8 @@ class Recipe_Card_Cpt extends Widget_Base {
 			return;
 		}
 
-		$parentRecipe_ID = get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
-
-		if( !empty( $parentRecipe_ID ) ) {
-			$parent_id = $parentRecipe_ID;
-		}
-		else {
-			$parent_id = $post_id;
-		}
+		// Where the embedded recipe's ratings are stored; also used for Print (3.7.0).
+		$parent_id = \WPZOOM_Recipe_Card_Block::resolve_rating_parent( intval( $post_id ) );
 
 		$recipe = get_post( intval( $post_id ) );
 
@@ -847,9 +841,9 @@ class Recipe_Card_Cpt extends Widget_Base {
 		}
 
 		// The card rates under the recipe this widget shows (3.7.0, as PRO 7.5.0).
-		WPZOOM_Recipe_Card_Block::push_render_context( WPZOOM_Recipe_Card_Block::resolve_rating_parent( intval( $post_id ) ) );
+		\WPZOOM_Recipe_Card_Block::push_render_context( $parent_id );
 		$card_html = render_block( $blocks[0] );
-		WPZOOM_Recipe_Card_Block::pop_render_context();
+		\WPZOOM_Recipe_Card_Block::pop_render_context();
 
 		printf( 
 			'<div class="wpzoom-custom-recipe-card-post wpzoom-rcb-post-shortcode" data-parent-id="%3$d" data-recipe-post="%2$d">%1$s</div>',

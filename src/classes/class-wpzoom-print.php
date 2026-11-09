@@ -27,14 +27,16 @@ class WPZOOM_Print {
 	 * @param int     $host_id      Post the blocks belong to.
 	 * @return array|null The block's attributes, or null.
 	 */
-	private static function find_print_block( $blocks, $block_name, $requested_id, $host_id ) {
+	private static function find_print_block( $blocks, $block_name, $requested_id, $host_id, &$card_index = 0 ) {
 
 		foreach ( $blocks as $block ) {
 			if ( $block['blockName'] === $block_name ) {
 				$attrs = is_array( $block['attrs'] ) ? $block['attrs'] : array();
 
 				if ( 'wpzoom-recipe-card/block-recipe-card' === $block_name ) {
-					$element_id = WPZOOM_Recipe_Card_Block::get_card_dom_id( $host_id, $attrs );
+					// Same order as WPZOOM_Helpers::get_post_recipe_cards().
+					$element_id = WPZOOM_Recipe_Card_Block::get_card_dom_id( $host_id, $attrs, $card_index );
+					$card_index++;
 				} else {
 					$element_id = isset( $attrs['id'] ) ? $attrs['id'] : 'wpzoom-recipe-card';
 				}
@@ -45,7 +47,7 @@ class WPZOOM_Print {
 			}
 
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$found = self::find_print_block( $block['innerBlocks'], $block_name, $requested_id, $host_id );
+				$found = self::find_print_block( $block['innerBlocks'], $block_name, $requested_id, $host_id, $card_index );
 				if ( null !== $found ) {
 					return $found;
 				}

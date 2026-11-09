@@ -91,16 +91,31 @@ class WPZOOM_Recipe_Card_Block {
 	private static $render_context = array();
 
 	/**
-	 * Recipe Cards rendered so far in this request.
+	 * Per post being rendered: cards rendered so far in the current pass over
+	 * its content (any Recipe Card, embedded ones included) and native cards
+	 * rendered so far (to know which card of the post's content is being
+	 * rendered). Both restart whenever the post's content is rendered again.
 	 *
 	 * @since 3.7.0
-	 * @var int
+	 * @var array<int, int>
 	 */
-	private static $render_index = 0;
+	private static $element_counts   = array();
+	private static $native_positions = array();
+
+	/**
+	 * Index in WPZOOM_Helpers::get_post_recipe_cards() of the native card being
+	 * rendered; null for embedded cards and cards not in the post's saved
+	 * content (previews, synced patterns).
+	 *
+	 * @since 3.7.0
+	 * @var int|null
+	 */
+	private static $current_card_index = null;
 
 	/**
 	 * Per post being viewed: the card the rating stars and Jump/Print buttons
-	 * added around the post content belong to.
+	 * added around the post content belong to. The post's primary card, or
+	 * the first card rendered when it holds only embeds.
 	 *
 	 * @since 3.7.0
 	 * @var array<int, array>
@@ -108,15 +123,46 @@ class WPZOOM_Recipe_Card_Block {
 	private static $content_card = array();
 
 	/**
-	 * Request cache: Recipe Card keys of a post, in order.
+	 * Restart the per-post counters when a post's content is rendered again
+	 * (themes and SEO plugins may render it more than once per request).
+	 * Runs on `the_content` before blocks are rendered.
 	 *
-	 * @var array<int, string[]>
+	 * @since 3.7.0
+	 * @param string $content Post content.
+	 * @return string Unchanged.
 	 */
-	private static $card_keys_cache = array();
+	public static function start_content_pass( $content ) {
+		$host_id = (int) get_the_ID();
+
+		unset( self::$element_counts[ $host_id ], self::$native_positions[ $host_id ] );
+
+		return $content;
+	}
 
 	/**
-	 * Called by an embed before it renders a recipe post's blocks, so the card
-	 * rates under the recipe the embed shows.
+	 * Suffix for element IDs inside the card being rendered (unit switcher,
+	 * Cook Mode, scoped colours). On the post being viewed: none for its first
+	 * card, so existing IDs stay, then "-2", "-3"... Elsewhere (archives showing
+	 * several posts, editor previews): "-p{post}-{n}", unique on the page.
+	 *
+	 * @since 3.7.0
+	 * @return string
+	 */
+	public static function get_element_suffix() {
+		$host_id = (int) get_the_ID();
+		$count   = isset( self::$element_counts[ $host_id ] ) ? self::$element_counts[ $host_id ] : 1;
+
+		if ( is_singular() && $host_id === (int) get_queried_object_id() ) {
+			return $count > 1 ? '-' . $count : '';
+		}
+
+		return '-p' . $host_id . '-' . $count;
+	}
+
+	/**
+	 * Called by an embed before it renders a recipe post's blocks, so the
+	 * card rates under the recipe the embed shows instead of guessing it from
+	 * the host post's content.
 	 *
 	 * @since 3.7.0
 	 * @param int $rating_id Post ID the embedded recipe's ratings are stored under.
@@ -135,68 +181,67 @@ class WPZOOM_Recipe_Card_Block {
 	}
 
 	/**
-	 * Suffix for element IDs inside the card being rendered: none for the
-	 * page's first card, then "-2", "-3"...
+	 * Whether a Recipe Card is its post's primary recipe: the one that rates
+	 * under the post itself, outputs the post's JSON-LD and keeps the card's
+	 * plain element ID (Jump to Recipe, Print snippet). See
+	 * WPZOOM_Helpers::get_primary_card_index(). Cards that are not in the
+	 * post's saved content (previews, synced patterns) count as primary, as
+	 * every card did before 3.7.0.
 	 *
 	 * @since 3.7.0
-	 * @return string
-	 */
-	public static function get_element_suffix() {
-		return self::$render_index > 1 ? '-' . self::$render_index : '';
-	}
-
-	/**
-	 * Whether a Recipe Card is its post's primary recipe (rates under the post,
-	 * keeps the plain element ID, outputs the post's JSON-LD). Cards without a
-	 * key always are.
-	 *
-	 * @since 3.7.0
-	 * @param int   $host_id    Post the card is in.
-	 * @param array $attributes Card attributes.
+	 * @param int      $host_id    Post the card is in.
+	 * @param array    $attributes Card attributes.
+	 * @param int|null $index      Card index in the post's content, when known.
 	 * @return bool
 	 */
-	public static function is_primary_card( $host_id, $attributes ) {
+	public static function is_primary_card( $host_id, $attributes, $index = null ) {
 
-		$card_key = isset( $attributes['recipeKey'] ) && is_scalar( $attributes['recipeKey'] ) ? (string) $attributes['recipeKey'] : '';
-		$host_id  = (int) $host_id;
+		$host_id = (int) $host_id;
 
-		if ( '' === $card_key || ! $host_id || 'wpzoom_rcb' === get_post_type( $host_id ) ) {
+		if ( ! $host_id || 'wpzoom_rcb' === get_post_type( $host_id ) ) {
 			return true;
 		}
 
-		$twins = WPZOOM_Helpers::get_recipe_twins( $host_id );
-
-		if ( ! empty( $twins ) ) {
-			return WPZOOM_Helpers::get_recipe_twin_id( $host_id, $card_key ) === $twins[0];
+		if ( null === $index ) {
+			$index = WPZOOM_Helpers::find_card_index( $host_id, $attributes );
 		}
 
-		if ( ! isset( self::$card_keys_cache[ $host_id ] ) ) {
-			self::$card_keys_cache[ $host_id ] = wp_list_pluck( WPZOOM_Recipe_Post_Saver::get_recipe_cards( get_post_field( 'post_content', $host_id ) ), 'key' );
+		if ( null === $index ) {
+			return true;
 		}
 
-		return empty( self::$card_keys_cache[ $host_id ] ) || self::$card_keys_cache[ $host_id ][0] === $card_key;
+		return (int) $index === WPZOOM_Helpers::get_primary_card_index( $host_id );
 
 	}
 
 	/**
-	 * Element ID of a Recipe Card: the plain ID for the primary card, the
-	 * plain ID plus the card key for every other card. Print looks cards up
-	 * by this ID.
+	 * Element ID of a Recipe Card. The primary card keeps the plain ID that
+	 * Jump to Recipe and the Print snippet link to; every other card adds its
+	 * key (or its position, for a card without one), so IDs are unique and
+	 * stay the same however often the content is rendered. Print looks cards
+	 * up by this ID.
 	 *
 	 * @since 3.7.0
-	 * @param int   $host_id    Post the card is in.
-	 * @param array $attributes Card attributes.
+	 * @param int      $host_id    Post the card is in.
+	 * @param array    $attributes Card attributes.
+	 * @param int|null $index      Card index in the post's content, when known.
 	 * @return string
 	 */
-	public static function get_card_dom_id( $host_id, $attributes ) {
+	public static function get_card_dom_id( $host_id, $attributes, $index = null ) {
 
 		$base = isset( $attributes['id'] ) && is_string( $attributes['id'] ) && '' !== $attributes['id'] ? $attributes['id'] : 'wpzoom-recipe-card';
 
-		if ( self::is_primary_card( $host_id, $attributes ) ) {
+		if ( null === $index ) {
+			$index = WPZOOM_Helpers::find_card_index( $host_id, $attributes );
+		}
+
+		if ( self::is_primary_card( $host_id, $attributes, $index ) ) {
 			return $base;
 		}
 
-		return $base . '-' . sanitize_html_class( (string) $attributes['recipeKey'] );
+		$card_key = isset( $attributes['recipeKey'] ) && is_scalar( $attributes['recipeKey'] ) ? (string) $attributes['recipeKey'] : '';
+
+		return $base . '-' . sanitize_html_class( '' !== $card_key ? $card_key : 'card-' . ( (int) $index + 1 ) );
 
 	}
 
@@ -208,8 +253,34 @@ class WPZOOM_Recipe_Card_Block {
 	 * @return bool
 	 */
 	private static function is_secondary_native_card() {
-		return empty( self::$render_context ) && ! self::is_primary_card( get_the_ID(), (array) self::$attributes );
+		return empty( self::$render_context ) && ! self::is_primary_card( get_the_ID(), (array) self::$attributes, self::$current_card_index );
 	}
+
+	/**
+	 * Rating ID of a Recipe Card that is not its post's primary recipe: its
+	 * own recipe post. 0 for the primary card, which keeps rating under the
+	 * post itself as it always has, and for a card whose recipe post does
+	 * not exist (yet).
+	 *
+	 * @since 3.7.0
+	 * @param array $attributes Card attributes.
+	 * @return int
+	 */
+	private static function get_secondary_card_rating_id( $attributes ) {
+
+		$host_id = (int) get_the_ID();
+		$index   = null !== self::$current_card_index ? self::$current_card_index : WPZOOM_Helpers::find_card_index( $host_id, $attributes );
+
+		if ( null === $index || self::is_primary_card( $host_id, $attributes, $index ) ) {
+			return 0;
+		}
+
+		$twins = WPZOOM_Helpers::get_post_card_twins( $host_id );
+
+		return ! empty( $twins[ $index ] ) ? (int) $twins[ $index ] : 0;
+
+	}
+
 
 	/**
 	 * The Constructor.
@@ -219,6 +290,9 @@ class WPZOOM_Recipe_Card_Block {
 		self::$helpers                 = new WPZOOM_Helpers();
 
 		add_action( 'wp', array( $this, 'maybe_filter_shortcode_content' ) );
+
+		// Per-post card counters restart with each render of a post's content (3.7.0).
+		add_filter( 'the_content', array( __CLASS__, 'start_content_pass' ), 1 );
 	}
 
 	/**
@@ -295,10 +369,10 @@ class WPZOOM_Recipe_Card_Block {
 			return (int) $context['rating_id'];
 		}
 
-		if ( ! empty( self::$attributes ) && ! self::is_primary_card( get_the_ID(), self::$attributes ) ) {
-			$twin_id = WPZOOM_Helpers::get_recipe_twin_id( get_the_ID(), (string) self::$attributes['recipeKey'] );
-			if ( $twin_id ) {
-				return $twin_id;
+		if ( ! empty( self::$attributes ) ) {
+			$secondary_rating_id = self::get_secondary_card_rating_id( self::$attributes );
+			if ( $secondary_rating_id ) {
+				return $secondary_rating_id;
 			}
 		}
 
@@ -365,15 +439,9 @@ class WPZOOM_Recipe_Card_Block {
 	 * @return int
 	 */
 	public static function resolve_rating_parent( $embedded_recipe_id ) {
-		$parent_ID = get_post_meta( $embedded_recipe_id, '_wpzoom_rcb_parent_post_id', true );
-
-		if ( ! empty( $parent_ID )
-			&& intval( $parent_ID ) !== (int) get_the_ID()
-			&& has_block( 'wpzoom-recipe-card/block-recipe-card', intval( $parent_ID ) ) ) {
-			return intval( $parent_ID );
-		}
-
-		return $embedded_recipe_id;
+		// Same rule as PRO 7.5.0: the parent only when it still holds a card and
+		// the recipe is its primary one.
+		return WPZOOM_Helpers::get_embed_rating_id( $embedded_recipe_id, get_the_ID() );
 	}
 
 	/**
@@ -706,7 +774,20 @@ class WPZOOM_Recipe_Card_Block {
 
 		$class = 'wp-block-wpzoom-recipe-card-block-recipe-card';
 
-		self::$render_index++;
+		// Per-post counters: element IDs, and which card of the post's content this is.
+		$host_id = (int) get_the_ID();
+		self::$element_counts[ $host_id ] = ( isset( self::$element_counts[ $host_id ] ) ? self::$element_counts[ $host_id ] : 0 ) + 1;
+		self::$current_card_index          = null;
+		if ( empty( self::$render_context ) ) {
+			$position = isset( self::$native_positions[ $host_id ] ) ? self::$native_positions[ $host_id ] : 0;
+			self::$native_positions[ $host_id ] = $position + 1;
+
+			$post_cards = WPZOOM_Helpers::get_post_recipe_cards( $host_id );
+			$card_key   = isset( $attributes['recipeKey'] ) && is_scalar( $attributes['recipeKey'] ) ? (string) $attributes['recipeKey'] : '';
+			if ( isset( $post_cards[ $position ] ) && $post_cards[ $position ]['key'] === $card_key ) {
+				self::$current_card_index = $position;
+			}
+		}
 
 		// Recipe post variables
 		self::$recipe              = get_post();
@@ -775,7 +856,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		// Store variables
 		// Unique per card (3.7.0); an embedded recipe keeps its stored ID.
-		self::$recipeBlockID = esc_attr( empty( self::$render_context ) ? self::get_card_dom_id( get_the_ID(), $attributes ) : $id );
+		self::$recipeBlockID = esc_attr( empty( self::$render_context ) ? self::get_card_dom_id( get_the_ID(), $attributes, self::$current_card_index ) : $id );
 		self::$attributes    = $attributes;
 		self::$style         = self::$helpers->get_block_style( $className );
 		self::$settings      = self::$helpers->parse_block_settings( $attributes );
@@ -952,7 +1033,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		// Remember which card the stars and buttons around the post content follow.
 		$host_id           = (int) get_the_ID();
-		$is_primary_native = empty( self::$render_context ) && self::is_primary_card( $host_id, $attributes );
+		$is_primary_native = empty( self::$render_context ) && self::is_primary_card( $host_id, $attributes, self::$current_card_index );
 		if ( ! isset( self::$content_card[ $host_id ] ) || ( $is_primary_native && ! self::$content_card[ $host_id ]['primary'] ) ) {
 			self::$content_card[ $host_id ] = array(
 				'primary'    => $is_primary_native,

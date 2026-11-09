@@ -79,6 +79,12 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			if ( ! current_user_can( 'edit_post', $post_id ) ) 
 			return;
 
+			if ( 'publish' === $post->post_status ) {
+				foreach ( self::get_embedded_recipe_ids( $post ) as $recipe_id ) {
+					self::maybe_set_embed_parent( $recipe_id, $post->ID );
+				}
+			}
+
 			//Don't do anything if there is no recipe card
 			if( ! has_block( 'wpzoom-recipe-card/recipe-block-from-posts', $post ) ) {
 				//return;
@@ -138,6 +144,77 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 				return;
 			}
 		
+		}
+
+		/**
+		 * Recipe posts a post embeds: Insert Existing Recipe blocks,
+		 * [wpzoom_rcb_post] shortcodes and the Elementor Recipe Card widget.
+		 *
+		 * @since 3.7.0
+		 * @param WP_Post $post Post object.
+		 * @return int[] Recipe post IDs.
+		 */
+		public static function get_embedded_recipe_ids( $post ) {
+
+			$ids     = array();
+			$content = (string) $post->post_content;
+
+			if ( false !== strpos( $content, 'recipe-block-from-posts' ) && preg_match_all( '/<!--\s+wp:wpzoom\-recipe\-card\/recipe\-block\-from\-posts\s+(\{.*?\})\s+(\/)?-->/', $content, $matches ) ) {
+				foreach ( $matches[1] as $json ) {
+					$attributes = json_decode( $json, true );
+					if ( isset( $attributes['postId'] ) ) {
+						$ids[] = absint( $attributes['postId'] );
+					}
+				}
+			}
+
+			if ( false !== strpos( $content, '[wpzoom_rcb_post' ) && preg_match_all( '/\[wpzoom_rcb_post\s+[^\]]*id=["\']?(\d+)["\']?/', $content, $matches ) ) {
+				$ids = array_merge( $ids, array_map( 'absint', $matches[1] ) );
+			}
+
+			$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
+			if ( is_string( $elementor_data ) && false !== strpos( $elementor_data, 'rcb_post_id' ) && preg_match_all( '/"rcb_post_id"\s*:\s*"?(\d+)"?/', $elementor_data, $matches ) ) {
+				$ids = array_merge( $ids, array_map( 'absint', $matches[1] ) );
+			}
+
+			return array_values( array_unique( array_filter( $ids ) ) );
+		}
+
+		/**
+		 * Make a published post the parent of a recipe it embeds, when the
+		 * recipe has no parent yet. Listings link a recipe to its parent post;
+		 * without one they link to the recipe post, which visitors cannot open.
+		 *
+		 * A recipe counts as having no parent when the meta is empty, points to
+		 * the recipe itself (never linked, or unlinked), or points to a deleted
+		 * post. A trashed parent is kept: its ratings may still be restored.
+		 *
+		 * @since 3.7.0
+		 * @param int $recipe_id Embedded recipe post ID.
+		 * @param int $post_id   Published post embedding it.
+		 * @return bool Whether the parent was set.
+		 */
+		public static function maybe_set_embed_parent( $recipe_id, $post_id ) {
+
+			$recipe_id = (int) $recipe_id;
+			$post_id   = (int) $post_id;
+
+			if ( ! $recipe_id || $recipe_id === $post_id || 'wpzoom_rcb' !== get_post_type( $recipe_id ) ) {
+				return false;
+			}
+
+			$parent_id = (int) get_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', true );
+
+			if ( $parent_id && $parent_id !== $recipe_id && get_post( $parent_id ) ) {
+				return false;
+			}
+
+			update_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', $post_id );
+			update_post_meta( $recipe_id, '_wpzoom_rcb_has_parent', true );
+
+			WPZOOM_Helpers::flush_recipe_twins_cache( $post_id );
+
+			return true;
 		}
 
 		/**
@@ -203,6 +280,11 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 		 *    Never with several cards: a new card must not take over an old
 		 *    duplicate that other pages may still embed.
 		 *
+		 * Rules 2 and 3 skip recipe posts the post itself embeds (Insert
+		 * Existing Recipe, shortcode, Elementor widget): such a recipe can have
+		 * the post as its parent, but it is shown, not mirrored, so a card must
+		 * never write over it.
+		 *
 		 * Both sync directions use this, so a recipe post always writes back
 		 * to the card it was filled from.
 		 *
@@ -249,9 +331,12 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			sort( $keyless_twins );
 			$creation_order = array_merge( $keyless_twins, $keyed_twins );
 
-			$next_twin = function( $keyless_only, $order ) use ( $twin_keys, &$used ) {
+			$parent   = get_post( $parent_id );
+			$embedded = $parent ? self::get_embedded_recipe_ids( $parent ) : array();
+
+			$next_twin = function( $keyless_only, $order ) use ( $twin_keys, $embedded, &$used ) {
 				foreach ( $order as $twin_id ) {
-					if ( empty( $used[ $twin_id ] ) && ( ! $keyless_only || '' === $twin_keys[ $twin_id ] ) ) {
+					if ( empty( $used[ $twin_id ] ) && ! in_array( (int) $twin_id, $embedded, true ) && ( ! $keyless_only || '' === $twin_keys[ $twin_id ] ) ) {
 						return $twin_id;
 					}
 				}
@@ -456,7 +541,9 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			
 			wp_update_post( $updated_parent_args );
 			
-			add_action( 'save_post', array( __CLASS__, 'update_parent_recipe_card' ), 10, 2 );				
+			add_action( 'save_post', array( __CLASS__, 'update_parent_recipe_card' ), 10, 2 );
+
+			WPZOOM_Helpers::flush_recipe_twins_cache( $parent_id );
 
 		}
 

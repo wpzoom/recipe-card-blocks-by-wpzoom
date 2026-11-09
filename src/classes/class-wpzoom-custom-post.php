@@ -87,6 +87,50 @@ class WPZOOM_Custom_Post {
 
 		add_action( 'enqueue_block_editor_assets', array( $this, 'add_checkbox_to_gutenberg_toolbar' ) );
 
+		// Let the recipe picker find recipes by their card title.
+		add_action( 'rest_api_init', array( $this, 'register_recipe_card_title_field' ) );
+
+	}
+
+	/**
+	 * Add the Recipe Card's own title to recipe posts in the REST API. The recipe
+	 * picker shows it next to the post title when they differ, so a recipe can be
+	 * found by either name.
+	 *
+	 * @since 3.7.0
+	 * @return void
+	 */
+	public function register_recipe_card_title_field() {
+		register_rest_field(
+			'wpzoom_rcb',
+			'recipe_card_title',
+			array(
+				'get_callback' => array( $this, 'get_recipe_card_title' ),
+				'schema'       => array(
+					'description' => __( 'Title shown in the recipe card.', 'recipe-card-blocks-by-wpzoom' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
+			)
+		);
+	}
+
+	/**
+	 * Title of the recipe post's Recipe Card, as plain text.
+	 *
+	 * @since 3.7.0
+	 * @param array $post REST data of the recipe post.
+	 * @return string Empty when the card has no title.
+	 */
+	public function get_recipe_card_title( $post ) {
+		$cards = WPZOOM_Helpers::get_post_recipe_cards( $post['id'] );
+
+		if ( empty( $cards[0]['attrs']['recipeTitle'] ) || ! is_string( $cards[0]['attrs']['recipeTitle'] ) ) {
+			return '';
+		}
+
+		return trim( html_entity_decode( wp_strip_all_tags( $cards[0]['attrs']['recipeTitle'] ), ENT_QUOTES, 'UTF-8' ) );
 	}
 
 	public function add_checkbox_to_gutenberg_toolbar( $hook ) {
@@ -693,6 +737,55 @@ class WPZOOM_Custom_Post {
 		return $type;	
 	}
 
+	/**
+	 * Warn in the editor of a recipe post that no longer matches a Recipe Card
+	 * in its parent post (an older duplicate, or the recipe post of a card that
+	 * was removed): saving it does not update the post any more (3.7.0).
+	 *
+	 * @since 3.7.0
+	 * @param WP_Post $post Recipe post being edited.
+	 */
+	private function add_unlinked_recipe_notice( $post ) {
+
+		$placement = WPZOOM_Helpers::get_recipe_placement( $post->ID );
+
+		if ( ! $placement['parent'] || false !== $placement['in_parent'] ) {
+			return;
+		}
+
+		$parent_id = $placement['parent'];
+		$live_id   = WPZOOM_Helpers::get_recipe_twin_id( $parent_id );
+		$actions   = array(
+			array(
+				'label' => __( 'Open the post', 'recipe-card-blocks-by-wpzoom' ),
+				'url'   => get_edit_post_link( $parent_id, 'raw' ),
+			),
+		);
+
+		if ( $live_id && $live_id !== (int) $post->ID ) {
+			array_unshift(
+				$actions,
+				array(
+					'label' => __( 'Edit the recipe used there', 'recipe-card-blocks-by-wpzoom' ),
+					'url'   => get_edit_post_link( $live_id, 'raw' ),
+				)
+			);
+		}
+
+		$message = sprintf(
+			/* translators: %s: title of the post the recipe was created from */
+			__( 'This recipe is no longer linked to a recipe card in "%s", so changes saved here do not update that post.', 'recipe-card-blocks-by-wpzoom' ),
+			html_entity_decode( wp_strip_all_tags( get_the_title( $parent_id ) ), ENT_QUOTES, get_bloginfo( 'charset' ) )
+		);
+
+		wp_add_inline_script(
+			'wp-edit-post',
+			'wp.domReady( function() { if ( wp.data && wp.data.dispatch( "core/notices" ) ) { wp.data.dispatch( "core/notices" ).createWarningNotice( ' . wp_json_encode( $message ) . ', { id: "wpzoom-rcb-unlinked-recipe", isDismissible: true, actions: ' . wp_json_encode( $actions ) . ' } ); } } );',
+			'after'
+		);
+
+	}
+
 	public function enqueue_js_notification() {
 
 		global $post; 
@@ -701,6 +794,10 @@ class WPZOOM_Custom_Post {
 		//Check if it is CPT
 		if( 'wpzoom_rcb' !== $screen->id ) {
 			return;
+		}
+
+		if ( is_object( $post ) && 'wpzoom_rcb' === $post->post_type ) {
+			$this->add_unlinked_recipe_notice( $post );
 		}
 
 		//Check if there is any parent post/page

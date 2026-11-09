@@ -20,18 +20,29 @@ import { useEffect, useRef } from '@wordpress/element';
 import { addQueryArgs } from '@wordpress/url';
 import { __, sprintf } from '@wordpress/i18n';
 
+// Only the fields the picker shows: leaving out `content` spares the server
+// from rendering every listed recipe.
+const RECIPE_FIELDS = 'id,title,recipe_card_title';
+
 /**
- * Label for a recipe post. Recipes saved without a title would otherwise show
- * as an empty row.
+ * Label for a recipe post. When the Recipe Card's title differs from the post
+ * title, both are shown, so the recipe can be recognised by either. Recipes
+ * saved without a title would otherwise show as an empty row.
  *
  * @param {Object} post REST record of a recipe post.
  * @returns {string} Label.
  */
 export function getRecipeLabel( post ) {
-    const title = post && post.title ? ( post.title.raw || post.title.rendered || '' ) : '';
+    const title = post && post.title ? ( post.title.raw || post.title.rendered || '' ).trim() : '';
+    const cardTitle = post && post.recipe_card_title ? String( post.recipe_card_title ).trim() : '';
 
-    if ( title.trim() ) {
-        return title;
+    if ( title && cardTitle && title.toLowerCase() !== cardTitle.toLowerCase() ) {
+        /* translators: 1: recipe post title, 2: title shown in its recipe card */
+        return sprintf( __( '%1$s – %2$s', 'recipe-card-blocks-by-wpzoom' ), title, cardTitle );
+    }
+
+    if ( title || cardTitle ) {
+        return title || cardTitle;
     }
 
     /* translators: %d: recipe post ID */
@@ -76,7 +87,7 @@ export default function RecipePicker( { value, onChange, excludeId = 0, focusOnM
 
         return {
             // Load only the 20 most recent recipes for the initial dropdown.
-            posts: getEntityRecords( 'postType', 'wpzoom_rcb', { order: 'desc', orderby: 'date', per_page: 20 } ),
+            posts: getEntityRecords( 'postType', 'wpzoom_rcb', { order: 'desc', orderby: 'date', per_page: 20, _fields: RECIPE_FIELDS } ),
             // If a recipe is already selected, fetch it individually so it always appears in the dropdown.
             selectedPost: selectedId ? getEntityRecord( 'postType', 'wpzoom_rcb', selectedId ) : null,
         };
@@ -123,10 +134,18 @@ export default function RecipePicker( { value, onChange, excludeId = 0, focusOnM
             per_page: 20,
             order: 'desc',
             orderby: 'relevance',
+            context: 'edit',
+            _fields: RECIPE_FIELDS,
         } );
         wp.apiFetch( { path: url } ).then( ( results ) => {
+            // WordPress ranks a partial title match above a recipe whose card
+            // title is exactly what was typed; list whole-phrase matches first.
+            const phrase = inputValue.trim().toLowerCase();
+            const options = toOptions( results.filter( isAllowed ) );
+            const matches = options.filter( ( option ) => option.label.toLowerCase().includes( phrase ) );
+
             callback( null, {
-                options: toOptions( results.filter( isAllowed ) ),
+                options: matches.concat( options.filter( ( option ) => ! matches.includes( option ) ) ),
             } );
         } ).catch( () => {
             callback( null, { options: [] } );
@@ -139,6 +158,9 @@ export default function RecipePicker( { value, onChange, excludeId = 0, focusOnM
             className="wpzoom-select-cpt-recipe-cards"
             options={ defaultOptions }
             loadOptions={ loadOptions }
+            // The server already searched titles and recipe content; filtering
+            // its results again by label would drop recipes found by their card.
+            filterOptions={ ( options ) => options }
             value={ selectedId ? String( selectedId ) : '-1' }
             onChange={ ( newValue ) => onChange( newValue ? String( newValue ) : '-1' ) }
             simpleValue

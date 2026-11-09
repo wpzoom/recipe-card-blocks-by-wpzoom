@@ -30,7 +30,7 @@ import { generateId } from '../../../../helpers/generateId';
 import { __ } from '@wordpress/i18n';
 import { Button, Notice, Placeholder, Spinner } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
-import { useDispatch, useSelect } from '@wordpress/data';
+import { select, useDispatch, useSelect } from '@wordpress/data';
 import { createBlock, parse } from '@wordpress/blocks';
 import { addQueryArgs } from '@wordpress/url';
 import apiFetch from '@wordpress/api-fetch';
@@ -146,6 +146,33 @@ const NOT_COPIED = [
  */
 export function generateRecipeKey() {
     return `${ Date.now().toString( 36 ) }${ Math.random().toString( 36 ).slice( 2, 10 ) }`;
+}
+
+/**
+ * Whether a keyless Recipe Card was added in this editing session (Duplicate,
+ * copy and paste of a card saved before 7.5.0) rather than loaded with the
+ * post. The editor holds more keyless cards than the saved post: the extra
+ * ones, later in the post, are new. Saved keyless cards must stay keyless so
+ * they keep matching their recipe post.
+ *
+ * @param {string} clientId Card being checked.
+ * @returns {boolean} Whether it is new.
+ */
+export function isNewKeylessCard( clientId ) {
+    const editor = select( 'core/editor' );
+    const saved = editor && editor.getCurrentPost ? editor.getCurrentPost() : null;
+    let content = saved && saved.content ? saved.content : '';
+    if ( content && 'object' === typeof content ) {
+        content = content.raw || '';
+    }
+
+    const delimiters = String( content ).match( /<!--\s+wp:wpzoom-recipe-card\/block-recipe-card(?:\s+\{[\s\S]*?\})?\s+\/?-->/g ) || [];
+    const savedKeyless = delimiters.filter( ( delimiter ) => ! /"recipeKey":"[^"]+"/.test( delimiter ) ).length;
+
+    const { getClientIdsWithDescendants, getBlockName, getBlockAttributes } = select( 'core/block-editor' );
+    const keyless = getClientIdsWithDescendants().filter( ( id ) => RECIPE_CARD_BLOCK === getBlockName( id ) && ! getBlockAttributes( id ).recipeKey );
+
+    return keyless.indexOf( clientId ) >= savedKeyless;
 }
 
 /**

@@ -22,6 +22,7 @@ import { useEffect, useState } from '@wordpress/element';
 import { select } from '@wordpress/data';
 import RecipeChooser, {
     isFreshRecipeCard,
+    isNewKeylessCard,
     generateRecipeKey,
     withFreshItemIds,
     useMultipleRecipesNotice,
@@ -123,6 +124,9 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
             if ( ! attributes.recipeKey ) {
                 if ( showChooser ) {
                     setAttributes( { recipeKey: generateRecipeKey() } );
+                } else if ( isNewKeylessCard( clientId ) ) {
+                    // A duplicated or pasted pre-7.5.0 card: its own key and row IDs.
+                    setAttributes( { ...withFreshItemIds( attributes ), recipeKey: generateRecipeKey() } );
                 }
                 return;
             }
