@@ -842,11 +842,13 @@ class Recipe_Card_Cpt extends Widget_Base {
 
 		$recipe = get_post( intval( $post_id ) );
 
-		if ( has_blocks( $recipe->post_content ) ) {
-			$blocks = parse_blocks( $recipe->post_content );
+		if ( ! \WPZOOM_Helpers::can_view_recipe( $recipe ) || ! has_blocks( $recipe->post_content ) ) {
+			return;
 		}
 
-		printf( 
+		$blocks = parse_blocks( $recipe->post_content );
+
+		printf(
 			'<div class="wpzoom-custom-recipe-card-post wpzoom-rcb-post-shortcode" data-parent-id="%3$d" data-recipe-post="%2$d">%1$s</div>',
 			$this->fix_content_tags_conflict( render_block( $blocks[0] ) ),
 			intval( $post_id ),

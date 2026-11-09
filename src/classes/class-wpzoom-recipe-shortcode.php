@@ -80,6 +80,10 @@ if ( ! class_exists( 'WPZOOM_Recipe_Card_Shortcode' ) ) {
 
 			$recipe = get_post( intval( $recipe_id ) );
 
+			if ( ! WPZOOM_Helpers::can_view_recipe( $recipe ) ) {
+				return '';
+			}
+
 			if ( has_blocks( $recipe->post_content ) ) {
 				$blocks = parse_blocks( $recipe->post_content );
 			}
