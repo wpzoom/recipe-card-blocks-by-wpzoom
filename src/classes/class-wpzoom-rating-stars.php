@@ -731,6 +731,8 @@ class WPZOOM_Rating_Stars {
 	 * @since 1.1.0
 	 */
 	public static function get_rating_form( $recipe_ID ) {
+		$recipe_ID = absint( $recipe_ID );
+
 		$output             = '';
 		$rating_stars_items = '';
 		$tooltip_message    = '';
@@ -860,6 +862,8 @@ class WPZOOM_Rating_Stars {
 	 * @since 1.1.0
 	 */
 	public static function get_rating_star( $recipe_ID, $label = '', $container = false ) {
+		$recipe_ID = absint( $recipe_ID );
+
 		// Check if ratings are enabled before making database queries
 		if ( ! WPZOOM_Settings::get_rating_star_acces() ) {
 			return '';
@@ -904,13 +908,17 @@ class WPZOOM_Rating_Stars {
 	 * @return number The average number of sql results.
 	 */
 	public static function get_rating_average( $recipe_ID ) {
+		global $wpdb;
+
+		$recipe_ID = absint( $recipe_ID );
+
 		if ( ! $recipe_ID ) {
 			return;
 		}
 
 		$rating_average = WPZOOM_Rating_DB::get_rating_average(
 			array(
-				'where' => '(recipe_id = ' . $recipe_ID . ' OR post_id = ' . $recipe_ID . ') AND approved = 1',
+				'where' => $wpdb->prepare( '(recipe_id = %d OR post_id = %d) AND approved = 1', $recipe_ID, $recipe_ID ),
 			)
 		);
 
@@ -925,13 +933,17 @@ class WPZOOM_Rating_Stars {
 	 * @return number The total number of sql results.
 	 */
 	public static function get_total_votes( $recipe_ID ) {
+		global $wpdb;
+
+		$recipe_ID = absint( $recipe_ID );
+
 		if ( ! $recipe_ID ) {
 			return;
 		}
 
 		$ratings = WPZOOM_Rating_DB::get_ratings(
 			array(
-				'where' => '(recipe_id = ' . $recipe_ID . ' OR post_id = ' . $recipe_ID . ') AND approved = 1',
+				'where' => $wpdb->prepare( '(recipe_id = %d OR post_id = %d) AND approved = 1', $recipe_ID, $recipe_ID ),
 			)
 		);
 
@@ -946,13 +958,17 @@ class WPZOOM_Rating_Stars {
 	 * @return number The total number of comment-based ratings.
 	 */
 	public static function get_review_count( $recipe_ID ) {
+		global $wpdb;
+
+		$recipe_ID = absint( $recipe_ID );
+
 		if ( ! $recipe_ID ) {
 			return 0;
 		}
 
 		$ratings = WPZOOM_Rating_DB::get_ratings(
 			array(
-				'where' => '(recipe_id = ' . $recipe_ID . ' OR post_id = ' . $recipe_ID . ') AND approved = 1 AND comment_id > 0',
+				'where' => $wpdb->prepare( '(recipe_id = %d OR post_id = %d) AND approved = 1 AND comment_id > 0', $recipe_ID, $recipe_ID ),
 			)
 		);
 

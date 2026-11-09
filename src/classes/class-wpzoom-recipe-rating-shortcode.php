@@ -130,6 +130,8 @@ if ( ! class_exists( 'WPZOOM_Recipe_Rating_Shortcode' ) ) {
 				$recipe_ID = isset( $shortcode_args['recipe_id'] ) ? $shortcode_args['recipe_id'] : null;
 			}
 
+			$recipe_ID = absint( $recipe_ID );
+
 			if( empty( $recipe_ID ) ) {
 				return '';
 			}

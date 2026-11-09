@@ -20,6 +20,33 @@ class WPZOOM_Helpers {
 	}
 
 	/**
+	 * Check whether the current visitor may see an embedded recipe.
+	 *
+	 * Recipes embedded by ID don't go through the main query's visibility rules,
+	 * so every renderer has to enforce them. Users who can edit the recipe still
+	 * see it, so an unpublished recipe can be previewed in place.
+	 *
+	 * WPZOOM_Print::can_print_post() can't be reused here: wpzoom_rcb is not a
+	 * publicly viewable post type, so it would hide every embed from guests.
+	 *
+	 * @since 3.6.5
+	 *
+	 * @param WP_Post|null $post The recipe post.
+	 * @return bool
+	 */
+	public static function can_view_recipe( $post ) {
+		if ( ! $post instanceof WP_Post || 'wpzoom_rcb' !== $post->post_type ) {
+			return false;
+		}
+
+		if ( current_user_can( 'edit_post', $post->ID ) ) {
+			return true;
+		}
+
+		return 'publish' === $post->post_status && ! post_password_required( $post );
+	}
+
+	/**
 	 * Fix tasty links conflict when convert '<' & '>' to unicode.
 	 *
 	 * @since 2.7.5

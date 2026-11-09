@@ -189,6 +189,12 @@ class WPZOOM_Settings {
 	public function get_license_data() {
 		$license_data = get_transient( 'wpzoom_rcb_plugin_user_data' );
 
+		// Connections made before account tokens existed must log in once more.
+		if ( $license_data && empty( $license_data->user->account_token ) ) {
+			delete_transient( 'wpzoom_rcb_plugin_user_data' );
+			$license_data = false;
+		}
+
 		if ( ! $license_data ) {
 			$license_data = (object) [];
 		}
@@ -259,6 +265,12 @@ class WPZOOM_Settings {
 			$license_data = (object) [];
 		}
 
+		$account_token = $license_data->user->account_token ?? '';
+
+		if ( empty( $account_token ) ) {
+			$this->send_ai_credits_reconnect_required();
+		}
+
 		$credits_data = get_option( 'wpzoom_credits' );
 		if ( ! $credits_data ) {
 			$credits_data = array(
@@ -276,7 +288,7 @@ class WPZOOM_Settings {
 
 		if ( ! empty( $credits_id ) ) {
 			$credits_api_params = array(
-				'ID' => $credits_id,
+				'account_token' => $account_token,
 			);
 			$credits_response = wp_remote_post(
 				esc_url( WPZOOM_RCB_STORE_URL . 'wp-json/wpzoomRCB/v1/checkCredits' ),
@@ -288,6 +300,11 @@ class WPZOOM_Settings {
 
 			if ( ! is_wp_error( $credits_response ) ) {
 				$credits_resp = json_decode( wp_remote_retrieve_body( $credits_response ) );
+
+				if ( isset( $credits_resp->code ) && 'reconnect_required' === $credits_resp->code ) {
+					$this->send_ai_credits_reconnect_required();
+				}
+
 				if ( ! empty( $credits_resp->success ) ) {
 
 					// Update credits
@@ -304,6 +321,19 @@ class WPZOOM_Settings {
 			}
 		}
 
+	}
+
+	/**
+	 * Forget a connection the server no longer accepts and ask the user to log in again.
+	 */
+	private function send_ai_credits_reconnect_required() {
+		delete_transient( 'wpzoom_rcb_plugin_user_data' );
+
+		wp_send_json( [
+			'success' => false,
+			'code'    => 'reconnect_required',
+			'message' => __( 'Please reload this page and log in again to refresh your AI credits.', 'recipe-card-blocks-by-wpzoom' ),
+		] );
 	}
 
 	/**

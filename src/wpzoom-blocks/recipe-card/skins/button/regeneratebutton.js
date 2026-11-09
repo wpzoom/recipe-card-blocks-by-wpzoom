@@ -108,10 +108,16 @@ const RegenerateButton = ( props ) => {
                 method: 'POST', headers: {
                     'Content-Type': 'application/json',
                 }, body: JSON.stringify( {
-                    message: promptPrepend + inputValue + promptAppend, user_id: licenseData.user.ID, email: licenseData.user.email, chat_model: aiChatModel,
+                    message: promptPrepend + inputValue + promptAppend, user_id: licenseData.user.ID, email: licenseData.user.email, account_token: licenseData.user.account_token, chat_model: aiChatModel,
                 } ),
             } );
             const responseData = await response.json();
+
+            if ( responseData.code === 'reconnect_required' ) {
+                setSuccess( false );
+                setErrorLogin( true );
+                return false;
+            }
 
             if ( responseData.error === 'Insufficient credits' ) {
                 setCreditserror( true );

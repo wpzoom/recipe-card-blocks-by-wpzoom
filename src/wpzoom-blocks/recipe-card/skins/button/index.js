@@ -133,13 +133,20 @@ const ButtonBox = ( props ) => {
                     },
                     user_id: licenseData.user.ID,
                     email: licenseData.user.email,
+                    account_token: licenseData.user.account_token,
                     chat_model: aiChatModel,
                 } ),
             } );
             const responseData = await response.json();
 
             console.log( responseData );
-            
+
+            if ( responseData.code === 'reconnect_required' ) {
+                setSuccess( false );
+                setErrorLogin( true );
+                return false;
+            }
+
             if ( responseData.error === 'Insufficient credits' ) {
                 setCreditserror( true );
             } else {

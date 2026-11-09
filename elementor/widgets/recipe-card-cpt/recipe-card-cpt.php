@@ -836,16 +836,18 @@ class Recipe_Card_Cpt extends Widget_Base {
 
 		$recipe = get_post( intval( $post_id ) );
 
-		if ( has_blocks( $recipe->post_content ) ) {
-			$blocks = parse_blocks( $recipe->post_content );
+		if ( ! \WPZOOM_Helpers::can_view_recipe( $recipe ) || ! has_blocks( $recipe->post_content ) ) {
+			return;
 		}
+
+		$blocks = parse_blocks( $recipe->post_content );
 
 		// The card rates under the recipe this widget shows (3.7.0, as PRO 7.5.0).
 		\WPZOOM_Recipe_Card_Block::push_render_context( $parent_id );
 		$card_html = render_block( $blocks[0] );
 		\WPZOOM_Recipe_Card_Block::pop_render_context();
 
-		printf( 
+		printf(
 			'<div class="wpzoom-custom-recipe-card-post wpzoom-rcb-post-shortcode" data-parent-id="%3$d" data-recipe-post="%2$d">%1$s</div>',
 			$this->fix_content_tags_conflict( $card_html ),
 			intval( $post_id ),
