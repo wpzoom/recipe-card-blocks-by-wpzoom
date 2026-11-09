@@ -189,6 +189,12 @@ class WPZOOM_Settings {
 	public function get_license_data() {
 		$license_data = get_transient( 'wpzoom_rcb_plugin_user_data' );
 
+		// Connections made before account tokens existed must log in once more.
+		if ( $license_data && empty( $license_data->user->account_token ) ) {
+			delete_transient( 'wpzoom_rcb_plugin_user_data' );
+			$license_data = false;
+		}
+
 		if ( ! $license_data ) {
 			$license_data = (object) [];
 		}
