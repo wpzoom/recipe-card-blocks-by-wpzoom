@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 3.6.5
+Stable tag: 3.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,12 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 
 
 == Changelog ==
+
+= 3.7.0 =
+* New: The Recipe Card and Insert Existing Recipe blocks now start with the same choice: start from scratch, copy an existing recipe, or insert one.
+* New: Add several Recipe Cards to one post. Each card keeps its own ratings and its own recipe post.
+* Improved: Recipe search in the block editor also finds recipes by the title inside the recipe card.
+* Fixed: Publishing a post that embeds a recipe now sets that post as the recipe's parent right away.
 
 = 3.6.5 =
 * Security: Embedded recipes now respect post status and password protection in the shortcode, Recipe Block From Posts and Elementor widget. Thanks to Respect for the report.
