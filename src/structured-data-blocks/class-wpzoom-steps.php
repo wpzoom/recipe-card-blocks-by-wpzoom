@@ -181,7 +181,7 @@ class WPZOOM_Steps_Block {
 					$text    = WPZOOM_Recipe_Card_Block::wrap_direction_text( $step['text'] );
 					$output .= sprintf(
 						'<li class="direction-step">%s</li>',
-						$text
+						wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $text ) )
 					);
 				}
 			} else {
@@ -192,7 +192,7 @@ class WPZOOM_Steps_Block {
 					);
 					$output .= sprintf(
 						'<li class="direction-step direction-step-group">%s</li>',
-						$text
+						wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $text ) )
 					);
 				}
 			}

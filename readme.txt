@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 3.7.0
+Stable tag: 3.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,9 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 
 
 == Changelog ==
+
+= 3.7.1 =
+* Security: Fixed a stored XSS in the Directions and Ingredients blocks, where step and ingredient text saved as a plain string was output without sanitization. Thanks to Wordfence for the report.
 
 = 3.7.0 =
 * New: The Recipe Card and Insert Existing Recipe blocks now start with the same choice: start from scratch, copy an existing recipe, or insert one.

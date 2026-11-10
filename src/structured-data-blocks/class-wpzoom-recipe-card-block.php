@@ -1996,7 +1996,8 @@ class WPZOOM_Recipe_Card_Block {
 		$attributes = self::$attributes;
 
 		if ( ! is_array( $nodes ) ) {
-			return $nodes;
+			// A plain string bypasses the node walk below, so it must be sanitized here.
+			return is_string( $nodes ) ? wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $nodes ) ) : $nodes;
 		}
 
 		$output = '';
@@ -2121,7 +2122,8 @@ class WPZOOM_Recipe_Card_Block {
 		$attributes = self::$attributes;
 
 		if ( ! is_array( $nodes ) ) {
-			return $nodes;
+			// A plain string bypasses the node walk below, so it must be sanitized here.
+			return is_string( $nodes ) ? wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $nodes ) ) : $nodes;
 		}
 
 		$output = '';

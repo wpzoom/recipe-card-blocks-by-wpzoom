@@ -192,7 +192,7 @@ class WPZOOM_Ingredients_Block {
 					$output .= sprintf(
 						'<li id="%s" class="ingredient-item">%s</li>',
 						esc_attr( $ingredient['id'] ),
-						$name
+						wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $name ) )
 					);
 				}
 			} else {
@@ -203,7 +203,7 @@ class WPZOOM_Ingredients_Block {
 					);
 					$output .= sprintf(
 						'<li class="ingredient-item ingredient-item-group">%s</li>',
-						$name
+						wp_kses_post( WPZOOM_Helpers::deserialize_block_attributes( $name ) )
 					);
 				}
 			}
