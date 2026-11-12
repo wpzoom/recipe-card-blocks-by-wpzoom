@@ -1,0 +1,17 @@
+// Base: a light card with the photo beside the title and one panel for the details (3.8.0).
+
+.wp-block-wpzoom-recipe-card-block-recipe-card {
+    &.is-style-base {
+        @include rcb-base-card(
+            'base',
+            $base-heading-color,
+            $base-meta-color,
+            $base-border-color,
+            $base-background-color,
+            $base-tick-color,
+            $base-ticked-color
+        );
+    }
+}
+
+@include rcb-base-responsive( 'base' );

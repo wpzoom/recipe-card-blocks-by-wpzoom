@@ -104,6 +104,70 @@ class WPZOOM_Helpers {
 		return trim( $render );
 	}
 
+	/**
+	 * Recipe Card styles, in the order the pickers show them.
+	 *
+	 * Keep in sync with RECIPE_CARD_STYLES in
+	 * src/wpzoom-blocks/recipe-card/components/style-picker.js.
+	 *
+	 * @since 3.8.0
+	 * @return array Style slug => label.
+	 */
+	public static function get_recipe_card_styles() {
+		return array(
+			'base'      => __( 'Base', 'recipe-card-blocks-by-wpzoom' ),
+			'onyx'      => __( 'Onyx', 'recipe-card-blocks-by-wpzoom' ),
+			'simple'    => __( 'Clean', 'recipe-card-blocks-by-wpzoom' ),
+			'default'   => __( 'Modern', 'recipe-card-blocks-by-wpzoom' ),
+			'newdesign' => __( 'Amber', 'recipe-card-blocks-by-wpzoom' ),
+		);
+	}
+
+	/**
+	 * URL of a style's preview image.
+	 *
+	 * @since 3.8.0
+	 * @param string $style Style slug.
+	 * @return string
+	 */
+	public static function get_recipe_card_style_preview( $style ) {
+		return untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/images/examples/rcb-example-' . sanitize_key( $style ) . '.jpg';
+	}
+
+	/**
+	 * Markup for a detail icon (servings, prep time...).
+	 *
+	 * Inline SVG when the registry has the icon, so no icon font is needed. Icons without an
+	 * SVG (Genericons, for example) keep their font class, and the icon fonts are then loaded
+	 * for this page only.
+	 *
+	 * @since 3.8.0
+	 * @param string $icon_set Icon set: oldicon, foodicons, dashicons, fa or genericons.
+	 * @param string $icon     Icon name inside the set.
+	 * @param string $prefix   Font Awesome style (fas, far); other sets ignore it.
+	 * @param string $style    Optional inline style for the icon (a color).
+	 * @return string
+	 */
+	public static function get_detail_icon_html( $icon_set, $icon, $prefix = '', $style = '' ) {
+		$style_attr = '' !== trim( (string) $style ) ? ' style="' . esc_attr( $style ) . '"' : '';
+		$svg        = class_exists( 'WPZOOM_Recipe_Block_Icon_SVG' ) ? WPZOOM_Recipe_Block_Icon_SVG::get_svg( $icon_set, $icon, $prefix ) : null;
+
+		if ( ! empty( $svg ) ) {
+			return '<span class="detail-item-icon" aria-hidden="true"' . $style_attr . '>' . $svg . '</span>';
+		}
+
+		// Printed after wp_head: WordPress adds late styles in the footer.
+		if ( 'dashicons' === $icon_set ) {
+			wp_enqueue_style( 'dashicons' );
+		} else {
+			wp_enqueue_style( WPZOOM_Assets_Manager::$_slug . '-icon-fonts-css' );
+		}
+
+		$classes = implode( ' ', array( 'detail-item-icon', $prefix ? $prefix : $icon_set, $icon_set . '-' . $icon ) );
+
+		return sprintf( '<span class="%s"%s></span>', esc_attr( $classes ), $style_attr );
+	}
+
 	public function get_block_style( $className ) {
 		$style = WPZOOM_Settings::get( 'wpzoom_rcb_settings_template' );
 		if ( strpos( $className, 'is-style' ) !== false ) {
@@ -157,10 +221,14 @@ class WPZOOM_Helpers {
 		}
 
 		if ( 'default' === $blockStyle ) {
-			$settings['primary_color'] = '#222222';
+			// Colored by its stylesheet (3.8.0).
+			$settings['primary_color'] = '';
 		} elseif ( 'newdesign' === $blockStyle ) {
-			$settings['primary_color'] = '#FFA921';
+			$settings['primary_color'] = '#E99E3C';
 		} elseif ( 'simple' === $blockStyle ) {
+			$settings['primary_color'] = '';
+		} elseif ( 'base' === $blockStyle || 'onyx' === $blockStyle ) {
+			// Colored by their stylesheets.
 			$settings['primary_color'] = '';
 		}
 

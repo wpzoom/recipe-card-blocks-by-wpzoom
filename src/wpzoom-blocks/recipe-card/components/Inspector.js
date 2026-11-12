@@ -15,7 +15,7 @@ import VideoUpload from './VideoUpload';
 import { stripHTML } from '../../../helpers/stringHelpers';
 import { getNumberFromString, convertMinutesToHours } from '../../../helpers/convertMinutesToHours';
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
-import { getBlockStyle } from '../../../helpers/getBlockStyle';
+import { getBlockStyle, isBaseFamilyStyle } from '../../../helpers/getBlockStyle';
 
 import { 
 	settingsIcon,
@@ -495,6 +495,8 @@ export default class Inspector extends Component {
         } = attributes;
 
         const style = getBlockStyle( className );
+        // Styles with the photo beside the header text: it goes left or right, never center.
+        const hasSideImage = 'simple' === style || isBaseFamilyStyle( style );
         const imageSizeOptions = this.getImageSizeOptions();
 
 		const sectionOpen = ( '1' === setting_options.wpzoom_rcb_settings_sections_expanded ? true : false );
@@ -608,7 +610,7 @@ export default class Inspector extends Component {
                         </Fragment>
                     }
                     {
-                        'simple' === style &&
+                        hasSideImage &&
                         <BaseControl
                             id={ `${ id }-heading-align` }
                             label={ __( 'Header Content Align', 'recipe-card-blocks-by-wpzoom' ) }
@@ -632,7 +634,7 @@ export default class Inspector extends Component {
                         </BaseControl>
                      }
                     {
-                        'simple' !== style &&
+                        ! hasSideImage &&
                         <BaseControl
                             id={ `${ id }-heading-align` }
                             label={ __( 'Header Content Align', 'recipe-card-blocks-by-wpzoom' ) }
@@ -685,7 +687,7 @@ export default class Inspector extends Component {
                         }
                     </BaseControl>
                     {
-                        style === 'newdesign' &&
+                        ( style === 'newdesign' || isBaseFamilyStyle( style ) ) &&
                             <BaseControl
                                 id={ `${ id }-ingredients-layout` }
                                 label={ __( 'Ingredients Layout', 'recipe-card-blocks-by-wpzoom' ) }

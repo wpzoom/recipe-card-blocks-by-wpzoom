@@ -498,6 +498,12 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			wp_enqueue_style( 'dashicons' );
 			wp_enqueue_style( self::$_slug . '-editor-css' );
 
+			// Author of the post being edited, for "Recipe by ..." in the card. The editor can look
+			// it up itself for posts and pages, but the recipe post type has no author field
+			// there, so the name was missing when editing a recipe (3.8.0).
+			$edited_post    = get_post();
+			$post_author_id = ( $edited_post && ! empty( $edited_post->post_author ) ) ? (int) $edited_post->post_author : get_current_user_id();
+
 			/**
 			 * Localize script data.
 			 */
@@ -505,6 +511,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				self::$_slug . '-js',
 				'wpzoomRecipeCard',
 				array(
+					'postAuthorName' => (string) get_the_author_meta( 'display_name', $post_author_id ),
 					'restURL' => get_rest_url(),
 					'version'             => WPZOOM_RCB_VERSION,
 					'textdomain'          => WPZOOM_RCB_TEXT_DOMAIN,
@@ -529,31 +536,16 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 		 * @since 1.1.0
 		 */
 		public function load_icon_fonts() {
+			// The editor's icon picker lists every icon of every set, so the fonts stay there.
 			// Required in the iframed block editor (Block API v3) where parent-enqueued dashicons are not available.
 			if ( is_admin() ) {
 				wp_enqueue_style( 'dashicons' );
 				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
 			}
 
-			/**
-			 * Load Assets only on single page if option is unchecked
-			 *
-			 * @since 2.7.3
-			 */
-			if ( '1' !== WPZOOM_Settings::get( 'wpzoom_rcb_settings_load_assets_on_all_pages' ) && ! is_single() ) {
-				return false;
-			}
-
-			if (
-				! is_admin() &&
-				( has_block( 'wpzoom-recipe-card/block-details' ) || has_block( 'wpzoom-recipe-card/block-recipe-card' ) || has_block( 'wpzoom-recipe-card/recipe-block-from-posts' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-details' ) || self::has_reusable_block( 'wpzoom-recipe-card/block-recipe-card' ) || self::has_cpt_rcb_elementor_widget() || self::has_cpt_rcb_shortcode() )
-			) {
-				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
-			}
-
-			if ( is_home() || is_archive() || is_search() ) {
-				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
-			}
+			// Front end (3.8.0): nothing to load. Detail icons are printed as inline SVG, and
+			// WPZOOM_Helpers::get_detail_icon_html() enqueues the fonts itself for the rare icon
+			// that has no SVG.
 		}
 
 		/**
@@ -653,9 +645,13 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$inline_CSS .= self::get_custom_css();
 
 			$inline_CSS .= '.artl-cnt ul li:before {display: none}';
-			$inline_CSS .= "{$block_class_name} .recipe-card-notes .recipe-card-notes-list>li::before {
-                background-color: {$primary_color};
-            }";
+			// The notes badge is an outlined circle since 3.8.0: color it, do not fill it.
+			if ( ! empty( $primary_color ) ) {
+				$inline_CSS .= "{$block_class_name} .recipe-card-notes .recipe-card-notes-list>li::before {
+                    border-color: {$primary_color};
+                    color: {$primary_color};
+                }";
+			}
 			$inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Free\";font-style:normal;font-weight:400;font-display:block;src:url({$fa_regular_400_woff2}) format(\"woff2\")}.far{font-weight:400}";
 			$inline_CSS .= "@font-face{font-family:\"Font Awesome 5 Free\";font-style:normal;font-weight:900;font-display:block;src:url({$fa_solid_900_woff2}) format(\"woff2\")}";
 			$inline_CSS .= "@font-face{font-family:FoodIcons;src:url({$foodicons_woff}) format(\"woff\");font-weight:400;font-display:block;font-style:normal}";
@@ -677,7 +673,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				if ( ! empty( $primary_color ) ) {
 					$inline_CSS .= "{$block_class_name} .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link {
                         background-color: {$primary_color};
-                        box-shadow: 0 5px 40px {$primary_color};
+                        box-shadow: 0 2px 6px {$primary_color};
                     }";
 					$inline_CSS .= "{$block_class_name} .details-items .detail-item .detail-item-icon {
                         color: {$primary_color};

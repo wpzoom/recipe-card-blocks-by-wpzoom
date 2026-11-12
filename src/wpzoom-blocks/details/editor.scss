@@ -108,6 +108,21 @@
 	
 	@include clear-after;
 
+	// Inline SVG icons (3.8.0) take the place of the 20px font glyphs.
+	.wpzoom-recipe-card-icons__single-element.has-svg {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+
+		svg {
+			width: 20px;
+			height: 20px;
+			overflow: visible;
+			fill: currentColor;
+		}
+	}
+
 	.wpzoom-recipe-card-icons__single-element {
 		float: left;
 		width: 8%;
@@ -152,3 +167,19 @@
 	padding: 0;
 }
 
+
+
+/* Detail icons shown as inline SVG in the editor (3.8.0) */
+.wpzoom-rcb-icon-svg {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+
+	svg {
+		width: 20px;
+		height: 20px;
+		overflow: visible;
+		fill: currentColor;
+	}
+}

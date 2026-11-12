@@ -1,0 +1,338 @@
+// Onyx: a bold black and grey card (3.8.0).
+//
+// It shares Base's markup and layout (see base-layout.scss); everything that makes Onyx look
+// different is below the include.
+//
+// Three CSS variables carry the colors:
+//   --rcb-onyx-ink    header band, step numbers, checkboxes, headings
+//   --rcb-onyx-panel  grey panels (details, ingredients, notes)
+//   --rcb-onyx-line   hairlines and the card border
+
+$onyx-card: '.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-onyx';
+
+@mixin onyx-label( $size: 11px, $spacing: 0.12em ) {
+    font-size: $size;
+    font-weight: 700;
+    letter-spacing: $spacing;
+    text-transform: uppercase;
+}
+
+#{$onyx-card} {
+    @include rcb-base-card(
+        'onyx',
+        $onyx-ink,
+        $onyx-meta-color,
+        $onyx-border-color,
+        $onyx-background-color,
+        $onyx-ink,
+        $onyx-ink
+    );
+}
+
+@include rcb-base-responsive( 'onyx' );
+
+#{$onyx-card} {
+    --rcb-onyx-ink: #{$onyx-ink};
+    --rcb-onyx-panel: #{$onyx-background-color};
+    --rcb-onyx-line: #{$onyx-border-color};
+    --rcb-onyx-pad: 36px;
+
+    padding: 0 var(--rcb-onyx-pad) var(--rcb-onyx-pad);
+    border: 1px solid var(--rcb-onyx-line);
+    border-radius: 0;
+    color: $onyx-text;
+
+    // ---------------------------------------------------------------- Header band
+    .recipe-card-header-wrap {
+        grid-template-columns: minmax(0, 1fr) minmax(200px, 32%);
+        align-items: start;
+        gap: 36px;
+        margin: 0 calc(var(--rcb-onyx-pad) * -1);
+        padding: var(--rcb-onyx-pad);
+        background: var(--rcb-onyx-ink);
+        color: $onyx-on-ink;
+    }
+
+    // Text first, photo on the right. "Align right" flips them.
+    .recipe-card-image-column {
+        order: 2;
+    }
+
+    .recipe-card-along-image {
+        order: 1;
+    }
+
+    &.header-content-align-right {
+        .recipe-card-header-wrap {
+            grid-template-columns: minmax(200px, 32%) minmax(0, 1fr);
+        }
+
+        .recipe-card-image-column {
+            order: 1;
+        }
+
+        .recipe-card-along-image {
+            order: 2;
+        }
+    }
+
+    .recipe-card-image img {
+        aspect-ratio: 1 / 1;
+        min-height: 0;
+        height: auto;
+        border-radius: 0;
+    }
+
+    .recipe-card-heading {
+        .recipe-card-title {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: $onyx-on-ink;
+        }
+
+        .recipe-card-author {
+            color: rgba( $onyx-on-ink, 0.7 );
+        }
+
+        .recipe-sub-title {
+            border-bottom-color: rgba( $onyx-on-ink, 0.2 );
+        }
+
+        .recipe-card-rating-wrap {
+            color: $onyx-on-ink;
+        }
+    }
+
+    .recipe-card-summary {
+        color: rgba( $onyx-on-ink, 0.88 );
+
+        a {
+            color: $onyx-on-ink;
+            text-decoration: underline;
+        }
+    }
+
+    // Outlined buttons, reversed on hover.
+    .recipe-card-buttons {
+        .btn-pinit-link,
+        .btn-print-link {
+            padding: 12px 10px;
+            border-color: rgba( $onyx-on-ink, 0.7 );
+            border-radius: 0;
+            color: $onyx-on-ink;
+            @include onyx-label( 12px, 0.1em );
+
+            span {
+                font-size: 12px;
+            }
+
+            &:hover {
+                background: $onyx-on-ink;
+                border-color: $onyx-on-ink;
+                color: var(--rcb-onyx-ink);
+            }
+        }
+    }
+
+    // Cook Mode sits under the photo, on the ink.
+    .recipe-card-image-column .wpzoom-nosleep-toggle-container {
+        padding: 0;
+        color: $onyx-on-ink;
+
+        .wpzoom-nosleep-label {
+            color: $onyx-on-ink;
+        }
+
+        .recipe-card-no-sleep {
+            color: rgba( $onyx-on-ink, 0.65 );
+            opacity: 1;
+        }
+
+        .slider {
+            background-color: rgba( $onyx-on-ink, 0.28 );
+
+            &:before {
+                background-color: $onyx-on-ink;
+            }
+        }
+
+        input:checked + .slider {
+            background-color: $onyx-on-ink;
+
+            &:before {
+                background-color: var(--rcb-onyx-ink);
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------- Details strip
+    .recipe-card-details-wrap {
+        margin: 0 calc(var(--rcb-onyx-pad) * -1) 34px;
+        padding: 24px var(--rcb-onyx-pad);
+        border-radius: 0;
+        background: var(--rcb-onyx-panel);
+    }
+
+    .recipe-card-details-top {
+        border-bottom-color: var(--rcb-onyx-line);
+    }
+
+    .recipe-card-term-label,
+    .recipe-card-details .detail-item-label {
+        color: $onyx-meta-color;
+        @include onyx-label;
+    }
+
+    .recipe-card-term-value,
+    .recipe-card-details .detail-item-value,
+    .recipe-card-details .detail-item-unit,
+    .recipe-card-details .detail-item-icon {
+        color: var(--rcb-onyx-ink);
+    }
+
+    // ---------------------------------------------------------------- Section titles
+    .ingredients-title,
+    .directions-title,
+    .video-title,
+    .notes-title {
+        margin-bottom: 18px;
+        color: var(--rcb-onyx-ink);
+        @include onyx-label( 14px, 0.14em );
+    }
+
+    // ---------------------------------------------------------------- Ingredients panel
+    .recipe-card-ingredients {
+        margin-bottom: 36px;
+        padding: 26px 28px 14px;
+        background: var(--rcb-onyx-panel);
+    }
+
+    .ingredients-list {
+        // The checkmark and the ticked fill follow the ink.
+        --rcb-ticked-color: var(--rcb-onyx-ink);
+    }
+
+    .ingredients-list > li {
+        // Square checkboxes.
+        .tick-circle {
+            border-radius: 2px;
+            border-color: var(--rcb-onyx-ink);
+            background: #fff;
+        }
+
+        &.ticked .tick-circle {
+            background: var(--rcb-onyx-ink);
+        }
+
+        &.ingredient-item-group {
+            margin-top: 6px;
+            @include onyx-label( 12px );
+        }
+    }
+
+    // ---------------------------------------------------------------- Steps
+    .directions-list > li {
+        padding-left: 46px;
+
+        &:not(.direction-step-group)::before {
+            content: counter(count);
+            top: 1px;
+            width: 28px;
+            height: 28px;
+            margin: 0;
+            border-radius: 50%;
+            background: var(--rcb-onyx-ink);
+            color: $onyx-on-ink;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 28px;
+            text-align: center;
+        }
+
+        &.direction-step-group {
+            padding-left: 0;
+            color: var(--rcb-onyx-ink);
+            @include onyx-label( 12px );
+        }
+    }
+
+    .direction-step img {
+        border-radius: 0;
+    }
+
+    // ---------------------------------------------------------------- Notes
+    .recipe-card-notes {
+        border-top-color: var(--rcb-onyx-line);
+
+        .recipe-card-notes-list > li,
+        > ul > li {
+            border-left: 3px solid var(--rcb-onyx-ink);
+            border-radius: 0;
+            background-color: var(--rcb-onyx-panel);
+            color: $onyx-text;
+
+            &::before {
+                border-color: var(--rcb-onyx-ink);
+                color: var(--rcb-onyx-ink);
+            }
+        }
+    }
+
+    // No photo: the text takes the whole band.
+    &.recipe-card-noimage .recipe-card-header-wrap {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+// The shared layout narrows the header columns as the card gets narrower. Onyx keeps its own
+// two columns until there is no room for the photo beside the text, then stacks them.
+@container recipe-card-onyx (max-width: 900px) {
+    #{$onyx-card} .recipe-card-header-wrap {
+        grid-template-columns: minmax(0, 1fr) minmax(200px, 32%);
+        gap: 28px;
+    }
+
+    #{$onyx-card}.header-content-align-right .recipe-card-header-wrap {
+        grid-template-columns: minmax(200px, 32%) minmax(0, 1fr);
+        gap: 28px;
+    }
+}
+
+@container recipe-card-onyx (max-width: 560px) {
+    #{$onyx-card} .recipe-card-header-wrap,
+    #{$onyx-card}.header-content-align-right .recipe-card-header-wrap {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    // Photo first when stacked.
+    #{$onyx-card} .recipe-card-image-column,
+    #{$onyx-card}.header-content-align-right .recipe-card-image-column {
+        order: 1;
+    }
+
+    #{$onyx-card} .recipe-card-along-image,
+    #{$onyx-card}.header-content-align-right .recipe-card-along-image {
+        order: 2;
+    }
+
+    #{$onyx-card} .recipe-card-image img {
+        aspect-ratio: 3 / 2;
+        min-height: 0;
+    }
+
+    #{$onyx-card} .recipe-card-heading .recipe-card-title {
+        font-size: 24px;
+    }
+}
+
+@media only screen and ( max-width: 650px ) {
+    #{$onyx-card} {
+        --rcb-onyx-pad: 20px;
+
+        .recipe-card-ingredients {
+            padding: 22px 20px 10px;
+        }
+    }
+}

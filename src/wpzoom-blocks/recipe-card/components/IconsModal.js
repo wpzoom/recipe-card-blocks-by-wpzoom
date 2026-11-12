@@ -8,7 +8,8 @@ import replace from 'lodash/replace';
 
 /* Internal dependencies */
 import Icons from '../../../utils/IconsArray';
-import { getBlockStyle } from '../../../helpers/getBlockStyle';
+import { DetailIcon, PickerIcon } from '../../../helpers/detailIconSvg';
+import { getBlockStyle, isBaseFamilyStyle } from '../../../helpers/getBlockStyle';
 
 /* WordPress dependencies */
 import {
@@ -61,7 +62,10 @@ function IconsModal(
     let iconStyles = { color: icon_details_color };
 
     if ( 'newdesign' === style ) {
-        iconStyles = { color: '#FFA921' };
+        iconStyles = { color: '#E99E3C' };
+    } else if ( 'default' === style || isBaseFamilyStyle( style ) ) {
+        // Colored by the style's stylesheet.
+        iconStyles = {};
     }
 
     _prefix = _prefix || iconSet;
@@ -192,18 +196,27 @@ function IconsModal(
                                 iconClassNames = [ 'wpzoom-recipe-card-icons__single-element', iconPrefix, `${ iconSet }-${ icon }` ].filter( ( item ) => item ).join( ' ' );
 
                                 return (
-                                    <span
-                                        className={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
-                                        onClick={ ( e ) => onChangeIcon( e, iconSet, icon, iconPrefix ) }>
-                                    </span>
+                                    <PickerIcon
+                                        key={ `${ iconPrefix }-${ icon }` }
+                                        fontClassName={ iconClassNames }
+                                        isActive={ activeIcon === icon }
+                                        iconSet={ iconSet }
+                                        icon={ icon }
+                                        prefix={ iconPrefix }
+                                        onClick={ ( e ) => onChangeIcon( e, iconSet, icon, iconPrefix ) }
+                                    />
                                 );
                             }
                         } else {
                             return (
-                                <span
-                                    className={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
-                                    onClick={ ( e ) => onChangeIcon( e, iconSet, icon ) }>
-                                </span>
+                                <PickerIcon
+                                    key={ icon }
+                                    fontClassName={ iconClassNames }
+                                    isActive={ activeIcon === icon }
+                                    iconSet={ iconSet }
+                                    icon={ icon }
+                                    onClick={ ( e ) => onChangeIcon( e, iconSet, icon ) }
+                                />
                             );
                         }
                     } )
@@ -227,7 +240,7 @@ function IconsModal(
             >
                 {
                     icon &&
-                    <span className={ `${ _prefix } ${ iconSet }-${ icon }` } style={ iconStyles }></span>
+                    <DetailIcon iconSet={ iconSet } icon={ icon } prefix={ _prefix } style={ iconStyles } />
                 }
             </Button>
             {

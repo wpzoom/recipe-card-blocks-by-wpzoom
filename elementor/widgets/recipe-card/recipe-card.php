@@ -168,11 +168,9 @@ class Recipe_Card extends Widget_Base {
 	 * @return array Style slugs.
 	 */
 	public function get_style_depends() {
+		// The icon fonts are not listed: detail icons are inline SVG since 3.8.0, and
+		// get_detail_icon_html() loads a font only for an icon that has no SVG.
 		return array(
-			'wpzoom-rcb-block-icons-css',
-			'wpzoom-rcb-block-oldicon-css',
-			'wpzoom-rcb-block-foodicons-css',
-			'wpzoom-rcb-block-genericons-css',
 			'wpzoom-rcb-block-style-css',
 			'wpzoom-rcb-elementor-css-frontend',
 		);
@@ -1712,6 +1710,44 @@ class Recipe_Card extends Widget_Base {
 	 * @access public
 	 * @return void
 	 */
+	/**
+	 * Markup for a detail icon picked in the widget's icon control.
+	 *
+	 * Inline SVG when the registry has the icon. Icons without an SVG keep their font class
+	 * and their icon stylesheet is loaded for this page only.
+	 *
+	 * @since 3.8.0
+	 * @param array $icon The control's value: 'library' and 'value' (e.g. "oldicon-food", "fas fa-clock").
+	 * @return string
+	 */
+	public function get_detail_icon_html( $icon ) {
+		$library = isset( $icon['library'] ) ? (string) $icon['library'] : '';
+		$value   = isset( $icon['value'] ) && is_string( $icon['value'] ) ? $icon['value'] : '';
+
+		if ( '' === $value ) {
+			return '';
+		}
+
+		// Elementor names its Font Awesome libraries fa-solid / fa-regular.
+		$registry_library = 0 === strpos( $library, 'fa-' ) ? 'fa' : $library;
+		$svg              = class_exists( 'WPZOOM_Recipe_Block_Icon_SVG' ) ? \WPZOOM_Recipe_Block_Icon_SVG::get_svg_for_elementor( $registry_library, $value ) : null;
+
+		if ( ! empty( $svg ) ) {
+			return '<span class="detail-item-icon" aria-hidden="true">' . $svg . '</span>';
+		}
+
+		// No SVG: fall back to the icon font and load its stylesheet (late styles print in the footer).
+		$font_styles = array(
+			'oldicon'    => 'wpzoom-rcb-block-oldicon-css',
+			'foodicons'  => 'wpzoom-rcb-block-foodicons-css',
+			'genericons' => 'wpzoom-rcb-block-genericons-css',
+			'dashicons'  => 'dashicons',
+		);
+		wp_enqueue_style( isset( $font_styles[ $library ] ) ? $font_styles[ $library ] : 'wpzoom-rcb-block-icons-css' );
+
+		return '<span class="detail-item-icon  ' . esc_attr( $library ) . ' ' . esc_attr( $value ) . '"></span>';
+	}
+
 	public function get_recipe_terms( $terms, $type ) {
 		if ( empty( $terms ) ) {
 			return;
@@ -1732,7 +1768,7 @@ class Recipe_Card extends Widget_Base {
 			$className = 'recipe-card-difficulty';
 			$label     = esc_html__( 'Difficulty:', 'recipe-card-blocks-by-wpzoom' );
 		}
-		$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', $className, $label, $termsValues );
+		$terms_output = sprintf( '<span class="%s">%s <mark>%s</mark></span>', esc_attr( $className ), $label, esc_html( $termsValues ) );
 
 		return $terms_output;
 	}

@@ -23,7 +23,7 @@ class WPZOOM_Settings_Fields {
 	/**
 	 * @var array $fields_type
 	 */
-	private $fields_type = array( 'checkbox', 'select', 'multiselect', 'input', 'textarea', 'button', 'scan_button' );
+	private $fields_type = array( 'checkbox', 'select', 'template_picker', 'pro_feature', 'multiselect', 'input', 'textarea', 'button', 'scan_button' );
 
 	/**
 	 * The Constructor.
@@ -174,6 +174,83 @@ class WPZOOM_Settings_Fields {
 					<?php echo wp_kses_post( $args['description'] ); ?>
 				 </p>
 			<?php endif ?>
+		</fieldset>
+		<?php
+	}
+
+	/**
+	 * HTML for the Recipe Card template picker: one thumbnail per style.
+	 *
+	 * The thumbnails are radio buttons, so the field works without JavaScript and with the
+	 * keyboard.
+	 *
+	 * @since 3.8.0
+	 * @param array $args
+	 * @return void
+	 */
+	public function template_picker( $args ) {
+		$selected = self::parse_select_field( $args );
+
+		// A style saved by PRO that this plugin does not have.
+		if ( ! isset( $args['options'][ $selected ] ) ) {
+			$selected = $args['default'];
+		}
+		?>
+		<fieldset class="wpzoom-rcb-field-template-picker">
+			<?php $this->create_nonce_field( $args ); ?>
+			<div class="wpzoom-rcb-template-picker">
+				<?php foreach ( $args['options'] as $value => $text ) : ?>
+					<label class="wpzoom-rcb-template-option">
+						<input type="radio"
+							name="wpzoom-recipe-card-settings[<?php echo esc_attr( $args['label_for'] ); ?>]"
+							value="<?php echo esc_attr( $value ); ?>"
+							<?php echo $value === $selected ? 'id="' . esc_attr( $args['label_for'] ) . '"' : ''; ?>
+							<?php checked( $value, $selected ); ?>
+							<?php echo ( self::is_disabled( $args ) ? 'disabled' : '' ); ?>
+						/>
+						<span class="wpzoom-rcb-template-preview">
+							<img src="<?php echo esc_url( WPZOOM_Helpers::get_recipe_card_style_preview( $value ) ); ?>" alt="" width="240" height="300" loading="lazy" />
+						</span>
+						<span class="wpzoom-rcb-template-label"><?php echo esc_html( $text ); ?></span>
+					</label>
+				<?php endforeach ?>
+			</div>
+
+			<?php if ( isset( $args['description'] ) ) : ?>
+				<p class="description">
+					<?php echo wp_kses_post( $args['description'] ); ?>
+				</p>
+			<?php endif ?>
+		</fieldset>
+		<?php
+	}
+
+	/**
+	 * HTML for a PRO option shown locked: a badge and a disabled checkbox.
+	 *
+	 * Display-only. Unlike the other locked fields it has no name and no stored value, so
+	 * viewing the page never resets the real setting on a site that also had PRO.
+	 *
+	 * @since 3.8.0
+	 * @param array $args
+	 * @return void
+	 */
+	public function pro_feature( $args ) {
+		?>
+		<fieldset class="wpzoom-rcb-field-checkbox">
+			<?php
+			if ( isset( $args['badge'] ) ) {
+				echo wp_kses_post( $args['badge'] );
+			}
+			?>
+
+			<label for="<?php echo esc_attr( $args['label_for'] ); ?>">
+				<input type="checkbox" id="<?php echo esc_attr( $args['label_for'] ); ?>" disabled />
+
+				<?php if ( isset( $args['description'] ) ) : ?>
+					<?php echo wp_kses_post( $args['description'] ); ?>
+				<?php endif ?>
+			</label>
 		</fieldset>
 		<?php
 	}

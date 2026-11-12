@@ -2195,3 +2195,341 @@ div.wp-tab-panel-inactive {
 }
 
 
+
+/*
+ *
+ * Recipe Card template picker (Appearance > Default Template)
+ *
+*/
+/* Fixed-width tiles that wrap: the settings table sizes its cell from the content, so a
+   fluid grid here would stretch the table instead of wrapping. */
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-option {
+    position: relative;
+    display: block;
+    flex: 0 0 128px;
+    width: 128px;
+    cursor: pointer;
+}
+/* The radio stays focusable but is drawn as the thumbnail's frame. */
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-option input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-preview {
+    display: block;
+    overflow: hidden;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    background: #f6f7f7;
+    line-height: 0;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: top center;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-label {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    color: #50575e;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-option:hover .wpzoom-rcb-template-preview {
+    border-color: #8c8f94;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-option input:checked + .wpzoom-rcb-template-preview {
+    border-color: #1d2327;
+    box-shadow: 0 0 0 2px #1d2327;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-option input:checked ~ .wpzoom-rcb-template-label {
+    font-weight: 600;
+    color: #1d2327;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-option input:focus-visible + .wpzoom-rcb-template-preview {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2271b1;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-template-option input:disabled + .wpzoom-rcb-template-preview {
+    opacity: .5;
+}
+
+/*
+ *
+ * Settings shell (3.8.0): search, left sub-menu, sticky save bar
+ *
+*/
+.toplevel_page_wpzoom-recipe-card-settings {
+    --rcb-accent: #E1581A;
+    --rcb-accent-dark: #c94c13;
+}
+
+/* The upgrade column keeps a fixed width, so the form gets the rest of a wide screen. */
+@media screen and (min-width: 941px) {
+    .toplevel_page_wpzoom-recipe-card-settings #wpzoom-recipe-card-settings {
+        width: calc(100% - 360px);
+    }
+    .toplevel_page_wpzoom-recipe-card-settings #wpzoom-recipe-card-settings + .wpz_right-col {
+        width: 360px;
+    }
+}
+
+/* Search */
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-wrap {
+    position: relative;
+    max-width: 380px;
+    margin: 0 0 15px;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    margin: 0;
+    padding: 0 12px 0 38px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 1.4;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search:focus {
+    border-color: var(--rcb-accent);
+    box-shadow: 0 0 0 1px var(--rcb-accent);
+    outline: 2px solid transparent;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-icon {
+    position: absolute;
+    top: 10px;
+    left: 11px;
+    color: #8c8f94;
+    pointer-events: none;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 100;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 320px;
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .12);
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-results[hidden] {
+    display: none;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-result {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 9px 14px;
+    border: 0;
+    border-bottom: 1px solid #f0f0f1;
+    background: #fff;
+    color: #1d2327;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-result:last-child {
+    border-bottom: 0;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-result:hover,
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-result:focus,
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-result.is-focused {
+    background: #fdf1ea;
+    outline: none;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-result-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-result-path {
+    display: block;
+    margin-top: 2px;
+    color: #646970;
+    font-size: 12px;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-empty {
+    padding: 12px 14px;
+    color: #646970;
+    font-size: 13px;
+}
+/* The row a search result points at flashes once. */
+@keyframes wpzoom-rcb-search-hit {
+    0%, 60% { background-color: #fff3cd; }
+    100% { background-color: transparent; }
+}
+.toplevel_page_wpzoom-recipe-card-settings tr.wpzoom-rcb-search-hit > th,
+.toplevel_page_wpzoom-recipe-card-settings tr.wpzoom-rcb-search-hit > td {
+    animation: wpzoom-rcb-search-hit 2.4s ease-out;
+}
+
+/* Sub-menu on the left, the active tab's sections on the right */
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-layout {
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid #dcdcde;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-sidebar {
+    display: none;
+    flex: 0 0 190px;
+    position: sticky;
+    top: 32px;
+    align-self: flex-start;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-layout.has-subnav .wpzoom-settings-sidebar {
+    display: block;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-main {
+    flex: 1 1 0;
+    min-width: 0;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-layout.has-subnav .wpzoom-settings-main {
+    border-left: 1px solid #f0f0f1;
+}
+/* The white box is the layout now, not each panel. */
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-main div.wp-tab-panel {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-nav[hidden] {
+    display: none;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-nav-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-nav-list li {
+    margin: 0;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-link {
+    display: block;
+    padding: 12px 18px;
+    border-bottom: 1px solid #f0f0f1;
+    color: #50575e;
+    font-size: 13px;
+    line-height: 1.4;
+    text-decoration: none;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-link:hover {
+    background: #f6f7f7;
+    color: var(--rcb-accent);
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-link:focus {
+    box-shadow: inset 0 0 0 2px var(--rcb-accent);
+    outline: 2px solid transparent;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-link.active,
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-link.active:hover {
+    background: var(--rcb-accent);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Sections */
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-section {
+    scroll-margin-top: 60px;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-section + .wpzoom-settings-section {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ededed;
+}
+
+/* Save bar: stays at the bottom of the window while the form is on screen */
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-save-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 30px;
+    padding: 12px 18px;
+    border: 1px solid #dcdcde;
+    border-top-color: #e6e6e8;
+    background: #fff;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, .06);
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-save-bar #wpzoom_rcb_settings_save,
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-save-bar #wpzoom_rcb_reset_settings {
+    float: none;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-save-bar .button-primary {
+    min-height: 36px;
+    padding: 0 18px;
+    border-color: var(--rcb-accent);
+    background: var(--rcb-accent);
+    font-weight: 600;
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-save-bar .button-primary:hover,
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-save-bar .button-primary:focus {
+    border-color: var(--rcb-accent-dark);
+    background: var(--rcb-accent-dark);
+}
+.toplevel_page_wpzoom-recipe-card-settings .wpzoom-rcb-save-bar .button-primary:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--rcb-accent);
+}
+
+/* Not enough room for a left column: the sub-menu becomes a row of links above the sections. */
+@media screen and (max-width: 1280px) {
+    .toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-layout {
+        display: block;
+    }
+    .toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-sidebar {
+        position: static;
+        border-bottom: 1px solid #f0f0f1;
+    }
+    .toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-layout.has-subnav .wpzoom-settings-main {
+        border-left: 0;
+    }
+    .toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-nav-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 12px 1.5em;
+    }
+    .toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-link {
+        padding: 6px 12px;
+        border: 1px solid #dcdcde;
+        border-radius: 999px;
+    }
+    .toplevel_page_wpzoom-recipe-card-settings .wpzoom-sidebar-link.active {
+        border-color: var(--rcb-accent);
+    }
+}
+@media screen and (max-width: 782px) {
+    .toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-sidebar {
+        top: 46px;
+    }
+    .toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-search-wrap {
+        max-width: none;
+    }
+}

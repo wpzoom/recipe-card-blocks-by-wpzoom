@@ -94,29 +94,38 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 		$html .= '<' . $recipe_title_tag . ' class="recipe-card-title">' . esc_html( get_the_title() ) . '</' . $recipe_title_tag . '>';
 	}
 
+	// Author and rating share one row under the title (3.8.0).
+	$sub_title = '';
 	if ( 'yes' === $settings['show_author'] ) {
 		$recipe_author = ! empty( $settings['custom_author'] ) ? esc_html( $settings['custom_author'] ) : get_the_author_meta( 'display_name' );
-		$html .= '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) .' '. $recipe_author . '</span>';
+		$sub_title .= '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) .' '. $recipe_author . '</span>';
 	}
 
 	if ( function_exists( 'wpzoom_rcb_rating_stars' ) ) {
 		$recipe_card_rating = wpzoom_rcb_rating_stars( self::$recipe->ID );
 
 		if ( ! empty( $recipe_card_rating ) ) {
-			$html .= '<div class="recipe-card-rating-wrap">' . $recipe_card_rating . '</div>';
+			$sub_title .= '<div class="recipe-card-rating-wrap">' . $recipe_card_rating . '</div>';
 		}
 	}
+	if ( '' !== $sub_title ) {
+		$html .= '<div class="recipe-sub-title">' . $sub_title . '</div>';
+	}
 
+	$terms_html = '';
 	if( !empty( $settings['recipe_course'] ) && $settings['show_course'] ) {
-		$html .= $this->get_recipe_terms( $settings['recipe_course'], 'courses' );
+		$terms_html .= $this->get_recipe_terms( $settings['recipe_course'], 'courses' );
 	}
 	if( !empty( $settings['recipe_cuisine'] ) && $settings['show_cuisine'] ) {
-		$html .= $this->get_recipe_terms( $settings['recipe_cuisine'], 'cuisines' );
+		$terms_html .= $this->get_recipe_terms( $settings['recipe_cuisine'], 'cuisines' );
 	}
 	if( !empty( $settings['recipe_difficulty'] ) && $settings['show_difficulty'] ) {
-		$html .= $this->get_recipe_terms( $settings['recipe_difficulty'], 'difficulties' );
+		$terms_html .= $this->get_recipe_terms( $settings['recipe_difficulty'], 'difficulties' );
 	}
 
+	if ( '' !== $terms_html ) {
+		$html .= '<div class="recipe-card-details-top">' . $terms_html . '</div>';
+	}
 	$html .= '</div><!-- /.recipe-card-heading -->';
 
 	//Cook Mode toggle
@@ -143,7 +152,7 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 					//$this->add_inline_editing_attributes( $label_key, 'basic' );
 
 					if( !empty( $detail_item['detail_item_icon']['value'] ) ) {
-						$html .= '<span class="detail-item-icon  ' . $detail_item['detail_item_icon']['library'] . ' ' . $detail_item['detail_item_icon']['value'] . '"></span>';
+						$html .= $this->get_detail_icon_html( $detail_item['detail_item_icon'] );
 					}
 					if( !empty( $detail_item['detail_item_label'] ) ) {
 						$html .= '<span ' . $this->get_render_attribute_string( $label_key ) . '>' . esc_html( $detail_item['detail_item_label'] ) . '</span>';

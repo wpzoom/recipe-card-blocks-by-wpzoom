@@ -217,13 +217,9 @@ class WPZOOM_Details_Block {
 			if ( ! empty( $detail['icon'] ) ) {
 				$icon            = esc_attr( $detail['icon'] );
 				$iconSet         = isset( $detail['iconSet'] ) ? esc_attr( $detail['iconSet'] ) : 'oldicon';
-				$_prefix         = isset( $detail['_prefix'] ) && ! empty( $detail['_prefix'] ) ? esc_attr( $detail['_prefix'] ) : $iconSet;
-				$itemIconClasses = implode( ' ', array( 'detail-item-icon', $_prefix, $iconSet . '-' . $icon ) );
 
-				$icon = sprintf(
-					'<span class="%s"></span>',
-					esc_attr( $itemIconClasses )
-				);
+				// Inline SVG, or the icon font for icons that have no SVG (3.8.0).
+				$icon = WPZOOM_Helpers::get_detail_icon_html( $iconSet, $icon, isset( $detail['_prefix'] ) ? esc_attr( $detail['_prefix'] ) : '' );
 			}
 
 			if ( ! empty( $detail['label'] ) ) {

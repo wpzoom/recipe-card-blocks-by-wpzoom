@@ -63,7 +63,7 @@
 @mixin heading-meta-delimiter( $delimiter: '/' ) {
     content: " #{$delimiter} ";
     color: $silver-sand;
-    @include margin( 0 12px );
+    @include margin( 0 5px 0 10px );
     font-style: normal;
     opacity: .5;
 }
@@ -105,10 +105,9 @@
     .recipe-card-cuisine,
     .recipe-card-difficulty {
         font-size: $font-size;
-        color: $meta-color;
 
         mark {
-            color: $meta-mark-color;
+            color: inherit;
             font-weight: $font-weight;
             background: transparent;
             padding: 0;
@@ -119,17 +118,51 @@
     }
 }
 
-@mixin ingredient-tick( $tick-color, $ticked-color ) {
+// The ingredient checkbox. Hovering a row previews the checkmark, ticking it fills the circle.
+// $check-color: the checkmark on a ticked (filled) circle.
+// --rcb-ticked-color overrides the fill, so a skin can follow its own accent.
+// The `rcb-tick-pop` keyframes live in recipe-card/style.scss.
+@mixin ingredient-tick( $tick-color, $ticked-color, $check-color: #fff ) {
     .tick-circle {
         content: '';
-        float: left;
+        flex: none;
         width: 18px;
         height: 18px;
-        margin: 6px 10px 0 0;
+        margin-right: 10px;
         border-radius: 50%;
         border: 2px solid $tick-color;
         cursor: pointer;
         position: relative;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+
+        // Checkmark, revealed left to right so it reads as being drawn.
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            margin: -5px 0 0 -5px;
+            background-color: var(--rcb-ticked-color, #{$ticked-color});
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 5.2l2.2 2.2L8.5 2.6' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 5.2l2.2 2.2L8.5 2.6' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+            clip-path: inset(0 100% 0 0);
+            opacity: 0;
+            transition: clip-path 0.25s ease, opacity 0.15s ease, background-color 0.2s ease;
+            pointer-events: none;
+        }
+    }
+    // Hover preview: hints that the row can be ticked off. Only on devices that really hover.
+    @media (hover: hover) {
+        &:not(.ingredient-item-group):not(.ticked):hover .tick-circle {
+            border-color: var(--rcb-ticked-color, #{$ticked-color}) !important;
+
+            &::after {
+                clip-path: inset(0 0 0 0);
+                opacity: 0.7;
+            }
+        }
     }
     &.ticked .ingredient-item-name {
         &.is-strikethrough-active {
@@ -137,10 +170,24 @@
         }
     }
     &.ticked .tick-circle {
-        border: 2px solid $ticked-color !important;
-        background: $ticked-color;
+        border: 2px solid var(--rcb-ticked-color, #{$ticked-color}) !important;
+        background: var(--rcb-ticked-color, #{$ticked-color});
+        animation: rcb-tick-pop 0.3s ease;
 
-        box-shadow: inset 0px 0px 0px 2px #fff;
+        &::after {
+            background-color: $check-color;
+            clip-path: inset(0 0 0 0);
+            opacity: 1;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .tick-circle,
+        .tick-circle::after {
+            transition: none;
+        }
+        &.ticked .tick-circle {
+            animation: none;
+        }
     }
 }
 
@@ -154,7 +201,6 @@
     > li {
         position: relative;
         background-color: $item-bg;
-        color: $item-color;
         @include margin( 0 0 15px );
         @include padding( 20px 25px 20px 50px );
         list-style-type: none;
@@ -165,17 +211,168 @@
             content: $badge-content;
             position: absolute;
             display: block;
+            box-sizing: border-box;
             color: $badge-color;
-            background-color: $badge-bg;
-            border-radius: 8px;
-            @include size( 16px );
+            border: 2px solid $badge-color;
+            border-radius: 50px;
+            @include size( 20px );
             line-height: 16px;
             font-size: 12px;
             text-align: center;
+            font-weight: 600;
             left: 14px;
 
             top: 50%;
             transform: translateY(-50%);
+        }
+    }
+}
+
+// --- Recipe Card skins (3.8.0) -------------------------------------------------------------
+
+// Section titles inside the card. The standalone blocks keep recipe-sections-title above.
+@mixin recipe-card-sections-title( $color, $selectors... ) {
+    @for $i from 0 to length($selectors) {
+        .#{nth($selectors, $i + 1)} {
+            font-size: 22px;
+            font-weight: 600;
+            color: $color;
+            text-transform: none;
+            @include margin( 0 0 15px );
+            padding: 0;
+            clear: none;
+            background-color: transparent;
+        }
+    }
+}
+
+// Author on the left, rating on the right, one dashed rule under both.
+@mixin recipe-sub-title-row( $margin: 0 0 10px, $padding: 0 0 10px, $border-color: rgba(0, 0, 0, 0.1) ) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 15px;
+    width: 100%;
+    margin: $margin;
+    padding: $padding;
+    border-bottom: 1px dashed $border-color;
+
+    .recipe-card-author {
+        display: block;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: normal;
+    }
+
+    .recipe-card-rating-wrap,
+    .wpzoom-rating-stars-container {
+        margin: 0;
+    }
+}
+
+@mixin recipe-ingredients-list-base(
+    $tick-color,
+    $ticked-color,
+    $line-height,
+    $item-margin,
+    $item-padding: null,
+    $item-border-bottom: null,
+    $group-margin-top: null
+) {
+    @include reset-list;
+
+    > li {
+        list-style: none;
+        margin: $item-margin;
+        position: relative;
+        cursor: pointer;
+        line-height: $line-height;
+
+        @if $item-padding != null {
+            padding: $item-padding;
+        }
+
+        @if $item-border-bottom != null {
+            border-bottom: $item-border-bottom;
+        }
+
+        &.ingredient-item-group {
+            cursor: initial;
+
+            @if $group-margin-top != null {
+                margin-top: $group-margin-top;
+            }
+        }
+
+        &:last-child {
+            @if $item-border-bottom != null {
+                border-bottom: none;
+            }
+        }
+
+        @include ingredient-tick( $tick-color, $ticked-color );
+    }
+
+    &.layout-2-columns {
+        columns: 2;
+
+        > li {
+            break-inside: avoid;
+        }
+
+        .ingredient-item-group {
+            column-span: all;
+        }
+    }
+}
+
+@mixin recipe-directions-list-base( $step-font-size: null ) {
+    counter-reset: count;
+    line-height: normal;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    > li {
+        position: relative;
+        line-height: 1.8;
+        list-style: none;
+        padding-left: 40px;
+        margin: 0 0 $grid-unit-20;
+
+        &::before {
+            @include direction-counter( 20px );
+            content: counter(count) ". ";
+            color: inherit;
+            font-weight: 600;
+            line-height: 1.5;
+            text-transform: none;
+        }
+
+        &:last-child {
+            margin: 0;
+        }
+
+        .direction-step-text {
+            margin-bottom: 20px;
+
+            @if $step-font-size != null {
+                font-size: $step-font-size;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+        }
+
+        &:last-child .direction-step-text {
+            margin-bottom: 0;
         }
     }
 }

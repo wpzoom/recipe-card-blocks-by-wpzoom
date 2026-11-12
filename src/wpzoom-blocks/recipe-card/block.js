@@ -30,7 +30,7 @@ import RecipeChooser, {
     RECIPE_CARD_BLOCK,
 } from './components/recipe-chooser';
 
-const { setting_options, pluginURL } = wpzoomRecipeCard;
+const { pluginURL } = wpzoomRecipeCard;
 
 /**
  * Register: Ingredients Gutenberg Block.
@@ -83,24 +83,8 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
             difficulty: [ __( 'Medium', 'recipe-card-blocks-by-wpzoom' ) ],
         },
     },
-    styles: [
-        // Mark style as default.
-        {
-            name: 'default',
-            label: __( 'Modern', 'recipe-card-blocks-by-wpzoom' ),
-            isDefault: setting_options.wpzoom_rcb_settings_template === 'default',
-        },
-        {
-            name: 'newdesign',
-            label: __( 'Amber', 'recipe-card-blocks-by-wpzoom' ),
-            isDefault: setting_options.wpzoom_rcb_settings_template === 'newdesign',
-        },
-        {
-            name: 'simple',
-            label: __( 'Clean', 'recipe-card-blocks-by-wpzoom' ),
-            isDefault: setting_options.wpzoom_rcb_settings_template === 'simple',
-        },
-    ],
+    // No `styles` here: the card's styles are picked from thumbnails in the Styles tab
+    // (components/style-picker.js) and stored as the same `is-style-*` class.
 
     /**
      * The edit function describes the structure of your block in the context of the editor.
@@ -147,7 +131,7 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
 
         if ( ! hasInstance || ! initDetails ) {
 			if ( 'newdesign' === style ) {
-				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#FFA921' };
+				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#E99E3C' };
 			} else if ( 'default' === style ) {
 				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#222222' };
 			} else if ( 'simple' === style ) {

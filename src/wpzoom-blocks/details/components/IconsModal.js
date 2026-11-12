@@ -8,6 +8,7 @@ import replace from 'lodash/replace';
 
 /* Internal dependencies */
 import Icons from '../../../utils/IconsArray';
+import { DetailIcon, PickerIcon } from '../../../helpers/detailIconSvg';
 
 /* WordPress dependencies */
 import {
@@ -174,18 +175,27 @@ function IconsModal(
                                 iconClassNames = [ 'wpzoom-recipe-card-icons__single-element', iconPrefix, `${ iconSet }-${ icon }` ].filter( ( item ) => item ).join( ' ' );
 
                                 return (
-                                    <span
-                                        className={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
-                                        onClick={ ( e ) => onChangeIcon( e, iconSet, icon, iconPrefix ) }>
-                                    </span>
+                                    <PickerIcon
+                                        key={ `${ iconPrefix }-${ icon }` }
+                                        fontClassName={ iconClassNames }
+                                        isActive={ activeIcon === icon }
+                                        iconSet={ iconSet }
+                                        icon={ icon }
+                                        prefix={ iconPrefix }
+                                        onClick={ ( e ) => onChangeIcon( e, iconSet, icon, iconPrefix ) }
+                                    />
                                 );
                             }
                         } else {
                             return (
-                                <span
-                                    className={ `${ iconClassNames } ${ activeIcon === icon ? 'icon-element-active' : '' }` }
-                                    onClick={ ( e ) => onChangeIcon( e, iconSet, icon ) }>
-                                </span>
+                                <PickerIcon
+                                    key={ icon }
+                                    fontClassName={ iconClassNames }
+                                    isActive={ activeIcon === icon }
+                                    iconSet={ iconSet }
+                                    icon={ icon }
+                                    onClick={ ( e ) => onChangeIcon( e, iconSet, icon ) }
+                                />
                             );
                         }
                     } )
@@ -209,7 +219,7 @@ function IconsModal(
             >
                 {
                     icon &&
-                    <span className={ `${ _prefix } ${ iconSet }-${ icon }` }></span>
+                    <DetailIcon iconSet={ iconSet } icon={ icon } prefix={ _prefix } />
                 }
             </Button>
             {

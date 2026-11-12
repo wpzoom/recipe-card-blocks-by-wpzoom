@@ -77,13 +77,12 @@
             }
             .recipe-card-ingredients {
                 .ingredients-list {
-                    > li .tick-circle {
-                        float: right;
-                        margin: 6px 0 0 10px;
+                    > li {
+                        flex-direction: row-reverse;
                     }
-                    .ingredient-item-name {
-                        padding-left: 0;
-                        padding-right: 30px;
+                    > li .tick-circle {
+                        margin-right: 0;
+                        margin-left: 10px;
                     }
                 }
             }
@@ -300,17 +299,19 @@
         .ingredients-list {
             margin: 0;
             padding: 0;
+            // Checkbox and text side by side.
             > li {
                 padding-left: 0;
+                display: flex;
+                align-items: center;
             }
             .ingredient-item-name {
-                padding-left: 30px;
+                flex: 1 1 0;
+                min-width: 0;
                 margin: 0;
-                vertical-align: middle;
-
-                &.is-strikethrough-active:hover {
-                    // text-decoration: line-through;
-                }
+            }
+            .wpzoom-rcb-ingredient-name {
+                font-weight: 500;
             }
         }
     }
@@ -359,10 +360,20 @@
     }
 }
 
+// Plays when an ingredient is ticked off (see the ingredient-tick mixin).
+@keyframes rcb-tick-pop {
+    0% { transform: scale(0.8); }
+    60% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+}
+
 @import "./skins/snippets";
 @import "./skins/default";
 @import "./skins/newdesign";
 @import "./skins/simple";
+@import "./skins/base-layout";
+@import "./skins/base";
+@import "./skins/onyx";
 
 /* Cook Mode toggle (keeps the screen awake while cooking) */
 .wpzoom-nosleep-toggle-container {

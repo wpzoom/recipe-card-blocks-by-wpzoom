@@ -24,7 +24,11 @@
         &::before {
             color: $dark-gray;
         }
+        // Inline SVG icons (3.8.0) take the size the icon font glyphs had.
         svg {
+            width: 1.25em;
+            height: 1.25em;
+            overflow: visible;
             fill: $dark-gray;
         }
     }

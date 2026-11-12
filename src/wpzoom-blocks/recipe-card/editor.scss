@@ -26,29 +26,29 @@
 		display: none;
 	} 
 
+	// Clean: the photo (or its placeholder) is the first column of the header grid.
 	&.is-style-simple {
-		.recipe-card-image-placeholder,
+		.components-placeholder.recipe-card-image-placeholder,
 		.recipe-card-image-preview {
 			margin-top: 0;
 			margin-bottom: 0;
-	        float: left;
-	        width: 40%;
-	        text-align: left;
-	    }
-	    .recipe-card-image-preview .recipe-card-image {
-	    	width: 100%;
-	    	float: none;
-	    }
-	    &.header-content-align-right {
-	    	.recipe-card-image-preview .recipe-card-image {
-	    		width: 100%;
-		    	float: none;
-	    	}
-	    	.recipe-card-image-placeholder,
-	    	.recipe-card-image-preview {
-	    		float: right;
-	    	}
-	    }
+			min-width: 0;
+			text-align: left;
+		}
+
+		.recipe-card-details .details-items .detail-item {
+			> .detail-item-icon,
+			> .detail-open-modal {
+				display: flex;
+				justify-content: center;
+				flex-basis: 100%;
+			}
+
+			.detail-item-value,
+			.detail-item-unit {
+				text-align: center;
+			}
+		}
 	}
 	
 	.recipe-card-details {
@@ -1316,6 +1316,154 @@ p.ai-p{
 			flex: 1 1 auto;
 			height: 1px;
 			background: #e0e0e0;
+		}
+	}
+}
+
+/* Base and Onyx styles in the editor (3.8.0) */
+.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-base,
+.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-onyx {
+	.components-placeholder.recipe-card-image-placeholder {
+		margin: 0;
+		min-height: 300px;
+	}
+
+	.recipe-card-image-preview .recipe-card-image {
+		margin: 0;
+	}
+
+	.recipe-card-summary {
+		margin-top: 0;
+	}
+
+	.ingredients-list > li {
+		cursor: text !important;
+	}
+
+	// One column while editing, so rows do not jump between columns.
+	.ingredients-list.layout-2-columns {
+		columns: 1 !important;
+	}
+
+	.recipe-card-details .details-items .detail-item {
+		> .detail-item-icon,
+		> .detail-open-modal {
+			display: flex;
+			justify-content: center;
+			flex-basis: 100%;
+		}
+
+		.detail-item-value,
+		.detail-item-unit {
+			text-align: center;
+		}
+	}
+
+	> p.description {
+		margin: -15px 0 25px;
+	}
+}
+
+/* The ink header of Onyx: placeholders and typing stay readable. */
+.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-onyx {
+	.recipe-card-header-wrap .rich-text [data-rich-text-placeholder]::after {
+		color: #fff;
+		opacity: .6;
+	}
+}
+
+/* Recipe Card style picker (Styles tab) */
+.wpzoom-rcb-style-picker {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.wpzoom-rcb-style-picker__item {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	text-align: center;
+	cursor: pointer;
+
+	&:focus {
+		outline: none;
+	}
+
+	&:hover .wpzoom-rcb-style-picker__preview {
+		border-color: var(--wp-admin-theme-color, #3858e9);
+	}
+
+	&:focus-visible .wpzoom-rcb-style-picker__preview {
+		box-shadow: 0 0 0 2px var(--wp-admin-theme-color, #3858e9);
+	}
+
+	&.is-active {
+		.wpzoom-rcb-style-picker__preview {
+			border-color: #1e1e1e;
+			box-shadow: 0 0 0 1px #1e1e1e;
+		}
+
+		.wpzoom-rcb-style-picker__label {
+			font-weight: 600;
+		}
+	}
+}
+
+.wpzoom-rcb-style-picker__preview {
+	display: block;
+	overflow: hidden;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background: #f0f0f0;
+	line-height: 0;
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		object-position: top center;
+	}
+}
+
+.wpzoom-rcb-style-picker__label {
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+
+/* Details in the styles that center each detail in a column (Clean, Base, Onyx):
+   keep the field, its unit and the "?" hint on one line so every column has the same rows. */
+.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-simple,
+.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-base,
+.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-onyx {
+	.recipe-card-details .details-items .detail-item {
+		.components-base-control {
+			margin-right: 0;
+
+			.components-base-control__field .components-text-control__input {
+				width: 40px;
+				text-align: center;
+			}
+		}
+
+		.detail-item-input-wrapper,
+		.detail-item-unit {
+			align-self: center;
+		}
+
+		.wpzoom-info-icon {
+			align-self: center;
+			margin-left: -2px;
+			line-height: 1;
 		}
 	}
 }

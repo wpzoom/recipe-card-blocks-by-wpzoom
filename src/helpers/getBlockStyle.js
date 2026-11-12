@@ -17,6 +17,17 @@ export function getBlockStyle( className ) {
 }
 
 /**
+ * Whether a style uses the Base header (Base and Onyx share markup).
+ *
+ * @param {string} style The block style name.
+ *
+ * @returns {boolean} True for Base and Onyx.
+ */
+export function isBaseFamilyStyle( style ) {
+    return 'base' === style || 'onyx' === style;
+}
+
+/**
  * Get block className without additions class names (e.g. is-style-).
  *
  * @param {array} className     The block classname.

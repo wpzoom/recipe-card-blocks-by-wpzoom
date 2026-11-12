@@ -202,7 +202,7 @@ class VideoUpload extends Component {
         const { attributes, setAttributes, noticeOperations, noticeUI } = this.props;
         const { hasVideo, video } = attributes;
         const { editing, isVisible } = this.state;
-        const className = excludeClassNames( this.props.className, [ 'wp-block-wpzoom-recipe-card-block-recipe-card', 'is-style-simple', 'is-style-default', 'is-style-newdesign' ] ); // exclude all uneeded class names
+        const className = excludeClassNames( this.props.className, [ 'wp-block-wpzoom-recipe-card-block-recipe-card', 'is-style-simple', 'is-style-default', 'is-style-newdesign', 'is-style-base', 'is-style-onyx' ] ); // exclude all uneeded class names
 
         const id = get( video, 'id' );
         const url = get( video, 'url' );

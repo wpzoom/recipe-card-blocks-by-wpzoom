@@ -987,7 +987,6 @@ class WPZOOM_Settings {
 	public function settings_init() {
 		$premium_extended_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'Professional License Required', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 		$premium_badge = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_premium">' . __( 'PRO Feature', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
-		$soon_badge    = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_coming_soon">' . __( 'Coming Soon', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 		$new_badge     = '<span class="wpzoom-rcb-badge wpzoom-rcb-field-is_new">' . __( 'New', 'recipe-card-blocks-by-wpzoom' ) . '</span>';
 
 		self::$settings = array(
@@ -1460,17 +1459,29 @@ class WPZOOM_Settings {
 							array(
 								'id'    => 'wpzoom_rcb_settings_template',
 								'title' => __( 'Default Template', 'recipe-card-blocks-by-wpzoom' ),
-								'type'  => 'select',
+								'type'  => 'template_picker',
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_template',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Default template to use for all Recipe Cards.', 'recipe-card-blocks-by-wpzoom' ),
-									'default'     => 'default',
-									'options'     => array(
-										'default'   => __( 'Modern', 'recipe-card-blocks-by-wpzoom' ),
-										'newdesign' => __( 'Amber', 'recipe-card-blocks-by-wpzoom' ),
-										'simple'    => __( 'Clean', 'recipe-card-blocks-by-wpzoom' ),
-									),
+									'description' => esc_html__( 'Default template to use for all Recipe Cards. You can pick another one for a single recipe in the block\'s Styles tab.', 'recipe-card-blocks-by-wpzoom' ),
+									// Base for new installs since 3.8.0 (Modern before). A site that already
+									// has saved settings keeps the template stored there.
+									'default'     => 'base',
+									'options'     => WPZOOM_Helpers::get_recipe_card_styles(),
+								),
+							),
+
+							// PRO only: shown locked, as a preview of the option. Display-only, so it
+							// has no default and never reads or writes a setting.
+							array(
+								'id'    => 'wpzoom_rcb_settings_template_apply_globally_pro',
+								'title' => __( 'Apply to All Recipes', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'pro_feature',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_template_apply_globally_pro',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Use the Default Template for every recipe card, including existing recipes that have their own template.', 'recipe-card-blocks-by-wpzoom' ),
+									'badge'       => $premium_badge,
 								),
 							),
 
@@ -2514,61 +2525,6 @@ class WPZOOM_Settings {
 					),
 				),
 			),
-			'metadata'    => array(
-				'tab_id'       => 'tab-metadata',
-				'tab_title'    => __( 'Metadata', 'recipe-card-blocks-by-wpzoom' ),
-				'option_group' => 'wpzoom-recipe-card-settings-metadata',
-				'option_name'  => self::$option,
-				'sections'     => array(
-					array(
-						'id'       => 'wpzoom_section_taxonomies',
-						'title'    => __( 'Taxonomies', 'recipe-card-blocks-by-wpzoom' ),
-						'page'     => 'wpzoom-recipe-card-settings-metadata',
-						'callback' => '__return_false',
-						'fields'   => array(
-							array(
-								'id'    => 'wpzoom_rcb_settings_course_taxonomy',
-								'title' => __( 'Course', 'recipe-card-blocks-by-wpzoom' ),
-								'type'  => 'checkbox',
-								'args'  => array(
-									'label_for'   => 'wpzoom_rcb_settings_course_taxonomy',
-									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Make Course as taxonomy.', 'recipe-card-blocks-by-wpzoom' ),
-									'default'     => false,
-									'disabled'    => true,
-									'badge'       => $premium_badge . $soon_badge,
-								),
-							),
-							array(
-								'id'    => 'wpzoom_rcb_settings_cuisine_taxonomy',
-								'title' => __( 'Cuisine', 'recipe-card-blocks-by-wpzoom' ),
-								'type'  => 'checkbox',
-								'args'  => array(
-									'label_for'   => 'wpzoom_rcb_settings_cuisine_taxonomy',
-									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Make Cuisine as taxonomy.', 'recipe-card-blocks-by-wpzoom' ),
-									'default'     => false,
-									'disabled'    => true,
-									'badge'       => $premium_badge . $soon_badge,
-								),
-							),
-							array(
-								'id'    => 'wpzoom_rcb_settings_difficulty_taxonomy',
-								'title' => __( 'Difficulty', 'recipe-card-blocks-by-wpzoom' ),
-								'type'  => 'checkbox',
-								'args'  => array(
-									'label_for'   => 'wpzoom_rcb_settings_difficulty_taxonomy',
-									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Make Difficulty as taxonomy.', 'recipe-card-blocks-by-wpzoom' ),
-									'default'     => false,
-									'disabled'    => true,
-									'badge'       => $premium_badge . $soon_badge,
-								),
-							),
-						),
-					),
-				),
-			),
 		);
 
 		$this->register_settings();
@@ -2684,37 +2640,59 @@ class WPZOOM_Settings {
             <div class="cols-wrap">
 
     			<form id="wpzoom-recipe-card-settings" action="options.php" method="post">
+
+    				<?php // Search across every tab (3.8.0). The field has no name, so it is never saved. ?>
+    				<div class="wpzoom-settings-search-wrap">
+    					<span class="wpzoom-settings-search-icon dashicons dashicons-search" aria-hidden="true"></span>
+    					<input type="search" id="wpzoom-settings-search" class="wpzoom-settings-search" placeholder="<?php esc_attr_e( 'Search settings...', 'recipe-card-blocks-by-wpzoom' ); ?>" aria-label="<?php esc_attr_e( 'Search settings', 'recipe-card-blocks-by-wpzoom' ); ?>" autocomplete="off" />
+    					<div class="wpzoom-settings-search-results" hidden></div>
+    				</div>
+
     				<ul class="wp-tab-bar">
     					<?php foreach ( self::$settings as $setting ) : ?>
     						<?php if ( self::$active_tab === $setting['tab_id'] ) : ?>
-    							<li class="wp-tab-active"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?><?php if ( ! empty( $setting['tab_badge'] ) ) : ?><span class="wpz-tab-badge" style="display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:rgba(34,187,102,.14);color:#0f6e43;font-size:10px;font-weight:700;line-height:1.6;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle"><?php echo esc_html( $setting['tab_badge'] ); ?></span><?php endif; ?></a></li>
+    							<li class="wp-tab-active" data-tab="<?php echo esc_attr( $setting['tab_id'] ); ?>"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?><?php if ( ! empty( $setting['tab_badge'] ) ) : ?><span class="wpz-tab-badge" style="display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:rgba(34,187,102,.14);color:#0f6e43;font-size:10px;font-weight:700;line-height:1.6;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle"><?php echo esc_html( $setting['tab_badge'] ); ?></span><?php endif; ?></a></li>
     						<?php else : ?>
-    							<li><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?><?php if ( ! empty( $setting['tab_badge'] ) ) : ?><span class="wpz-tab-badge" style="display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:rgba(34,187,102,.14);color:#0f6e43;font-size:10px;font-weight:700;line-height:1.6;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle"><?php echo esc_html( $setting['tab_badge'] ); ?></span><?php endif; ?></a></li>
+    							<li data-tab="<?php echo esc_attr( $setting['tab_id'] ); ?>"><a href="?page=wpzoom-recipe-card-settings&tab=<?php echo esc_attr( $setting['tab_id'] ); ?>"><?php echo esc_html( $setting['tab_title'] ); ?><?php if ( ! empty( $setting['tab_badge'] ) ) : ?><span class="wpz-tab-badge" style="display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:rgba(34,187,102,.14);color:#0f6e43;font-size:10px;font-weight:700;line-height:1.6;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle"><?php echo esc_html( $setting['tab_badge'] ); ?></span><?php endif; ?></a></li>
     						<?php endif ?>
     					<?php endforeach ?>
     				</ul>
-    				<?php foreach ( self::$settings as $setting ) : ?>
-    					<?php if ( self::$active_tab === $setting['tab_id'] ) : ?>
-    						<div class="wp-tab-panel" id="<?php echo esc_attr( $setting['tab_id'] ); ?>">
-    							<?php
-    								settings_fields( $setting['option_group'] );
-    								do_settings_sections( $setting['option_group'] );
-    							?>
-    						</div>
-    					<?php else : ?>
-    						<div class="wp-tab-panel" id="<?php echo esc_attr( $setting['tab_id'] ); ?>" style="display: none;">
-    							<?php
-    								settings_fields( $setting['option_group'] );
-    								do_settings_sections( $setting['option_group'] );
-    							?>
-    						</div>
-    					<?php endif ?>
-    				<?php endforeach ?>
 
-                    <ul class="rcb_btns_bottom">
-                        <li id="wpzoom_rcb_settings_save"><?php submit_button( __( 'Save Changes', 'recipe-card-blocks-by-wpzoom' ), 'primary', 'wpzoom_rcb_settings_save', false ); ?></li>
-                        <li id="wpzoom_rcb_reset_settings"><input type="button" class="button button-secondary" name="wpzoom_rcb_reset_settings" id="wpzoom_rcb_reset_settings" value="<?php esc_attr_e( 'Reset Settings', 'recipe-card-blocks-by-wpzoom' ); ?>"></li>
-                    </ul>
+    				<div class="wpzoom-settings-layout">
+
+    					<?php // Left sub-menu: one list per tab, the script shows the active tab's list. ?>
+    					<div class="wpzoom-settings-sidebar">
+    						<?php foreach ( self::$settings as $setting ) : ?>
+    							<?php $subnav_sections = self::get_subnav_sections( $setting ); ?>
+    							<?php if ( empty( $subnav_sections ) ) { continue; } ?>
+    							<nav class="wpzoom-sidebar-nav" data-tab="<?php echo esc_attr( $setting['tab_id'] ); ?>" aria-label="<?php echo esc_attr( wp_strip_all_tags( $setting['tab_title'] ) ); ?>"<?php echo ( self::$active_tab !== $setting['tab_id'] ) ? ' hidden' : ''; ?>>
+    								<ul class="wpzoom-sidebar-nav-list">
+    									<?php foreach ( $subnav_sections as $section ) : ?>
+    										<li><a href="#rcb-section-<?php echo esc_attr( $section['id'] ); ?>" class="wpzoom-sidebar-link"><?php echo esc_html( wp_strip_all_tags( $section['title'] ) ); ?></a></li>
+    									<?php endforeach; ?>
+    								</ul>
+    							</nav>
+    						<?php endforeach; ?>
+    					</div>
+
+    					<div class="wpzoom-settings-main">
+    						<?php foreach ( self::$settings as $setting ) : ?>
+    							<div class="wp-tab-panel" id="<?php echo esc_attr( $setting['tab_id'] ); ?>"<?php echo ( self::$active_tab !== $setting['tab_id'] ) ? ' style="display: none;"' : ''; ?>>
+    								<?php
+    									settings_fields( $setting['option_group'] );
+    									self::do_settings_sections( $setting['option_group'] );
+    								?>
+    							</div>
+    						<?php endforeach ?>
+    					</div>
+
+    				</div>
+
+    				<?php // Stays at the bottom of the window while the form is on screen. ?>
+    				<div class="wpzoom-rcb-save-bar">
+    					<?php submit_button( __( 'Save Changes', 'recipe-card-blocks-by-wpzoom' ), 'primary', 'wpzoom_rcb_settings_save', false ); ?>
+    					<input type="button" class="button button-secondary" name="wpzoom_rcb_reset_settings" id="wpzoom_rcb_reset_settings" value="<?php esc_attr_e( 'Reset Settings', 'recipe-card-blocks-by-wpzoom' ); ?>">
+    				</div>
 
     			</form>
 
@@ -2878,6 +2856,71 @@ class WPZOOM_Settings {
 	}
 
 	/**
+	 * Sections of a tab that get an entry in the left sub-menu.
+	 *
+	 * A tab gets a sub-menu when it has at least two sections and every one of them has a
+	 * title (the AI tabs open with untitled intro sections and stay a single column).
+	 *
+	 * @since 3.8.0
+	 * @param array $setting One tab of self::$settings.
+	 * @return array The tab's sections, or an empty array when it gets no sub-menu.
+	 */
+	public static function get_subnav_sections( $setting ) {
+		$sections = isset( $setting['sections'] ) && is_array( $setting['sections'] ) ? $setting['sections'] : array();
+
+		if ( count( $sections ) < 2 ) {
+			return array();
+		}
+
+		foreach ( $sections as $section ) {
+			if ( empty( $section['id'] ) || ! isset( $section['title'] ) || '' === trim( wp_strip_all_tags( $section['title'] ) ) ) {
+				return array();
+			}
+		}
+
+		return $sections;
+	}
+
+	/**
+	 * Prints a settings page's sections like WordPress' do_settings_sections(), with each
+	 * section in its own wrapper so the sub-menu and the search can point at it.
+	 *
+	 * The wrapper's id is prefixed: several section callbacks already print an element whose
+	 * id is the section id.
+	 *
+	 * @since 3.8.0
+	 * @param string $page The settings page (option group) to print.
+	 * @return void
+	 */
+	public static function do_settings_sections( $page ) {
+		global $wp_settings_sections, $wp_settings_fields;
+
+		if ( ! isset( $wp_settings_sections[ $page ] ) ) {
+			return;
+		}
+
+		foreach ( (array) $wp_settings_sections[ $page ] as $section ) {
+			echo '<div id="rcb-section-' . esc_attr( $section['id'] ) . '" class="wpzoom-settings-section">';
+
+			if ( $section['title'] ) {
+				echo '<h2>' . $section['title'] . "</h2>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- as in core; titles are defined in this class.
+			}
+
+			if ( $section['callback'] ) {
+				call_user_func( $section['callback'], $section );
+			}
+
+			if ( isset( $wp_settings_fields[ $page ][ $section['id'] ] ) ) {
+				echo '<table class="form-table" role="presentation">';
+				do_settings_fields( $page, $section['id'] );
+				echo '</table>';
+			}
+
+			echo '</div>';
+		}
+	}
+
+	/**
 	 * Enqueue scripts and styles
 	 *
 	 * @param string $hook
@@ -2916,6 +2959,9 @@ class WPZOOM_Settings {
 				array(
 					'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
 					'ajax_nonce' => wp_create_nonce( 'wpzoom-reset-settings-nonce' ),
+					'i18n'       => array(
+						'noResults' => __( 'No settings found', 'recipe-card-blocks-by-wpzoom' ),
+					),
 				)
 			);
 		}
