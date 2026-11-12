@@ -2,10 +2,11 @@
 
 /* External dependencies */
 import { __ } from '@wordpress/i18n';
-import get from 'lodash/get';
 
-const isPro = get( wpzoomRecipeCard, 'is_pro', false );
-const upgradeUrl = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=recipe-card-nutrition&utm_campaign=upgrade-premium';
+/* Internal dependencies */
+import { isPro, proUrl } from '../../../helpers/proLink';
+
+const upgradeUrl = proUrl( 'features/nutrition-facts-block/', 'nutrition' );
 
 /**
  * A subtle, single-line PRO hint shown at the bottom of the Recipe Card block
@@ -31,7 +32,7 @@ const NutritionUpsell = () => {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                { __( 'Upgrade →', 'recipe-card-blocks-by-wpzoom' ) }
+                { __( 'Learn more →', 'recipe-card-blocks-by-wpzoom' ) }
             </a>
         </p>
     );

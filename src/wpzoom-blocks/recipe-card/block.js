@@ -130,7 +130,7 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         const { settings, hasInstance, initDetails, details } = attributes;
 
         if ( ! hasInstance || ! initDetails ) {
-			// No primary_color here since 3.8.0: an unset color follows the Accent Color setting
+			// No primary_color here since 4.0.0: an unset color follows the Accent Color setting
 			// and the style's own color, and the Colors panel in the Styles tab sets it per card.
 
 			const newSettings = settings ? settings.slice() : [];

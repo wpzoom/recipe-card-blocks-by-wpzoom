@@ -110,7 +110,7 @@ class WPZOOM_Helpers {
 	 * Keep in sync with RECIPE_CARD_STYLES in
 	 * src/wpzoom-blocks/recipe-card/components/style-picker.js.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @return array Style slug => label.
 	 */
 	public static function get_recipe_card_styles() {
@@ -126,10 +126,10 @@ class WPZOOM_Helpers {
 	/**
 	 * The Accent Color setting, or '' when it is not set.
 	 *
-	 * Until 3.8.0 the field was locked and stored #F2A123 on every site; that value is ignored
+	 * Until 4.0.0 the field was locked and stored #F2A123 on every site; that value is ignored
 	 * until the settings page has cleared it (WPZOOM_Settings::set_defaults()).
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @return string A hex color or ''.
 	 */
 	public static function get_accent_color() {
@@ -147,11 +147,11 @@ class WPZOOM_Helpers {
 	/**
 	 * The "?" button next to the Cook Mode toggle, with the explanation it opens.
 	 *
-	 * Replaces the line of text printed under the toggle until 3.8.0. Same markup as PRO, so a
+	 * Replaces the line of text printed under the toggle until 4.0.0. Same markup as PRO, so a
 	 * card looks the same after upgrading. dist/assets/js/script.js opens, places and closes
 	 * it; recipe-card/style.scss styles it.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @return string HTML, or '' when no description is set in the plugin settings.
 	 */
 	public static function get_cook_mode_help() {
@@ -174,12 +174,12 @@ class WPZOOM_Helpers {
 	/**
 	 * A color picked on the card itself (the Colors panel in the block's Styles tab), or ''.
 	 *
-	 * The keys are PRO's, so the colors carry over after an upgrade. Until 3.8.0 Free had no
+	 * The keys are PRO's, so the colors carry over after an upgrade. Until 4.0.0 Free had no
 	 * per-card colors but wrote #222222 (Modern, Clean) or #E99E3C (Amber) into every new card's
 	 * primary_color; those exact (uppercase) values mean "not set". A color equal to $default is
 	 * not set either.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param array  $settings The card's settings (settings[0]).
 	 * @param string $key      Settings key, e.g. 'primary_color' or 'onyx_ink_color'.
 	 * @param string $default  The style's own color for that key.
@@ -201,7 +201,7 @@ class WPZOOM_Helpers {
 	/**
 	 * A Global Colors setting, or '' when it is unset or equal to its default.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param string $option  Option id.
 	 * @param string $default The field's default, which means "the template's own color".
 	 * @return string A hex color or ''.
@@ -215,7 +215,7 @@ class WPZOOM_Helpers {
 	/**
 	 * URL of a style's preview image.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param string $style Style slug.
 	 * @return string
 	 */
@@ -230,7 +230,7 @@ class WPZOOM_Helpers {
 	 * SVG (Genericons, for example) keep their font class, and the icon fonts are then loaded
 	 * for this page only.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param string $icon_set Icon set: oldicon, foodicons, dashicons, fa or genericons.
 	 * @param string $icon     Icon name inside the set.
 	 * @param string $prefix   Font Awesome style (fas, far); other sets ignore it.
@@ -309,7 +309,7 @@ class WPZOOM_Helpers {
 			$settings['ingredientsLayout'] = '1-column';
 		}
 
-		// The card's own color, else the Accent Color setting, else each template's own color (3.8.0).
+		// The card's own color, else the Accent Color setting, else each template's own color (4.0.0).
 		$accent_color = self::get_accent_color();
 		$card_color   = self::get_card_color( $settings, 'primary_color' );
 

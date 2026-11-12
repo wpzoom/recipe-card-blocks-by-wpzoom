@@ -1,5 +1,5 @@
 /**
- * Course, cuisine and difficulty edited right in the card (3.8.0), as in PRO.
+ * Course, cuisine and difficulty edited right in the card (4.0.0), as in PRO.
  *
  * A "+" next to each label (shown while the card is selected) opens a small window with the
  * current values as tokens and a row of common values to add with one click. The values are

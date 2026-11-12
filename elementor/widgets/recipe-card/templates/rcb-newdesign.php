@@ -94,7 +94,7 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 		$html .= '<' . $recipe_title_tag . ' class="recipe-card-title">' . esc_html( get_the_title() ) . '</' . $recipe_title_tag . '>';
 	}
 
-	// Author and rating share one row under the title (3.8.0).
+	// Author and rating share one row under the title (4.0.0).
 	$sub_title = '';
 	if ( 'yes' === $settings['show_author'] ) {
 		$recipe_author = ! empty( $settings['custom_author'] ) ? esc_html( $settings['custom_author'] ) : get_the_author_meta( 'display_name' );

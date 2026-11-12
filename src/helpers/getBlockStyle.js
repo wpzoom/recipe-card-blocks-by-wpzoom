@@ -40,7 +40,7 @@ export function parseClassName( className ) {
 }
 
 /**
- * The Accent Color setting, or '' when it is not set (3.8.0). Same rules as
+ * The Accent Color setting, or '' when it is not set (4.0.0). Same rules as
  * WPZOOM_Helpers::get_accent_color() in PHP.
  *
  * @returns {string} A hex color or ''.
@@ -57,7 +57,7 @@ export function getAccentColor() {
 }
 
 /**
- * A Global Colors setting, or '' when it is unset or equal to its default (3.8.0).
+ * A Global Colors setting, or '' when it is unset or equal to its default (4.0.0).
  *
  * @param {string} option       Option id.
  * @param {string} defaultColor The field's default.
@@ -75,12 +75,12 @@ export function getGlobalColor( option, defaultColor ) {
     return color;
 }
 
-// primary_color values that Free wrote into every new card before 3.8.0 without a picker.
+// primary_color values that Free wrote into every new card before 4.0.0 without a picker.
 // Matched exactly: those were uppercase, the color picker writes lowercase.
 const UNSET_PRIMARY_COLORS = [ '#222222', '#E99E3C', '#FFA921' ];
 
 /**
- * A color picked on the card itself, or '' (3.8.0). Same rules as
+ * A color picked on the card itself, or '' (4.0.0). Same rules as
  * WPZOOM_Helpers::get_card_color() in PHP.
  *
  * @param {Object} settings     The card's settings (settings[0]).

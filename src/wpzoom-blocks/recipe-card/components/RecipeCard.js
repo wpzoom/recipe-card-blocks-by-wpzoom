@@ -498,7 +498,7 @@ class RecipeCard extends Component {
             </div>
         );
 
-        // The "+" that edits course, cuisine or difficulty in place, while the card is selected (3.8.0).
+        // The "+" that edits course, cuisine or difficulty in place, while the card is selected (4.0.0).
         const termEditButton = ( name, label, terms ) => this.props.isSelected && (
             <TermEditButton termKey={ name } label={ label } value={ terms } setAttributes={ setAttributes } />
         );
@@ -560,7 +560,7 @@ class RecipeCard extends Component {
                 className={ RecipeCardClassName }
                 data-rcb-scope={ colorScope }
             >
-                { /* The card's colors, the Accent and the Global Colors, as on the front end (3.8.0). */ }
+                { /* The card's colors, the Accent and the Global Colors, as on the front end (4.0.0). */ }
                 { cardColorCss && <style>{ cardColorCss }</style> }
                 {
                     this.state.isLoading &&
@@ -802,7 +802,7 @@ class RecipeCard extends Component {
                             />
                         ) }
                     </div>
-                    { /* The regenerate windows, opened from the AI Actions menu (3.8.0, as in PRO). */ }
+                    { /* The regenerate windows, opened from the AI Actions menu (4.0.0, as in PRO). */ }
                     <div className="wpzoom-toolbar-regenerate-triggers" data-client-id={ this.props.clientId } aria-hidden="true">
                         { aiPrompts.recipe && <RegenerateButton type="recipe" message={ messageToAI } hiddenTrigger={ true } /> }
                         { hasImage && aiPrompts.image && <RegenerateButton type="image" message={ messageToAI } hiddenTrigger={ true } /> }

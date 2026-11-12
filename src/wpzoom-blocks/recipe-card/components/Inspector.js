@@ -40,9 +40,12 @@ import {
     SelectControl,
     Notice,
     Icon,
+    ExternalLink,
 } from '@wordpress/components';
 import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
 import AIRecipeCredits from './ai-recipe-credits';
+import ProFeaturesPanel from './pro-features-panel';
+import { isPro, proUrl } from '../../../helpers/proLink';
 
 /**
  * Module Constants
@@ -799,6 +802,14 @@ export default class Inspector extends Component {
                         label={ __( 'Display Servings', 'recipe-card-blocks-by-wpzoom' ) }
                         checked={ displayServings }
                         onChange={ display => this.onChangeSettings( display, 'displayServings' ) }
+                        help={ ! isPro && displayServings && (
+                            <Fragment>
+                                { __( 'Readers see this number as text. With PRO they can change it and the ingredient amounts follow.', 'recipe-card-blocks-by-wpzoom' ) }{ ' ' }
+                                <ExternalLink href={ proUrl( 'features/adjustable-servings-ingredients-unit-amount/', 'adjustable-servings' ) }>
+                                    { __( 'Learn more', 'recipe-card-blocks-by-wpzoom' ) }
+                                </ExternalLink>
+                            </Fragment>
+                        ) }
                     />
                     <PanelRow>
                         {
@@ -1077,6 +1088,7 @@ export default class Inspector extends Component {
                         />
                     </PanelRow>
                 </PanelBody>
+                <ProFeaturesPanel />
                 <AIRecipeCredits
                     onChangeDetail={ this.onChangeDetail }
                     { ...{ attributes } }

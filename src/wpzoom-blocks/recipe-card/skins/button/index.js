@@ -334,7 +334,7 @@ const ButtonBox = ( props ) => {
         <div className="ai-div">
             { /* "Generate AI" button */ }
             { props.isToolbar ? (
-                // In the block toolbar since 3.8.0, as in PRO.
+                // In the block toolbar since 4.0.0, as in PRO.
                 <ToolbarGroup className="wpzoom-toolbar-ai">
                     <Button
                         className="ai-toolbar-button"
@@ -357,7 +357,7 @@ const ButtonBox = ( props ) => {
                 { __( 'Add manually', 'recipe-card-blocks-by-wpzoom' ) }
             </Button>
       ) }
-            { /* The prompt window (PRO's layout since 3.8.0). */ }
+            { /* The prompt window (PRO's layout since 4.0.0). */ }
             { isVisible && (
             <Popover className="popup-overlay" position="center center" onClose={ handleAddManuallyClick }>
                 <div className="popup-backdrop" onClick={ handleAddManuallyClick }>

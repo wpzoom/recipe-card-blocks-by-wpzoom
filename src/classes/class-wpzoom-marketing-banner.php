@@ -7,7 +7,7 @@
  */
 if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 	class WPZOOM_Marketing_Banner {
-		const BTN_UPGRADE_NOW_LINK = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=bf-rcb-banner-btn&utm_campaign=bf-rcb';
+		const BTN_UPGRADE_NOW_LINK = 'https://recipecard.io/upgrade/?utm_source=wpadmin&utm_medium=bf-rcb-banner-btn&utm_campaign=bf-rcb';
 		const BF_START_DATE = '2026-11-25 00:00:00';
 		const BF_END_DATE = '2026-12-02 23:59:59';
 
@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPZOOM_Marketing_Banner' ) ) {
 		private static function inspiro_display_black_friday_banner() { ?>
 			<div class="wpzoom-banner-container-wrapper">
 				<div id="wpzoom-rcb-bf-banner-container" class="wpzoom-bf-banner-container notice is-dismissible">
-					<a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=bf-rcb-banner-image&utm_campaign=bf-rcb"><img src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/src/classes/templates/assets/img/bf-recipe-card-block-pro.png'; ?>" class="bf-wpzoom-banner-image" alt="WPZOOM Recipe Card Block Pro Deal" ></a>
+					<a href="https://recipecard.io/upgrade/?utm_source=wpadmin&utm_medium=bf-rcb-banner-image&utm_campaign=bf-rcb"><img src="<?php echo untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/src/classes/templates/assets/img/bf-recipe-card-block-pro.png'; ?>" class="bf-wpzoom-banner-image" alt="WPZOOM Recipe Card Block Pro Deal" ></a>
 					<div class="recipe-banner-text-container">
 						<h2>Upgrade to <span class="orange-text">Recipe Card Blocks Pro</span></h2>
 						<span class="banner-text">Unlock the full potential of your recipes and get more traffic with the PRO version! Get advanced features like:</span>

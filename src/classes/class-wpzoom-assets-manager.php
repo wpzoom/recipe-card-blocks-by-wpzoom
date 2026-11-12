@@ -500,7 +500,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 
 			// Author of the post being edited, for "Recipe by ..." in the card. The editor can look
 			// it up itself for posts and pages, but the recipe post type has no author field
-			// there, so the name was missing when editing a recipe (3.8.0).
+			// there, so the name was missing when editing a recipe (4.0.0).
 			$edited_post    = get_post();
 			$post_author_id = ( $edited_post && ! empty( $edited_post->post_author ) ) ? (int) $edited_post->post_author : get_current_user_id();
 
@@ -543,7 +543,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 				wp_enqueue_style( self::$_slug . '-icon-fonts-css' );
 			}
 
-			// Front end (3.8.0): nothing to load. Detail icons are printed as inline SVG, and
+			// Front end (4.0.0): nothing to load. Detail icons are printed as inline SVG, and
 			// WPZOOM_Helpers::get_detail_icon_html() enqueues the fonts itself for the rare icon
 			// that has no SVG.
 		}
@@ -645,7 +645,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			$inline_CSS .= self::get_custom_css();
 
 			$inline_CSS .= '.artl-cnt ul li:before {display: none}';
-			// The notes badge is an outlined circle since 3.8.0: color it, do not fill it.
+			// The notes badge is an outlined circle since 4.0.0: color it, do not fill it.
 			if ( ! empty( $primary_color ) ) {
 				$inline_CSS .= "{$block_class_name} .recipe-card-notes .recipe-card-notes-list>li::before {
                     border-color: {$primary_color};
@@ -670,7 +670,7 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			}
 
 			if ( $style === 'newdesign' ) {
-				// The accent is on the ingredient circles only since 3.8.0.
+				// The accent is on the ingredient circles only since 4.0.0.
 				if ( ! empty( $primary_color ) ) {
 					$inline_CSS .= "{$block_class_name} .ingredients-list>li .tick-circle {
                         border: 2px solid {$primary_color};

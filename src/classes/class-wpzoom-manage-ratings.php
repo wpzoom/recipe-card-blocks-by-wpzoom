@@ -1662,8 +1662,15 @@ class WPZOOM_Manage_Ratings {
 		}
 
 		$upgrade_url = class_exists( 'WPZOOM_Plugin_Activator' )
-			? WPZOOM_Plugin_Activator::get_store_url( 'pricing/?utm_source=wpadmin&utm_medium=manage-ratings&utm_campaign=ratings-analytics' )
-			: 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=ratings-page&utm_campaign=upgrade-premium';
+			? WPZOOM_Plugin_Activator::get_store_url(
+				'upgrade/',
+				array(
+					'utm_source'   => 'wpadmin',
+					'utm_medium'   => 'ratings-page',
+					'utm_campaign' => 'ratings',
+				)
+			)
+			: 'https://recipecard.io/upgrade/?utm_source=wpadmin&utm_medium=ratings-page&utm_campaign=ratings';
 		?>
 		<div class="wpzoom-ratings-analytics-upsell">
 			<div class="wpzoom-ratings-analytics-upsell-body">

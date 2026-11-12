@@ -166,7 +166,7 @@
                     display: inline-block;
                     line-height: 1.4;
                 }
-                // An inline SVG since 3.8.0 (or an icon font glyph for icons without one).
+                // An inline SVG since 4.0.0 (or an icon font glyph for icons without one).
                 .detail-item-icon {
                     display: flex;
                     align-items: center;
@@ -177,7 +177,7 @@
                     margin: auto;
                     color: $newdesign-detail-icon-color;
 
-                    // Inherit, so an accent color set on .detail-item-icon reaches the SVG (3.8.0).
+                    // Inherit, so an accent color set on .detail-item-icon reaches the SVG (4.0.0).
                     span {
                         color: inherit;
 

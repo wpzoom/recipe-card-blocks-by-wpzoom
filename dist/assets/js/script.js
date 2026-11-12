@@ -256,7 +256,7 @@
 			}
 		}
 
-		// Cook Mode help (3.8.0, as in PRO): the "?" next to the toggle shows a short explanation.
+		// Cook Mode help (4.0.0, as in PRO): the "?" next to the toggle shows a short explanation.
 		// It closes on a second click, a click anywhere else, Escape, or when the window is resized.
 		function wpzoomPlaceCookModeHelp($toggle, $tip) {
 			var tip = $tip[0],

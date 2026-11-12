@@ -1,7 +1,7 @@
 /* global wpzoomRecipeCard */
 
 /**
- * Detail icons as inline SVG in the editor (3.8.0).
+ * Detail icons as inline SVG in the editor (4.0.0).
  *
  * The front end prints detail icons from src/assets/icons/svg-registry.json (see
  * WPZOOM_Recipe_Block_Icon_SVG in PHP). The editor reads the same file, once, so the card

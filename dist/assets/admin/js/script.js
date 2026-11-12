@@ -178,7 +178,7 @@ jQuery(document).ready(function(){
 
 
 		// ---------------------------------------------------------------------------------
-		// Sub-menu (3.8.0): the sections of the active tab, listed on the left.
+		// Sub-menu (4.0.0): the sections of the active tab, listed on the left.
 		// ---------------------------------------------------------------------------------
 
 		// True right after a sub-menu or search click, so the scroll spy does not move the
@@ -256,7 +256,7 @@ jQuery(document).ready(function(){
 		syncSubnav( $( '.wp-tab-bar li.wp-tab-active' ).data( 'tab' ) );
 
 		// ---------------------------------------------------------------------------------
-		// Search (3.8.0): finds a setting in any tab by its label, section or description.
+		// Search (4.0.0): finds a setting in any tab by its label, section or description.
 		// ---------------------------------------------------------------------------------
 
 		var $searchInput   = $( '#wpzoom-settings-search' );

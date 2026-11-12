@@ -26,7 +26,7 @@ const CookMode = ( { settingOptions } ) => {
                 <div className="slider round"></div>
             </label>
             { cookModeLabel && <span className="wpzoom-nosleep-label">{ cookModeLabel }</span> }
-            { /* On the site this is a button that opens the description as a tooltip (3.8.0). */ }
+            { /* On the site this is a button that opens the description as a tooltip (4.0.0). */ }
             { cookModeDescription && (
                 <span className="wpzoom-nosleep-help">
                     <span className="wpzoom-nosleep-help-toggle" title={ cookModeDescription }>?</span>

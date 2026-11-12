@@ -218,7 +218,7 @@ class WPZOOM_Details_Block {
 				$icon            = esc_attr( $detail['icon'] );
 				$iconSet         = isset( $detail['iconSet'] ) ? esc_attr( $detail['iconSet'] ) : 'oldicon';
 
-				// Inline SVG, or the icon font for icons that have no SVG (3.8.0).
+				// Inline SVG, or the icon font for icons that have no SVG (4.0.0).
 				$icon = WPZOOM_Helpers::get_detail_icon_html( $iconSet, $icon, isset( $detail['_prefix'] ) ? esc_attr( $detail['_prefix'] ) : '' );
 			}
 

@@ -1,4 +1,4 @@
-// Layout shared by the Base and Onyx styles (3.8.0).
+// Layout shared by the Base and Onyx styles (4.0.0).
 //
 // Both styles use the same markup (see get_base_header() in class-wpzoom-recipe-card-block.php
 // and the matching branch in components/RecipeCard.js). Each one includes these mixins with its
@@ -266,7 +266,7 @@
             text-align: center;
         }
 
-        // An inline SVG since 3.8.0 (or an icon font glyph for icons without one).
+        // An inline SVG since 4.0.0 (or an icon font glyph for icons without one).
         .detail-item-icon {
             display: flex;
             justify-content: center;

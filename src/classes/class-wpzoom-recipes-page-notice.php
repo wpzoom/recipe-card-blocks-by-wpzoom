@@ -9,7 +9,7 @@
 if ( ! class_exists( 'WPZOOM_Recipes_Page_Notice' ) ) {
 	class WPZOOM_Recipes_Page_Notice {
 
-		const UPGRADE_LINK = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=recipes-page-notice&utm_campaign=rcb-upsell';
+		const UPGRADE_LINK = 'https://recipecard.io/upgrade/?utm_source=wpadmin&utm_medium=recipes-page-notice&utm_campaign=plans';
 		const DISMISS_META_KEY = 'wpzoom_rcb_dismiss_recipes_page_notice';
 		const MIN_RECIPES = 10;
 
@@ -88,7 +88,7 @@ if ( ! class_exists( 'WPZOOM_Recipes_Page_Notice' ) ) {
 						<ul>
 							<li><strong><?php esc_html_e( 'Ratings Analytics & Reviews', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'let readers leave written reviews, and track your rating distribution and top rated recipes', 'recipe-card-blocks-by-wpzoom' ); ?></li>
 							<li><strong><?php esc_html_e( 'Recipe Index', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'a searchable recipe catalog that keeps visitors on your site longer', 'recipe-card-blocks-by-wpzoom' ); ?></li>
-							<li><strong><?php esc_html_e( 'Adjustable Servings & Unit Conversion', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'let readers scale ingredients and switch between US/Metric', 'recipe-card-blocks-by-wpzoom' ); ?></li>
+							<li><strong><?php esc_html_e( 'Adjustable Servings & Unit Conversion', 'recipe-card-blocks-by-wpzoom' ); ?></strong> &mdash; <?php esc_html_e( 'let readers scale ingredients and switch between US/Metric (unit conversion is in the Professional plan)', 'recipe-card-blocks-by-wpzoom' ); ?></li>
 						</ul>
 					</div>
 					<div class="wpzoom-rcb-upgrade-notice-cta">

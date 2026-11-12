@@ -7,7 +7,7 @@
 
 $active_tab  = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'import';
 $page_slug   = 'wpzoom_import_panel';
-$upgrade_url = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=import-export-page&utm_campaign=upgrade-premium';
+$upgrade_url = 'https://recipecard.io/upgrade/?utm_source=wpadmin&utm_medium=import-export-page&utm_campaign=upgrade-premium';
 ?>
 <div class="wrap">
 	<h2></h2>

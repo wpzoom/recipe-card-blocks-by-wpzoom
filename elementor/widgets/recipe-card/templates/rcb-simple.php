@@ -12,7 +12,7 @@ use Elementor\Utils;
  * @subpackage  WPZOOM_Recipe_Card_Blocks/elementor/templates/recipe
  */
 
-// Recipe Card Summary: built here, printed inside the header (3.8.0).
+// Recipe Card Summary: built here, printed inside the header (4.0.0).
 $summary_html = '';
 if ( ! Utils::is_empty( $settings['recipe_card_summary'] ) ) {	
 	$this->add_render_attribute( 'recipe_card_summary', 'class', 'recipe-card-summary' );
@@ -75,7 +75,7 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 			$html .= '<div class="recipe-card-image">';
 			$html .= '<figure>' . $image_html . '</figure>';
 
-			// Pin and Print sit under the photo (3.8.0).
+			// Pin and Print sit under the photo (4.0.0).
 			$header_buttons = '';
 			if ( 'yes' === $settings['show_pintereset'] ) {
 				$header_buttons .= \WPZOOM_Recipe_Card_Block::get_pinterest_button( array( 'url' => $settings['image']['url'] ), get_the_permalink(), wp_kses_post( $settings['recipe_card_summary'] ) );
@@ -103,7 +103,7 @@ $html = '<div ' . $this->get_render_attribute_string( '_wrapper_recipe_card' ) .
 			else {
 				$html .= '<' . $recipe_title_tag . ' class="recipe-card-title">' . esc_html( get_the_title() ) . '</' . $recipe_title_tag . '>';
 			}
-			// Author and rating share one row under the title (3.8.0).
+			// Author and rating share one row under the title (4.0.0).
 			$sub_title = '';
 			if ( 'yes' === $settings['show_author'] ) {
 				$recipe_author = ! empty( $settings['custom_author'] ) ? esc_html( $settings['custom_author'] ) : get_the_author_meta( 'display_name' );

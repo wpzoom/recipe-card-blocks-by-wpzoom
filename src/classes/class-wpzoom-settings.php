@@ -444,7 +444,7 @@ class WPZOOM_Settings {
 			self::update_option( self::$defaults );
 		}
 
-		// 3.8.0: the Accent Color was a locked PRO field that wrote its old default (#F2A123)
+		// 4.0.0: the Accent Color was a locked PRO field that wrote its old default (#F2A123)
 		// into every site's settings. Clear that once, so unlocking it changes no colors.
 		if ( ! empty( self::$options ) && empty( self::$options['wpzoom_rcb_accent_color_unlocked'] ) ) {
 			if ( isset( self::$options['wpzoom_rcb_settings_primary_color'] ) && '#F2A123' === strtoupper( (string) self::$options['wpzoom_rcb_settings_primary_color'] ) ) {
@@ -978,7 +978,7 @@ class WPZOOM_Settings {
 					<a href="https://recipecard.io/documentation/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=docs" target="_blank" class="wpzoom-doc-link"><?php _e( 'Documentation', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 					<a href="https://wordpress.org/support/plugin/recipe-card-blocks-by-wpzoom/" target="_blank" class="wpzoom-support-link"><?php _e( 'Support Forum', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 					<a href="https://recipecard.io/support/tickets/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=support" target="_blank" class="wpzoom-support-link"><strong><?php _e( 'Premium Support', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
-					<a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=rcbfree&utm_campaign=btnsettings" target="_blank" class="wpzoom-pro-link" style="color:#FFA921;"><strong><?php _e( 'Get the PRO version &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
+					<a href="https://recipecard.io/upgrade/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=plans" target="_blank" class="wpzoom-pro-link" style="color:#FFA921;"><strong><?php _e( 'Get the PRO version &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></strong></a>
 				</div>
 			</div>
 			<a href="#wpzoom-recipe-card-welcome-banner" class="wpzoom-rcb-welcome-close"><i class="dashicons dashicons-no-alt"></i><?php _e( 'Close', 'recipe-card-blocks-by-wpzoom' ); ?></a>
@@ -1474,7 +1474,7 @@ class WPZOOM_Settings {
 									'label_for'   => 'wpzoom_rcb_settings_template',
 									'class'       => 'wpzoom-rcb-field',
 									'description' => esc_html__( 'Default template to use for all Recipe Cards. You can pick another one for a single recipe in the block\'s Styles tab.', 'recipe-card-blocks-by-wpzoom' ),
-									// Base for new installs since 3.8.0 (Modern before). A site that already
+									// Base for new installs since 4.0.0 (Modern before). A site that already
 									// has saved settings keeps the template stored there.
 									'default'     => 'base',
 									'options'     => WPZOOM_Helpers::get_recipe_card_styles(),
@@ -1495,7 +1495,7 @@ class WPZOOM_Settings {
 								),
 							),
 
-							// Free since 3.8.0. Same option as PRO's "Accent Color for Modern, Amber and Clean
+							// Free since 4.0.0. Same option as PRO's "Accent Color for Modern, Amber and Clean
 							// Skins", so the color carries over on upgrade. Empty = each style's own colors.
 							array(
 								'id'    => 'wpzoom_rcb_settings_primary_color',
@@ -1563,7 +1563,7 @@ class WPZOOM_Settings {
 						'page'     => 'wpzoom-recipe-card-settings-appearance',
 						'callback' => '__return_false',
 						'fields'   => array(
-							// Free since 3.8.0, with PRO's option ids and defaults. A color equal to its
+							// Free since 4.0.0, with PRO's option ids and defaults. A color equal to its
 							// default is not applied, so the template's own color shows.
 							array(
 								'id'    => 'wpzoom_rcb_settings_global_recipe_title_color',
@@ -2480,7 +2480,7 @@ class WPZOOM_Settings {
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_recipe_data_ai_chat_model',
 									'class'       => 'wpzoom-rcb-field',
-									// Same models and labels as PRO (3.8.0). The recipecard.io AI server accepts these
+									// Same models and labels as PRO (4.0.0). The recipecard.io AI server accepts these
 									// four and replaces the first three with GPT-6 Luna once OpenAI retires them.
 									'description' => __( '<strong>GPT-4o</strong> - Fast, balanced results<br/><strong>GPT-4o-mini</strong> - Fast and cost-effective<br/><strong>GPT-4.1-mini</strong> - Newer mini model<br/><strong>GPT-6 Luna</strong> - Newest model, more detailed recipes, takes longer', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => 'gpt-4o',
@@ -2676,7 +2676,7 @@ class WPZOOM_Settings {
 
     			<form id="wpzoom-recipe-card-settings" action="options.php" method="post">
 
-    				<?php // Search across every tab (3.8.0). The field has no name, so it is never saved. ?>
+    				<?php // Search across every tab (4.0.0). The field has no name, so it is never saved. ?>
     				<div class="wpzoom-settings-search-wrap">
     					<span class="wpzoom-settings-search-icon dashicons dashicons-search" aria-hidden="true"></span>
     					<input type="search" id="wpzoom-settings-search" class="wpzoom-settings-search" placeholder="<?php esc_attr_e( 'Search settings...', 'recipe-card-blocks-by-wpzoom' ); ?>" aria-label="<?php esc_attr_e( 'Search settings', 'recipe-card-blocks-by-wpzoom' ); ?>" autocomplete="off" />
@@ -2761,7 +2761,7 @@ class WPZOOM_Settings {
                                            <li><span class="dashicons dashicons-yes"></span> <?php esc_html_e( '...and many more', 'recipe-card-blocks-by-wpzoom' ); ?></li>
                                        </ul>
                                        <div class="wpz-onboard_content-side-section-button">
-                                           <a href="<?php echo esc_url( __( 'https://recipecard.io/features/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=btn-right-col', 'recipe-card-blocks-by-wpzoom' ) ); ?>" target="_blank" class="button button-primary"><?php esc_html_e( 'Discover All PRO Features &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+                                           <a href="<?php echo esc_url( __( 'https://recipecard.io/features/?utm_source=wpadmin&utm_medium=rcb-settings&utm_campaign=features', 'recipe-card-blocks-by-wpzoom' ) ); ?>" target="_blank" class="button button-primary"><?php esc_html_e( 'Discover All PRO Features &rarr;', 'recipe-card-blocks-by-wpzoom' ); ?></a>
 
                                        </div>
 
@@ -2896,7 +2896,7 @@ class WPZOOM_Settings {
 	 * A tab gets a sub-menu when it has at least two sections and every one of them has a
 	 * title (the AI tabs open with untitled intro sections and stay a single column).
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param array $setting One tab of self::$settings.
 	 * @return array The tab's sections, or an empty array when it gets no sub-menu.
 	 */
@@ -2923,7 +2923,7 @@ class WPZOOM_Settings {
 	 * The wrapper's id is prefixed: several section callbacks already print an element whose
 	 * id is the section id.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param string $page The settings page (option group) to print.
 	 * @return void
 	 */

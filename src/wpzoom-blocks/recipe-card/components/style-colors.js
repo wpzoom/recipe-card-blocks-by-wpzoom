@@ -1,5 +1,5 @@
 /**
- * Recipe Card per-card colors: the Colors panel under the style thumbnails (3.8.0).
+ * Recipe Card per-card colors: the Colors panel under the style thumbnails (4.0.0).
  *
  * Each style shows only its own colors. The values are stored in settings[0] under the same
  * keys PRO uses, so a card keeps its colors after upgrading. An unset color follows the Accent

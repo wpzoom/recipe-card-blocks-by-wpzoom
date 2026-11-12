@@ -117,7 +117,7 @@
 				    text-decoration: none !important;
 				}
 			}
-			// Shown (since 3.8.0) so the accent color can be seen while editing; not clickable here.
+			// Shown (since 4.0.0) so the accent color can be seen while editing; not clickable here.
 			.tick-circle {
 				cursor: default !important;
 			}
@@ -577,6 +577,7 @@
 .wpzoom-recipe-card-seo-settings,
 .wpzoom-recipe-card-details,
 .wpzoom-recipe-card-custom-details,
+.wpzoom-recipe-card-pro-features,
 .wpzoom-recipe-card-structured-data-testing {
 	.components-panel__body-toggle {
 		&.components-button {
@@ -595,7 +596,7 @@
 }
 
 
-// The AI windows' styles are in skins/button/editor.scss (3.8.0).
+// The AI windows' styles are in skins/button/editor.scss (4.0.0).
 
 /**
  * Subtle single-line PRO nutrition-facts hint shown to free users
@@ -805,7 +806,7 @@
 	}
 }
 
-/* Base and Onyx styles in the editor (3.8.0) */
+/* Base and Onyx styles in the editor (4.0.0) */
 .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-base,
 .wp-block-wpzoom-recipe-card-block-recipe-card.is-style-onyx {
 	.components-placeholder.recipe-card-image-placeholder {
@@ -924,6 +925,82 @@
 	line-height: 1.4;
 }
 
+// PRO-only styles, under the ones Free has: the same previews, a small badge, and a link to the
+// styles page instead of a button (4.0.0).
+.wpzoom-rcb-style-picker__more {
+	margin: 24px 0 10px;
+	color: #757575;
+	font-size: 11px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.wpzoom-rcb-style-picker__item.is-locked {
+	text-decoration: none;
+	color: #757575;
+
+	&:focus {
+		box-shadow: none;
+	}
+
+	.wpzoom-rcb-style-picker__preview {
+		position: relative;
+	}
+
+	img {
+		opacity: 0.75;
+		transition: opacity 0.15s ease;
+	}
+
+	&:hover img,
+	&:focus-visible img {
+		opacity: 1;
+	}
+}
+
+.wpzoom-rcb-style-picker__badge {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	padding: 3px 6px;
+	border-radius: 3px;
+	background: #1e1e1e;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: 1;
+	letter-spacing: 0.04em;
+}
+
+// "More with PRO" in the Recipe Card's sidebar: switched-off settings that explain what PRO adds.
+.wpzoom-recipe-card-pro-features {
+	// Orange title (dark enough to read on white) to go with the orange icon.
+	.components-panel__body-toggle.components-button,
+	.components-panel__body-toggle.components-button:hover,
+	.components-panel__body-toggle.components-button:focus {
+		color: #c2470f;
+	}
+
+	// The arrow stays the usual dark grey.
+	.components-panel__body-toggle .components-panel__arrow {
+		color: #1e1e1e;
+	}
+
+	.components-toggle-control {
+		margin-bottom: 16px;
+	}
+
+	// Keep the explanation readable although the switch itself is disabled.
+	.components-toggle-control .components-base-control__help {
+		opacity: 1;
+	}
+
+	.wpzoom-recipe-card-pro-features__plans {
+		justify-content: center;
+		width: 100%;
+	}
+}
+
 
 /* Details in the styles that center each detail in a column (Clean, Base, Onyx):
    keep the field, its unit and the "?" hint on one line so every column has the same rows. */
@@ -953,7 +1030,7 @@
 	}
 }
 
-// "Generate with AI" in the block toolbar (3.8.0), as in PRO.
+// "Generate with AI" in the block toolbar (4.0.0), as in PRO.
 .wpzoom-toolbar-ai .components-button.ai-toolbar-button {
 	gap: 6px;
 	padding: 0 12px 0 10px;
@@ -965,7 +1042,7 @@
 	}
 }
 
-// Course, cuisine and difficulty edited in the card (3.8.0), as in PRO.
+// Course, cuisine and difficulty edited in the card (4.0.0), as in PRO.
 .wp-block-wpzoom-recipe-card-block-recipe-card .recipe-card-term-label-wrap {
 	display: inline-flex;
 	align-items: center;
@@ -1023,7 +1100,7 @@
 	}
 }
 
-// "Generate with AI" and its AI Actions menu as one split button in the block toolbar (3.8.0),
+// "Generate with AI" and its AI Actions menu as one split button in the block toolbar (4.0.0),
 // as in PRO.
 .wpzoom-ai-toolbar-split {
 	display: flex;

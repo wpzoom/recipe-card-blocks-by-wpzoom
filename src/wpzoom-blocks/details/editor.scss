@@ -108,7 +108,7 @@
 	
 	@include clear-after;
 
-	// Inline SVG icons (3.8.0) take the place of the 20px font glyphs.
+	// Inline SVG icons (4.0.0) take the place of the 20px font glyphs.
 	.wpzoom-recipe-card-icons__single-element.has-svg {
 		display: flex;
 		align-items: center;
@@ -169,7 +169,7 @@
 
 
 
-/* Detail icons shown as inline SVG in the editor (3.8.0) */
+/* Detail icons shown as inline SVG in the editor (4.0.0) */
 .wpzoom-rcb-icon-svg {
 	display: inline-flex;
 	align-items: center;

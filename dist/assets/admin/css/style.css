@@ -2270,7 +2270,7 @@ div.wp-tab-panel-inactive {
 
 /*
  *
- * Settings shell (3.8.0): search, left sub-menu, sticky save bar
+ * Settings shell (4.0.0): search, left sub-menu, sticky save bar
  *
 */
 .toplevel_page_wpzoom-recipe-card-settings {
@@ -2558,7 +2558,7 @@ div.wp-tab-panel-inactive {
     line-height: 1.3;
 }
 
-/* Section headings (3.8.0): sentence case on a hairline, instead of uppercase over a thick bar. */
+/* Section headings (4.0.0): sentence case on a hairline, instead of uppercase over a thick bar. */
 .toplevel_page_wpzoom-recipe-card-settings .wpzoom-settings-main div.wp-tab-panel h2 {
     margin: 8px 0 6px;
     padding: 0;

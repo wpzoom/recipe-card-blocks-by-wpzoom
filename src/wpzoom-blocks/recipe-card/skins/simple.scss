@@ -1,5 +1,5 @@
 // Clean: a tinted header with the photo beside the title, the details in one row under them.
-// Header layout as in PRO since 3.8.0 (grid instead of floats).
+// Header layout as in PRO since 4.0.0 (grid instead of floats).
 
 .wp-block-wpzoom-recipe-card-block-recipe-card {
 
@@ -243,7 +243,7 @@
                     line-height: 1.4;
                 }
 
-                // An inline SVG since 3.8.0 (or an icon font glyph for icons without one).
+                // An inline SVG since 4.0.0 (or an icon font glyph for icons without one).
                 .detail-item-icon {
                     display: flex;
                     align-items: center;

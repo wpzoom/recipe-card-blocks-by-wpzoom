@@ -100,7 +100,7 @@ final class WPZOOM_Plugin_Activator {
 		// Is Lite version?
 		if ( WPZOOM_RCB_HAS_PRO === false ) {
 			$url       = self::get_upgrade_url();
-			$actions[] = '<a href="https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=rcbfree&utm_campaign=upgrade-pluginspage" style="color:#e15819;font-weight:bold;" target="_blank">' . _x( 'UPGRADE &rarr;', 'Plugin action link label.', 'recipe-card-blocks-by-wpzoom' ) . ' <span class="rcb-premium-badge" style="background-color: #e15819; color: #fff; margin-left: 5px; font-size: 11px; min-height: 16px;  border-radius: 8px; display: inline-block; font-weight: 600; line-height: 1.6; padding: 0 8px"> PRO</span></span></a>';
+			$actions[] = '<a href="https://recipecard.io/upgrade/?utm_source=wpadmin&utm_medium=plugins-page&utm_campaign=plans" style="color:#e15819;font-weight:bold;" target="_blank">' . _x( 'UPGRADE &rarr;', 'Plugin action link label.', 'recipe-card-blocks-by-wpzoom' ) . ' <span class="rcb-premium-badge" style="background-color: #e15819; color: #fff; margin-left: 5px; font-size: 11px; min-height: 16px;  border-radius: 8px; display: inline-block; font-weight: 600; line-height: 1.6; padding: 0 8px"> PRO</span></span></a>';
 		}
 
 		return $actions;
@@ -148,7 +148,18 @@ final class WPZOOM_Plugin_Activator {
 		 *
 		 * @see wpzoom_recipe_card_upgrade_url
 		 */
-		return apply_filters( 'wpzoom_recipe_card_upgrade_url', self::get_store_url( 'pricing/?utm_source=wpadmin&utm_medium=rcbfree&utm_campaign=comparison-table', $params ) );
+		// The tracking tags go in as parameters: get_store_url() adds a slash to the end of the
+		// path, which used to land after the campaign name ("comparison-table/").
+		$params = array_merge(
+			array(
+				'utm_source'   => 'wpadmin',
+				'utm_medium'   => 'rcb-admin',
+				'utm_campaign' => 'plans',
+			),
+			(array) $params
+		);
+
+		return apply_filters( 'wpzoom_recipe_card_upgrade_url', self::get_store_url( 'upgrade/', $params ) );
 	}
 
 	/**

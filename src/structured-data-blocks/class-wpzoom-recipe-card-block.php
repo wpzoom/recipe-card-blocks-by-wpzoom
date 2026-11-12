@@ -470,7 +470,7 @@ class WPZOOM_Recipe_Card_Block {
 			$output .= '<span class="wpzoom-nosleep-label">' . esc_html( $label ) . '</span>';
 		}
 
-		// The description opens from a "?" button since 3.8.0, as in PRO.
+		// The description opens from a "?" button since 4.0.0, as in PRO.
 		$output .= WPZOOM_Helpers::get_cook_mode_help();
 
 		return $output . '</div>';
@@ -1077,7 +1077,7 @@ class WPZOOM_Recipe_Card_Block {
 
 		$author_html = self::$settings['displayAuthor'] ? '<span class="recipe-card-author">' . esc_html__( 'Recipe by', 'recipe-card-blocks-by-wpzoom' ) . ' ' . esc_html( $custom_author_name ) . '</span>' : '';
 
-		// Author and rating share one row under the title (3.8.0).
+		// Author and rating share one row under the title (4.0.0).
 		$sub_title = $author_html . $recipe_card_rating;
 		if ( '' !== $sub_title ) {
 			$sub_title = '<div class="recipe-sub-title">' . $sub_title . '</div>';
@@ -1220,13 +1220,13 @@ class WPZOOM_Recipe_Card_Block {
 
 	/**
 	 * The card's own colors, the Accent Color and the Global Colors settings as CSS for one card
-	 * (3.8.0).
+	 * (4.0.0).
 	 *
 	 * Inline style attributes already cover Modern's and Clean's icons, Clean's Print button and
 	 * the checkbox borders; this covers the rest: the ticked checkbox, the notes icon, the
 	 * per-card panel, border and Onyx colors, links and the title and text colors.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param string $card_id The card element's id.
 	 * @return string A <style> element, or ''.
 	 */
@@ -1317,7 +1317,7 @@ class WPZOOM_Recipe_Card_Block {
 	/**
 	 * Whether the card being rendered uses the Base header (Base and Onyx share it).
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @return bool
 	 */
 	public static function is_base_family_style() {
@@ -1331,7 +1331,7 @@ class WPZOOM_Recipe_Card_Block {
 	 * the Pin and Print buttons. Below them one panel holds the course, cuisine and difficulty
 	 * and the recipe details.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param array $parts Ready HTML for each part: image_tag, title, author, rating, summary,
 	 *                     buttons, details, cook_mode.
 	 * @return string
@@ -1384,7 +1384,7 @@ class WPZOOM_Recipe_Card_Block {
 	/**
 	 * One of course, cuisine or difficulty as a label over its value (Base and Onyx).
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param string $attribute 'course', 'cuisine' or 'difficulty'.
 	 * @param string $label     Translated label.
 	 * @return string Empty when the recipe has no such terms.
@@ -1970,7 +1970,7 @@ class WPZOOM_Recipe_Card_Block {
 
 				// The accent when one is set (the card's color or the Accent Color setting). Otherwise
 				// Modern's and Amber's icons take the card's ink from their stylesheets and Clean's
-				// keep their grey. Amber's own orange stays on the ingredient circles (3.8.0).
+				// keep their grey. Amber's own orange stays on the ingredient circles (4.0.0).
 				$icon_accent = (string) self::$settings['primary_color'];
 				if ( 'newdesign' === self::$style && '#E99E3C' === strtoupper( $icon_accent ) ) {
 					$icon_accent = '';
@@ -1988,7 +1988,7 @@ class WPZOOM_Recipe_Card_Block {
 
 				$iconStyles = self::$helpers->render_styles_attributes( $styles );
 
-				// Inline SVG, or the icon font for icons that have no SVG (3.8.0).
+				// Inline SVG, or the icon font for icons that have no SVG (4.0.0).
 				$icon = WPZOOM_Helpers::get_detail_icon_html( $iconSet, $icon, isset( $detail['_prefix'] ) ? esc_attr( $detail['_prefix'] ) : '', $iconStyles );
 			}
 

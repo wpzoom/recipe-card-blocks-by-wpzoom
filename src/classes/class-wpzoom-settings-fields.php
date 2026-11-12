@@ -184,7 +184,7 @@ class WPZOOM_Settings_Fields {
 	 * The thumbnails are radio buttons, so the field works without JavaScript and with the
 	 * keyboard.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param array $args
 	 * @return void
 	 */
@@ -231,7 +231,7 @@ class WPZOOM_Settings_Fields {
 	 * Display-only. Unlike the other locked fields it has no name and no stored value, so
 	 * viewing the page never resets the real setting on a site that also had PRO.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param array $args
 	 * @return void
 	 */

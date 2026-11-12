@@ -454,7 +454,7 @@
 		margin: 0 10px;
 	}
 	
-	// Printed by custom templates made before 3.8.0.
+	// Printed by custom templates made before 4.0.0.
 	p.recipe-card-no-sleep {
 		font-size: 13px;
         font-style: italic;
@@ -463,7 +463,7 @@
 	}
 
 	// The explanation of Cook Mode sits behind a "?" button (WPZOOM_Helpers::get_cook_mode_help(),
-	// 3.8.0, as in PRO). script.js opens the tooltip and places it under the button, inside the
+	// 4.0.0, as in PRO). script.js opens the tooltip and places it under the button, inside the
 	// card. A style can recolor the tooltip with --rcb-help-bg and --rcb-help-color.
 	position: relative;
 

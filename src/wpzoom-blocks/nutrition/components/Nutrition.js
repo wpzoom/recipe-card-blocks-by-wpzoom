@@ -26,7 +26,7 @@ import '../editor.scss';
 
 const labels = wpzoomRecipeCard.nutritionFactsLabel;
 const isPro = get( wpzoomRecipeCard, 'is_pro', false );
-const upgradeUrl = 'https://recipecard.io/pricing/?utm_source=wpadmin&utm_medium=nutrition-block&utm_campaign=upgrade-premium';
+const upgradeUrl = 'https://recipecard.io/upgrade/?utm_source=wpadmin&utm_medium=nutrition-block&utm_campaign=upgrade-premium';
 
 class Nutrition extends Component {
     constructor( props ) {

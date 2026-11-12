@@ -7,7 +7,7 @@
  *
  * Same class and registry file as the PRO plugin (there since 5.0.0).
  *
- * @since   3.8.0
+ * @since   4.0.0
  * @package WPZOOM_Recipe_Card_Blocks
  */
 
@@ -167,7 +167,7 @@ class WPZOOM_Recipe_Block_Icon_SVG {
 	 * Gives an SVG a width and height when it has none, so it never renders at the browser's
 	 * 300x150 default where the card's stylesheet is missing (feeds, emails, late CSS).
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param string $svg SVG markup.
 	 * @return string
 	 */

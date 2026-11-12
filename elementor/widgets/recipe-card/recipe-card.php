@@ -168,7 +168,7 @@ class Recipe_Card extends Widget_Base {
 	 * @return array Style slugs.
 	 */
 	public function get_style_depends() {
-		// The icon fonts are not listed: detail icons are inline SVG since 3.8.0, and
+		// The icon fonts are not listed: detail icons are inline SVG since 4.0.0, and
 		// get_detail_icon_html() loads a font only for an icon that has no SVG.
 		return array(
 			'wpzoom-rcb-block-style-css',
@@ -1716,7 +1716,7 @@ class Recipe_Card extends Widget_Base {
 	 * Inline SVG when the registry has the icon. Icons without an SVG keep their font class
 	 * and their icon stylesheet is loaded for this page only.
 	 *
-	 * @since 3.8.0
+	 * @since 4.0.0
 	 * @param array $icon The control's value: 'library' and 'value' (e.g. "oldicon-food", "fas fa-clock").
 	 * @return string
 	 */
