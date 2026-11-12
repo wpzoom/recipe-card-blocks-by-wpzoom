@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 3.7.1
+Stable tag: 4.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,7 +53,8 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 * **Cook Mode** 🆕 — keeps the reader's screen awake while they cook
 * **Elementor Support** with dedicated recipe widget
 * **Schema.org Structured Data** (JSON-LD)
-* **3 Recipe Card Styles**
+* **5 Recipe Card Styles** 🆕 — Base, Onyx, Clean, Modern and Amber
+* **Card Colors** 🆕 — pick the colors of each recipe card
 * **Inline Structured Data Validator**
 * **AMP Support**
 * Bulk Add Ingredients and Directions
@@ -89,8 +90,8 @@ Trusted by thousands of food bloggers to rank higher in Google with structured r
 
 **Professional design:**
 
-* **5 Recipe Card Styles** (vs 3 in free)
-* **4 Color Schemes + Unlimited Custom Colors**
+* **8 Recipe Card Styles** (vs 5 in free)
+* **Full Color Scheme & Corner Radius** for every style, with site-wide defaults
 * **Equipment Block** — showcase tools needed for each recipe
 * **Image Gallery & Lightbox in Directions**
 * **Food Labels** 🆕
@@ -164,6 +165,18 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 
 
 == Changelog ==
+
+= 4.0.0 =
+* New: Two more recipe card styles, Base and Onyx. The free version now has five: Base, Onyx, Clean, Modern and Amber.
+* New: Colors for each card. Pick an accent color and, depending on the style, the background, border and highlight colors under the style thumbnails in the block sidebar. The colors are kept if you move to PRO later.
+* New: Color settings under Recipe Cards > Settings > Appearance: an Accent Color for the Modern, Amber and Clean styles, and colors for the recipe title, text and links.
+* New: Style picker with a preview of every style, in the block sidebar and in the settings.
+* New: Add and edit the course, cuisine and difficulty from the card itself, with quick suggestions.
+* Improved: Modern, Amber and Clean have a refreshed design: author and rating on one line, the summary in the header, round icon buttons, numbered steps and a tidier mobile layout. The Elementor widget got the same update.
+* Improved: Recipe detail icons are now inline SVG, so the icon fonts no longer load on the front end.
+* Improved: The Cook Mode description moved behind a "?" button next to the toggle.
+* Improved: Redesigned settings page with search, a section menu and a Save bar that stays in view.
+* Note: Existing Modern, Amber and Clean cards will look different after this update. Amber's default orange is slightly darker (#E99E3C) and Modern's Print button is grey. Set your own with the new color options.
 
 = 3.7.1 =
 * Security: Fixed a stored XSS in the Directions and Ingredients blocks, where step and ingredient text saved as a plain string was output without sanitization. Thanks to Wordfence for the report.

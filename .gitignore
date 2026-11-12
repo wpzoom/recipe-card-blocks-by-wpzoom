@@ -16,3 +16,4 @@ languages/.DS_Store
 /vendor/
 .nvmrc
 CLAUDE.md
+.claude/
