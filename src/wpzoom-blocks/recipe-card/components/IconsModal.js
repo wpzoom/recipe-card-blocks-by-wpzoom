@@ -9,7 +9,7 @@ import replace from 'lodash/replace';
 /* Internal dependencies */
 import Icons from '../../../utils/IconsArray';
 import { DetailIcon, PickerIcon } from '../../../helpers/detailIconSvg';
-import { getBlockStyle, isBaseFamilyStyle } from '../../../helpers/getBlockStyle';
+import { getBlockStyle, isBaseFamilyStyle, getCardAccent } from '../../../helpers/getBlockStyle';
 
 /* WordPress dependencies */
 import {
@@ -61,10 +61,8 @@ function IconsModal(
 
     let iconStyles = { color: icon_details_color };
 
-    if ( 'newdesign' === style ) {
-        iconStyles = { color: '#E99E3C' };
-    } else if ( 'default' === style || isBaseFamilyStyle( style ) ) {
-        // Colored by the style's stylesheet.
+    if ( 'default' === style || 'newdesign' === style || isBaseFamilyStyle( style ) || getCardAccent( get( attributes, [ 'settings', 0 ] ), style ) ) {
+        // Colored by the style's stylesheet, or by the accent (see getCardColorCss()).
         iconStyles = {};
     }
 

@@ -124,6 +124,95 @@ class WPZOOM_Helpers {
 	}
 
 	/**
+	 * The Accent Color setting, or '' when it is not set.
+	 *
+	 * Until 3.8.0 the field was locked and stored #F2A123 on every site; that value is ignored
+	 * until the settings page has cleared it (WPZOOM_Settings::set_defaults()).
+	 *
+	 * @since 3.8.0
+	 * @return string A hex color or ''.
+	 */
+	public static function get_accent_color() {
+		$color = (string) WPZOOM_Settings::get( 'wpzoom_rcb_settings_primary_color' );
+
+		if ( '#F2A123' === strtoupper( $color ) && '1' !== (string) WPZOOM_Settings::get( 'wpzoom_rcb_accent_color_unlocked' ) ) {
+			return '';
+		}
+
+		$color = sanitize_hex_color( $color );
+
+		return $color ? $color : '';
+	}
+
+	/**
+	 * The "?" button next to the Cook Mode toggle, with the explanation it opens.
+	 *
+	 * Replaces the line of text printed under the toggle until 3.8.0. Same markup as PRO, so a
+	 * card looks the same after upgrading. dist/assets/js/script.js opens, places and closes
+	 * it; recipe-card/style.scss styles it.
+	 *
+	 * @since 3.8.0
+	 * @return string HTML, or '' when no description is set in the plugin settings.
+	 */
+	public static function get_cook_mode_help() {
+		$description = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_description' );
+
+		if ( empty( $description ) ) {
+			return '';
+		}
+
+		$tip_id = wp_unique_id( 'wpzoom-nosleep-help-' );
+
+		return sprintf(
+			'<span class="wpzoom-nosleep-help no-print"><button type="button" class="wpzoom-nosleep-help-toggle" aria-expanded="false" aria-controls="%1$s" aria-label="%2$s">?</button><span id="%1$s" class="wpzoom-nosleep-help-tip" role="note" hidden>%3$s</span></span>',
+			esc_attr( $tip_id ),
+			esc_attr__( 'What is Cook Mode?', 'recipe-card-blocks-by-wpzoom' ),
+			esc_html( $description )
+		);
+	}
+
+	/**
+	 * A color picked on the card itself (the Colors panel in the block's Styles tab), or ''.
+	 *
+	 * The keys are PRO's, so the colors carry over after an upgrade. Until 3.8.0 Free had no
+	 * per-card colors but wrote #222222 (Modern, Clean) or #E99E3C (Amber) into every new card's
+	 * primary_color; those exact (uppercase) values mean "not set". A color equal to $default is
+	 * not set either.
+	 *
+	 * @since 3.8.0
+	 * @param array  $settings The card's settings (settings[0]).
+	 * @param string $key      Settings key, e.g. 'primary_color' or 'onyx_ink_color'.
+	 * @param string $default  The style's own color for that key.
+	 * @return string A lowercase hex color or ''.
+	 */
+	public static function get_card_color( $settings, $key, $default = '' ) {
+		$color = isset( $settings[ $key ] ) ? sanitize_hex_color( (string) $settings[ $key ] ) : '';
+
+		// Exact match: old Free wrote these in uppercase, the color picker writes lowercase.
+		if ( ! $color || ( 'primary_color' === $key && in_array( $color, array( '#222222', '#E99E3C', '#FFA921' ), true ) ) ) {
+			return '';
+		}
+
+		$color = strtolower( $color );
+
+		return strtolower( $default ) === $color ? '' : $color;
+	}
+
+	/**
+	 * A Global Colors setting, or '' when it is unset or equal to its default.
+	 *
+	 * @since 3.8.0
+	 * @param string $option  Option id.
+	 * @param string $default The field's default, which means "the template's own color".
+	 * @return string A hex color or ''.
+	 */
+	public static function get_global_color( $option, $default ) {
+		$color = sanitize_hex_color( (string) WPZOOM_Settings::get( $option ) );
+
+		return ( $color && strtolower( $color ) !== strtolower( $default ) ) ? $color : '';
+	}
+
+	/**
 	 * URL of a style's preview image.
 	 *
 	 * @since 3.8.0
@@ -220,15 +309,19 @@ class WPZOOM_Helpers {
 			$settings['ingredientsLayout'] = '1-column';
 		}
 
-		if ( 'default' === $blockStyle ) {
-			// Colored by its stylesheet (3.8.0).
-			$settings['primary_color'] = '';
+		// The card's own color, else the Accent Color setting, else each template's own color (3.8.0).
+		$accent_color = self::get_accent_color();
+		$card_color   = self::get_card_color( $settings, 'primary_color' );
+
+		if ( 'default' === $blockStyle || 'simple' === $blockStyle ) {
+			$settings['primary_color'] = $card_color ? $card_color : $accent_color;
 		} elseif ( 'newdesign' === $blockStyle ) {
-			$settings['primary_color'] = '#E99E3C';
-		} elseif ( 'simple' === $blockStyle ) {
-			$settings['primary_color'] = '';
-		} elseif ( 'base' === $blockStyle || 'onyx' === $blockStyle ) {
-			// Colored by their stylesheets.
+			$settings['primary_color'] = $card_color ? $card_color : ( $accent_color ? $accent_color : '#E99E3C' );
+		} elseif ( 'base' === $blockStyle ) {
+			// Base's accent is set per card only; its stylesheet color otherwise.
+			$settings['primary_color'] = self::get_card_color( $settings, 'primary_color', '#041728' );
+		} elseif ( 'onyx' === $blockStyle ) {
+			// Onyx has its own three colors (onyx_ink_color, onyx_panel_color, onyx_line_color).
 			$settings['primary_color'] = '';
 		}
 

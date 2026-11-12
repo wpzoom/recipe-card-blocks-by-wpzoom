@@ -458,8 +458,7 @@ class WPZOOM_Recipe_Card_Block {
 			return '';
 		}
 
-		$label       = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_label' );
-		$description = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_description' );
+		$label = WPZOOM_Settings::get( 'wpzoom_rcb_settings_recipe_prevent_sleep_label' );
 
 		$output = '<div class="wpzoom-nosleep-toggle-container no-print">'
 			. '<label class="switch">'
@@ -471,9 +470,8 @@ class WPZOOM_Recipe_Card_Block {
 			$output .= '<span class="wpzoom-nosleep-label">' . esc_html( $label ) . '</span>';
 		}
 
-		if ( ! empty( $description ) ) {
-			$output .= '<p class="recipe-card-no-sleep no-print">' . esc_html( $description ) . '</p>';
-		}
+		// The description opens from a "?" button since 3.8.0, as in PRO.
+		$output .= WPZOOM_Helpers::get_cook_mode_help();
 
 		return $output . '</div>';
 	}
@@ -651,7 +649,6 @@ class WPZOOM_Recipe_Card_Block {
 				'type'    => 'array',
 				'default' => array(
 					array(
-						'primary_color'      => '#222222',
 						'icon_details_color' => '#6d767f',
 						'hide_header_image'  => false,
 						'print_btn'          => WPZOOM_Settings::get( 'wpzoom_rcb_settings_display_print' ) === '1',
@@ -900,16 +897,8 @@ class WPZOOM_Recipe_Card_Block {
 		$styles = '';
 
 		if ( '' != self::$settings['primary_color'] ) {
-			if ( 'default' === self::$style ) {
-				$styles = array(
-					'background-color' => sanitize_hex_color( self::$settings['primary_color'] ),
-				);
-			} elseif ( 'newdesign' === self::$style ) {
-				$styles = array(
-					'background-color' => sanitize_hex_color( self::$settings['primary_color'] ),
-					'box-shadow'       => '0 2px 6px ' . sanitize_hex_color( self::$settings['primary_color'] ) . '',
-				);
-			} elseif ( 'simple' === self::$style ) {
+			// The Accent Color fills Clean's Print button; Modern keeps its own (as in PRO).
+			if ( 'simple' === self::$style ) {
 				$styles = array(
 					'background-color' => sanitize_hex_color( self::$settings['primary_color'] ),
 				);
@@ -1208,9 +1197,10 @@ class WPZOOM_Recipe_Card_Block {
 		}
 
 		$block_content = sprintf(
-			'<div class="%1$s" id="%2$s">%3$s</div>',
+			'<div class="%1$s" id="%2$s">%3$s%4$s</div>',
 			esc_attr( trim( $RecipeCardClassName ) ),
 			self::$recipeBlockID,
+			self::get_card_color_css( self::$recipeBlockID ),
 			$recipe_card_image .
 			$recipe_card_heading .
 			$details_content .
@@ -1226,6 +1216,102 @@ class WPZOOM_Recipe_Card_Block {
 		);
 
 		return $block_content;
+	}
+
+	/**
+	 * The card's own colors, the Accent Color and the Global Colors settings as CSS for one card
+	 * (3.8.0).
+	 *
+	 * Inline style attributes already cover Modern's and Clean's icons, Clean's Print button and
+	 * the checkbox borders; this covers the rest: the ticked checkbox, the notes icon, the
+	 * per-card panel, border and Onyx colors, links and the title and text colors.
+	 *
+	 * @since 3.8.0
+	 * @param string $card_id The card element's id.
+	 * @return string A <style> element, or ''.
+	 */
+	protected static function get_card_color_css( $card_id ) {
+		$card     = '#' . sanitize_html_class( $card_id );
+		$rules    = array();
+		$settings = self::$settings;
+
+		// Resolved in parse_block_settings(): the card's color, the Accent Color setting or ''.
+		// Amber's own orange comes back from there too and needs no rule.
+		$accent = (string) $settings['primary_color'];
+		if ( 'newdesign' === self::$style && '#e99e3c' === strtolower( $accent ) ) {
+			$accent = '';
+		}
+
+		if ( $accent && in_array( self::$style, array( 'default', 'newdesign', 'simple', 'base' ), true ) ) {
+			$rules[] = "{$card} .ingredients-list { --rcb-ticked-color: {$accent}; }";
+
+			if ( 'newdesign' !== self::$style ) {
+				$rules[] = "{$card} .recipe-card-notes .recipe-card-notes-list > li::before { border-color: {$accent}; color: {$accent}; }";
+			}
+		}
+
+		// Per-card colors from the Colors panel (same keys as PRO).
+		if ( 'default' === self::$style ) {
+			$highlight = WPZOOM_Helpers::get_card_color( $settings, 'default_highlight_color', '#fbf9e7' );
+			if ( $highlight ) {
+				$rules[] = "{$card} .recipe-card-ingredients, {$card} .recipe-card-notes .recipe-card-notes-list > li { background-color: {$highlight}; }";
+			}
+		} elseif ( 'simple' === self::$style ) {
+			$background = WPZOOM_Helpers::get_card_color( $settings, 'simple_background_color', '#fff3e0' );
+			if ( $background ) {
+				$rules[] = "{$card} .recipe-card-header-wrap, {$card} .recipe-card-notes .recipe-card-notes-list > li { background-color: {$background}; }";
+			}
+		} elseif ( 'base' === self::$style ) {
+			if ( $accent ) {
+				$rules[] = "{$card} .recipe-card-buttons .btn-pinit-link, {$card} .recipe-card-buttons .btn-print-link { border-color: {$accent}; color: {$accent}; }";
+				$rules[] = "{$card} .recipe-card-buttons .btn-pinit-link:hover, {$card} .recipe-card-buttons .btn-print-link:hover { background-color: {$accent}; border-color: {$accent}; color: #fff; }";
+				$rules[] = "{$card} .recipe-card-details .detail-item-icon { color: {$accent}; }";
+			}
+
+			$background = WPZOOM_Helpers::get_card_color( $settings, 'base_background_color', '#f5f7fa' );
+			if ( $background ) {
+				$rules[] = "{$card} .recipe-card-details-wrap, {$card} .recipe-card-notes .recipe-card-notes-list > li { background-color: {$background}; }";
+			}
+
+			$border = WPZOOM_Helpers::get_card_color( $settings, 'base_border_color', '#d9e1eb' );
+			if ( $border ) {
+				$rules[] = "{$card}, {$card} .recipe-card-heading .recipe-sub-title, {$card} .recipe-card-details-top, {$card} .recipe-card-notes { border-color: {$border}; }";
+			}
+		} elseif ( 'onyx' === self::$style ) {
+			$vars = array();
+			foreach ( array( 'ink' => '#111111', 'panel' => '#f2f2f2', 'line' => '#e2e2e2' ) as $key => $default ) {
+				$color = WPZOOM_Helpers::get_card_color( $settings, "onyx_{$key}_color", $default );
+				if ( $color ) {
+					$vars[] = "--rcb-onyx-{$key}: {$color};";
+				}
+			}
+			if ( $vars ) {
+				$rules[] = "{$card} { " . implode( ' ', $vars ) . ' }';
+			}
+		}
+
+		$title = WPZOOM_Helpers::get_global_color( 'wpzoom_rcb_settings_global_recipe_title_color', '#041728' );
+		if ( $title && 'onyx' !== self::$style ) {
+			$rules[] = "{$card} .recipe-card-title { color: {$title} !important; }";
+		}
+
+		$text = WPZOOM_Helpers::get_global_color( 'wpzoom_rcb_settings_global_recipe_card_text_color', '#041728' );
+		if ( $text ) {
+			// Onyx's summary sits on its dark header and keeps its own light color.
+			$summary = 'onyx' === self::$style ? '' : ", {$card} .recipe-card-summary";
+			$rules[] = "{$card}{$summary}, {$card} .ingredients-list > li, {$card} .directions-list > li, {$card} .recipe-card-notes-list > li { color: {$text}; }";
+		}
+
+		$links = WPZOOM_Helpers::get_global_color( 'wpzoom_rcb_settings_global_links_color', '#0073aa' );
+		if ( $links ) {
+			$rules[] = "{$card} .recipe-card-summary a, {$card} .recipe-card-ingredients a, {$card} .recipe-card-directions a, {$card} .recipe-card-notes a { color: {$links}; }";
+		}
+
+		if ( empty( $rules ) ) {
+			return '';
+		}
+
+		return '<style>' . implode( ' ', $rules ) . '</style>';
 	}
 
 	/**
@@ -1882,21 +1968,22 @@ class WPZOOM_Recipe_Card_Block {
 				$iconSet         = isset( $detail['iconSet'] ) ? esc_attr( $detail['iconSet'] ) : 'oldicon';
 				$styles          = array();
 
-				if ( '' != self::$settings['icon_details_color'] ) {
-					// Modern's icons take the card's ink from its stylesheet (3.8.0, as in PRO).
-					if ( 'simple' === self::$style ) {
-						$styles = array(
-							'color' => sanitize_hex_color( self::$settings['icon_details_color'] ),
-						);
-					}
+				// The accent when one is set (the card's color or the Accent Color setting). Otherwise
+				// Modern's and Amber's icons take the card's ink from their stylesheets and Clean's
+				// keep their grey. Amber's own orange stays on the ingredient circles (3.8.0).
+				$icon_accent = (string) self::$settings['primary_color'];
+				if ( 'newdesign' === self::$style && '#E99E3C' === strtoupper( $icon_accent ) ) {
+					$icon_accent = '';
 				}
 
-				if ( '' != self::$settings['primary_color'] ) {
-					if ( 'newdesign' === self::$style ) {
-						$styles = array(
-							'color' => sanitize_hex_color( self::$settings['primary_color'] ),
-						);
-					}
+				if ( in_array( self::$style, array( 'default', 'newdesign', 'simple' ), true ) && '' !== $icon_accent ) {
+					$styles = array(
+						'color' => sanitize_hex_color( $icon_accent ),
+					);
+				} elseif ( 'simple' === self::$style && '' != self::$settings['icon_details_color'] ) {
+					$styles = array(
+						'color' => sanitize_hex_color( self::$settings['icon_details_color'] ),
+					);
 				}
 
 				$iconStyles = self::$helpers->render_styles_attributes( $styles );
@@ -2020,7 +2107,7 @@ class WPZOOM_Recipe_Card_Block {
 			$ingredient_id = isset( $ingredient['id'] ) ? 'wpzoom-rcb-' . esc_attr( $ingredient['id'] ) : '';
 
 			if ( ! $isGroup ) {
-				if ( 'newdesign' === self::$style || 'simple' === self::$style ) {
+				if ( in_array( self::$style, array( 'default', 'newdesign', 'simple' ), true ) ) {
 					if ( '' != self::$settings['primary_color'] ) {
 						$styles = array(
 							'border' => '2px solid ' . sanitize_hex_color( self::$settings['primary_color'] ),

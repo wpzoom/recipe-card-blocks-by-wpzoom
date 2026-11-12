@@ -87,7 +87,7 @@ $onyx-card: '.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-onyx';
         .recipe-card-title {
             font-size: 28px;
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.25;
             color: $onyx-on-ink;
         }
 
@@ -135,8 +135,10 @@ $onyx-card: '.wp-block-wpzoom-recipe-card-block-recipe-card.is-style-onyx';
         }
     }
 
-    // Cook Mode sits under the photo, on the ink.
+    // Cook Mode sits under the photo, on the ink, so its "?" tooltip is light.
     .recipe-card-image-column .wpzoom-nosleep-toggle-container {
+        --rcb-help-bg: #{$onyx-on-ink};
+        --rcb-help-color: var(--rcb-onyx-ink);
         padding: 0;
         color: $onyx-on-ink;
 

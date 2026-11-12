@@ -1,15 +1,17 @@
 /**
  * External dependencies
  */
-import { useEffect, useState } from 'react';
-import './style.scss'; // Import SCSS file
+import { useEffect, useRef, useState } from 'react';
+import './editor.scss'; // The AI windows' styles, editor only.
 
 
 /**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Button, Popover, TextControl, CheckboxControl } from '@wordpress/components';
+import { Button, Popover, CheckboxControl, ToolbarGroup } from '@wordpress/components';
+import { createPortal } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 import { useSelect } from '@wordpress/data';
 import CustomToast from '../toast';
 import { useDispatch } from '@wordpress/data';
@@ -55,6 +57,17 @@ const ButtonBox = ( props ) => {
     const [ isLoading, setIsLoading ] = useState( false );
     const [ isImageLoading, setIsImageLoading ] = useState( false );
     const [ showToast, setShowToast ] = useState( false );
+    const [ credits, setCredits ] = useState( null );
+    const promptRef = useRef( null );
+
+    // Credits left, shown under the Generate button while the window is open (as in PRO).
+    useEffect( () => {
+        if ( isVisible ) {
+            apiFetch( { path: '/wpzoomRCB/v1/getCredits', method: 'GET' } )
+                .then( ( data ) => setCredits( data && undefined !== data.remaining ? data.remaining : null ) )
+                .catch( () => setCredits( null ) );
+        }
+    }, [ isVisible ] );
     const { getCurrentUser } = useSelect( ( select ) => ( {
         getCurrentUser: select( 'core' ).getCurrentUser,
     } ) );
@@ -80,7 +93,20 @@ const ButtonBox = ( props ) => {
         setInputValue( newValue );
     };
 
-    const handleSubmit = async() => {
+    const applyExample = ( prompt ) => {
+        setInputValue( prompt );
+        if ( promptRef.current ) {
+            promptRef.current.focus();
+        }
+    };
+
+    const handleSubmit = async( event ) => {
+        if ( event && event.preventDefault ) {
+            event.preventDefault();
+        }
+        if ( ! String( inputValue || '' ).trim() ) {
+            return;
+        }
         try {
             // Show loader while waiting for the response
             setIsLoading( true );
@@ -244,29 +270,46 @@ const ButtonBox = ( props ) => {
         setIsVisible( false ); // Show "Generate AI" button
     };
 
-    const toggleAiPopup = () => {
-        setError( false ); // Close the popover
-        setIsAddManuallyVisible( false ); // Hide "Add Manually" button
-        setIsVisible( true ); 
-        isVisible( true ); // Show "Generate AI" button
+    // Enter generates, Shift+Enter starts a new line.
+    const handlePromptKeyDown = ( event ) => {
+        if ( 'Enter' === event.key && ! event.shiftKey && ! event.nativeEvent.isComposing ) {
+            handleSubmit( event );
+        }
     };
 
-    // List of suggestions
+    // "Try again" in the error window.
+    const toggleAiPopup = () => {
+        setError( false );
+        setIsAddManuallyVisible( false );
+        setIsVisible( true );
+    };
+
+    // Each example fills the field with a full prompt, to show how much detail it can take (as in PRO).
     const suggestions = [
-        __( 'Classic Italian pasta', 'recipe-card-blocks-by-wpzoom' ),
-        __( 'Low-carb dinner recipe', 'recipe-card-blocks-by-wpzoom' ),
-        __( 'Beginner-friendly dessert recipe', 'recipe-card-blocks-by-wpzoom' ),
-        __( 'I want a recipe with a twist. Surprise me!', 'recipe-card-blocks-by-wpzoom' ),
-        __( 'Generate a festive holiday dessert idea.', 'recipe-card-blocks-by-wpzoom' ),
+        {
+            label: __( 'Classic Italian pasta', 'recipe-card-blocks-by-wpzoom' ),
+            prompt: __( 'A classic Italian pasta with a simple tomato sauce, ready in 30 minutes', 'recipe-card-blocks-by-wpzoom' ),
+        },
+        {
+            label: __( 'Low-carb dinner', 'recipe-card-blocks-by-wpzoom' ),
+            prompt: __( 'A low-carb chicken dinner for 2, with under 20 g of carbs per serving', 'recipe-card-blocks-by-wpzoom' ),
+        },
+        {
+            label: __( 'Easy dessert', 'recipe-card-blocks-by-wpzoom' ),
+            prompt: __( 'A beginner-friendly chocolate dessert with 5 ingredients or fewer', 'recipe-card-blocks-by-wpzoom' ),
+        },
+        {
+            label: __( 'Holiday treat', 'recipe-card-blocks-by-wpzoom' ),
+            prompt: __( 'A festive holiday dessert that can be made a day ahead', 'recipe-card-blocks-by-wpzoom' ),
+        },
+        {
+            label: __( 'Surprise me', 'recipe-card-blocks-by-wpzoom' ),
+            prompt: __( 'A familiar comfort food with an unexpected twist. Surprise me!', 'recipe-card-blocks-by-wpzoom' ),
+        },
     ];
 
-    return (
-        <div className="ai-div">
-            { /* "Generate AI" button */ }
-            { isGenerateAIVisible && (
-            <Button className="ai-button" onClick={ toggleVisible }>
-                <span className="btn-svg">
-                    <svg
+    const aiIcon = (
+        <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -285,105 +328,103 @@ const ButtonBox = ( props ) => {
                             </clipPath>
                         </defs>
                     </svg>
-                </span>
+    );
+
+    return (
+        <div className="ai-div">
+            { /* "Generate AI" button */ }
+            { props.isToolbar ? (
+                // In the block toolbar since 3.8.0, as in PRO.
+                <ToolbarGroup className="wpzoom-toolbar-ai">
+                    <Button
+                        className="ai-toolbar-button"
+                        icon={ aiIcon }
+                        label={ __( 'Generate with AI', 'recipe-card-blocks-by-wpzoom' ) }
+                        onClick={ toggleVisible }
+                    >
+                        { __( 'Generate with AI', 'recipe-card-blocks-by-wpzoom' ) }
+                    </Button>
+                </ToolbarGroup>
+            ) : isGenerateAIVisible && (
+            <Button className="ai-button" onClick={ toggleVisible }>
+                <span className="btn-svg">{ aiIcon }</span>
                 <span className="btn-text">{ __( 'Generate with AI', 'recipe-card-blocks-by-wpzoom' ) }</span>
             </Button>
       ) }
             { /* "Add Manually" button (initially hidden) */ }
-            { isAddManuallyVisible && (
+            { ! props.isToolbar && isAddManuallyVisible && (
             <Button className="manual-button" onClick={ handleAddManuallyClick }>
                 { __( 'Add manually', 'recipe-card-blocks-by-wpzoom' ) }
             </Button>
       ) }
-            { /* Popover */ }
+            { /* The prompt window (PRO's layout since 3.8.0). */ }
             { isVisible && (
-            <Popover className="popup-overlay" position="center center">
-                <div className="popup-content">
+            <Popover className="popup-overlay" position="center center" onClose={ handleAddManuallyClick }>
+                <div className="popup-backdrop" onClick={ handleAddManuallyClick }>
+                <div className="popup-content" onClick={ ( event ) => event.stopPropagation() }>
                     <button className="close-button" onClick={ handleAddManuallyClick }>
                         <span className="dashicons dashicons-no-alt"></span>
                     </button>
-                    <form onSubmit={ handleSubmit }>
-                        <div className="svg-input">
-                            <span>
-                                <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="22"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                  >
-                                    <g clipPath="url(#clip0_0_75)">
-                                        <path
-                          d="M7.65693 6.24724C7.76693 5.91724 8.23293 5.91724 8.34293 6.24724L8.98793 8.18424C9.1299 8.61004 9.3691 8.99693 9.68657 9.31422C10.004 9.63152 10.3911 9.8705 10.8169 10.0122L12.7529 10.6572C13.0829 10.7672 13.0829 11.2332 12.7529 11.3432L10.8159 11.9882C10.3901 12.1302 10.0033 12.3694 9.68595 12.6869C9.36866 13.0044 9.12967 13.3914 8.98793 13.8172L8.34293 15.7532C8.31922 15.8255 8.27329 15.8884 8.21169 15.933C8.1501 15.9777 8.07599 16.0017 7.99993 16.0017C7.92388 16.0017 7.84977 15.9777 7.78817 15.933C7.72658 15.8884 7.68065 15.8255 7.65693 15.7532L7.01193 13.8162C6.87006 13.3905 6.63101 13.0037 6.31373 12.6865C5.99644 12.3692 5.60963 12.1301 5.18393 11.9882L3.24693 11.3432C3.17467 11.3195 3.11175 11.2736 3.06713 11.212C3.02252 11.1504 2.9985 11.0763 2.9985 11.0002C2.9985 10.9242 3.02252 10.8501 3.06713 10.7885C3.11175 10.7269 3.17467 10.681 3.24693 10.6572L5.18393 10.0122C5.60963 9.87037 5.99644 9.63132 6.31373 9.31404C6.63101 8.99675 6.87006 8.60994 7.01193 8.18424L7.65693 6.24724ZM3.79393 1.14824C3.80827 1.10494 3.8359 1.06725 3.87288 1.04054C3.90986 1.01383 3.95431 0.999455 3.99993 0.999455C4.04555 0.999455 4.09001 1.01383 4.12699 1.04054C4.16397 1.06725 4.19159 1.10494 4.20593 1.14824L4.59293 2.31024C4.76593 2.82824 5.17193 3.23424 5.68993 3.40724L6.85193 3.79424C6.89524 3.80858 6.93292 3.83621 6.95963 3.87319C6.98634 3.91017 7.00072 3.95462 7.00072 4.00024C7.00072 4.04586 6.98634 4.09032 6.95963 4.1273C6.93292 4.16428 6.89524 4.1919 6.85193 4.20624L5.68993 4.59324C5.43431 4.67808 5.20202 4.82143 5.01157 5.01188C4.82112 5.20233 4.67777 5.43462 4.59293 5.69024L4.20593 6.85224C4.19159 6.89555 4.16397 6.93323 4.12699 6.95994C4.09001 6.98665 4.04555 7.00103 3.99993 7.00103C3.95431 7.00103 3.90986 6.98665 3.87288 6.95994C3.8359 6.93323 3.80827 6.89555 3.79393 6.85224L3.40693 5.69024C3.32209 5.43462 3.17874 5.20233 2.98829 5.01188C2.79784 4.82143 2.56556 4.67808 2.30993 4.59324L1.14793 4.20624C1.10463 4.1919 1.06694 4.16428 1.04023 4.1273C1.01352 4.09032 0.999146 4.04586 0.999146 4.00024C0.999146 3.95462 1.01352 3.91017 1.04023 3.87319C1.06694 3.83621 1.10463 3.80858 1.14793 3.79424L2.30993 3.40724C2.56556 3.3224 2.79784 3.17905 2.98829 2.9886C3.17874 2.79815 3.32209 2.56587 3.40693 2.31024L3.79393 1.14824ZM10.8629 0.0992422C10.8728 0.0707684 10.8913 0.0460781 10.9159 0.0286037C10.9404 0.0111294 10.9698 0.0017395 10.9999 0.0017395C11.0301 0.0017395 11.0595 0.0111294 11.084 0.0286037C11.1086 0.0460781 11.1271 0.0707684 11.1369 0.0992422L11.3949 0.873242C11.5099 1.21924 11.7809 1.49024 12.1269 1.60524L12.9009 1.86324C12.9294 1.87311 12.9541 1.89161 12.9716 1.91617C12.989 1.94072 12.9984 1.97011 12.9984 2.00024C12.9984 2.03038 12.989 2.05977 12.9716 2.08432C12.9541 2.10887 12.9294 2.12737 12.9009 2.13724L12.1269 2.39524C11.9566 2.45224 11.8018 2.54803 11.6747 2.67506C11.5477 2.80209 11.4519 2.95688 11.3949 3.12724L11.1369 3.90124C11.1271 3.92972 11.1086 3.95441 11.084 3.97188C11.0595 3.98936 11.0301 3.99875 10.9999 3.99875C10.9698 3.99875 10.9404 3.98936 10.9159 3.97188C10.8913 3.95441 10.8728 3.92972 10.8629 3.90124L10.6049 3.12724C10.5479 2.95688 10.4521 2.80209 10.3251 2.67506C10.1981 2.54803 10.0433 2.45224 9.87293 2.39524L9.09993 2.13724C9.07146 2.12737 9.04677 2.10887 9.02929 2.08432C9.01182 2.05977 9.00243 2.03038 9.00243 2.00024C9.00243 1.97011 9.01182 1.94072 9.02929 1.91617C9.04677 1.89161 9.07146 1.87311 9.09993 1.86324L9.87393 1.60524C10.2199 1.49024 10.4909 1.21924 10.6059 0.873242L10.8629 0.0992422Z"
-                          fill="#E1581A"
-                      />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_0_75">
-                                            <rect width="16" height="16" fill="white" />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
+                    <form className="ai-generate-form" onSubmit={ handleSubmit }>
+                        <label className="ai-prompt">
+                            <span className="ai-prompt__label">
+                                { aiIcon }
+                                { __( 'What would you like to cook?', 'recipe-card-blocks-by-wpzoom' ) }
                             </span>
-                            <TextControl
-                    placeholder={ __( 'Enter recipe title here' ) }
-                    value={ inputValue }
-                    className="message-recipe"
-                    onChange={ handleChange }
-                />
-                </div>
-                <CheckboxControl
-                  label={ __( 'Generate Recipe Image with AI' ) }
-                  help={ __( 'This step might slow down the process (~30 seconds)' ) }
-                  checked={ generateRecipeImage }
-                  className="use-recipe-image-prompt"
-                  onChange={ ( newValue ) => {
-                    setGenerateRecipeImage( newValue );
-                  } }
-              />{ generateRecipeImage && (
-                <CheckboxControl
-                  label={ __( 'Use the same prompt for image' ) }
-                  checked={ customImagePrompt }
-                  className="use-recipe-image-prompt"
-                  onChange={ ( newValue ) => {
-                    setCustomImagePrompt( newValue );
-                  } }
-              /> ) }
-                        { ! customImagePrompt && (
-                        <div className="svg-input">
-                            <span>
-                                <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="22"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                  >
-                                    <g clipPath="url(#clip0_0_75)">
-                                        <path
-                          d="M7.65693 6.24724C7.76693 5.91724 8.23293 5.91724 8.34293 6.24724L8.98793 8.18424C9.1299 8.61004 9.3691 8.99693 9.68657 9.31422C10.004 9.63152 10.3911 9.8705 10.8169 10.0122L12.7529 10.6572C13.0829 10.7672 13.0829 11.2332 12.7529 11.3432L10.8159 11.9882C10.3901 12.1302 10.0033 12.3694 9.68595 12.6869C9.36866 13.0044 9.12967 13.3914 8.98793 13.8172L8.34293 15.7532C8.31922 15.8255 8.27329 15.8884 8.21169 15.933C8.1501 15.9777 8.07599 16.0017 7.99993 16.0017C7.92388 16.0017 7.84977 15.9777 7.78817 15.933C7.72658 15.8884 7.68065 15.8255 7.65693 15.7532L7.01193 13.8162C6.87006 13.3905 6.63101 13.0037 6.31373 12.6865C5.99644 12.3692 5.60963 12.1301 5.18393 11.9882L3.24693 11.3432C3.17467 11.3195 3.11175 11.2736 3.06713 11.212C3.02252 11.1504 2.9985 11.0763 2.9985 11.0002C2.9985 10.9242 3.02252 10.8501 3.06713 10.7885C3.11175 10.7269 3.17467 10.681 3.24693 10.6572L5.18393 10.0122C5.60963 9.87037 5.99644 9.63132 6.31373 9.31404C6.63101 8.99675 6.87006 8.60994 7.01193 8.18424L7.65693 6.24724ZM3.79393 1.14824C3.80827 1.10494 3.8359 1.06725 3.87288 1.04054C3.90986 1.01383 3.95431 0.999455 3.99993 0.999455C4.04555 0.999455 4.09001 1.01383 4.12699 1.04054C4.16397 1.06725 4.19159 1.10494 4.20593 1.14824L4.59293 2.31024C4.76593 2.82824 5.17193 3.23424 5.68993 3.40724L6.85193 3.79424C6.89524 3.80858 6.93292 3.83621 6.95963 3.87319C6.98634 3.91017 7.00072 3.95462 7.00072 4.00024C7.00072 4.04586 6.98634 4.09032 6.95963 4.1273C6.93292 4.16428 6.89524 4.1919 6.85193 4.20624L5.68993 4.59324C5.43431 4.67808 5.20202 4.82143 5.01157 5.01188C4.82112 5.20233 4.67777 5.43462 4.59293 5.69024L4.20593 6.85224C4.19159 6.89555 4.16397 6.93323 4.12699 6.95994C4.09001 6.98665 4.04555 7.00103 3.99993 7.00103C3.95431 7.00103 3.90986 6.98665 3.87288 6.95994C3.8359 6.93323 3.80827 6.89555 3.79393 6.85224L3.40693 5.69024C3.32209 5.43462 3.17874 5.20233 2.98829 5.01188C2.79784 4.82143 2.56556 4.67808 2.30993 4.59324L1.14793 4.20624C1.10463 4.1919 1.06694 4.16428 1.04023 4.1273C1.01352 4.09032 0.999146 4.04586 0.999146 4.00024C0.999146 3.95462 1.01352 3.91017 1.04023 3.87319C1.06694 3.83621 1.10463 3.80858 1.14793 3.79424L2.30993 3.40724C2.56556 3.3224 2.79784 3.17905 2.98829 2.9886C3.17874 2.79815 3.32209 2.56587 3.40693 2.31024L3.79393 1.14824ZM10.8629 0.0992422C10.8728 0.0707684 10.8913 0.0460781 10.9159 0.0286037C10.9404 0.0111294 10.9698 0.0017395 10.9999 0.0017395C11.0301 0.0017395 11.0595 0.0111294 11.084 0.0286037C11.1086 0.0460781 11.1271 0.0707684 11.1369 0.0992422L11.3949 0.873242C11.5099 1.21924 11.7809 1.49024 12.1269 1.60524L12.9009 1.86324C12.9294 1.87311 12.9541 1.89161 12.9716 1.91617C12.989 1.94072 12.9984 1.97011 12.9984 2.00024C12.9984 2.03038 12.989 2.05977 12.9716 2.08432C12.9541 2.10887 12.9294 2.12737 12.9009 2.13724L12.1269 2.39524C11.9566 2.45224 11.8018 2.54803 11.6747 2.67506C11.5477 2.80209 11.4519 2.95688 11.3949 3.12724L11.1369 3.90124C11.1271 3.92972 11.1086 3.95441 11.084 3.97188C11.0595 3.98936 11.0301 3.99875 10.9999 3.99875C10.9698 3.99875 10.9404 3.98936 10.9159 3.97188C10.8913 3.95441 10.8728 3.92972 10.8629 3.90124L10.6049 3.12724C10.5479 2.95688 10.4521 2.80209 10.3251 2.67506C10.1981 2.54803 10.0433 2.45224 9.87293 2.39524L9.09993 2.13724C9.07146 2.12737 9.04677 2.10887 9.02929 2.08432C9.01182 2.05977 9.00243 2.03038 9.00243 2.00024C9.00243 1.97011 9.01182 1.94072 9.02929 1.91617C9.04677 1.89161 9.07146 1.87311 9.09993 1.86324L9.87393 1.60524C10.2199 1.49024 10.4909 1.21924 10.6059 0.873242L10.8629 0.0992422Z"
-                          fill="#E1581A"
-                      />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_0_75">
-                                            <rect width="16" height="16" fill="white" />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            </span>
-                            <TextControl
-                    placeholder={ __( 'Image Prompt' ) }
-                    value={ imagePrompt }
-                    className="recipe-image-prompt-field"
-                    onChange={ ( newValue ) => {
-                      setImagePrompt( newValue );
-                    } }
-                />
+                            <textarea
+                                ref={ promptRef }
+                                className="ai-prompt__field"
+                                rows="3"
+                                placeholder={ __( 'Describe the dish, diet, servings or time. For example: a quick vegan chili for 4, ready in 30 minutes', 'recipe-card-blocks-by-wpzoom' ) }
+                                value={ inputValue }
+                                autoFocus
+                                onChange={ ( event ) => handleChange( event.target.value ) }
+                                onKeyDown={ handlePromptKeyDown }
+                            />
+                        </label>
+                        <div className="ai-prompt-examples">
+                            <span className="ai-prompt-examples__label">{ __( 'Prompt examples', 'recipe-card-blocks-by-wpzoom' ) }</span>
+                            <div className="ai-prompt-examples__list">
+                                { suggestions.map( ( suggestion ) => (
+                                    <button
+                                        type="button"
+                                        key={ suggestion.label }
+                                        className="ai-prompt-example"
+                                        onClick={ () => applyExample( suggestion.prompt ) }
+                                    >
+                                        { suggestion.label }
+                                    </button>
+                                ) ) }
+                            </div>
                         </div>
-              ) }
-
-                        <button className={ `submit-button ${ ! inputValue ? 'disabled' : '' }` } disabled={ ! inputValue } isPrimary={ inputValue }>
+                        <div className="ai-image-options">
+                            <CheckboxControl
+                                label={ __( 'Generate Recipe Image with AI', 'recipe-card-blocks-by-wpzoom' ) }
+                                help={ __( 'This step might slow down the process (~15 seconds)', 'recipe-card-blocks-by-wpzoom' ) }
+                                checked={ generateRecipeImage }
+                                className="use-recipe-image-prompt"
+                                onChange={ setGenerateRecipeImage }
+                            />
+                            { generateRecipeImage && (
+                                <CheckboxControl
+                                    label={ __( 'Use the same prompt for image', 'recipe-card-blocks-by-wpzoom' ) }
+                                    checked={ customImagePrompt }
+                                    className="use-recipe-image-prompt"
+                                    onChange={ setCustomImagePrompt }
+                                />
+                            ) }
+                            { generateRecipeImage && ! customImagePrompt && (
+                                <textarea
+                                    className="ai-prompt__field ai-prompt__field--image"
+                                    rows="2"
+                                    aria-label={ __( 'Image prompt', 'recipe-card-blocks-by-wpzoom' ) }
+                                    placeholder={ __( 'Describe the photo you want', 'recipe-card-blocks-by-wpzoom' ) }
+                                    value={ imagePrompt }
+                                    onChange={ ( event ) => setImagePrompt( event.target.value ) }
+                                />
+                            ) }
+                        </div>
+                        <button className={ `submit-button ${ ! inputValue.trim() ? 'disabled' : '' }` } disabled={ ! inputValue.trim() }>
                             <span>
                                 <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -399,27 +440,30 @@ const ButtonBox = ( props ) => {
                         fill="white"
                     />
                                 </svg>
-                                { __( 'Generate with 1 AI Credit' ) }
+                                { __( 'Generate with 1 AI Credit', 'recipe-card-blocks-by-wpzoom' ) }
                             </span>
                         </button>
+                        <div className="ai-generate-footer">
+                            { null !== credits && (
+                                <span className="ai-generate-footer__credits">
+                                    <strong>{ credits }</strong> { __( 'Credits remaining', 'recipe-card-blocks-by-wpzoom' ) }
+                                </span>
+                            ) }
+                            <a href={ `${ siteURL }/wp-admin/admin.php?page=wpzoom-recipe-card-settings&tab=tab-ai` } target="_blank" rel="noreferrer">
+                                <span className="dashicons dashicons-admin-generic"></span>
+                                { __( 'Configure AI Settings', 'recipe-card-blocks-by-wpzoom' ) }
+                            </a>
+                        </div>
                     </form>
-                    <div className="Content-suggestions">
-                        <h4>{ __( 'Prompt Examples', 'recipe-card-blocks-by-wpzoom' ) }</h4>
-                        <ul>
-                        { suggestions.map( ( suggestion, index ) => (
-                            <li key={ index } onClick={ () => handleChange( suggestion ) }>
-                                { suggestion }
-                            </li>
-                        ) ) }
-                        </ul>
-                    </div>
+                </div>
                 </div>
             </Popover> ) }
 
 			{ /* Error Login Popover */ }
 			{ errorLogin && (
-				<Popover className="popup-overlay" position="center center">
-					<div className="popup-content popup-content-error">
+				<Popover className="popup-overlay" position="center center" onClose={ handleclosed }>
+					<div className="popup-backdrop" onClick={ handleclosed }>
+					<div className="popup-content popup-content-error" onClick={ ( event ) => event.stopPropagation() }>
 						<button className="close-button error-close-btn" onClick={ handleclosed }>
 							<span className="dashicons dashicons-no-alt"></span>
 						</button>
@@ -436,13 +480,15 @@ const ButtonBox = ( props ) => {
 							<a className="components-button buyMore" href={`${siteURL}/wp-admin/admin.php?page=admin-license`}>{ __( 'Connect your account', 'recipe-card-blocks-by-wpzoom' ) }</a>
 						</div>
 					</div>
+				</div>
 				</Popover>
 			) }
 
             { /* Error Popover */ }
             { error && (
-                <Popover className="popup-overlay" position="center center">
-                    <div className="popup-content popup-content-error">
+                <Popover className="popup-overlay" position="center center" onClose={ handleclosed }>
+                    <div className="popup-backdrop" onClick={ handleclosed }>
+                    <div className="popup-content popup-content-error" onClick={ ( event ) => event.stopPropagation() }>
                         <button className="close-button error-close-btn" onClick={ handleclosed }>
                             <span className="dashicons dashicons-no-alt"></span>
                         </button>
@@ -461,13 +507,15 @@ const ButtonBox = ( props ) => {
                             </Button>
                         </div>
                     </div>
+                </div>
                 </Popover>
             ) }
 
             { /* Credit Error Popover */ }
             { creditserror && (
-            <Popover className="popup-overlay" position="center center">
-                <div className="popup-content popup-content-error">
+            <Popover className="popup-overlay" position="center center" onClose={ handleclosed }>
+                <div className="popup-backdrop" onClick={ handleclosed }>
+                <div className="popup-content popup-content-error" onClick={ ( event ) => event.stopPropagation() }>
                     <button className="close-button error-close-btn" onClick={ handleclosed }>
                         <span className="dashicons dashicons-no-alt"></span>
                     </button>
@@ -487,10 +535,16 @@ const ButtonBox = ( props ) => {
                         </Button>
                     </div>
                 </div>
+            </div>
             </Popover>
       ) }
 
-            { isLoading && <div className="loader"></div> }
+            { /* The window opens from the toolbar, so the loader covers the page. */ }
+            { isLoading && (
+                props.isToolbar && 'undefined' !== typeof document
+                    ? createPortal( <div className="loader"></div>, document.body )
+                    : <div className="loader"></div>
+            ) }
             { /* Toast component */ }
             { showToast && (
             <CustomToast

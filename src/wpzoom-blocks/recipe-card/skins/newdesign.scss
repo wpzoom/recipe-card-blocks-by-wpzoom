@@ -6,7 +6,7 @@
 		margin-bottom: 50px;
         background: #ffffff;
         border: 1px solid rgba(0,0,0,.1);
-        border-radius: 5px 5px 0 0;
+        border-radius: 6px;
 
         .recipe-card-image {
             margin-top: -21px;
@@ -24,7 +24,7 @@
                    width: 100%;
                    height: auto;
                    margin: 0;
-                   border-radius: 5px 5px 0 0;
+                   border-radius: 6px 6px 0 0;
                 }
             }
             .wpzoom-recipe-card-print-link {
@@ -46,8 +46,8 @@
                     font-size: 12px;
                     color: $newdesign-primary-text-color;
                     line-height: 1.2;
-                    background-color: $newdesign-primary-color;
-                    box-shadow: 0 2px 6px $newdesign-primary-color;
+                    background-color: $newdesign-heading-color;
+                    box-shadow: 0 2px 6px rgba(4, 23, 40, .35);
                     border: none;
                     transition: transform 0.3s ease;
 
@@ -134,22 +134,22 @@
             @include recipe-heading-metadata( $newdesign-meta-color, $newdesign-heading-color );
         }
         .details-items {
-            border-left: 1px dashed rgba(0,0,0,.1);
-            border-top: 1px dashed rgba(0,0,0,.1);
+            border-left: 1px solid rgba(0,0,0,.08);
+            border-top: 1px solid rgba(0,0,0,.08);
             text-align: center;
             display: flex;
             flex-wrap: wrap;
 
             .detail-item {
                 flex: 1 0 25%;
-                padding: 10px 1.5%;
+                padding: 12px 1.5%;
                 position: relative;
                 box-sizing: border-box;
-                border-right: 1px dashed rgba(0,0,0,.1);
-                border-bottom: 1px dashed rgba(0,0,0,.1);
+                border-right: 1px solid rgba(0,0,0,.08);
+                border-bottom: 1px solid rgba(0,0,0,.08);
 
                 .detail-item-label {
-                    font-weight: bold;
+                    font-weight: 600;
                 }
                 .detail-item-label, .detail-item-value, .detail-item-unit {
                     font-size: 14px;
@@ -177,8 +177,9 @@
                     margin: auto;
                     color: $newdesign-detail-icon-color;
 
+                    // Inherit, so an accent color set on .detail-item-icon reaches the SVG (3.8.0).
                     span {
-                        color: $newdesign-detail-icon-color;
+                        color: inherit;
 
                         &::before {
                             font-size: 16px;
@@ -204,8 +205,8 @@
         .recipe-card-ingredients {
             margin: 15px 0 30px;
             padding: 25px 0;
-            border-top: 1px dashed rgba(0,0,0,.1);
-            border-bottom: 1px dashed rgba(0,0,0,.1);
+            border-top: 1px solid rgba(0,0,0,.08);
+            border-bottom: 1px solid rgba(0,0,0,.08);
             position: relative;
             text-align: left;
         }
@@ -245,7 +246,7 @@
 
             .recipe-card-notes-list,
             > ul {
-                @include recipe-notes-list( #f5f5f5, inherit, $newdesign-primary-color, $newdesign-primary-color );
+                @include recipe-notes-list( #f5f5f5, inherit, $newdesign-heading-color, $newdesign-heading-color );
             }
         }
     }
@@ -271,7 +272,7 @@
             .details-items .detail-item {
                 min-width: 50%;
                 padding: 7px 1.5%;
-                border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+                border-bottom: 1px solid rgba(0,0,0,.08);
             }
             .ingredients-list.layout-2-columns {
                 columns: 1;

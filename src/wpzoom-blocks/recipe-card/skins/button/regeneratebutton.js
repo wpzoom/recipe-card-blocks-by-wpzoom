@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { useState } from 'react';
-import './style.scss'; // Import SCSS file
+import './editor.scss'; // The AI windows' styles, editor only.
 /**
  * WordPress dependencies
  */
@@ -12,6 +12,7 @@ import { useRecipeDataActions } from '../button/store';
 import PropTypes from 'prop-types';
 import CustomToast from '../toast';
 import { __ } from '@wordpress/i18n';
+import { createPortal } from '@wordpress/element';
 
 const { restURL, siteURL } = wpzoomRecipeCard;
 
@@ -198,7 +199,7 @@ const RegenerateButton = ( props ) => {
         setIsGenerateAIVisible( false );
     };
 
-    return ( <div className="ai-div">
+    return ( <div className={ `ai-div ai-div-${ props.type }` }>
         <Button className="regenerate-recipe-button" onClick={ () => {
             if ( props.type === 'nutrition' ) {
                 regenerateRecipe();
@@ -224,11 +225,17 @@ const RegenerateButton = ( props ) => {
                     __( 'Regenerate recipe with 1 AI credit', 'recipe-card-blocks-by-wpzoom' ) ) }</span>
         </Button>
         { /* Loader */ }
-        { isLoading && <div className="loader"></div> }
+        { /* A hidden trigger (the toolbar's AI Actions menu) shows its loader over the page. */ }
+        { isLoading && (
+            props.hiddenTrigger && 'undefined' !== typeof document
+                ? createPortal( <div className="loader"></div>, document.body )
+                : <div className="loader"></div>
+        ) }
 
         { /* Popover */ }
-        { isPopoverVisible && ( <Popover className="popup-overlay" position="bottom center">
-            <div className="popup-content">
+        { isPopoverVisible && ( <Popover className="popup-overlay" position="bottom center" onClose={ () => setIsPopoverVisible( false ) }>
+            <div className="popup-backdrop" onClick={ () => setIsPopoverVisible( false ) }>
+            <div className="popup-content" onClick={ ( event ) => event.stopPropagation() }>
                 <button className="close-button" onClick={ () => {
                     setIsPopoverVisible( false );
                 } }>
@@ -243,6 +250,7 @@ const RegenerateButton = ( props ) => {
                             placeholder={ __( 'Message Recipe Generator' ) }
                             value={ inputValue }
                             className="message-recipe"
+                            autoFocus
                             onChange={ ( newValue ) => {
                                 setInputValue( newValue );
                             } }
@@ -256,12 +264,14 @@ const RegenerateButton = ( props ) => {
                     </button>
                 </form>
             </div>
+            </div>
         </Popover> ) }
 
 		{ /* Error Login Popover */ }
 		{ errorLogin && (
-			<Popover className="popup-overlay" position="center center">
-				<div className="popup-content popup-content-error">
+			<Popover className="popup-overlay" position="center center" onClose={ handleclosed }>
+				<div className="popup-backdrop" onClick={ handleclosed }>
+				<div className="popup-content popup-content-error" onClick={ ( event ) => event.stopPropagation() }>
 					<button className="close-button error-close-btn" onClick={ handleclosed }>
 						<span className="dashicons dashicons-no-alt"></span>
 					</button>
@@ -278,13 +288,15 @@ const RegenerateButton = ( props ) => {
                         <a className="components-button is-primary" href={`${siteURL}/wp-admin/admin.php?page=admin-license`}>{ __( 'AI Credits and Connect page', 'recipe-card-blocks-by-wpzoom' ) }</a>
 					</div>
 				</div>
+			</div>
 			</Popover>
 		) }
 
         { /* Error Popover */ }
         { error && (
-        <Popover className="popup-overlay" position="center center">
-            <div className="popup-content popup-content-error">
+        <Popover className="popup-overlay" position="center center" onClose={ handleclosed }>
+            <div className="popup-backdrop" onClick={ handleclosed }>
+            <div className="popup-content popup-content-error" onClick={ ( event ) => event.stopPropagation() }>
                 <button className="close-button error-close-btn" onClick={ handleclosed }>
                     <span className="dashicons dashicons-no-alt"></span>
                 </button>
@@ -302,13 +314,15 @@ const RegenerateButton = ( props ) => {
                     </Button>
                 </div>
             </div>
+        </div>
         </Popover>
           ) }
 
         { /* Credit Error Popover */ }
         { creditserror && (
-        <Popover className="popup-overlay" position="center center">
-            <div className="popup-content popup-content-error">
+        <Popover className="popup-overlay" position="center center" onClose={ handleclosed }>
+            <div className="popup-backdrop" onClick={ handleclosed }>
+            <div className="popup-content popup-content-error" onClick={ ( event ) => event.stopPropagation() }>
                 <button className="close-button error-close-btn" onClick={ handleclosed }>
                     <span className="dashicons dashicons-no-alt"></span>
                 </button>
@@ -327,6 +341,7 @@ const RegenerateButton = ( props ) => {
                     </Button>
                 </div>
             </div>
+        </div>
         </Popover>
           ) }
 
@@ -340,6 +355,7 @@ const RegenerateButton = ( props ) => {
 
 RegenerateButton.propTypes = {
     type: PropTypes.string.isRequired, message: PropTypes.string.isRequired,
+    hiddenTrigger: PropTypes.bool,
 };
 
 export default RegenerateButton;

@@ -131,6 +131,12 @@
     }
 
     .recipe-card-heading {
+        // The title fills its line (themes often balance headings, which wraps a title that
+        // would fit) and gets room between lines when it does wrap.
+        .recipe-card-title {
+            line-height: 1.25;
+            text-wrap: wrap;
+        }
         .recipe-card-author {
             margin-bottom: 10px;
         }
@@ -448,11 +454,103 @@
 		margin: 0 10px;
 	}
 	
+	// Printed by custom templates made before 3.8.0.
 	p.recipe-card-no-sleep {
 		font-size: 13px;
         font-style: italic;
         opacity: .8;
         margin: 0;
+	}
+
+	// The explanation of Cook Mode sits behind a "?" button (WPZOOM_Helpers::get_cook_mode_help(),
+	// 3.8.0, as in PRO). script.js opens the tooltip and places it under the button, inside the
+	// card. A style can recolor the tooltip with --rcb-help-bg and --rcb-help-color.
+	position: relative;
+
+	.wpzoom-nosleep-help {
+		display: inline-flex;
+		vertical-align: middle;
+		margin-left: -2px;
+	}
+
+	// A plain circle in the color of the text around it, whatever the theme does to buttons.
+	.wpzoom-nosleep-help-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		width: 18px;
+		min-width: 0;
+		height: 18px;
+		min-height: 0;
+		margin: 0;
+		padding: 0;
+		border: 1.5px solid currentColor;
+		border-radius: 50%;
+		background: transparent;
+		box-shadow: none;
+		color: inherit;
+		font-family: inherit;
+		font-size: 11px;
+		font-weight: 700;
+		line-height: 1;
+		letter-spacing: 0;
+		text-transform: none;
+		opacity: 0.55;
+		cursor: pointer;
+		appearance: none;
+		transition: opacity 0.15s ease;
+
+		&:hover,
+		&:focus,
+		&[aria-expanded="true"] {
+			border-color: currentColor;
+			background: transparent;
+			color: inherit;
+			opacity: 1;
+		}
+
+		&:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: 2px;
+		}
+	}
+
+	.wpzoom-nosleep-help-tip {
+		position: absolute;
+		z-index: 5;
+		top: calc(100% + 8px);
+		left: 0;
+		box-sizing: border-box;
+		width: max-content;
+		max-width: 240px;
+		max-width: #{'min(240px, calc(100vw - 32px))'};
+		padding: 8px 11px;
+		border-radius: 8px;
+		background: var(--rcb-help-bg, #1c1c1e);
+		box-shadow: 0 6px 18px rgba( 0, 0, 0, 0.18 );
+		color: var(--rcb-help-color, #fff);
+		font-size: 12.5px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 1.4;
+		text-align: left;
+
+		// A class with `display` would otherwise beat the attribute.
+		&[hidden] {
+			display: none;
+		}
+
+		// Points at the button.
+		&::before {
+			content: '';
+			position: absolute;
+			bottom: 100%;
+			left: var(--wpzoom-help-arrow, 20px);
+			margin-left: -5px;
+			border: 5px solid transparent;
+			border-bottom-color: var(--rcb-help-bg, #1c1c1e);
+		}
 	}
 }
 

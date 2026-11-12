@@ -20,9 +20,10 @@ import NutritionUpsell from './NutritionUpsell';
 import RatingPreview from './rating-preview';
 import CookMode from './cook-mode';
 import StylePicker from './style-picker';
+import TermEditButton from './term-editor';
 import { stripHTML, deserializeAttributes } from '../../../helpers/stringHelpers';
 import { pickRelevantMediaFiles } from '../../../helpers/pickRelevantMediaFiles';
-import { getBlockStyle, isBaseFamilyStyle } from '../../../helpers/getBlockStyle';
+import { getBlockStyle, isBaseFamilyStyle, getCardColorCss } from '../../../helpers/getBlockStyle';
 import { generateId } from '../../../helpers/generateId';
 import PrintButton from '../skins/shared/print-button';
 import PinterestButton from '../skins/shared/pinterest-button';
@@ -39,6 +40,7 @@ import {
     Placeholder,
     Spinner,
     Disabled,
+    DropdownMenu,
 } from '@wordpress/components';
 import {
     RichText,
@@ -330,6 +332,21 @@ class RecipeCard extends Component {
         } );
     }
 
+    /**
+     * Opens a regenerate window from the AI Actions menu: clicks the matching hidden
+     * RegenerateButton in this card's toolbar (same approach as PRO).
+     *
+     * @param {string} type 'recipe' or 'image'.
+     */
+    triggerAiAction( type ) {
+        const root = document.querySelector( `.wpzoom-toolbar-regenerate-triggers[data-client-id="${ this.props.clientId }"]` );
+        const button = root && root.querySelector( `.ai-div-${ type } .regenerate-recipe-button` );
+
+        if ( button ) {
+            button.click();
+        }
+    }
+
     render() {
 
         if ( ! this.props.attributes ) {
@@ -481,9 +498,17 @@ class RecipeCard extends Component {
             </div>
         );
 
+        // The "+" that edits course, cuisine or difficulty in place, while the card is selected (3.8.0).
+        const termEditButton = ( name, label, terms ) => this.props.isSelected && (
+            <TermEditButton termKey={ name } label={ label } value={ terms } setAttributes={ setAttributes } />
+        );
+
         // Course / Cuisine / Difficulty as one line (Modern, Amber, Clean).
         const renderInlineTerm = ( name, label, terms ) => (
-            <span className={ `recipe-card-${ name }` }>{ label }: <mark>{ ! RichText.isEmpty( terms ) ? terms.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark></span>
+            <span className={ `recipe-card-${ name }` }>
+                <span className="recipe-card-term-label-wrap">{ label }:{ termEditButton( name, label, terms ) }</span>{ ' ' }
+                <mark>{ ! RichText.isEmpty( terms ) ? terms.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</mark>
+            </span>
         );
 
         const termsRow = ( displayCourse || displayCuisine || displayDifficulty ) && (
@@ -493,8 +518,6 @@ class RecipeCard extends Component {
                 { displayDifficulty && renderInlineTerm( 'difficulty', __( 'Difficulty', 'recipe-card-blocks-by-wpzoom' ), difficulty ) }
             </div>
         );
-
-        const detailsHint = <p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'recipe-card-blocks-by-wpzoom' ) }</p>;
 
         const headerButtons = (
             <Disabled>
@@ -506,16 +529,39 @@ class RecipeCard extends Component {
         // Course, cuisine or difficulty as a label over its value (Base and Onyx).
         const renderTerm = ( name, label, terms ) => (
             <span className={ `recipe-card-${ name } recipe-card-term` }>
-                <span className="recipe-card-term-label">{ label }</span>
+                <span className="recipe-card-term-label recipe-card-term-label-wrap">{ label }{ termEditButton( name, label, terms ) }</span>
                 <span className="recipe-card-term-value">{ ! RichText.isEmpty( terms ) ? terms.filter( ( item ) => item ).join( ', ' ) : __( 'Not added', 'recipe-card-blocks-by-wpzoom' ) }</span>
             </span>
         );
+
+        // "Regenerate" entries of the AI Actions menu next to "Generate with AI" in the toolbar.
+        const aiPrompts = messageToAI || {};
+        const aiActionControls = [];
+        if ( aiPrompts.recipe ) {
+            aiActionControls.push( {
+                title: __( 'Regenerate Recipe with AI', 'recipe-card-blocks-by-wpzoom' ),
+                onClick: () => this.triggerAiAction( 'recipe' ),
+            } );
+        }
+        if ( hasImage && aiPrompts.image ) {
+            aiActionControls.push( {
+                title: __( 'Regenerate Image with AI', 'recipe-card-blocks-by-wpzoom' ),
+                onClick: () => this.triggerAiAction( 'image' ),
+            } );
+        }
+
+        // Every card in the editor has the same id, so the color CSS is scoped to this block.
+        const colorScope = this.props.clientId || '';
+        const cardColorCss = getCardColorCss( `#${ id }[data-rcb-scope="${ colorScope }"]`, style, get( attributes, [ 'settings', 0 ] ) || {} );
 
         return (
             <div
                 id={ id }
                 className={ RecipeCardClassName }
+                data-rcb-scope={ colorScope }
             >
+                { /* The card's colors, the Accent and the Global Colors, as on the front end (3.8.0). */ }
+                { cardColorCss && <style>{ cardColorCss }</style> }
                 {
                     this.state.isLoading &&
                     <Placeholder
@@ -530,10 +576,6 @@ class RecipeCard extends Component {
                     'simple' !== style &&
                     ! isBaseFamily &&
                     <Fragment>
-                        <ButtonBox prompts={ messageToAI } />
-                        { messageToAI && (
-                            <RegenerateButton type="image" message={ messageToAI } />
-                        ) }
                         { imagePlaceholder }
                         {
                             hasImage &&
@@ -546,15 +588,11 @@ class RecipeCard extends Component {
                                 </div>
                             </div>
                         }
-                        { messageToAI && (
-                            <RegenerateButton type="recipe" message={ messageToAI } />
-                        ) }
                         <div className="recipe-card-heading">
                             { titleField }
                             { subTitle }
                             { 'default' === style && summaryField }
                             { termsRow }
-                            { detailsHint }
                         </div>
                         <Detail
                             generateId={ generateId }
@@ -566,10 +604,6 @@ class RecipeCard extends Component {
                 {
                     'simple' === style &&
                     <Fragment>
-                        <ButtonBox prompts={ messageToAI } />
-                        { messageToAI && (
-                            <RegenerateButton type="image" message={ messageToAI } />
-                        ) }
                         <div className="recipe-card-header-wrap">
                             { imagePlaceholder }
                             {
@@ -588,7 +622,6 @@ class RecipeCard extends Component {
                                     { titleField }
                                     { subTitle }
                                     { termsRow }
-                                    { detailsHint }
                                 </div>
                                 { summaryField }
                             </div>
@@ -602,10 +635,6 @@ class RecipeCard extends Component {
                 {
                     isBaseFamily &&
                     <Fragment>
-                        <ButtonBox prompts={ messageToAI } />
-                        { messageToAI && (
-                            <RegenerateButton type="image" message={ messageToAI } />
-                        ) }
                         <div className="recipe-card-header-wrap">
                             <div className="recipe-card-image-column">
                                 { imagePlaceholder }
@@ -656,9 +685,6 @@ class RecipeCard extends Component {
                                 }
                             </div>
                         </div>
-                        { messageToAI && (
-                            <RegenerateButton type="recipe" message={ messageToAI } />
-                        ) }
                         <div className="recipe-card-details-wrap">
                             {
                                 ( displayCourse || displayCuisine || displayDifficulty ) &&
@@ -673,13 +699,9 @@ class RecipeCard extends Component {
                                 { ...{ attributes, setAttributes, className } }
                             />
                         </div>
-                        <p className="description">{ __( 'You can add or edit these details in the Block Options on the right →', 'recipe-card-blocks-by-wpzoom' ) }</p>
                         { ! isImageShown && cookMode }
                     </Fragment>
                 }
-                { ! isBaseFamily && messageToAI && (
-                    <RegenerateButton type="recipe" message={ messageToAI } />
-                ) }
                 { /* Modern, Clean, Base and Onyx place the summary inside their header. */ }
                 { 'newdesign' === style && summaryField }
                 { ! isBaseFamily && cookMode }
@@ -743,7 +765,7 @@ class RecipeCard extends Component {
                     onFocus={ this.setFocus }
                 />
                 <NutritionUpsell />
-                <StylePicker { ...{ attributes, setAttributes, className } } />
+                <StylePicker { ...{ attributes, setAttributes, className } } cardId={ id } />
                 <Inspector
                     media={ this.props.media }
                     categories={ this.props.categories }
@@ -769,6 +791,22 @@ class RecipeCard extends Component {
                         setAttributes={ this.props.setAttributes }
                         onBulkAdd={ this.onBulkAdd }
                     />
+                    <div className="wpzoom-ai-toolbar-split">
+                        <ButtonBox prompts={ messageToAI } isToolbar={ true } />
+                        { 0 < aiActionControls.length && (
+                            <DropdownMenu
+                                icon="arrow-down-alt2"
+                                label={ __( 'AI Actions', 'recipe-card-blocks-by-wpzoom' ) }
+                                className="wpzoom-ai-actions-dropdown"
+                                controls={ aiActionControls }
+                            />
+                        ) }
+                    </div>
+                    { /* The regenerate windows, opened from the AI Actions menu (3.8.0, as in PRO). */ }
+                    <div className="wpzoom-toolbar-regenerate-triggers" data-client-id={ this.props.clientId } aria-hidden="true">
+                        { aiPrompts.recipe && <RegenerateButton type="recipe" message={ messageToAI } hiddenTrigger={ true } /> }
+                        { hasImage && aiPrompts.image && <RegenerateButton type="image" message={ messageToAI } hiddenTrigger={ true } /> }
+                    </div>
                 </BlockControls>
             </div>
         );

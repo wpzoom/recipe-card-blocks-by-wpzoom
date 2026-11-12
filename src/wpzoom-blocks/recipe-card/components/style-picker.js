@@ -12,6 +12,7 @@ import classnames from 'classnames';
 
 /* Internal dependencies */
 import { getBlockStyle } from '../../../helpers/getBlockStyle';
+import StyleColors from './style-colors';
 
 /* WordPress dependencies */
 import { __ } from '@wordpress/i18n';
@@ -68,7 +69,7 @@ export function replaceStyleClassName( className, styleName ) {
     return kept.join( ' ' );
 }
 
-const StylePicker = ( { attributes, setAttributes, className } ) => {
+const StylePicker = ( { attributes, setAttributes, className, cardId } ) => {
     const activeStyle = getBlockStyle( className );
 
     return (
@@ -91,6 +92,7 @@ const StylePicker = ( { attributes, setAttributes, className } ) => {
                     ) ) }
                 </div>
             </PanelBody>
+            <StyleColors { ...{ attributes, setAttributes, className, cardId } } />
         </InspectorControls>
     );
 };

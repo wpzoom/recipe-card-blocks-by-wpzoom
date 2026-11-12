@@ -247,7 +247,7 @@
 }
 
 // Author on the left, rating on the right, one dashed rule under both.
-@mixin recipe-sub-title-row( $margin: 0 0 10px, $padding: 0 0 10px, $border-color: rgba(0, 0, 0, 0.1) ) {
+@mixin recipe-sub-title-row( $margin: 0 0 10px, $padding: 0 0 10px, $border-color: rgba(0, 0, 0, 0.08) ) {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -256,7 +256,7 @@
     width: 100%;
     margin: $margin;
     padding: $padding;
-    border-bottom: 1px dashed $border-color;
+    border-bottom: 1px solid $border-color;
 
     .recipe-card-author {
         display: block;

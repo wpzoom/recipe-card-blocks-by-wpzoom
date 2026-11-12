@@ -444,6 +444,16 @@ class WPZOOM_Settings {
 			self::update_option( self::$defaults );
 		}
 
+		// 3.8.0: the Accent Color was a locked PRO field that wrote its old default (#F2A123)
+		// into every site's settings. Clear that once, so unlocking it changes no colors.
+		if ( ! empty( self::$options ) && empty( self::$options['wpzoom_rcb_accent_color_unlocked'] ) ) {
+			if ( isset( self::$options['wpzoom_rcb_settings_primary_color'] ) && '#F2A123' === strtoupper( (string) self::$options['wpzoom_rcb_settings_primary_color'] ) ) {
+				self::$options['wpzoom_rcb_settings_primary_color'] = '';
+			}
+			self::$options['wpzoom_rcb_accent_color_unlocked'] = '1';
+			self::update_option( self::$options );
+		}
+
 		// If new setting is added, update 'wpzoom-recipe-card-settings' option
 		if ( ! empty( self::$options ) ) {
 			$new_settings = array_diff_key( self::$defaults, self::$options );
@@ -1485,16 +1495,17 @@ class WPZOOM_Settings {
 								),
 							),
 
+							// Free since 3.8.0. Same option as PRO's "Accent Color for Modern, Amber and Clean
+							// Skins", so the color carries over on upgrade. Empty = each style's own colors.
 							array(
 								'id'    => 'wpzoom_rcb_settings_primary_color',
-								'title' => __( 'Default Primary Color', 'recipe-card-blocks-by-wpzoom' ),
+								'title' => __( 'Accent Color', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'colorpicker',
 								'args'  => array(
-									'label_for' => 'wpzoom_rcb_settings_primary_color',
-									'class'     => 'wpzoom-rcb-field',
-									'default'   => '#F2A123',
-									'disabled'    => true,
-									'badge'       => $premium_badge,
+									'label_for'   => 'wpzoom_rcb_settings_primary_color',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Accent for the Modern, Amber and Clean templates: detail icons, ingredient checkboxes and notes icons (and the Print button in Clean). Leave empty to keep each template\'s own colors.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '',
 								),
 							),
 						),
@@ -1552,29 +1563,49 @@ class WPZOOM_Settings {
 						'page'     => 'wpzoom-recipe-card-settings-appearance',
 						'callback' => '__return_false',
 						'fields'   => array(
+							// Free since 3.8.0, with PRO's option ids and defaults. A color equal to its
+							// default is not applied, so the template's own color shows.
 							array(
-								'id'    => 'wpzoom_rcb_settings_global_header_bg_color',
-								'title' => __( 'Header Background', 'recipe-card-blocks-by-wpzoom' ),
+								'id'    => 'wpzoom_rcb_settings_global_recipe_title_color',
+								'title' => __( 'Recipe Title Color', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'colorpicker',
 								'args'  => array(
-									'label_for'   => 'wpzoom_rcb_settings_global_header_bg_color',
+									'label_for'   => 'wpzoom_rcb_settings_global_recipe_title_color',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Customize the recipe card header background color.', 'recipe-card-blocks-by-wpzoom' ),
-									'default'     => '#222222',
-									'disabled'    => true,
-									'badge'       => $premium_badge,
+									'description' => esc_html__( 'Color for recipe titles in all templates (Onyx keeps its white title).', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '#041728',
 								),
 							),
 							array(
-								'id'    => 'wpzoom_rcb_settings_global_accent_color',
-								'title' => __( 'Accent Color', 'recipe-card-blocks-by-wpzoom' ),
+								'id'    => 'wpzoom_rcb_settings_global_recipe_card_text_color',
+								'title' => __( 'Text Color', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'colorpicker',
 								'args'  => array(
-									'label_for'   => 'wpzoom_rcb_settings_global_accent_color',
+									'label_for'   => 'wpzoom_rcb_settings_global_recipe_card_text_color',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => esc_html__( 'Set a global accent color for buttons and links in recipe cards.', 'recipe-card-blocks-by-wpzoom' ),
-									'default'     => '#E1581A',
-									'disabled'    => true,
+									'description' => esc_html__( 'General text color for recipe cards in all templates.', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '#041728',
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_global_links_color',
+								'title' => __( 'Links Color', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'colorpicker',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_global_links_color',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Color for links inside recipe cards (summary, ingredients, directions and notes).', 'recipe-card-blocks-by-wpzoom' ),
+									'default'     => '#0073aa',
+								),
+							),
+							array(
+								'id'    => 'wpzoom_rcb_settings_global_colors_more_pro',
+								'title' => __( 'More Colors', 'recipe-card-blocks-by-wpzoom' ),
+								'type'  => 'pro_feature',
+								'args'  => array(
+									'label_for'   => 'wpzoom_rcb_settings_global_colors_more_pro',
+									'class'       => 'wpzoom-rcb-field',
+									'description' => esc_html__( 'Card background, section headings, ingredients, directions and notes text colors, and custom colors for Base and Onyx.', 'recipe-card-blocks-by-wpzoom' ),
 									'badge'       => $premium_badge,
 								),
 							),
@@ -2444,16 +2475,20 @@ class WPZOOM_Settings {
 						'fields'   => array(
 							array(
 								'id'    => 'wpzoom_rcb_settings_recipe_data_ai_chat_model',
-								'title' => __( 'Select the AI model to use', 'recipe-card-blocks-by-wpzoom' ),
+								'title' => __( 'AI model used for recipe generation', 'recipe-card-blocks-by-wpzoom' ),
 								'type'  => 'select',
 								'args'  => array(
 									'label_for'   => 'wpzoom_rcb_settings_recipe_data_ai_chat_model',
 									'class'       => 'wpzoom-rcb-field',
-									'description' => __( '<strong>GPT-4o</strong> - Most advanced model<br/><strong>GPT-4o-mini</strong> - Fast and cost-effective', 'recipe-card-blocks-by-wpzoom' ),
+									// Same models and labels as PRO (3.8.0). The recipecard.io AI server accepts these
+									// four and replaces the first three with GPT-6 Luna once OpenAI retires them.
+									'description' => __( '<strong>GPT-4o</strong> - Fast, balanced results<br/><strong>GPT-4o-mini</strong> - Fast and cost-effective<br/><strong>GPT-4.1-mini</strong> - Newer mini model<br/><strong>GPT-6 Luna</strong> - Newest model, more detailed recipes, takes longer', 'recipe-card-blocks-by-wpzoom' ),
 									'default'     => 'gpt-4o',
 									'options'     => array(
-										'gpt-4o'      => esc_html__( 'GPT-4o', 'recipe-card-blocks-by-wpzoom' ),
-										'gpt-4o-mini' => esc_html__( 'GPT-4o-mini', 'recipe-card-blocks-by-wpzoom' ),
+										'gpt-4o'       => esc_html__( 'GPT-4o', 'recipe-card-blocks-by-wpzoom' ),
+										'gpt-4o-mini'  => esc_html__( 'GPT-4o-mini', 'recipe-card-blocks-by-wpzoom' ),
+										'gpt-4.1-mini' => esc_html__( 'GPT-4.1-mini', 'recipe-card-blocks-by-wpzoom' ),
+										'gpt-6-luna'   => esc_html__( 'GPT-6 Luna', 'recipe-card-blocks-by-wpzoom' ),
 									),
 								),
 							),

@@ -94,7 +94,7 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
      *
      * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
      */
-    edit: ( { attributes, setAttributes, className, clientId } ) => {
+    edit: ( { attributes, setAttributes, className, clientId, isSelected } ) => {
         useMultipleRecipesNotice();
 
         // A freshly inserted card asks how to start (3.7.0, as PRO 7.5.0). Read
@@ -130,13 +130,8 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
         const { settings, hasInstance, initDetails, details } = attributes;
 
         if ( ! hasInstance || ! initDetails ) {
-			if ( 'newdesign' === style ) {
-				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#E99E3C' };
-			} else if ( 'default' === style ) {
-				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#222222' };
-			} else if ( 'simple' === style ) {
-				settings[ 0 ] = { ...settings[ 0 ], primary_color: '#222222' };
-			}
+			// No primary_color here since 3.8.0: an unset color follows the Accent Color setting
+			// and the style's own color, and the Colors panel in the Styles tab sets it per card.
 
 			const newSettings = settings ? settings.slice() : [];
 			const newDetails = details ? details.slice() : []; 
@@ -206,7 +201,7 @@ registerBlockType( 'wpzoom-recipe-card/block-recipe-card', {
             return <RecipeChooser clientId={ clientId } attributes={ attributes } setAttributes={ setAttributes } onDone={ () => setShowChooser( false ) } />;
         }
 
-        return <RecipeCard { ...{ attributes, setAttributes, className } } />;
+        return <RecipeCard { ...{ attributes, setAttributes, className, clientId, isSelected } } />;
     },
 
     save() {

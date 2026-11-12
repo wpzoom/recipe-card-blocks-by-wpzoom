@@ -6,7 +6,7 @@
 		margin-bottom: 50px;
         background: #ffffff;
         border: 1px solid rgba(0,0,0,.1);
-        border-radius: 5px 5px 0 0;
+        border-radius: 6px;
 
         .recipe-card-image {
             margin-top: -21px;
@@ -24,7 +24,7 @@
                     width: 100%;
                     height: auto;
                     margin: 0;
-                    border-radius: 5px 5px 0 0;
+                    border-radius: 6px 6px 0 0;
                 }
                 &::before {
                     content: '';
@@ -35,7 +35,7 @@
                     left: 0;
                     z-index: 1;
 
-                    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 35%);
+                    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 35%);
                 }
                 figcaption {
                     position: absolute;
@@ -141,22 +141,22 @@
             @include recipe-heading-metadata( $default-meta-color, $default-heading-color, $small-font-size );
         }
         .details-items {
-            border-left: 1px dashed rgba(0,0,0,.1);
-            border-top: 1px dashed rgba(0,0,0,.1);
+            border-left: 1px solid rgba(0,0,0,.08);
+            border-top: 1px solid rgba(0,0,0,.08);
             text-align: center;
             display: flex;
             flex-wrap: wrap;
 
             .detail-item {
                 flex: 1 0 25%;
-                padding: 10px 1.5%;
+                padding: 12px 1.5%;
                 position: relative;
                 box-sizing: border-box;
-                border-right: 1px dashed rgba(0,0,0,.1);
-                border-bottom: 1px dashed rgba(0,0,0,.1);
+                border-right: 1px solid rgba(0,0,0,.08);
+                border-bottom: 1px solid rgba(0,0,0,.08);
 
                 .detail-item-label {
-                    font-weight: bold;
+                    font-weight: 600;
                 }
                 .detail-item-label, .detail-item-value, .detail-item-unit {
                     font-size: 14px;
@@ -189,8 +189,9 @@
                     }
                 }
 
+                // Inherit, so an accent color set on .detail-item-icon reaches the SVG (3.8.0).
                 .detail-item-icon span {
-                    color: $default-detail-icon-color;
+                    color: inherit;
 
                     &::before {
                         font-size: 16px;
@@ -206,7 +207,7 @@
         }
         .recipe-card-summary {
             margin-bottom: 20px !important;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         $selectors: 'ingredients-title', 'directions-title', 'video-title', 'notes-title';
@@ -220,7 +221,7 @@
         .recipe-card-ingredients {
             position: relative;
             background-color: $coconut-cream;
-            border-radius: 3px;
+            border-radius: 6px;
             margin: 0 0 30px;
             padding: 25px 25px 5px;
             text-align: left;
@@ -233,7 +234,7 @@
                 1.7,
                 0 0 13px,
                 0 0 13px,
-                1px solid #e9e5c9
+                1px solid rgba(0,0,0,.07)
             );
         }
 
@@ -251,7 +252,7 @@
         .recipe-card-notes {
             margin-top: 30px;
             padding-top: 20px;
-            border-top: 1px dashed rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(0,0,0,.08);
             padding-bottom: 30px;
 
             .recipe-card-notes-list,
@@ -296,7 +297,7 @@
                 .detail-item {
                     min-width: 50%;
                     padding: 7px 1.5%;
-                    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+                    border-bottom: 1px solid rgba(0,0,0,.08);
                 }
             }
             .ingredients-list.layout-2-columns {

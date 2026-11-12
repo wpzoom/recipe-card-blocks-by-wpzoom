@@ -256,6 +256,71 @@
 			}
 		}
 
+		// Cook Mode help (3.8.0, as in PRO): the "?" next to the toggle shows a short explanation.
+		// It closes on a second click, a click anywhere else, Escape, or when the window is resized.
+		function wpzoomPlaceCookModeHelp($toggle, $tip) {
+			var tip = $tip[0],
+				holder = tip.offsetParent || tip.parentNode,
+				card = $toggle.closest(".wp-block-wpzoom-recipe-card-block-recipe-card")[0] || document.documentElement;
+
+			// Measured from a known spot, so the last position does not skew the width.
+			tip.style.left = "0px";
+
+			var holderRect = holder.getBoundingClientRect(),
+				toggleRect = $toggle[0].getBoundingClientRect(),
+				cardRect = card.getBoundingClientRect(),
+				width = tip.offsetWidth,
+				center = toggleRect.left + toggleRect.width / 2,
+				// Under the "?", centered on it, but never past the card or the window.
+				min = Math.max(cardRect.left, 0) + 8,
+				max = Math.min(cardRect.right, document.documentElement.clientWidth) - 8,
+				left = Math.max(min, Math.min(center - width / 2, max - width));
+
+			tip.style.left = Math.round(left - holderRect.left) + "px";
+			tip.style.top = Math.round(toggleRect.bottom - holderRect.top + 9) + "px";
+			tip.style.setProperty("--wpzoom-help-arrow", Math.round(center - left) + "px");
+		}
+
+		function wpzoomSetCookModeHelp($toggle, open) {
+			$toggle.each(function () {
+				var $one = $(this),
+					$tip = $one.siblings(".wpzoom-nosleep-help-tip");
+
+				$one.attr("aria-expanded", open ? "true" : "false");
+				$tip.prop("hidden", !open);
+
+				if (open && $tip.length) {
+					wpzoomPlaceCookModeHelp($one, $tip);
+				}
+			});
+		}
+
+		$(document).on("click", function (e) {
+			var $toggle = $(e.target).closest(".wpzoom-nosleep-help-toggle"),
+				$open = $('.wpzoom-nosleep-help-toggle[aria-expanded="true"]');
+
+			if ($toggle.length) {
+				e.preventDefault();
+				wpzoomSetCookModeHelp($open.not($toggle), false);
+				wpzoomSetCookModeHelp($toggle, "true" !== $toggle.attr("aria-expanded"));
+			} else if ($open.length && !$(e.target).closest(".wpzoom-nosleep-help-tip").length) {
+				wpzoomSetCookModeHelp($open, false);
+			}
+		});
+
+		$(document).on("keydown", function (e) {
+			var $open = $('.wpzoom-nosleep-help-toggle[aria-expanded="true"]');
+
+			if ($open.length && ("Escape" === e.key || 27 === e.keyCode)) {
+				wpzoomSetCookModeHelp($open, false);
+				$open.first().trigger("focus");
+			}
+		});
+
+		$(window).on("resize", function () {
+			wpzoomSetCookModeHelp($('.wpzoom-nosleep-help-toggle[aria-expanded="true"]'), false);
+		});
+
 		// Move auto-inserted rating stars into the theme's post meta area.
 		var $elementToMove = $("[data-js-move=true]:first-child");
 		var elementTarget = $elementToMove.data("js-selector");

@@ -670,14 +670,8 @@ if ( ! class_exists( 'WPZOOM_Assets_Manager' ) ) {
 			}
 
 			if ( $style === 'newdesign' ) {
+				// The accent is on the ingredient circles only since 3.8.0.
 				if ( ! empty( $primary_color ) ) {
-					$inline_CSS .= "{$block_class_name} .recipe-card-image .wpzoom-recipe-card-print-link .btn-print-link {
-                        background-color: {$primary_color};
-                        box-shadow: 0 2px 6px {$primary_color};
-                    }";
-					$inline_CSS .= "{$block_class_name} .details-items .detail-item .detail-item-icon {
-                        color: {$primary_color};
-                    }";
 					$inline_CSS .= "{$block_class_name} .ingredients-list>li .tick-circle {
                         border: 2px solid {$primary_color};
                     }";
