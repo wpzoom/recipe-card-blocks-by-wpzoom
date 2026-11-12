@@ -153,15 +153,14 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 
 == Screenshots ==
 
-1. Adding a recipe card to the editor
-2. Recipe Card widget in Elementor
-3. All blocks included
-4. Preview of the Recipe Card Block
-5. Additional Design for Block
-6. Block Editor
-7. Recipes Page
-8. Mobile Design
-9. Settings page
+1. Recipe Card in the Base style
+2. Five recipe card styles: Base, Onyx, Clean, Modern and Amber
+3. Editing a recipe in the block editor and picking a style
+4. Three ways to start a recipe card
+5. Recipe Card in the Onyx style
+6. Mobile view
+7. Settings page
+8. Recipe Card widget in Elementor
 
 
 == Changelog ==
