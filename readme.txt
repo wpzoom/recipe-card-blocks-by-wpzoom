@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,9 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 
 
 == Changelog ==
+
+= 4.0.1 =
+* New: the AI Credits page shows how to write and edit recipes by chatting with Claude or ChatGPT through the free WPZOOM AI Connect plugin, using your own AI account, with one button to install, activate or open it. Shown on WordPress 6.9 and newer.
 
 = 4.0.0 =
 * New: Two more recipe card styles, Base and Onyx. The free version now has five: Base, Onyx, Clean, Modern and Amber.

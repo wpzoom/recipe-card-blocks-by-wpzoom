@@ -170,3 +170,41 @@ if ( ! $user_data ) {
 	</div>
 	<?php
 }
+
+/*
+ * WPZOOM AI Connect: lets Claude or ChatGPT find, write and edit recipe cards on this site. Shown only where it can run
+ * (WordPress 6.9+, the Abilities API); the button installs, activates or opens it.
+ */
+if ( function_exists( 'wp_register_ability' ) ) {
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+	$rcb_ai_file   = 'wpzoom-ai-connect/wpzoom-ai-connect.php';
+	$rcb_ai_action = null;
+	if ( is_plugin_active( $rcb_ai_file ) ) {
+		$rcb_ai_action = array( __( 'Open AI Connect', 'recipe-card-blocks-by-wpzoom' ), add_query_arg( array( 'page' => 'wpzoom-ai-connect', 'ref' => 'recipe-card-blocks' ), admin_url( 'admin.php' ) ) );
+	} elseif ( file_exists( WP_PLUGIN_DIR . '/' . $rcb_ai_file ) ) {
+		if ( current_user_can( 'activate_plugin', $rcb_ai_file ) ) {
+			$rcb_ai_action = array( __( 'Activate AI Connect', 'recipe-card-blocks-by-wpzoom' ), wp_nonce_url( admin_url( 'plugins.php?action=activate&plugin=' . rawurlencode( $rcb_ai_file ) ), 'activate-plugin_' . $rcb_ai_file ) );
+		}
+	} elseif ( current_user_can( 'install_plugins' ) ) {
+		$rcb_ai_action = array( __( 'Install AI Connect', 'recipe-card-blocks-by-wpzoom' ), admin_url( 'plugin-install.php?s=wpzoom%2520ai%2520connect&tab=search&type=term' ) );
+	}
+	?>
+	<div class="vcard">
+		<div class="vcard-top">
+			<img src="<?php echo esc_url( plugin_dir_url( __FILE__ ) . 'assets/img/ai-connect.svg' ); ?>" alt="">
+			<h2><?php esc_html_e( 'Write recipes with Claude or ChatGPT', 'recipe-card-blocks-by-wpzoom' ); ?></h2>
+		</div>
+		<div class="vcard-body">
+			<p>
+				<?php esc_html_e( 'Connect your AI assistant to this site with our free WPZOOM AI Connect plugin, then just ask. For example: "Create a recipe post for banana bread with a recipe card", or "Update the cooking times in my lasagna recipe". It writes and edits your recipe cards directly, using your own Claude or ChatGPT account.', 'recipe-card-blocks-by-wpzoom' ); ?>
+				<a href="https://www.wpzoom.com/ai-connect/" target="_blank"><?php esc_html_e( 'Learn more', 'recipe-card-blocks-by-wpzoom' ); ?></a>
+			</p>
+			<?php if ( $rcb_ai_action ) : ?>
+				<a href="<?php echo esc_url( $rcb_ai_action[1] ); ?>" class="rcb-btn"><?php echo esc_html( $rcb_ai_action[0] ); ?></a>
+			<?php endif; ?>
+		</div>
+	</div>
+	<?php
+}
