@@ -262,27 +262,27 @@ class WPZOOM_Manage_Ratings {
 		get_current_screen()->add_help_tab(
 			array(
 				'id'      => $this->_page_slug . '-overview',
-				'title'   => __( 'Overview' ),
+				'title'   => __( 'Overview', 'recipe-card-blocks-by-wpzoom' ),
 				'content' =>
-						'<p>' . __( 'You can manage ratings made on your site similar to the way you manage posts and other content. This screen is customizable in the same ways as other management screens, and you can act on ratings using the on-hover action links.' ) . '</p>',
+						'<p>' . __( 'You can manage ratings made on your site similar to the way you manage posts and other content. This screen is customizable in the same ways as other management screens, and you can act on ratings using the on-hover action links.', 'recipe-card-blocks-by-wpzoom' ) . '</p>',
 			)
 		);
 		get_current_screen()->add_help_tab(
 			array(
 				'id'      => $this->_page_slug . '-moderating-comments',
-				'title'   => __( 'Moderating Ratings' ),
+				'title'   => __( 'Moderating Ratings', 'recipe-card-blocks-by-wpzoom' ),
 				'content' =>
-							'<p>' . __( 'A red bar on the left means the rating is waiting for you to moderate it.' ) . '</p>' .
-							'<p>' . __( 'In the <strong>Author</strong> column, the author&#8217;s name, email address, and blog URL is shown.' ) . '</p>' .
-							'<p>' . __( 'In the <strong>Type</strong> column, are displayed the type of rating. There are two types of ratings available: User Rating and Comment Rating. Near the Type column, the <strong>IP</strong> address is shown in and by clicking on this link will show you all the ratings or comments made from this IP address.' ) . '</p>' .
-							'<p>' . __( 'In the <strong>Rating or Comment</strong> column, hovering over any row item gives you options to approve, edit, spam mark, or trash that record from Database.' ) . '</p>' .
-							'<p>' . __( 'In the <strong>Post</strong> column, there are two elements. The text is the name of the post that inspired the comment, and links to the post editor for that entry. The View Post link leads to that post on your live site.' ) . '</p>' .
-							'<p>' . __( 'In the <strong>Submitted on</strong> column, the date and time the rating or comment was left on your site appears. Clicking on the date/time link will take you to that comment on your live site.' ) . '</p>',
+							'<p>' . __( 'A red bar on the left means the rating is waiting for you to moderate it.', 'recipe-card-blocks-by-wpzoom' ) . '</p>' .
+							'<p>' . __( 'In the <strong>Author</strong> column, the author&#8217;s name, email address, and blog URL is shown.', 'recipe-card-blocks-by-wpzoom' ) . '</p>' .
+							'<p>' . __( 'In the <strong>Type</strong> column, are displayed the type of rating. There are two types of ratings available: User Rating and Comment Rating. Near the Type column, the <strong>IP</strong> address is shown in and by clicking on this link will show you all the ratings or comments made from this IP address.', 'recipe-card-blocks-by-wpzoom' ) . '</p>' .
+							'<p>' . __( 'In the <strong>Rating or Comment</strong> column, hovering over any row item gives you options to approve, edit, spam mark, or trash that record from Database.', 'recipe-card-blocks-by-wpzoom' ) . '</p>' .
+							'<p>' . __( 'In the <strong>Post</strong> column, there are two elements. The text is the name of the post that inspired the comment, and links to the post editor for that entry. The View Post link leads to that post on your live site.', 'recipe-card-blocks-by-wpzoom' ) . '</p>' .
+							'<p>' . __( 'In the <strong>Submitted on</strong> column, the date and time the rating or comment was left on your site appears. Clicking on the date/time link will take you to that comment on your live site.', 'recipe-card-blocks-by-wpzoom' ) . '</p>',
 			)
 		);
 
 		get_current_screen()->set_help_sidebar(
-			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+			'<p><strong>' . __( 'For more information:', 'recipe-card-blocks-by-wpzoom' ) . '</strong></p>' .
 			'<p>' . sprintf( '<a href="https://recipecard.io/documentation/?utm_source=wpadmin&utm_medium=ratings-page&utm_campaign=docs">%s</a>', __( 'Documentation on Ratings', 'recipe-card-blocks-by-wpzoom' ) ) . '</p>' .
 			'<p>' . sprintf( '<a href="https://recipecard.io/support/?utm_source=wpadmin&utm_medium=ratings-page&utm_campaign=support">%s</a>', __( 'Support', 'recipe-card-blocks-by-wpzoom' ) ) . '</p>'
 		);
@@ -624,7 +624,7 @@ class WPZOOM_Manage_Ratings {
 		$search = isset( $_GET['s'] ) ? $_GET['s'] : '';
 
 		if ( ! empty( $search ) ) {
-			printf( '<span class="subtitle">%s “%s”</span>', __( 'Search results for' ), esc_html( $search ) );
+			printf( '<span class="subtitle">%s “%s”</span>', __( 'Search results for', 'recipe-card-blocks-by-wpzoom' ), esc_html( $search ) );
 		}
 	}
 
@@ -646,7 +646,7 @@ class WPZOOM_Manage_Ratings {
 			$awaiting_mod      = $this->pending_count['total'];
 			$awaiting_mod_i18n = number_format_i18n( $awaiting_mod );
 			/* translators: %s: Number of ratings. */
-			$awaiting_mod_text = sprintf( _n( '%s Rating in moderation', '%s Ratings in moderation', $awaiting_mod ), $awaiting_mod_i18n );
+			$awaiting_mod_text = sprintf( _n( '%s Rating in moderation', '%s Ratings in moderation', $awaiting_mod, 'recipe-card-blocks-by-wpzoom' ), $awaiting_mod_i18n );
 
 			/* translators: %s: Number of ratings. */
 			$output = sprintf( '%s %s', $menu_title, '<span class="awaiting-mod count-' . absint( $awaiting_mod ) . '"><span class="pending-count" aria-hidden="true">' . $awaiting_mod_i18n . '</span><span class="comments-in-moderation-text screen-reader-text">' . $awaiting_mod_text . '</span></span>' );
@@ -758,16 +758,16 @@ class WPZOOM_Manage_Ratings {
 					'<a href="%s" data-wp-lists="%s" class="vim-u vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 					$unapprove_url,
 					"delete:the-comment-list:comment-{$comment->comment_ID}:e7e7d3:action=dim-comment&amp;new=unapproved",
-					esc_attr__( 'Unapprove this comment' ),
-					__( 'Unapprove' )
+					esc_attr__( 'Unapprove this comment', 'recipe-card-blocks-by-wpzoom' ),
+					__( 'Unapprove', 'recipe-card-blocks-by-wpzoom' )
 				);
 			} elseif ( 'unapproved' === $the_comment_status ) {
 				$actions['approve'] = sprintf(
 					'<a href="%s" data-wp-lists="%s" class="vim-a vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 					$approve_url,
 					"delete:the-comment-list:comment-{$comment->comment_ID}:e7e7d3:action=dim-comment&amp;new=approved",
-					esc_attr__( 'Approve this comment' ),
-					__( 'Approve' )
+					esc_attr__( 'Approve this comment', 'recipe-card-blocks-by-wpzoom' ),
+					__( 'Approve', 'recipe-card-blocks-by-wpzoom' )
 				);
 			}
 		} else {
@@ -775,16 +775,16 @@ class WPZOOM_Manage_Ratings {
 				'<a href="%s" data-wp-lists="%s" class="vim-a aria-button-if-js" aria-label="%s">%s</a>',
 				$approve_url,
 				"dim:the-comment-list:comment-{$comment->comment_ID}:unapproved:e7e7d3:e7e7d3:new=approved",
-				esc_attr__( 'Approve this comment' ),
-				__( 'Approve' )
+				esc_attr__( 'Approve this comment', 'recipe-card-blocks-by-wpzoom' ),
+				__( 'Approve', 'recipe-card-blocks-by-wpzoom' )
 			);
 
 			$actions['unapprove'] = sprintf(
 				'<a href="%s" data-wp-lists="%s" class="vim-u aria-button-if-js" aria-label="%s">%s</a>',
 				$unapprove_url,
 				"dim:the-comment-list:comment-{$comment->comment_ID}:unapproved:e7e7d3:e7e7d3:new=unapproved",
-				esc_attr__( 'Unapprove this comment' ),
-				__( 'Unapprove' )
+				esc_attr__( 'Unapprove this comment', 'recipe-card-blocks-by-wpzoom' ),
+				__( 'Unapprove', 'recipe-card-blocks-by-wpzoom' )
 			);
 		}
 
@@ -798,17 +798,17 @@ class WPZOOM_Manage_Ratings {
 				'<a href="%s" data-wp-lists="%s" class="vim-s vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$spam_url,
 				"delete:the-comment-list:comment-{$comment->comment_ID}::spam=1",
-				esc_attr__( 'Mark this comment as spam' ),
+				esc_attr__( 'Mark this comment as spam', 'recipe-card-blocks-by-wpzoom' ),
 				/* translators: "Mark as spam" link. */
-				_x( 'Spam', 'verb' )
+				_x( 'Spam', 'verb', 'recipe-card-blocks-by-wpzoom' )
 			);
 		} elseif ( 'spam' === $the_comment_status ) {
 			$actions['unspam'] = sprintf(
 				'<a href="%s" data-wp-lists="%s" class="vim-z vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$unspam_url,
 				"delete:the-comment-list:comment-{$comment->comment_ID}:66cc66:unspam=1",
-				esc_attr__( 'Restore this comment from the spam' ),
-				_x( 'Not Spam', 'comment' )
+				esc_attr__( 'Restore this comment from the spam', 'recipe-card-blocks-by-wpzoom' ),
+				_x( 'Not Spam', 'comment', 'recipe-card-blocks-by-wpzoom' )
 			);
 		}
 
@@ -817,8 +817,8 @@ class WPZOOM_Manage_Ratings {
 				'<a href="%s" data-wp-lists="%s" class="vim-z vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$untrash_url,
 				"delete:the-comment-list:comment-{$comment->comment_ID}:66cc66:untrash=1",
-				esc_attr__( 'Restore this comment from the Trash' ),
-				__( 'Restore' )
+				esc_attr__( 'Restore this comment from the Trash', 'recipe-card-blocks-by-wpzoom' ),
+				__( 'Restore', 'recipe-card-blocks-by-wpzoom' )
 			);
 		}
 
@@ -827,16 +827,16 @@ class WPZOOM_Manage_Ratings {
 				'<a href="%s" data-wp-lists="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$delete_url,
 				"delete:the-comment-list:comment-{$comment->comment_ID}::delete=1",
-				esc_attr__( 'Delete this comment permanently' ),
-				__( 'Delete Permanently' )
+				esc_attr__( 'Delete this comment permanently', 'recipe-card-blocks-by-wpzoom' ),
+				__( 'Delete Permanently', 'recipe-card-blocks-by-wpzoom' )
 			);
 		} else {
 			$actions['trash'] = sprintf(
 				'<a href="%s" data-wp-lists="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$trash_url,
 				"delete:the-comment-list:comment-{$comment->comment_ID}::trash=1",
-				esc_attr__( 'Move this comment to the Trash' ),
-				_x( 'Trash', 'verb' )
+				esc_attr__( 'Move this comment to the Trash', 'recipe-card-blocks-by-wpzoom' ),
+				_x( 'Trash', 'verb', 'recipe-card-blocks-by-wpzoom' )
 			);
 		}
 
@@ -844,8 +844,8 @@ class WPZOOM_Manage_Ratings {
 			$actions['edit'] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
 				"comment.php?action=editcomment&amp;c={$comment->comment_ID}",
-				esc_attr__( 'Edit this comment' ),
-				__( 'Edit' )
+				esc_attr__( 'Edit this comment', 'recipe-card-blocks-by-wpzoom' ),
+				__( 'Edit', 'recipe-card-blocks-by-wpzoom' )
 			);
 
 			$format = '<button type="button" data-comment-id="%d" data-post-id="%d" data-action="%s" class="%s button-link" aria-expanded="false" aria-label="%s">%s</button>';
@@ -889,7 +889,7 @@ class WPZOOM_Manage_Ratings {
 
 		$out .= '</div>';
 
-		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
+		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details', 'recipe-card-blocks-by-wpzoom' ) . '</span></button>';
 
 		return $out;
 	}
@@ -963,21 +963,21 @@ class WPZOOM_Manage_Ratings {
 			'<a href="%s" class="approve aria-button-if-js" aria-label="%s">%s</a>',
 			$approve_url,
 			esc_attr__( 'Approve this rating', 'recipe-card-blocks-by-wpzoom' ),
-			__( 'Approve' )
+			__( 'Approve', 'recipe-card-blocks-by-wpzoom' )
 		);
 
 		$actions['unapprove'] = sprintf(
 			'<a href="%s" class="unapprove aria-button-if-js" aria-label="%s">%s</a>',
 			$unapprove_url,
 			esc_attr__( 'Unapprove this rating', 'recipe-card-blocks-by-wpzoom' ),
-			__( 'Unapprove' )
+			__( 'Unapprove', 'recipe-card-blocks-by-wpzoom' )
 		);
 
 		$actions['delete'] = sprintf(
 			'<a href="%s" class="delete aria-button-if-js" aria-label="%s">%s</a>',
 			$delete_url,
 			esc_attr__( 'Delete this rating permanently', 'recipe-card-blocks-by-wpzoom' ),
-			__( 'Delete Permanently' )
+			__( 'Delete Permanently', 'recipe-card-blocks-by-wpzoom' )
 		);
 
 		$actions = array_filter( $actions );
@@ -1011,7 +1011,7 @@ class WPZOOM_Manage_Ratings {
 
 		$out .= '</div>';
 
-		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
+		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details', 'recipe-card-blocks-by-wpzoom' ) . '</span></button>';
 
 		return $out;
 	}
@@ -1033,7 +1033,7 @@ class WPZOOM_Manage_Ratings {
 
 		$output = '<span class="displaying-num">' . sprintf(
 			/* translators: %s: Number of items. */
-			_n( '%s item', '%s items', $total_items ),
+			_n( '%s item', '%s items', $total_items, 'recipe-card-blocks-by-wpzoom' ),
 			number_format_i18n( $total_items )
 		) . '</span>';
 
@@ -1075,7 +1075,7 @@ class WPZOOM_Manage_Ratings {
 			$page_links[] = sprintf(
 				"<a class='first-page button' href='%s'><span class='screen-reader-text'>%s</span><span aria-hidden='true'>%s</span></a>",
 				esc_url( remove_query_arg( 'paged', $current_url ) ),
-				__( 'First page' ),
+				__( 'First page', 'recipe-card-blocks-by-wpzoom' ),
 				'&laquo;'
 			);
 		}
@@ -1086,18 +1086,18 @@ class WPZOOM_Manage_Ratings {
 			$page_links[] = sprintf(
 				"<a class='prev-page button' href='%s'><span class='screen-reader-text'>%s</span><span aria-hidden='true'>%s</span></a>",
 				esc_url( add_query_arg( 'paged', max( 1, $current - 1 ), $current_url ) ),
-				__( 'Previous page' ),
+				__( 'Previous page', 'recipe-card-blocks-by-wpzoom' ),
 				'&lsaquo;'
 			);
 		}
 
 		if ( 'bottom' === $which ) {
 			$html_current_page  = $current;
-			$total_pages_before = '<span class="screen-reader-text">' . __( 'Current Page' ) . '</span><span id="table-paging" class="paging-input"><span class="tablenav-paging-text">';
+			$total_pages_before = '<span class="screen-reader-text">' . __( 'Current Page', 'recipe-card-blocks-by-wpzoom' ) . '</span><span id="table-paging" class="paging-input"><span class="tablenav-paging-text">';
 		} else {
 			$html_current_page = sprintf(
 				"%s<input class='current-page' id='current-page-selector' type='text' name='paged' value='%s' size='%d' aria-describedby='table-paging' /><span class='tablenav-paging-text'>",
-				'<label for="current-page-selector" class="screen-reader-text">' . __( 'Current Page' ) . '</label>',
+				'<label for="current-page-selector" class="screen-reader-text">' . __( 'Current Page', 'recipe-card-blocks-by-wpzoom' ) . '</label>',
 				$current,
 				strlen( $total_pages )
 			);
@@ -1105,7 +1105,7 @@ class WPZOOM_Manage_Ratings {
 		$html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
 		$page_links[]     = $total_pages_before . sprintf(
 			/* translators: 1: Current page, 2: Total pages. */
-			_x( '%1$s of %2$s', 'paging' ),
+			_x( '%1$s of %2$s', 'paging', 'recipe-card-blocks-by-wpzoom' ),
 			$html_current_page,
 			$html_total_pages
 		) . $total_pages_after;
@@ -1116,7 +1116,7 @@ class WPZOOM_Manage_Ratings {
 			$page_links[] = sprintf(
 				"<a class='next-page button' href='%s'><span class='screen-reader-text'>%s</span><span aria-hidden='true'>%s</span></a>",
 				esc_url( add_query_arg( 'paged', min( $total_pages, $current + 1 ), $current_url ) ),
-				__( 'Next page' ),
+				__( 'Next page', 'recipe-card-blocks-by-wpzoom' ),
 				'&rsaquo;'
 			);
 		}
@@ -1127,7 +1127,7 @@ class WPZOOM_Manage_Ratings {
 			$page_links[] = sprintf(
 				"<a class='last-page button' href='%s'><span class='screen-reader-text'>%s</span><span aria-hidden='true'>%s</span></a>",
 				esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
-				__( 'Last page' ),
+				__( 'Last page', 'recipe-card-blocks-by-wpzoom' ),
 				'&raquo;'
 			);
 		}
@@ -1153,13 +1153,13 @@ class WPZOOM_Manage_Ratings {
 	public function get_columns() {
 		$columns = array();
 
-		$columns['author']   = __( 'Author' );
-		$columns['type']     = _x( 'Type', 'column name' );
-		$columns['visibility'] = _x( 'Visibility', 'column name' );
-		$columns['ip']       = _x( 'IP', 'column name' );
-		$columns['comment']  = _x( 'Rating', 'column name' );
-		$columns['response'] = __( 'Recipe' );
-		$columns['date']     = _x( 'Submitted on', 'column name' );
+		$columns['author']   = __( 'Author', 'recipe-card-blocks-by-wpzoom' );
+		$columns['type']     = _x( 'Type', 'column name', 'recipe-card-blocks-by-wpzoom' );
+		$columns['visibility'] = _x( 'Visibility', 'column name', 'recipe-card-blocks-by-wpzoom' );
+		$columns['ip']       = _x( 'IP', 'column name', 'recipe-card-blocks-by-wpzoom' );
+		$columns['comment']  = _x( 'Rating', 'column name', 'recipe-card-blocks-by-wpzoom' );
+		$columns['response'] = __( 'Recipe', 'recipe-card-blocks-by-wpzoom' );
+		$columns['date']     = _x( 'Submitted on', 'column name', 'recipe-card-blocks-by-wpzoom' );
 
 		return $columns;
 	}
@@ -1257,7 +1257,7 @@ class WPZOOM_Manage_Ratings {
 
 		if ( ! empty( $columns['cb'] ) ) {
 			static $cb_counter = 1;
-			$columns['cb']     = '<label class="screen-reader-text" for="cb-select-all-' . $cb_counter . '">' . __( 'Select All' ) . '</label>'
+			$columns['cb']     = '<label class="screen-reader-text" for="cb-select-all-' . $cb_counter . '">' . __( 'Select All', 'recipe-card-blocks-by-wpzoom' ) . '</label>'
 				. '<input id="cb-select-all-' . $cb_counter . '" type="checkbox" />';
 			$cb_counter++;
 		}
@@ -1530,11 +1530,11 @@ class WPZOOM_Manage_Ratings {
 		if ( $comment ) {
 			$submitted = sprintf(
 				/* translators: 1: Comment date, 2: Comment time. */
-				__( '%1$s at %2$s' ),
+				__( '%1$s at %2$s', 'recipe-card-blocks-by-wpzoom' ),
 				/* translators: Comment date format. See https://www.php.net/manual/datetime.format.php */
-				get_comment_date( __( 'Y/m/d' ), $comment ),
+				get_comment_date( __( 'Y/m/d', 'recipe-card-blocks-by-wpzoom' ), $comment ),
 				/* translators: Comment time format. See https://www.php.net/manual/datetime.format.php */
-				get_comment_date( __( 'g:i a' ), $comment )
+				get_comment_date( __( 'g:i a', 'recipe-card-blocks-by-wpzoom' ), $comment )
 			);
 			echo '<div class="submitted-on">';
 			if ( 'approved' === wp_get_comment_status( $comment ) && ! empty( $comment->comment_post_ID ) ) {
@@ -1550,11 +1550,11 @@ class WPZOOM_Manage_Ratings {
 		} else {
 			$submitted = sprintf(
 				/* translators: 1: Rating date, 2: Rating time. */
-				__( '%1$s at %2$s' ),
+				__( '%1$s at %2$s', 'recipe-card-blocks-by-wpzoom' ),
 				/* translators: Rating date format. See https://www.php.net/manual/datetime.format.php */
-				date( __( 'Y/m/d' ), strtotime( $rating->rate_date ) ),
+				date( __( 'Y/m/d', 'recipe-card-blocks-by-wpzoom' ), strtotime( $rating->rate_date ) ),
 				/* translators: Rating time format. See https://www.php.net/manual/datetime.format.php */
-				date( __( 'g:i a' ), strtotime( $rating->rate_date ) )
+				date( __( 'g:i a', 'recipe-card-blocks-by-wpzoom' ), strtotime( $rating->rate_date ) )
 			);
 
 			echo '<div class="submitted-on">' . $submitted . '</div>';
@@ -2139,8 +2139,8 @@ class WPZOOM_Manage_Ratings {
 		// check user capabilities
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_die(
-				'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
-				'<p>' . __( 'Sorry, you are not allowed to manage ratings.' ) . '</p>',
+				'<h1>' . __( 'You need a higher level of permission.', 'recipe-card-blocks-by-wpzoom' ) . '</h1>' .
+				'<p>' . __( 'Sorry, you are not allowed to manage ratings.', 'recipe-card-blocks-by-wpzoom' ) . '</p>',
 				403
 			);
 		}
