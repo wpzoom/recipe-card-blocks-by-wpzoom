@@ -907,16 +907,36 @@ class WPZOOM_Custom_Post {
 			return;
 		}
 
-		if( isset( $_POST['wpzoom_rcb_parent_post_id'] ) ) {
-			update_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', $_POST['wpzoom_rcb_parent_post_id'] );
+		// 4.0.2: these fields belong to the recipe post's meta box only.
+		if ( 'wpzoom_rcb' !== get_post_type( $post_id ) ) {
+			return;
 		}
 
-		if( isset( $_POST['wpzoom_rcb_has_parent'] ) ) {
-			update_post_meta( $post_id, '_wpzoom_rcb_has_parent', $_POST['wpzoom_rcb_has_parent'] );
+		$parent_allowed = true;
+
+		if( isset( $_POST['wpzoom_rcb_parent_post_id'] ) ) {
+			$parent_id      = absint( wp_unslash( $_POST['wpzoom_rcb_parent_post_id'] ) );
+			$current_parent = (int) get_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', true );
+
+			// 4.0.2: the recipe card syncs into its parent post, so pointing a
+			// recipe at a new parent takes edit rights on that post. Keeping
+			// the stored parent, or having none, needs no further check.
+			$parent_allowed = ! $parent_id
+				|| $parent_id === (int) $post_id
+				|| $parent_id === $current_parent
+				|| current_user_can( 'edit_post', $parent_id );
+
+			if ( $parent_allowed ) {
+				update_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', $parent_id ? $parent_id : '' );
+			}
+		}
+
+		if( $parent_allowed && isset( $_POST['wpzoom_rcb_has_parent'] ) ) {
+			update_post_meta( $post_id, '_wpzoom_rcb_has_parent', sanitize_text_field( wp_unslash( $_POST['wpzoom_rcb_has_parent'] ) ) );
 		}
 
 		if( isset( $_POST['wpzoom_rcb_used_in'] ) ) {
-			update_post_meta( $post_id, '_wpzoom_rcb_used_in', $_POST['wpzoom_rcb_used_in'] );
+			update_post_meta( $post_id, '_wpzoom_rcb_used_in', sanitize_text_field( wp_unslash( $_POST['wpzoom_rcb_used_in'] ) ) );
 		}
 
 	}

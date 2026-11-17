@@ -62,10 +62,17 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 				return;
 			}
 
+			// On edit.php the scanner box only exists in the All Recipes list.
+			// Without a post_type the screen is the Posts list, which must not
+			// get the script and its nonce either.
 			if ( 'edit.php' === $hook ) {
-				if( isset( $_GET['post_type'] ) && 'wpzoom_rcb' !== $_GET['post_type'] ) {
+				if ( ! isset( $_GET['post_type'] ) || 'wpzoom_rcb' !== $_GET['post_type'] ) {
 					return;
-				}				
+				}
+			}
+
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				return;
 			}
 
 			wp_enqueue_script(
@@ -95,6 +102,10 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 			
 			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'recipe-card-blocks-by-wpzoom' ) ) );
+			}
+
 			if ( set_transient( 'wpzoom_rcb_search_recipe_box', true, 12 * HOUR_IN_SECONDS ) ) {
 				$response = array(
 					'status'  => '200',
@@ -122,7 +133,11 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 		public function search_recipes( $page = 0 ) {
 
 			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
-			
+
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'recipe-card-blocks-by-wpzoom' ) ) );
+			}
+
 			$recipes = array();
 			$finished = false;
 	
@@ -142,6 +157,16 @@ if ( ! class_exists( 'WPZOOM_Recipes_Scanner' ) ) {
 				$posts = $query->posts;
 	
 				foreach ( $posts as $post ) {
+					// Cheap test first: most posts have no Recipe Card.
+					if ( false === strpos( $post->post_content, 'wpzoom-recipe-card/block-recipe-card' ) ) {
+						continue;
+					}
+					// 'post_status' => 'any' also returns other people's drafts
+					// and private posts: a recipe post is only created from a
+					// post this user may edit.
+					if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+						continue;
+					}
 					if( WPZOOM_Recipe_Post_Saver::recipe_post_exists( $post->ID ) ) {
 						continue;
 					}

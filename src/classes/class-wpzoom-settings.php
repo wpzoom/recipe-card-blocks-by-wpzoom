@@ -3011,6 +3011,17 @@ class WPZOOM_Settings {
 	public function reset_settings() {
 		check_ajax_referer( 'wpzoom-reset-settings-nonce', 'security' );
 
+		// A nonce is not an authorization check: only who can save the settings
+		// may reset them.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'status'  => '403',
+					'message' => esc_html__( 'You are not allowed to reset the settings.', 'recipe-card-blocks-by-wpzoom' ),
+				)
+			);
+		}
+
 		$defaults = self::get_defaults();
 
 		if ( empty( $defaults ) ) {

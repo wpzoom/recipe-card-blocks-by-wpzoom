@@ -76,6 +76,67 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 		}
 
 		/**
+		 * Whether the current user may use the importer at all.
+		 *
+		 * The same capability as the Import & Export screen
+		 * (WPZOOM_Import_Manager::add_admin_menu_submenu), so the AJAX
+		 * endpoints are not open to roles that cannot reach the screen.
+		 *
+		 * @since 4.0.2
+		 * @return bool
+		 */
+		private static function current_user_can_import() {
+			return current_user_can( 'edit_others_posts' );
+		}
+
+		/**
+		 * The post types the importer reads and rewrites.
+		 *
+		 * @since 4.0.2
+		 * @return string[]
+		 */
+		private static function get_import_post_types() {
+
+			$post_types        = self::$post_types;
+			$custom_post_types = WPZOOM_Settings::get( 'wpzoom_rcb_settings_types_recipe_post' );
+
+			if ( ! empty( $custom_post_types ) && is_array( $custom_post_types ) ) {
+				$post_types = array_merge( $post_types, $custom_post_types );
+			}
+
+			return array_values( array_unique( array_filter( $post_types, 'is_string' ) ) );
+		}
+
+		/**
+		 * Whether the current user may convert a WPRM recipe inside a post.
+		 *
+		 * wp_update_post() and update_post_meta() check nothing, so every
+		 * post ID that arrives from the request has to pass here first.
+		 *
+		 * @since 4.0.2
+		 * @param WP_Post|null $post           The post whose content is rewritten.
+		 * @param int          $wprm_recipe_id The WPRM recipe to convert.
+		 * @return bool
+		 */
+		private static function can_import_recipe( $post, $wprm_recipe_id ) {
+
+			if ( ! $post instanceof WP_Post || ! $wprm_recipe_id ) {
+				return false;
+			}
+
+			if ( ! in_array( $post->post_type, self::get_import_post_types(), true ) ) {
+				return false;
+			}
+
+			if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+				return false;
+			}
+
+			// The source has to be a WPRM recipe, never an arbitrary post.
+			return 'wprm_recipe' === get_post_type( $wprm_recipe_id );
+		}
+
+		/**
 		 * Search for recipes.
 		 *
 		 * @since   5.0.2
@@ -85,16 +146,11 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 
-			if ( ! current_user_can( 'edit_posts' ) ) {
+			if ( ! self::current_user_can_import() ) {
 				wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'recipe-card-blocks-by-wpzoom' ) ) );
 			}
 
-			$post_types = array( 'post', 'page' );
-			$custom_post_types = WPZOOM_Settings::get( 'wpzoom_rcb_settings_types_recipe_post' );
-
-			if( !empty( $custom_post_types ) ) {
-				$post_types = array_merge( $post_types, $custom_post_types );
-			}
+			$post_types = self::get_import_post_types();
 
 			$recipes = array();
 			$limit = 4000;
@@ -114,8 +170,19 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 	
 				foreach ( $posts as $post ) {
 
+					// Cheap test first: most posts have no WPRM block.
+					if ( false === strpos( $post->post_content, 'wp-recipe-maker/recipe' ) ) {
+						continue;
+					}
+
+					// 'post_status' => 'any' also returns other people's drafts
+					// and private posts: list only what this user may rewrite.
+					if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+						continue;
+					}
+
 					$blocks = parse_blocks( $post->post_content );
-	
+
 					foreach ( $blocks as $index => $block ) {
 						 if ( 'wp-recipe-maker/recipe' === $block['blockName'] ) {
 
@@ -153,15 +220,19 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 
 			check_ajax_referer( 'wpzoom-recipe-scanner-nonce', 'security' );
 
-			if ( ! current_user_can( 'edit_posts' ) ) {
+			if ( ! self::current_user_can_import() ) {
 				wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'recipe-card-blocks-by-wpzoom' ) ) );
 			}
 
-			$recipes_data = isset( $_POST['recipes'] ) && is_array( $_POST['recipes'] ) ? $_POST['recipes'] : array();
+			$recipes_data = isset( $_POST['recipes'] ) && is_array( $_POST['recipes'] ) ? wp_unslash( $_POST['recipes'] ) : array();
 
 			$imported_recipes = array();
 
 			foreach( $recipes_data as $recipe_data ) {
+
+				if ( ! is_array( $recipe_data ) ) {
+					continue;
+				}
 
 				$imported_recipes_data = array();
 
@@ -169,7 +240,12 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 				$recipe_wprm_id = isset( $recipe_data['recipe_id'] ) ? absint( $recipe_data['recipe_id'] ) : 0;
 				$recipe_block_i = isset( $recipe_data['block_index'] ) ? absint( $recipe_data['block_index'] ) : 0;
 
-				$this->replace_recipe( $recipe_post_id, $recipe_wprm_id, $recipe_block_i );
+				// replace_recipe() refuses posts this user cannot edit, sources
+				// that are not WPRM recipes and posts that do not embed the
+				// recipe; nothing is written for those, the meta below included.
+				if ( ! $this->replace_recipe( $recipe_post_id, $recipe_wprm_id, $recipe_block_i ) ) {
+					continue;
+				}
 
 				$imported_recipes[] = array(
 					'wprm_id' => $recipe_wprm_id
@@ -200,9 +276,42 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 		 * Replace Recipe.
 		 *
 		 * @since   5.0.2
-		 * @param	 int $page Page of recipes to add.
+		 * @since   4.0.2 Checks that the current user may edit the post, that the
+		 *                source is a WPRM recipe and that the post embeds it;
+		 *                returns whether the post was rewritten.
+		 * @param int $post_id        Post whose WPRM block is replaced.
+		 * @param int $wprm_recipe_id WPRM recipe to convert.
+		 * @param int $block_index    Index of the block in the post.
+		 * @return bool Whether the recipe was imported.
 		 */
 		public function replace_recipe( $post_id, $wprm_recipe_id, $block_index ) {
+
+			$post_id        = absint( $post_id );
+			$wprm_recipe_id = absint( $wprm_recipe_id );
+			$post           = $post_id ? get_post( $post_id ) : null;
+
+			if ( ! self::can_import_recipe( $post, $wprm_recipe_id ) ) {
+				return false;
+			}
+
+			// Only the blocks that embed this very recipe are replaced, so the
+			// request cannot push one recipe into another recipe's block.
+			$blocks       = parse_blocks( $post->post_content );
+			$replace_keys = array();
+
+			foreach ( $blocks as $key => $block ) {
+				if (
+					'wp-recipe-maker/recipe' === $block['blockName']
+					&& isset( $block['attrs']['id'] )
+					&& absint( $block['attrs']['id'] ) === $wprm_recipe_id
+				) {
+					$replace_keys[] = $key;
+				}
+			}
+
+			if ( empty( $replace_keys ) ) {
+				return false;
+			}
 
 			$recipe_block = array(
 				'blockName'    => 'wpzoom-recipe-card/block-recipe-card',
@@ -772,13 +881,8 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 				}
 			}
 
-			$post = get_post( $post_id );
-			$blocks = parse_blocks( $post->post_content );
-
-			foreach( $blocks as $key => $block ) {
-				if ( 'wp-recipe-maker/recipe' === $block['blockName'] ) {
-					$blocks[ $key ] = $recipe_block;				
-				}
+			foreach ( $replace_keys as $key ) {
+				$blocks[ $key ] = $recipe_block;
 			}
 
 			$content = serialize_blocks( $blocks );
@@ -787,8 +891,10 @@ if ( ! class_exists( 'WPZOOM_Import_Wprm' ) ) {
 				'ID'           => $post_id,
 				'post_content' => wp_slash( $content ),
 			);
-			
-			wp_update_post( $update_content );
+
+			$updated = wp_update_post( $update_content, true );
+
+			return ! is_wp_error( $updated ) && (bool) $updated;
 
 		}
 

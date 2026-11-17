@@ -434,7 +434,9 @@ class WPZOOM_Manage_Ratings {
 	public function handle_bulk_action() {
 		check_ajax_referer( 'wpzoom-manage-ratings-bulk', 'nonce' );
 
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		// Bulk actions take bare rating IDs with no per-post check, so they need
+		// the capability of the Ratings screen itself (see WPZOOM_Admin_Menu).
+		if ( ! current_user_can( 'edit_others_posts' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'recipe-card-blocks-by-wpzoom' ) ) );
 		}
 

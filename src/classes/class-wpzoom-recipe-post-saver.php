@@ -511,6 +511,13 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 				return;
 			}
 
+			// 4.0.2: the card is written into the parent's content, which takes
+			// edit rights on the parent and not only on the recipe post. The
+			// parent ID is post meta, so it proves nothing about permissions.
+			if ( ! current_user_can( 'edit_post', $parent_id ) ) {
+				return;
+			}
+
 			$parent_content = (string) $parent_post->post_content;
 			$parent_cards   = self::get_recipe_cards( $parent_content );
 			if ( empty( $parent_cards ) ) {
