@@ -5,7 +5,7 @@ Tags: recipe, recipe card, recipes, recipe maker, schema
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 4.0.2
+Stable tag: 4.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,11 @@ Each rating stores the rating value, the recipe ID, the date and the visitor's I
 
 
 == Changelog ==
+
+= 4.0.3 =
+* Security: A Recipe Card in a post no longer overwrites a recipe the post only embeds (Insert Existing Recipe block, shortcode or Elementor widget). Before, a user with Author access could replace such a recipe, including one they are not allowed to edit, by swapping the embed for a Recipe Card of their own. An embedded recipe is now never synced with a Recipe Card in the post that embeds it, also after the embed is removed.
+* Security: Saving a post no longer writes recipe usage data to posts that are not recipes.
+* Fixed: Editing a recipe under All Recipes could overwrite an unrelated Recipe Card in a post that used to embed that recipe.
 
 = 4.0.2 =
 * Security: Fixed a missing permission check in the WP Recipe Maker importer. A user with Contributor access could replace the WP Recipe Maker block in posts they are not allowed to edit, and see the titles of other users' drafts. The importer now needs the same permission as the Import & Export screen and only changes posts the current user can edit. Thanks to Wordfence for the report.

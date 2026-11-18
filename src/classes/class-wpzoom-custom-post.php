@@ -928,6 +928,12 @@ class WPZOOM_Custom_Post {
 
 			if ( $parent_allowed ) {
 				update_post_meta( $post_id, '_wpzoom_rcb_parent_post_id', $parent_id ? $parent_id : '' );
+
+				// 4.0.3: a parent chosen here replaces one the recipe got by
+				// being embedded in a post.
+				if ( $parent_id !== $current_parent ) {
+					delete_post_meta( $post_id, WPZOOM_Recipe_Post_Saver::EMBED_PARENT_META );
+				}
 			}
 		}
 

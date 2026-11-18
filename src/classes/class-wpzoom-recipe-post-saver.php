@@ -50,7 +50,123 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			add_action( 'save_post', array( __CLASS__, 'duplicate_recipe_to_custom_post' ), 10, 2 );
 			add_action( 'save_post', array( __CLASS__, 'update_parent_recipe_card' ), 10, 2 );
 			add_action( 'save_post', array( __CLASS__, 'check_cpt_block' ), 10, 2 );
+
+			// Before core saves a revision (priority 10), which runs the sync.
+			add_action( 'post_updated', array( __CLASS__, 'mark_recipes_shown_before_update' ), 1, 3 );
+			add_action( 'update_postmeta', array( __CLASS__, 'mark_recipes_shown_before_meta_change' ), 10, 3 );
+			add_action( 'delete_postmeta', array( __CLASS__, 'mark_recipes_shown_before_meta_change' ), 10, 3 );
 			
+		}
+
+		/**
+		 * Meta key on a recipe post a post shows without mirroring: the ID of
+		 * the post that became its parent by embedding it (Insert Existing
+		 * Recipe, shortcode, Elementor widget).
+		 *
+		 * Such a recipe is its own source. Its parent may link to it and take
+		 * its ratings, but a Recipe Card in the parent must never be synced
+		 * with it, in either direction, also after the embed is removed:
+		 * whoever edits the parent need not have edit rights on the recipe.
+		 *
+		 * @since 4.0.3
+		 */
+		const EMBED_PARENT_META = '_wpzoom_rcb_embed_parent';
+
+		/**
+		 * Whether a recipe post is shown in a post, not mirrored from one of
+		 * its Recipe Cards.
+		 *
+		 * @since 4.0.3
+		 * @param int $recipe_id Recipe post ID.
+		 * @param int $parent_id Parent post ID.
+		 * @return bool
+		 */
+		public static function is_embed_parent( $recipe_id, $parent_id ) {
+
+			$parent_id = (int) $parent_id;
+
+			return $parent_id && (int) get_post_meta( $recipe_id, self::EMBED_PARENT_META, true ) === $parent_id;
+		}
+
+		/**
+		 * Flag the recipes a post embeds, and is the parent of, as shown in it.
+		 *
+		 * Recipes that got their parent before 4.0.3 carry no flag. This runs
+		 * on the post as it was before a change, so a recipe is flagged no
+		 * later than the save that removes its embed.
+		 *
+		 * A recipe post holding the key of a Recipe Card in the same post is
+		 * that card's mirror, which the post happens to embed as well: it keeps
+		 * syncing.
+		 *
+		 * @since 4.0.3
+		 * @param WP_Post $post Post object, with the content to look in.
+		 */
+		public static function mark_recipes_shown_in( $post ) {
+
+			if ( ! $post instanceof WP_Post || ( 'post' !== $post->post_type && 'page' !== $post->post_type ) ) {
+				return;
+			}
+
+			$embedded = self::get_embedded_recipe_ids( $post );
+			if ( empty( $embedded ) ) {
+				return;
+			}
+
+			$card_keys = array();
+			foreach ( self::get_recipe_cards( $post->post_content ) as $card ) {
+				if ( '' !== $card['key'] ) {
+					$card_keys[] = $card['key'];
+				}
+			}
+
+			$flagged = false;
+
+			foreach ( $embedded as $recipe_id ) {
+				if ( WPZOOM_Helpers::get_recipe_parent_id( $recipe_id ) !== (int) $post->ID || self::is_embed_parent( $recipe_id, $post->ID ) ) {
+					continue;
+				}
+
+				$key = (string) get_post_meta( $recipe_id, WPZOOM_Helpers::CARD_KEY_META, true );
+				if ( '' !== $key && in_array( $key, $card_keys, true ) ) {
+					continue;
+				}
+
+				update_post_meta( $recipe_id, self::EMBED_PARENT_META, (int) $post->ID );
+				$flagged = true;
+			}
+
+			if ( $flagged ) {
+				WPZOOM_Helpers::flush_recipe_twins_cache( $post->ID );
+			}
+		}
+
+		/**
+		 * Flag embedded recipes before a post's content changes.
+		 *
+		 * @since 4.0.3
+		 * @param int     $post_id     Post ID.
+		 * @param WP_Post $post_after  Post after the update.
+		 * @param WP_Post $post_before Post before the update.
+		 */
+		public static function mark_recipes_shown_before_update( $post_id, $post_after, $post_before ) {
+			self::mark_recipes_shown_in( $post_before );
+		}
+
+		/**
+		 * Flag embedded recipes before a post's Elementor data changes: the
+		 * Recipe Card widget lives there, not in the content.
+		 *
+		 * @since 4.0.3
+		 * @param int|int[] $meta_id  Meta row ID(s).
+		 * @param int       $post_id  Post ID. Core leaves it and the key out
+		 *                            when a row is deleted by its ID.
+		 * @param string    $meta_key Meta key.
+		 */
+		public static function mark_recipes_shown_before_meta_change( $meta_id, $post_id = 0, $meta_key = '' ) {
+			if ( $post_id && '_elementor_data' === $meta_key ) {
+				self::mark_recipes_shown_in( get_post( $post_id ) );
+			}
 		}
 
 		/**
@@ -126,7 +242,13 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 
 			if( isset( $attributes['postId'] ) ) {
 
-				$recipe_id = $attributes['postId'];
+				$recipe_id = absint( $attributes['postId'] );
+
+				// 4.0.3: the ID comes from the block's attributes; only a recipe
+				// post keeps track of where it is used.
+				if ( 'wpzoom_rcb' !== get_post_type( $recipe_id ) ) {
+					return;
+				}
 
 				$used_in = get_post_meta( $recipe_id, '_wpzoom_rcb_used_in', true );
 				if( !empty( $used_in ) ) {
@@ -212,6 +334,9 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 			update_post_meta( $recipe_id, '_wpzoom_rcb_parent_post_id', $post_id );
 			update_post_meta( $recipe_id, '_wpzoom_rcb_has_parent', true );
 
+			// 4.0.3: shown in this post, never synced with a card in it.
+			update_post_meta( $recipe_id, self::EMBED_PARENT_META, $post_id );
+
 			WPZOOM_Helpers::flush_recipe_twins_cache( $post_id );
 
 			return true;
@@ -285,6 +410,10 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 		 * the post as its parent, but it is shown, not mirrored, so a card must
 		 * never write over it.
 		 *
+		 * No rule matches a recipe post that got the post as its parent by
+		 * being embedded in it (see EMBED_PARENT_META), whether the embed is
+		 * still there or not.
+		 *
 		 * Both sync directions use this, so a recipe post always writes back
 		 * to the card it was filled from.
 		 *
@@ -299,6 +428,15 @@ if ( ! class_exists( 'WPZOOM_Recipe_Post_Saver' ) ) {
 
 			$result = array_fill( 0, count( $cards ), 0 );
 			$twins  = WPZOOM_Helpers::get_recipe_twins( $parent_id, $fresh );
+
+			// 4.0.3: a recipe the post became the parent of by embedding it is
+			// not a mirror of any card here, embedded right now or not.
+			foreach ( $twins as $index => $twin_id ) {
+				if ( self::is_embed_parent( $twin_id, $parent_id ) ) {
+					unset( $twins[ $index ] );
+				}
+			}
+			$twins = array_values( $twins );
 
 			if ( empty( $twins ) ) {
 				return $result;
