@@ -568,7 +568,7 @@ class WPZOOM_Lite_vs_PRO {
                                   <div class="ml-form-align-center">
                                     <div class="ml-form-embedWrapper embedForm">
                                       <div class="ml-form-embedHeader">
-                                        <img src="https://bucket.mlcdn.com/a/3719/3719705/images/104575be896e33ca3f3a2b2f44b82f43eacd25d4.png" border="0" style="display:block">
+                                        <img src="<?php echo esc_url( untrailingslashit( WPZOOM_RCB_PLUGIN_URL ) . '/dist/assets/images/newsletter-header.png' ); ?>" alt="" border="0" style="display:block">
                                         <style>
                                           @media only screen and (max-width:460px){.ml-form-embedHeader{display:none!important}}
                                         </style>
@@ -578,36 +578,23 @@ class WPZOOM_Lite_vs_PRO {
                                           <h4><?php _e('Subscribe to our Newsletter!', 'recipe-card-blocks-by-wpzoom'); ?></h4>
                                           <p><?php _e('Receive plugin updates and get for <strong>free</strong> our email course <strong>"How to start, maintain & optimize a food blog"</strong>.', 'recipe-card-blocks-by-wpzoom'); ?><br></p>
                                          </div>
-                                        <form class="ml-block-form" action="https://static.mailerlite.com/webforms/submit/w5r9l0" data-code="w5r9l0" method="post" target="_blank">
+                                        <form class="ml-block-form" action="<?php echo esc_url( 'https://recipecard.io/wp-json/wpzoom/v1/subscribe/product' ); ?>" method="post" target="_blank">
                                           <div class="ml-form-formContent">
                                             <div class="ml-form-fieldRow ml-last-item">
                                               <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                                                <input aria-label="email" aria-required="true" type="email" value="<?php echo esc_attr($current_user->user_email); ?>" class="form-control" data-inputmask="" name="fields[email]" placeholder="Enter your email address" autocomplete="email">
+                                                <input aria-label="email" aria-required="true" type="email" value="<?php echo esc_attr($current_user->user_email); ?>" class="form-control" name="email" placeholder="Enter your email address" autocomplete="email">
                                               </div>
                                             </div>
                                           </div>
-                                          <input type="hidden" name="ml-submit" value="1">
+                                          <input type="hidden" name="form" value="product-rcb-plugin"><input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
                                           <div class="ml-form-embedSubmit">
                                             <button type="submit" class="primary"><?php _e('Subscribe', 'recipe-card-blocks-by-wpzoom'); ?></button>
-                                            <button disabled="disabled" style="display:none" type="button" class="loading"> <div class="ml-form-embedSubmitLoad"></div> <span class="sr-only">Loading...</span> </button>
                                           </div>
-                                          <input type="hidden" name="anticsrf" value="true">
                                         </form>
-                                      </div>
-                                      <div class="ml-form-successBody row-success" style="display:none">
-                                        <div class="ml-form-successContent">
-                                          <h4><?php _e('Thank you!', 'recipe-card-blocks-by-wpzoom'); ?></h4>
-                                          <p><?php _e('You have successfully joined our subscriber list.', 'recipe-card-blocks-by-wpzoom'); ?></p>
-                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                                <script>
-                                  function ml_webform_success_5662656(){var r=ml_jQuery||jQuery;r(".ml-subscribe-form-5662656 .row-success").show(),r(".ml-subscribe-form-5662656 .row-form").hide()}
-                                </script>
-                                <img src="https://track.mailerlite.com/webforms/o/5662656/w5r9l0?v1651224972" width="1" height="1" style="max-width:1px;max-height:1px;visibility:hidden;padding:0;margin:0;display:block" alt="." border="0">
-                                <script src="https://static.mailerlite.com/js/w/webforms.min.js?v9b62042f798751c8de86a784eab23614" type="text/javascript"></script>
 
                                 <div class="wpz-onboard_content-side-section">
                                     <h3 class="wpz-onboard_content-side-section-title icon-docs">
