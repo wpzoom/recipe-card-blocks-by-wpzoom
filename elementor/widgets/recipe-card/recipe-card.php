@@ -75,8 +75,15 @@ class Recipe_Card extends Widget_Base {
 			)
 		);
 
-		// Rating stars, when the feature is on.
-		if ( class_exists( '\WPZOOM_Settings' ) && \WPZOOM_Settings::get_rating_star_acces() ) {
+		// Rating stars, when the feature is on. Only for a widget that is on the
+		// page ($data set): Elementor also builds an empty instance on every page
+		// load when it registers widgets, which runs before the script is
+		// registered, so the localize call failed and the script ran without
+		// its data (wpzoomRatingStars is not defined) on every page.
+		if ( ! empty( $data ) && class_exists( '\WPZOOM_Settings' ) && \WPZOOM_Settings::get_rating_star_acces() ) {
+			if ( ! wp_script_is( 'wpzoom-rating-stars-script', 'registered' ) && class_exists( '\WPZOOM_Rating_Stars' ) ) {
+				\WPZOOM_Rating_Stars::frontend_register_scripts();
+			}
 			wp_enqueue_style( 'wpzoom-rcb-block-rating-css' );
 			wp_enqueue_script( 'wpzoom-rating-stars-script' );
 			wp_localize_script( 'wpzoom-rating-stars-script', 'wpzoomRatingStars', \WPZOOM_Rating_Stars::get_localize_data() );

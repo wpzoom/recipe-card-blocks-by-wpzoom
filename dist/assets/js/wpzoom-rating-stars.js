@@ -1,4 +1,9 @@
 jQuery( function() {
+    // Nothing to do without the localized settings (script loaded without them).
+    if ( typeof wpzoomRatingStars === 'undefined' ) {
+        return;
+    }
+
     const __slice = [].slice;
 
     ( function( $, wpzoomRatingStars ) {
